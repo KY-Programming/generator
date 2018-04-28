@@ -1,0 +1,205 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{30EC42AA-5C39-489A-B850-2C0AC64AEF4F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>KY.Generator</RootNamespace>
+    <AssemblyName>KY.Generator.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Assemblies\CommonAssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="Configuration\ConfigurationsReader.cs" />
+    <Compile Include="Configuration\ConfigurationReaderBase.cs" />
+    <Compile Include="Configuration\InvalidConfigurationException.cs" />
+    <Compile Include="Generator.cs" />
+    <Compile Include="Helpers\TypeCode.cs" />
+    <Compile Include="Helpers\StructuralCode.cs" />
+    <Compile Include="Helpers\ExecuteingCode.cs" />
+    <Compile Include="Meta\Extensions\MetaBlockExtension.cs" />
+    <Compile Include="Meta\Extensions\MetaElementListExtension.cs" />
+    <Compile Include="Meta\Extensions\MetaFragmentListExtension.cs" />
+    <Compile Include="Meta\Extensions\MetaStatementExtension.cs" />
+    <Compile Include="Meta\IMetaElementList.cs" />
+    <Compile Include="Templates\Structural\ClassGenericTemplate.cs" />
+    <Compile Include="Templates\Structural\ConstraintTemplate.cs" />
+    <Compile Include="Writers\ClassGenericWriter.cs" />
+    <Compile Include="Writers\MultilineCodeFragmentWriter.cs" />
+    <Compile Include="Mappings\ClassMapping.cs" />
+    <Compile Include="Mappings\Extensions\PropertyMappingListExtension.cs" />
+    <Compile Include="Mappings\Extensions\FieldMappingListExtension.cs" />
+    <Compile Include="Mappings\Extensions\ClassMappingListExtension.cs" />
+    <Compile Include="Mappings\ClassMappingReader.cs" />
+    <Compile Include="Mappings\FieldMapping.cs" />
+    <Compile Include="Mappings\ITypeMapping.cs" />
+    <Compile Include="Mappings\ITypeMappingSyntax.cs" />
+    <Compile Include="Mappings\PropertyMapping.cs" />
+    <Compile Include="Mappings\PropertyMappingReader.cs" />
+    <Compile Include="Mappings\FieldMappingReader.cs" />
+    <Compile Include="Mappings\TypeMappingSyntax.cs" />
+    <Compile Include="Meta\IMetaFragmentList.cs" />
+    <Compile Include="Meta\MetaSeparatorFragmentList.cs" />
+    <Compile Include="Output\FileWriter.cs" />
+    <Compile Include="Configuration\IConfigurationReader.cs" />
+    <Compile Include="Languages\BaseLanguage.cs" />
+    <Compile Include="Meta\MetaBlankLine.cs" />
+    <Compile Include="Meta\MetaBlock.cs" />
+    <Compile Include="Meta\MetaElement.cs" />
+    <Compile Include="Meta\MetaElementList.cs" />
+    <Compile Include="Meta\MetaFormatting.cs" />
+    <Compile Include="Meta\MetaFragment.cs" />
+    <Compile Include="Meta\MetaFragmentList.cs" />
+    <Compile Include="Meta\MetaGenerator.cs" />
+    <Compile Include="Meta\MetaStatement.cs" />
+    <Compile Include="Configuration\ConfigurationBase.cs" />
+    <Compile Include="Languages\ILanguage.cs" />
+    <Compile Include="Output\FileOutput.cs" />
+    <Compile Include="Output\FileWriterLine.cs" />
+    <Compile Include="Output\IOutput.cs" />
+    <Compile Include="Output\MemoryOutput.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\Executing\AssignTemplate.cs" />
+    <Compile Include="Templates\Base\AttributeableTempalte.cs" />
+    <Compile Include="Templates\Structural\AttributeTemplate.cs" />
+    <Compile Include="Templates\Executing\BaseTemplate.cs" />
+    <Compile Include="Templates\Structural\BaseTypeTemplate.cs" />
+    <Compile Include="Templates\Executing\CaseTemplate.cs" />
+    <Compile Include="Templates\Executing\CastTemplate.cs" />
+    <Compile Include="Templates\Base\ChainedCodeFragment.cs" />
+    <Compile Include="Templates\Structural\ClassTemplate.cs" />
+    <Compile Include="Helpers\Code.cs" />
+    <Compile Include="Templates\Base\CodeFragment.cs" />
+    <Compile Include="Templates\Structural\CommentTemplate.cs" />
+    <Compile Include="Templates\Structural\ConstructorTemplate.cs" />
+    <Compile Include="Templates\Executing\DeclareTemplate.cs" />
+    <Compile Include="Templates\Structural\EnumTemplate.cs" />
+    <Compile Include="Templates\Structural\EnumValueTemplate.cs" />
+    <Compile Include="Templates\Executing\ExecuteFieldTemplate.cs" />
+    <Compile Include="Templates\Executing\ExecuteGenericMethodTemplate.cs" />
+    <Compile Include="Templates\Executing\ExecuteMethodTemplate.cs" />
+    <Compile Include="Templates\Executing\ExecutePropertyTemplate.cs" />
+    <Compile Include="Templates\Structural\ExtensionMethodTemplate.cs" />
+    <Compile Include="Templates\Extensions\AttibuteableTemplateExtension.cs" />
+    <Compile Include="Templates\Extensions\ChainedCodeFragmentExtension.cs" />
+    <Compile Include="Templates\Extensions\ClassTemplateExtension.cs" />
+    <Compile Include="Templates\Extensions\CommentTemplateExtension.cs" />
+    <Compile Include="Templates\Extensions\ConstructorTemplateExtension.cs" />
+    <Compile Include="Templates\Extensions\ExecuteMethodTemplateExtension.cs" />
+    <Compile Include="Templates\Extensions\FieldTemplateExtension.cs" />
+    <Compile Include="Templates\Extensions\FileTemplateExtension.cs" />
+    <Compile Include="Templates\Extensions\FileTemplateListExtension.cs" />
+    <Compile Include="Templates\Extensions\MethodTemplateExtension.cs" />
+    <Compile Include="Templates\Extensions\NamespaceExtension.cs" />
+    <Compile Include="Templates\Extensions\PropertyTemplateExtension.cs" />
+    <Compile Include="Templates\Structural\FieldTemplate.cs" />
+    <Compile Include="Templates\Structural\FileTemplate.cs" />
+    <Compile Include="Templates\Structural\GenericTypeTemplate.cs" />
+    <Compile Include="Templates\Executing\LocalVariableTemplate.cs" />
+    <Compile Include="Templates\Structural\MethodTemplate.cs" />
+    <Compile Include="Templates\Base\MultilineCodeFragment.cs" />
+    <Compile Include="Templates\Structural\NamespaceTemplate.cs" />
+    <Compile Include="Templates\Executing\NewTemplate.cs" />
+    <Compile Include="Templates\Types\NullTemplate.cs" />
+    <Compile Include="Templates\Executing\NullValueTemplate.cs" />
+    <Compile Include="Templates\Types\NumberTemplate.cs" />
+    <Compile Include="Templates\Executing\OperatorTemplate.cs" />
+    <Compile Include="Templates\Structural\ParameterTemplate.cs" />
+    <Compile Include="Templates\Structural\PropertyTemplate.cs" />
+    <Compile Include="Templates\Executing\ReturnTemplate.cs" />
+    <Compile Include="Templates\Structural\StaticFileTemplate.cs" />
+    <Compile Include="Templates\Types\StringTemplate.cs" />
+    <Compile Include="Templates\Executing\SwitchTemplate.cs" />
+    <Compile Include="Templates\Executing\ThisTemplate.cs" />
+    <Compile Include="Templates\Executing\ThrowTemplate.cs" />
+    <Compile Include="Templates\Executing\TypeOfTemplate.cs" />
+    <Compile Include="Templates\Structural\TypeTemplate.cs" />
+    <Compile Include="Templates\Structural\UsingTemplate.cs" />
+    <Compile Include="Models\Visibility.cs" />
+    <Compile Include="Templates\Types\VoidTemplate.cs" />
+    <Compile Include="Mappings\TypeMapping.cs" />
+    <Compile Include="Mappings\TypeMappingEntry.cs" />
+    <Compile Include="Writers\AssignWriter.cs" />
+    <Compile Include="Writers\CaseWriter.cs" />
+    <Compile Include="Writers\ClassWriter.cs" />
+    <Compile Include="Writers\CommentWriter.cs" />
+    <Compile Include="Writers\EnumWriter.cs" />
+    <Compile Include="Writers\ExecuteFieldWriter.cs" />
+    <Compile Include="Writers\ExecuteGenericMethodWriter.cs" />
+    <Compile Include="Writers\ExecuteMethodWriter.cs" />
+    <Compile Include="Writers\ExecutePropertyWriter.cs" />
+    <Compile Include="Writers\FieldWriter.cs" />
+    <Compile Include="Writers\GenericTypeWriter.cs" />
+    <Compile Include="Writers\ITemplateWriter.cs" />
+    <Compile Include="Writers\LocalVariableWriter.cs" />
+    <Compile Include="Writers\MethodWriter.cs" />
+    <Compile Include="Writers\NamespaceWriter.cs" />
+    <Compile Include="Writers\NewWriter.cs" />
+    <Compile Include="Writers\NullValueWriter.cs" />
+    <Compile Include="Writers\NullWriter.cs" />
+    <Compile Include="Writers\NumberWriter.cs" />
+    <Compile Include="Writers\OperatorWriter.cs" />
+    <Compile Include="Writers\PropertyWriter.cs" />
+    <Compile Include="Writers\ReturnWriter.cs" />
+    <Compile Include="Writers\StringWriter.cs" />
+    <Compile Include="Writers\SwitchWriter.cs" />
+    <Compile Include="Writers\ThisWriter.cs" />
+    <Compile Include="Writers\TypeOfWriter.cs" />
+    <Compile Include="Writers\TypeWriter.cs" />
+    <Compile Include="Writers\VoidWriter.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Assemblies\Core.Common\KY.Core.Common.csproj">
+      <Project>{523BECCE-796E-475F-9F47-8D2C8C13D14B}</Project>
+      <Name>KY.Core.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="KY.Generator.Core.nuspec" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

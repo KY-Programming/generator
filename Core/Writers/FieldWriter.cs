@@ -1,0 +1,45 @@
+﻿using System;
+using KY.Generator.Languages;
+using KY.Generator.Meta;
+using KY.Generator.Meta.Extensions;
+using KY.Generator.Models;
+using KY.Generator.Templates;
+
+namespace KY.Generator.Writers
+{
+    public class FieldWriter : ITemplateWriter
+    {
+        protected BaseLanguage Language { get; }
+
+        public FieldWriter(BaseLanguage language)
+        {
+            this.Language = language;
+        }
+
+        public virtual void Write(IMetaElementList elements, CodeFragment fragment)
+        {
+            FieldTemplate template = (FieldTemplate)fragment;
+            FieldTemplate lastTemplate = this.Language.LastFragment as FieldTemplate;
+            if (template.Attributes.Count > 0 || lastTemplate?.Attributes.Count > 0)
+            {
+                elements.AddBlankLine();
+            }
+            elements.Add(template.Attributes, this.Language);
+            MetaStatement metaStatement = elements.AddClosed();
+            metaStatement.Code.WithSeparator(" ", x => x.Add(template.Visibility == Visibility.None ? string.Empty : template.Visibility.ToString().ToLower())
+                                                        .Add(template.IsStatic ? "static" : string.Empty)
+                                                        .Add(template.IsConst ? "const" : string.Empty)
+                                                        .Add(template.Type, this.Language)
+                                                        .Add(this.Language.GetFieldName(template)));
+            if (template.DefaultValue != null)
+            {
+                metaStatement.Code.Add(" = ").Add(template.DefaultValue, this.Language);
+            }
+        }
+
+        public virtual void Write(IMetaFragmentList fragments, CodeFragment fragment)
+        {
+            throw new InvalidOperationException();
+        }
+    }
+}
