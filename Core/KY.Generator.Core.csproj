@@ -99,7 +99,6 @@
     </Compile>
     <Compile Include="Templates\Executing\AssignTemplate.cs" />
     <Compile Include="Templates\Base\AttributeableTempalte.cs" />
-    <Compile Include="Templates\Structural\AttributeTemplate.cs" />
     <Compile Include="Templates\Executing\BaseTemplate.cs" />
     <Compile Include="Templates\Structural\BaseTypeTemplate.cs" />
     <Compile Include="Templates\Executing\CaseTemplate.cs" />

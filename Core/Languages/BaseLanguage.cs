@@ -45,7 +45,6 @@ namespace KY.Generator.Languages
             this.TemplateWriters.Add(typeof(ClassGenericTemplate), new ClassGenericWriter());
             this.TemplateWriters.Add(typeof(ClassTemplate), new ClassWriter(this));
             this.TemplateWriters.Add(typeof(CommentTemplate), new CommentWriter());
-            this.TemplateWriters.Add(typeof(ConstructorTemplate), new MethodWriter(this));
             this.TemplateWriters.Add(typeof(EnumTemplate), new EnumWriter(this));
             this.TemplateWriters.Add(typeof(ExecuteFieldTemplate), new ExecuteFieldWriter());
             this.TemplateWriters.Add(typeof(ExecuteGenericMethodTemplate), new ExecuteGenericMethodWriter(this));

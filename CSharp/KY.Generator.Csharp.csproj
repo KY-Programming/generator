@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D23DC658-3C95-4A73-BBC7-22A94E81AEE8}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>KY.Generator</RootNamespace>
+    <AssemblyName>KY.Generator.Csharp</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Assemblies\CommonAssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="CsharpModule.cs" />
+    <Compile Include="Extensions\ClassTemplateExtension.cs" />
+    <Compile Include="Extensions\ConstructorTemplateExtension.cs" />
+    <Compile Include="Helpers\Csharp.cs" />
+    <Compile Include="Languages\CsharpLanguage.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Templates\AttributeTemplate.cs" />
+    <Compile Include="Templates\ConstructorTemplate.cs" />
+    <Compile Include="Templates\CsharpTemplate.cs" />
+    <Compile Include="Templates\NullCoalescingOperatorTemplate.cs" />
+    <Compile Include="Writers\AttributeWriter.cs" />
+    <Compile Include="Writers\BaseTypeWriter.cs" />
+    <Compile Include="Writers\BaseWriter.cs" />
+    <Compile Include="Writers\CastWriter.cs" />
+    <Compile Include="Writers\ConstructorWriter.cs" />
+    <Compile Include="Writers\CsharpCommentWriter.cs" />
+    <Compile Include="Writers\ConstraintWriter.cs" />
+    <Compile Include="Writers\CsharpWriter.cs" />
+    <Compile Include="Writers\DeclareWriter.cs" />
+    <Compile Include="Writers\NullCoalescingOperatorWriter.cs" />
+    <Compile Include="Writers\ParameterWriter.cs" />
+    <Compile Include="Writers\ThrowWriter.cs" />
+    <Compile Include="Writers\UsingWriter.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Assemblies\Core.Common\KY.Core.Common.csproj">
+      <Project>{523BECCE-796E-475F-9F47-8D2C8C13D14B}</Project>
+      <Name>KY.Core.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Core\KY.Generator.Core.csproj">
+      <Project>{30EC42AA-5C39-489A-B850-2C0AC64AEF4F}</Project>
+      <Name>KY.Generator.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="KY.Generator.Csharp.nuspec" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

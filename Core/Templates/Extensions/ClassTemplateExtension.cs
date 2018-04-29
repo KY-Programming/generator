@@ -37,13 +37,6 @@ namespace KY.Generator.Templates.Extensions
             return classTemplate;
         }
 
-        public static ConstructorTemplate AddConstructor(this ClassTemplate classTemplate)
-        {
-            ConstructorTemplate constructorTemplate = new ConstructorTemplate(classTemplate);
-            classTemplate.Methods.Add(constructorTemplate);
-            return constructorTemplate;
-        }
-
         public static FieldTemplate AddField(this ClassTemplate classTemplate, string name, TypeTemplate type)
         {
             FieldTemplate field = new FieldTemplate(classTemplate, name, type);

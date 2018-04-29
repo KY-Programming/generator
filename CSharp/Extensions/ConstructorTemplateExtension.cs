@@ -1,4 +1,6 @@
-namespace KY.Generator.Templates.Extensions
+using KY.Generator.Templates;
+
+namespace KY.Generator.Extensions
 {
     public static class ConstructorTemplateExtension
     {

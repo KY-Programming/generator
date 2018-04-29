@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <licenseUrl>http://ky-programming.de/software/generator/license</licenseUrl>
+    <projectUrl>http://ky-programming.de/software/generator/</projectUrl>
+    <iconUrl>http://ky-programming.de/images/logos/128.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright 2018</copyright>
+    <tags>KY Generator Reflection</tags>
+    <dependencies>
+      <dependency id="KY.Core.Common" version="3.5.0.1455" />
+      <dependency id="KY.Generator.Core" version="0.7.0.1455" />
+      <dependency id="KY.Generator.CSharp" version="0.7.0.1455" />
+      <dependency id="KY.Generator.TypeScript" version="0.7.0.1455" />
+    </dependencies>
+  </metadata>
+</package>
