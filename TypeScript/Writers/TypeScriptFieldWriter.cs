@@ -1,9 +1,11 @@
 ﻿using System;
+using KY.Core.Meta;
+using KY.Core.Meta.Extensions;
+using KY.Core.Meta.Templates;
 using KY.Generator.Languages;
-using KY.Generator.Meta;
-using KY.Generator.Meta.Extensions;
 using KY.Generator.Models;
 using KY.Generator.Templates;
+using KY.Generator.Templates.Extensions;
 
 namespace KY.Generator.Writers
 {

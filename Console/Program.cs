@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 using KY.Generator.AspDotNet;
-using KY.Generator.OData;
+//using KY.Generator.OData;
 using KY.Generator.Reflection;
-using KY.Generator.Tsql;
+//using KY.Generator.Tsql;
 
 namespace KY.Generator
 {
@@ -15,8 +15,8 @@ namespace KY.Generator
                                     .PreloadModule<AspDotNetModule>()
                                     .PreloadModule<CsharpModule>()
                                     .PreloadModule<TypeScriptModule>()
-                                    .PreloadModule<TsqlModule>()
-                                    .PreloadModule<ODataModule>()
+                                    //.PreloadModule<TsqlModule>()
+                                    //.PreloadModule<ODataModule>()
                                     .PreloadModule<ReflectionModule>()
                                     .SetOutput(args.Skip(1).FirstOrDefault())
                                     .ReadConfiguration(args.FirstOrDefault())

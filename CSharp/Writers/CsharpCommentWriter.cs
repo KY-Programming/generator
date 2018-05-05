@@ -1,7 +1,7 @@
 ﻿using System;
 using KY.Core;
-using KY.Generator.Meta;
-using KY.Generator.Meta.Extensions;
+using KY.Core.Meta;
+using KY.Core.Meta.Extensions;
 using KY.Generator.Templates;
 using KY.Generator.Templates.Extensions;
 

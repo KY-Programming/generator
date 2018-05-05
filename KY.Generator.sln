@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KY.Core.OData", "..\Assembl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KY.Generator.Reflection", "Reflection\KY.Generator.Reflection.csproj", "{1CD25461-36BC-46A1-ABDD-F710179A641E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KY.Core.Meta", "..\Assemblies\Core.Meta\KY.Core.Meta.csproj", "{EE04D2F4-59CD-406B-9A09-5C5A57DBC165}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +73,10 @@ Global
 		{1CD25461-36BC-46A1-ABDD-F710179A641E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1CD25461-36BC-46A1-ABDD-F710179A641E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1CD25461-36BC-46A1-ABDD-F710179A641E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE04D2F4-59CD-406B-9A09-5C5A57DBC165}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE04D2F4-59CD-406B-9A09-5C5A57DBC165}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE04D2F4-59CD-406B-9A09-5C5A57DBC165}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE04D2F4-59CD-406B-9A09-5C5A57DBC165}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -78,6 +84,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{523BECCE-796E-475F-9F47-8D2C8C13D14B} = {2B8E7207-CECF-42AB-8CCD-A7344F5AA281}
 		{4DC3776A-0C8A-4C93-82AF-736C0AAE6C4A} = {2B8E7207-CECF-42AB-8CCD-A7344F5AA281}
+		{EE04D2F4-59CD-406B-9A09-5C5A57DBC165} = {2B8E7207-CECF-42AB-8CCD-A7344F5AA281}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6FC2ED08-F356-401D-A4D4-DE27C73B71F9}

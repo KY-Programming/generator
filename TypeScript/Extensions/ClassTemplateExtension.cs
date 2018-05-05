@@ -17,9 +17,9 @@ namespace KY.Generator.Extensions
             return classTemplate;
         }
 
-        public static ConstructorTemplate AddConstructor(this ClassTemplate classTemplate)
+        public static ConstructorTemplate AddConstructor(this ClassTemplate classTemplate, params CodeFragment[] superParameters)
         {
-            return new ConstructorTemplate(classTemplate);
+            return new ConstructorTemplate(classTemplate, superParameters);
         }
     }
 }

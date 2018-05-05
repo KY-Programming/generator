@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using KY.Core.Meta;
 using KY.Generator.Languages;
-using KY.Generator.Meta;
 using KY.Generator.Output;
 using KY.Generator.Templates;
 

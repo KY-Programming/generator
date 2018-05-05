@@ -8,7 +8,6 @@ namespace KY.Generator.Languages
     public class CsharpLanguage : BaseLanguage
     {
         public override string Name => "Csharp";
-        public override string MappingKeyword => "using";
 
         public CsharpLanguage()
         {

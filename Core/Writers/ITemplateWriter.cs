@@ -1,4 +1,4 @@
-﻿using KY.Generator.Meta;
+﻿using KY.Core.Meta;
 using KY.Generator.Templates;
 
 namespace KY.Generator.Writers

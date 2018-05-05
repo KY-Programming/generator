@@ -4,10 +4,11 @@ using System.Linq;
 using System.Reflection;
 using KY.Core;
 using KY.Core.DataAccess;
-using KY.Generator.Meta;
-using KY.Generator.Meta.Extensions;
+using KY.Core.Meta;
+using KY.Core.Meta.Extensions;
 using KY.Generator.Output;
 using KY.Generator.Templates;
+using KY.Generator.Templates.Extensions;
 using KY.Generator.Writers;
 
 namespace KY.Generator.Languages
@@ -20,7 +21,6 @@ namespace KY.Generator.Languages
         protected Dictionary<Type, ITemplateWriter> TemplateWriters { get; }
 
         public abstract string Name { get; }
-        public abstract string MappingKeyword { get; }
         public virtual string NamespaceKeyword => "namespace";
         public virtual string ClassScope => "public";
         public virtual string PartialKeyword => "partial";
@@ -39,12 +39,17 @@ namespace KY.Generator.Languages
             this.progressedChainedCodeFragments = new List<ChainedCodeFragment>();
             
             this.TemplateWriters = new Dictionary<Type, ITemplateWriter>();
+            this.TemplateWriters.Add(typeof(AccessIndexTemplate), new AccessIndexWriter(this));
+            this.TemplateWriters.Add(typeof(AsTemplate), new AsWriter(this));
             this.TemplateWriters.Add(typeof(AssignTemplate), new AssignWriter(this));
+            this.TemplateWriters.Add(typeof(BlankLineTemplate), new BlankLineWriter());
             this.TemplateWriters.Add(typeof(CaseTemplate), new CaseWriter(this));
             this.TemplateWriters.Add(typeof(ChainedCodeFragment), this);
             this.TemplateWriters.Add(typeof(ClassGenericTemplate), new ClassGenericWriter());
             this.TemplateWriters.Add(typeof(ClassTemplate), new ClassWriter(this));
             this.TemplateWriters.Add(typeof(CommentTemplate), new CommentWriter());
+            this.TemplateWriters.Add(typeof(ElseTemplate), new ElseWriter(this));
+            this.TemplateWriters.Add(typeof(ElseIfTemplate), new ElseIfWriter(this));
             this.TemplateWriters.Add(typeof(EnumTemplate), new EnumWriter(this));
             this.TemplateWriters.Add(typeof(ExecuteFieldTemplate), new ExecuteFieldWriter());
             this.TemplateWriters.Add(typeof(ExecuteGenericMethodTemplate), new ExecuteGenericMethodWriter(this));
@@ -52,11 +57,15 @@ namespace KY.Generator.Languages
             this.TemplateWriters.Add(typeof(ExecutePropertyTemplate), new ExecutePropertyWriter());
             this.TemplateWriters.Add(typeof(FieldTemplate), new FieldWriter(this));
             this.TemplateWriters.Add(typeof(GenericTypeTemplate), new GenericTypeWriter(this));
+            this.TemplateWriters.Add(typeof(IfTemplate), new IfWriter(this));
+            this.TemplateWriters.Add(typeof(InlineIfTemplate), new InlineIfWriter(this));
+            this.TemplateWriters.Add(typeof(LambdaTemplate), new LambdaWriter(this));
             this.TemplateWriters.Add(typeof(LocalVariableTemplate), new LocalVariableWriter());
             this.TemplateWriters.Add(typeof(MethodTemplate), new MethodWriter(this));
             this.TemplateWriters.Add(typeof(MultilineCodeFragment), new MultilineCodeFragmentWriter(this));
             this.TemplateWriters.Add(typeof(NamespaceTemplate), new NamespaceWriter(this));
             this.TemplateWriters.Add(typeof(NewTemplate), new NewWriter(this));
+            this.TemplateWriters.Add(typeof(NotTemplate), new NotWriter());
             this.TemplateWriters.Add(typeof(NullValueTemplate), new NullValueWriter());
             this.TemplateWriters.Add(typeof(NullTemplate), new NullWriter());
             this.TemplateWriters.Add(typeof(NumberTemplate), new NumberWriter());
@@ -185,7 +194,7 @@ namespace KY.Generator.Languages
                 this.Write(elements, fileTemplate.Namespaces);
                 FileWriter fileWriter = new FileWriter(output, fileName);
                 MetaGenerator metaGenerator = new MetaGenerator(fileWriter, this.Formatting);
-                metaGenerator.Generate(elements);
+                metaGenerator.Write(elements);
                 fileWriter.WriteFile();
             }
             else

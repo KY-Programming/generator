@@ -2,8 +2,12 @@
 {
     public class ConstructorTemplate : MethodTemplate
     {
-        public ConstructorTemplate(ClassTemplate classTemplate)
+        public CodeFragment[] SuperParameters { get; }
+
+        public ConstructorTemplate(ClassTemplate classTemplate, CodeFragment[] superParameters)
             : base(classTemplate, "constructor", null)
-        { }
+        {
+            this.SuperParameters = superParameters;
+        }
     }
 }

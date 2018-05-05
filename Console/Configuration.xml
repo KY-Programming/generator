@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<!--<Configuration>
+<Configuration>
   <Language>Csharp</Language>
   <Generator>
     <Controller>
@@ -38,7 +38,7 @@
       </DataContext>
     </Entity>
   </Tsql>
-</Configuration>-->
+</Configuration>
 <!--<Configuration>
   <Language>TypeScript</Language>
   <OData>
@@ -51,20 +51,14 @@
       <RelativePath>Frontend\src\models</RelativePath>
     </Models>
   </OData>
-  <Generator>
-    <Connection>http://localhost:51914/Generator</Connection>
-    <Client>
-      <RelativePath>generator</RelativePath>
-    </Client>
-  </Generator>
 </Configuration>-->
-<Configuration>
-  <!--<Language>Csharp</Language>-->
+<!--<Configuration>
+  --><!--<Language>Csharp</Language>--><!--
   <Language>TypeScript</Language>
   <Reflection>
     <Default>
       <PropertiesToFields/>
-      <!--<FieldsToProperties/>-->
+      --><!--<FieldsToProperties/>--><!--
       <SkipNamespace/>
     </Default>
     <Type>
@@ -98,4 +92,4 @@
       <Using>./property-mapping</Using>
     </Type>
   </Reflection>
-</Configuration>
+</Configuration>-->

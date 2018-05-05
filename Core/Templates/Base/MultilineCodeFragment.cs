@@ -16,5 +16,11 @@ namespace KY.Generator.Templates
             this.Fragments.Add(code);
             return this;
         }
+
+        public MultilineCodeFragment AddBlankLine()
+        {
+            this.Fragments.Add(Code.BlankLine());
+            return this;
+        }
     }
 }

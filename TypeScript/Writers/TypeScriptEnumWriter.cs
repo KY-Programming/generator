@@ -1,5 +1,5 @@
-﻿using KY.Generator.Languages;
-using KY.Generator.Meta;
+﻿using KY.Core.Meta;
+using KY.Generator.Languages;
 using KY.Generator.Templates;
 
 namespace KY.Generator.Writers

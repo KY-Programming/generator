@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using KY.Core.Meta;
+using KY.Core.Meta.Extensions;
 using KY.Generator.Languages;
-using KY.Generator.Meta;
-using KY.Generator.Meta.Extensions;
 using KY.Generator.Templates;
+using KY.Generator.Templates.Extensions;
 
 namespace KY.Generator.Writers
 {

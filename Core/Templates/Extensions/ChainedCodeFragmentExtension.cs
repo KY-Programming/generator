@@ -22,6 +22,11 @@
             return new ExecuteGenericMethodTemplate(methodName, types).Chain(template);
         }
 
+        public static AccessIndexTemplate Index(this ChainedCodeFragment template, CodeFragment code)
+        {
+            return new AccessIndexTemplate(code).Chain(template);
+        }
+
         public static AssignTemplate Assign(this ChainedCodeFragment template, CodeFragment code)
         {
             return new AssignTemplate(code).Chain(template);
@@ -87,6 +92,16 @@
         {
             template.NewLineAfter = true;
             return template;
+        }
+
+        public static AsTemplate As(this ChainedCodeFragment template, TypeTemplate type)
+        {
+            return new AsTemplate(type).Chain(template);
+        }
+
+        public static NotTemplate Not(this ChainedCodeFragment template)
+        {
+            return new NotTemplate().Chain(template);
         }
 
         private static T Chain<T, TPrevious>(this T template, TPrevious previous)

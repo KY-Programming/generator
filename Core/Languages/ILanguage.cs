@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using KY.Generator.Meta;
+using KY.Core.Meta;
 using KY.Generator.Output;
 using KY.Generator.Templates;
 

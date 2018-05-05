@@ -8,7 +8,6 @@ namespace KY.Generator.Languages
 {
     public class TypeScriptLanguage : BaseLanguage
     {
-        public override string MappingKeyword => "import";
         public override string NamespaceKeyword => "export namespace";
         public override string ClassScope => "export";
         public override string PartialKeyword => string.Empty;

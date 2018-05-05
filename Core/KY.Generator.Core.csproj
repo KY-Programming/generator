@@ -47,17 +47,33 @@
     <Compile Include="Configuration\ConfigurationReaderBase.cs" />
     <Compile Include="Configuration\InvalidConfigurationException.cs" />
     <Compile Include="Generator.cs" />
+    <Compile Include="Templates\Executing\LambdaTemplate.cs" />
     <Compile Include="Helpers\TypeCode.cs" />
     <Compile Include="Helpers\StructuralCode.cs" />
     <Compile Include="Helpers\ExecuteingCode.cs" />
-    <Compile Include="Meta\Extensions\MetaBlockExtension.cs" />
-    <Compile Include="Meta\Extensions\MetaElementListExtension.cs" />
-    <Compile Include="Meta\Extensions\MetaFragmentListExtension.cs" />
-    <Compile Include="Meta\Extensions\MetaStatementExtension.cs" />
-    <Compile Include="Meta\IMetaElementList.cs" />
+    <Compile Include="Templates\Executing\AccessIndexTemplate.cs" />
+    <Compile Include="Templates\Executing\AsTemplate.cs" />
+    <Compile Include="Templates\Executing\BlankLineTemplate.cs" />
+    <Compile Include="Templates\Executing\ElseIfTemplate.cs" />
+    <Compile Include="Templates\Executing\ElseTemplate.cs" />
+    <Compile Include="Templates\Executing\IfTemplate.cs" />
+    <Compile Include="Templates\Executing\InlineIfTemplate.cs" />
+    <Compile Include="Templates\Executing\NotTemplate.cs" />
+    <Compile Include="Templates\Extensions\IfTemplateExtension.cs" />
+    <Compile Include="Templates\Extensions\MetaElementListExtension.cs" />
+    <Compile Include="Templates\Extensions\MetaFragmentListExtension.cs" />
+    <Compile Include="Templates\Structural\AttributeTemplate.cs" />
     <Compile Include="Templates\Structural\ClassGenericTemplate.cs" />
     <Compile Include="Templates\Structural\ConstraintTemplate.cs" />
+    <Compile Include="Writers\AccessIndexWriter.cs" />
+    <Compile Include="Writers\AsWriter.cs" />
+    <Compile Include="Writers\BlankLineWriter.cs" />
     <Compile Include="Writers\ClassGenericWriter.cs" />
+    <Compile Include="Writers\ElseIfWriter.cs" />
+    <Compile Include="Writers\ElseWriter.cs" />
+    <Compile Include="Writers\IfWriter.cs" />
+    <Compile Include="Writers\InlineIfWriter.cs" />
+    <Compile Include="Writers\LambdaWriter.cs" />
     <Compile Include="Writers\MultilineCodeFragmentWriter.cs" />
     <Compile Include="Mappings\ClassMapping.cs" />
     <Compile Include="Mappings\Extensions\PropertyMappingListExtension.cs" />
@@ -71,20 +87,9 @@
     <Compile Include="Mappings\PropertyMappingReader.cs" />
     <Compile Include="Mappings\FieldMappingReader.cs" />
     <Compile Include="Mappings\TypeMappingSyntax.cs" />
-    <Compile Include="Meta\IMetaFragmentList.cs" />
-    <Compile Include="Meta\MetaSeparatorFragmentList.cs" />
     <Compile Include="Output\FileWriter.cs" />
     <Compile Include="Configuration\IConfigurationReader.cs" />
     <Compile Include="Languages\BaseLanguage.cs" />
-    <Compile Include="Meta\MetaBlankLine.cs" />
-    <Compile Include="Meta\MetaBlock.cs" />
-    <Compile Include="Meta\MetaElement.cs" />
-    <Compile Include="Meta\MetaElementList.cs" />
-    <Compile Include="Meta\MetaFormatting.cs" />
-    <Compile Include="Meta\MetaFragment.cs" />
-    <Compile Include="Meta\MetaFragmentList.cs" />
-    <Compile Include="Meta\MetaGenerator.cs" />
-    <Compile Include="Meta\MetaStatement.cs" />
     <Compile Include="Configuration\ConfigurationBase.cs" />
     <Compile Include="Languages\ILanguage.cs" />
     <Compile Include="Output\FileOutput.cs" />
@@ -108,7 +113,6 @@
     <Compile Include="Helpers\Code.cs" />
     <Compile Include="Templates\Base\CodeFragment.cs" />
     <Compile Include="Templates\Structural\CommentTemplate.cs" />
-    <Compile Include="Templates\Structural\ConstructorTemplate.cs" />
     <Compile Include="Templates\Executing\DeclareTemplate.cs" />
     <Compile Include="Templates\Structural\EnumTemplate.cs" />
     <Compile Include="Templates\Structural\EnumValueTemplate.cs" />
@@ -121,7 +125,6 @@
     <Compile Include="Templates\Extensions\ChainedCodeFragmentExtension.cs" />
     <Compile Include="Templates\Extensions\ClassTemplateExtension.cs" />
     <Compile Include="Templates\Extensions\CommentTemplateExtension.cs" />
-    <Compile Include="Templates\Extensions\ConstructorTemplateExtension.cs" />
     <Compile Include="Templates\Extensions\ExecuteMethodTemplateExtension.cs" />
     <Compile Include="Templates\Extensions\FieldTemplateExtension.cs" />
     <Compile Include="Templates\Extensions\FileTemplateExtension.cs" />
@@ -172,6 +175,7 @@
     <Compile Include="Writers\MethodWriter.cs" />
     <Compile Include="Writers\NamespaceWriter.cs" />
     <Compile Include="Writers\NewWriter.cs" />
+    <Compile Include="Writers\NotWriter.cs" />
     <Compile Include="Writers\NullValueWriter.cs" />
     <Compile Include="Writers\NullWriter.cs" />
     <Compile Include="Writers\NumberWriter.cs" />
@@ -189,6 +193,10 @@
     <ProjectReference Include="..\..\Assemblies\Core.Common\KY.Core.Common.csproj">
       <Project>{523BECCE-796E-475F-9F47-8D2C8C13D14B}</Project>
       <Name>KY.Core.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Assemblies\Core.Meta\KY.Core.Meta.csproj">
+      <Project>{ee04d2f4-59cd-406b-9a09-5c5a57dbc165}</Project>
+      <Name>KY.Core.Meta</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

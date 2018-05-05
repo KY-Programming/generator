@@ -60,6 +60,10 @@
       <Project>{523BECCE-796E-475F-9F47-8D2C8C13D14B}</Project>
       <Name>KY.Core.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Assemblies\Core.Meta\KY.Core.Meta.csproj">
+      <Project>{EE04D2F4-59CD-406B-9A09-5C5A57DBC165}</Project>
+      <Name>KY.Core.Meta</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Core\KY.Generator.Core.csproj">
       <Project>{30EC42AA-5C39-489A-B850-2C0AC64AEF4F}</Project>
       <Name>KY.Generator.Core</Name>

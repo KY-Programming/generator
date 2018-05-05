@@ -6,6 +6,11 @@ namespace KY.Generator
 {
     public static partial class Code
     {
+        public static BlankLineTemplate BlankLine()
+        {
+            return new BlankLineTemplate();
+        }
+
         public static LocalVariableTemplate Local(string name)
         {
             return new LocalVariableTemplate(name);
@@ -56,6 +61,18 @@ namespace KY.Generator
             return new CastTemplate(type, code);
         }
 
+        public static IfTemplate If(CodeFragment condition, Action<IfTemplate> action = null)
+        {
+            IfTemplate template = new IfTemplate(condition);
+            action?.Invoke(template);
+            return template;
+        }
+
+        public static InlineIfTemplate InlineIf(CodeFragment condition, CodeFragment trueFragment, CodeFragment falseFragment)
+        {
+            return new InlineIfTemplate(condition, trueFragment, falseFragment);
+        }
+
         public static SwitchTemplate Switch(CodeFragment expression)
         {
             return new SwitchTemplate(expression);
@@ -72,6 +89,11 @@ namespace KY.Generator
                                      String(parameterName),
                                      Local(parameterName),
                                      String($"{parameterName} was out of the range of valid values."));
+        }
+
+        public static LambdaTemplate Lambda(string parameterName, CodeFragment code)
+        {
+            return new LambdaTemplate(parameterName, code);
         }
     }
 }

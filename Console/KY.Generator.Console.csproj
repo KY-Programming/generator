@@ -78,17 +78,9 @@
       <Project>{D23DC658-3C95-4A73-BBC7-22A94E81AEE8}</Project>
       <Name>KY.Generator.Csharp</Name>
     </ProjectReference>
-    <ProjectReference Include="..\OData\KY.Generator.OData.csproj">
-      <Project>{CDFA710C-3C87-4FFD-980B-69B80F6E8FE3}</Project>
-      <Name>KY.Generator.OData</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Reflection\KY.Generator.Reflection.csproj">
       <Project>{1CD25461-36BC-46A1-ABDD-F710179A641E}</Project>
       <Name>KY.Generator.Reflection</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Tsql\KY.Generator.Tsql.csproj">
-      <Project>{2D968283-996B-4619-8B10-D8086C2B2922}</Project>
-      <Name>KY.Generator.Tsql</Name>
     </ProjectReference>
     <ProjectReference Include="..\TypeScript\KY.Generator.TypeScript.csproj">
       <Project>{51D247CC-BE96-461F-8848-F6B32461FABB}</Project>

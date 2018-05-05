@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using KY.Core.Meta;
 
 namespace KY.Generator.Output
 {
-    public class FileWriter
+    public class FileWriter : IMetaFileWriter
     {
         private readonly IOutput output;
         private readonly List<FileWriterLine> lines;
@@ -19,7 +20,7 @@ namespace KY.Generator.Output
             this.lines = new List<FileWriterLine>();
         }
 
-        public FileWriter Append(object value)
+        public IMetaFileWriter Append(object value)
         {
             string valueString = value?.ToString();
             if (string.IsNullOrEmpty(valueString))
@@ -37,13 +38,13 @@ namespace KY.Generator.Output
             return this;
         }
 
-        public FileWriter AppendLine()
+        public IMetaFileWriter AppendLine()
         {
             this.lines.Add(new FileWriterLine());
             return this;
         }
 
-        public FileWriter AppendLine(object value)
+        public IMetaFileWriter AppendLine(object value)
         {
             return this.Append(value)
                        .AppendLine();
@@ -59,7 +60,7 @@ namespace KY.Generator.Output
             this.lines.Clear();
         }
 
-        public FileWriter TrimEnd()
+        public IMetaFileWriter TrimEnd()
         {
             while (string.IsNullOrEmpty(this.LastLine?.Content) && this.lines.Count > 0)
             {

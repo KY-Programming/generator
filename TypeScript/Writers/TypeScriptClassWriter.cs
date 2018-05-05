@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
+using KY.Core.Meta;
 using KY.Generator.Extensions;
 using KY.Generator.Languages;
-using KY.Generator.Meta;
 using KY.Generator.Templates;
 using KY.Generator.Templates.Extensions;
 
@@ -26,7 +26,7 @@ namespace KY.Generator.Writers
                 ConstructorTemplate constructorTemplate = (ConstructorTemplate)template.AddConstructor().WithParameter(Code.Generic("Partial", template.ToType()), "init?");
                 if (template.BasedOn != null)
                 {
-                    constructorTemplate.WithCode(TypeScript.Code("super();"));
+                    constructorTemplate.WithCode(Code.Method("super", constructorTemplate.SuperParameters));
                 }
                 constructorTemplate.WithCode(Code.Local("Object").Method("assign").WithParameter(Code.This()).WithParameter(Code.Local("init")));
             }
