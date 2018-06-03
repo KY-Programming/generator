@@ -3,7 +3,6 @@ using System.Linq;
 using KY.Core;
 using KY.Generator.AspDotNet;
 using KY.Generator.Csharp;
-using KY.Generator.InternalOverride;
 using KY.Generator.Json;
 using KY.Generator.OData;
 using KY.Generator.OData.Extensions;
@@ -29,9 +28,9 @@ namespace KY.Generator
                                     .PreloadModule<ReflectionModule>()
                                     .PreloadModule<JsonModule>()
                                     .SetOutput(args.Skip(1).FirstOrDefault())
-                                    .OData(x => x.SetGenerator<ODataGenerator>())
-                                    .Tsql(x => x.SetGenerator(new TsqlGenerator())
-                                                .SetConfigurationReader<TsqlConfigurationExtendedReader>())
+                                    //.OData(x => x.SetGenerator<ODataGenerator>())
+                                    //.Tsql(x => x.SetGenerator(new TsqlGenerator())
+                                    //            .SetConfigurationReader<TsqlConfigurationExtendedReader>())
                                     .ReadConfiguration(args.FirstOrDefault())
                                     .Run();
             if (!success)
