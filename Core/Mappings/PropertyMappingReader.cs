@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Xml.Linq;
-using KY.Core.DataAccess;
+using KY.Core.Xml;
 
 namespace KY.Generator.Mappings
 {

@@ -1,6 +1,6 @@
 namespace KY.Generator.Templates
 {
-    public class StringTemplate : CodeFragment
+    public class StringTemplate : ICodeFragment
     {
         public string Value { get; }
 

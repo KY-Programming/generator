@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using KY.Generator.Extensions;
+using KY.Generator.Csharp.Extensions;
 using KY.Generator.Languages;
 using KY.Generator.Mappings;
 using KY.Generator.Templates;

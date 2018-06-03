@@ -2,10 +2,10 @@
 {
     public class AccessIndexTemplate : ChainedCodeFragment
     {
-        public CodeFragment Code { get; }
+        public ICodeFragment Code { get; }
         public override string Separator => string.Empty;
 
-        public AccessIndexTemplate(CodeFragment code)
+        public AccessIndexTemplate(ICodeFragment code)
         {
             this.Code = code;
         }

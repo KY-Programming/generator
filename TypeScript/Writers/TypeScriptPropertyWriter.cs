@@ -6,8 +6,9 @@ using KY.Generator.Languages;
 using KY.Generator.Models;
 using KY.Generator.Templates;
 using KY.Generator.Templates.Extensions;
+using KY.Generator.Writers;
 
-namespace KY.Generator.Writers
+namespace KY.Generator.TypeScript.Writers
 {
     public class TypeScriptPropertyWriter : ITemplateWriter
     {
@@ -18,7 +19,7 @@ namespace KY.Generator.Writers
             this.Language = language;
         }
 
-        public virtual void Write(IMetaElementList elements, CodeFragment fragment)
+        public virtual void Write(IMetaElementList elements, ICodeFragment fragment)
         {
             PropertyTemplate template = (PropertyTemplate)fragment;
             string fieldName = template.Name == template.Name.ToLower() ? $"_{template.Name}" : template.Name.ToLower();
@@ -47,7 +48,7 @@ namespace KY.Generator.Writers
             setter.Elements.AddClosed().Code.Add($"this.{fieldName} = value");
         }
 
-        public virtual void Write(IMetaFragmentList fragments, CodeFragment fragment)
+        public virtual void Write(IMetaFragmentList fragments, ICodeFragment fragment)
         {
             throw new InvalidOperationException();
         }

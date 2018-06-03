@@ -1,6 +1,6 @@
 ﻿namespace KY.Generator.Templates
 {
-    public class ElseTemplate : CodeFragment
+    public class ElseTemplate : ICodeFragment
     {
         public MultilineCodeFragment Code { get; }
 

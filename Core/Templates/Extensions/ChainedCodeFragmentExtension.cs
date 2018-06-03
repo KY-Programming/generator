@@ -2,7 +2,7 @@
 {
     public static class ChainedCodeFragmentExtension
     {
-        public static ExecuteMethodTemplate Method(this ChainedCodeFragment template, string methodName, params CodeFragment[] parameters)
+        public static ExecuteMethodTemplate Method(this ChainedCodeFragment template, string methodName, params ICodeFragment[] parameters)
         {
             return new ExecuteMethodTemplate(methodName, parameters).Chain(template);
         }
@@ -22,12 +22,42 @@
             return new ExecuteGenericMethodTemplate(methodName, types).Chain(template);
         }
 
-        public static AccessIndexTemplate Index(this ChainedCodeFragment template, CodeFragment code)
+        public static ExecuteGenericMethodTemplate GenericMethod(this ChainedCodeFragment template, string methodName, params ICodeFragment[] parameters)
+        {
+            return new ExecuteGenericMethodTemplate(methodName, null, parameters).Chain(template);
+        }
+
+        public static ExecuteGenericMethodTemplate GenericMethod(this ChainedCodeFragment template, string methodName, TypeTemplate type0, params ICodeFragment[] parameters)
+        {
+            return new ExecuteGenericMethodTemplate(methodName, new[] { type0 }, parameters).Chain(template);
+        }
+
+        public static ExecuteGenericMethodTemplate GenericMethod(this ChainedCodeFragment template, string methodName, TypeTemplate type0, TypeTemplate type1, params ICodeFragment[] parameters)
+        {
+            return new ExecuteGenericMethodTemplate(methodName, new[] { type0, type1 }, parameters).Chain(template);
+        }
+
+        public static ExecuteGenericMethodTemplate GenericMethod(this ChainedCodeFragment template, string methodName, TypeTemplate type0, TypeTemplate type1, TypeTemplate type2, params ICodeFragment[] parameters)
+        {
+            return new ExecuteGenericMethodTemplate(methodName, new[] { type0, type1, type2 }, parameters).Chain(template);
+        }
+
+        public static ExecuteGenericMethodTemplate GenericMethod(this ChainedCodeFragment template, string methodName, TypeTemplate type0, TypeTemplate type1, TypeTemplate type2, TypeTemplate type3, params ICodeFragment[] parameters)
+        {
+            return new ExecuteGenericMethodTemplate(methodName, new[] { type0, type1, type2, type3 }, parameters).Chain(template);
+        }
+
+        public static ExecuteGenericMethodTemplate GenericMethod(this ChainedCodeFragment template, string methodName, TypeTemplate type0, TypeTemplate type1, TypeTemplate type2, TypeTemplate type3, TypeTemplate type4, params ICodeFragment[] parameters)
+        {
+            return new ExecuteGenericMethodTemplate(methodName, new[] { type0, type1, type2, type3, type4 }, parameters).Chain(template);
+        }
+
+        public static AccessIndexTemplate Index(this ChainedCodeFragment template, ICodeFragment code)
         {
             return new AccessIndexTemplate(code).Chain(template);
         }
 
-        public static AssignTemplate Assign(this ChainedCodeFragment template, CodeFragment code)
+        public static AssignTemplate Assign(this ChainedCodeFragment template, ICodeFragment code)
         {
             return new AssignTemplate(code).Chain(template);
         }

@@ -18,7 +18,7 @@ namespace KY.Generator.Writers
             this.Language = language;
         }
 
-        public virtual void Write(IMetaElementList elements, CodeFragment fragment)
+        public virtual void Write(IMetaElementList elements, ICodeFragment fragment)
         {
             PropertyTemplate template = (PropertyTemplate)fragment;
             PropertyTemplate lastTemplate = this.Language.LastFragment as PropertyTemplate;
@@ -55,7 +55,7 @@ namespace KY.Generator.Writers
             }
         }
 
-        public virtual void Write(IMetaFragmentList fragments, CodeFragment fragment)
+        public virtual void Write(IMetaFragmentList fragments, ICodeFragment fragment)
         {
             throw new InvalidOperationException();
         }

@@ -6,7 +6,11 @@ namespace KY.Generator.Templates.Extensions
     {
         public static UsingTemplate AddUsing(this ClassTemplate classTemplate, string nameSpace, string type, string path)
         {
-            UsingTemplate usingTemplate = new UsingTemplate(nameSpace, type, path);
+            return classTemplate.AddUsing(new UsingTemplate(nameSpace, type, path));
+        }
+
+        public static UsingTemplate AddUsing(this ClassTemplate classTemplate, UsingTemplate usingTemplate)
+        {
             classTemplate.Usings.Add(usingTemplate);
             return usingTemplate;
         }
@@ -77,14 +81,25 @@ namespace KY.Generator.Templates.Extensions
             return classTemplate.IsGeneric() ? Code.Generic(classTemplate.Name, classTemplate.Generics.Select(x => Code.Type(x.Name)).ToArray()) : Code.Type(classTemplate.Name);
         }
 
+        public static UsingTemplate ToUsing(this ClassTemplate classTemplate)
+        {
+            return new UsingTemplate(classTemplate.Namespace.Name, classTemplate.Name, classTemplate.Namespace.File.RelativePath);
+        }
+
         public static bool IsGeneric(this ClassTemplate classTemplate)
         {
             return classTemplate.Generics.Count > 0;
         }
 
-        public static ClassTemplate WithCode(this ClassTemplate classTemplate, CodeFragment fragment)
+        public static ClassTemplate WithCode(this ClassTemplate classTemplate, ICodeFragment fragment)
         {
             classTemplate.Code = fragment;
+            return classTemplate;
+        }
+
+        public static ClassTemplate WithComment(this ClassTemplate classTemplate, string description, CommentType type = CommentType.Block)
+        {
+            classTemplate.Comment = new CommentTemplate(description, type);
             return classTemplate;
         }
     }

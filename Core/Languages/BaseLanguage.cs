@@ -24,7 +24,7 @@ namespace KY.Generator.Languages
         public virtual string NamespaceKeyword => "namespace";
         public virtual string ClassScope => "public";
         public virtual string PartialKeyword => "partial";
-        public CodeFragment LastFragment { get; private set; }
+        public ICodeFragment LastFragment { get; private set; }
 
         protected BaseLanguage()
         {
@@ -81,12 +81,12 @@ namespace KY.Generator.Languages
         }
 
         public void Write<T>(IMetaFragmentList fragments, IEnumerable<T> code)
-            where T : CodeFragment
+            where T : ICodeFragment
         {
             code.ForEach(fragment => this.Write(fragments, fragment));
         }
 
-        public void Write(IMetaFragmentList fragments, CodeFragment code)
+        public void Write(IMetaFragmentList fragments, ICodeFragment code)
         {
             if (code == null)
             {
@@ -111,12 +111,12 @@ namespace KY.Generator.Languages
         }
 
         public void Write<T>(IMetaElementList elements, IEnumerable<T> code)
-            where T : CodeFragment
+            where T : ICodeFragment
         {
             code.ForEach(fragment => this.Write(elements, fragment));
         }
 
-        public void Write(IMetaElementList elements, CodeFragment code)
+        public void Write(IMetaElementList elements, ICodeFragment code)
         {
             if (code == null)
             {
@@ -176,10 +176,9 @@ namespace KY.Generator.Languages
                 Logger.Trace("Empty file skipped");
                 return;
             }
-
             if (fileTemplate.Header.Description != null)
             {
-                AssemblyName assemblyName = Assembly.GetEntryAssembly().GetName();
+                AssemblyName assemblyName = (Assembly.GetEntryAssembly() ?? Assembly.GetCallingAssembly()).GetName();
                 fileTemplate.Header.Description = string.Format(fileTemplate.Header.Description, $"{assemblyName.Name} {assemblyName.Version}");
             }
             IMetaElementList elements = new MetaElementList();

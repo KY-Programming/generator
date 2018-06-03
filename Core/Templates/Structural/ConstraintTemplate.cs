@@ -2,7 +2,7 @@
 
 namespace KY.Generator.Templates
 {
-    public class ConstraintTemplate : CodeFragment
+    public class ConstraintTemplate : ICodeFragment
     {
         public string Name { get; }
         public List<TypeTemplate> Types { get; }

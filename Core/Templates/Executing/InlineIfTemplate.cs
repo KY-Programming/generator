@@ -1,12 +1,12 @@
 ﻿namespace KY.Generator.Templates
 {
-    public class InlineIfTemplate : CodeFragment
+    public class InlineIfTemplate : ICodeFragment
     {
-        public CodeFragment Condition { get; }
-        public CodeFragment TrueFragment { get; }
-        public CodeFragment FalseFragment { get; }
+        public ICodeFragment Condition { get; }
+        public ICodeFragment TrueFragment { get; }
+        public ICodeFragment FalseFragment { get; }
 
-        public InlineIfTemplate(CodeFragment condition, CodeFragment trueFragment, CodeFragment falseFragment)
+        public InlineIfTemplate(ICodeFragment condition, ICodeFragment trueFragment, ICodeFragment falseFragment)
         {
             this.Condition = condition;
             this.TrueFragment = trueFragment;

@@ -1,6 +1,6 @@
 namespace KY.Generator.Templates
 {
-    public class NumberTemplate : CodeFragment
+    public class NumberTemplate : ICodeFragment
     {
         public int Value { get; }
 

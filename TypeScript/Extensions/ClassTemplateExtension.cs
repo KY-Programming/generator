@@ -1,6 +1,7 @@
 ﻿using KY.Generator.Templates;
+using KY.Generator.TypeScript.Templates;
 
-namespace KY.Generator.Extensions
+namespace KY.Generator.TypeScript.Extensions
 {
     public static class ClassTemplateExtension
     {
@@ -17,9 +18,11 @@ namespace KY.Generator.Extensions
             return classTemplate;
         }
 
-        public static ConstructorTemplate AddConstructor(this ClassTemplate classTemplate, params CodeFragment[] superParameters)
+        public static ConstructorTemplate AddConstructor(this ClassTemplate classTemplate)
         {
-            return new ConstructorTemplate(classTemplate, superParameters);
+            ConstructorTemplate template = new ConstructorTemplate(classTemplate);
+            classTemplate.Methods.Add(template);
+            return template;
         }
     }
 }

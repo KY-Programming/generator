@@ -18,7 +18,7 @@ namespace KY.Generator.Writers
             this.Language = language;
         }
 
-        public virtual void Write(IMetaElementList elements, CodeFragment fragment)
+        public virtual void Write(IMetaElementList elements, ICodeFragment fragment)
         {
             NamespaceTemplate template = (NamespaceTemplate)fragment;
             if (template.Children.Count == 0)
@@ -37,7 +37,7 @@ namespace KY.Generator.Writers
             targetElements.Add(template.Children.OfType<ClassTemplate>(), this.Language);
         }
 
-        public virtual void Write(IMetaFragmentList fragments, CodeFragment fragment)
+        public virtual void Write(IMetaFragmentList fragments, ICodeFragment fragment)
         {
             throw new InvalidOperationException();
         }

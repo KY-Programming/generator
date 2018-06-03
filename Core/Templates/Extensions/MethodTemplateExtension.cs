@@ -35,7 +35,7 @@ namespace KY.Generator.Templates.Extensions
             return methodTemplate;
         }
 
-        public static ParameterTemplate AddParameter(this MethodTemplate methodTemplate, TypeTemplate type, string name, CodeFragment defaultValue = null)
+        public static ParameterTemplate AddParameter(this MethodTemplate methodTemplate, TypeTemplate type, string name, ICodeFragment defaultValue = null)
         {
             var parameter = new ParameterTemplate(type, name, defaultValue);
             methodTemplate.Parameters.Add(parameter);
@@ -48,7 +48,7 @@ namespace KY.Generator.Templates.Extensions
             return methodTemplate;
         }
 
-        public static MethodTemplate WithParameter(this MethodTemplate methodTemplate, TypeTemplate type, string name, CodeFragment defaultValue = null)
+        public static MethodTemplate WithParameter(this MethodTemplate methodTemplate, TypeTemplate type, string name, ICodeFragment defaultValue = null)
         {
             methodTemplate.AddParameter(type, name, defaultValue);
             return methodTemplate;
@@ -66,7 +66,7 @@ namespace KY.Generator.Templates.Extensions
             return methodTemplate;
         }
 
-        public static MethodTemplate WithCode(this MethodTemplate methodTemplate, CodeFragment code)
+        public static MethodTemplate WithCode(this MethodTemplate methodTemplate, ICodeFragment code)
         {
             methodTemplate.Code.Fragments.Add(code);
             return methodTemplate;

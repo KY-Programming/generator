@@ -2,7 +2,7 @@
 {
     public static class IfTemplateExtension
     {
-        public static ElseIfTemplate ElseIf(this IfTemplate template, CodeFragment condition)
+        public static ElseIfTemplate ElseIf(this IfTemplate template, ICodeFragment condition)
         {
             ElseIfTemplate elseIfTemplate = new ElseIfTemplate(condition);
             template.ElseIf.Add(elseIfTemplate);

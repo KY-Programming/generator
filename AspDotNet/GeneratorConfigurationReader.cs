@@ -18,7 +18,8 @@ namespace KY.Generator.AspDotNet
             GeneratorConfiguration configuration = new GeneratorConfiguration();
             this.ReadBase(rootElement, configuration);
             this.ReadBase(configurationElement, configuration);
-            XmlConvert.Deserialize(configurationElement, configuration);
+            XmlConverter.MapList("PreloadModule", nameof(GeneratorConfigurationController.PreloadModules))
+                      .Deserialize(configurationElement, configuration);
             return configuration;
         }
     }

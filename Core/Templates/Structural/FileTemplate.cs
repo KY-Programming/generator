@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using KY.Generator.Properties;
 
 namespace KY.Generator.Templates
 {
@@ -19,50 +21,49 @@ namespace KY.Generator.Templates
         public List<NamespaceTemplate> Namespaces { get; }
         public CommentTemplate Header { get; }
 
-        public FileTemplate(string relativePath = null)
+        public FileTemplate(string relativePath = null, bool addHeader = true)
         {
             this.RelativePath = relativePath ?? string.Empty;
             this.Namespaces = new List<NamespaceTemplate>();
-            this.Header = new CommentTemplate();
+            this.Header = new CommentTemplate(addHeader ? Resources.Header : null);
         }
 
         public IEnumerable<UsingTemplate> GetUsingsByNamespace()
         {
-            List<string> namespaces = new List<string>();
+            List<UsingTemplate> usings = new List<UsingTemplate>();
             foreach (NamespaceTemplate namespaceTemplate in this.Namespaces)
             {
                 foreach (INamespaceChildren namespaceChildren in namespaceTemplate.Children)
                 {
                     foreach (UsingTemplate usingTemplate in this.GetUsings(namespaceChildren))
                     {
-                        if (namespaceTemplate.Name != usingTemplate.Namespace && !namespaces.Contains(usingTemplate.Namespace))
+                        if (namespaceTemplate.Name != usingTemplate.Namespace && usings.All(x => x.Namespace != usingTemplate.Namespace))
                         {
-                            yield return usingTemplate;
-                            namespaces.Add(usingTemplate.Namespace);
+                            usings.Add(usingTemplate);
                         }
                     }
                 }
             }
+            return usings.OrderBy(x => x.Namespace, new NamespaceComparer());
         }
 
         public IEnumerable<UsingTemplate> GetUsingsByTypeAndPath()
         {
-            List<string> paths = new List<string>();
+            List<UsingTemplate> usings = new List<UsingTemplate>();
             foreach (NamespaceTemplate namespaceTemplate in this.Namespaces)
             {
                 foreach (INamespaceChildren namespaceChildren in namespaceTemplate.Children)
                 {
                     foreach (UsingTemplate usingTemplate in this.GetUsings(namespaceChildren))
                     {
-                        string path = usingTemplate.Path + usingTemplate.Type;
-                        if (!paths.Contains(path))
+                        if (usings.All(x => x.Path != usingTemplate.Path || x.Type != usingTemplate.Type))
                         {
-                            yield return usingTemplate;
-                            paths.Add(path);
+                            usings.Add(usingTemplate);
                         }
                     }
                 }
             }
+            return usings.OrderBy(x => $"{x.Path}/{x.Type}");
         }
 
         private IEnumerable<UsingTemplate> GetUsings(INamespaceChildren namespaceChildren)
@@ -71,8 +72,7 @@ namespace KY.Generator.Templates
             {
                 yield return usingTemplate;
             }
-            ClassTemplate classTemplate = namespaceChildren as ClassTemplate;
-            if (classTemplate != null)
+            if (namespaceChildren is ClassTemplate classTemplate)
             {
                 foreach (ClassTemplate subclassTemplate in classTemplate.Classes)
                 {
@@ -81,6 +81,20 @@ namespace KY.Generator.Templates
                         yield return usingTemplate;
                     }
                 }
+            }
+        }
+
+        private class NamespaceComparer : IComparer<string>
+        {
+            public int Compare(string left, string right)
+            {
+                bool leftSystem = left != null && left.StartsWith("System");
+                bool rightSystem = right != null && right.StartsWith("System");
+                if (leftSystem == rightSystem)
+                {
+                    return StringComparer.CurrentCulture.Compare(left, right);
+                }
+                return leftSystem ? -1 : 1;
             }
         }
     }

@@ -1,6 +1,6 @@
 ﻿namespace KY.Generator.Templates
 {
-    public class TypeOfTemplate : CodeFragment
+    public class TypeOfTemplate : ICodeFragment
     {
         public TypeTemplate Type { get; }
 

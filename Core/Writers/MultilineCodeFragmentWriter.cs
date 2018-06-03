@@ -15,19 +15,19 @@ namespace KY.Generator.Writers
             this.Language = language;
         }
 
-        public virtual void Write(IMetaElementList elements, CodeFragment codeFragment)
+        public virtual void Write(IMetaElementList elements, ICodeFragment codeFragment)
         {
             MultilineCodeFragment fragment = (MultilineCodeFragment)codeFragment;
-            foreach (CodeFragment innerFragment in fragment.Fragments)
+            foreach (ICodeFragment innerFragment in fragment.Fragments)
             {
                 elements.Add(innerFragment, this.Language);
             }
         }
 
-        public virtual void Write(IMetaFragmentList fragments, CodeFragment codeFragment)
+        public virtual void Write(IMetaFragmentList fragments, ICodeFragment codeFragment)
         {
             MultilineCodeFragment fragment = (MultilineCodeFragment)codeFragment;
-            foreach (CodeFragment innerFragment in fragment.Fragments)
+            foreach (ICodeFragment innerFragment in fragment.Fragments)
             {
                 fragments.Add(innerFragment, this.Language);
                 fragments.AddNewLine();

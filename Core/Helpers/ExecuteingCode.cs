@@ -16,17 +16,17 @@ namespace KY.Generator
             return new LocalVariableTemplate(name);
         }
 
-        public static ExecuteMethodTemplate Method(string name, params CodeFragment[] parameters)
+        public static ExecuteMethodTemplate Method(string name, params ICodeFragment[] parameters)
         {
             return new ExecuteMethodTemplate(name, parameters);
         }
 
-        public static NewTemplate New(TypeTemplate type, params CodeFragment[] parameters)
+        public static NewTemplate New(TypeTemplate type, params ICodeFragment[] parameters)
         {
             return new NewTemplate(type, parameters);
         }
 
-        public static NewTemplate New(TypeTemplate type, IEnumerable<CodeFragment> parameters)
+        public static NewTemplate New(TypeTemplate type, IEnumerable<ICodeFragment> parameters)
         {
             return new NewTemplate(type, parameters);
         }
@@ -41,12 +41,12 @@ namespace KY.Generator
             return new BaseTemplate();
         }
 
-        public static ReturnTemplate Return(CodeFragment code)
+        public static ReturnTemplate Return(ICodeFragment code)
         {
             return new ReturnTemplate(code);
         }
 
-        public static DeclareTemplate Declare(TypeTemplate type, string name, CodeFragment code)
+        public static DeclareTemplate Declare(TypeTemplate type, string name, ICodeFragment code)
         {
             return new DeclareTemplate(type, name, code);
         }
@@ -56,29 +56,29 @@ namespace KY.Generator
             return new TypeOfTemplate(type);
         }
 
-        public static CastTemplate Cast(TypeTemplate type, CodeFragment code)
+        public static CastTemplate Cast(TypeTemplate type, ICodeFragment code)
         {
             return new CastTemplate(type, code);
         }
 
-        public static IfTemplate If(CodeFragment condition, Action<IfTemplate> action = null)
+        public static IfTemplate If(ICodeFragment condition, Action<IfTemplate> action = null)
         {
             IfTemplate template = new IfTemplate(condition);
             action?.Invoke(template);
             return template;
         }
 
-        public static InlineIfTemplate InlineIf(CodeFragment condition, CodeFragment trueFragment, CodeFragment falseFragment)
+        public static InlineIfTemplate InlineIf(ICodeFragment condition, ICodeFragment trueFragment, ICodeFragment falseFragment)
         {
             return new InlineIfTemplate(condition, trueFragment, falseFragment);
         }
 
-        public static SwitchTemplate Switch(CodeFragment expression)
+        public static SwitchTemplate Switch(ICodeFragment expression)
         {
             return new SwitchTemplate(expression);
         }
 
-        public static ThrowTemplate Throw(TypeTemplate type, params CodeFragment[] parameters)
+        public static ThrowTemplate Throw(TypeTemplate type, params ICodeFragment[] parameters)
         {
             return new ThrowTemplate(type, parameters);
         }
@@ -91,7 +91,7 @@ namespace KY.Generator
                                      String($"{parameterName} was out of the range of valid values."));
         }
 
-        public static LambdaTemplate Lambda(string parameterName, CodeFragment code)
+        public static LambdaTemplate Lambda(string parameterName, ICodeFragment code)
         {
             return new LambdaTemplate(parameterName, code);
         }

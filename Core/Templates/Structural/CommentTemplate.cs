@@ -7,7 +7,7 @@
         Summary
     }
 
-    public class CommentTemplate : CodeFragment
+    public class CommentTemplate : ICodeFragment
     {
         public string Description { get; set; }
         public CommentType Type { get; set; }

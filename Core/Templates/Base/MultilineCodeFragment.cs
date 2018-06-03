@@ -2,16 +2,16 @@ using System.Collections.Generic;
 
 namespace KY.Generator.Templates
 {
-    public class MultilineCodeFragment : CodeFragment
+    public class MultilineCodeFragment : ICodeFragment
     {
-        public List<CodeFragment> Fragments { get; }
+        public List<ICodeFragment> Fragments { get; }
 
         public MultilineCodeFragment()
         {
-            this.Fragments = new List<CodeFragment>();
+            this.Fragments = new List<ICodeFragment>();
         }
 
-        public MultilineCodeFragment AddLine(CodeFragment code)
+        public MultilineCodeFragment AddLine(ICodeFragment code)
         {
             this.Fragments.Add(code);
             return this;

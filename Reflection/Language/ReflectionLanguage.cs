@@ -1,39 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using KY.Core.Meta;
-using KY.Generator.Languages;
-using KY.Generator.Output;
-using KY.Generator.Templates;
+﻿using KY.Generator.Languages;
 
 namespace KY.Generator.Reflection.Language
 {
-    public class ReflectionLanguage : ILanguage
+    public class ReflectionLanguage : MappingLanguage
     {
-        public string Name => "Reflection";
-
-        public void Write(FileTemplate file, IOutput output)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Write(IMetaFragmentList fragments, CodeFragment code)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Write(IMetaElementList elements, CodeFragment code)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Write<T>(IMetaFragmentList fragments, IEnumerable<T> code) where T : CodeFragment
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Write<T>(IMetaElementList elements, IEnumerable<T> code) where T : CodeFragment
-        {
-            throw new NotImplementedException();
-        }
+        public override string Name => "Reflection";
     }
 }

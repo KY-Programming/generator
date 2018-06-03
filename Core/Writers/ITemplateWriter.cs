@@ -5,7 +5,7 @@ namespace KY.Generator.Writers
 {
     public interface ITemplateWriter
     { 
-        void Write(IMetaElementList elements, CodeFragment fragment);
-        void Write(IMetaFragmentList fragments, CodeFragment fragment);
+        void Write(IMetaElementList elements, ICodeFragment fragment);
+        void Write(IMetaFragmentList fragments, ICodeFragment fragment);
     }
 }

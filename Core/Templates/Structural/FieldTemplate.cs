@@ -11,7 +11,7 @@ namespace KY.Generator.Templates
         public bool IsStatic { get; set; }
         public bool IsConst { get; set; }
         public Visibility Visibility { get; set; }
-        public CodeFragment DefaultValue { get; set; }
+        public ICodeFragment DefaultValue { get; set; }
         public ClassTemplate Class { get; }
         public CommentTemplate Comment { get; set; }
 

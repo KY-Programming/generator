@@ -3,8 +3,9 @@ using KY.Core.Meta;
 using KY.Core.Meta.Extensions;
 using KY.Generator.Languages;
 using KY.Generator.Templates;
+using KY.Generator.Writers;
 
-namespace KY.Generator.Writers
+namespace KY.Generator.TypeScript.Writers
 {
     public class TypeScriptGenericTypeWriter : GenericTypeWriter
     {
@@ -12,7 +13,7 @@ namespace KY.Generator.Writers
         : base(language)
         { }
 
-        public override void Write(IMetaFragmentList fragments, CodeFragment fragment)
+        public override void Write(IMetaFragmentList fragments, ICodeFragment fragment)
         {
             GenericTypeTemplate template = (GenericTypeTemplate)fragment;
             if (template.Name == "List" || template.Name == "IList" || template.Name == "IEnumerable")

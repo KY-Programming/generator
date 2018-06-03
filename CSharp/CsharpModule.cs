@@ -2,7 +2,7 @@
 using KY.Core.Module;
 using KY.Generator.Languages;
 
-namespace KY.Generator
+namespace KY.Generator.Csharp
 {
     public class CsharpModule : ModuleBase
     {
@@ -12,7 +12,7 @@ namespace KY.Generator
 
         public override void Initialize()
         {
-            this.DependencyResolver.Bind<ILanguage>().ToConstant(Csharp.Language);
+            this.DependencyResolver.Bind<ILanguage>().To(Csharp.Code.Language);
         }
     }
 }

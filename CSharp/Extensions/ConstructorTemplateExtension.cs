@@ -1,22 +1,23 @@
+using KY.Generator.Csharp.Templates;
 using KY.Generator.Templates;
 
-namespace KY.Generator.Extensions
+namespace KY.Generator.Csharp.Extensions
 {
     public static class ConstructorTemplateExtension
     {
-        public static ConstructorTemplate WithBaseConstructor(this ConstructorTemplate constructorTemplate, params CodeFragment[] parameters)
+        public static ConstructorTemplate WithBaseConstructor(this ConstructorTemplate constructorTemplate, params ICodeFragment[] parameters)
         {
-            constructorTemplate.BaseConstructor = Code.Method("base", parameters);
+            constructorTemplate.ConstructorCall = KY.Generator.Code.Method("base", parameters);
             return constructorTemplate;
         }
 
-        public static ConstructorTemplate WithThisConstructor(this ConstructorTemplate constructorTemplate, params CodeFragment[] parameters)
+        public static ConstructorTemplate WithThisConstructor(this ConstructorTemplate constructorTemplate, params ICodeFragment[] parameters)
         {
-            constructorTemplate.BaseConstructor = Code.Method("this", parameters);
+            constructorTemplate.ConstructorCall = KY.Generator.Code.Method("this", parameters);
             return constructorTemplate;
         }
 
-        public static ConstructorTemplate WithParameter(this ConstructorTemplate constructorTemplate, TypeTemplate type, string name, CodeFragment defaultValue = null)
+        public static ConstructorTemplate WithParameter(this ConstructorTemplate constructorTemplate, TypeTemplate type, string name, ICodeFragment defaultValue = null)
         {
             constructorTemplate.Parameters.Add(new ParameterTemplate(type, name, defaultValue));
             return constructorTemplate;

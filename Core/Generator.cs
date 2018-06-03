@@ -10,23 +10,19 @@ using KY.Core.Dependency;
 using KY.Core.Module;
 using KY.Generator.Configuration;
 using KY.Generator.Mappings;
+using KY.Generator.Module;
 using KY.Generator.Output;
-using KY.Generator.Templates;
+using KY.Generator.Syntax;
+using Newtonsoft.Json;
 
 namespace KY.Generator
 {
-    public interface IGenerator
-    {
-        List<FileTemplate> Files { get; }
-        void Generate(ConfigurationBase configuration);
-    }
-
-    public class Generator
+    public class Generator : IGeneratorRunSyntax
     {
         private IOutput output;
         private readonly DependencyResolver resolver;
         private List<ConfigurationBase> configrations;
-        private List<IGenerator> Generators { get; }
+        private IList<ModuleBase> Modules { get; set; }
 
         public Generator()
         {
@@ -39,12 +35,11 @@ namespace KY.Generator
             Logger.Trace("Loaded modules:");
             ModuleFinder moduleFinder = new ModuleFinder(this.resolver);
             moduleFinder.LoadFromAssemblies();
-            moduleFinder.Modules.ForEach(module => Logger.Trace($" - {module.GetType().Name.Trim("Module")}"));
+            this.Modules = moduleFinder.Modules;
+            this.Modules.ForEach(module => Logger.Trace($" - {module.GetType().Name.Trim("Module")}"));
 
             Logger.Trace("Initialize modules...");
-            moduleFinder.Modules.ForEach(module => module.Initialize());
-
-            this.Generators = this.resolver.Get<List<IGenerator>>();
+            this.Modules.ForEach(module => module.Initialize());
         }
 
         public static Generator Initialize()
@@ -69,7 +64,7 @@ namespace KY.Generator
             return this.SetOutput(new FileOutput(path));
         }
 
-        public Generator ReadConfiguration(string path)
+        public IGeneratorRunSyntax ReadConfiguration(string path)
         {
             if (string.IsNullOrEmpty(path))
             {
@@ -80,14 +75,20 @@ namespace KY.Generator
             return this.ParseConfiguration(FileSystem.ReadXml(path));
         }
 
-        public Generator ParseConfiguration(string configuration)
+        public IGeneratorRunSyntax ParseConfiguration(string configuration)
         {
             Logger.Trace("Settings: " + "Memory");
-            return this.ParseConfiguration(XElement.Parse(configuration));
+            if (configuration.TrimStart().StartsWith("<"))
+            {
+                return this.ParseConfiguration(XElement.Parse(configuration));
+            }
+            configuration = $"{{ \"Configuration\": {configuration} }}";
+            return this.ParseConfiguration(JsonConvert.DeserializeXNode(configuration).Root);
         }
 
-        public Generator ParseConfiguration(XElement element)
+        public IGeneratorRunSyntax ParseConfiguration(XElement element)
         {
+            this.Modules.OfType<GeneratorModule>().ForEach(x => x.BeforeConfigure());
             ConfigurationsReader configurationsReader = this.resolver.Create<ConfigurationsReader>();
             this.configrations = configurationsReader.Read(element).ToList();
             return this;
@@ -102,6 +103,8 @@ namespace KY.Generator
                     Logger.Trace("No configuration loaded. Generation failed!");
                     return false;
                 }
+                this.Modules.OfType<GeneratorModule>().ForEach(x => x.BeforeRun());
+                List<IGenerator> generators = this.resolver.Get<List<IGenerator>>();
                 Logger.Trace($"Start generating {this.configrations.Count} configurations");
                 if (!(this.configrations.FirstOrDefault()?.VerifySsl ?? true))
                 {
@@ -118,10 +121,10 @@ namespace KY.Generator
                     }
                     try
                     {
-                        foreach (IGenerator generator in this.Generators)
+                        foreach (IGenerator generator in generators)
                         {
                             generator.Generate(configuration);
-                            generator.Files.ForEach(x => configuration.Language.Write(x, this.output));
+                            generator.Files?.ForEach(x => configuration.Language.Write(x, this.output));
                         }
                     }
                     catch (Exception exception)
@@ -129,6 +132,7 @@ namespace KY.Generator
                         Logger.Error(exception);
                     }
                 }
+                this.Modules.OfType<GeneratorModule>().ForEach(x => x.AfterRun());
                 Logger.Trace("All configurations generated");
                 return success;
             }

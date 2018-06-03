@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>KY.Generator.Tsql</RootNamespace>
     <AssemblyName>KY.Generator.Tsql</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,6 +31,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="KY.Core.Common, Version=3.5.1480.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\KY.Core.Common.3.5.1480\lib\net40\KY.Core.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="KY.Core.Meta, Version=3.5.1480.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\KY.Core.Meta.3.5.1480\lib\net452\KY.Core.Meta.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -43,6 +50,8 @@
     <Compile Include="..\..\Assemblies\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Configuration\TsqlGeneratorConfigurationSyntax.cs" />
+    <Compile Include="Extensions\GeneratorExtension.cs" />
     <Compile Include="Extensions\TsqlParameterExtension.cs" />
     <Compile Include="Extensions\TsqlColumnExtension.cs" />
     <Compile Include="Extensions\TsqlODataExtension.cs" />
@@ -52,7 +61,7 @@
     <Compile Include="Fluent\FluentStoredProcedureAction.cs" />
     <Compile Include="Fluent\IFluentLanguageElement.cs" />
     <Compile Include="Helpers\StaticResolver.cs" />
-    <Compile Include="Helpers\Tsql.cs" />
+    <Compile Include="Helpers\Code.cs" />
     <Compile Include="Language\TsqlLanguage.cs" />
     <Compile Include="Entity\TsqlEntity.cs" />
     <Compile Include="OData\TsqlODataController.cs" />
@@ -69,9 +78,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Configuration\TsqlGeneratorConfiguration.cs" />
     <Compile Include="Type\TsqlColumn.cs" />
-    <Compile Include="TsqlConfiguration.cs" />
-    <Compile Include="TsqlConfigurationReader.cs" />
+    <Compile Include="Configuration\TsqlConfiguration.cs" />
+    <Compile Include="Configuration\TsqlConfigurationReader.cs" />
     <Compile Include="TsqlGenerator.cs" />
     <Compile Include="TsqlModule.cs" />
     <Compile Include="Type\TsqlNavigationProperty.cs" />
@@ -80,10 +90,6 @@
     <Compile Include="Type\TsqlTypeReader.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Assemblies\Core.Common\KY.Core.Common.csproj">
-      <Project>{523BECCE-796E-475F-9F47-8D2C8C13D14B}</Project>
-      <Name>KY.Core.Common</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Core\KY.Generator.Core.csproj">
       <Project>{30EC42AA-5C39-489A-B850-2C0AC64AEF4F}</Project>
       <Name>KY.Generator.Core</Name>
@@ -105,6 +111,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="KY.Generator.Tsql.nuspec" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -2,7 +2,7 @@
 
 namespace KY.Generator.Templates
 {
-    public abstract class AttributeableTempalte : CodeFragment
+    public abstract class AttributeableTempalte : ICodeFragment
     {
         public List<AttributeTemplate> Attributes { get; }
 

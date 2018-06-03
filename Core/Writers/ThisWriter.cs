@@ -6,12 +6,12 @@ namespace KY.Generator.Writers
 {
     public class ThisWriter : ITemplateWriter
     {
-        public virtual void Write(IMetaElementList elements, CodeFragment fragment)
+        public virtual void Write(IMetaElementList elements, ICodeFragment fragment)
         {
             this.Write(elements.AddClosed().Code, fragment);
         }
 
-        public virtual void Write(IMetaFragmentList fragments, CodeFragment fragment)
+        public virtual void Write(IMetaFragmentList fragments, ICodeFragment fragment)
         {
             fragments.Add("this");
         }

@@ -9,17 +9,17 @@ namespace KY.Generator.Templates.Extensions
 {
     public static class MetaFragmentListExtension
     {
-        public static IMetaFragmentList Add(this IMetaFragmentList list, CodeFragment code, ILanguage language)
+        public static IMetaFragmentList Add(this IMetaFragmentList list, ICodeFragment code, ILanguage language)
         {
             language.Write(list, code);
             return list;
         }
 
-        public static IMetaFragmentList Add(this IMetaFragmentList list, IEnumerable<CodeFragment> code, ILanguage language, string separator)
+        public static IMetaFragmentList Add(this IMetaFragmentList list, IEnumerable<ICodeFragment> code, ILanguage language, string separator)
         {
-            List<CodeFragment> fragments = code.ToList();
-            CodeFragment last = fragments.LastOrDefault();
-            foreach (CodeFragment fragment in fragments)
+            List<ICodeFragment> fragments = code.ToList();
+            ICodeFragment last = fragments.LastOrDefault();
+            foreach (ICodeFragment fragment in fragments)
             {
                 list.Add(fragment, language);
                 if (!fragment.Equals(last))
@@ -30,7 +30,7 @@ namespace KY.Generator.Templates.Extensions
             return list;
         }
 
-        public static IMetaFragmentList Add(this IMetaFragmentList list, IEnumerable<CodeFragment> code, ILanguage language)
+        public static IMetaFragmentList Add(this IMetaFragmentList list, IEnumerable<ICodeFragment> code, ILanguage language)
         {
             code.ForEach(x => list.Add(x, language));
             return list;

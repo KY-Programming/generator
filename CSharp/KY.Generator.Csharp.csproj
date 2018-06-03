@@ -7,10 +7,11 @@
     <ProjectGuid>{D23DC658-3C95-4A73-BBC7-22A94E81AEE8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>KY.Generator</RootNamespace>
+    <RootNamespace>KY.Generator.Csharp</RootNamespace>
     <AssemblyName>KY.Generator.Csharp</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,6 +31,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="KY.Core.Common, Version=3.5.1480.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\KY.Core.Common.3.5.1480\lib\net40\KY.Core.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="KY.Core.Meta, Version=3.5.1480.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\KY.Core.Meta.3.5.1480\lib\net452\KY.Core.Meta.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -46,7 +53,7 @@
     <Compile Include="CsharpModule.cs" />
     <Compile Include="Extensions\ClassTemplateExtension.cs" />
     <Compile Include="Extensions\ConstructorTemplateExtension.cs" />
-    <Compile Include="Helpers\Csharp.cs" />
+    <Compile Include="Helpers\Code.cs" />
     <Compile Include="Languages\CsharpLanguage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Templates\ConstructorTemplate.cs" />
@@ -57,7 +64,7 @@
     <Compile Include="Writers\BaseWriter.cs" />
     <Compile Include="Writers\CastWriter.cs" />
     <Compile Include="Writers\ConstructorWriter.cs" />
-    <Compile Include="Writers\CsharpCommentWriter.cs" />
+    <Compile Include="Writers\CommentWriter.cs" />
     <Compile Include="Writers\ConstraintWriter.cs" />
     <Compile Include="Writers\CsharpWriter.cs" />
     <Compile Include="Writers\DeclareWriter.cs" />
@@ -67,14 +74,6 @@
     <Compile Include="Writers\UsingWriter.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Assemblies\Core.Common\KY.Core.Common.csproj">
-      <Project>{523BECCE-796E-475F-9F47-8D2C8C13D14B}</Project>
-      <Name>KY.Core.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Assemblies\Core.Meta\KY.Core.Meta.csproj">
-      <Project>{EE04D2F4-59CD-406B-9A09-5C5A57DBC165}</Project>
-      <Name>KY.Core.Meta</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Core\KY.Generator.Core.csproj">
       <Project>{30EC42AA-5C39-489A-B850-2C0AC64AEF4F}</Project>
       <Name>KY.Generator.Core</Name>
@@ -82,6 +81,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="KY.Generator.Csharp.nuspec" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

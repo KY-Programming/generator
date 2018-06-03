@@ -1,6 +1,7 @@
-﻿using KY.Generator.Templates;
+﻿using KY.Generator.Csharp.Templates;
+using KY.Generator.Templates;
 
-namespace KY.Generator.Extensions
+namespace KY.Generator.Csharp.Extensions
 {
     public static class ClassTemplateExtension
     {

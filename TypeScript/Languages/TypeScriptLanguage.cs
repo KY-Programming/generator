@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using KY.Generator.Languages;
 using KY.Generator.Templates;
-using KY.Generator.Writers;
+using KY.Generator.TypeScript.Templates;
+using KY.Generator.TypeScript.Writers;
 
-namespace KY.Generator.Languages
+namespace KY.Generator.TypeScript.Languages
 {
     public class TypeScriptLanguage : BaseLanguage
     {
@@ -29,7 +31,6 @@ namespace KY.Generator.Languages
             this.TemplateWriters[typeof(ParameterTemplate)] = new ParameterWriter(this);
             this.TemplateWriters[typeof(PropertyTemplate)] = new TypeScriptPropertyWriter(this);
             this.TemplateWriters[typeof(ThrowTemplate)] = new ThrowWriter(this);
-            this.TemplateWriters[typeof(ClassTemplate)] = new TypeScriptClassWriter(this);
             this.TemplateWriters[typeof(EnumTemplate)] = new TypeScriptEnumWriter(this);
             this.TemplateWriters[typeof(OperatorTemplate)] = new TypeScriptOperatorWriter();
             this.TemplateWriters[typeof(TypeScriptTemplate)] = new TypeScriptWriter();

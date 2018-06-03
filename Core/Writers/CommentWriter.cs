@@ -9,7 +9,7 @@ namespace KY.Generator.Writers
 {
     public class CommentWriter : ITemplateWriter
     {
-        public virtual void Write(IMetaElementList elements, CodeFragment fragment)
+        public virtual void Write(IMetaElementList elements, ICodeFragment fragment)
         {
             CommentTemplate comment = (CommentTemplate)fragment;
             if (comment.IsEmpty())
@@ -19,7 +19,7 @@ namespace KY.Generator.Writers
             lines.ForEach(x => elements.AddUnclosed().Code.Add("// ").Add(x));
         }
 
-        public virtual void Write(IMetaFragmentList fragments, CodeFragment fragment)
+        public virtual void Write(IMetaFragmentList fragments, ICodeFragment fragment)
         {
             throw new InvalidOperationException();
         }

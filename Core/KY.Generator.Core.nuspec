@@ -6,16 +6,17 @@
     <title>$title$</title>
     <authors>$author$</authors>
     <owners>$author$</owners>
-    <licenseUrl>http://ky-programming.de/software/generator/license</licenseUrl>
-    <projectUrl>http://ky-programming.de/software/generator/</projectUrl>
-    <iconUrl>http://ky-programming.de/images/logos/128.png</iconUrl>
+    <licenseUrl>https://github.com/KY-Programming/generator/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/KY-Programming/generator</projectUrl>
+    <iconUrl>https://ky-programming.de/images/logos/128.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
     <releaseNotes></releaseNotes>
     <copyright>Copyright 2018</copyright>
     <tags>KY Generator</tags>
     <dependencies>
-      <dependency id="KY.Core.Common" version="3.5.0.1455" />
+      <dependency id="KY.Core.Common" version="3.5.1480" />
+      <dependency id="KY.Core.Meta" version="3.5.1480" />
     </dependencies>
   </metadata>
 </package>

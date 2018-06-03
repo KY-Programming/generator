@@ -1,10 +1,10 @@
 namespace KY.Generator.Templates
 {
-    public class ReturnTemplate : CodeFragment
+    public class ReturnTemplate : ICodeFragment
     {
-        public CodeFragment Code { get; }
+        public ICodeFragment Code { get; }
 
-        public ReturnTemplate(CodeFragment code)
+        public ReturnTemplate(ICodeFragment code)
         {
             this.Code = code;
         }

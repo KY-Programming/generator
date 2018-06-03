@@ -9,6 +9,7 @@
   </Generator>
   <Tsql>
     <Connection>Server=KY-DATABASE;Database=test;User Id=fi49sd;Password=fi49sd;</Connection>
+    <Extended/>
     <Default>
       <Schema>test</Schema>
       <Model>
@@ -18,7 +19,6 @@
       <Controller>
         <Namespace>KY.Test.Controllers</Namespace>
         <RelativePath>Backend\Controllers\OData</RelativePath>
-        <Get/>
       </Controller>
       <Repository>
         <Namespace>KY.Test.Repositories</Namespace>
@@ -28,7 +28,13 @@
     <Entity>
       <Table>Customer</Table>
       <Model/>
-      <Controller/>
+      <Controller>
+        <Get>
+          <EnableQuery>
+            <MaxNodeCount>200</MaxNodeCount>
+          </EnableQuery>
+        </Get>
+      </Controller>
       <Repository/>
     </Entity>
     <Entity>
@@ -53,12 +59,16 @@
   </OData>
 </Configuration>-->
 <!--<Configuration>
-  --><!--<Language>Csharp</Language>--><!--
+  -->
+<!--<Language>Csharp</Language>-->
+<!--
   <Language>TypeScript</Language>
   <Reflection>
     <Default>
       <PropertiesToFields/>
-      --><!--<FieldsToProperties/>--><!--
+      -->
+<!--<FieldsToProperties/>-->
+<!--
       <SkipNamespace/>
     </Default>
     <Type>
@@ -92,4 +102,19 @@
       <Using>./property-mapping</Using>
     </Type>
   </Reflection>
+</Configuration>-->
+<!--<Configuration>
+  <Language>Csharp</Language>
+  <Json>
+    <ToObject>
+      <Source>Object.json</Source>
+      <RelativePath>Test</RelativePath>
+      <Namespace>KY.Test</Namespace>
+    </ToObject>
+    <WithReader>
+      <Name>Settings</Name>
+      <RelativePath>Test</RelativePath>
+      <Namespace>KY.Test</Namespace>
+    </WithReader>
+  </Json>
 </Configuration>-->

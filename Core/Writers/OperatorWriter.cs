@@ -7,12 +7,12 @@ namespace KY.Generator.Writers
 {
     public class OperatorWriter : ITemplateWriter
     {
-        public virtual void Write(IMetaElementList elements, CodeFragment fragment)
+        public virtual void Write(IMetaElementList elements, ICodeFragment fragment)
         {
             this.Write(elements.AddClosed().Code, fragment);
         }
 
-        public virtual void Write(IMetaFragmentList fragments, CodeFragment fragment)
+        public virtual void Write(IMetaFragmentList fragments, ICodeFragment fragment)
         {
             OperatorTemplate template = (OperatorTemplate)fragment;
             switch (template.Operator)

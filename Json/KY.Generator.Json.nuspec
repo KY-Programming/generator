@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <licenseUrl>https://github.com/KY-Programming/generator/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/KY-Programming/generator</projectUrl>
+    <iconUrl>https://ky-programming.de/images/logos/128.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright 2018</copyright>
+    <tags>KY Generator Json</tags>
+    <dependencies>
+      <dependency id="KY.Core.Common" version="3.5.0.1468" />
+      <dependency id="KY.Generator.Core" version="0.7.0.1468" />
+      <dependency id="KY.Generator.Csharp" version="0.7.0.1468" />
+      <dependency id="KY.Generator.TypeScript" version="0.7.0.1468" />
+    </dependencies>
+  </metadata>
+</package>

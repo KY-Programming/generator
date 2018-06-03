@@ -16,7 +16,7 @@ namespace KY.Generator.Writers
             this.Language = language;
         }
 
-        public virtual void Write(IMetaElementList elements, CodeFragment fragment)
+        public virtual void Write(IMetaElementList elements, ICodeFragment fragment)
         {
             CaseTemplate template = (CaseTemplate)fragment;
             MetaBlock block = elements.AddBlock().SkipStartAndEnd();
@@ -24,7 +24,7 @@ namespace KY.Generator.Writers
             block.Elements.Add(template.Code, this.Language);
         }
 
-        public virtual void Write(IMetaFragmentList fragments, CodeFragment fragment)
+        public virtual void Write(IMetaFragmentList fragments, ICodeFragment fragment)
         {
             CaseTemplate template = (CaseTemplate)fragment;
             fragments.Add("case ")

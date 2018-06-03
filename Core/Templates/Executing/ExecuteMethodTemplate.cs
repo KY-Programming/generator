@@ -6,12 +6,12 @@ namespace KY.Generator.Templates
     {
         public override string Separator => ".";
         public string Name { get; }
-        public List<CodeFragment> Parameters { get; }
+        public List<ICodeFragment> Parameters { get; }
 
-        public ExecuteMethodTemplate(string name, params CodeFragment[] parameters)
+        public ExecuteMethodTemplate(string name, params ICodeFragment[] parameters)
         {
             this.Name = name;
-            this.Parameters = new List<CodeFragment>(parameters);
+            this.Parameters = new List<ICodeFragment>(parameters);
         }
     }
 }

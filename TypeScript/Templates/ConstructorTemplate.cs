@@ -1,13 +1,11 @@
-﻿namespace KY.Generator.Templates
+﻿using KY.Generator.Templates;
+
+namespace KY.Generator.TypeScript.Templates
 {
     public class ConstructorTemplate : MethodTemplate
     {
-        public CodeFragment[] SuperParameters { get; }
-
-        public ConstructorTemplate(ClassTemplate classTemplate, CodeFragment[] superParameters)
+        public ConstructorTemplate(ClassTemplate classTemplate)
             : base(classTemplate, "constructor", null)
-        {
-            this.SuperParameters = superParameters;
-        }
+        { }
     }
 }

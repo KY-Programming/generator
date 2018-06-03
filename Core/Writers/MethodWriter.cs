@@ -18,7 +18,7 @@ namespace KY.Generator.Writers
             this.Language = language;
         }
 
-        public virtual void Write(IMetaElementList elements, CodeFragment fragment)
+        public virtual void Write(IMetaElementList elements, ICodeFragment fragment)
         {
             MethodTemplate template = (MethodTemplate)fragment;
             elements.AddBlankLine();
@@ -40,7 +40,7 @@ namespace KY.Generator.Writers
             statement.Elements.Add(template.Code, this.Language);
         }
 
-        public virtual void Write(IMetaFragmentList fragments, CodeFragment fragment)
+        public virtual void Write(IMetaFragmentList fragments, ICodeFragment fragment)
         {
             throw new InvalidOperationException();
         }

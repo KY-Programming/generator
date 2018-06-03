@@ -2,7 +2,7 @@
 using KY.Core.Module;
 using KY.Generator.Languages;
 
-namespace KY.Generator
+namespace KY.Generator.TypeScript
 {
     public class TypeScriptModule : ModuleBase
     {
@@ -12,7 +12,7 @@ namespace KY.Generator
 
         public override void Initialize()
         {
-            this.DependencyResolver.Bind<ILanguage>().ToConstant(TypeScript.Language);
+            this.DependencyResolver.Bind<ILanguage>().To(Code.Language);
         }
     }
 }

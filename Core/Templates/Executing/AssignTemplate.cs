@@ -3,9 +3,9 @@
     public class AssignTemplate : ChainedCodeFragment
     {
         public override string Separator => " ";
-        public CodeFragment Code { get; }
+        public ICodeFragment Code { get; }
 
-        public AssignTemplate(CodeFragment code)
+        public AssignTemplate(ICodeFragment code)
         {
             this.Code = code;
         }

@@ -4,14 +4,14 @@ using System.Diagnostics;
 namespace KY.Generator.Templates
 {
     [DebuggerDisplay("[{Name}({Code})]")]
-    public class AttributeTemplate : CodeFragment
+    public class AttributeTemplate : ICodeFragment
     {
         public string Name { get; }
-        public CodeFragment Code { get; private set; }
+        public ICodeFragment Code { get; private set; }
         public bool HasValue => this.Code != null;
         public Dictionary<string, object> Properties { get; }
 
-        public AttributeTemplate(string name, CodeFragment code = null)
+        public AttributeTemplate(string name, ICodeFragment code = null)
         {
             this.Name = name;
             this.Code = code;
@@ -24,7 +24,7 @@ namespace KY.Generator.Templates
             return this;
         }
 
-        public AttributeTemplate SetCode(CodeFragment code)
+        public AttributeTemplate SetCode(ICodeFragment code)
         {
             this.Code = code;
             return this;

@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using KY.Generator.Csharp.Templates;
+using KY.Generator.Csharp.Writers;
+using KY.Generator.Languages;
 using KY.Generator.Templates;
-using KY.Generator.Writers;
 
-namespace KY.Generator.Languages
+namespace KY.Generator.Csharp.Languages
 {
     public class CsharpLanguage : BaseLanguage
     {
@@ -15,7 +17,7 @@ namespace KY.Generator.Languages
             this.TemplateWriters[typeof(BaseTypeTemplate)] = new BaseTypeWriter(this);
             this.TemplateWriters[typeof(BaseTemplate)] = new BaseWriter();
             this.TemplateWriters[typeof(CastTemplate)] = new CastWriter(this);
-            this.TemplateWriters[typeof(CommentTemplate)] = new CsharpCommentWriter();
+            this.TemplateWriters[typeof(CommentTemplate)] = new CommentWriter();
             this.TemplateWriters[typeof(ConstructorTemplate)] = new ConstructorWriter(this);
             this.TemplateWriters[typeof(ConstraintTemplate)] = new ConstraintWriter(this);
             this.TemplateWriters[typeof(CsharpTemplate)] = new CsharpWriter();

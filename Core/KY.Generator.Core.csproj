@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>KY.Generator</RootNamespace>
     <AssemblyName>KY.Generator.Core</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,6 +31,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="KY.Core.Common, Version=3.5.1480.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\KY.Core.Common.3.5.1480\lib\net40\KY.Core.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="KY.Core.Meta, Version=3.5.1480.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\KY.Core.Meta.3.5.1480\lib\net452\KY.Core.Meta.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -47,6 +57,11 @@
     <Compile Include="Configuration\ConfigurationReaderBase.cs" />
     <Compile Include="Configuration\InvalidConfigurationException.cs" />
     <Compile Include="Generator.cs" />
+    <Compile Include="IGenerator.cs" />
+    <Compile Include="Languages\ILanguageList.cs" />
+    <Compile Include="Languages\MappingLanguage.cs" />
+    <Compile Include="Module\GeneratorModule.cs" />
+    <Compile Include="Syntax\IGeneratorRunSyntax.cs" />
     <Compile Include="Templates\Executing\LambdaTemplate.cs" />
     <Compile Include="Helpers\TypeCode.cs" />
     <Compile Include="Helpers\StructuralCode.cs" />
@@ -111,7 +126,7 @@
     <Compile Include="Templates\Base\ChainedCodeFragment.cs" />
     <Compile Include="Templates\Structural\ClassTemplate.cs" />
     <Compile Include="Helpers\Code.cs" />
-    <Compile Include="Templates\Base\CodeFragment.cs" />
+    <Compile Include="Templates\Base\ICodeFragment.cs" />
     <Compile Include="Templates\Structural\CommentTemplate.cs" />
     <Compile Include="Templates\Executing\DeclareTemplate.cs" />
     <Compile Include="Templates\Structural\EnumTemplate.cs" />
@@ -190,16 +205,6 @@
     <Compile Include="Writers\VoidWriter.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Assemblies\Core.Common\KY.Core.Common.csproj">
-      <Project>{523BECCE-796E-475F-9F47-8D2C8C13D14B}</Project>
-      <Name>KY.Core.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Assemblies\Core.Meta\KY.Core.Meta.csproj">
-      <Project>{ee04d2f4-59cd-406b-9a09-5c5a57dbc165}</Project>
-      <Name>KY.Core.Meta</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -207,6 +212,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="KY.Generator.Core.nuspec" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

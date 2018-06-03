@@ -1,11 +1,11 @@
 ﻿namespace KY.Generator.Templates
 {
-    public class CastTemplate : CodeFragment
+    public class CastTemplate : ICodeFragment
     {
         public TypeTemplate Type { get; }
-        public CodeFragment Code { get; }
+        public ICodeFragment Code { get; }
 
-        public CastTemplate(TypeTemplate type, CodeFragment code)
+        public CastTemplate(TypeTemplate type, ICodeFragment code)
         {
             this.Type = type;
             this.Code = code;

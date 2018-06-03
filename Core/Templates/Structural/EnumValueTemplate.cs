@@ -3,9 +3,9 @@ namespace KY.Generator.Templates
     public class EnumValueTemplate
     {
         public string Name { get; }
-        public CodeFragment Value { get; }
+        public ICodeFragment Value { get; }
 
-        public EnumValueTemplate(string name, CodeFragment value)
+        public EnumValueTemplate(string name, ICodeFragment value)
         {
             this.Name = name;
             this.Value = value;

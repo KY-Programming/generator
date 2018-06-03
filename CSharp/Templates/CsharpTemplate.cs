@@ -1,6 +1,8 @@
-namespace KY.Generator.Templates
+using KY.Generator.Templates;
+
+namespace KY.Generator.Csharp.Templates
 {
-    public class CsharpTemplate : CodeFragment
+    public class CsharpTemplate : ICodeFragment
     {
         public string Code { get; set; }
 

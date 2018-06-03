@@ -10,7 +10,7 @@
             return attributeableTempalte;
         }
         
-        public static T WithAttribute<T>(this T attributeableTempalte, string name, CodeFragment code)
+        public static T WithAttribute<T>(this T attributeableTempalte, string name, ICodeFragment code)
             where T : AttributeableTempalte
         {
             AttributeTemplate attribute = new AttributeTemplate(name, code);

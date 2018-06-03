@@ -1,7 +1,6 @@
 ﻿using KY.Core.Dependency;
 using KY.Core.Module;
 using KY.Generator.Configuration;
-using KY.Generator.Models;
 
 namespace KY.Generator.AspDotNet
 {

@@ -10,13 +10,13 @@ namespace KY.Generator.Languages
         string Name { get; }
 
         void Write(FileTemplate file, IOutput output);
-        void Write(IMetaFragmentList fragments, CodeFragment code);
-        void Write(IMetaElementList elements, CodeFragment code);
+        void Write(IMetaFragmentList fragments, ICodeFragment code);
+        void Write(IMetaElementList elements, ICodeFragment code);
 
         void Write<T>(IMetaFragmentList fragments, IEnumerable<T> code)
-            where T : CodeFragment;
+            where T : ICodeFragment;
 
         void Write<T>(IMetaElementList elements, IEnumerable<T> code)
-            where T : CodeFragment;
+            where T : ICodeFragment;
     }
 }

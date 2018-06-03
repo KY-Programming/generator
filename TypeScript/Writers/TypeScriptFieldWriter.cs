@@ -6,8 +6,9 @@ using KY.Generator.Languages;
 using KY.Generator.Models;
 using KY.Generator.Templates;
 using KY.Generator.Templates.Extensions;
+using KY.Generator.Writers;
 
-namespace KY.Generator.Writers
+namespace KY.Generator.TypeScript.Writers
 {
     public class TypeScriptFieldWriter : ITemplateWriter
     {
@@ -18,7 +19,7 @@ namespace KY.Generator.Writers
             this.Language = language;
         }
 
-        public virtual void Write(IMetaElementList elements, CodeFragment fragment)
+        public virtual void Write(IMetaElementList elements, ICodeFragment fragment)
         {
             FieldTemplate template = (FieldTemplate)fragment;
             MetaStatement metaStatement = elements.AddClosed();
@@ -34,7 +35,7 @@ namespace KY.Generator.Writers
             }
         }
 
-        public virtual void Write(IMetaFragmentList fragments, CodeFragment fragment)
+        public virtual void Write(IMetaFragmentList fragments, ICodeFragment fragment)
         {
             throw new InvalidOperationException();
         }

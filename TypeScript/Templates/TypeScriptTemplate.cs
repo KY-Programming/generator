@@ -1,6 +1,8 @@
-namespace KY.Generator.Templates
+using KY.Generator.Templates;
+
+namespace KY.Generator.TypeScript.Templates
 {
-    public class TypeScriptTemplate : CodeFragment
+    public class TypeScriptTemplate : ICodeFragment
     {
         public string Code { get; }
 

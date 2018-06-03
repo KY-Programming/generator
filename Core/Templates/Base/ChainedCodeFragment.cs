@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace KY.Generator.Templates
 {
-    public abstract class ChainedCodeFragment : CodeFragment
+    public abstract class ChainedCodeFragment : ICodeFragment
     {
         public abstract string Separator { get; }
         public ChainedCodeFragment Next { get; set; }
@@ -19,14 +19,14 @@ namespace KY.Generator.Templates
             return this.Next == null ? this : this.Next.Last();
         }
 
-        public IEnumerable<CodeFragment> Yield()
+        public IEnumerable<ICodeFragment> Yield()
         {
             yield return this;
             if (this.Next == null)
             {
                 yield break;
             }
-            foreach (CodeFragment fragment in this.Next.Yield())
+            foreach (ICodeFragment fragment in this.Next.Yield())
             {
                 yield return fragment;
             }

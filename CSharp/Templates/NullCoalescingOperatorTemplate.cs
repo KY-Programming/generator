@@ -1,11 +1,13 @@
-﻿namespace KY.Generator.Templates
-{
-    public class NullCoalescingOperatorTemplate : CodeFragment
-    {
-        public CodeFragment LeftCode { get; }
-        public CodeFragment RightCode { get; }
+﻿using KY.Generator.Templates;
 
-        public NullCoalescingOperatorTemplate(CodeFragment leftCode, CodeFragment rightCode)
+namespace KY.Generator.Csharp.Templates
+{
+    public class NullCoalescingOperatorTemplate : ICodeFragment
+    {
+        public ICodeFragment LeftCode { get; }
+        public ICodeFragment RightCode { get; }
+
+        public NullCoalescingOperatorTemplate(ICodeFragment leftCode, ICodeFragment rightCode)
         {
             this.LeftCode = leftCode;
             this.RightCode = rightCode;

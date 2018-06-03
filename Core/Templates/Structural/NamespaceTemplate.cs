@@ -10,7 +10,7 @@ namespace KY.Generator.Templates
     }
 
     [DebuggerDisplay("Namespace {Name}")]
-    public class NamespaceTemplate : CodeFragment
+    public class NamespaceTemplate : ICodeFragment
     {
         public FileTemplate File { get; }
         public string Name { get; }

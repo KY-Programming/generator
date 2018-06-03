@@ -4,12 +4,13 @@ using KY.Core.Meta;
 using KY.Core.Meta.Extensions;
 using KY.Generator.Templates;
 using KY.Generator.Templates.Extensions;
+using KY.Generator.Writers;
 
-namespace KY.Generator.Writers
+namespace KY.Generator.Csharp.Writers
 {
-    public class CsharpCommentWriter : ITemplateWriter
+    public class CommentWriter : ITemplateWriter
     {
-        public virtual void Write(IMetaElementList elements, CodeFragment fragment)
+        public virtual void Write(IMetaElementList elements, ICodeFragment fragment)
         {
             CommentTemplate comment = (CommentTemplate)fragment;
             if (comment.IsEmpty())
@@ -31,7 +32,7 @@ namespace KY.Generator.Writers
             }
         }
 
-        public virtual void Write(IMetaFragmentList fragments, CodeFragment fragment)
+        public virtual void Write(IMetaFragmentList fragments, ICodeFragment fragment)
         {
             throw new InvalidOperationException();
         }

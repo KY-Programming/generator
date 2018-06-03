@@ -2,7 +2,7 @@
 {
     public static class ExecuteMethodTemplateExtension
     {
-        public static ExecuteMethodTemplate WithParameter(this ExecuteMethodTemplate methodTemplate, CodeFragment code)
+        public static ExecuteMethodTemplate WithParameter(this ExecuteMethodTemplate methodTemplate, ICodeFragment code)
         {
             methodTemplate.Parameters.Add(code);
             return methodTemplate;

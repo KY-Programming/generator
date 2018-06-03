@@ -13,8 +13,8 @@ namespace KY.Generator.Templates
         public bool IsVirtual { get; set; }
         public bool IsStatic { get; set; }
         public Visibility Visibility { get; set; }
-        public CodeFragment DefaultValue { get; set; }
-        public CodeFragment Expression { get; set; }
+        public ICodeFragment DefaultValue { get; set; }
+        public ICodeFragment Expression { get; set; }
         public ClassTemplate Class { get; }
         public CommentTemplate Comment { get; set; }
 

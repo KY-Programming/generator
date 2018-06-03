@@ -7,13 +7,13 @@ namespace KY.Generator.Templates
     {
         public override string Separator => " ";
         public TypeTemplate Type { get; }
-        public List<CodeFragment> Parameters { get; }
+        public List<ICodeFragment> Parameters { get; }
 
-        public NewTemplate(TypeTemplate type, params CodeFragment[] parameters)
-            : this(type, (IEnumerable<CodeFragment>)parameters)
+        public NewTemplate(TypeTemplate type, params ICodeFragment[] parameters)
+            : this(type, (IEnumerable<ICodeFragment>)parameters)
         { }
 
-        public NewTemplate(TypeTemplate type, IEnumerable<CodeFragment> parameters)
+        public NewTemplate(TypeTemplate type, IEnumerable<ICodeFragment> parameters)
         {
             this.Type = type;
             this.Parameters = parameters.ToList();

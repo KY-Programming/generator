@@ -3,7 +3,7 @@
 namespace KY.Generator.Templates
 {
     [DebuggerDisplay("Using {Namespace}")]
-    public class UsingTemplate : CodeFragment
+    public class UsingTemplate : ICodeFragment
     {
         public string Namespace { get; }
         public string Type { get; }

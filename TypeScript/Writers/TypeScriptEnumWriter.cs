@@ -1,8 +1,9 @@
 ﻿using KY.Core.Meta;
 using KY.Generator.Languages;
 using KY.Generator.Templates;
+using KY.Generator.Writers;
 
-namespace KY.Generator.Writers
+namespace KY.Generator.TypeScript.Writers
 {
     public class TypeScriptEnumWriter : EnumWriter
     {
@@ -10,7 +11,7 @@ namespace KY.Generator.Writers
             : base(language)
         { }
 
-        public override void Write(IMetaElementList elements, CodeFragment fragment)
+        public override void Write(IMetaElementList elements, ICodeFragment fragment)
         {
             EnumTemplate template = (EnumTemplate)fragment;
             template.BasedOn = null;

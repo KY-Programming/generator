@@ -6,12 +6,12 @@ namespace KY.Generator.Writers
 {
     internal class ClassGenericWriter : ITemplateWriter
     {
-        public void Write(IMetaElementList elements, CodeFragment fragment)
+        public void Write(IMetaElementList elements, ICodeFragment fragment)
         {
             this.Write(elements.AddUnclosed().Code, fragment);
         }
 
-        public void Write(IMetaFragmentList fragments, CodeFragment fragment)
+        public void Write(IMetaFragmentList fragments, ICodeFragment fragment)
         {
             ClassGenericTemplate template = (ClassGenericTemplate)fragment;
             if (template.Constraints.Count == 0)

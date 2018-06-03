@@ -1,6 +1,6 @@
 namespace KY.Generator.Templates
 {
-    public class BaseTypeTemplate : CodeFragment
+    public class BaseTypeTemplate : ICodeFragment
     {
         private readonly TypeTemplate type;
 

@@ -40,7 +40,7 @@ namespace KY.Generator.Templates.Extensions
             return property;
         }
 
-        public static PropertyTemplate ReadOnlyWithCode(this PropertyTemplate property, CodeFragment expression)
+        public static PropertyTemplate ReadOnlyWithCode(this PropertyTemplate property, ICodeFragment expression)
         {
             property.HasGetter = false;
             property.HasSetter = false;
@@ -48,7 +48,7 @@ namespace KY.Generator.Templates.Extensions
             return property;
         }
 
-        public static PropertyTemplate WithDefaultValue(this PropertyTemplate property, CodeFragment defaultValue)
+        public static PropertyTemplate WithDefaultValue(this PropertyTemplate property, ICodeFragment defaultValue)
         {
             property.DefaultValue = defaultValue;
             return property;

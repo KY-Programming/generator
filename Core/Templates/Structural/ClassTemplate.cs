@@ -16,7 +16,7 @@ namespace KY.Generator.Templates
         public List<PropertyTemplate> Properties { get; }
         public List<MethodTemplate> Methods { get; }
         public List<ClassTemplate> Classes { get; }
-        public CodeFragment Code { get; set; }
+        public ICodeFragment Code { get; set; }
         public bool IsStatic { get; set; }
         public bool IsAbstract { get; set; }
         public bool IsInterface { get; set; }

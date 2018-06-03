@@ -1,5 +1,5 @@
 ﻿namespace KY.Generator.Templates
 {
-    public class BlankLineTemplate : CodeFragment
+    public class BlankLineTemplate : ICodeFragment
     { }
 }

@@ -2,7 +2,7 @@ using System;
 
 namespace KY.Generator.Templates
 {
-    public class TypeTemplate : CodeFragment
+    public class TypeTemplate : ICodeFragment
     {
         public string Name { get; }
         public bool IsInterface { get; }

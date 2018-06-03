@@ -1,9 +1,16 @@
 ﻿using System;
 using System.Linq;
+using KY.Core;
 using KY.Generator.AspDotNet;
-//using KY.Generator.OData;
+using KY.Generator.Csharp;
+using KY.Generator.InternalOverride;
+using KY.Generator.Json;
+using KY.Generator.OData;
+using KY.Generator.OData.Extensions;
 using KY.Generator.Reflection;
-//using KY.Generator.Tsql;
+using KY.Generator.Tsql;
+using KY.Generator.Tsql.Extensions;
+using KY.Generator.TypeScript;
 
 namespace KY.Generator
 {
@@ -11,14 +18,20 @@ namespace KY.Generator
     {
         private static void Main(string[] args)
         {
+            Logger.AllTargets.Add(Logger.VisualStudioOutput);
+
             bool success = Generator.Initialize()
                                     .PreloadModule<AspDotNetModule>()
                                     .PreloadModule<CsharpModule>()
                                     .PreloadModule<TypeScriptModule>()
-                                    //.PreloadModule<TsqlModule>()
-                                    //.PreloadModule<ODataModule>()
+                                    .PreloadModule<TsqlModule>()
+                                    .PreloadModule<ODataModule>()
                                     .PreloadModule<ReflectionModule>()
+                                    .PreloadModule<JsonModule>()
                                     .SetOutput(args.Skip(1).FirstOrDefault())
+                                    .OData(x => x.SetGenerator<ODataGenerator>())
+                                    .Tsql(x => x.SetGenerator(new TsqlGenerator())
+                                                .SetConfigurationReader<TsqlConfigurationExtendedReader>())
                                     .ReadConfiguration(args.FirstOrDefault())
                                     .Run();
             if (!success)

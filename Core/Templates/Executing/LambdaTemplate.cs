@@ -1,11 +1,11 @@
 ﻿namespace KY.Generator.Templates
 {
-    public class LambdaTemplate : CodeFragment
+    public class LambdaTemplate : ICodeFragment
     {
         public string ParameterName { get; }
-        public CodeFragment Code { get; }
+        public ICodeFragment Code { get; }
 
-        public LambdaTemplate(string parameterName, CodeFragment code)
+        public LambdaTemplate(string parameterName, ICodeFragment code)
         {
             this.ParameterName = parameterName;
             this.Code = code;

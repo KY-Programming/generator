@@ -1,11 +1,11 @@
 ﻿namespace KY.Generator.Templates
 {
-    public class ElseIfTemplate : CodeFragment
+    public class ElseIfTemplate : ICodeFragment
     {
-        public CodeFragment Condition { get; }
+        public ICodeFragment Condition { get; }
         public MultilineCodeFragment Code { get; }
 
-        public ElseIfTemplate(CodeFragment condition)
+        public ElseIfTemplate(ICodeFragment condition)
         {
             this.Condition = condition;
             this.Code = new MultilineCodeFragment();
