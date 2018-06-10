@@ -4,15 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{29748168-4987-4914-9473-2A24C19BEF7B}</ProjectGuid>
+    <ProjectGuid>{5E5D3B21-903B-4108-B3AF-3967C5D33219}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>KY.Generator</RootNamespace>
     <AssemblyName>KY.Generator</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -23,6 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -32,6 +34,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Costura, Version=2.0.1.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
@@ -58,8 +61,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="KY.Generator.Console.nuspec" />
+    <None Include="KY.Generator.Standalone.nuspec" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="FodyWeavers.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AspDotNet\KY.Generator.AspDotNet.csproj">
@@ -73,10 +79,6 @@
     <ProjectReference Include="..\CSharp\KY.Generator.Csharp.csproj">
       <Project>{D23DC658-3C95-4A73-BBC7-22A94E81AEE8}</Project>
       <Name>KY.Generator.Csharp</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Json\KY.Generator.Json.csproj">
-      <Project>{7F14808D-CEDC-4A7D-BC53-DA21EEDCDE1E}</Project>
-      <Name>KY.Generator.Json</Name>
     </ProjectReference>
     <ProjectReference Include="..\OData\KY.Generator.OData.csproj">
       <Project>{cdfa710c-3c87-4ffd-980b-69b80f6e8fe3}</Project>
@@ -96,9 +98,13 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\Fody.3.0.3\build\Fody.targets" Condition="Exists('..\packages\Fody.3.0.3\build\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Fody.3.0.3\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.3.0.3\build\Fody.targets'))" />
+    <Error Condition="!Exists('..\packages\Costura.Fody.2.0.1\build\Costura.Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Costura.Fody.2.0.1\build\Costura.Fody.targets'))" />
   </Target>
+  <Import Project="..\packages\Costura.Fody.2.0.1\build\Costura.Fody.targets" Condition="Exists('..\packages\Costura.Fody.2.0.1\build\Costura.Fody.targets')" />
 </Project>

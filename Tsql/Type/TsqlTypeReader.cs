@@ -148,17 +148,19 @@ namespace KY.Generator.Tsql.Type
                 command.CommandText = Resources.ReadParametersCommand;
                 command.Parameters.AddWithValue("schema", schema);
                 command.Parameters.AddWithValue("name", storedProcedure);
-                SqlDataReader reader = command.ExecuteReader();
-                if (reader.HasRows)
+                using (SqlDataReader reader = command.ExecuteReader())
                 {
-                    while (reader.Read())
+                    if (reader.HasRows)
                     {
-                        TsqlParameter parameter = new TsqlParameter();
-                        parameter.Name = reader.GetString(reader.GetOrdinal("PARAMETER_NAME"));
-                        parameter.Type = reader.GetString(reader.GetOrdinal("DATA_TYPE"));
-                        parameter.Order = reader.GetInt32(reader.GetOrdinal("ORDINAL_POSITION"));
-                        parameter.IsNullable = true;
-                        list.Add(parameter);
+                        while (reader.Read())
+                        {
+                            TsqlParameter parameter = new TsqlParameter();
+                            parameter.Name = reader.GetString(reader.GetOrdinal("PARAMETER_NAME"));
+                            parameter.Type = reader.GetString(reader.GetOrdinal("DATA_TYPE"));
+                            parameter.Order = reader.GetInt32(reader.GetOrdinal("ORDINAL_POSITION"));
+                            parameter.IsNullable = true;
+                            list.Add(parameter);
+                        }
                     }
                 }
             }

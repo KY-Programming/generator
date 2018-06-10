@@ -1,9 +1,0 @@
-﻿{
-  "StringProperty": "Any string",
-  "NumberProperty": 123.45,
-  "BooleanProperty": true,
-  "ComplexProperty": {
-    "First": "eins",
-    "Second": 2
-  }
-}

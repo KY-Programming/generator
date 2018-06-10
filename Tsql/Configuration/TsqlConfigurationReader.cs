@@ -28,11 +28,13 @@ namespace KY.Generator.Tsql.Configuration
             this.ReadBase(configurationElement, configuration);
 
             XmlConverter.Map<TsqlEntity>("Entity")
-                      .MapList("Entity", "Entities")
-                      //.Map<TsqlDataContext>("DataContext")
-                      //.MapList("DataContext", "Entities")
-                      .Map(this.ReadControllerMethod)
-                      .Deserialize(configurationElement, configuration);
+                        .MapList("Entity", "Entities")
+                        //.Map<TsqlDataContext>("DataContext")
+                        //.MapList("DataContext", "Entities")
+                        .Map("StoredProcedure",element => new TsqlStoredProcedure(element.Value))
+                        .MapList("StoredProcedure", "StoredProcedures")
+                        .Map(this.ReadControllerMethod)
+                        .Deserialize(configurationElement, configuration);
 
             XElement defaultElement = configurationElement.Element("Default");
             if (defaultElement != null)
@@ -52,7 +54,6 @@ namespace KY.Generator.Tsql.Configuration
             foreach (TsqlEntity entity in configuration.Entities)
             {
                 entity.Name = entity.Name ?? entity.Table ?? entity.StoredProcedure;
-                entity.Table = entity.Table ?? entity.Name;
                 entity.Configuration = configuration;
                 if (entity.Model != null)
                 {

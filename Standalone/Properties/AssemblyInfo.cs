@@ -5,10 +5,10 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("KY.Generator.Tsql")]
-[assembly: AssemblyDescription("TSQL plugin for KY.Generator")]
+[assembly: AssemblyTitle("KY.Generator")]
+[assembly: AssemblyDescription("KY.Generator Standalone executable containing all features without dependencies")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyProduct("KY.Generator.Tsql")]
+[assembly: AssemblyProduct("KY.Generator")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -18,7 +18,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("2d968283-996b-4619-8b10-d8086c2b2922")]
+[assembly: Guid("29748168-4987-4914-9473-2a24c19bef7b")]
 
 // Version information for an assembly consists of the following four values:
 //
