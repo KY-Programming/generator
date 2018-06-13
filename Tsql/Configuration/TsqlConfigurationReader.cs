@@ -31,8 +31,8 @@ namespace KY.Generator.Tsql.Configuration
                         .MapList("Entity", "Entities")
                         //.Map<TsqlDataContext>("DataContext")
                         //.MapList("DataContext", "Entities")
-                        .Map("StoredProcedure",element => new TsqlStoredProcedure(element.Value))
-                        .MapList("StoredProcedure", "StoredProcedures")
+                        .Map("/Tsql/Entity/DataContext/StoredProcedure", element => new TsqlStoredProcedure(element.Value))
+                        .MapList("/Tsql/Entity/DataContext/StoredProcedure", "StoredProcedures")
                         .Map(this.ReadControllerMethod)
                         .Deserialize(configurationElement, configuration);
 
@@ -103,11 +103,11 @@ namespace KY.Generator.Tsql.Configuration
                 {
                     if (string.IsNullOrEmpty(entity.Schema))
                     {
-                        throw new InvalidConfigurationException($"Tsql entity {nameof(entity.Schema)} can not be null or empty");
+                        throw new InvalidConfigurationException($"Tsql entity '{entity.Name ?? "without name"}' {nameof(entity.Schema)} can not be null or empty");
                     }
                     if (string.IsNullOrEmpty(entity.Table) && string.IsNullOrEmpty(entity.StoredProcedure))
                     {
-                        throw new InvalidConfigurationException($"Tsql entity {nameof(entity.Table)} can not be null or empty");
+                        throw new InvalidConfigurationException($"Tsql entity '{entity.Name ?? "without name"}' {nameof(entity.Table)} can not be null or empty");
                     }
                 }
             }

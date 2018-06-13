@@ -117,21 +117,25 @@ namespace KY.Generator.Tsql.Type
         {
             List<List<string>> rows = new List<List<string>>();
             this.OpenConnection();
-            SqlCommand command = this.connection.CreateCommand();
-            command.CommandText = string.Format(Resources.ReadValuesCommand, string.Join(", ", columns), schema, table);
-            command.Parameters.AddWithValue("schema", schema);
-            command.Parameters.AddWithValue("name", table);
-            SqlDataReader reader = command.ExecuteReader();
-            if (reader.HasRows)
+            using (SqlCommand command = this.connection.CreateCommand())
             {
-                while (reader.Read())
+                command.CommandText = string.Format(Resources.ReadValuesCommand, string.Join(", ", columns), schema, table);
+                command.Parameters.AddWithValue("schema", schema);
+                command.Parameters.AddWithValue("name", table);
+                using (SqlDataReader reader = command.ExecuteReader())
                 {
-                    List<string> row = new List<string>();
-                    for (int ordinal = 0; ordinal < columns.Length; ordinal++)
+                    if (reader.HasRows)
                     {
-                        row.Add(reader.GetValue(ordinal).ToString());
+                        while (reader.Read())
+                        {
+                            List<string> row = new List<string>();
+                            for (int ordinal = 0; ordinal < columns.Length; ordinal++)
+                            {
+                                row.Add(reader.GetValue(ordinal).ToString());
+                            }
+                            rows.Add(row);
+                        }
                     }
-                    rows.Add(row);
                 }
             }
             return rows;
@@ -144,22 +148,24 @@ namespace KY.Generator.Tsql.Type
             try
             {
                 this.OpenConnection();
-                SqlCommand command = this.connection.CreateCommand();
-                command.CommandText = Resources.ReadParametersCommand;
-                command.Parameters.AddWithValue("schema", schema);
-                command.Parameters.AddWithValue("name", storedProcedure);
-                using (SqlDataReader reader = command.ExecuteReader())
+                using (SqlCommand command = this.connection.CreateCommand())
                 {
-                    if (reader.HasRows)
+                    command.CommandText = Resources.ReadParametersCommand;
+                    command.Parameters.AddWithValue("schema", schema);
+                    command.Parameters.AddWithValue("name", storedProcedure);
+                    using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        while (reader.Read())
+                        if (reader.HasRows)
                         {
-                            TsqlParameter parameter = new TsqlParameter();
-                            parameter.Name = reader.GetString(reader.GetOrdinal("PARAMETER_NAME"));
-                            parameter.Type = reader.GetString(reader.GetOrdinal("DATA_TYPE"));
-                            parameter.Order = reader.GetInt32(reader.GetOrdinal("ORDINAL_POSITION"));
-                            parameter.IsNullable = true;
-                            list.Add(parameter);
+                            while (reader.Read())
+                            {
+                                TsqlParameter parameter = new TsqlParameter();
+                                parameter.Name = reader.GetString(reader.GetOrdinal("PARAMETER_NAME"));
+                                parameter.Type = reader.GetString(reader.GetOrdinal("DATA_TYPE"));
+                                parameter.Order = reader.GetInt32(reader.GetOrdinal("ORDINAL_POSITION"));
+                                parameter.IsNullable = true;
+                                list.Add(parameter);
+                            }
                         }
                     }
                 }
@@ -182,26 +188,32 @@ namespace KY.Generator.Tsql.Type
             this.LastError = null;
             string key = $"{schema}.{storedProcedure}";
             if (this.columnsCache.ContainsKey(key))
+            {
                 return this.columnsCache[key];
+            }
 
             List<TsqlColumn> columns = new List<TsqlColumn>();
             try
             {
                 this.OpenConnection();
-                SqlCommand command = this.connection.CreateCommand();
-                command.CommandText = string.Format(Resources.ReadResultCommand, key);
-                SqlDataReader reader = command.ExecuteReader();
-                if (reader.HasRows)
+                using (SqlCommand command = this.connection.CreateCommand())
                 {
-                    while (reader.Read())
+                    command.CommandText = string.Format(Resources.ReadResultCommand, key);
+                    using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        columns.Add(this.ReadColumn(reader));
+                        if (reader.HasRows)
+                        {
+                            while (reader.Read())
+                            {
+                                columns.Add(this.ReadColumn(reader));
+                            }
+                        }
+                        this.columnsCache.Add(key, columns);
+                        if (columns.All(x => !x.IsPrimaryKey))
+                        {
+                            columns.ForEach(x => x.IsPrimaryKey = !x.IsNullable);
+                        }
                     }
-                }
-                this.columnsCache.Add(key, columns);
-                if (columns.All(x => !x.IsPrimaryKey))
-                {
-                    columns.ForEach(x => x.IsPrimaryKey = !x.IsNullable);
                 }
             }
             catch (SqlException exception)
