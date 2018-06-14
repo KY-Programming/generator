@@ -45,11 +45,19 @@ namespace KY.Generator.AspDotNet
                                                                 .Code;
                 createCode.AddLine(Code.Declare(Code.Type("Guid"), "id", Code.Local("Guid").Method("NewGuid")))
                           .AddLine(Code.Declare(Code.Type("MemoryOutput"), "output", Code.New(Code.Type("MemoryOutput"))))
-                          .AddLine(Code.Declare(Code.Type("Generator.Generator"), "generator", Code.New(Code.Type("Generator.Generator"))))
+                          .AddLine(Code.Declare(Code.Type("Generator"), "generator", Code.New(Code.Type("Generator"))))
                           .AddLine(Code.Local("generator").Method("SetOutput", Code.Local("output")));
+                foreach (string nameSpace in generator.Controller.Usings)
+                {
+                    classTemplate.AddUsing(nameSpace);
+                }
                 foreach (string moduleType in generator.Controller.PreloadModules)
                 {
                     createCode.AddLine(Code.Local("generator").GenericMethod("PreloadModule", Code.Type(moduleType)));
+                }
+                foreach (GeneratorConfigurationConfigureModule configure in generator.Controller.Configures)
+                {
+                    createCode.AddLine(Code.Local("generator").Method(configure.Module, Code.Lambda("x", Csharp.Code.Csharp("x." + configure.Action))));
                 }
                 createCode.AddLine(Code.Local("generator").Method("ParseConfiguration", Code.Local("configuration")))
                           .AddLine(Code.Local("generator").Method("Run"))

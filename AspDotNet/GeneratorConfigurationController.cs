@@ -6,11 +6,15 @@ namespace KY.Generator.AspDotNet
     {
         public string RelativePath { get; set; }
         public string Namespace { get; set; }
-        public List<string> PreloadModules { get; set; }
+        public List<string> Usings { get; }
+        public List<string> PreloadModules { get; }
+        public List<GeneratorConfigurationConfigureModule> Configures { get; }
 
         public GeneratorConfigurationController()
         {
             this.PreloadModules = new List<string>();
+            this.Configures = new List<GeneratorConfigurationConfigureModule>();
+            this.Usings = new List<string>();
         }
     }
 }

@@ -49,6 +49,7 @@
     </Compile>
     <Compile Include="AspDotNetModule.cs" />
     <Compile Include="GeneratorConfiguration.cs" />
+    <Compile Include="GeneratorConfigurationConfigureModule.cs" />
     <Compile Include="GeneratorConfigurationController.cs" />
     <Compile Include="GeneratorConfigurationPreloadModule.cs" />
     <Compile Include="GeneratorConfigurationReader.cs" />
