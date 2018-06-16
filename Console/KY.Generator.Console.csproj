@@ -37,8 +37,8 @@
     <Reference Include="Costura, Version=2.0.1.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
       <HintPath>..\packages\Costura.Fody.2.0.1\lib\net452\Costura.dll</HintPath>
     </Reference>
-    <Reference Include="KY.Core.Common, Version=3.5.1480.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\KY.Core.Common.3.5.1480\lib\net40\KY.Core.Common.dll</HintPath>
+    <Reference Include="KY.Core.Common, Version=3.6.1486.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\KY.Core.Common.3.6.1486\lib\net40\KY.Core.Common.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

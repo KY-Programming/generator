@@ -18,11 +18,10 @@ namespace KY.Generator.AspDotNet
             GeneratorConfiguration configuration = new GeneratorConfiguration();
             this.ReadBase(rootElement, configuration);
             this.ReadBase(configurationElement, configuration);
-            XmlConverter.MapList("PreloadModule", nameof(GeneratorConfigurationController.PreloadModules))
-                        .MapList("Using", nameof(GeneratorConfigurationController.Usings))
-                        .MapList("Configure", nameof(GeneratorConfigurationController.Configures))
-                        .Map("Configure", element => new GeneratorConfigurationConfigureModule(element.GetStringAttribute("Module"), element.Value))
-                      .Deserialize(configurationElement, configuration);
+            XmlConverter.Map(x => x.Name("PreloadModule").ToList(nameof(GeneratorConfigurationController.PreloadModules)))
+                        .Map(x => x.Name("Using").ToList(nameof(GeneratorConfigurationController.Usings)))
+                        .Map(x => x.Name("Configure").ToList(nameof(GeneratorConfigurationController.Configures)).As(element => new GeneratorConfigurationConfigureModule(element.GetStringAttribute("Module"), element.Value)))
+                        .Deserialize(configurationElement, configuration);
             return configuration;
         }
     }

@@ -15,7 +15,7 @@
     <copyright>Copyright 2018</copyright>
     <tags>KY Generator ASP.net</tags>
     <dependencies>
-      <dependency id="KY.Core.Common" version="3.5.1480" />
+      <dependency id="KY.Core.Common" version="3.6.1486" />
       <dependency id="KY.Generator.Core" version="0.7.1480" />
       <dependency id="KY.Generator.Csharp" version="0.7.1480" />
     </dependencies>

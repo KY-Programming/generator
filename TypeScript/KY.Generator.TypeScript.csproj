@@ -31,8 +31,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="KY.Core.Common, Version=3.5.1480.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\KY.Core.Common.3.5.1480\lib\net40\KY.Core.Common.dll</HintPath>
+    <Reference Include="KY.Core.Common, Version=3.6.1486.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\KY.Core.Common.3.6.1486\lib\net40\KY.Core.Common.dll</HintPath>
     </Reference>
     <Reference Include="KY.Core.Meta, Version=3.5.1480.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\KY.Core.Meta.3.5.1480\lib\net452\KY.Core.Meta.dll</HintPath>

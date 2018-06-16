@@ -1,4 +1,6 @@
-﻿using System.Xml.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Xml.Linq;
 using KY.Core;
 using KY.Core.Dependency;
 using KY.Core.Xml;
@@ -27,13 +29,10 @@ namespace KY.Generator.Tsql.Configuration
             this.ReadBase(rootElement, configuration);
             this.ReadBase(configurationElement, configuration);
 
-            XmlConverter.Map<TsqlEntity>("Entity")
-                        .MapList("Entity", "Entities")
-                        //.Map<TsqlDataContext>("DataContext")
-                        //.MapList("DataContext", "Entities")
-                        .Map("/Tsql/Entity/DataContext/StoredProcedure", element => new TsqlStoredProcedure(element.Value))
-                        .MapList("/Tsql/Entity/DataContext/StoredProcedure", "StoredProcedures")
-                        .Map(this.ReadControllerMethod)
+            XmlConverter.Map(x => x.Name("Entity").ToList("Entities").As<TsqlEntity>())
+                        .Map(x => x.Path("/Tsql/Entity/DataContext/StoredProcedure").ToList(nameof(TsqlDataContext.StoredProcedures)).As(element => new TsqlStoredProcedure(element.Value)))
+                        .Map(x => x.Path("/Tsql/Entity/Model/Key").To(nameof(TsqlModel.KeyActions)).As(this.ReadKeyAction))
+                        .Map(x => x.Type<TsqlODataControllerMethod>().As(this.ReadControllerMethod))
                         .Deserialize(configurationElement, configuration);
 
             XElement defaultElement = configurationElement.Element("Default");
@@ -78,6 +77,11 @@ namespace KY.Generator.Tsql.Configuration
             }
             this.Validate(configuration);
             return configuration;
+        }
+
+        private List<TsqlModelKeyAction> ReadKeyAction(XElement keyElement)
+        {
+            return keyElement.Elements().Select(element => new TsqlModelKeyAction(element.Value, EnumHelper.Parse<TsqlModelKeyActionType>(element.Name.LocalName))).ToList();
         }
 
         private TsqlODataControllerMethod ReadControllerMethod(XElement methodElement)

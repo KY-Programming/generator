@@ -20,9 +20,8 @@ namespace KY.Generator.Reflection.Configuration
             this.ReadBase(rootElement, configuration);
             this.ReadBase(configurationElement, configuration);
 
-            XmlConverter.Map<ReflectionType>("Type")
-                      .MapList("Type", "Types")
-                      .Deserialize(configurationElement, configuration);
+            XmlConverter.Map(x => x.Name("Type").ToList(nameof(ReflectionConfiguration.Types)).As<ReflectionType>())
+                        .Deserialize(configurationElement, configuration);
 
             XElement defaultElement = configurationElement.Element("Default");
             if (defaultElement != null)

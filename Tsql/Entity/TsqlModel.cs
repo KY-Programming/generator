@@ -11,7 +11,7 @@ namespace KY.Generator.Tsql.Entity
         public string BasedOn { get; set; }
         public List<IFluentLanguageElement> Fluent { get; }
         public List<string> Usings { get; }
-        public List<TsqlModelKeyAction> KeyActions { get; }
+        public List<TsqlModelKeyAction> KeyActions { get; private set; }
 
         public TsqlModel()
         {
