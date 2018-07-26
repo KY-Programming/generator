@@ -13,15 +13,22 @@ namespace KY.Generator.OData.MetaData
     {
         private static readonly Regex collectionRegex = new Regex(@"^Collection\((?<type>[^)]+)\)");
         private readonly string connection;
+        private readonly List<Cookie> cookies;
 
-        public ODataMetaDataReader(string connection)
+        public ODataMetaDataReader(string connection, List<Cookie> cookies = null)
         {
             this.connection = connection;
+            this.cookies = cookies;
         }
 
         public ODataMetaData Read()
         {
             HttpWebRequest request = WebRequest.CreateHttp(this.connection);
+            if (this.cookies != null)
+            {
+                request.CookieContainer = new CookieContainer();
+                this.cookies.ForEach(request.CookieContainer.Add);
+            }
             WebResponse response = request.GetResponse();
             XElement root;
             using (Stream responseStream = response.GetResponseStream())
@@ -39,9 +46,10 @@ namespace KY.Generator.OData.MetaData
                 foreach (XElement schemaElement in schemaElements)
                 {
                     string nameSpace = schemaElement.TryGetStringAttribute("Namespace");
+                    List<ODataMetaDataAssociation> associations = this.ReadAssociations(schemaElement).ToList();
                     foreach (XElement entityTypeElement in schemaElement.GetElementsIgnoreNamespace("EntityType"))
                     {
-                        ODataMetaDataEntityType entityType = this.ReadEntityType(entityTypeElement, nameSpace);
+                        ODataMetaDataEntityType entityType = this.ReadEntityType(entityTypeElement, nameSpace, associations);
                         metaData.EntityTypes.Add(entityType);
                         entityTypeMapping.Add(entityType.FullName, entityType);
                     }
@@ -113,7 +121,7 @@ namespace KY.Generator.OData.MetaData
             return function;
         }
 
-        private ODataMetaDataEntityType ReadEntityType(XElement entityTypeElement, string nameSpace)
+        private ODataMetaDataEntityType ReadEntityType(XElement entityTypeElement, string nameSpace, List<ODataMetaDataAssociation> associations)
         {
             ODataMetaDataEntityType entityType = new ODataMetaDataEntityType();
             entityType.Name = entityTypeElement.TryGetStringAttribute(nameof(ODataMetaDataEntityType.Name));
@@ -140,16 +148,50 @@ namespace KY.Generator.OData.MetaData
             IEnumerable<XElement> navigationPropertyElements = entityTypeElement.GetElementsIgnoreNamespace("NavigationProperty");
             foreach (XElement navigationPropertyElement in navigationPropertyElements)
             {
-                string type = navigationPropertyElement.TryGetStringAttribute("Type");
-                Match match = collectionRegex.Match(type ?? string.Empty);
-                type = match.Success ? match.Groups["type"].Value : type;
+                string type = navigationPropertyElement.TryGetStringAttribute(nameof(ODataMetaDataNavigationProperty.Type));
                 ODataMetaDataNavigationProperty navigationProperty = new ODataMetaDataNavigationProperty();
-                navigationProperty.Name = navigationPropertyElement.TryGetStringAttribute("Name");
-                navigationProperty.Type = type;
-                navigationProperty.IsCollection = match.Success;
+                navigationProperty.Name = navigationPropertyElement.TryGetStringAttribute(nameof(ODataMetaDataNavigationProperty.Name));
+                // oData v2
+                if (string.IsNullOrEmpty(type))
+                {
+                    // TODO: Do not ignore namespace in second step
+                    string relationship = navigationPropertyElement.TryGetStringAttribute("Relationship")?.Replace(nameSpace + ".", string.Empty);
+                    string toRole = navigationPropertyElement.TryGetStringAttribute("ToRole");
+                    ODataMetaDataAssociation association = associations.First(x => x.Name == relationship);
+                    ODataMetaDataAssociationEnd end = association.Ends.First(x => x.Role == toRole);
+                    navigationProperty.Type = end.Type;
+                    navigationProperty.IsCollection = end.Multiplicity != "1";
+                }
+                // oData v4
+                else
+                {
+                    Match match = collectionRegex.Match(type);
+                    type = match.Success ? match.Groups["type"].Value : type;
+                    navigationProperty.Type = type;
+                    navigationProperty.IsCollection = match.Success;
+                }
                 entityType.NavigationProperties.Add(navigationProperty);
             }
             return entityType;
+        }
+
+        private IEnumerable<ODataMetaDataAssociation> ReadAssociations(XElement schemaElement)
+        {
+            IEnumerable<XElement> associationElements = schemaElement.GetElementsIgnoreNamespace("Association");
+            foreach (XElement associationElement in associationElements)
+            {
+                ODataMetaDataAssociation association = new ODataMetaDataAssociation();
+                association.Name = associationElement.GetStringAttribute(nameof(ODataMetaDataAssociation.Name));
+                foreach (XElement endElement in associationElement.GetElementsIgnoreNamespace("End"))
+                {
+                    ODataMetaDataAssociationEnd end = new ODataMetaDataAssociationEnd();
+                    end.Type = endElement.GetStringAttribute(nameof(ODataMetaDataAssociationEnd.Type));
+                    end.Role = endElement.GetStringAttribute(nameof(ODataMetaDataAssociationEnd.Role));
+                    end.Multiplicity = endElement.GetStringAttribute(nameof(ODataMetaDataAssociationEnd.Multiplicity));
+                    association.Ends.Add(end);
+                }
+                yield return association;
+            }
         }
 
         private ODataMetaDataDataContext ReadDataContex(XElement dataContextElement, string nameSpace, Dictionary<string, ODataMetaDataEntityType> entityTypeMapping, List<ODataMetaDataAction> actions)

@@ -42,6 +42,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -53,6 +54,7 @@
     <Compile Include="..\..\Assemblies\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Authentication\CookieReader.cs" />
     <Compile Include="Configuration\ConfigurationsReader.cs" />
     <Compile Include="Configuration\ConfigurationReaderBase.cs" />
     <Compile Include="Configuration\InvalidConfigurationException.cs" />

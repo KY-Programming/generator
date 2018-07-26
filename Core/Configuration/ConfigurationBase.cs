@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Net;
 using KY.Generator.Languages;
 using KY.Generator.Mappings;
 
@@ -9,6 +10,7 @@ namespace KY.Generator.Configuration
         public bool VerifySsl { get; set; } = true;
         public ILanguage Language { get; set; }
         public bool AddHeader { get; set; } = true;
+        public List<Cookie> Cookies { get; }
         
         public List<ClassMapping> ClassMapping { get; }
         public List<FieldMapping> FieldMapping { get; }
@@ -19,6 +21,7 @@ namespace KY.Generator.Configuration
             this.ClassMapping = new List<ClassMapping>();
             this.FieldMapping = new List<FieldMapping>();
             this.PropertyMapping = new List<PropertyMapping>();
+            this.Cookies = new List<Cookie>();
         }
     }
 }

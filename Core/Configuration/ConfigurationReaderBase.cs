@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 using KY.Core.Dependency;
+using KY.Generator.Authentication;
 using KY.Generator.Languages;
 using KY.Generator.Mappings;
 
@@ -14,6 +15,7 @@ namespace KY.Generator.Configuration
         private readonly ClassMappingReader classMappingReader;
         private readonly FieldMappingReader fieldMappingReader;
         private readonly PropertyMappingReader propertyMappingReader;
+        private readonly CookieReader cookieReader;
 
         protected ConfigurationReaderBase(IDependencyResolver resolver)
         {
@@ -21,6 +23,7 @@ namespace KY.Generator.Configuration
             this.classMappingReader = resolver.Create<ClassMappingReader>();
             this.fieldMappingReader = resolver.Create<FieldMappingReader>();
             this.propertyMappingReader = resolver.Create<PropertyMappingReader>();
+            this.cookieReader = resolver.Create<CookieReader>();
         }
 
         protected void ReadBase(XElement configurationElement, ConfigurationBase configuration)
@@ -43,6 +46,7 @@ namespace KY.Generator.Configuration
             configuration.ClassMapping.AddRange(this.classMappingReader.Read(configurationElement));
             configuration.FieldMapping.AddRange(this.fieldMappingReader.Read(configurationElement));
             configuration.PropertyMapping.AddRange(this.propertyMappingReader.Read(configurationElement));
+            configuration.Cookies.AddRange(this.cookieReader.Read(configurationElement));
         }
     }
 }

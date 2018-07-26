@@ -16,7 +16,7 @@
     <tags>KY Generator oData</tags>
     <dependencies>
       <dependency id="KY.Core.Common" version="3.5.1480" />
-      <dependency id="KY.Generator.Core" version="0.7.1480" />
+      <dependency id="KY.Generator.Core" version="0.7.1495" />
       <dependency id="KY.Generator.TypeScript" version="0.7.1480" />
     </dependencies>
   </metadata>

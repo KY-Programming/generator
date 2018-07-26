@@ -63,6 +63,8 @@
     <Compile Include="MetaData\ODataMetaData.cs" />
     <Compile Include="MetaData\ODataMetaDataAction.cs" />
     <Compile Include="MetaData\ODataMetaDataActionParameter.cs" />
+    <Compile Include="MetaData\ODataMetaDataAssociation.cs" />
+    <Compile Include="MetaData\ODataMetaDataAssociationEnd.cs" />
     <Compile Include="MetaData\ODataMetaDataDataContext.cs" />
     <Compile Include="MetaData\ODataMetaDataEntitySet.cs" />
     <Compile Include="MetaData\ODataMetaDataEntityType.cs" />
