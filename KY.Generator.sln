@@ -3,7 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KY.Generator.Console", "Console\KY.Generator.Console.csproj", "{29748168-4987-4914-9473-2A24C19BEF7B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KY.Generator.Core", "Core\KY.Generator.Core.csproj", "{30EC42AA-5C39-489A-B850-2C0AC64AEF4F}"
 EndProject
@@ -21,7 +20,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KY.Generator.Reflection", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KY.Generator.Json", "Json\KY.Generator.Json.csproj", "{7F14808D-CEDC-4A7D-BC53-DA21EEDCDE1E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KY.Generator.Standalone", "Standalone\KY.Generator.Standalone.csproj", "{5E5D3B21-903B-4108-B3AF-3967C5D33219}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KY.Generator.Xml", "Xml\KY.Generator.Xml.csproj", "{4920D8B5-E69E-45F5-ADA5-E76E5DF43AA4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KY.Generator.CLI", "CLI\KY.Generator.CLI.csproj", "{29748168-4987-4914-9473-2A24C19BEF7B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KY.Generator.CLI.Standalone", "CLI.Standalone\KY.Generator.CLI.Standalone.csproj", "{5E5D3B21-903B-4108-B3AF-3967C5D33219}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KY.Generator.Angular", "Angular\KY.Generator.Angular.csproj", "{939AD578-2149-46E1-97D3-B83AEB15F3C4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -65,10 +70,18 @@ Global
 		{7F14808D-CEDC-4A7D-BC53-DA21EEDCDE1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7F14808D-CEDC-4A7D-BC53-DA21EEDCDE1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7F14808D-CEDC-4A7D-BC53-DA21EEDCDE1E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4920D8B5-E69E-45F5-ADA5-E76E5DF43AA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4920D8B5-E69E-45F5-ADA5-E76E5DF43AA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4920D8B5-E69E-45F5-ADA5-E76E5DF43AA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4920D8B5-E69E-45F5-ADA5-E76E5DF43AA4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5E5D3B21-903B-4108-B3AF-3967C5D33219}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5E5D3B21-903B-4108-B3AF-3967C5D33219}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E5D3B21-903B-4108-B3AF-3967C5D33219}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5E5D3B21-903B-4108-B3AF-3967C5D33219}.Release|Any CPU.Build.0 = Release|Any CPU
+		{939AD578-2149-46E1-97D3-B83AEB15F3C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{939AD578-2149-46E1-97D3-B83AEB15F3C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{939AD578-2149-46E1-97D3-B83AEB15F3C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{939AD578-2149-46E1-97D3-B83AEB15F3C4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

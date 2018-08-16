@@ -43,6 +43,11 @@ namespace KY.Generator.Configuration
             {
                 configuration.Language = this.languages.FirstOrDefault(x => x.Name.Equals(languageElement.Value, StringComparison.InvariantCultureIgnoreCase));
             }
+            XElement frameworElement = configurationElement.Element("Framework");
+            if (frameworElement != null)
+            {
+                configuration.Framework = frameworElement.Value;
+            }
             configuration.ClassMapping.AddRange(this.classMappingReader.Read(configurationElement));
             configuration.FieldMapping.AddRange(this.fieldMappingReader.Read(configurationElement));
             configuration.PropertyMapping.AddRange(this.propertyMappingReader.Read(configurationElement));

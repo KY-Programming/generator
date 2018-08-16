@@ -8,6 +8,7 @@ using KY.Core;
 using KY.Core.DataAccess;
 using KY.Core.Dependency;
 using KY.Core.Module;
+using KY.Generator.Command;
 using KY.Generator.Configuration;
 using KY.Generator.Mappings;
 using KY.Generator.Module;
@@ -54,30 +55,79 @@ namespace KY.Generator
 
         public Generator SetOutput(IOutput newOutput)
         {
-            this.output = newOutput;
-            Logger.Trace("Output: " + this.output);
-            return this;
+            try
+            {
+                this.output = newOutput;
+                Logger.Trace("Output: " + this.output);
+                return this;
+            }
+            catch (Exception exception)
+            {
+                Logger.Error(exception);
+                throw;
+            }
         }
 
         public Generator SetOutput(string path)
         {
-            return this.SetOutput(new FileOutput(path));
+            try
+            {
+                return this.SetOutput(new FileOutput(path));
+            }
+            catch (Exception exception)
+            {
+                Logger.Error(exception);
+                throw;
+            }
+        }
+
+        public Generator RegisterCommand<T>() where T : ICommandGenerator
+        {
+            this.resolver.Bind<ICommandGenerator>().To<T>();
+            return this;
+        }
+
+        public Generator RegisterCommand(ICommandGenerator generator)
+        {
+            this.resolver.Bind<ICommandGenerator>().To(generator);
+            return this;
         }
 
         public IGeneratorRunSyntax ReadConfiguration(string path)
         {
-            if (string.IsNullOrEmpty(path))
+            try
             {
-                Logger.Error("Invalid parameters: Provide at least path to config file)");
-                return this;
+                if (string.IsNullOrEmpty(path))
+                {
+                    Logger.Error("Invalid parameters: Provide at least path to config file)");
+                    return this;
+                }
+                Logger.Trace("Settings: " + path);
+                return this.ConvertConfigurationToXmlAndParse(FileSystem.ReadAllText(path));
             }
-            Logger.Trace("Settings: " + path);
-            return this.ParseConfiguration(FileSystem.ReadXml(path));
+            catch (Exception exception)
+            {
+                Logger.Error(exception);
+                throw;
+            }
         }
 
         public IGeneratorRunSyntax ParseConfiguration(string configuration)
         {
-            Logger.Trace("Settings: " + "Memory");
+            try
+            {
+                Logger.Trace("Settings: " + "Memory");
+                return this.ConvertConfigurationToXmlAndParse(configuration);
+            }
+            catch (Exception exception)
+            {
+                Logger.Error(exception);
+                throw;
+            }
+        }
+
+        private IGeneratorRunSyntax ConvertConfigurationToXmlAndParse(string configuration)
+        {
             if (configuration.TrimStart().StartsWith("<"))
             {
                 return this.ParseConfiguration(XElement.Parse(configuration));
@@ -88,10 +138,36 @@ namespace KY.Generator
 
         public IGeneratorRunSyntax ParseConfiguration(XElement element)
         {
-            this.Modules.OfType<GeneratorModule>().ForEach(x => x.BeforeConfigure());
-            ConfigurationsReader configurationsReader = this.resolver.Create<ConfigurationsReader>();
-            this.configrations = configurationsReader.Read(element).ToList();
+            try
+            {
+                this.Modules.OfType<GeneratorModule>().ForEach(x => x.BeforeConfigure());
+                ConfigurationsReader configurationsReader = this.resolver.Create<ConfigurationsReader>();
+                this.configrations = configurationsReader.Read(element).ToList();
+            }
+            catch (Exception exception)
+            {
+                Logger.Error(exception);
+                throw;
+            }
             return this;
+        }
+
+        public IGeneratorRunSyntax ParseCommand(string command)
+        {
+            CommandReader reader = this.resolver.Create<CommandReader>();
+            this.configrations = reader.Read(command);
+            this.resolver.Bind<IGenerator>().To<CommandGenerator>();
+            return this;
+        }
+
+        public IGeneratorRunSyntax SetParameters(params string[] parameters)
+        {
+            if (FileSystem.FileExists(parameters.First()))
+            {
+                return this.SetOutput(parameters.Skip(1).FirstOrDefault())
+                           .ReadConfiguration(parameters.First());
+            }
+            return this.ParseCommand(string.Join(" ", parameters));
         }
 
         public bool Run()
@@ -113,7 +189,7 @@ namespace KY.Generator
                 bool success = true;
                 foreach (ConfigurationBase configuration in this.configrations)
                 {
-                    if (configuration.Language == null)
+                    if (configuration.Language == null && configuration.RequireLanguage)
                     {
                         Logger.Trace("Configuration without language found. Generation failed!");
                         success = false;

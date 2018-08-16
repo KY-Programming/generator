@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("KY.Generator")]
+[assembly: AssemblyTitle("KY.Generator.CLI.Standalone")]
 [assembly: AssemblyDescription("KY.Generator Standalone executable containing all features without dependencies")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyProduct("KY.Generator")]
@@ -30,5 +30,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.7.1488")]
+[assembly: AssemblyVersion("0.7.1510")]
 [assembly: AssemblyFileVersion("0.7.0.0")]

@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Text;
 using System.Web;
 using System.Xml.Linq;
+using KY.Core;
 using KY.Core.Xml;
 
 namespace KY.Generator.Authentication
@@ -21,6 +23,7 @@ namespace KY.Generator.Authentication
                     if (cookieElement.Name == "Read")
                     {
                         string from = cookieElement.GetStringAttribute("From");
+                        Logger.Trace($"Read cookies from {from}");
                         HttpWebRequest request = WebRequest.CreateHttp(from);
                         request.Method = cookieElement.TryGetStringAttribute("Method", "POST");
                         request.ContentType = cookieElement.TryGetStringAttribute("ContentType", "application/x-www-form-urlencoded");
@@ -53,6 +56,7 @@ namespace KY.Generator.Authentication
                         request.CookieContainer = new CookieContainer();
                         using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
                         {
+                            Logger.Trace($"{response.Cookies.Count} cookies found");
                             foreach (Cookie cookie in response.Cookies)
                             {
                                 yield return cookie;

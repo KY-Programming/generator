@@ -15,7 +15,7 @@
     <copyright>Copyright 2018</copyright>
     <tags>KY Generator</tags>
     <dependencies>
-      <dependency id="KY.Core.Common" version="3.5.1480" />
+      <dependency id="KY.Core.Common" version="3.5.1510" />
       <dependency id="KY.Core.Meta" version="3.5.1480" />
     </dependencies>
   </metadata>

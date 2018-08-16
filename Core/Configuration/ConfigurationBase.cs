@@ -7,10 +7,12 @@ namespace KY.Generator.Configuration
 {
     public abstract class ConfigurationBase
     {
+        public string Framework { get; set; }
         public bool VerifySsl { get; set; } = true;
         public ILanguage Language { get; set; }
         public bool AddHeader { get; set; } = true;
         public List<Cookie> Cookies { get; }
+        public virtual bool RequireLanguage => true;
         
         public List<ClassMapping> ClassMapping { get; }
         public List<FieldMapping> FieldMapping { get; }

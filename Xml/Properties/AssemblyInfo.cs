@@ -1,14 +1,14 @@
-using System.Reflection;
+﻿using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("KY.Generator")]
-[assembly: AssemblyDescription("KY.Generator executable containing all features")]
+[assembly: AssemblyTitle("KY.Generator.Xml")]
+[assembly: AssemblyDescription("Xml plugin for KY.Generator")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyProduct("KY.Generator")]
+[assembly: AssemblyProduct("KY.Generator.Xml")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -18,7 +18,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("29748168-4987-4914-9473-2a24c19bef7b")]
+[assembly: Guid("4920d8b5-e69e-45f5-ada5-e76e5df43aa4")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -30,5 +30,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.7.1481")]
+[assembly: AssemblyVersion("0.7.1477")]
 [assembly: AssemblyFileVersion("0.7.0.0")]

@@ -13,6 +13,12 @@
     <description>$description$</description>
     <releaseNotes></releaseNotes>
     <copyright>Copyright 2018</copyright>
-    <tags>KY Generator</tags>
+    <tags>KY Generator Xml</tags>
+    <dependencies>
+      <dependency id="KY.Core.Common" version="3.5.0.1468" />
+      <dependency id="KY.Generator.Core" version="0.7.0.1468" />
+      <dependency id="KY.Generator.Csharp" version="0.7.0.1468" />
+      <dependency id="KY.Generator.TypeScript" version="0.7.0.1468" />
+    </dependencies>
   </metadata>
 </package>

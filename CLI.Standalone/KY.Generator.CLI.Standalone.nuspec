@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>$id$.Standalone</id>
+    <id>$id$.CLI.Standalone</id>
     <version>$version$</version>
     <title>$title$</title>
     <authors>$author$</authors>
@@ -13,6 +13,6 @@
     <description>$description$</description>
     <releaseNotes></releaseNotes>
     <copyright>Copyright 2018</copyright>
-    <tags>KY Generator Standalone</tags>
+    <tags>KY Generator CLI Standalone</tags>
   </metadata>
 </package>

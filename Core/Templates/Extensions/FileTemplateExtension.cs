@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace KY.Generator.Templates.Extensions
 {
     public static class FileTemplateExtension
@@ -13,6 +15,11 @@ namespace KY.Generator.Templates.Extensions
             NamespaceTemplate namespaceTemplate = new NamespaceTemplate(file, nameSpace);
             file.Namespaces.Add(namespaceTemplate);
             return namespaceTemplate;
+        }
+
+        public static void AddTo(this FileTemplate file, IList<FileTemplate> list)
+        {
+            list.Add(file);
         }
     }
 }

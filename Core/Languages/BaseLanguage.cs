@@ -199,7 +199,11 @@ namespace KY.Generator.Languages
             else
             {
                 string fileName = FileSystem.Combine(fileTemplate.RelativePath, fileTemplate.Name);
+                this.Write(elements, fileTemplate.Header);
+                elements.AddBlankLine();
                 FileWriter fileWriter = new FileWriter(output, fileName);
+                MetaGenerator metaGenerator = new MetaGenerator(fileWriter, this.Formatting);
+                metaGenerator.Write(elements);
                 fileWriter.Append(staticFile.Content);
                 fileWriter.WriteFile();
             }

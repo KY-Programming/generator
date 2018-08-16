@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using KY.Core;
+using KY.Generator.Angular;
 using KY.Generator.AspDotNet;
 using KY.Generator.Csharp;
 using KY.Generator.OData;
@@ -25,11 +26,11 @@ namespace KY.Generator
                                     .PreloadModule<TsqlModule>()
                                     .PreloadModule<ODataModule>()
                                     .PreloadModule<ReflectionModule>()
-                                    .SetOutput(args.Skip(1).FirstOrDefault())
+                                    .PreloadModule<AngularModule>()
                                     //.OData(x => x.SetGenerator<ODataGenerator>())
                                     //.Tsql(x => x.SetGenerator(new TsqlGenerator())
                                     //            .SetConfigurationReader<TsqlConfigurationExtendedReader>())
-                                    .ReadConfiguration(args.FirstOrDefault())
+                                    .SetParameters(args)
                                     .Run();
             if (!success)
             {

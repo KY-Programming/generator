@@ -1,0 +1,17 @@
+{
+    "Generator": {
+        "Connection": "$url$/Generator",
+        "VerifySsl": false
+    },
+    "Language": "TypeScript",
+    "OData": {
+        "Connection": "$url$/odata/$metadata",
+        "SkipNamespace": true,
+        "DataContext": {
+            "RelativePath": "src\\models"
+        },
+        "Models": {
+            "RelativePath": "src\\models"
+        }
+    }
+}
