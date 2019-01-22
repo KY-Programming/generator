@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28407.52
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KY.Generator.Examples.Reflection.Console", "KY.Generator.Examples.Reflection.Console\KY.Generator.Examples.Reflection.Console.csproj", "{DEE5C524-CB80-4CB2-85F5-F295E4A3CFF8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KY.Generator.Examples.Reflection", "KY.Generator.Examples.Reflection\KY.Generator.Examples.Reflection.csproj", "{F852804B-5936-4EBA-B898-914600E23A0D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DEE5C524-CB80-4CB2-85F5-F295E4A3CFF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DEE5C524-CB80-4CB2-85F5-F295E4A3CFF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DEE5C524-CB80-4CB2-85F5-F295E4A3CFF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DEE5C524-CB80-4CB2-85F5-F295E4A3CFF8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F852804B-5936-4EBA-B898-914600E23A0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F852804B-5936-4EBA-B898-914600E23A0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F852804B-5936-4EBA-B898-914600E23A0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F852804B-5936-4EBA-B898-914600E23A0D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {748BF71B-F0FB-4E40-9424-8F7511D77D30}
+	EndGlobalSection
+EndGlobal
