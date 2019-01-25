@@ -40,7 +40,7 @@ Run a command [(go to Wiki)](https://github.com/KY-Programming/generator/wiki/Co
 KY.Generator.exe reflection -assembly=KY.Generator.Examples.Reflection.dll -name=ExampleType -namespace=KY.Generator.Examples.Reflection -relativePath=Output -language=TypeScript
 ```
 
-# KY.Generator.Reflection
+# Reflection
 Generate TypeScript classes from any .net type including all dependencies.  
 Optionally convert all properties to public fields or vice versa.
 
