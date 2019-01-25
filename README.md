@@ -2,7 +2,7 @@
 We are not yet done, see the [dev-branch](https://github.com/KY-Programming/generator/tree/dev)
 
 ## Setup for Visual Studio
-Install nuget package KY.Generator.CLI  
+Install nuget package *KY.Generator.CLI*  
 All dependencies are automatically installed. We support .net Framework 4.6 or .net Core 2.0  
 For lower framework version please [create an issue](https://github.com/KY-Programming/generator/issues/new) and we will try to support your version
 
@@ -17,11 +17,12 @@ and add an Pre-build event
 ```
 "$(SolutionDir)packages\ky.generator.cli\0.8.0\tools\KY.Generator.exe" "$(ProjectDir)generator.json" "$(ProjectDir)ClientApp\src\app"
 ```
-
-pathToKY.Generator.exe pathToConfigurationFile outputPath
+```
+"<path-to-KY.Generator.exe>" "<path-to-configuration-file>" "<output-path>"
+```
 
 ## Setup for Console/Powershell
-Install nuget package KY.Generator.CLI.Standalone
+Install nuget package *KY.Generator.CLI.Standalone*
 
 ### Run with configuration file
 Use an .json or .xml configuration file [(see here)](https://github.com/KY-Programming/generator/wiki/Configuration)  
@@ -29,7 +30,9 @@ and run in cmd:
 ```
 KY.Generator configuration.json Output
 ```
-KY.Generator pathToConfigurationFile outputPath
+```
+KY.Generator <path-to-configuration-file> <output-path>
+```
 
 ### Run a command
 Run a command [(see here)](https://github.com/KY-Programming/generator/wiki/Commands)
