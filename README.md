@@ -1,4 +1,4 @@
-# KY.Generator
+# KY.Generator ![](https://img.shields.io/nuget/v/KY.Generator.CLI.svg?style=flat)
 We are not yet done, see the [dev-branch](https://github.com/KY-Programming/generator/tree/dev)
 
 ## Setup for Visual Studio
@@ -40,7 +40,7 @@ Run a command [(go to Wiki)](https://github.com/KY-Programming/generator/wiki/Co
 KY.Generator.exe reflection -assembly=KY.Generator.Examples.Reflection.dll -name=ExampleType -namespace=KY.Generator.Examples.Reflection -relativePath=Output -language=TypeScript
 ```
 
-# Reflection
+# Reflection ![](https://img.shields.io/nuget/v/KY.Generator.Reflection.svg?style=flat)
 Generate TypeScript classes from any .net type including all dependencies.  
 Optionally convert all properties to public fields or vice versa.
 
