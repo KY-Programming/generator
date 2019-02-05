@@ -1,0 +1,11 @@
+{
+  "Language":  "Csharp",
+  "Json": {
+    "ToObject": {
+      "Source":  "simple.json",
+      "Namespace":  "KY.Generator.Examples.Json.Reader",
+      "Name":  "SimpleWithoutReader" ,
+      "FormatNames":  true 
+    }
+  } 
+}
