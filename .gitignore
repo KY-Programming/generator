@@ -286,3 +286,4 @@ __pycache__/
 *.btm.cs
 *.odx.cs
 *.xsd.cs
+/Examples/KY.Generator.Examples.Reflection/KY.Generator.Examples.Reflection.Console/Output/*.ts
