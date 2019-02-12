@@ -68,6 +68,6 @@
     </PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>"$(SolutionDir)packages\KY.Generator.CLI.Standalone.0.8.1\tools\KY.Generator.exe" reflection -assembly="$(TargetDir)KY.Generator.Examples.Reflection.dll" -namespace=KY.Generator.Examples.Reflection -name=ExampleType -relativePath=..\..\..\KY.Generator.Examples.Reflection.Console\Output -language=TypeScript -propertiesToFields -formatNames</PostBuildEvent>
+    <PostBuildEvent>"$(SolutionDir)packages\KY.Generator.CLI.Standalone.0.9.0\tools\KY.Generator.exe" reflection -assembly="$(TargetDir)KY.Generator.Examples.Reflection.dll" -namespace=KY.Generator.Examples.Reflection -name=ExampleType -relativePath=..\..\..\KY.Generator.Examples.Reflection.Console\Output -language=TypeScript -propertiesToFields -formatNames</PostBuildEvent>
   </PropertyGroup>
 </Project>
