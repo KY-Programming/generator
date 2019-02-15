@@ -53,7 +53,6 @@ Create a class from a json file or request.
 Optionally append a reader method or class.
 
 How to configure [(go to Wiki)](https://github.com/KY-Programming/generator/wiki/Configuration#json)  
-<!-- Commands are available [(go to Wiki)](https://github.com/KY-Programming/generator/wiki/Commands#json)  -->
 Examples are found under [/Examples/Json](https://github.com/KY-Programming/generator/tree/master/Examples/Json)  
 
 
