@@ -46,4 +46,19 @@ Optionally convert all properties to public fields or vice versa.
 
 How to configure [(go to Wiki)](https://github.com/KY-Programming/generator/wiki/Configuration#reflection)  
 Commands are available [(go to Wiki)](https://github.com/KY-Programming/generator/wiki/Commands#reflection)  
-Examples are found under [/Examples/KY.Generator.Examples.Reflection](https://github.com/KY-Programming/generator/tree/master/Examples/KY.Generator.Examples.Reflection)  
+Examples are found under [/Examples/Reflection](https://github.com/KY-Programming/generator/tree/master/Examples/Reflection)  
+
+# Json ![](https://img.shields.io/nuget/v/KY.Generator.Json.svg?style=flat)
+Create a class from a json file or request.  
+Optionally append a reader method or class.
+
+How to configure [(go to Wiki)](https://github.com/KY-Programming/generator/wiki/Configuration#json)  
+<!-- Commands are available [(go to Wiki)](https://github.com/KY-Programming/generator/wiki/Commands#json)  -->
+Examples are found under [/Examples/Json](https://github.com/KY-Programming/generator/tree/master/Examples/Json)  
+
+
+# Watchdog ![](https://img.shields.io/nuget/v/KY.Generator.Watchdog.svg?style=flat)
+Suspend generation until a website is available or a file or directory exists
+
+Command is available [(go to Wiki)](https://github.com/KY-Programming/generator/wiki/Commands#watchdog)
+<!-- Examples are found under [/Examples/Json](https://github.com/KY-Programming/generator/tree/master/Examples/Json)  -->
