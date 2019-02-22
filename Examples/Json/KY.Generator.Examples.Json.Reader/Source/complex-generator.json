@@ -1,0 +1,16 @@
+{
+  "Language": "Csharp",
+  "Json": {
+    "ToObject": {
+      "Source": "complex.json",
+      "Namespace": "KY.Generator.Examples.Json.Reader",
+      "Name": "Complex",
+      "FormatNames": true
+    },
+    "Map": {
+      "Type": "type",
+      "From": "ObjectProperty",
+      "To": "SubType"
+    }
+  }
+}

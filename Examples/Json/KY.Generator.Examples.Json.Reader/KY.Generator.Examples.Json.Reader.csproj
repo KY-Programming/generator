@@ -46,6 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Output\Complex.cs" />
+    <Compile Include="Output\ObjectArrayProperty.cs" />
+    <Compile Include="Output\ObjectProperty.cs" />
     <Compile Include="Output\Simple.cs" />
     <Compile Include="Output\SimpleReader.cs" />
     <Compile Include="Output\SimpleWithoutReader.cs" />
@@ -56,6 +59,8 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <None Include="Source\complex.json" />
+    <None Include="Source\complex-generator.json" />
     <None Include="Source\simple-generator.json" />
     <None Include="Source\simple-with-reader-generator.json" />
     <None Include="Source\simple.json">
@@ -66,8 +71,9 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>"$(SolutionDir)packages\KY.Generator.CLI.Standalone.0.9.0\tools\KY.Generator.exe" "$(ProjectDir)Source\simple-generator.json" "$(ProjectDir)Output"
-"$(SolutionDir)packages\KY.Generator.CLI.Standalone.0.9.0\tools\KY.Generator.exe" "$(ProjectDir)Source\simple-with-reader-generator.json" "$(ProjectDir)Output"
-"$(SolutionDir)packages\KY.Generator.CLI.Standalone.0.9.0\tools\KY.Generator.exe" "$(ProjectDir)Source\simple-with-extern-reader-generator.json" "$(ProjectDir)Output"</PreBuildEvent>
+    <PreBuildEvent>"$(SolutionDir)packages\KY.Generator.CLI.Standalone.0.9.4\tools\KY.Generator.exe" "$(ProjectDir)Source\simple-generator.json" "$(ProjectDir)Output"
+"$(SolutionDir)packages\KY.Generator.CLI.Standalone.0.9.4\tools\KY.Generator.exe" "$(ProjectDir)Source\simple-with-reader-generator.json" "$(ProjectDir)Output"
+"$(SolutionDir)packages\KY.Generator.CLI.Standalone.0.9.4\tools\KY.Generator.exe" "$(ProjectDir)Source\simple-with-extern-reader-generator.json" "$(ProjectDir)Output"
+"$(SolutionDir)packages\KY.Generator.CLI.Standalone.0.9.4\tools\KY.Generator.exe" "$(ProjectDir)Source\complex-generator.json" "$(ProjectDir)Output"</PreBuildEvent>
   </PropertyGroup>
 </Project>
