@@ -10,6 +10,7 @@
             
             // The magic happens in Post-build event
             // The logs are in the package folder .\packages\KY.Generator.CLI.x.x.x\tools\Logs
+            // The generated files are in output folder
         }
     }
 }
