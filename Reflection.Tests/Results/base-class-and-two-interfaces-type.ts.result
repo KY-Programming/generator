@@ -1,0 +1,10 @@
+// tslint:disable
+
+import { OneInterfaceType } from "./one-interface-type";
+import { ISecond } from "./second.interface";
+import { IThird } from "./third.interface";
+
+export class BaseClassAndTwoInterfacesType extends OneInterfaceType implements ISecond, IThird {
+    public secondProperty: string;
+    public thirdProperty: string;
+}

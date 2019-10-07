@@ -1,0 +1,15 @@
+{
+  "$schema": "file:///C:/Projekte/C#/Generator/Core/Configuration/configuration.schema.json",
+  "version": 2,
+  "generate": [
+    {
+      "read": "reflection",
+      "assembly": "KY.Generator.Test.dll",
+      "namespace": "KY.Generator.Test",
+      "name":  "TestClass" 
+    },
+    {
+      "write": "reflection"
+    }
+  ]
+}

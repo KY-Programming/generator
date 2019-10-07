@@ -1,0 +1,9 @@
+// tslint:disable
+
+import { IFirst } from "./first.interface";
+import { ISecond } from "./second.interface";
+
+export class TwoInterfacesType implements IFirst, ISecond {
+    public firstProperty: string;
+    public secondProperty: string;
+}
