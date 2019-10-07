@@ -290,3 +290,7 @@ __pycache__/
 /Examples/Json/KY.Generator.Examples.Json.Reader/Output/*.cs
 /Examples/Reflection/KY.Generator.Examples.Reflection.Attributes/Output
 /Examples/Reflection/KY.Generator.Examples.Reflection.Attributes/TypeScript-Output
+/InternalOverride
+/InternalConsole
+/InternalConsole.Core
+/Nuget

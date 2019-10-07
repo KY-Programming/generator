@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <Version>2.0.0-rc.0</Version>
+    <Authors>KY-Programming</Authors>
+    <Product>KY.Generator</Product>
+    <Description>.net Core CLI for KY-Generator.
+This executable contains all features</Description>
+    <Copyright>2019 - KY-Programming</Copyright>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/KY-Programming/generator</PackageProjectUrl>
+    <PackageIconUrl>https://ky-programming.de/images/logos/128.png</PackageIconUrl>
+    <RepositoryUrl>https://github.com/KY-Programming/generator</RepositoryUrl>
+    <PackageTags>KY-Generator KY Generator KY.Generator .netCore CLI</PackageTags>
+  </PropertyGroup>
+
+</Project>

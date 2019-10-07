@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>KY.Generator.CLI</id>
+    <version>2.0.0-rc.0</version>
+    <title>KY.Generator.CLI</title>
+    <authors>KY-Programming</authors>
+    <owners>KY-Programming</owners>
+    <licenseUrl>https://github.com/KY-Programming/generator/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/KY-Programming/generator</projectUrl>
+    <iconUrl>https://ky-programming.de/images/logos/128.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>KY.Generator executable containing all features</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright 2019</copyright>
+    <tags>KY Generator CLI</tags>
+    <dependencies>
+      <dependency id="KY.Generator.Angular" version="2.0.0" />
+      <dependency id="KY.Generator.AspDotNet" version="2.0.0" />
+      <dependency id="KY.Generator.Core" version="2.0.0" />
+      <dependency id="KY.Generator.Csharp" version="2.0.0" />
+      <dependency id="KY.Generator.Json" version="2.0.0" />
+      <dependency id="KY.Generator.OData" version="0.13.0" />
+      <dependency id="KY.Generator.Reflection" version="2.0.0" />
+      <dependency id="KY.Generator.Tsql" version="0.13.0" />
+      <dependency id="KY.Generator.TypeScript" version="2.0.0" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="bin\Release\*.exe" target="tools" />
+  </files>
+</package>

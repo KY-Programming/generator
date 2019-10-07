@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>KY.Generator.CLI.Standalone</id>
+    <version>1.2.0</version>
+    <title>KY.Generator.CLI</title>
+    <authors>KY-Programming</authors>
+    <owners>KY-Programming</owners>
+    <licenseUrl>https://github.com/KY-Programming/generator/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/KY-Programming/generator</projectUrl>
+    <iconUrl>https://ky-programming.de/images/logos/128.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>KY.Generator Standalone executable containing all features without dependencies</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright 2019</copyright>
+    <tags>KY Generator CLI Standalone</tags>
+  </metadata>
+  <files>
+    <file src="bin\Release\*.exe" target="tools" />
+  </files>
+</package>
