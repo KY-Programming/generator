@@ -1,0 +1,12 @@
+{
+  "stringArrayProperty": [ "One", "Two", "Three" ],
+  "numberArrayProperty": [ 1, 2, 3 ],
+  "objectArrayProperty": [
+    { "text": "One" },
+    { "text": "Two" }
+  ],
+  "mixedArrayProperty": [ 1, "Two", 3 ],
+  "objectProperty": {
+    "property": "works"
+  }
+}

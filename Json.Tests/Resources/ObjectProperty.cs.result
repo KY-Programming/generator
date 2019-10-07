@@ -1,0 +1,7 @@
+﻿namespace KY.Generator.Examples.Json
+{
+    public partial class ObjectProperty
+    {
+        public string Property { get; set; }
+    }
+}

@@ -1,0 +1,9 @@
+﻿namespace KY.Generator.Examples.Json
+{
+    public partial class Simple
+    {
+        public string StringProperty { get; set; }
+        public int NumberProperty { get; set; }
+        public bool BooleanProperty { get; set; }
+    }
+}

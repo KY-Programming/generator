@@ -1,0 +1,13 @@
+﻿using System.Collections.Generic;
+
+namespace KY.Generator.Examples.Json
+{
+    public partial class Complex
+    {
+        public List<string> StringArrayProperty { get; set; }
+        public List<int> NumberArrayProperty { get; set; }
+        public List<ObjectArrayProperty> ObjectArrayProperty { get; set; }
+        public List<object> MixedArrayProperty { get; set; }
+        public ObjectProperty ObjectProperty { get; set; }
+    }
+}

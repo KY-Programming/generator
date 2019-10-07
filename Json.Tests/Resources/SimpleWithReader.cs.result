@@ -1,0 +1,22 @@
+﻿using System.IO;
+using Newtonsoft.Json;
+
+namespace KY.Generator.Examples.Json
+{
+    public partial class SimpleWithReader
+    {
+        public string StringProperty { get; set; }
+        public int NumberProperty { get; set; }
+        public bool BooleanProperty { get; set; }
+
+        public static SimpleWithReader Load(string fileName)
+        {
+            return Parse(File.ReadAllText(fileName));
+        }
+
+        public static SimpleWithReader Parse(string json)
+        {
+            return JsonConvert.DeserializeObject<SimpleWithReader>(json);
+        }
+    }
+}

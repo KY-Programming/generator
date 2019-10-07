@@ -1,0 +1,66 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\Complex.cs.result" />
+    <None Remove="Resources\ObjectArrayProperty.cs.result" />
+    <None Remove="Resources\ObjectProperty.cs.result" />
+    <None Remove="Resources\Simple.cs.result" />
+    <None Remove="Resources\SimpleReader.cs.result" />
+    <None Remove="Resources\SimpleWithoutReader.cs.result" />
+    <None Remove="Resources\SimpleWithReader.cs.result" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Resources\Complex.cs.result" />
+    <Compile Include="Resources\ObjectArrayProperty.cs.result" />
+    <Compile Include="Resources\ObjectProperty.cs.result" />
+    <Compile Include="Resources\Simple.cs.result" />
+    <Compile Include="Resources\SimpleReader.cs.result" />
+    <Compile Include="Resources\SimpleWithoutReader.cs.result" />
+    <Compile Include="Resources\SimpleWithReader.cs.result" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="KY.Core.Common" Version="4.4.0-rc.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.0.0-preview-20181205-02" />
+    <PackageReference Include="MSTest.TestAdapter" Version="1.4.0" />
+    <PackageReference Include="MSTest.TestFramework" Version="1.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Core\KY.Generator.Core.csproj" />
+    <ProjectReference Include="..\CSharp\KY.Generator.Csharp.csproj" />
+    <ProjectReference Include="..\Json\KY.Generator.Json.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Resources\complex.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\simple.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

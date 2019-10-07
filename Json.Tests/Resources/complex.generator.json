@@ -1,0 +1,22 @@
+{
+  "$schema": "file:///C:/Projekte/C#/Generator/Core/Configuration/configuration.schema.json",
+  "version": 2,
+  "generate": [
+    {
+      "read": "json",
+      "source": "Resources/complex.json"
+    },
+    {
+      "write": "model",
+      "language": "csharp",
+      "name": "Complex",
+      "namespace": "KY.Generator.Examples.Json",
+      "formatNames": true,
+      "Map": {
+        "Type": "type",
+        "From": "ObjectProperty",
+        "To": "SubType"
+      }
+    }
+  ]
+}

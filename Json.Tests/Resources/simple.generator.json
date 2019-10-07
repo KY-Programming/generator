@@ -1,0 +1,19 @@
+{
+  "$schema": "file:///C:/Projekte/C#/Generator/Core/Configuration/configuration.schema.json",
+  "version": 2,
+  "generate": [
+    {
+      "read": "json",
+      "source": "Resources/simple.json"
+    },
+    {
+      "write": "json",
+      "language": "csharp",
+      "object": {
+        "name": "SimpleWithoutReader",
+        "namespace": "KY.Generator.Examples.Json",
+        "formatNames": true
+      }
+    }
+  ]
+}

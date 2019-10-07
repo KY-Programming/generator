@@ -1,0 +1,18 @@
+﻿using System.IO;
+using Newtonsoft.Json;
+
+namespace KY.Generator.Examples.Json
+{
+    public partial class SimpleReader
+    {
+        public static Simple Load(string fileName)
+        {
+            return Parse(File.ReadAllText(fileName));
+        }
+
+        public static Simple Parse(string json)
+        {
+            return JsonConvert.DeserializeObject<Simple>(json);
+        }
+    }
+}
