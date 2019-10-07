@@ -1,0 +1,21 @@
+{
+  "$schema": "file:///C:/Projekte/C#/Generator/Core/Configuration/configuration.schema.json",
+  "version": 2,
+  "generate": [
+    {
+      "read": "asp",
+      "controller": "TestController",
+      "namespace": "KY.Generator.Test.Controllers"
+    },
+    {
+      "write": "angular",
+      "service": {
+        "relativePath": "src/app/services",
+        "modelPath": "src/app/models",
+        "propertiesToFields": true,
+        "fieldsToProperties": false,
+        "formatNames": true
+      }
+    }
+  ]
+}
