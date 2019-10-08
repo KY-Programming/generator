@@ -67,9 +67,9 @@ namespace KY.Generator.Output
             return this.output.StartBlock();
         }
 
-        public IOutputCache EndBlock()
+        public IOutputCache EndBlock(bool breakLine = true)
         {
-            return this.output.EndBlock();
+            return this.output.EndBlock(breakLine);
         }
 
         public IOutputCache If(bool condition)

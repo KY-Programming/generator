@@ -19,6 +19,6 @@ namespace KY.Generator.Output
         IOutputCache Indent();
         IOutputCache UnIndent();
         IOutputCache StartBlock();
-        IOutputCache EndBlock();
+        IOutputCache EndBlock(bool breakLine = true);
     }
 }

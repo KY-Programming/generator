@@ -35,11 +35,14 @@ namespace KY.Generator.Transfer
     public class AspDotNetControllerActionParameter
     {
         public string Name { get; set; }
-        public string Type { get; set; }
+        public TypeTransferObject Type { get; set; }
     }
 
     public enum AspDotNetControllerActionType {
         Get,
-        Post
+        Post,
+        Put,
+        Patch,
+        Delete
     }
 }

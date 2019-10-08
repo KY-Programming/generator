@@ -32,6 +32,14 @@ namespace KY.Generator.Core.Tests
         }
 
         [TestMethod]
+        public void AppendStringWriter()
+        {
+            AppendStringWriter writer = new AppendStringWriter();
+            writer.Write(new AppendStringTemplate(Code.Local("test")), this.output);
+            Assert.AreEqual(" + test", this.output.ToString());
+        }
+
+        [TestMethod]
         public void AssignWriter()
         {
             AssignWriter writer = new AssignWriter();

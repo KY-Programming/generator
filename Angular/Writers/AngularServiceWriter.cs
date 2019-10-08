@@ -11,6 +11,7 @@ using KY.Generator.Templates;
 using KY.Generator.Templates.Extensions;
 using KY.Generator.Transfer;
 using KY.Generator.Transfer.Extensions;
+using KY.Generator.TypeScript;
 using KY.Generator.TypeScript.Extensions;
 using KY.Generator.TypeScript.Languages;
 using KY.Generator.TypeScript.Transfer;
@@ -60,27 +61,55 @@ namespace KY.Generator.Angular.Writers
                                                                  .FormatName(configuration.Language, configuration.FormatNames);
                     foreach (AspDotNetControllerActionParameter parameter in action.Parameters)
                     {
-                        methodTemplate.AddParameter(Code.Type(parameter.Type), parameter.Name);
+                        this.MapType(controller.Language, configuration.Language, parameter.Type);
+                        this.AddUsing(parameter.Type, classTemplate, configuration.Language, relativeModelPath);
+                        methodTemplate.AddParameter(parameter.Type.ToTemplate(), parameter.Name);
                     }
                     TypeTemplate subjectType = Code.Generic("Subject", returnType);
                     methodTemplate.WithCode(Code.Declare(subjectType, "subject", Code.New(subjectType)));
-                    string uri = controller.Route?.Replace("[controller]", controllerName.ToLower()).TrimEnd('/') + "/" + action.Route?.Replace("[action]", action.Name.ToLower());
+                    string uri = "/" + controller.Route?.Replace("[controller]", controllerName.ToLower()).TrimEnd('/') + "/" + action.Route?.Replace("[action]", action.Name.ToLower());
                     if (action.Type == AspDotNetControllerActionType.Get)
                     {
-                        MultilineCodeFragment code = Code.Multiline()
-                                                         .AddLine(Code.Declare(returnType, "model", Code.New(returnType, Code.Local("result"))))
-                                                         .AddLine(Code.Local("subject").Method("next").WithParameter(Code.Local("model")).Close())
-                                                         .AddLine(Code.Local("subject").Method("complete").Close());
-                        methodTemplate.WithCode(Code.This().Field(httpField).Method("get", Code.String(uri)).Method("subscribe", Code.Lambda("result", code)));
+                        uri = action.Parameters.Count > 0 ? $"{uri}?{action.Parameters[0].Name}=" : uri;
+                        MultilineCodeFragment code = Code.Multiline();
+                        bool isArray = returnType.Name == "Array";
+                        if (isArray)
+                        {
+                            code.AddLine(Code.TypeScript("const list: Resource[] = []").Close())
+                                .AddLine(Code.TypeScript("for (const entry of <[]>result)").StartBlock())
+                                .AddLine(Code.TypeScript("list.push(new Resource(entry))").Close())
+                                .AddLine(Code.TypeScript("").EndBlock());
+                        }
+                        else
+                        {
+                            code.AddLine(Code.Declare(returnType, "model", Code.New(returnType, Code.Local("result"))));
+                        }
+                        code.AddLine(Code.Local("subject").Method("next").WithParameter(Code.Local("model")).Close())
+                            .AddLine(Code.Local("subject").Method("complete").Close());
+                        ChainedCodeFragment parameterUrl = Code.This().Field(serviceUrlField).Append(Code.String(uri));
+                        bool isFirst = true;
+                        foreach (AspDotNetControllerActionParameter parameter in action.Parameters)
+                        {
+                            if (isFirst)
+                            {
+                                isFirst = false;
+                                parameterUrl = parameterUrl.Append(Code.Local(parameter.Name));
+                            }
+                            else
+                            {
+                                parameterUrl = parameterUrl.Append(Code.String($"&{parameter.Name}=")).Append(Code.Local(parameter.Name));
+                            }
+                        }
+                        methodTemplate.WithCode(Code.This().Field(httpField).Method("get", parameterUrl).Method("subscribe", Code.Lambda("result", code)).Close());
                     }
-                    else if (action.Type == AspDotNetControllerActionType.Post)
+                    else// if (action.Type == AspDotNetControllerActionType.Post)
                     {
                         AspDotNetControllerActionParameter bodyParameter = action.Parameters.Single();
                         MultilineCodeFragment code = Code.Multiline()
                                                          //.AddLine(Code.Declare(returnType, "model", Code.New(returnType, Code.Local("result"))))
                                                          .AddLine(Code.Local("subject").Method("next") /*.WithParameter(Code.Local("model"))*/.Close())
                                                          .AddLine(Code.Local("subject").Method("complete").Close());
-                        methodTemplate.WithCode(Code.This().Field(httpField).Method("post", Code.String(uri), Code.Local(bodyParameter.Name)).Method("subscribe", Code.Lambda("result", code)));
+                        methodTemplate.WithCode(Code.This().Field(httpField).Method(action.Type.ToString().ToLowerInvariant(),  Code.This().Field(serviceUrlField).Append(Code.String(uri)), Code.Local(bodyParameter.Name)).Method("subscribe", Code.Lambda("result", code)).Close());
                     }
                     methodTemplate.WithCode(Code.Return(Code.Local("subject")));
                 }

@@ -11,6 +11,30 @@ namespace KY.Generator.TypeScript.Writers
         {
             TypeScriptTemplate template = (TypeScriptTemplate)fragment;
             output.Add(template.Code);
+            if (template.CloseAfter)
+            {
+                output.CloseLine();
+            }
+            if (template.BreakAfter)
+            {
+                output.BreakLine();
+            }
+            if (template.StartBlockAfter)
+            {
+                output.StartBlock();
+            }
+            if (template.EndBlockAfter)
+            {
+                output.EndBlock();
+            }
+            if (template.IndentAfter)
+            {
+                output.Indent();
+            }
+            if (template.UnindentAfter)
+            {
+                output.UnIndent();
+            }
         }
     }
 }

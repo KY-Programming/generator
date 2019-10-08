@@ -109,11 +109,11 @@ namespace KY.Generator.Output
             return this;
         }
 
-        public IOutputCache EndBlock()
+        public IOutputCache EndBlock(bool breakLine = true)
         {
             if (this.condition)
             {
-                this.output.EndBlock();
+                this.output.EndBlock(breakLine);
             }
             return this;
         }

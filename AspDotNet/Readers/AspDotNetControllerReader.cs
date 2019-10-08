@@ -124,7 +124,40 @@ namespace KY.Generator.AspDotNet.Readers
                             {
                                 AspDotNetControllerActionParameter actionParameter = new AspDotNetControllerActionParameter();
                                 actionParameter.Name = parameter.Name;
-                                actionParameter.Type = parameter.ParameterType.Name;
+                                actionParameter.Type = parameter.ParameterType.ToTransferObject();
+                                action.Parameters.Add(actionParameter);
+                            }
+                        }
+                        else if (attributeType.Name == "HttpPatchAttribute")
+                        {
+                            action.Type = AspDotNetControllerActionType.Patch;
+                            foreach (ParameterInfo parameter in parameters)
+                            {
+                                AspDotNetControllerActionParameter actionParameter = new AspDotNetControllerActionParameter();
+                                actionParameter.Name = parameter.Name;
+                                actionParameter.Type = parameter.ParameterType.ToTransferObject();
+                                action.Parameters.Add(actionParameter);
+                            }
+                        }
+                        else if (attributeType.Name == "HttpPutAttribute")
+                        {
+                            action.Type = AspDotNetControllerActionType.Put;
+                            foreach (ParameterInfo parameter in parameters)
+                            {
+                                AspDotNetControllerActionParameter actionParameter = new AspDotNetControllerActionParameter();
+                                actionParameter.Name = parameter.Name;
+                                actionParameter.Type = parameter.ParameterType.ToTransferObject();
+                                action.Parameters.Add(actionParameter);
+                            }
+                        }
+                        else if (attributeType.Name == "HttpDeleteAttribute")
+                        {
+                            action.Type = AspDotNetControllerActionType.Delete;
+                            foreach (ParameterInfo parameter in parameters)
+                            {
+                                AspDotNetControllerActionParameter actionParameter = new AspDotNetControllerActionParameter();
+                                actionParameter.Name = parameter.Name;
+                                actionParameter.Type = parameter.ParameterType.ToTransferObject();
                                 action.Parameters.Add(actionParameter);
                             }
                         }
@@ -147,12 +180,12 @@ namespace KY.Generator.AspDotNet.Readers
                             }
                             AspDotNetControllerActionParameter actionParameter = new AspDotNetControllerActionParameter();
                             actionParameter.Name = bodyParameter.Name;
-                            actionParameter.Type = bodyParameter.ParameterType.Name;
+                            actionParameter.Type = bodyParameter.ParameterType.ToTransferObject();
                             action.Parameters.Add(actionParameter);
                         }
-                        //TODO: Implement other http actions
                         else
                         {
+                            Logger.Warning($"Unknown controller action attribute {attributeType.Name}");
                             continue;
                         }
                         controller.Actions.Add(action);

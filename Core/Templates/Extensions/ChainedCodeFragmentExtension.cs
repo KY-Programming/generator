@@ -117,6 +117,11 @@
             return new OperatorTemplate(Operator.GreaterThan).Chain(template);
         }
 
+        public static AppendStringTemplate Append(this ChainedCodeFragment template, ICodeFragment code)
+        {
+            return new AppendStringTemplate(code).Chain(template);
+        }
+
         public static NullValueTemplate Null(this ChainedCodeFragment template)
         {
             return new NullValueTemplate().Chain(template);

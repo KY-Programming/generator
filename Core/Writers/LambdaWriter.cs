@@ -21,7 +21,7 @@ namespace KY.Generator.Writers
             output.Add(template.Code);
             if (template.Code is MultilineCodeFragment)
             {
-                output.EndBlock();
+                output.EndBlock(output.Language.Formatting.StartBlockInNewLine);
             }
         }
     }

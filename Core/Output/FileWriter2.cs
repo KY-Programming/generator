@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using KY.Core;
+using KY.Core.Extension;
 using KY.Generator.Languages;
 using KY.Generator.Templates;
 
@@ -155,9 +156,10 @@ namespace KY.Generator.Output
             return this.Add(this.Language.Formatting.StartBlock).Indent();
         }
 
-        public IOutputCache EndBlock()
+        public IOutputCache EndBlock(bool breakLine = true)
         {
-            return this.UnIndent().Add(this.Language.Formatting.EndBlock).BreakLine();
+            return this.UnIndent().Add(this.Language.Formatting.EndBlock)
+                       .If(breakLine).BreakLine().EndIf();
         }
 
         public IOutputCache If(bool condition)

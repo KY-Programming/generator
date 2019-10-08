@@ -1,6 +1,4 @@
-﻿using KY.Generator.Templates;
-
-namespace KY.Generator.Output
+﻿namespace KY.Generator.Output
 {
     public interface IOutputCache : IOutputCacheBase
     {
