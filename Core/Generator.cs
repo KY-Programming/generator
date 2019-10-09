@@ -30,6 +30,9 @@ namespace KY.Generator
             Logger.Trace($"KY Generator v{Assembly.GetCallingAssembly().GetName().Version}");
             Logger.Trace("Current Directory: " + Environment.CurrentDirectory);
             Logger.Trace("Log Directory: " + Logger.File.Path);
+
+            NugetPackageDependencyLoader.Activate();
+
             this.output = new FileOutput(AppDomain.CurrentDomain.BaseDirectory);
             this.resolver = new DependencyResolver();
             this.resolver.Bind<ITypeMapping>().ToSingleton<TypeMapping>();

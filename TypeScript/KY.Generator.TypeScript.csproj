@@ -17,7 +17,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="KY.Core.Common" Version="4.4.0" />
+    <PackageReference Include="KY.Core.Common" Version="4.5.0" />
   </ItemGroup>
 
   <ItemGroup>

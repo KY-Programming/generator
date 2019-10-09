@@ -25,38 +25,6 @@ namespace KY.Generator.AspDotNet.Readers
 
         public IEnumerable<ITransferObject> Read(AspDotNetReadConfiguration configuration)
         {
-            // TODO: Move to correct location
-            AppDomain.CurrentDomain.AssemblyResolve += (sender, resolveArgs) =>
-            {
-                Assembly assembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(x => x.FullName == resolveArgs.Name);
-                if (assembly != null)
-                {
-                    return assembly;
-                }
-                Regex regex = new Regex(@"(?<name>[\w.]+),\sVersion=(?<version>[\d.]+),\sCulture=(?<culture>\w+),\sPublicKeyToken=(?<token>\w+)");
-                Match match = regex.Match(resolveArgs.Name);
-                if (match.Success)
-                {
-                    string name = match.Groups["name"].Value;
-                    if (name.StartsWith("KY.") || name.StartsWith("System."))
-                    {
-                        return null;
-                    }
-                    List<DirectoryInfo> versions = FileSystem.GetDirectoryInfos(FileSystem.Combine(Environment.ExpandEnvironmentVariables("%USERPROFILE%"), ".nuget\\packages", name)).ToList();
-                    FileSystem.GetDirectoryInfos(FileSystem.Combine(Environment.ExpandEnvironmentVariables("%PROGRAMFILES%"), "dotnet\\sdk\\NuGetFallbackFolder", name)).ForEach(versions.Add);
-                    Version version = new Version(match.Groups["version"].Value);
-                    DirectoryInfo versionDirectory = versions.FirstOrDefault(x => x.Name == version.ToString()) 
-                                                     ??  versions.FirstOrDefault(x => x.Name.StartsWith(version.ToString(3))) 
-                                                     ??  versions.FirstOrDefault(x => x.Name.StartsWith(version.ToString(2)))
-                                                     ??  versions.FirstOrDefault(x => x.Name.StartsWith(version.ToString(1)));
-                    if (versionDirectory != null)
-                    {
-                        string fullPath = FileSystem.Combine(versionDirectory.FullName, "lib", "netstandard2.0", name) + ".dll";
-                        return Assembly.LoadFile(fullPath);
-                    }
-                }
-                return null;
-            };
             Logger.Trace("Read ASP.net controller...");
             List<Assembly> assemblies = new List<Assembly>();
             if (!string.IsNullOrEmpty(configuration.Controller.Assembly))
