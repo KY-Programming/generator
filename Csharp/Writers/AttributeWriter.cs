@@ -36,7 +36,8 @@ namespace KY.Generator.Csharp.Writers
                 }
                 output.Add(")");
             }
-            output.Add("]");
+            output.Add("]")
+                  .BreakLine();
         }
     }
 }

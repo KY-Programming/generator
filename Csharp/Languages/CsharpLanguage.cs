@@ -49,7 +49,7 @@ namespace KY.Generator.Csharp.Languages
 
         public override string FormatFieldName(string fieldName)
         {
-            return fieldName == null ? null : Regex.Replace(fieldName, "[^A-z0-9_]", "_").FirstCharToUpper();
+            return fieldName == null ? null : Regex.Replace(fieldName, "[^A-z0-9_]", "_").FirstCharToLower();
         }
 
         public override string FormatMethodName(string methodName)

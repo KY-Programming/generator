@@ -274,6 +274,14 @@ namespace KY.Generator.Core.Tests
         }
 
         [TestMethod]
+        public void NullWriter()
+        {
+            NullWriter writer = new NullWriter();
+            writer.Write(new NullTemplate(), this.output);
+            Assert.AreEqual("null", this.output.ToString());
+        }
+
+        [TestMethod]
         public void StaticMethod()
         {
             MethodTemplate template = new MethodTemplate(null, "test", Code.Type("type")).Static();
