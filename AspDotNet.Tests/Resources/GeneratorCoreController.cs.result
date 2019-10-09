@@ -1,0 +1,80 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using KY.Generator;
+using KY.Generator.Output;
+using Microsoft.AspNetCore.Mvc;
+
+namespace KY.Generator.Test.Controllers
+{
+    [Route("[controller]")]
+    [Route("api/v1/[controller]")]
+    public partial class GeneratorController : Controller
+    {
+        private static readonly Dictionary<string, MemoryOutput> cache = new Dictionary<string, MemoryOutput>();
+
+        [HttpPost("[action]")]
+        public string Create(string configuration)
+        {
+            string id = Guid.NewGuid().ToString();
+            MemoryOutput output = new MemoryOutput();
+            Generator generator = new Generator();
+            generator.SetOutput(output);
+            generator.PreloadModule<KY.Generator.Csharp.CsharpModule>();
+            generator.PreloadModule<KY.Generator.TypeScript.TypeScriptModule>();
+            generator.PreloadModule<KY.Generator.Reflection.ReflectionModule>();
+            generator.PreloadModule<KY.Generator.AspDotNet.AspDotNetModule>();
+            generator.ParseConfiguration(configuration);
+            generator.Run();
+
+            cache[id] = output;
+            return id;
+        }
+
+        [HttpPost("[action]")]
+        public string Command(string command)
+        {
+            string id = Guid.NewGuid().ToString();
+            MemoryOutput output = new MemoryOutput();
+            Generator generator = new Generator();
+            generator.SetOutput(output);
+            generator.PreloadModule<KY.Generator.Csharp.CsharpModule>();
+            generator.PreloadModule<KY.Generator.TypeScript.TypeScriptModule>();
+            generator.PreloadModule<KY.Generator.Reflection.ReflectionModule>();
+            generator.PreloadModule<KY.Generator.AspDotNet.AspDotNetModule>();
+            generator.ParseCommand(command);
+            generator.Run();
+
+            cache[id] = output;
+            return id;
+        }
+
+        [HttpPost("[action]")]
+        public string GetFiles(string id)
+        {
+            if (id == null)
+            {
+                return null;
+            }
+            MemoryOutput output = cache[id];
+            return output == null ? null : string.Join(Environment.NewLine, output.Files.Select(x => x.Key));
+        }
+
+        [HttpPost("[action]")]
+        public string GetFile(string id, string path)
+        {
+            if (id == null)
+            {
+                return null;
+            }
+            MemoryOutput output = cache[id];
+            return output == null || ! output.Files.ContainsKey(path) ? null : output.Files[path];
+        }
+
+        [HttpGet("[action]")]
+        public bool Available()
+        {
+            return true;
+        }
+    }
+}

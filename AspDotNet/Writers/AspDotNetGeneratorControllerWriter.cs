@@ -38,7 +38,7 @@ namespace KY.Generator.AspDotNet.Writers
                 throw new InvalidOperationException("Can not generate Generator.Controller with KY.Generator.CLI.Standalone use KY.Generator.CLI instead");
             }
             List<FileTemplate> files = new List<FileTemplate>();
-            ClassTemplate classTemplate = files.AddFile(configuration.Controller.RelativePath)
+            ClassTemplate classTemplate = files.AddFile(configuration.Controller.RelativePath, configuration.AddHeader)
                                               .AddNamespace(configuration.Controller.Namespace)
                                               .AddClass("GeneratorController", Code.Type("Controller"))
                                               .WithUsing("System")
@@ -74,36 +74,36 @@ namespace KY.Generator.AspDotNet.Writers
             createCode.AddLine(Code.Declare(Code.Type("string"), "id", Code.Local("Guid").Method("NewGuid").Method("ToString")))
                       .AddLine(Code.Declare(Code.Type("MemoryOutput"), "output", Code.New(Code.Type("MemoryOutput"))))
                       .AddLine(Code.Declare(Code.Type("Generator"), "generator", Code.New(Code.Type("Generator"))))
-                      .AddLine(Code.Local("generator").Method("SetOutput", Code.Local("output")));
+                      .AddLine(Code.Local("generator").Method("SetOutput", Code.Local("output")).Close());
             MultilineCodeFragment commandCode = commandMethod.Code;
             commandCode.AddLine(Code.Declare(Code.Type("string"), "id", Code.Local("Guid").Method("NewGuid").Method("ToString")))
                        .AddLine(Code.Declare(Code.Type("MemoryOutput"), "output", Code.New(Code.Type("MemoryOutput"))))
                        .AddLine(Code.Declare(Code.Type("Generator"), "generator", Code.New(Code.Type("Generator"))))
-                       .AddLine(Code.Local("generator").Method("SetOutput", Code.Local("output")));
+                       .AddLine(Code.Local("generator").Method("SetOutput", Code.Local("output")).Close());
             foreach (string nameSpace in configuration.Controller.Usings)
             {
                 classTemplate.AddUsing(nameSpace);
             }
             foreach (string moduleType in configuration.Controller.PreloadModules)
             {
-                createCode.AddLine(Code.Local("generator").GenericMethod("PreloadModule", Code.Type(moduleType)));
-                commandCode.AddLine(Code.Local("generator").GenericMethod("PreloadModule", Code.Type(moduleType)));
+                createCode.AddLine(Code.Local("generator").GenericMethod("PreloadModule", Code.Type(moduleType)).Close());
+                commandCode.AddLine(Code.Local("generator").GenericMethod("PreloadModule", Code.Type(moduleType)).Close());
             }
             foreach (AspDotNetControllerConfigureModule configure in configuration.Controller.Configures)
             {
                 createCode.AddLine(Code.Local("generator").Method(configure.Module, Code.Lambda("x", Code.Csharp("x." + configure.Action))));
                 commandCode.AddLine(Code.Local("generator").Method(configure.Module, Code.Lambda("x", Code.Csharp("x." + configure.Action))));
             }
-            createCode.AddLine(Code.Local("generator").Method("ParseConfiguration", Code.Local("configuration")))
-                      .AddLine(Code.Local("generator").Method("Run"))
+            createCode.AddLine(Code.Local("generator").Method("ParseConfiguration", Code.Local("configuration")).Close())
+                      .AddLine(Code.Local("generator").Method("Run").Close())
                       .AddBlankLine();
-            commandCode.AddLine(Code.Local("generator").Method("ParseCommand", Code.Local("command")))
-                       .AddLine(Code.Local("generator").Method("Run"))
+            commandCode.AddLine(Code.Local("generator").Method("ParseCommand", Code.Local("command")).Close())
+                       .AddLine(Code.Local("generator").Method("Run").Close())
                        .AddBlankLine();
             if (template.UseOwnCache)
             {
-                createCode.AddLine(Code.Local("cache").Index(Code.Local("id")).Assign(Code.Local("output")));
-                commandCode.AddLine(Code.Local("cache").Index(Code.Local("id")).Assign(Code.Local("output")));
+                createCode.AddLine(Code.Local("cache").Index(Code.Local("id")).Assign(Code.Local("output")).Close());
+                commandCode.AddLine(Code.Local("cache").Index(Code.Local("id")).Assign(Code.Local("output")).Close());
             }
             else
             {

@@ -14,6 +14,7 @@ using KY.Generator.Transfer;
 [assembly: InternalsVisibleTo("KY.Generator.Csharp.Tests")]
 [assembly: InternalsVisibleTo("KY.Generator.Json.Tests")]
 [assembly: InternalsVisibleTo("KY.Generator.TypeScript.Tests")]
+[assembly: InternalsVisibleTo("KY.Generator.AspDotNet.Tests")]
 
 namespace KY.Generator
 {

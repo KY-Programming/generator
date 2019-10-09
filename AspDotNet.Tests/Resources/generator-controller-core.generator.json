@@ -1,0 +1,18 @@
+{
+  "version": 2,
+  "generate": [
+    {
+      "write": "asp",
+      "framework": ".net Core 2.0",
+      "controller": {
+        "namespace": "KY.Generator.Test.Controllers",
+        "preloadModules": [
+          "KY.Generator.Csharp.CsharpModule",
+          "KY.Generator.TypeScript.TypeScriptModule",
+          "KY.Generator.Reflection.ReflectionModule",
+          "KY.Generator.AspDotNet.AspDotNetModule"
+        ]
+      }
+    }
+  ]
+}
