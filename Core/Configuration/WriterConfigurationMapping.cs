@@ -38,6 +38,10 @@ namespace KY.Generator.Configuration
             {
                 throw new ArgumentNullException(nameof(name));
             }
+            if (!this.configurationMapping.ContainsKey(name.ToLower()))
+            {
+                throw new InvalidOperationException($"Writer {name} not found. Please check if the module was loaded");
+            }
             return this.configurationMapping[name.ToLower()];
         }
 

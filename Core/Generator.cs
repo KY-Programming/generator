@@ -137,6 +137,12 @@ namespace KY.Generator
 
         public IGeneratorRunSyntax SetParameters(params string[] parameters)
         {
+            if (parameters.Length == 0)
+            {
+                Logger.Error("No parameters found. Provide at least a command or a path to a configuration file. Generation aborted!");
+                return this;
+            }
+
             if (FileSystem.FileExists(parameters.First()))
             {
                 return this.SetOutput(parameters.Skip(1).FirstOrDefault())
