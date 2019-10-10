@@ -4,7 +4,10 @@
     {
         public static ExecuteMethodTemplate WithParameter(this ExecuteMethodTemplate methodTemplate, ICodeFragment code)
         {
-            methodTemplate.Parameters.Add(code);
+            if (code != null)
+            {
+                methodTemplate.Parameters.Add(code);
+            }
             return methodTemplate;
         }
     }

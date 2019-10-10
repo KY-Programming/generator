@@ -9,8 +9,9 @@ namespace KY.Generator.TypeScript.Writers
         public virtual void Write(ICodeFragment fragment, IOutputCache output)
         {
             DeclareTemplate template = (DeclareTemplate)fragment;
-            output.Add("let ")
+            output.Add(template.IsConstant ? "const " : "let ")
                   .Add(template.Name)
+                  .If(template.Type != null && !(template.Code is NewTemplate)).Add(": ").Add(template.Type).EndIf()
                   .Add(" = ")
                   .Add(template.Code)
                   .CloseLine();

@@ -21,6 +21,11 @@ namespace KY.Generator
             return new LocalVariableTemplate(type.Name);
         }
 
+        public static LocalVariableTemplate Local(this Code _, DeclareTemplate type)
+        {
+            return new LocalVariableTemplate(type.Name);
+        }
+
         public static LocalVariableTemplate Static(this Code _, TypeTemplate type)
         {
             return new LocalVariableTemplate(type.Name);
