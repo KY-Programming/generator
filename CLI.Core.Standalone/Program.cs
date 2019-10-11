@@ -8,7 +8,7 @@ using KY.Generator.Reflection;
 using KY.Generator.TypeScript;
 using KY.Generator.Watchdog;
 
-namespace KY.Generator
+namespace KY.Generator.CLI.Core.Standalone
 {
     internal class Program
     {

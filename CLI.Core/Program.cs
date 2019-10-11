@@ -4,17 +4,15 @@ using KY.Generator.Angular;
 using KY.Generator.AspDotNet;
 using KY.Generator.Csharp;
 using KY.Generator.Json;
-using KY.Generator.OData;
 using KY.Generator.Reflection;
-using KY.Generator.Tsql;
 using KY.Generator.TypeScript;
 using KY.Generator.Watchdog;
 
 namespace KY.Generator.CLI.Core
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             Logger.AllTargets.Add(Logger.VisualStudioOutput);
 
@@ -22,8 +20,8 @@ namespace KY.Generator.CLI.Core
                                     .PreloadModule<AspDotNetModule>()
                                     .PreloadModule<CsharpModule>()
                                     .PreloadModule<TypeScriptModule>()
-                                    .PreloadModule<TsqlModule>()
-                                    .PreloadModule<ODataModule>()
+                                    //.PreloadModule<TsqlModule>()
+                                    //.PreloadModule<ODataModule>()
                                     .PreloadModule<ReflectionModule>()
                                     .PreloadModule<AngularModule>()
                                     .PreloadModule<JsonModule>()

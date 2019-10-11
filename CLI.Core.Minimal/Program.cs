@@ -1,4 +1,5 @@
 ﻿using System;
+using KY.Core;
 
 namespace KY.Generator.CLI.Core.Minimal
 {
@@ -6,7 +7,20 @@ namespace KY.Generator.CLI.Core.Minimal
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Logger.AllTargets.Add(Logger.VisualStudioOutput);
+
+            bool success = Generator.Initialize()
+                                    .SetParameters(args)
+                                    .Run();
+            if (!success)
+            {
+                Environment.ExitCode = 1;
+            }
+
+#if DEBUG
+            Console.WriteLine("Press key to EXIT...");
+            Console.ReadKey();
+#endif
         }
     }
 }

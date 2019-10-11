@@ -12,12 +12,14 @@ namespace KY.Generator.Commands
 
         public bool Generate(CommandConfiguration configuration, IOutput output)
         {
+            bool detailed = configuration.Parameters.GetBool("d");
             Logger.Trace("Execute version command...");
             Logger.Trace("Loaded assemblies:");
+
             AppDomain.CurrentDomain.GetAssemblies()
                      .Select(x => x.GetName())
                      .OrderBy(x => x.Name)
-                     .ForEach(x => Logger.Trace($"{x.Name} {x.Version}"));
+                     .ForEach(x => Logger.Trace($"{x.Name} {x.Version} {(detailed ? x.CodeBase.TrimStart("file:///") : "")}"));
             return true;
         }
     }

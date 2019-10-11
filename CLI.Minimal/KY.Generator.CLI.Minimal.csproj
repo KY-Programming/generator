@@ -72,10 +72,6 @@
       <Project>{8c35562d-fbce-4588-ab3b-fcc6deadebae}</Project>
       <Name>KY.Generator.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Watchdog\KY.Generator.Watchdog.csproj">
-      <Project>{3DE08FD4-D3C7-496F-A013-E543ACC67429}</Project>
-      <Name>KY.Generator.Watchdog</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="FodyWeavers.xml" />

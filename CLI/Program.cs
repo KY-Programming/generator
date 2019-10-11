@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Linq;
 using KY.Core;
 using KY.Generator.Angular;
 using KY.Generator.AspDotNet;
 using KY.Generator.Csharp;
 using KY.Generator.Json;
-using KY.Generator.OData;
-using KY.Generator.OData.Extensions;
 using KY.Generator.Reflection;
-using KY.Generator.Tsql;
-using KY.Generator.Tsql.Extensions;
 using KY.Generator.TypeScript;
 using KY.Generator.Watchdog;
 
@@ -25,8 +20,8 @@ namespace KY.Generator
                                     .PreloadModule<AspDotNetModule>()
                                     .PreloadModule<CsharpModule>()
                                     .PreloadModule<TypeScriptModule>()
-                                    .PreloadModule<TsqlModule>()
-                                    .PreloadModule<ODataModule>()
+                                    //.PreloadModule<TsqlModule>()
+                                    //.PreloadModule<ODataModule>()
                                     .PreloadModule<ReflectionModule>()
                                     .PreloadModule<AngularModule>()
                                     .PreloadModule<JsonModule>()

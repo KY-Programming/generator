@@ -1,6 +1,5 @@
 ﻿using System;
 using KY.Core;
-using KY.Generator.Watchdog;
 
 namespace KY.Generator
 {
@@ -11,7 +10,6 @@ namespace KY.Generator
             Logger.AllTargets.Add(Logger.VisualStudioOutput);
 
             bool success = Generator.Initialize()
-                                    .PreloadModule<WatchdogModule>()
                                     .SetParameters(args)
                                     .Run();
             if (!success)

@@ -91,17 +91,9 @@
       <Project>{7F14808D-CEDC-4A7D-BC53-DA21EEDCDE1E}</Project>
       <Name>KY.Generator.Json</Name>
     </ProjectReference>
-    <ProjectReference Include="..\OData\KY.Generator.OData.csproj">
-      <Project>{cdfa710c-3c87-4ffd-980b-69b80f6e8fe3}</Project>
-      <Name>KY.Generator.OData</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Reflection\KY.Generator.Reflection.csproj">
       <Project>{1CD25461-36BC-46A1-ABDD-F710179A641E}</Project>
       <Name>KY.Generator.Reflection</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Tsql\KY.Generator.Tsql.csproj">
-      <Project>{2d968283-996b-4619-8b10-d8086c2b2922}</Project>
-      <Name>KY.Generator.Tsql</Name>
     </ProjectReference>
     <ProjectReference Include="..\TypeScript\KY.Generator.TypeScript.csproj">
       <Project>{51D247CC-BE96-461F-8848-F6B32461FABB}</Project>
