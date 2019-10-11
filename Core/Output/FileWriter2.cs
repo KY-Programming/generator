@@ -80,7 +80,7 @@ namespace KY.Generator.Output
 
         public IOutputCache Add(IEnumerable<ICodeFragment> fragments)
         {
-            foreach (ICodeFragment fragment in fragments)
+            foreach (ICodeFragment fragment in fragments.Where(x => x != null))
             {
                 this.Language.Write(fragment, this);
             }
@@ -90,7 +90,7 @@ namespace KY.Generator.Output
         public IOutputCache Add(IEnumerable<ICodeFragment> fragments, string separator)
         {
             bool first = true;
-            foreach (ICodeFragment fragment in fragments)
+            foreach (ICodeFragment fragment in fragments.Where(x => x != null))
             {
                 if (!first)
                 {

@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>KY.Generator.CLI</id>
-    <version>2.0.0</version>
+    <version>2.1.0</version>
     <title>KY.Generator.CLI</title>
     <authors>KY-Programming</authors>
     <owners>KY-Programming</owners>
@@ -15,8 +15,8 @@
     <copyright>Copyright 2019</copyright>
     <tags>KY Generator CLI</tags>
     <dependencies>
-      <dependency id="KY.Generator.Angular" version="2.0.0" />
-      <dependency id="KY.Generator.AspDotNet" version="2.0.0" />
+      <dependency id="KY.Generator.Angular" version="2.1.0" />
+      <dependency id="KY.Generator.AspDotNet" version="2.1.0" />
       <dependency id="KY.Generator.Core" version="2.0.0" />
       <dependency id="KY.Generator.Csharp" version="2.0.0" />
       <dependency id="KY.Generator.Json" version="2.0.0" />

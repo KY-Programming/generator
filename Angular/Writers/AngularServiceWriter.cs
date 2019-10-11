@@ -69,57 +69,48 @@ namespace KY.Generator.Angular.Writers
                     TypeTemplate subjectType = Code.Generic("Subject", returnType);
                     methodTemplate.WithCode(Code.Declare(subjectType, "subject", Code.New(subjectType)));
                     string uri = "/" + controller.Route?.Replace("[controller]", controllerName.ToLower()).TrimEnd('/') + "/" + action.Route?.Replace("[action]", action.Name.ToLower());
-                    if (action.Type == AspDotNetControllerActionType.Get)
+
+                    List<AspDotNetControllerActionParameter> urlParameters = action.Parameters.Where(x => !x.FromBody).ToList();
+                    uri = urlParameters.Count > 0 ? $"{uri}?{urlParameters.First().Name}=" : uri;
+                    MultilineCodeFragment code = Code.Multiline();
+                    DeclareTemplate declareTemplate = null;
+                    if (returnType.Name == "Array")
                     {
-                        uri = action.Parameters.Count > 0 ? $"{uri}?{action.Parameters[0].Name}=" : uri;
-                        MultilineCodeFragment code = Code.Multiline();
-                        DeclareTemplate declareTemplate = null;
-                        if (returnType.Name == "Array")
-                        {
-                            TypeTemplate type = ((GenericTypeTemplate)returnType).Types[0];
-                            declareTemplate = Code.Declare(returnType, "list", Code.TypeScript("[]")).Constant();
-                            code.AddLine(declareTemplate)
-                                .AddLine(Code.TypeScript("for (const entry of <[]>result)").StartBlock())
-                                .AddLine(Code.Local(declareTemplate).Method("push", Code.New(type, Code.Local("entry"))).Close())
-                                .AddLine(Code.TypeScript("").EndBlock());
-                        }
-                        else if (returnType.Name != "void")
-                        {
-                            declareTemplate = Code.Declare(returnType, "model", Code.New(returnType, Code.Local("result"))).Constant();
-                            code.AddLine(declareTemplate);
-                        }
-                        code.AddLine(Code.Local("subject").Method("next").WithParameter(declareTemplate.ToLocal()).Close())
-                            .AddLine(Code.Local("subject").Method("complete").Close());
-                        ChainedCodeFragment parameterUrl = Code.This().Field(serviceUrlField).Append(Code.String(uri));
-                        bool isFirst = true;
-                        foreach (AspDotNetControllerActionParameter parameter in action.Parameters)
-                        {
-                            if (isFirst)
-                            {
-                                isFirst = false;
-                                parameterUrl = parameterUrl.Append(Code.Local(parameter.Name));
-                            }
-                            else
-                            {
-                                parameterUrl = parameterUrl.Append(Code.String($"&{parameter.Name}=")).Append(Code.Local(parameter.Name));
-                            }
-                        }
-                        methodTemplate.WithCode(
-                            Code.This()
-                                .Field(httpField)
-                                .Method("get", parameterUrl)
-                                .Method("subscribe", Code.Lambda("result", code), errorCode).Close()
-                        );
+                        TypeTemplate type = ((GenericTypeTemplate)returnType).Types[0];
+                        declareTemplate = Code.Declare(returnType, "list", Code.TypeScript("[]")).Constant();
+                        code.AddLine(declareTemplate)
+                            .AddLine(Code.TypeScript("for (const entry of <[]>result)").StartBlock())
+                            .AddLine(Code.Local(declareTemplate).Method("push", Code.New(type, Code.Local("entry"))).Close())
+                            .AddLine(Code.TypeScript("").EndBlock());
                     }
-                    else// if (action.Type == AspDotNetControllerActionType.Post)
+                    else if (returnType.Name != "void")
                     {
-                        AspDotNetControllerActionParameter bodyParameter = action.Parameters.Single();
-                        MultilineCodeFragment code = Code.Multiline()
-                                                         //.AddLine(Code.Declare(returnType, "model", Code.New(returnType, Code.Local("result"))))
-                                                         .AddLine(Code.Local("subject").Method("next") /*.WithParameter(Code.Local("model"))*/.Close())
-                                                         .AddLine(Code.Local("subject").Method("complete").Close());
-                        methodTemplate.WithCode(Code.This().Field(httpField).Method(action.Type.ToString().ToLowerInvariant(),  Code.This().Field(serviceUrlField).Append(Code.String(uri)), Code.Local(bodyParameter.Name)).Method("subscribe", Code.Lambda("result", code), errorCode).Close());
+                        declareTemplate = Code.Declare(returnType, "model", Code.New(returnType, Code.Local("result"))).Constant();
+                        code.AddLine(declareTemplate);
                     }
+                    code.AddLine(Code.Local("subject").Method("next").WithParameter(declareTemplate.ToLocal()).Close())
+                        .AddLine(Code.Local("subject").Method("complete").Close());
+                    ChainedCodeFragment parameterUrl = Code.This().Field(serviceUrlField).Append(Code.String(uri));
+                    bool isFirst = true;
+                    foreach (AspDotNetControllerActionParameter parameter in urlParameters)
+                    {
+                        if (isFirst)
+                        {
+                            isFirst = false;
+                            parameterUrl = parameterUrl.Append(Code.Local(parameter.Name));
+                        }
+                        else
+                        {
+                            parameterUrl = parameterUrl.Append(Code.String($"&{parameter.Name}=")).Append(Code.Local(parameter.Name));
+                        }
+                    }
+
+                    methodTemplate.WithCode(
+                        Code.This()
+                            .Field(httpField)
+                            .Method(action.Type.ToString().ToLowerInvariant(), parameterUrl, action.RequireBodyParameter ? Code.Local(action.Parameters.Single(x => x.FromBody).Name) : null)
+                            .Method("subscribe", Code.Lambda("result", code), errorCode).Close()
+                    );
                     methodTemplate.WithCode(Code.Return(Code.Local("subject")));
                 }
             }

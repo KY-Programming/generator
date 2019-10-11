@@ -85,76 +85,52 @@ namespace KY.Generator.AspDotNet.Readers
                                 yield return model;
                             }
                         }
-                        if (attributeType.Name == "HttpGetAttribute")
+                        switch (attributeType.Name)
                         {
-                            action.Type = AspDotNetControllerActionType.Get;
-                            foreach (ParameterInfo parameter in parameters)
-                            {
-                                AspDotNetControllerActionParameter actionParameter = new AspDotNetControllerActionParameter();
-                                actionParameter.Name = parameter.Name;
-                                actionParameter.Type = parameter.ParameterType.ToTransferObject();
-                                action.Parameters.Add(actionParameter);
-                            }
+                            case "HttpGetAttribute":
+                                action.Type = AspDotNetControllerActionType.Get;
+                                break;
+                            case "HttpPostAttribute":
+                                action.Type = AspDotNetControllerActionType.Post;
+                                action.RequireBodyParameter = true;
+                                break;
+                            case "HttpPatchAttribute":
+                                action.Type = AspDotNetControllerActionType.Patch;
+                                action.RequireBodyParameter = true;
+                                break;
+                            case "HttpPutAttribute":
+                                action.Type = AspDotNetControllerActionType.Put;
+                                action.RequireBodyParameter = true;
+                                break;
+                            case "HttpDeleteAttribute":
+                                action.Type = AspDotNetControllerActionType.Delete;
+                                break;
+                            default:
+                                Logger.Warning($"Unknown controller action attribute {attributeType.Name}");
+                                continue;
                         }
-                        else if (attributeType.Name == "HttpPatchAttribute")
+                        foreach (ParameterInfo parameter in parameters)
                         {
-                            action.Type = AspDotNetControllerActionType.Patch;
-                            foreach (ParameterInfo parameter in parameters)
-                            {
-                                AspDotNetControllerActionParameter actionParameter = new AspDotNetControllerActionParameter();
-                                actionParameter.Name = parameter.Name;
-                                actionParameter.Type = parameter.ParameterType.ToTransferObject();
-                                action.Parameters.Add(actionParameter);
-                            }
-                        }
-                        else if (attributeType.Name == "HttpPutAttribute")
-                        {
-                            action.Type = AspDotNetControllerActionType.Put;
-                            foreach (ParameterInfo parameter in parameters)
-                            {
-                                AspDotNetControllerActionParameter actionParameter = new AspDotNetControllerActionParameter();
-                                actionParameter.Name = parameter.Name;
-                                actionParameter.Type = parameter.ParameterType.ToTransferObject();
-                                action.Parameters.Add(actionParameter);
-                            }
-                        }
-                        else if (attributeType.Name == "HttpDeleteAttribute")
-                        {
-                            action.Type = AspDotNetControllerActionType.Delete;
-                            foreach (ParameterInfo parameter in parameters)
-                            {
-                                AspDotNetControllerActionParameter actionParameter = new AspDotNetControllerActionParameter();
-                                actionParameter.Name = parameter.Name;
-                                actionParameter.Type = parameter.ParameterType.ToTransferObject();
-                                action.Parameters.Add(actionParameter);
-                            }
-                        }
-                        else if (attributeType.Name == "HttpPostAttribute")
-                        {
-                            action.Type = AspDotNetControllerActionType.Post;
-                            if (parameters.Length == 0)
-                            {
-                                throw new InvalidOperationException($"Method {method.Name} has no parameters. Post requires at least one parameter.");
-                            }
-                            if (parameters.Length > 1)
-                            {
-                                Logger.Warning($"Method {method.Name} has more than one parameter. Only one parameter is currently supported.");
-                            }
-                            ParameterInfo bodyParameter = parameters.FirstOrDefault(parameter => parameter.GetCustomAttributes().Any(x => x.GetType().Name == "FromBodyAttribute"));
-                            if (bodyParameter == null)
-                            {
-                                Logger.Warning($"Method {method.Name} has no [FromBody] attribute. Maybe parameter is not filled correctly.");
-                                bodyParameter = parameters.First();
-                            }
                             AspDotNetControllerActionParameter actionParameter = new AspDotNetControllerActionParameter();
-                            actionParameter.Name = bodyParameter.Name;
-                            actionParameter.Type = bodyParameter.ParameterType.ToTransferObject();
+                            actionParameter.Name = parameter.Name;
+                            actionParameter.Type = parameter.ParameterType.ToTransferObject();
+                            actionParameter.FromBody = action.RequireBodyParameter && parameter.GetCustomAttributes().Any(parameterAttribute => parameterAttribute.GetType().Name == "FromBodyAttribute");
                             action.Parameters.Add(actionParameter);
                         }
-                        else
+                        if (action.RequireBodyParameter)
                         {
-                            Logger.Warning($"Unknown controller action attribute {attributeType.Name}");
-                            continue;
+                            if (action.Parameters.Count == 0)
+                            {
+                                throw new InvalidOperationException($"Can not write {method.Name}. {action.Type} requires at least one parameter, but no parameter found.");
+                            }
+                            if (action.Parameters.Count == 1)
+                            {
+                                action.Parameters.Single().FromBody = true;
+                            }
+                            else if (action.Parameters.All(x => !x.FromBody))
+                            {
+                                throw new InvalidOperationException($"Can not write {method.Name}. {action.Type} requires at least one parameter marked with [FromBody] or can have only one parameter");
+                            }
                         }
                         controller.Actions.Add(action);
                     }

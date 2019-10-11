@@ -23,6 +23,7 @@ namespace KY.Generator.Transfer
         public string Name { get; set; }
         public TypeTransferObject ReturnType { get; set; }
         public string Route { get; set; }
+        public bool RequireBodyParameter { get; set; }
         public List<AspDotNetControllerActionParameter> Parameters { get; }
         public AspDotNetControllerActionType Type { get; set; }
 
@@ -35,6 +36,7 @@ namespace KY.Generator.Transfer
     public class AspDotNetControllerActionParameter
     {
         public string Name { get; set; }
+        public bool FromBody { get; set; }
         public TypeTransferObject Type { get; set; }
     }
 
