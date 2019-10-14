@@ -5,6 +5,7 @@ using KY.Generator.Client;
 using KY.Generator.Command;
 using KY.Generator.Commands;
 using KY.Generator.Configuration;
+using KY.Generator.Configurations;
 using KY.Generator.Languages;
 using KY.Generator.Transfer;
 
@@ -15,6 +16,7 @@ using KY.Generator.Transfer;
 [assembly: InternalsVisibleTo("KY.Generator.Json.Tests")]
 [assembly: InternalsVisibleTo("KY.Generator.TypeScript.Tests")]
 [assembly: InternalsVisibleTo("KY.Generator.AspDotNet.Tests")]
+[assembly: InternalsVisibleTo("KY.Generator.OData.Tests")]
 
 namespace KY.Generator
 {
@@ -30,8 +32,11 @@ namespace KY.Generator
             this.DependencyResolver.Bind<IGeneratorCommand>().To<VersionCommand>();
             this.DependencyResolver.Bind<IGeneratorCommand>().To<RunCommand>();
             this.DependencyResolver.Bind<ILanguage>().To<EmptyLanguage>();
-            this.DependencyResolver.Get<WriterConfigurationMapping>().Map<GeneratorConfiguration, GeneratorGenerator>("generator");
-            this.DependencyResolver.Get<WriterConfigurationMapping>().Map<ModelWriteConfiguration, ModelWriter>("model");
+            this.DependencyResolver.Get<ReaderConfigurationMapping>()
+                .Map<CookieConfiguration, CookieReader>("cookie");
+            this.DependencyResolver.Get<WriterConfigurationMapping>()
+                .Map<GeneratorConfiguration, GeneratorGenerator>("generator")
+                .Map<ModelWriteConfiguration, ModelWriter>("model");
         }
     }
 }
