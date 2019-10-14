@@ -30,4 +30,19 @@ This executable contains only the minimal required features.</Description>
     </ProjectReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Include="bin\Release\netcoreapp2.2\*.dll">
+      <PackagePath>tools\</PackagePath>
+      <Pack>true</Pack>
+    </Content>
+    <Content Include="bin\Release\netcoreapp2.2\KY.Generator.CLI.Core.Minimal.deps.json">
+      <PackagePath>tools\</PackagePath>
+      <Pack>true</Pack>
+    </Content>
+    <Content Include="bin\Release\netcoreapp2.2\KY.Generator.CLI.Core.Minimal.runtimeconfig.json">
+      <PackagePath>tools\</PackagePath>
+      <Pack>true</Pack>
+    </Content>
+  </ItemGroup>
+
 </Project>

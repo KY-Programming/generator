@@ -33,4 +33,19 @@ This executable contains all features</Description>
     <ProjectReference Include="..\Watchdog\KY.Generator.Watchdog.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Include="bin\Release\netcoreapp2.2\*.dll">
+      <PackagePath>tools\</PackagePath>
+      <Pack>true</Pack>
+    </Content>
+    <Content Include="bin\Release\netcoreapp2.2\KY.Generator.CLI.Core.deps.json">
+      <PackagePath>tools\</PackagePath>
+      <Pack>true</Pack>
+    </Content>
+    <Content Include="bin\Release\netcoreapp2.2\KY.Generator.CLI.Core.runtimeconfig.json">
+      <PackagePath>tools\</PackagePath>
+      <Pack>true</Pack>
+    </Content>
+  </ItemGroup>
+
 </Project>

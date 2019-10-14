@@ -62,7 +62,11 @@
       <PackagePath>tools\</PackagePath>
       <Pack>true</Pack>
     </Content>
-    <Content Include="bin\Release\netcoreapp2.2\*.json">
+    <Content Include="bin\Release\netcoreapp2.2\KY.Generator.CLI.Core.Standalone.deps.json">
+      <PackagePath>tools\</PackagePath>
+      <Pack>true</Pack>
+    </Content>
+    <Content Include="bin\Release\netcoreapp2.2\KY.Generator.CLI.Core.Standalone.runtimeconfig.json">
       <PackagePath>tools\</PackagePath>
       <Pack>true</Pack>
     </Content>
