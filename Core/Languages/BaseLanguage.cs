@@ -98,7 +98,7 @@ namespace KY.Generator.Languages
                 return;
             }
             this.lastFragments.Insert(0, fragment);
-            while (this.lastFragments.Count > 3)
+            while (this.lastFragments.Count > 10)
             {
                 this.lastFragments.RemoveAt(this.lastFragments.Count - 1);
             }
@@ -200,6 +200,8 @@ namespace KY.Generator.Languages
         public abstract string FormatPropertyName(string propertyName);
         public abstract string FormatFieldName(string fieldName);
         public abstract string FormatMethodName(string methodName);
+        public abstract string FormatParameterName(string parameterName);
+
         protected abstract IEnumerable<UsingTemplate> GetUsings(FileTemplate fileTemplate);
 
         public virtual string ConvertValue(object value)

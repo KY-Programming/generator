@@ -18,10 +18,10 @@ namespace KY.Generator.Reflection.Readers
             this.modelReader = modelReader;
         }
 
-        public List<ITransferObject> Read(ConfigurationBase configurationBase)
+        public void Read(ConfigurationBase configurationBase, List<ITransferObject> transferObjects)
         {
             ReflectionReadConfiguration configuration = (ReflectionReadConfiguration)configurationBase;
-            return this.modelReader.Read(this.LoadType(configuration)).ToList<ITransferObject>();
+            this.modelReader.Read(this.LoadType(configuration)).ForEach(transferObjects.Add);
         }
 
         private Type LoadType(ReflectionReadConfiguration reflectionType)

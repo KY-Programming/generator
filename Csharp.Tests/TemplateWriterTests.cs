@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using KY.Core;
 using KY.Core.Dependency;
-using KY.Generator.Core.Tests.Models;
 using KY.Generator.Csharp.Extensions;
 using KY.Generator.Csharp.Languages;
 using KY.Generator.Csharp.Templates;
@@ -56,6 +55,27 @@ namespace KY.Generator.Csharp.Tests
         }
 
         [TestMethod]
+        public void AttributeOnProperty()
+        {
+            PropertyTemplate template = new PropertyTemplate(null, "Property", Code.Type("string"))
+                .WithAttribute("Attribute", Code.String("value"));
+            this.output.Language.Write(template, this.output);
+            Assert.AreEqual("[Attribute(\"value\")]\r\npublic string Property { get; set; }", this.output.ToString());
+        }
+
+        [TestMethod]
+        public void AttributeOnMultiplePropertiesInClass()
+        {
+            ClassTemplate template = new ClassTemplate((NamespaceTemplate)null, "MyClass");
+            template.AddProperty("Property1", Code.Type("string"))
+                    .WithAttribute("Attribute", Code.String("value"));
+            template.AddProperty("Property2", Code.Type("string"))
+                    .WithAttribute("Attribute", Code.String("value"));
+            this.output.Language.Write(template, this.output);
+            Assert.AreEqual("public partial class MyClass\r\n{\r\n    [Attribute(\"value\")]\r\n    public string Property1 { get; set; }\r\n\r\n    [Attribute(\"value\")]\r\n    public string Property2 { get; set; }\r\n}", this.output.ToString());
+        }
+
+        [TestMethod]
         public void BaseTypeWriter()
         {
             BaseTypeWriter writer = new BaseTypeWriter();
@@ -83,7 +103,7 @@ namespace KY.Generator.Csharp.Tests
         public void ConstraintWriter()
         {
             ConstraintWriter writer = new ConstraintWriter();
-            writer.Write(new ConstraintTemplate("T", new List<TypeTemplate> { Code.Type("type")}), this.output);
+            writer.Write(new ConstraintTemplate("T", new List<TypeTemplate> { Code.Type("type") }), this.output);
             Assert.AreEqual("\r\n    where T : type", this.output.ToString());
         }
 

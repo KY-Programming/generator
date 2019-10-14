@@ -1,0 +1,69 @@
+// tslint:disable
+
+import { Address } from "./address";
+import { HttpClient } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { Observable } from "rxjs";
+import { Subject } from "rxjs";
+
+@Injectable({
+    providedIn: "root"
+})
+export class AddressService {
+    private readonly http: HttpClient;
+    public serviceUrl: string = "";
+
+    public constructor(http: HttpClient) {
+        this.http = http;
+    }
+
+    public get(query: string): Observable<Address[]> {
+        let subject = new Subject<Address[]>();
+        this.http.get(this.serviceUrl + "/Address?" + query).subscribe(result => {
+            const list: Address[] = [];
+            for (const entry of <[]>result) {
+                list.push(new Address(entry));
+                
+            }
+            subject.next(list);
+            subject.complete();
+        }, error => subject.error(error));
+        return subject;
+    }
+
+    public post(model: Address): Observable<void> {
+        let subject = new Subject<void>();
+        this.http.post(this.serviceUrl + "/Address", model).subscribe(() => {
+            subject.next();
+            subject.complete();
+        }, error => subject.error(error));
+        return subject;
+    }
+
+    public put(model: Address): Observable<void> {
+        let subject = new Subject<void>();
+        this.http.put(this.serviceUrl + "/Address", model).subscribe(() => {
+            subject.next();
+            subject.complete();
+        }, error => subject.error(error));
+        return subject;
+    }
+
+    public patch(id: number, model: Address): Observable<void> {
+        let subject = new Subject<void>();
+        this.http.patch(this.serviceUrl + "/Address?Id=" + id, model).subscribe(() => {
+            subject.next();
+            subject.complete();
+        }, error => subject.error(error));
+        return subject;
+    }
+
+    public delete(id: number): Observable<void> {
+        let subject = new Subject<void>();
+        this.http.delete(this.serviceUrl + "/Address?Id=" + id).subscribe(() => {
+            subject.next();
+            subject.complete();
+        }, error => subject.error(error));
+        return subject;
+    }
+}

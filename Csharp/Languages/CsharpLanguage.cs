@@ -57,6 +57,11 @@ namespace KY.Generator.Csharp.Languages
             return methodName == null ? null : Regex.Replace(methodName, "[^A-z0-9_]", "_").FirstCharToUpper();
         }
 
+        public override string FormatParameterName(string parameterName)
+        {
+            return parameterName == null ? null : Regex.Replace(parameterName, "[^A-z0-9_]", "_").FirstCharToLower();
+        }
+
         protected override IEnumerable<UsingTemplate> GetUsings(FileTemplate fileTemplate)
         {
             return fileTemplate.GetUsingsByNamespace();

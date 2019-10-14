@@ -1,0 +1,69 @@
+// tslint:disable
+
+import { User } from "./user";
+import { HttpClient } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { Observable } from "rxjs";
+import { Subject } from "rxjs";
+
+@Injectable({
+    providedIn: "root"
+})
+export class uSeRService {
+    private readonly http: HttpClient;
+    public serviceUrl: string = "";
+
+    public constructor(http: HttpClient) {
+        this.http = http;
+    }
+
+    public get(query: string): Observable<User[]> {
+        let subject = new Subject<User[]>();
+        this.http.get(this.serviceUrl + "/uSeR?" + query).subscribe(result => {
+            const list: User[] = [];
+            for (const entry of <[]>result) {
+                list.push(new User(entry));
+                
+            }
+            subject.next(list);
+            subject.complete();
+        }, error => subject.error(error));
+        return subject;
+    }
+
+    public post(model: User): Observable<void> {
+        let subject = new Subject<void>();
+        this.http.post(this.serviceUrl + "/uSeR", model).subscribe(() => {
+            subject.next();
+            subject.complete();
+        }, error => subject.error(error));
+        return subject;
+    }
+
+    public put(model: User): Observable<void> {
+        let subject = new Subject<void>();
+        this.http.put(this.serviceUrl + "/uSeR", model).subscribe(() => {
+            subject.next();
+            subject.complete();
+        }, error => subject.error(error));
+        return subject;
+    }
+
+    public patch(id: number, model: User): Observable<void> {
+        let subject = new Subject<void>();
+        this.http.patch(this.serviceUrl + "/uSeR?Id=" + id, model).subscribe(() => {
+            subject.next();
+            subject.complete();
+        }, error => subject.error(error));
+        return subject;
+    }
+
+    public delete(id: number): Observable<void> {
+        let subject = new Subject<void>();
+        this.http.delete(this.serviceUrl + "/uSeR?Id=" + id).subscribe(() => {
+            subject.next();
+            subject.complete();
+        }, error => subject.error(error));
+        return subject;
+    }
+}

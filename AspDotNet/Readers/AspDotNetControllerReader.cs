@@ -46,7 +46,7 @@ namespace KY.Generator.AspDotNet.Readers
                     continue;
                 }
 
-                AspDotNetController controller = new AspDotNetController();
+                HttpServiceTransferObject controller = new HttpServiceTransferObject();
                 controller.Name = type.Name;
                 controller.Language = ReflectionLanguage.Instance;
 
@@ -63,7 +63,7 @@ namespace KY.Generator.AspDotNet.Readers
                     foreach (Attribute attribute in method.GetCustomAttributes())
                     {
                         Type attributeType = attribute.GetType();
-                        AspDotNetControllerAction action = new AspDotNetControllerAction();
+                        HttpServiceActionTransferObject action = new HttpServiceActionTransferObject();
                         action.ReturnType = method.ReturnType.ToTransferObject();
                         action.Route = attributeType.GetProperty("Template")?.GetValue(attribute)?.ToString();
                         int methodNameIndex = 1;
@@ -88,22 +88,22 @@ namespace KY.Generator.AspDotNet.Readers
                         switch (attributeType.Name)
                         {
                             case "HttpGetAttribute":
-                                action.Type = AspDotNetControllerActionType.Get;
+                                action.Type = HttpServiceActionTypeTransferObject.Get;
                                 break;
                             case "HttpPostAttribute":
-                                action.Type = AspDotNetControllerActionType.Post;
+                                action.Type = HttpServiceActionTypeTransferObject.Post;
                                 action.RequireBodyParameter = true;
                                 break;
                             case "HttpPatchAttribute":
-                                action.Type = AspDotNetControllerActionType.Patch;
+                                action.Type = HttpServiceActionTypeTransferObject.Patch;
                                 action.RequireBodyParameter = true;
                                 break;
                             case "HttpPutAttribute":
-                                action.Type = AspDotNetControllerActionType.Put;
+                                action.Type = HttpServiceActionTypeTransferObject.Put;
                                 action.RequireBodyParameter = true;
                                 break;
                             case "HttpDeleteAttribute":
-                                action.Type = AspDotNetControllerActionType.Delete;
+                                action.Type = HttpServiceActionTypeTransferObject.Delete;
                                 break;
                             default:
                                 Logger.Warning($"Unknown controller action attribute {attributeType.Name}");
@@ -111,7 +111,7 @@ namespace KY.Generator.AspDotNet.Readers
                         }
                         foreach (ParameterInfo parameter in parameters)
                         {
-                            AspDotNetControllerActionParameter actionParameter = new AspDotNetControllerActionParameter();
+                            HttpServiceActionParameterTransferObject actionParameter = new HttpServiceActionParameterTransferObject();
                             actionParameter.Name = parameter.Name;
                             actionParameter.Type = parameter.ParameterType.ToTransferObject();
                             actionParameter.FromBody = action.RequireBodyParameter && parameter.GetCustomAttributes().Any(parameterAttribute => parameterAttribute.GetType().Name == "FromBodyAttribute");

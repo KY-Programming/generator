@@ -29,5 +29,10 @@
         {
             return methodName;
         }
+
+        public string FormatParameterName(string parameterName)
+        {
+            return parameterName;
+        }
     }
 }

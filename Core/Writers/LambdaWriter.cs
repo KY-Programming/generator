@@ -8,7 +8,7 @@ namespace KY.Generator.Writers
         public virtual void Write(ICodeFragment fragment, IOutputCache output)
         {
             LambdaTemplate template = (LambdaTemplate)fragment;
-            output.Add(template.ParameterName)
+            output.Add(template.ParameterName ?? "()")
                   .Add(" =>");
             if (template.Code is MultilineCodeFragment)
             {

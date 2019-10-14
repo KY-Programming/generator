@@ -5,6 +5,7 @@ using KY.Core;
 using KY.Core.DataAccess;
 using KY.Generator.Angular.Configurations;
 using KY.Generator.Configuration;
+using KY.Generator.Languages;
 using KY.Generator.Mappings;
 using KY.Generator.Output;
 using KY.Generator.Templates;
@@ -36,10 +37,11 @@ namespace KY.Generator.Angular.Writers
                 throw new InvalidOperationException($"Can not generate service for ASP.net Controller for language {configuration.Language?.Name ?? "Empty"}");
             }
             List<FileTemplate> files = new List<FileTemplate>();
-            foreach (AspDotNetController controller in transferObjects.OfType<AspDotNetController>())
+            foreach (HttpServiceTransferObject controller in transferObjects.OfType<HttpServiceTransferObject>())
             {
+                Dictionary<HttpServiceActionParameterTransferObject, ParameterTemplate> mapping = new Dictionary<HttpServiceActionParameterTransferObject, ParameterTemplate>();
                 string controllerName = controller.Name.TrimEnd("Controller");
-                ClassTemplate classTemplate = files.AddFile(configuration.Service.RelativePath)
+                ClassTemplate classTemplate = files.AddFile(configuration.Service.RelativePath, configuration.AddHeader)
                                                    .AddNamespace(string.Empty)
                                                    .AddClass(controllerName + "Service")
                                                    .WithUsing("HttpClient", "@angular/common/http")
@@ -51,8 +53,8 @@ namespace KY.Generator.Angular.Writers
                 FieldTemplate serviceUrlField = classTemplate.AddField("serviceUrl", Code.Type("string")).Public().FormatName(configuration.Language, configuration.FormatNames).Default(Code.String(string.Empty));
                 classTemplate.AddConstructor().WithParameter(Code.Type("HttpClient"), "http")
                              .WithCode(Code.This().Field(httpField).Assign(Code.Local("http")).Close());
-                string relativeModelPath = FileSystem.RelativeTo(configuration.Service.ModelPath, configuration.Service.RelativePath);
-                foreach (AspDotNetControllerAction action in controller.Actions)
+                string relativeModelPath = FileSystem.RelativeTo(configuration.Service.ModelPath ?? ".", configuration.Service.RelativePath);
+                foreach (HttpServiceActionTransferObject action in controller.Actions)
                 {
                     ICodeFragment errorCode = Code.Lambda("error", Code.Local("subject").Method("error", Code.Local("error")));
                     this.MapType(controller.Language, configuration.Language, action.ReturnType);
@@ -60,20 +62,23 @@ namespace KY.Generator.Angular.Writers
                     this.AddUsing(action.ReturnType, classTemplate, configuration.Language, relativeModelPath);
                     MethodTemplate methodTemplate = classTemplate.AddMethod(action.Name, Code.Generic("Observable", returnType))
                                                                  .FormatName(configuration.Language, configuration.FormatNames);
-                    foreach (AspDotNetControllerActionParameter parameter in action.Parameters)
+                    foreach (HttpServiceActionParameterTransferObject parameter in action.Parameters)
                     {
                         this.MapType(controller.Language, configuration.Language, parameter.Type);
                         this.AddUsing(parameter.Type, classTemplate, configuration.Language, relativeModelPath);
-                        methodTemplate.AddParameter(parameter.Type.ToTemplate(), parameter.Name);
+                        ParameterTemplate parameterTemplate = methodTemplate.AddParameter(parameter.Type.ToTemplate(), parameter.Name).FormatName(configuration.Language, configuration.FormatNames);
+                        mapping.Add(parameter, parameterTemplate);
                     }
                     TypeTemplate subjectType = Code.Generic("Subject", returnType);
                     methodTemplate.WithCode(Code.Declare(subjectType, "subject", Code.New(subjectType)));
-                    string uri = "/" + controller.Route?.Replace("[controller]", controllerName.ToLower()).TrimEnd('/') + "/" + action.Route?.Replace("[action]", action.Name.ToLower());
+                    string uri = ("/" + controller.Route?.Replace("[controller]", controllerName.ToLower()).TrimEnd('/') + "/" + action.Route?.Replace("[action]", action.Name.ToLower())).TrimEnd('/');
 
-                    List<AspDotNetControllerActionParameter> urlParameters = action.Parameters.Where(x => !x.FromBody).ToList();
-                    uri = urlParameters.Count > 0 ? $"{uri}?{urlParameters.First().Name}=" : uri;
+                    List<HttpServiceActionParameterTransferObject> urlParameters = action.Parameters.Where(x => !x.FromBody && x.AppendName).ToList();
+                    List<HttpServiceActionParameterTransferObject> urlDirectParameters = action.Parameters.Where(x => !x.FromBody && !x.AppendName).ToList();
+                    uri = urlParameters.Count > 0 ? $"{uri}?{urlParameters.First().Name}=" : urlDirectParameters.Count > 0 ? $"{uri}?" : uri;
                     MultilineCodeFragment code = Code.Multiline();
                     DeclareTemplate declareTemplate = null;
+                    bool hasReturnType = returnType.Name != "void";
                     if (returnType.Name == "Array")
                     {
                         TypeTemplate type = ((GenericTypeTemplate)returnType).Types[0];
@@ -83,7 +88,7 @@ namespace KY.Generator.Angular.Writers
                             .AddLine(Code.Local(declareTemplate).Method("push", Code.New(type, Code.Local("entry"))).Close())
                             .AddLine(Code.TypeScript("").EndBlock());
                     }
-                    else if (returnType.Name != "void")
+                    else if (hasReturnType)
                     {
                         declareTemplate = Code.Declare(returnType, "model", Code.New(returnType, Code.Local("result"))).Constant();
                         code.AddLine(declareTemplate);
@@ -92,7 +97,7 @@ namespace KY.Generator.Angular.Writers
                         .AddLine(Code.Local("subject").Method("complete").Close());
                     ChainedCodeFragment parameterUrl = Code.This().Field(serviceUrlField).Append(Code.String(uri));
                     bool isFirst = true;
-                    foreach (AspDotNetControllerActionParameter parameter in urlParameters)
+                    foreach (HttpServiceActionParameterTransferObject parameter in urlDirectParameters)
                     {
                         if (isFirst)
                         {
@@ -101,7 +106,19 @@ namespace KY.Generator.Angular.Writers
                         }
                         else
                         {
-                            parameterUrl = parameterUrl.Append(Code.String($"&{parameter.Name}=")).Append(Code.Local(parameter.Name));
+                            parameterUrl = parameterUrl.Append(Code.String("&")).Append(Code.Local(parameter.Name));
+                        }
+                    }
+                    foreach (HttpServiceActionParameterTransferObject parameter in urlParameters)
+                    {
+                        if (isFirst)
+                        {
+                            isFirst = false;
+                            parameterUrl = parameterUrl.Append(Code.Local(mapping[parameter]));
+                        }
+                        else
+                        {
+                            parameterUrl = parameterUrl.Append(Code.String($"&{parameter.Name}=")).Append(Code.Local(mapping[parameter]));
                         }
                     }
 
@@ -109,7 +126,7 @@ namespace KY.Generator.Angular.Writers
                         Code.This()
                             .Field(httpField)
                             .Method(action.Type.ToString().ToLowerInvariant(), parameterUrl, action.RequireBodyParameter ? Code.Local(action.Parameters.Single(x => x.FromBody).Name) : null)
-                            .Method("subscribe", Code.Lambda("result", code), errorCode).Close()
+                            .Method("subscribe", Code.Lambda(hasReturnType ? "result" : null, code), errorCode).Close()
                     );
                     methodTemplate.WithCode(Code.Return(Code.Local("subject")));
                 }

@@ -4,43 +4,44 @@ using KY.Generator.Languages;
 namespace KY.Generator.Transfer
 {
     // TODO: Only temporary location. Move to better location
-    public class AspDotNetController : ITransferObject
+    public class HttpServiceTransferObject : ITransferObject
     {
         public string Name { get; set; }
         public string Route { get; set; }
         public ILanguage Language { get; set; }
 
-        public List<AspDotNetControllerAction> Actions { get; }
+        public List<HttpServiceActionTransferObject> Actions { get; }
 
-        public AspDotNetController()
+        public HttpServiceTransferObject()
         {
-            this.Actions = new List<AspDotNetControllerAction>();
+            this.Actions = new List<HttpServiceActionTransferObject>();
         }
     }
 
-    public class AspDotNetControllerAction
+    public class HttpServiceActionTransferObject
     {
         public string Name { get; set; }
         public TypeTransferObject ReturnType { get; set; }
         public string Route { get; set; }
         public bool RequireBodyParameter { get; set; }
-        public List<AspDotNetControllerActionParameter> Parameters { get; }
-        public AspDotNetControllerActionType Type { get; set; }
+        public List<HttpServiceActionParameterTransferObject> Parameters { get; }
+        public HttpServiceActionTypeTransferObject Type { get; set; }
 
-        public AspDotNetControllerAction()
+        public HttpServiceActionTransferObject()
         {
-            this.Parameters = new List<AspDotNetControllerActionParameter>();
+            this.Parameters = new List<HttpServiceActionParameterTransferObject>();
         }
     }
 
-    public class AspDotNetControllerActionParameter
+    public class HttpServiceActionParameterTransferObject
     {
         public string Name { get; set; }
         public bool FromBody { get; set; }
+        public bool AppendName { get; set; } = true;
         public TypeTransferObject Type { get; set; }
     }
 
-    public enum AspDotNetControllerActionType {
+    public enum HttpServiceActionTypeTransferObject {
         Get,
         Post,
         Put,

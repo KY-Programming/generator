@@ -9,5 +9,6 @@
         string FormatPropertyName(string propertyName);
         string FormatFieldName(string fieldName);
         string FormatMethodName(string methodName);
+        string FormatParameterName(string parameterName);
     }
 }

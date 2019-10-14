@@ -5,7 +5,7 @@
     <Company>KY-Programming</Company>
     <Authors>KY-Programming</Authors>
     <Product>KY.Generator</Product>
-    <Version>2.0.0</Version>
+    <Version>2.2.0-rc.0</Version>
     <Description>Core elements for KY-Generator</Description>
     <Copyright>2019 - KY-Programming</Copyright>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
@@ -18,7 +18,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="KY.Core.Common" Version="4.5.0" />
+    <PackageReference Include="KY.Core.Common" Version="4.6.1" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
   </ItemGroup>
 

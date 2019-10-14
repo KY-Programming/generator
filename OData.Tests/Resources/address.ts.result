@@ -1,0 +1,12 @@
+// tslint:disable
+
+export class Address {
+    public id: number;
+    public zipCode: number;
+    public city: string;
+    public street: string;
+
+    public constructor(init: Partial<Address> = undefined) {
+        Object.assign(this, init);
+    }
+}

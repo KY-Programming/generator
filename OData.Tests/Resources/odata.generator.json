@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "generate": [
+    {
+      "read": "odata-v4",
+      "file": "Resources/OData.xml"
+    },
+    {
+      "write": "angular",
+      "service": {
+        "propertiesToFields": true,
+        "formatNames": true
+      }
+    }
+  ]
+}

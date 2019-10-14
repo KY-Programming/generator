@@ -16,15 +16,13 @@ namespace KY.Generator.AspDotNet.Readers
             this.resolver = resolver;
         }
 
-        public List<ITransferObject> Read(ConfigurationBase configurationBase)
+        public void Read(ConfigurationBase configurationBase, List<ITransferObject> transferObjects)
         {
-            List<ITransferObject> list = new List<ITransferObject>();
             AspDotNetReadConfiguration configuration = (AspDotNetReadConfiguration)configurationBase;
             if (configuration.Controller != null)
             {
-                this.resolver.Create<AspDotNetControllerReader>().Read(configuration).ForEach(list.Add);
+                this.resolver.Create<AspDotNetControllerReader>().Read(configuration).ForEach(transferObjects.Add);
             }
-            return list;
         }
     }
 }

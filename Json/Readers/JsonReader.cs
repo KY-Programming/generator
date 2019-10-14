@@ -12,15 +12,12 @@ namespace KY.Generator.Json.Readers
 {
     internal class JsonReader : ITransferReader
     {
-        public List<ITransferObject> Read(ConfigurationBase configurationBase)
+        public void Read(ConfigurationBase configurationBase, List<ITransferObject> transferObjects)
         {
             JsonReadConfiguration configuration = (JsonReadConfiguration)configurationBase;
             JObject source = JsonConvert.DeserializeObject<JObject>(FileSystem.ReadAllText(PathResolver.Resolve(configuration.Source, configuration)));
-            List<ITransferObject> list = new List<ITransferObject>();
 
-            this.ReadModel("Unknown", source, list);
-
-            return list;
+            this.ReadModel("Unknown", source, transferObjects);
         }
 
         private ModelTransferObject ReadModel(string name, JObject source, List<ITransferObject> list)

@@ -5,6 +5,6 @@ namespace KY.Generator.Transfer
 {
     public interface ITransferReader
     {
-        List<ITransferObject> Read(ConfigurationBase configurationBase);
+        void Read(ConfigurationBase configurationBase, List<ITransferObject> transferObjects);
     }
 }

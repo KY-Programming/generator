@@ -26,9 +26,10 @@ namespace KY.Generator
             bool success = true;
             foreach (ConfigurationPair pair in configurations)
             {
-                if (pair.Writers.Any(x => x.Language == null && x.RequireLanguage))
+                ConfigurationBase missingLanguage = pair.Writers.FirstOrDefault(x => x.Language == null && x.RequireLanguage);
+                if (missingLanguage != null)
                 {
-                    Logger.Trace($"Configuration '{pair.GetType().Name}' without language found. Generation failed!");
+                    Logger.Trace($"Configuration '{missingLanguage.GetType().Name}' without language found. Generation failed!");
                     success = false;
                     continue;
                 }
@@ -39,7 +40,7 @@ namespace KY.Generator
                     {
                         if (readers.Resolve(configuration) is ITransferReader reader)
                         {
-                            transferObjects.AddRange(reader.Read(configuration));
+                            reader.Read(configuration, transferObjects);
                         }
                     }
                     foreach (ConfigurationBase configuration in pair.Writers)

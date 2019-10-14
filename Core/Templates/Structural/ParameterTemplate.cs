@@ -3,7 +3,7 @@
     public class ParameterTemplate : AttributeableTempalte
     {
         public TypeTemplate Type { get; }
-        public string Name { get; }
+        public string Name { get; set; }
         public ICodeFragment DefaultValue { get; }
 
         public ParameterTemplate(TypeTemplate type, string name, ICodeFragment defaultValue = null)

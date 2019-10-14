@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+  <edmx:DataServices>
+    <Schema Namespace="OData.Models" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+      <EntityType Name="Address">
+        <Key>
+          <PropertyRef Name="Id" />
+        </Key>
+        <Property Name="Id" Type="Edm.Guid" Nullable="false" />
+        <Property Name="ZipCode" Type="Edm.Int32" Nullable="false" />
+        <Property Name="City" Type="Edm.String" />
+        <Property Name="Street" Type="Edm.String" />
+      </EntityType>
+      <EntityType Name="User">
+        <Key>
+          <PropertyRef Name="Id" />
+        </Key>
+        <Property Name="Id" Type="Edm.Guid" Nullable="false" />
+        <Property Name="Name" Type="Edm.String" />
+        <Property Name="Email" Type="Edm.String" />
+        <NavigationProperty Name="Address" Type="OData.Models.Address" />
+      </EntityType>
+    </Schema>
+    <Schema Namespace="Default" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+      <EntityContainer Name="Container">
+        <EntitySet Name="Address" EntityType="OData.Models.Address" />
+        <EntitySet Name="uSeR" EntityType="OData.Models.User">
+          <NavigationPropertyBinding Path="Address" Target="Address" />
+        </EntitySet>
+      </EntityContainer>
+    </Schema>
+  </edmx:DataServices>
+</edmx:Edmx>

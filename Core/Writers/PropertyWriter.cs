@@ -10,8 +10,8 @@ namespace KY.Generator.Writers
         public virtual void Write(ICodeFragment fragment, IOutputCache output)
         {
             PropertyTemplate template = (PropertyTemplate)fragment;
-            PropertyTemplate lastTemplate = output.LastFragments.FirstOrDefault() as PropertyTemplate;
-            if (template.Attributes.Count > 0 || lastTemplate?.Attributes.Count > 0)
+            PropertyTemplate previousProperty = output.LastFragments.OfType<PropertyTemplate>().Skip(1).FirstOrDefault();
+            if (previousProperty?.Attributes.Count > 0)
             {
                 output.BreakLine();
             }
@@ -21,7 +21,7 @@ namespace KY.Generator.Writers
             }
             if (template.Attributes.Count > 0)
             {
-                output.Add(template.Attributes).BreakLine();
+                output.Add(template.Attributes);
             }
             output.Add(template.Visibility == Visibility.None ? string.Empty : template.Visibility.ToString().ToLower())
                   .Add(" ")

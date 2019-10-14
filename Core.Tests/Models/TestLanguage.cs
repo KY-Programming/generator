@@ -34,6 +34,11 @@ namespace KY.Generator.Core.Tests.Models
             return methodName;
         }
 
+        public override string FormatParameterName(string parameterName)
+        {
+            return parameterName;
+        }
+
         protected override IEnumerable<UsingTemplate> GetUsings(FileTemplate fileTemplate)
         {
             return fileTemplate.GetUsingsByNamespace();

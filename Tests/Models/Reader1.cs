@@ -6,10 +6,9 @@ namespace KY.Generator.Tests.Models
 {
     internal class Reader1 : ITransferReader
     {
-        public List<ITransferObject> Read(ConfigurationBase configurationBase)
+        public void Read(ConfigurationBase configurationBase, List<ITransferObject> transferObjects)
         {
             Read1Configuration configuration = (Read1Configuration)configurationBase;
-            return new List<ITransferObject>();
         }
     }
 }

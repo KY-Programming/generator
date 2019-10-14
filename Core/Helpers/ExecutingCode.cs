@@ -26,6 +26,11 @@ namespace KY.Generator
             return new LocalVariableTemplate(type.Name);
         }
 
+        public static LocalVariableTemplate Local(this Code _, ParameterTemplate type)
+        {
+            return new LocalVariableTemplate(type.Name);
+        }
+
         public static LocalVariableTemplate Static(this Code _, TypeTemplate type)
         {
             return new LocalVariableTemplate(type.Name);
@@ -104,6 +109,11 @@ namespace KY.Generator
                                      code.String(parameterName),
                                      code.Local(parameterName),
                                      code.String($"{parameterName} was out of the range of valid values."));
+        }
+
+        public static LambdaTemplate Lambda(this Code _, ICodeFragment code)
+        {
+            return new LambdaTemplate(null, code);
         }
 
         public static LambdaTemplate Lambda(this Code _, string parameterName, ICodeFragment code)

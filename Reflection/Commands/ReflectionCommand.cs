@@ -67,7 +67,8 @@ namespace KY.Generator.Reflection.Commands
                             readConfiguration.Name = objectType.Name;
                             readConfiguration.Namespace = objectType.Namespace;
                             readConfiguration.Assembly = objectType.Assembly.Location;
-                            List<ITransferObject> transferObjects = this.reader.Read(readConfiguration);
+                            List<ITransferObject> transferObjects = new List<ITransferObject>();
+                            this.reader.Read(readConfiguration, transferObjects);
 
                             ReflectionWriteConfiguration writeConfiguration = new ReflectionWriteConfiguration();
                             writeConfiguration.CopyBaseFrom(configuration);
@@ -89,7 +90,8 @@ namespace KY.Generator.Reflection.Commands
                 readConfiguration.Name = configuration.Parameters.GetString(nameof(ReflectionReadConfiguration.Name));
                 readConfiguration.Namespace = configuration.Parameters.GetString(nameof(ReflectionReadConfiguration.Namespace));
                 readConfiguration.Assembly = configuration.Parameters.GetString(nameof(ReflectionReadConfiguration.Assembly));
-                List<ITransferObject> transferObjects = this.reader.Read(readConfiguration);
+                List<ITransferObject> transferObjects = new List<ITransferObject>();
+                this.reader.Read(readConfiguration, transferObjects);
                 
                 ReflectionWriteConfiguration writeConfiguration = new ReflectionWriteConfiguration();
                 writeConfiguration.CopyBaseFrom(configuration);
