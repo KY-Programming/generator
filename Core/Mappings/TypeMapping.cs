@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using KY.Core;
 using KY.Generator.Languages;
 using KY.Generator.Transfer;
 
@@ -32,6 +33,9 @@ namespace KY.Generator.Mappings
         
         public TypeMappingEntry TryGet(ILanguage fromLanguage, string fromType, ILanguage toLanguage)
         {
+            fromLanguage.AssertIsNotNull(nameof(fromLanguage));
+            fromType.AssertIsNotNull(nameof(fromType));
+            toLanguage.AssertIsNotNull(nameof(toLanguage));
             return this.typeMapping.FirstOrDefault(x => x.FromLanguage == fromLanguage && x.FromType == fromType && x.ToLanguage == toLanguage);
         }
         

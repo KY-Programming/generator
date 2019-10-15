@@ -2,6 +2,7 @@
 using KY.Generator.Configuration;
 using KY.Generator.Output;
 using KY.Generator.Transfer;
+using KY.Generator.Transfer.Writers;
 
 namespace KY.Generator.Tests.Models
 {

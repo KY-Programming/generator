@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using KY.Generator.Configuration;
 using KY.Generator.Transfer;
+using KY.Generator.Transfer.Readers;
 
 namespace KY.Generator.Tests.Models
 {

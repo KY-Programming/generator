@@ -125,6 +125,28 @@ namespace KY.Generator.Csharp.Tests
         }
 
         [TestMethod]
+        public void ClassOneNormalPropertyAndOnePropertyWithAttribute()
+        {
+            ClassTemplate template = new ClassTemplate((NamespaceTemplate)null, "test");
+            template.AddProperty("Prop1", Code.Type("string"));
+            template.AddProperty("Prop2", Code.Type("string")).WithAttribute("attr");
+            ClassWriter writer = new ClassWriter();
+            writer.Write(template, this.output);
+            Assert.AreEqual("public partial class test\r\n{\r\n    public string Prop1 { get; set; }\r\n\r\n    [attr]\r\n    public string Prop2 { get; set; }\r\n}", this.output.ToString());
+        }
+
+        [TestMethod]
+        public void ClassOnePropertyWithAttributeAndOneNormalProperty()
+        {
+            ClassTemplate template = new ClassTemplate((NamespaceTemplate)null, "test");
+            template.AddProperty("Prop1", Code.Type("string")).WithAttribute("attr");
+            template.AddProperty("Prop2", Code.Type("string"));
+            ClassWriter writer = new ClassWriter();
+            writer.Write(template, this.output);
+            Assert.AreEqual("public partial class test\r\n{\r\n    [attr]\r\n    public string Prop1 { get; set; }\r\n\r\n    public string Prop2 { get; set; }\r\n}", this.output.ToString());
+        }
+
+        [TestMethod]
         public void DeclareWriter()
         {
             DeclareWriter writer = new DeclareWriter();

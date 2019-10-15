@@ -5,6 +5,7 @@ using KY.Generator.Configuration;
 using KY.Generator.Json.Configuration;
 using KY.Generator.Json.Language;
 using KY.Generator.Transfer;
+using KY.Generator.Transfer.Readers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -30,12 +31,12 @@ namespace KY.Generator.Json.Readers
                 if (property.Value.Type == JTokenType.Object)
                 {
                     ModelTransferObject propertyModel = this.ReadModel(property.Name, (JObject)property.Value, list);
-                    model.Properties.Add(new ModelPropertyTransferObject { Name = propertyModel.Name, Type = propertyModel });
+                    model.Properties.Add(new PropertyTransferObject { Name = propertyModel.Name, Type = propertyModel });
                 }
                 else if (property.Value.Type == JTokenType.Array)
                 {
                     TypeTransferObject listType = new TypeTransferObject { Name = JTokenType.Array.ToString() };
-                    model.Properties.Add(new ModelPropertyTransferObject { Name = property.Name, Type = listType });
+                    model.Properties.Add(new PropertyTransferObject { Name = property.Name, Type = listType });
 
                     List<JToken> children = property.Value.Children().ToList();
                     if (children.Count == 0 || children.Any(x => x.Type != children.First().Type))
@@ -54,7 +55,7 @@ namespace KY.Generator.Json.Readers
                 }
                 else
                 {
-                    model.Properties.Add(new ModelPropertyTransferObject { Name = property.Name, Type = new TypeTransferObject { Name = property.Value.Type.ToString() } });
+                    model.Properties.Add(new PropertyTransferObject { Name = property.Name, Type = new TypeTransferObject { Name = property.Value.Type.ToString() } });
                 }
             }
             return model;

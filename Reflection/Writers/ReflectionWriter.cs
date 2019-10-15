@@ -6,6 +6,7 @@ using KY.Generator.Output;
 using KY.Generator.Reflection.Configuration;
 using KY.Generator.Templates;
 using KY.Generator.Transfer;
+using KY.Generator.Transfer.Writers;
 
 namespace KY.Generator.Reflection.Writers
 {

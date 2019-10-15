@@ -3,7 +3,7 @@ using System.Net;
 using KY.Generator.Configuration;
 using KY.Generator.Configurations;
 
-namespace KY.Generator.Transfer
+namespace KY.Generator.Transfer.Readers
 {
     public class CookieReader : ITransferReader
     {

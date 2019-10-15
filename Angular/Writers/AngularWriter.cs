@@ -4,6 +4,7 @@ using KY.Generator.Angular.Configurations;
 using KY.Generator.Configuration;
 using KY.Generator.Output;
 using KY.Generator.Transfer;
+using KY.Generator.Transfer.Writers;
 
 namespace KY.Generator.Angular.Writers
 {

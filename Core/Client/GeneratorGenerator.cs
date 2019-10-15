@@ -3,6 +3,7 @@ using KY.Core;
 using KY.Generator.Configuration;
 using KY.Generator.Output;
 using KY.Generator.Transfer;
+using KY.Generator.Transfer.Writers;
 
 namespace KY.Generator.Client
 {

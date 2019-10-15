@@ -2,7 +2,7 @@
 using KY.Generator.Configuration;
 using KY.Generator.Output;
 
-namespace KY.Generator.Transfer
+namespace KY.Generator.Transfer.Writers
 {
     public interface ITransferWriter
     {

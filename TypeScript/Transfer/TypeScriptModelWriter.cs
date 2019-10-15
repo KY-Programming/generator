@@ -5,6 +5,7 @@ using KY.Generator.Mappings;
 using KY.Generator.Templates;
 using KY.Generator.Templates.Extensions;
 using KY.Generator.Transfer;
+using KY.Generator.Transfer.Writers;
 using KY.Generator.TypeScript.Extensions;
 using KY.Generator.TypeScript.Languages;
 using KY.Generator.TypeScript.Templates;

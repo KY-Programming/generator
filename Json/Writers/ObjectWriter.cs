@@ -6,6 +6,7 @@ using KY.Generator.Json.Configuration;
 using KY.Generator.Mappings;
 using KY.Generator.Templates;
 using KY.Generator.Transfer;
+using KY.Generator.Transfer.Writers;
 
 namespace KY.Generator.Json.Writers
 {

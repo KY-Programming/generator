@@ -13,6 +13,8 @@ using KY.Generator.Module;
 using KY.Generator.Output;
 using KY.Generator.Syntax;
 using KY.Generator.Transfer;
+using KY.Generator.Transfer.Readers;
+using KY.Generator.Transfer.Writers;
 
 namespace KY.Generator
 {

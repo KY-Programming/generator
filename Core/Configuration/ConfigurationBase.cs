@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Net;
 using KY.Generator.Languages;
 using KY.Generator.Mappings;
 using Newtonsoft.Json;
@@ -18,7 +17,6 @@ namespace KY.Generator.Configuration
         internal string LanguageKey { get; set; }
 
         public bool AddHeader { get; set; } = true;
-        public List<Cookie> Cookies { get; }
         public virtual bool RequireLanguage => true;
 
         public List<ClassMapping> ClassMapping { get; }
@@ -32,21 +30,19 @@ namespace KY.Generator.Configuration
             this.ClassMapping = new List<ClassMapping>();
             this.FieldMapping = new List<FieldMapping>();
             this.PropertyMapping = new List<PropertyMapping>();
-            this.Cookies = new List<Cookie>();
         }
 
-        public virtual void CopyBaseFrom(ConfigurationBase command)
+        public virtual void CopyBaseFrom(ConfigurationBase source)
         {
-            this.Framework = command.Framework;
-            this.VerifySsl = command.VerifySsl;
-            this.Language = command.Language;
-            this.AddHeader = command.AddHeader;
-            this.Cookies.AddRange(command.Cookies);
-            this.ClassMapping.AddRange(command.ClassMapping);
-            this.FieldMapping.AddRange(command.FieldMapping);
-            this.PropertyMapping.AddRange(command.PropertyMapping);
-            this.Standalone = command.Standalone;
-            this.ConfigurationFilePath = command.ConfigurationFilePath;
+            this.Framework = source.Framework;
+            this.VerifySsl = source.VerifySsl;
+            this.Language = source.Language;
+            this.AddHeader = source.AddHeader;
+            this.ClassMapping.AddRange(source.ClassMapping);
+            this.FieldMapping.AddRange(source.FieldMapping);
+            this.PropertyMapping.AddRange(source.PropertyMapping);
+            this.Standalone = source.Standalone;
+            this.ConfigurationFilePath = source.ConfigurationFilePath;
         }
     }
 }

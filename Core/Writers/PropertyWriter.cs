@@ -15,7 +15,7 @@ namespace KY.Generator.Writers
             {
                 output.BreakLine();
             }
-            if (template.Comment != null)
+            if (template.Comment != null && !string.IsNullOrWhiteSpace(template.Comment.Description))
             {
                 output.Add(template.Comment).BreakLine();
             }

@@ -12,6 +12,7 @@ using KY.Generator.Templates;
 using KY.Generator.Templates.Extensions;
 using KY.Generator.Transfer;
 using KY.Generator.Transfer.Extensions;
+using KY.Generator.Transfer.Writers;
 using KY.Generator.TypeScript;
 using KY.Generator.TypeScript.Extensions;
 using KY.Generator.TypeScript.Languages;

@@ -6,6 +6,8 @@ using KY.Core.Dependency;
 using KY.Generator.Configuration;
 using KY.Generator.Output;
 using KY.Generator.Transfer;
+using KY.Generator.Transfer.Readers;
+using KY.Generator.Transfer.Writers;
 
 namespace KY.Generator
 {

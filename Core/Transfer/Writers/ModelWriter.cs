@@ -11,7 +11,7 @@ using KY.Generator.Templates;
 using KY.Generator.Templates.Extensions;
 using KY.Generator.Transfer.Extensions;
 
-namespace KY.Generator.Transfer
+namespace KY.Generator.Transfer.Writers
 {
     public class ModelWriter : TransferWriter, ITransferWriter
     {

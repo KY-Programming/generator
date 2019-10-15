@@ -8,6 +8,8 @@ using KY.Generator.Configuration;
 using KY.Generator.Configurations;
 using KY.Generator.Languages;
 using KY.Generator.Transfer;
+using KY.Generator.Transfer.Readers;
+using KY.Generator.Transfer.Writers;
 
 [assembly: InternalsVisibleTo("KY.Generator.Tests")]
 [assembly: InternalsVisibleTo("KY.Generator.Core.Tests")]

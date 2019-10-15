@@ -6,6 +6,7 @@ using KY.Core;
 using KY.Generator.Configuration;
 using KY.Generator.Reflection.Configuration;
 using KY.Generator.Transfer;
+using KY.Generator.Transfer.Readers;
 
 namespace KY.Generator.Reflection.Readers
 {

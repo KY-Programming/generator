@@ -4,6 +4,7 @@ using KY.Core.Dependency;
 using KY.Generator.AspDotNet.Configurations;
 using KY.Generator.Configuration;
 using KY.Generator.Transfer;
+using KY.Generator.Transfer.Readers;
 
 namespace KY.Generator.AspDotNet.Readers
 {

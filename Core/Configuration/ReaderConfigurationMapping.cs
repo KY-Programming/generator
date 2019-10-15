@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using KY.Core.Dependency;
 using KY.Generator.Transfer;
+using KY.Generator.Transfer.Readers;
 
 namespace KY.Generator.Configuration
 {

@@ -314,6 +314,15 @@ namespace KY.Generator.Core.Tests
         }
 
         [TestMethod]
+        public void PropertyWithEmptyComment()
+        {
+            PropertyTemplate template = new PropertyTemplate(null, "Property", Code.Type("string"))
+                .WithComment("");
+            this.output.Language.Write(template, this.output);
+            Assert.AreEqual("public string Property { get; set; }", this.output.ToString());
+        }
+
+        [TestMethod]
         public void NamespaceWriter()
         {
             NamespaceTemplate template = new NamespaceTemplate(null, "test");

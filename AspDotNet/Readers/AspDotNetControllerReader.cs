@@ -92,15 +92,12 @@ namespace KY.Generator.AspDotNet.Readers
                                 break;
                             case "HttpPostAttribute":
                                 action.Type = HttpServiceActionTypeTransferObject.Post;
-                                action.RequireBodyParameter = true;
                                 break;
                             case "HttpPatchAttribute":
                                 action.Type = HttpServiceActionTypeTransferObject.Patch;
-                                action.RequireBodyParameter = true;
                                 break;
                             case "HttpPutAttribute":
                                 action.Type = HttpServiceActionTypeTransferObject.Put;
-                                action.RequireBodyParameter = true;
                                 break;
                             case "HttpDeleteAttribute":
                                 action.Type = HttpServiceActionTypeTransferObject.Delete;
@@ -109,6 +106,7 @@ namespace KY.Generator.AspDotNet.Readers
                                 Logger.Warning($"Unknown controller action attribute {attributeType.Name}");
                                 continue;
                         }
+                        action.RequireBodyParameter = action.Type.IsBodyParameterRequired();
                         foreach (ParameterInfo parameter in parameters)
                         {
                             HttpServiceActionParameterTransferObject actionParameter = new HttpServiceActionParameterTransferObject();

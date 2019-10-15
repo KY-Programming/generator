@@ -41,11 +41,20 @@ namespace KY.Generator.Transfer
         public TypeTransferObject Type { get; set; }
     }
 
-    public enum HttpServiceActionTypeTransferObject {
+    public enum HttpServiceActionTypeTransferObject
+    {
         Get,
         Post,
         Put,
         Patch,
         Delete
+    }
+
+    public static class HttpServiceActionTypeTransferObjectExtension
+    {
+        public static bool IsBodyParameterRequired(this HttpServiceActionTypeTransferObject type)
+        {
+            return type == HttpServiceActionTypeTransferObject.Post || type == HttpServiceActionTypeTransferObject.Patch || type == HttpServiceActionTypeTransferObject.Put;
+        }
     }
 }

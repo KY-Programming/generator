@@ -5,7 +5,7 @@ using KY.Generator.Templates;
 using KY.Generator.Templates.Extensions;
 using KY.Generator.Transfer.Extensions;
 
-namespace KY.Generator.Transfer
+namespace KY.Generator.Transfer.Writers
 {
     public abstract class TransferWriter : Codeable
     {
@@ -18,7 +18,7 @@ namespace KY.Generator.Transfer
 
         protected virtual void AddFields(ModelTransferObject model, ClassTemplate classTemplate, IFormattableConfiguration configuration)
         {
-            foreach (ModelFieldTransferObject field in model.Fields)
+            foreach (FieldTransferObject field in model.Fields)
             {
                 if (configuration.FieldsToProperties)
                 {
@@ -33,7 +33,7 @@ namespace KY.Generator.Transfer
 
         protected virtual void AddProperties(ModelTransferObject model, ClassTemplate classTemplate, IFormattableConfiguration configuration)
         {
-            foreach (ModelPropertyTransferObject property in model.Properties)
+            foreach (PropertyTransferObject property in model.Properties)
             {
                 if (configuration.PropertiesToFields)
                 {

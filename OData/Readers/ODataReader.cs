@@ -8,6 +8,7 @@ using KY.Generator.Configuration;
 using KY.Generator.OData.Configuration;
 using KY.Generator.OData.Language;
 using KY.Generator.Transfer;
+using KY.Generator.Transfer.Readers;
 using Microsoft.OData.Edm;
 using Microsoft.OData.Edm.Csdl;
 
@@ -70,7 +71,7 @@ namespace KY.Generator.OData.Readers
                     mapping[entityType.AsActualType()] = model;
                     foreach (IEdmProperty edmProperty in entityType.DeclaredProperties)
                     {
-                        model.Properties.Add(new ModelPropertyTransferObject
+                        model.Properties.Add(new PropertyTransferObject
                                              {
                                                  Name = edmProperty.Name,
                                                  Type = this.ToTransferObject(edmProperty.Type.Definition, mapping)

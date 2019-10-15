@@ -4,6 +4,7 @@ using KY.Generator.Core.Tests.Models;
 using KY.Generator.Mappings;
 using KY.Generator.Templates;
 using KY.Generator.Transfer;
+using KY.Generator.Transfer.Writers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace KY.Generator.Core.Tests
@@ -68,7 +69,7 @@ namespace KY.Generator.Core.Tests
             ModelTransferObject model = new ModelTransferObject();
             model.Name = "Test1";
             model.Namespace = "KY.Test";
-            model.Fields.Add(new ModelFieldTransferObject { Name = "Field1", Type = new TypeTransferObject { Name = "string" } });
+            model.Fields.Add(new FieldTransferObject { Name = "Field1", Type = new TypeTransferObject { Name = "string" } });
             transferObjects.Add(model);
             List<FileTemplate> files = this.writer.Write(configuration, transferObjects);
             ClassTemplate classTemplate = (ClassTemplate)files[0].Namespaces[0].Children[0];
@@ -86,7 +87,7 @@ namespace KY.Generator.Core.Tests
             ModelTransferObject model = new ModelTransferObject();
             model.Name = "Test1";
             model.Namespace = "KY.Test";
-            model.Properties.Add(new ModelPropertyTransferObject { Name = "Prop1", Type = new TypeTransferObject { Name = "string" } });
+            model.Properties.Add(new PropertyTransferObject { Name = "Prop1", Type = new TypeTransferObject { Name = "string" } });
             transferObjects.Add(model);
             List<FileTemplate> files = this.writer.Write(configuration, transferObjects);
             ClassTemplate classTemplate = (ClassTemplate)files[0].Namespaces[0].Children[0];
@@ -104,7 +105,7 @@ namespace KY.Generator.Core.Tests
             ModelTransferObject model = new ModelTransferObject();
             model.Name = "Test1";
             model.Namespace = "KY.Test";
-            model.Properties.Add(new ModelPropertyTransferObject { Name = "Prop1", Type = new TypeTransferObject { Name = "Test2", Namespace = "KY.Test.Different" } });
+            model.Properties.Add(new PropertyTransferObject { Name = "Prop1", Type = new TypeTransferObject { Name = "Test2", Namespace = "KY.Test.Different" } });
             transferObjects.Add(model);
             List<FileTemplate> files = this.writer.Write(configuration, transferObjects);
             ClassTemplate classTemplate = (ClassTemplate)files[0].Namespaces[0].Children[0];
