@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>KY.Generator.CLI.Standalone</id>
-    <version>2.2.0-rc.0</version>
+    <version>2.2.0-rc.10</version>
     <title>KY.Generator.CLI</title>
     <authors>KY-Programming</authors>
     <owners>KY-Programming</owners>
@@ -13,7 +13,7 @@
     <description>KY.Generator Standalone executable containing all features without dependencies</description>
     <releaseNotes></releaseNotes>
     <copyright>Copyright 2019</copyright>
-    <tags>KY Generator CLI Standalone</tags>
+    <tags>KY-Generator KY Generator CLI Standalone</tags>
   </metadata>
   <files>
     <file src="bin\Release\*.exe" target="tools" />

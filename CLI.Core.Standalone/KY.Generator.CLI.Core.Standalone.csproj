@@ -3,7 +3,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.2</TargetFramework>
-    <Version>2.2.0-rc.0</Version>
+    <Version>2.2.0</Version>
     <Authors>KY-Programming</Authors>
     <Product>KY.Generator</Product>
     <Description>.net Core CLI Standalone for KY-Generator.
@@ -14,62 +14,23 @@
     <PackageIconUrl>https://ky-programming.de/images/logos/128.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/KY-Programming/generator</RepositoryUrl>
     <PackageTags>KY-Generator KY Generator KY.Generator .netCore CLI</PackageTags>
-    <IncludeBuildOutput>false</IncludeBuildOutput>
-    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="KY.Core.Common" Version="4.6.1">
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
+    <PackageReference Include="KY.Core.Common" Version="4.6.1"/>
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Angular\KY.Generator.Angular.csproj">
-      <PrivateAssets>all</PrivateAssets>
-    </ProjectReference>
-    <ProjectReference Include="..\AspDotNet\KY.Generator.AspDotNet.csproj">
-      <PrivateAssets>all</PrivateAssets>
-    </ProjectReference>
-    <ProjectReference Include="..\Core\KY.Generator.Core.csproj">
-      <PrivateAssets>all</PrivateAssets>
-    </ProjectReference>
-    <ProjectReference Include="..\CSharp\KY.Generator.Csharp.csproj">
-      <PrivateAssets>all</PrivateAssets>
-    </ProjectReference>
-    <ProjectReference Include="..\Json\KY.Generator.Json.csproj">
-      <PrivateAssets>all</PrivateAssets>
-    </ProjectReference>
-    <ProjectReference Include="..\OData\KY.Generator.OData.csproj">
-      <PrivateAssets>all</PrivateAssets>
-    </ProjectReference>
-    <ProjectReference Include="..\Reflection\KY.Generator.Reflection.csproj">
-      <PrivateAssets>all</PrivateAssets>
-    </ProjectReference>
-    <ProjectReference Include="..\Tsql\KY.Generator.Tsql.csproj">
-      <PrivateAssets>all</PrivateAssets>
-    </ProjectReference>
-    <ProjectReference Include="..\TypeScript\KY.Generator.TypeScript.csproj">
-      <PrivateAssets>all</PrivateAssets>
-    </ProjectReference>
-    <ProjectReference Include="..\Watchdog\KY.Generator.Watchdog.csproj">
-      <PrivateAssets>all</PrivateAssets>
-    </ProjectReference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="bin\Release\netcoreapp2.2\*.dll">
-      <PackagePath>tools\</PackagePath>
-      <Pack>true</Pack>
-    </Content>
-    <Content Include="bin\Release\netcoreapp2.2\KY.Generator.CLI.Core.Standalone.deps.json">
-      <PackagePath>tools\</PackagePath>
-      <Pack>true</Pack>
-    </Content>
-    <Content Include="bin\Release\netcoreapp2.2\KY.Generator.CLI.Core.Standalone.runtimeconfig.json">
-      <PackagePath>tools\</PackagePath>
-      <Pack>true</Pack>
-    </Content>
+    <ProjectReference Include="..\Angular\KY.Generator.Angular.csproj"/>
+    <ProjectReference Include="..\AspDotNet\KY.Generator.AspDotNet.csproj"/>
+    <ProjectReference Include="..\Core\KY.Generator.Core.csproj"/>
+    <ProjectReference Include="..\CSharp\KY.Generator.Csharp.csproj"/>
+    <ProjectReference Include="..\Json\KY.Generator.Json.csproj"/>
+    <ProjectReference Include="..\OData\KY.Generator.OData.csproj"/>
+    <ProjectReference Include="..\Reflection\KY.Generator.Reflection.csproj"/>
+    <ProjectReference Include="..\Tsql\KY.Generator.Tsql.csproj"/>
+    <ProjectReference Include="..\TypeScript\KY.Generator.TypeScript.csproj"/>
+    <ProjectReference Include="..\Watchdog\KY.Generator.Watchdog.csproj"/>
   </ItemGroup>
 
 </Project>

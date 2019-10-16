@@ -3,7 +3,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.2</TargetFramework>
-    <Version>2.2.0-rc.0</Version>
+    <Version>2.2.0</Version>
     <Authors>KY-Programming</Authors>
     <Product>KY.Generator</Product>
     <Description>.net Core CLI for KY-Generator.
@@ -14,8 +14,6 @@ This executable contains all features</Description>
     <PackageIconUrl>https://ky-programming.de/images/logos/128.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/KY-Programming/generator</RepositoryUrl>
     <PackageTags>KY-Generator KY Generator KY.Generator .netCore CLI</PackageTags>
-    <IncludeBuildOutput>false</IncludeBuildOutput>
-    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
 
   <ItemGroup>
@@ -31,21 +29,6 @@ This executable contains all features</Description>
     <ProjectReference Include="..\Reflection\KY.Generator.Reflection.csproj" />
     <ProjectReference Include="..\TypeScript\KY.Generator.TypeScript.csproj" />
     <ProjectReference Include="..\Watchdog\KY.Generator.Watchdog.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="bin\Release\netcoreapp2.2\*.dll">
-      <PackagePath>tools\</PackagePath>
-      <Pack>true</Pack>
-    </Content>
-    <Content Include="bin\Release\netcoreapp2.2\KY.Generator.CLI.Core.deps.json">
-      <PackagePath>tools\</PackagePath>
-      <Pack>true</Pack>
-    </Content>
-    <Content Include="bin\Release\netcoreapp2.2\KY.Generator.CLI.Core.runtimeconfig.json">
-      <PackagePath>tools\</PackagePath>
-      <Pack>true</Pack>
-    </Content>
   </ItemGroup>
 
 </Project>

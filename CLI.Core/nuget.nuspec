@@ -1,19 +1,20 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>KY.Generator.CLI</id>
+    <id>KY.Generator.CLI.Core</id>
     <version>2.2.0-rc.10</version>
-    <title>KY.Generator.CLI</title>
+    <title>KY.Generator.CLI.Core</title>
     <authors>KY-Programming</authors>
     <owners>KY-Programming</owners>
     <licenseUrl>https://github.com/KY-Programming/generator/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/KY-Programming/generator</projectUrl>
     <iconUrl>https://ky-programming.de/images/logos/128.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>KY-Generator executable containing all features</description>
+    <description>.net Core CLI for KY-Generator.
+      This executable contains all features</description>
     <releaseNotes></releaseNotes>
     <copyright>Copyright 2019</copyright>
-    <tags>KY-Generator KY Generator CLI</tags>
+    <tags>KY-Generator KY Generator .netCore CLI</tags>
     <dependencies>
       <dependency id="KY.Generator.Angular" version="2.2.0-rc.10" />
       <dependency id="KY.Generator.AspDotNet" version="2.2.0-rc.10" />
@@ -27,6 +28,7 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="bin\Release\*.exe" target="tools" />
+    <file src="bin\Release\netcoreapp2.2\publish\**\*.dll" target="tools" />
+    <file src="bin\Release\netcoreapp2.2\publish\**\*.json" target="tools" />
   </files>
 </package>

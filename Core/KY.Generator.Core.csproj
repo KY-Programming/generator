@@ -5,7 +5,7 @@
     <Company>KY-Programming</Company>
     <Authors>KY-Programming</Authors>
     <Product>KY.Generator</Product>
-    <Version>2.2.0-rc.7</Version>
+    <Version>2.2.0-rc.10</Version>
     <Description>Core elements for KY-Generator</Description>
     <Copyright>2019 - KY-Programming</Copyright>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
@@ -14,7 +14,6 @@
     <RepositoryUrl>https://github.com/KY-Programming/generator</RepositoryUrl>
     <PackageTags>KY-Generator KY Generator KY.Generator</PackageTags>
     <RootNamespace>KY.Generator</RootNamespace>
-    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
