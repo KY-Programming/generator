@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>KY-Programming</Authors>
+    <Company>KY-Programming</Company>
+    <Product>KY.Generator</Product>
+    <Version>2.2.0-rc.10</Version>
+    <Copyright>2019 - KY-Programming</Copyright>
+    <Description>EntityFramework Module for KY-Generator</Description>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/KY-Programming/generator</PackageProjectUrl>
+    <PackageIconUrl>https://ky-programming.de/images/logos/128.png</PackageIconUrl>
+    <RepositoryUrl>https://github.com/KY-Programming/generator</RepositoryUrl>
+    <PackageTags>KY-Generator KY Generator EntityFramework EF</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="KY.Core.Common" Version="4.6.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Core\KY.Generator.Core.csproj" />
+    <ProjectReference Include="..\CSharp\KY.Generator.Csharp.csproj" />
+  </ItemGroup>
+
+</Project>
