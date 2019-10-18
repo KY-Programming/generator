@@ -179,6 +179,14 @@ namespace KY.Generator.Csharp.Tests
         }
 
         [TestMethod]
+        public void ParameterWithAttribute()
+        {
+            ParameterWriter writer = new ParameterWriter();
+            writer.Write(new ParameterTemplate(Code.Type("Type"), "parameter").WithAttribute("Attr"), this.output);
+            Assert.AreEqual("[Attr] Type parameter", this.output.ToString());
+        }
+
+        [TestMethod]
         public void ThrowWriter()
         {
             ThrowWriter writer = new ThrowWriter();

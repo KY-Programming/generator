@@ -4,5 +4,6 @@
     {
         IOutputCache If(bool condition);
         IOutputCache EndIf();
+        IOutputCache ExtraIndent(int indents = 1);
     }
 }

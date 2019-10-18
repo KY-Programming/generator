@@ -7,7 +7,7 @@ namespace KY.Generator.Templates
     [DebuggerDisplay("Class {Name}")]
     public class ClassTemplate : AttributeableTempalte, INamespaceChildren
     {
-        public string Name { get; }
+        public string Name { get; set; }
         public List<BaseTypeTemplate> BasedOn { get; }
         public NamespaceTemplate Namespace { get; }
         public ClassTemplate ParentClass { get; }

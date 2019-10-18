@@ -45,7 +45,6 @@ namespace KY.Generator.Output
             if (this.isLineClosed)
             {
                 this.WriteIndent();
-                this.isLineClosed = false;
             }
             if (keepIndent)
             {
@@ -69,7 +68,18 @@ namespace KY.Generator.Output
 
         private IOutputCache WriteIndent()
         {
+            this.isLineClosed = false;
             this.cache.Append("".PadLeft(this.indent * this.Language.Formatting.IdentCount, this.Language.Formatting.IndentChar));
+            return this;
+        }
+
+        public IOutputCache ExtraIndent(int indents = 1)
+        {
+            if (this.isLineClosed)
+            {
+                this.WriteIndent();
+            }
+            this.cache.Append("".PadLeft(indents * this.Language.Formatting.IdentCount, this.Language.Formatting.IndentChar));
             return this;
         }
 

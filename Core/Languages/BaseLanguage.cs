@@ -144,6 +144,10 @@ namespace KY.Generator.Languages
                 {
                     output.CloseLine();
                 }
+                if (codeFragment.BreakAfter)
+                {
+                    output.BreakLine().ExtraIndent();
+                }
             }
         }
 

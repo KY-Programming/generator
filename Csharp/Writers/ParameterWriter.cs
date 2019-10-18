@@ -9,8 +9,9 @@ namespace KY.Generator.Csharp.Writers
         public virtual void Write(ICodeFragment fragment, IOutputCache output)
         {
             ParameterTemplate template = (ParameterTemplate)fragment;
-            output.Add(template.Attributes);
-            output.Add(template.Type)
+            template.Attributes.ForEach(x => x.IsInline = true);
+            output.Add(template.Attributes)
+                  .Add(template.Type)
                   .Add(" ")
                   .Add(template.Name);
             if (template.DefaultValue != null)

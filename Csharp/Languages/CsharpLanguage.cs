@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using KY.Core;
 using KY.Generator.Csharp.Templates;
 using KY.Generator.Csharp.Writers;
 using KY.Generator.Languages;
+using KY.Generator.Output;
 using KY.Generator.Templates;
 
 namespace KY.Generator.Csharp.Languages
@@ -30,6 +32,12 @@ namespace KY.Generator.Csharp.Languages
             this.TemplateWriters[typeof(ParameterTemplate)] = new ParameterWriter();
             this.TemplateWriters[typeof(ThrowTemplate)] = new ThrowWriter();
             this.TemplateWriters[typeof(UsingTemplate)] = new UsingWriter();
+        }
+
+        protected override void WriteHeader(FileTemplate fileTemplate, IOutputCache output)
+        {
+            fileTemplate.Header.Description += Environment.NewLine + "ReSharper disable All";
+            base.WriteHeader(fileTemplate, output);
         }
 
         public override string FormatFileName(string fileName, bool isInterface)

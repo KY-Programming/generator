@@ -1,4 +1,6 @@
-﻿namespace KY.Generator.Templates.Extensions
+﻿using System.Collections.Generic;
+
+namespace KY.Generator.Templates.Extensions
 {
     public static class ChainedCodeFragmentExtension
     {
@@ -13,6 +15,11 @@
         }
 
         public static ExecuteMethodTemplate Method(this ChainedCodeFragment template, string methodName, params ICodeFragment[] parameters)
+        {
+            return new ExecuteMethodTemplate(methodName, parameters).Chain(template);
+        }
+
+        public static ExecuteMethodTemplate Method(this ChainedCodeFragment template, string methodName, IEnumerable<ICodeFragment> parameters)
         {
             return new ExecuteMethodTemplate(methodName, parameters).Chain(template);
         }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace KY.Generator.Templates
@@ -9,12 +10,15 @@ namespace KY.Generator.Templates
         public ChainedCodeFragment Previous { get; set; }
         public bool NewLineAfter { get; set; }
         public bool CloseAfter { get; set; }
+        public bool BreakAfter { get; set; }
 
+        [Obsolete]
         public ChainedCodeFragment First()
         {
             return this.Previous == null ? this : this.Previous.First();
         }
-
+        
+        [Obsolete]
         public ChainedCodeFragment Last()
         {
             return this.Next == null ? this : this.Next.Last();
@@ -26,6 +30,12 @@ namespace KY.Generator.Templates
             return this;
         }
 
+        public ChainedCodeFragment BreakLine()
+        {
+            this.BreakAfter = true;
+            return this;
+        }
+        
         public IEnumerable<ICodeFragment> Yield()
         {
             yield return this;

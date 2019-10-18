@@ -30,7 +30,8 @@ namespace KY.Generator.Json.Writers
             className = (configuration.Reader.FormatNames ?? configuration.Object.FormatNames) && configuration.Language is IFormattableLanguage formattableLanguage ? formattableLanguage.FormatClassName(className) : className;
             FileTemplate fileTemplate = new FileTemplate(configuration.Reader.RelativePath, configuration.AddHeader);
             ClassTemplate classTemplate = fileTemplate.AddNamespace(configuration.Reader.Namespace ?? model.Namespace ?? configuration.Object.Namespace)
-                                                      .AddClass(className);
+                                                      .AddClass(className)
+                                                      .FormatName(configuration.Language, configuration.FormatNames);
             WriteReader(classTemplate, model, configuration.FormatNames);
 
             yield return fileTemplate;

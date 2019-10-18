@@ -98,7 +98,8 @@ namespace KY.Generator.Transfer.Writers
 
             ClassTemplate classTemplate = files.AddFile(configuration.RelativePath, configuration.AddHeader)
                                                .AddNamespace(nameSpace)
-                                               .AddClass(model.Name, model.BasedOn?.ToTemplate());
+                                               .AddClass(model.Name, model.BasedOn?.ToTemplate())
+                                               .FormatName(configuration.Language, configuration.FormatNames);
 
             if (model.BasedOn != null)
             {

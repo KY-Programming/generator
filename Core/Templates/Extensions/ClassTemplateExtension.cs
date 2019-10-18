@@ -104,5 +104,14 @@ namespace KY.Generator.Templates.Extensions
             classTemplate.Comment = new CommentTemplate(description, type);
             return classTemplate;
         }
+
+        public static ClassTemplate FormatName(this ClassTemplate classTemplate, ILanguage language, bool formatNames = true)
+        {
+            if (formatNames && language is IFormattableLanguage formattableLanguage)
+            {
+                classTemplate.Name = formattableLanguage.FormatClassName(classTemplate.Name);
+            }
+            return classTemplate;
+        }
     }
 }

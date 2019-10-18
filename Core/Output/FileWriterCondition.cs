@@ -131,5 +131,14 @@ namespace KY.Generator.Output
         {
             return this.output;
         }
+
+        public IOutputCache ExtraIndent(int indents = 1)
+        {
+            if (this.condition)
+            {
+                return this.output.ExtraIndent(indents);
+            }
+            return this;
+        }
     }
 }

@@ -10,6 +10,7 @@ namespace KY.Generator.Templates
         public ICodeFragment Code { get; private set; }
         public bool HasValue => this.Code != null;
         public Dictionary<string, object> Properties { get; }
+        public bool IsInline { get; set; }
 
         public AttributeTemplate(string name, ICodeFragment code = null)
         {
