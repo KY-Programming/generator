@@ -117,50 +117,75 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="empty_configuration" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\empty-configuration.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  <data name="ReadColumnsCommand" xml:space="preserve">
+    <value>SELECT
+    c.COLUMN_NAME,
+    c.DATA_TYPE,
+    c.IS_NULLABLE,
+    c.ORDINAL_POSITION,
+    c.CHARACTER_MAXIMUM_LENGTH,
+    CASE WHEN p.ORDINAL_POSITION &gt; 0 THEN 1 ELSE 0 END AS IS_PRIMARY,
+    f.CONSTRAINT_NAME as FOREIGN_NAME,
+    f.FOREIGN_TABLE_NAME,
+    COLUMNPROPERTY(OBJECT_ID(c.TABLE_SCHEMA + '.' + c.TABLE_NAME), c.COLUMN_NAME, 'IsIdentity') AS IS_IDENTITY,
+    (CASE WHEN c.CHARACTER_SET_NAME = 'UNICODE' THEN 1 ELSE 0 END) AS IS_UNICODE,
+    c.NUMERIC_PRECISION,
+    c.NUMERIC_SCALE,
+    c.COLUMN_DEFAULT
+FROM INFORMATION_SCHEMA.COLUMNS as c
+    LEFT JOIN (SELECT k.TABLE_SCHEMA, k.TABLE_NAME, k.COLUMN_NAME, k.ORDINAL_POSITION
+                FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE as k
+                    INNER JOIN INFORMATION_SCHEMA.TABLE_CONSTRAINTS as tc
+                        ON k.CONSTRAINT_SCHEMA = tc.CONSTRAINT_SCHEMA
+                            AND k.CONSTRAINT_NAME = tc.CONSTRAINT_NAME
+                            AND tc.CONSTRAINT_TYPE = 'PRIMARY KEY') as p
+        ON c.TABLE_SCHEMA = p.TABLE_SCHEMA
+            AND c.TABLE_NAME = p.TABLE_NAME
+            AND c.COLUMN_NAME = p.COLUMN_NAME
+    LEFT JOIN (SELECT ccu.TABLE_SCHEMA, ccu.TABLE_NAME, ccu.COLUMN_NAME, ccu.CONSTRAINT_NAME, kcu.TABLE_NAME AS FOREIGN_TABLE_NAME
+                FROM INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE ccu
+                    INNER JOIN INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS rc
+                        ON ccu.CONSTRAINT_NAME = rc.CONSTRAINT_NAME 
+                    INNER JOIN INFORMATION_SCHEMA.KEY_COLUMN_USAGE kcu 
+                        ON kcu.CONSTRAINT_NAME = rc.UNIQUE_CONSTRAINT_NAME
+                GROUP BY ccu.TABLE_SCHEMA, ccu.TABLE_NAME, ccu.COLUMN_NAME, ccu.CONSTRAINT_NAME, kcu.TABLE_NAME) as f
+        ON c.TABLE_SCHEMA = f.TABLE_SCHEMA
+            AND c.TABLE_NAME = f.TABLE_NAME
+            AND c.COLUMN_NAME = f.COLUMN_NAME
+WHERE c.TABLE_SCHEMA = @schema
+    AND c.TABLE_NAME = @name;</value>
   </data>
-  <data name="empty_configuration_array" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\empty-configuration-array.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  <data name="ReadParametersCommand" xml:space="preserve">
+    <value>SELECT
+	PARAMETER_NAME,
+	DATA_TYPE,
+	ORDINAL_POSITION
+FROM INFORMATION_SCHEMA.PARAMETERS
+WHERE SPECIFIC_SCHEMA = @schema
+	AND SPECIFIC_NAME = @name;</value>
   </data>
-  <data name="empty_generate" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\empty-generate.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  <data name="ReadResultCommand" xml:space="preserve">
+    <value>select 
+	s.[name] AS COLUMN_NAME,
+	t.[name] AS DATA_TYPE,
+	case when s.is_nullable = 1 then 'YES' else 'NO' end AS IS_NULLABLE,
+	s.column_ordinal AS ORDINAL_POSITION,
+	null AS CHARACTER_MAXIMUM_LENGTH,
+	0 AS IS_PRIMARY,
+	null as FOREIGN_NAME,
+	null as FOREIGN_TABLE_NAME,
+	0 as IS_IDENTITY,
+	0 as IS_UNICODE,
+	s.[precision] as NUMERIC_PRECISION,
+	cast(s.scale as int) as NUMERIC_SCALE,
+	null as COLUMN_DEFAULT
+from sys.dm_exec_describe_first_result_set('exec {0}',NULL,1) as s
+	left join sys.types as t
+		on t.system_type_id = s.system_type_id
+			and t.system_type_id = t.user_type_id</value>
   </data>
-  <data name="full_project_generator" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\full-project.generator.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="old_config" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\old-config.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="old_config1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\old-config.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="one_generate" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\one-generate.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="one_generate_in_array" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\one-generate-in-array.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="one_generate_in_array_array" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\one-generate-in-array-array.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="one_read_one_generate" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\one-read-one-generate.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="one_read_one_generate_twice" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\one-read-one-generate-twice.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="two_reads_one_generate" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\two-reads-one-generate.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="User_cs" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\User.cs.result;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="UserController_cs" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\UserController.cs.result;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="UserRepository_cs" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\UserRepository.cs.result;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="ReadValuesCommand" xml:space="preserve">
+    <value>SELECT {0}
+FROM {1}.{2}</value>
   </data>
 </root>

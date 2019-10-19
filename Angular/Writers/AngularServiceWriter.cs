@@ -5,6 +5,7 @@ using KY.Core;
 using KY.Core.DataAccess;
 using KY.Generator.Angular.Configurations;
 using KY.Generator.Configuration;
+using KY.Generator.Configurations;
 using KY.Generator.Languages;
 using KY.Generator.Mappings;
 using KY.Generator.Output;
@@ -45,6 +46,7 @@ namespace KY.Generator.Angular.Writers
                 ClassTemplate classTemplate = files.AddFile(configuration.Service.RelativePath, configuration.AddHeader)
                                                    .AddNamespace(string.Empty)
                                                    .AddClass(controllerName + "Service")
+                                                   .FormatName(configuration.Language, configuration.FormatNames)
                                                    .WithUsing("HttpClient", "@angular/common/http")
                                                    .WithUsing("Injectable", "@angular/core")
                                                    .WithUsing("Observable", "rxjs")

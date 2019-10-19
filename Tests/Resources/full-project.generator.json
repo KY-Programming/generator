@@ -1,0 +1,50 @@
+{
+  "version": 2,
+  "generate": [
+    {
+      "read": "tsql",
+      "connection": "Server=ky-database;Database=test;User Id=fi49sd;Password=fi49sd",
+      "schema": "test",
+      "entities": [
+        {
+          "table": "User"
+        }
+      ]
+    },
+    {
+      "write": "model",
+      "language": "csharp",
+      "namespace": "KY.Generator.Test.Models",
+      "relativePath": "Models"
+    },
+    {
+      "write": "asp",
+      "namespace": "KY.Generator.Test.Controllers",
+      "relativePath": "Controllers",
+      "usings": [
+        "KY.Generator.Test.Repositories"
+      ],
+      "controllers": [
+        {
+          "entity": "User",
+          "route":  "api/v1/[controller]",
+          "get": {},
+          "post": {},
+          "patch": {},
+          "put": {},
+          "delete": {}
+        }
+      ]
+    },
+    {
+      "write": "ef",
+      "namespace": "KY.Generator.Test.Repositories",
+      "relativePath": "Repositories",
+      "repositories": [
+        {
+          "entity": "User"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+﻿using KY.Generator.Test.Repositories;
+using Microsoft.AspNetCore.Mvc;
+
+namespace KY.Generator.Test.Controllers
+{
+    [Route("api/v1/[controller]")]
+    public partial class UserController : Controller
+    {
+        private readonly UserRepository repository;
+
+        public UserController()
+        {
+            this.repository = new UserRepository();
+        }
+
+        [HttpGet("[action]")]
+        public User Get()
+        {
+            return this.repository.Get();
+        }
+
+        [HttpPost("[action]")]
+        public void Post([FromBody] User entity)
+        {
+            this.repository.Add(entity);
+        }
+
+        [HttpPatch("[action]")]
+        public void Patch([FromBody] User entity)
+        {
+            this.repository.Update(entity);
+        }
+
+        [HttpPut("[action]")]
+        public void Put([FromBody] User entity)
+        {
+            this.repository.Update(entity);
+        }
+
+        [HttpDelete("[action]")]
+        public void Delete(string name)
+        {
+            this.repository.Delete(name);
+        }
+    }
+}

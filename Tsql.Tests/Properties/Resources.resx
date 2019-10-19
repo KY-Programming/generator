@@ -118,49 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="empty_configuration" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\empty-configuration.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="empty_configuration_array" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\empty-configuration-array.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="empty_generate" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\empty-generate.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="full_project_generator" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\full-project.generator.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="old_config" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\old-config.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="old_config1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\old-config.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="one_generate" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\one-generate.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="one_generate_in_array" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\one-generate-in-array.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="one_generate_in_array_array" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\one-generate-in-array-array.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="one_read_one_generate" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\one-read-one-generate.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="one_read_one_generate_twice" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\one-read-one-generate-twice.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="two_reads_one_generate" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\two-reads-one-generate.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  <data name="tsql_generator" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\tsql.generator.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="User_cs" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\User.cs.result;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="UserController_cs" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\UserController.cs.result;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="UserRepository_cs" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\UserRepository.cs.result;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
 </root>

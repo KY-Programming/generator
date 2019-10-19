@@ -94,6 +94,37 @@ namespace KY.Generator.Tests.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to {
+        ///  &quot;version&quot;: 2,
+        ///  &quot;generate&quot;: [
+        ///    {
+        ///      &quot;read&quot;: &quot;tsql&quot;,
+        ///      &quot;connection&quot;: &quot;Server=ky-database;Database=test;User Id=fi49sd;Password=fi49sd&quot;,
+        ///      &quot;schema&quot;: &quot;test&quot;,
+        ///      &quot;entities&quot;: [
+        ///        {
+        ///          &quot;table&quot;: &quot;User&quot;
+        ///        }
+        ///      ]
+        ///    },
+        ///    {
+        ///      &quot;write&quot;: &quot;model&quot;,
+        ///      &quot;language&quot;: &quot;csharp&quot;,
+        ///      &quot;namespace&quot;: &quot;KY.Generator.Test.Models&quot;,
+        ///      &quot;relativePath&quot;: &quot;Models&quot;
+        ///    },
+        ///    {
+        ///      &quot;write&quot;: &quot;asp&quot;,
+        ///      &quot;namespace&quot;: &quot;KY.Generator.Test.Controllers&quot;,
+        ///      &quot;relati [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string full_project_generator {
+            get {
+                return ResourceManager.GetString("full_project_generator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {
         ///  &quot;Language&quot;: &quot;Csharp&quot;,
         ///  &quot;Generator&quot;: {
         ///    &quot;Client&quot;: {
@@ -260,6 +291,82 @@ namespace KY.Generator.Tests.Properties {
         internal static string two_reads_one_generate {
             get {
                 return ResourceManager.GetString("two_reads_one_generate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to namespace KY.Generator.Test.Models
+        ///{
+        ///    public partial class User
+        ///    {
+        ///        public string Name { get; set; }
+        ///        public string Password { get; set; }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string User_cs {
+            get {
+                return ResourceManager.GetString("User_cs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using KY.Generator.Test.Repositories;
+        ///using Microsoft.AspNetCore.Mvc;
+        ///
+        ///namespace KY.Generator.Test.Controllers
+        ///{
+        ///    [Route(&quot;api/v1/[controller]&quot;)]
+        ///    public partial class UserController
+        ///    {
+        ///        private readonly UserRepository repository;
+        ///
+        ///        public UserController()
+        ///        {
+        ///            this.repository = new UserRepository();
+        ///        }
+        ///
+        ///        [HttpGet(&quot;[action]&quot;)]
+        ///        public User Get()
+        ///        {
+        ///            return this.repository.Get();
+        ///        }
+        ///
+        ///        [HttpPost(&quot;[ [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string UserController_cs {
+            get {
+                return ResourceManager.GetString("UserController_cs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using KY.Generator.Test.Repositories;
+        ///using Microsoft.AspNetCore.Mvc;
+        ///
+        ///namespace KY.Generator.Test.Controllers
+        ///{
+        ///    [Route(&quot;api/v1/[controller]&quot;)]
+        ///    public partial class UserController
+        ///    {
+        ///        private readonly UserRepository repository;
+        ///
+        ///        public UserController()
+        ///        {
+        ///            this.repository = new UserRepository();
+        ///        }
+        ///
+        ///        [HttpGet(&quot;[action]&quot;)]
+        ///        public User Get()
+        ///        {
+        ///            return this.repository.Get();
+        ///        }
+        ///
+        ///        [HttpPost(&quot;[ [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string UserRepository_cs {
+            get {
+                return ResourceManager.GetString("UserRepository_cs", resourceCulture);
             }
         }
     }

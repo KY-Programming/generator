@@ -1,17 +1,24 @@
-﻿using KY.Generator.Configuration;
+﻿using System.Collections.Generic;
+using KY.Generator.Configuration;
 using KY.Generator.Csharp.Languages;
 
 namespace KY.Generator.AspDotNet.Configurations
 {
     internal class AspDotNetWriteConfiguration : ConfigurationBase
     {
+        public string Namespace { get; set; }
+        public string RelativePath { get; set; }
         public bool FormatNames { get; set; }
-        public AspDotNetGeneratorControllerConfiguration Controller { get; set; }
+        public AspDotNetGeneratorControllerConfiguration GeneratorController { get; set; }
+        public List<AspDotNetWriteEntityControllerConfiguration> Controllers { get; set; }
+        public List<string> Usings { get; set; }
 
         public AspDotNetWriteConfiguration()
         {
             this.Language = CsharpLanguage.Instance;
             this.FormatNames = true;
+            this.Controllers = new List<AspDotNetWriteEntityControllerConfiguration>();
+            this.Usings = new List<string>();
         }
     }
 }

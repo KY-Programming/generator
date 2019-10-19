@@ -24,7 +24,7 @@ namespace KY.Generator.AspDotNet.Writers
             this.templates.Add(new DotNetCoreTemplate());
         }
 
-        public void Write(AspDotNetWriteConfiguration configuration, IOutput output)
+        public void Write(AspDotNetWriteConfiguration configuration, List<FileTemplate> files)
         {
             Logger.Trace("Generate generator controller for ASP.net...");
             if (!configuration.Language.IsCsharp())
@@ -37,10 +37,9 @@ namespace KY.Generator.AspDotNet.Writers
             {
                 throw new InvalidOperationException("Can not generate Generator.Controller with KY.Generator.CLI.Standalone use KY.Generator.CLI instead");
             }
-            List<FileTemplate> files = new List<FileTemplate>();
-            ClassTemplate classTemplate = files.AddFile(configuration.Controller.RelativePath, configuration.AddHeader)
-                                              .AddNamespace(configuration.Controller.Namespace)
-                                              .AddClass("GeneratorController", Code.Type("Controller"))
+            ClassTemplate classTemplate = files.AddFile(configuration.GeneratorController.RelativePath, configuration.AddHeader)
+                                              .AddNamespace(configuration.GeneratorController.Namespace)
+                                              .AddClass("GeneratorController", Code.Type("ControllerBase"))
                                               .WithUsing("System")
                                               .WithUsing("System.Linq")
                                               .WithUsing("KY.Generator")
@@ -80,16 +79,16 @@ namespace KY.Generator.AspDotNet.Writers
                        .AddLine(Code.Declare(Code.Type("MemoryOutput"), "output", Code.New(Code.Type("MemoryOutput"))))
                        .AddLine(Code.Declare(Code.Type("Generator"), "generator", Code.New(Code.Type("Generator"))))
                        .AddLine(Code.Local("generator").Method("SetOutput", Code.Local("output")).Close());
-            foreach (string nameSpace in configuration.Controller.Usings)
+            foreach (string nameSpace in configuration.GeneratorController.Usings)
             {
                 classTemplate.AddUsing(nameSpace);
             }
-            foreach (string moduleType in configuration.Controller.PreloadModules)
+            foreach (string moduleType in configuration.GeneratorController.PreloadModules)
             {
                 createCode.AddLine(Code.Local("generator").GenericMethod("PreloadModule", Code.Type(moduleType)).Close());
                 commandCode.AddLine(Code.Local("generator").GenericMethod("PreloadModule", Code.Type(moduleType)).Close());
             }
-            foreach (AspDotNetControllerConfigureModule configure in configuration.Controller.Configures)
+            foreach (AspDotNetControllerConfigureModule configure in configuration.GeneratorController.Configures)
             {
                 createCode.AddLine(Code.Local("generator").Method(configure.Module, Code.Lambda("x", Code.Csharp("x." + configure.Action))));
                 commandCode.AddLine(Code.Local("generator").Method(configure.Module, Code.Lambda("x", Code.Csharp("x." + configure.Action))));
@@ -153,8 +152,6 @@ namespace KY.Generator.AspDotNet.Writers
                 getFileMethod.WithAttribute("HttpPost", Code.String("[action]"));
                 availableMethod.WithAttribute("HttpGet", Code.String("[action]"));
             }
-            
-            files.ForEach(file => configuration.Language.Write(file, output));
         }
     }
 }

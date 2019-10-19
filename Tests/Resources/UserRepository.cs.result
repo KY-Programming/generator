@@ -1,0 +1,78 @@
+﻿namespace KY.Generator.Test.Repositories
+{
+    public partial class UserRepository
+    {
+        private readonly DbSet<User> dataSet;
+
+        public UserRepository(DataContext dataContext = null)
+        {
+            this.dataSet = dataContext ?? new DataContext();
+        }
+
+        public IQueryable<User> Get()
+        {
+            return this.dataSet;
+        }
+
+        public User Get(params object[] keys)
+        {
+            return this.dataSet.Find(keys);
+        }
+
+        public User Add(User entity)
+        {
+            User result = this.dataSet.Add(entity);
+            this.dataSet.SaveChanges();
+            return result;
+        }
+
+        public IEnumerable<User> Add(IEnumerable<User> entities)
+        {
+            IEnumerable<User> result = entities.Select(x => this.dataSet.Add(x)).ToList();
+            this.dataSet.SaveChanges();
+            return result;
+        }
+
+        public void Update(User entity)
+        {
+            this.dataSet.AddOrUpdate(entity);
+            this.dataSet.SaveChanges();
+        }
+
+        public void Update(IEnumerable<User> entities)
+        {
+            entities.ForEach(x => this.dataSet.AddOrUpdate(x));
+            this.dataSet.SaveChanges();
+        }
+
+        public void Update(Delta<User> delta, object[] keys)
+        {
+            User entity = this.dataSet.Find(keys);
+            if (entity == null)
+            {
+                throw new InvalidOperationException("Can not find any element with this keys, Use Add(...) method instead");
+            }
+            delta.Patch(entity);
+            this.Update(entity);
+            this.dataSet.SaveChanges();
+        }
+
+        public void Delete(User entity)
+        {
+            this.dataSet.Remove(entity);
+            this.dataSet.SaveChanges();
+        }
+
+        public void Delete(IEnumerable<User> entities)
+        {
+            this.dataSet.RemoveRange(entities);
+            this.dataSet.SaveChanges();
+        }
+
+        public void Delete(params object[] keys)
+        {
+            this.dataSet.Remove(keys);
+            this.dataSet.SaveChanges();
+        }
+    }
+}

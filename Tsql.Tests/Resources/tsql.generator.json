@@ -1,0 +1,20 @@
+{
+  "version": 2,
+  "generate": [
+    {
+      "read": "tsql",
+      "connection": "Server=ky-database;Database=test;User Id=fi49sd;Password=fi49sd",
+      "schema": "test",
+      "namespace": "KY.Generator.Test.Models",
+      "entities": [
+        {
+          "table": "User"
+        }
+      ]
+    },
+    {
+      "write": "model",
+      "language": "csharp"
+    }
+  ]
+}
