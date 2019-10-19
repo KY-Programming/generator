@@ -18,8 +18,11 @@ namespace KY.Generator.CLI.Core.Minimal
             }
 
 #if DEBUG
-            Console.WriteLine("Press key to EXIT...");
-            Console.ReadKey();
+            if (Logger.Console.IsConsoleAvailable)
+            {
+                Console.WriteLine("Press key to EXIT...");
+                Console.ReadKey();
+            }
 #endif
         }
     }

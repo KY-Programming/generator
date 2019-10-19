@@ -40,8 +40,8 @@
     <Reference Include="Costura, Version=3.3.2.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
       <HintPath>..\packages\Costura.Fody.3.3.2\lib\net40\Costura.dll</HintPath>
     </Reference>
-    <Reference Include="KY.Core.Common, Version=4.6.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\KY.Core.Common.4.6.1\lib\netstandard2.0\KY.Core.Common.dll</HintPath>
+    <Reference Include="KY.Core.Common, Version=4.6.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\KY.Core.Common.4.6.2\lib\netstandard2.0\KY.Core.Common.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -87,13 +87,29 @@
       <Project>{D23DC658-3C95-4A73-BBC7-22A94E81AEE8}</Project>
       <Name>KY.Generator.Csharp</Name>
     </ProjectReference>
+    <ProjectReference Include="..\EntityFramework\KY.Generator.EntityFramework.csproj">
+      <Project>{D7639D2A-E750-4343-84E4-6C5FE1C3B197}</Project>
+      <Name>KY.Generator.EntityFramework</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Json\KY.Generator.Json.csproj">
       <Project>{7F14808D-CEDC-4A7D-BC53-DA21EEDCDE1E}</Project>
       <Name>KY.Generator.Json</Name>
     </ProjectReference>
+    <ProjectReference Include="..\OData\KY.Generator.OData.csproj">
+      <Project>{CDFA710C-3C87-4FFD-980B-69B80F6E8FE3}</Project>
+      <Name>KY.Generator.OData</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenApi\KY.Generator.OpenApi.csproj">
+      <Project>{F05EFD34-C3B0-4334-9739-925F67DAEB99}</Project>
+      <Name>KY.Generator.OpenApi</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Reflection\KY.Generator.Reflection.csproj">
       <Project>{1CD25461-36BC-46A1-ABDD-F710179A641E}</Project>
       <Name>KY.Generator.Reflection</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tsql\KY.Generator.Tsql.csproj">
+      <Project>{2D968283-996B-4619-8B10-D8086C2B2922}</Project>
+      <Name>KY.Generator.Tsql</Name>
     </ProjectReference>
     <ProjectReference Include="..\TypeScript\KY.Generator.TypeScript.csproj">
       <Project>{51D247CC-BE96-461F-8848-F6B32461FABB}</Project>

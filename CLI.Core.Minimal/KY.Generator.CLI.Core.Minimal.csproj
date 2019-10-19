@@ -17,11 +17,11 @@ This executable contains only the minimal required features.</Description>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="KY.Core.Common" Version="4.6.1"/>
+    <PackageReference Include="KY.Core.Common" Version="4.6.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Core\KY.Generator.Core.csproj"/>
+    <ProjectReference Include="..\Core\KY.Generator.Core.csproj" />
   </ItemGroup>
 
 </Project>

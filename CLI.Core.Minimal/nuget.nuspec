@@ -16,7 +16,7 @@
     <copyright>Copyright 2019</copyright>
     <tags>KY-Generator KY Generator .netCore CLI</tags>
     <dependencies>
-      <dependency id="KY.Generator.Core" version="2.2.0-rc.10" />
+      <dependency id="KY.Generator.Core" version="2.2.0" />
     </dependencies>
   </metadata>
   <files>

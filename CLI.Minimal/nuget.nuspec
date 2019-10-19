@@ -15,7 +15,7 @@
     <copyright>Copyright 2019</copyright>
     <tags>KY-Generator KY Generator CLI Minimal</tags>
     <dependencies>
-      <dependency id="KY.Generator.Core" version="2.2.0-rc.0" />
+      <dependency id="KY.Generator.Core" version="2.2.0" />
     </dependencies>
   </metadata>
   <files>

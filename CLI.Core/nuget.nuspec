@@ -16,15 +16,17 @@
     <copyright>Copyright 2019</copyright>
     <tags>KY-Generator KY Generator .netCore CLI</tags>
     <dependencies>
-      <dependency id="KY.Generator.Angular" version="2.2.0-rc.10" />
-      <dependency id="KY.Generator.AspDotNet" version="2.2.0-rc.10" />
-      <dependency id="KY.Generator.Core" version="2.2.0-rc.10" />
-      <dependency id="KY.Generator.Csharp" version="2.2.0-rc.10" />
-      <dependency id="KY.Generator.Json" version="2.2.0-rc.10" />
-      <dependency id="KY.Generator.OData" version="2.2.0-rc.10" />
-      <dependency id="KY.Generator.Reflection" version="2.2.0-rc.10" />
-      <!--<dependency id="KY.Generator.Tsql" version="0.13.0" />-->
-      <dependency id="KY.Generator.TypeScript" version="2.2.0-rc.10" />
+      <dependency id="KY.Generator.Angular" version="2.2.0" />
+      <dependency id="KY.Generator.AspDotNet" version="2.2.0" />
+      <dependency id="KY.Generator.Core" version="2.2.0" />
+      <dependency id="KY.Generator.Csharp" version="2.2.0" />
+      <dependency id="KY.Generator.EntityFramework" version="2.2.0" />
+      <dependency id="KY.Generator.Json" version="2.2.0" />
+      <dependency id="KY.Generator.OData" version="2.2.0" />
+      <dependency id="KY.Generator.OpenApi" version="2.2.0" />
+      <dependency id="KY.Generator.Reflection" version="2.2.0" />
+      <dependency id="KY.Generator.Tsql" version="2.2.0" />
+      <dependency id="KY.Generator.TypeScript" version="2.2.0" />
     </dependencies>
   </metadata>
   <files>
