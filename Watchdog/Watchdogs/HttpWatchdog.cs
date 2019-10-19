@@ -45,7 +45,7 @@ namespace KY.Generator.Watchdog.Watchdogs
                         return true;
                     }
                 }
-                catch (Exception exception)
+                catch (Exception)
                 {
                     // Ignore all exception while we wait
                 }

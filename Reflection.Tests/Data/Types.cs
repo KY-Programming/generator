@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿#pragma warning disable 169
+using System.Collections.Generic;
 
 namespace KY.Generator.Reflection.Tests
 {
@@ -74,3 +75,4 @@ namespace KY.Generator.Reflection.Tests
         public string Property { get; set; }
     }
 }
+#pragma warning restore 169
