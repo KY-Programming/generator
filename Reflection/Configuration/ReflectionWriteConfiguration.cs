@@ -1,4 +1,5 @@
-﻿using KY.Generator.Configuration;
+﻿using System.Collections.Generic;
+using KY.Generator.Configuration;
 using KY.Generator.Configurations;
 
 namespace KY.Generator.Reflection.Configuration
@@ -12,6 +13,12 @@ namespace KY.Generator.Reflection.Configuration
         public bool PropertiesToFields { get; set; }
         public bool FieldsToProperties { get; set; }
         public bool SkipNamespace { get; set; }
+        public List<string> Usings { get; }
         public bool FormatNames { get; set; }
+
+        public ReflectionWriteConfiguration()
+        {
+            this.Usings = new List<string>();
+        }
     }
 }

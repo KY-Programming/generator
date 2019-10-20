@@ -105,6 +105,7 @@ namespace KY.Generator.Transfer.Writers
             {
                 this.AddUsing(model.BasedOn, classTemplate, configuration.Language);
             }
+            configuration.Usings?.ForEach(x => classTemplate.AddUsing(x, null, null));
 
             classTemplate.IsInterface = model.IsInterface;
             classTemplate.IsAbstract = model.IsAbstract;

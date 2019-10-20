@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using KY.Generator.Languages;
 using KY.Generator.Output;
 using KY.Generator.Templates;
@@ -19,10 +18,6 @@ namespace KY.Generator.Csharp.Writers
         public virtual void Write(ICodeFragment fragment, IOutputCache output)
         {
             AttributeTemplate template = (AttributeTemplate)fragment;
-            if (output.LastFragments.Skip(3/*self, attached property, type*/).FirstOrDefault() is PropertyTemplate)
-            {
-                output.BreakLine();
-            }
             output.Add("[")
                   .Add(template.Name);
             if (template.HasValue || template.Properties.Count > 0)

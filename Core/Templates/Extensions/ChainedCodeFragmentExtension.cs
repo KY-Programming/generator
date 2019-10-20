@@ -138,6 +138,26 @@ namespace KY.Generator.Templates.Extensions
         {
             return new LocalVariableTemplate(name).Chain(template);
         }
+        
+        public static LocalVariableTemplate Local(this ChainedCodeFragment template, FieldTemplate type)
+        {
+            return new LocalVariableTemplate(type.Name).Chain(template);
+        }
+
+        public static LocalVariableTemplate Local(this ChainedCodeFragment template, PropertyTemplate type)
+        {
+            return new LocalVariableTemplate(type.Name).Chain(template);
+        }
+
+        public static LocalVariableTemplate Local(this ChainedCodeFragment template, DeclareTemplate type)
+        {
+            return new LocalVariableTemplate(type.Name).Chain(template);
+        }
+
+        public static LocalVariableTemplate Local(this ChainedCodeFragment template, ParameterTemplate type)
+        {
+            return new LocalVariableTemplate(type.Name).Chain(template);
+        }
 
         public static ThisTemplate This(this ChainedCodeFragment template)
         {

@@ -13,7 +13,7 @@ namespace KY.Generator.OpenApi.Readers
     {
         public void Read(OpenApiReadConfiguration configuration, List<ITransferObject> transferObjects)
         {
-            foreach (OpenApiDocument document in transferObjects.OfType<TransferObject<OpenApiDocument>>().Select(x => x.Value).ToList())
+            foreach (OpenApiDocument document in transferObjects.OfType<TransferObject<OpenApiDocument>>().Select(x => x.Value).Where(x => x.Components != null).ToList())
             {
                 foreach (OpenApiSchema type in document.Components.Schemas.Values)
                 {

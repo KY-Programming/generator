@@ -103,7 +103,6 @@ namespace KY.Generator.Json.Tests.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to {
-        ///  &quot;$schema&quot;: &quot;file:///C:/Projekte/C#/Generator/Core/Configuration/configuration.schema.json&quot;,
         ///  &quot;version&quot;: 2,
         ///  &quot;generate&quot;: [
         ///    {
@@ -193,7 +192,6 @@ namespace KY.Generator.Json.Tests.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to {
-        ///  &quot;$schema&quot;: &quot;file:///C:/Projekte/C#/Generator/Core/Configuration/configuration.schema.json&quot;,
         ///  &quot;version&quot;: 2,
         ///  &quot;generate&quot;: [
         ///    {
@@ -220,7 +218,6 @@ namespace KY.Generator.Json.Tests.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to {
-        ///  &quot;$schema&quot;: &quot;file:///C:/Projekte/C#/Generator/Core/Configuration/configuration.schema.json&quot;,
         ///  &quot;version&quot;: 2,
         ///  &quot;generate&quot;: [
         ///    {
@@ -248,7 +245,6 @@ namespace KY.Generator.Json.Tests.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to {
-        ///  &quot;$schema&quot;: &quot;file:///C:/Projekte/C#/Generator/Core/Configuration/configuration.schema.json&quot;,
         ///  &quot;version&quot;: 2,
         ///  &quot;generate&quot;: [
         ///    {

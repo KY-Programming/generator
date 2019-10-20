@@ -12,13 +12,16 @@ namespace KY.Generator.EntityFramework.Configurations
         public List<EntityFrameworkWriteRepositoryConfiguration> Repositories { get; set; }
         public virtual bool IsCore => false;
         public List<string> Usings { get; set; }
-        public int CommandTimeout { get; set; } = 300;
+        //public List<IFluentLanguageElement> Fluent { get; private set; }
+        public EntityFrameworkDataContextConfiguration DataContext { get; set; }
 
         public EntityFrameworkWriteConfiguration()
         {
             this.Language = CsharpLanguage.Instance;
             this.Repositories = new List<EntityFrameworkWriteRepositoryConfiguration>();
             this.Usings= new List<string>();
+            //this.Fluent = new List<IFluentLanguageElement>();
+            this.DataContext = new EntityFrameworkDataContextConfiguration();
         }
     }
 }

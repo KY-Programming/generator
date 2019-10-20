@@ -38,10 +38,17 @@ namespace KY.Generator.AspDotNet.Writers
 
                 if (controllerConfiguration.Get != null)
                 {
-                    // TODO: Implement filters
-                    controller.AddMethod("Get", Code.Generic("IEnumerable", modelType))
-                              .WithAttribute("HttpGet", Code.String(controllerConfiguration.Get.Name ?? "[action]"))
-                              .Code.AddLine(Code.Return(Code.This().Field(repositoryField).Method("Get")));
+                    controller.AddUsing("System.Linq");
+                    MethodTemplate method = controller.AddMethod("Get", Code.Generic("IEnumerable", modelType))
+                                                      .WithAttribute("HttpGet", Code.String(controllerConfiguration.Get.Name ?? "[action]"));
+                    DeclareTemplate queryable = Code.Declare(Code.Generic("IQueryable", modelType), "queryable", Code.This().Field(repositoryField).Method("Get"));
+                    method.Code.AddLine(queryable);
+                    foreach (PropertyTransferObject property in entity.Model.Properties)
+                    {
+                        ParameterTemplate parameter = method.AddParameter(property.Type.ToTemplate(), property.Name, Code.Local("default")).FormatName(configuration.Language, configuration.FormatNames);
+                        method.Code.AddLine(Code.If(Code.Local(parameter).NotEquals().Local("default"), x => x.Code.AddLine(Code.Local(queryable).Assign(Code.Local(queryable).Method("Where", Code.Lambda("x", Code.Local("x").Property(property.Name).Equals().Local(parameter)))).Close())));
+                    }
+                    method.Code.AddLine(Code.Return(Code.Local(queryable)));
                 }
                 if (controllerConfiguration.Post != null)
                 {

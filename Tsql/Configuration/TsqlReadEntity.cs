@@ -1,4 +1,6 @@
-﻿namespace KY.Generator.Tsql.Configuration
+﻿using System.Collections.Generic;
+
+namespace KY.Generator.Tsql.Configuration
 {
     public class TsqlReadEntity
     {
@@ -7,5 +9,11 @@
         public string StoredProcedure { get; set; }
         public string Name { get; set; }
         public string Namespace { get; set; }
+        public List<TsqlReadEntityKeyAction> KeyActions { get; set; }
+
+        public TsqlReadEntity()
+        {
+            this.KeyActions = new List<TsqlReadEntityKeyAction>();
+        }
     }
 }

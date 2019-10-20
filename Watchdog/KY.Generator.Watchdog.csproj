@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>2.2.0-rc.10</Version>
+    <Version>2.2.0</Version>
     <Authors>KY-Programming</Authors>
     <Company>KY-Programming</Company>
     <Product>KY.Generator</Product>

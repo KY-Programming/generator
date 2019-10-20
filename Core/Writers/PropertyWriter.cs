@@ -10,8 +10,8 @@ namespace KY.Generator.Writers
         public virtual void Write(ICodeFragment fragment, IOutputCache output)
         {
             PropertyTemplate template = (PropertyTemplate)fragment;
-            PropertyTemplate previousProperty = output.LastFragments.OfType<PropertyTemplate>().Skip(1).FirstOrDefault();
-            if (previousProperty?.Attributes.Count > 0)
+            PropertyTemplate previousProperty = output.LastFragments.TakeWhile(x => !(x is ClassTemplate)).OfType<PropertyTemplate>().Skip(1).FirstOrDefault();
+            if (previousProperty?.Attributes.Count > 0 || previousProperty != null && template.Attributes.Count > 0)
             {
                 output.BreakLine();
             }

@@ -1,9 +1,8 @@
 ﻿using KY.Generator.Csharp.Languages;
 using KY.Generator.Mappings;
-using KY.Generator.Tsql.Language;
 using KY.Generator.TypeScript.Languages;
 
-namespace KY.Generator.Tsql.Extensions
+namespace KY.Generator.Tsql.Language
 {
     public static class TypeMappingExtension
     {

@@ -44,12 +44,12 @@ namespace KY.Generator.EntityFramework.Writers
             if (configuration.IsCore)
             {
                 constructor.WithBaseConstructor(Code.Static(Code.Type("SqlServerDbContextOptionsExtensions")).Method("UseSqlServer", Code.New(Code.Type("DbContextOptionsBuilder")), Code.NullCoalescing(Code.Local(connectionString), Code.Local(defaultConnectionProperty))).Property("Options"))
-                .Code.AddLine(Code.This().Property("Database").Method("SetCommandTimeout", Code.Number(configuration.CommandTimeout)).Close());
+                .Code.AddLine(Code.This().Property("Database").Method("SetCommandTimeout", Code.Number(configuration.DataContext.CommandTimeout)).Close());
             }
             else
             {
                 constructor.WithBaseConstructor(Code.NullCoalescing(Code.Local("connectionString"), Code.Local(defaultConnectionProperty)))
-                .Code.AddLine(Code.This().Property("Database").Property("CommandTimeout").Assign(Code.Number(configuration.CommandTimeout)).Close());
+                .Code.AddLine(Code.This().Property("Database").Property("CommandTimeout").Assign(Code.Number(configuration.DataContext.CommandTimeout)).Close());
             }
 
             MethodTemplate createMethod = dataContext.AddMethod("OnModelCreating", Code.Void()).Protected().Override();
