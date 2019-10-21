@@ -39,7 +39,7 @@ namespace KY.Generator.EntityFramework.Writers
                 {
                     repository.AddUsing(configuration.Namespace);
                 }
-                
+
                 configuration.Usings.ForEach(x => repository.AddUsing(x));
                 repositoryConfiguration.Usings.ForEach(x => repository.AddUsing(x));
 
@@ -101,15 +101,18 @@ namespace KY.Generator.EntityFramework.Writers
                               .AddLine(Code.This().Field(dataContextField).Method("SaveChanges").Close())
                               .AddLine(Code.Return(Code.Local("result")));
 
-                    repository.AddMethod("Update", modelType)
+                    repository.WithUsing("System.Data.Entity.Migrations")
+                              .AddMethod("Update", modelType)
                               .WithParameter(modelType, "entity")
-                              .Code.AddLine(Code.Declare(modelType, "result", Code.This().Field(dataSetField).Method("Update", Code.Local("entity"))))
+                              .Code.AddLine(Code.This().Field(dataSetField).Method("AddOrUpdate", Code.Local("entity")).Close())
                               .AddLine(Code.This().Field(dataContextField).Method("SaveChanges").Close())
-                              .AddLine(Code.Return(Code.Local("result")));
+                              .AddLine(Code.Return(Code.Local("entity")));
 
-                    repository.AddMethod("Update", Code.Generic("IEnumerable", modelType))
+                    repository.WithUsing("System.Data.Entity.Migrations")
+                              .AddMethod("Update", Code.Generic("IEnumerable", modelType))
                               .WithParameter(Code.Generic("IEnumerable", modelType), "entities")
-                              .Code.AddLine(Code.Declare(Code.Generic("IEnumerable", modelType), "result", Code.Local("entities").Method("Select", Code.Lambda("x", Code.This().Field(dataSetField).Method("Update", Code.Local("x")))).Method("ToList")))
+                              .Code.AddLine(Code.Declare(Code.Generic("List", modelType), "result", Code.Local("entities").Method("ToList")))
+                              .AddLine(Code.Local("result").Method("ForEach", Code.Lambda("x", Code.This().Field(dataSetField).Method("AddOrUpdate", Code.Local("x")))).Close())
                               .AddLine(Code.This().Field(dataContextField).Method("SaveChanges").Close())
                               .AddLine(Code.Return(Code.Local("result")));
                 }
@@ -144,7 +147,7 @@ namespace KY.Generator.EntityFramework.Writers
                 {
                     repository.AddMethod("Delete", Code.Void())
                               .WithParameter(Code.Type("params object[]"), "keys")
-                              .Code.AddLine(Code.This().Field(dataSetField).Method("Remove", Code.Local("keys")).Close())
+                              .Code.AddLine(Code.This().Field(dataSetField).Method("Remove", Code.This().Field(dataSetField).Method("Find", Code.Local("keys"))).Close())
                               .AddLine(Code.This().Field(dataContextField).Method("SaveChanges").Close());
                 }
 

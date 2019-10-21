@@ -19,5 +19,6 @@ namespace KY.Generator.AspDotNet.Templates
         public bool UseOwnCache => true;
         public bool UseAttributes => true;
         public bool ValidateInput => true;
+        public string ControllerBase => "ControllerBase";
     }
 }

@@ -5,7 +5,6 @@ using KY.Generator.Angular.Configurations;
 using KY.Generator.Angular.Writers;
 using KY.Generator.Command;
 using KY.Generator.Configuration;
-using KY.Generator.Transfer;
 
 namespace KY.Generator.Angular
 {
@@ -18,7 +17,7 @@ namespace KY.Generator.Angular
         public override void Initialize()
         {
             this.DependencyResolver.Bind<IGeneratorCommand>().To<GenerateAngularConfig>();
-            this.DependencyResolver.Get<WriterConfigurationMapping>().Map<AngularConfiguration, AngularWriter>("angular");
+            this.DependencyResolver.Get<WriterConfigurationMapping>().Map<AngularWriteConfiguration, AngularWriter>("angular");
         }
     }
 }

@@ -10,7 +10,6 @@ namespace KY.Generator.Command.Extensions
     {
         public static void ReadFromParameters(this ConfigurationBase configuration, List<CommandParameter> parameters, List<ILanguage> languages)
         {
-            configuration.Framework = parameters.GetString(nameof(ConfigurationBase.Framework));
             configuration.VerifySsl = parameters.GetBool(nameof(ConfigurationBase.VerifySsl), configuration.VerifySsl);
             configuration.Language = languages.FirstOrDefault(x => x.Name.Equals(parameters.GetString(nameof(ConfigurationBase.Language)), StringComparison.InvariantCultureIgnoreCase))?? configuration.Language;
             configuration.AddHeader = parameters.GetBool(nameof(ConfigurationBase.AddHeader), configuration.AddHeader);

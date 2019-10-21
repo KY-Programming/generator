@@ -15,15 +15,6 @@ namespace KY.Generator.AspDotNet.Writers
 {
     internal class AspDotNetGeneratorControllerWriter : Codeable
     {
-        private readonly List<ITemplate> templates;
-
-        public AspDotNetGeneratorControllerWriter()
-        {
-            this.templates = new List<ITemplate>();
-            this.templates.Add(new DotNetFrameworkTemplate());
-            this.templates.Add(new DotNetCoreTemplate());
-        }
-
         public void Write(AspDotNetWriteConfiguration configuration, List<FileTemplate> files)
         {
             Logger.Trace("Generate generator controller for ASP.net...");
@@ -32,22 +23,21 @@ namespace KY.Generator.AspDotNet.Writers
                 throw new InvalidOperationException($"Can not generate ASP.net Controller for language {configuration.Language?.Name ?? "Empty"}");
             }
 
-            ITemplate template = this.templates.FirstOrDefault(x => x.Name == configuration.Framework) ?? this.templates.First();
             if (configuration.Standalone)
             {
                 throw new InvalidOperationException("Can not generate Generator.Controller with KY.Generator.CLI.Standalone use KY.Generator.CLI instead");
             }
-            ClassTemplate classTemplate = files.AddFile(configuration.GeneratorController.RelativePath, configuration.AddHeader)
-                                              .AddNamespace(configuration.GeneratorController.Namespace)
-                                              .AddClass("GeneratorController", Code.Type("ControllerBase"))
+            ClassTemplate classTemplate = files.AddFile(configuration.GeneratorController.RelativePath ?? configuration.RelativePath, configuration.AddHeader)
+                                              .AddNamespace(configuration.GeneratorController.Namespace ?? configuration.Namespace)
+                                              .AddClass("GeneratorController", Code.Type(configuration.Template.ControllerBase))
                                               .WithUsing("System")
                                               .WithUsing("System.Linq")
                                               .WithUsing("KY.Generator")
                                               .WithUsing("KY.Generator.Output");
 
-            classTemplate.Usings.AddRange(template.Usings);
+            classTemplate.Usings.AddRange(configuration.Template.Usings);
 
-            if (template.UseOwnCache)
+            if (configuration.Template.UseOwnCache)
             {
                 GenericTypeTemplate type = Code.Generic("Dictionary", Code.Type("string"), Code.Type("MemoryOutput"));
                 classTemplate.AddField("cache", type)
@@ -60,7 +50,7 @@ namespace KY.Generator.AspDotNet.Writers
             MethodTemplate createMethod = classTemplate.AddMethod("Create", Code.Type("string"))
                                                        .FormatName(configuration.Language, configuration.FormatNames)
                                                        .WithParameter(Code.Type("string"), "configuration");
-            if (!template.ValidateInput)
+            if (!configuration.Template.ValidateInput)
             {
                 createMethod.WithAttribute("ValidateInput", Code.Local("false"));
             }
@@ -99,20 +89,20 @@ namespace KY.Generator.AspDotNet.Writers
             commandCode.AddLine(Code.Local("generator").Method("ParseCommand", Code.Local("command")).Close())
                        .AddLine(Code.Local("generator").Method("Run").Close())
                        .AddBlankLine();
-            if (template.UseOwnCache)
+            if (configuration.Template.UseOwnCache)
             {
                 createCode.AddLine(Code.Local("cache").Index(Code.Local("id")).Assign(Code.Local("output")).Close());
                 commandCode.AddLine(Code.Local("cache").Index(Code.Local("id")).Assign(Code.Local("output")).Close());
             }
             else
             {
-                createCode.AddLine(Code.This().Property("HttpContext").Property("Cache").Index(Code.Local("id")).Assign(Code.Local("output")));
-                commandCode.AddLine(Code.This().Property("HttpContext").Property("Cache").Index(Code.Local("id")).Assign(Code.Local("output")));
+                createCode.AddLine(Code.This().Property("HttpContext").Property("Cache").Index(Code.Local("id")).Assign(Code.Local("output").As(Code.Type("MemoryOutput"))).Close());
+                commandCode.AddLine(Code.This().Property("HttpContext").Property("Cache").Index(Code.Local("id")).Assign(Code.Local("output").As(Code.Type("MemoryOutput"))).Close());
             }
             createCode.AddLine(Code.Return(Code.Local("id")));
             commandCode.AddLine(Code.Return(Code.Local("id")));
 
-            ChainedCodeFragment getFromCacheForFilesFragment = template.UseOwnCache
+            ChainedCodeFragment getFromCacheForFilesFragment = configuration.Template.UseOwnCache
                                                                    ? (ChainedCodeFragment)Code.Local("cache")
                                                                    : Code.This().Property("HttpContext").Property("Cache");
             MethodTemplate getFilesMethod = classTemplate.AddMethod("GetFiles", Code.Type("string"))
@@ -125,7 +115,7 @@ namespace KY.Generator.AspDotNet.Writers
                                                              Code.Local("string").Method("Join", Code.Local("Environment").Property("NewLine"),
                                                                                          Code.Local("output").Property("Files").Method("Select", Code.Lambda("x", Code.Local("x").Property("Key")))))));
 
-            ChainedCodeFragment getFromCacheForFileFragment = template.UseOwnCache
+            ChainedCodeFragment getFromCacheForFileFragment = configuration.Template.UseOwnCache
                                                                   ? (ChainedCodeFragment)Code.Local("cache")
                                                                   : Code.This().Property("HttpContext").Property("Cache");
             MethodTemplate getFileMethod = classTemplate.AddMethod("GetFile", Code.Type("string"))
@@ -141,7 +131,7 @@ namespace KY.Generator.AspDotNet.Writers
                                                           .FormatName(configuration.Language, configuration.FormatNames);
             availableMethod.Code.AddLine(Code.Return(Code.Local("true")));
 
-            if (template.UseAttributes)
+            if (configuration.Template.UseAttributes)
             {
                 classTemplate.WithUsing("Microsoft.AspNetCore.Mvc")
                              .WithAttribute("Route", Code.String("[controller]"))

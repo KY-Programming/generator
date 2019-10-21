@@ -39,6 +39,11 @@ namespace KY.Generator.Templates.Extensions
             return new ExecutePropertyTemplate(propertyName).Chain(template);
         }
 
+        public static ExecutePropertyTemplate Property(this ChainedCodeFragment template, PropertyTemplate property)
+        {
+            return new ExecutePropertyTemplate(property.Name).Chain(template);
+        }
+
         public static ExecuteGenericMethodTemplate GenericMethod(this ChainedCodeFragment template, string methodName, params TypeTemplate[] types)
         {
             return new ExecuteGenericMethodTemplate(methodName, types).Chain(template);

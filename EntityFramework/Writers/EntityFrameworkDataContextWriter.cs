@@ -61,10 +61,9 @@ namespace KY.Generator.EntityFramework.Writers
 
             foreach (EntityTransferObject entity in transferObjects.OfType<EntityTransferObject>())
             {
-                IEnumerable<ICodeFragment> keyNames = entity.Keys.Select(key => Code.String(key));
                 createMethod.Code.AddLine(Code.Local(modelBuilder).GenericMethod("Entity", entity.Model.ToTemplate()).BreakLine()
                                               .Method("ToTable", Code.String(entity.Table), Code.String(entity.Schema)).BreakLine()
-                                              .Method("HasKey", keyNames).Close());
+                                              .Method("HasKey", Code.Lambda("x", Code.Csharp("new { " + string.Join(", ", entity.Keys.Select(key => $"x.{key.Name}")) + " }" ))).Close());
             }
         }
     }

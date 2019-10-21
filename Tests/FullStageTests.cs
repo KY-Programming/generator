@@ -42,10 +42,11 @@ namespace KY.Generator.Tests
         public void FullProject()
         {
             Assert.AreEqual(true, this.Run(Resources.full_project_generator), "Generation not successful");
-            Assert.AreEqual(3, this.output.Files.Count);
+            Assert.AreEqual(4, this.output.Files.Count);
             Assert.AreEqual(Resources.User_cs, this.output.Files["Models\\User.cs"]);
             Assert.AreEqual(Resources.UserController_cs, this.output.Files["Controllers\\UserController.cs"]);
             Assert.AreEqual(Resources.UserRepository_cs, this.output.Files["Repositories\\UserRepository.cs"]);
+            Assert.AreEqual("TODO", this.output.Files["Controllers\\DataContext.cs"]);
         }
 
         private bool Run(string configuration)

@@ -12,7 +12,7 @@ using KY.Generator.Tsql;
 using KY.Generator.TypeScript;
 using KY.Generator.Watchdog;
 
-namespace KY.Generator.CLI.Core
+namespace KY.Generator
 {
     internal class Program
     {

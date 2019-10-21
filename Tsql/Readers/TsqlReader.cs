@@ -59,7 +59,9 @@ namespace KY.Generator.Tsql.Readers
                                               };
                 if (!string.IsNullOrEmpty(readEntity.Table))
                 {
-                    typeReader.GetPrimaryKeys(readEntity.Schema ?? configuration.Schema, readEntity.Table).Select(x => x.Name).ForEach(entity.Keys.Add);
+                    typeReader.GetPrimaryKeys(readEntity.Schema ?? configuration.Schema, readEntity.Table)
+                              .Select(x => new EntityKeyTransferObject { Name = x.Name })
+                              .ForEach(entity.Keys.Add);
                 }
                 foreach (TsqlReadEntityKeyAction action in readEntity.KeyActions)
                 {
@@ -73,12 +75,12 @@ namespace KY.Generator.Tsql.Readers
                             }
                             else
                             {
-                                entity.Keys.Remove(entity.Keys.FirstOrDefault(x => x.Equals(action.Name, StringComparison.InvariantCultureIgnoreCase)));
+                                entity.Keys.Remove(entity.Keys.FirstOrDefault(x => x.Name.Equals(action.Name, StringComparison.InvariantCultureIgnoreCase)));
                             }
                             break;
                         case "add":
                         case "insert":
-                            entity.Keys.Add(action.Name);
+                            entity.Keys.Add(new EntityKeyTransferObject {Name = action.Name});
                             break;
                         default:
                             throw new InvalidOperationException($"Unknown entity key action {action.Action} found");

@@ -5,7 +5,7 @@ namespace KY.Generator.EntityFramework.Configurations
     internal class EntityFrameworkDataContextConfiguration
     {
         public string RelativePath { get; set; }
-        public string Names { get; set; }
+        public string Name { get; set; }
         public string Namespace { get; set; }
         public bool SuppressConstructor { get; set; }
         public bool SuppressLoadTypeConfig { get; set; }

@@ -20,5 +20,10 @@ namespace KY.Generator.Transfer
         {
             return this.Name == type.Name && this.Namespace == type.Namespace;
         }
+
+        public TypeTransferObject Clone()
+        {
+            return (TypeTransferObject)this.MemberwiseClone();
+        }
     }
 }

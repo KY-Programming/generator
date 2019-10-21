@@ -4,9 +4,11 @@ using System.Linq;
 using System.Net;
 using System.Xml;
 using KY.Core;
+using KY.Core.DataAccess;
 using KY.Generator.Configuration;
 using KY.Generator.OData.Configuration;
 using KY.Generator.OData.Language;
+using KY.Generator.OData.Transfers;
 using KY.Generator.Transfer;
 using KY.Generator.Transfer.Readers;
 using Microsoft.OData.Edm;
@@ -22,10 +24,11 @@ namespace KY.Generator.OData.Readers
 
             if (!string.IsNullOrEmpty(configuration.File))
             {
-                this.Parse(configuration.File, transferObjects);
+                this.Parse(FileSystem.ReadAllText(configuration.File), transferObjects);
             }
             if (!string.IsNullOrEmpty(configuration.Connection))
             {
+                Logger.Trace($"Connect to {configuration.Connection}...");
                 HttpWebRequest request = WebRequest.CreateHttp(configuration.Connection);
                 request.CookieContainer = new CookieContainer();
                 transferObjects.OfType<TransferObject<Cookie>>().ForEach(x => request.CookieContainer.Add(x.Value));
@@ -42,9 +45,19 @@ namespace KY.Generator.OData.Readers
 
         private void Parse(string xml, List<ITransferObject> list)
         {
-            using (XmlReader xmlReader = XmlReader.Create(xml))
+            try
             {
-                this.Parse(xmlReader, list);
+                list.Add(new ODataResultTransferObject(xml));
+                using (StringReader stringReader = new StringReader(xml))
+                using (XmlReader xmlReader = XmlReader.Create(stringReader))
+                {
+                    this.Parse(xmlReader, list);
+                }
+            }
+            catch
+            {
+                Logger.Trace($"oData response: {xml}");
+                throw;
             }
         }
 
@@ -69,6 +82,11 @@ namespace KY.Generator.OData.Readers
                                                     Language = ODataLanguage.Instance
                                                 };
                     mapping[entityType.AsActualType()] = model;
+                    EntityTransferObject entity = new EntityTransferObject
+                                                  {
+                                                      Name = schemaType.Name,
+                                                      Model = model
+                                                  };
                     foreach (IEdmProperty edmProperty in entityType.DeclaredProperties)
                     {
                         model.Properties.Add(new PropertyTransferObject
@@ -77,8 +95,19 @@ namespace KY.Generator.OData.Readers
                                                  Type = this.ToTransferObject(edmProperty.Type.Definition, mapping)
                                              });
                     }
+                    foreach (IEdmStructuralProperty key in entityType.DeclaredKey)
+                    {
+                        PropertyTransferObject property = model.Properties.FirstOrDefault(x => x.Name == key.Name);
+                        entity.Keys.Add(new EntityKeyTransferObject
+                                        {
+                                            Name = key.Name,
+                                            Type = this.ToTransferObject(key.Type.Definition, mapping).Clone(),
+                                            Property = property
+                                        });
+                    }
                     // TODO: Add Navigation Properties
                     list.Add(model);
+                    list.Add(entity);
                 }
             }
             return mapping;

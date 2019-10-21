@@ -7,7 +7,6 @@ namespace KY.Generator.Configuration
 {
     public abstract class ConfigurationBase
     {
-        public string Framework { get; set; }
         public bool VerifySsl { get; set; } = true;
 
         [JsonIgnore]
@@ -34,7 +33,6 @@ namespace KY.Generator.Configuration
 
         public virtual void CopyBaseFrom(ConfigurationBase source)
         {
-            this.Framework = source.Framework;
             this.VerifySsl = source.VerifySsl;
             this.Language = source.Language;
             this.AddHeader = source.AddHeader;

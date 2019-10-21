@@ -22,11 +22,11 @@ namespace KY.Generator.AspDotNet.Writers
 
                 ClassTemplate controller = files.AddFile(configuration.RelativePath, configuration.AddHeader)
                                                 .AddNamespace(controllerConfiguration.Namespace ?? configuration.Namespace)
-                                                .AddClass(controllerConfiguration.Name ?? entity.Name + "Controller", Code.Type("ControllerBase"))
+                                                .AddClass(controllerConfiguration.Name ?? entity.Name + "Controller", Code.Type(configuration.Template.ControllerBase))
                                                 .FormatName(configuration.Language, configuration.FormatNames)
-                                                .WithAttribute("Route", Code.String(controllerConfiguration.Route ?? "[controller]"))
-                                                .WithUsing("Microsoft.AspNetCore.Mvc")
-                                                .WithUsing("System.Collections.Generic");
+                                                .WithAttribute("Route", Code.String(controllerConfiguration.Route ?? "[controller]"));
+
+                controller.Usings.AddRange(configuration.Template.Usings);
 
                 TypeTemplate modelType = entity.Model.ToTemplate();
 
@@ -39,8 +39,11 @@ namespace KY.Generator.AspDotNet.Writers
                 if (controllerConfiguration.Get != null)
                 {
                     controller.AddUsing("System.Linq");
-                    MethodTemplate method = controller.AddMethod("Get", Code.Generic("IEnumerable", modelType))
-                                                      .WithAttribute("HttpGet", Code.String(controllerConfiguration.Get.Name ?? "[action]"));
+                    MethodTemplate method = controller.AddMethod("Get", Code.Generic("IEnumerable", modelType));
+                    if (configuration.Template.UseAttributes)
+                    {
+                        method.WithAttribute("HttpGet", Code.String(controllerConfiguration.Get.Name ?? "[action]"));
+                    }
                     DeclareTemplate queryable = Code.Declare(Code.Generic("IQueryable", modelType), "queryable", Code.This().Field(repositoryField).Method("Get"));
                     method.Code.AddLine(queryable);
                     foreach (PropertyTransferObject property in entity.Model.Properties)
@@ -52,8 +55,11 @@ namespace KY.Generator.AspDotNet.Writers
                 }
                 if (controllerConfiguration.Post != null)
                 {
-                    MethodTemplate method = controller.AddMethod("Post", Code.Void())
-                                                      .WithAttribute("HttpPost", Code.String(controllerConfiguration.Post.Name ?? "[action]"));
+                    MethodTemplate method = controller.AddMethod("Post", Code.Void());
+                    if (configuration.Template.UseAttributes)
+                    {
+                        method.WithAttribute("HttpPost", Code.String(controllerConfiguration.Post.Name ?? "[action]"));
+                    }
                     ParameterTemplate parameter = method.AddParameter(modelType, "entity")
                                                         .WithAttribute("FromBody");
 
@@ -61,8 +67,11 @@ namespace KY.Generator.AspDotNet.Writers
                 }
                 if (controllerConfiguration.Patch != null)
                 {
-                    MethodTemplate method = controller.AddMethod("Patch", Code.Void())
-                                                      .WithAttribute("HttpPatch", Code.String(controllerConfiguration.Patch.Name ?? "[action]"));
+                    MethodTemplate method = controller.AddMethod("Patch", Code.Void());
+                    if (configuration.Template.UseAttributes)
+                    {
+                        method.WithAttribute("HttpPatch", Code.String(controllerConfiguration.Patch.Name ?? "[action]"));
+                    }
                     ParameterTemplate parameter = method.AddParameter(modelType, "entity")
                                                         .WithAttribute("FromBody");
 
@@ -70,8 +79,11 @@ namespace KY.Generator.AspDotNet.Writers
                 }
                 if (controllerConfiguration.Put != null)
                 {
-                    MethodTemplate method = controller.AddMethod("Put", Code.Void())
-                                                      .WithAttribute("HttpPut", Code.String(controllerConfiguration.Put.Name ?? "[action]"));
+                    MethodTemplate method = controller.AddMethod("Put", Code.Void());
+                    if (configuration.Template.UseAttributes)
+                    {
+                        method.WithAttribute("HttpPut", Code.String(controllerConfiguration.Put.Name ?? "[action]"));
+                    }
                     ParameterTemplate parameter = method.AddParameter(modelType, "entity")
                                                         .WithAttribute("FromBody");
 
@@ -79,12 +91,15 @@ namespace KY.Generator.AspDotNet.Writers
                 }
                 if (controllerConfiguration.Delete != null)
                 {
-                    MethodTemplate method = controller.AddMethod("Delete", Code.Void())
-                                                      .WithAttribute("HttpDelete", Code.String(controllerConfiguration.Delete.Name ?? "[action]"));
-                    List<ParameterTemplate> parameters = new List<ParameterTemplate>();
-                    foreach (string key in entity.Keys)
+                    MethodTemplate method = controller.AddMethod("Delete", Code.Void());
+                    if (configuration.Template.UseAttributes)
                     {
-                        PropertyTransferObject property = entity.Model.Properties.First(x => x.Name.Equals(key, StringComparison.InvariantCultureIgnoreCase));
+                        method.WithAttribute("HttpDelete", Code.String(controllerConfiguration.Delete.Name ?? "[action]"));
+                    }
+                    List<ParameterTemplate> parameters = new List<ParameterTemplate>();
+                    foreach (EntityKeyTransferObject key in entity.Keys)
+                    {
+                        PropertyTransferObject property = entity.Model.Properties.First(x => x.Name.Equals(key.Name, StringComparison.InvariantCultureIgnoreCase));
                         parameters.Add(method.AddParameter(property.Type.ToTemplate(), property.Name)
                                              .FormatName(configuration.Language, configuration.FormatNames));
                     }

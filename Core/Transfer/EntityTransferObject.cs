@@ -6,13 +6,20 @@ namespace KY.Generator.Transfer
     {
         public string Name { get; set; }
         public ModelTransferObject Model { get; set; }
-        public List<string> Keys { get; set; }
+        public List<EntityKeyTransferObject> Keys { get; set; }
         public string Table { get; set; }
         public string Schema { get; set; }
 
         public EntityTransferObject()
         {
-            this.Keys = new List<string>();
+            this.Keys = new List<EntityKeyTransferObject>();
         }
+    }
+
+    public class EntityKeyTransferObject
+    {
+        public string Name { get; set; }
+        public TypeTransferObject Type { get; set; }
+        public PropertyTransferObject Property { get; set; }
     }
 }

@@ -1,5 +1,4 @@
 {
-  "$schema": "file:///C:/Projekte/C#/Generator/Core/Configuration/configuration.schema.json",
   "version": 2,
   "generate": [
     {
@@ -10,12 +9,12 @@
     {
       "write": "angular",
       "service": {
-        "relativePath": "src/app/services",
+        "relativePath": "src/app/services"
+      },
+      "model": {
         "modelPath": "src/app/models",
-        "propertiesToFields": true,
-        "fieldsToProperties": false,
-        "formatNames": true
-      }
+        "propertiesToFields": true
+      } 
     }
   ]
 }

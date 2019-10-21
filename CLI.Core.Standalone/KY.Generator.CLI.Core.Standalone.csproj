@@ -14,6 +14,8 @@
     <PackageIconUrl>https://ky-programming.de/images/logos/128.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/KY-Programming/generator</RepositoryUrl>
     <PackageTags>KY-Generator KY Generator KY.Generator .netCore CLI</PackageTags>
+    <AssemblyName>KY.Generator</AssemblyName>
+    <RootNamespace>KY.Generator</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

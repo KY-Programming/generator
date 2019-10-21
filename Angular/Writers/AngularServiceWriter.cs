@@ -4,9 +4,7 @@ using System.Linq;
 using KY.Core;
 using KY.Core.DataAccess;
 using KY.Generator.Angular.Configurations;
-using KY.Generator.Configuration;
 using KY.Generator.Configurations;
-using KY.Generator.Languages;
 using KY.Generator.Mappings;
 using KY.Generator.Output;
 using KY.Generator.Templates;
@@ -17,28 +15,22 @@ using KY.Generator.Transfer.Writers;
 using KY.Generator.TypeScript;
 using KY.Generator.TypeScript.Extensions;
 using KY.Generator.TypeScript.Languages;
-using KY.Generator.TypeScript.Transfer;
 
 namespace KY.Generator.Angular.Writers
 {
-    internal class AngularServiceWriter : TransferWriter
+    public class AngularServiceWriter : TransferWriter
     {
-        private readonly ModelWriter modelWriter;
-
-        public AngularServiceWriter(TypeScriptModelWriter modelWriter, ITypeMapping typeMapping)
+        public AngularServiceWriter(ITypeMapping typeMapping)
             : base(typeMapping)
-        {
-            this.modelWriter = modelWriter;
-        }
+        { }
 
-        public void Write(AngularConfiguration configuration, List<ITransferObject> transferObjects, IOutput output)
+        public virtual void Write(AngularWriteConfiguration configuration, List<ITransferObject> transferObjects, List<FileTemplate> files)
         {
             Logger.Trace("Generate angular service for ASP.net controller...");
             if (!configuration.Language.IsTypeScript())
             {
                 throw new InvalidOperationException($"Can not generate service for ASP.net Controller for language {configuration.Language?.Name ?? "Empty"}");
             }
-            List<FileTemplate> files = new List<FileTemplate>();
             foreach (HttpServiceTransferObject controller in transferObjects.OfType<HttpServiceTransferObject>())
             {
                 Dictionary<HttpServiceActionParameterTransferObject, ParameterTemplate> mapping = new Dictionary<HttpServiceActionParameterTransferObject, ParameterTemplate>();
@@ -56,7 +48,7 @@ namespace KY.Generator.Angular.Writers
                 FieldTemplate serviceUrlField = classTemplate.AddField("serviceUrl", Code.Type("string")).Public().FormatName(configuration.Language, configuration.FormatNames).Default(Code.String(string.Empty));
                 classTemplate.AddConstructor().WithParameter(Code.Type("HttpClient"), "http")
                              .WithCode(Code.This().Field(httpField).Assign(Code.Local("http")).Close());
-                string relativeModelPath = FileSystem.RelativeTo(configuration.Service.ModelPath ?? ".", configuration.Service.RelativePath);
+                string relativeModelPath = FileSystem.RelativeTo(configuration.Model?.RelativePath ?? ".", configuration.Service.RelativePath);
                 foreach (HttpServiceActionTransferObject action in controller.Actions)
                 {
                     ICodeFragment errorCode = Code.Lambda("error", Code.Local("subject").Method("error", Code.Local("error")));
@@ -134,19 +126,6 @@ namespace KY.Generator.Angular.Writers
                     methodTemplate.WithCode(Code.Return(Code.Local("subject")));
                 }
             }
-
-            ModelWriteConfiguration modelWriteConfiguration = new ModelWriteConfiguration();
-            modelWriteConfiguration.CopyBaseFrom(configuration);
-            modelWriteConfiguration.Name = configuration.Service.Name;
-            modelWriteConfiguration.Namespace = configuration.Service.Namespace;
-            modelWriteConfiguration.RelativePath = configuration.Service.ModelPath ?? configuration.Service.RelativePath;
-            modelWriteConfiguration.SkipNamespace = configuration.Service.SkipNamespace;
-            modelWriteConfiguration.PropertiesToFields = configuration.Service.PropertiesToFields;
-            modelWriteConfiguration.FieldsToProperties = configuration.Service.FieldsToProperties;
-            modelWriteConfiguration.FormatNames = configuration.FormatNames;
-            this.modelWriter.Write(modelWriteConfiguration, transferObjects).ForEach(files.Add);
-
-            files.ForEach(file => configuration.Language.Write(file, output));
         }
     }
 }

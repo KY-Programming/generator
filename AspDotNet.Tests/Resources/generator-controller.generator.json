@@ -3,7 +3,7 @@
   "generate": [
     {
       "write": "asp",
-      "controller": {
+      "generatorController": {
         "namespace": "KY.Generator.Test.Controllers",
         "preloadModules": [
           "KY.Generator.Csharp.CsharpModule",

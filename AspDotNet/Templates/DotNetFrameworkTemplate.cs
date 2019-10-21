@@ -11,12 +11,14 @@ namespace KY.Generator.AspDotNet.Templates
         {
             get
             {
-                yield return new UsingTemplate("System.Web.Mvc", null, null);
+                yield return new UsingTemplate("System.Collections.Generic", null, null);
+                yield return new UsingTemplate("System.Web.Http", null, null);
             }
         }
 
         public bool UseOwnCache => false;
         public bool UseAttributes => false;
         public bool ValidateInput => false;
+        public string ControllerBase => "ApiController";
     }
 }

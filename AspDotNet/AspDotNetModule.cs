@@ -17,6 +17,7 @@ namespace KY.Generator.AspDotNet
         {
             this.DependencyResolver.Get<ReaderConfigurationMapping>().Map<AspDotNetReadConfiguration, AspDotNetReader>("asp");
             this.DependencyResolver.Get<WriterConfigurationMapping>().Map<AspDotNetWriteConfiguration, AspDotNetWriter>("asp");
+            this.DependencyResolver.Get<WriterConfigurationMapping>().Map<AspDotNetCoreWriteConfiguration, AspDotNetWriter>("asp-core");
         }
     }
 }

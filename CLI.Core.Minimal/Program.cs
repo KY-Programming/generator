@@ -1,7 +1,7 @@
 ﻿using System;
 using KY.Core;
 
-namespace KY.Generator.CLI.Core.Minimal
+namespace KY.Generator
 {
     class Program
     {
