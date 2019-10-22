@@ -20,7 +20,7 @@ namespace KY.Generator.Core.Tests
         public void Initialize()
         {
             this.resolver = new DependencyResolver();
-            this.output = new FileWriter2(new TestLanguage());
+            this.output = new FileWriter(new TestLanguage());
         }
 
         [TestMethod]

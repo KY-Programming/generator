@@ -163,7 +163,7 @@ namespace KY.Generator.Languages
                 AssemblyName assemblyName = (Assembly.GetEntryAssembly() ?? Assembly.GetCallingAssembly()).GetName();
                 fileTemplate.Header.Description = string.Format(fileTemplate.Header.Description, $"{assemblyName.Name} {assemblyName.Version}");
             }
-            FileWriter2 writer = new FileWriter2(this);
+            FileWriter writer = new FileWriter(this);
             this.WriteHeader(fileTemplate, writer);
             StaticFileTemplate staticFile = fileTemplate as StaticFileTemplate;
             if (staticFile == null)

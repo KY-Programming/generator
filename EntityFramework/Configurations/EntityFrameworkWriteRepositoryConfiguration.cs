@@ -2,7 +2,7 @@
 
 namespace KY.Generator.EntityFramework.Configurations
 {
-    internal class EntityFrameworkWriteRepositoryConfiguration
+    public class EntityFrameworkWriteRepositoryConfiguration
     { 
         public string Entity { get; set; }
         public string Name { get; set; }

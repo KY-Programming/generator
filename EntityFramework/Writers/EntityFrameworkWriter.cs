@@ -12,7 +12,7 @@ using KY.Generator.Transfer.Writers;
 
 namespace KY.Generator.EntityFramework.Writers
 {
-    internal class EntityFrameworkWriter : ITransferWriter
+    public class EntityFrameworkWriter : ITransferWriter
     {
         private readonly IDependencyResolver resolver;
 
@@ -21,7 +21,7 @@ namespace KY.Generator.EntityFramework.Writers
             this.resolver = resolver;
         }
 
-        public void Write(ConfigurationBase configurationBase, List<ITransferObject> transferObjects, IOutput output)
+        public virtual void Write(ConfigurationBase configurationBase, List<ITransferObject> transferObjects, IOutput output)
         {
             EntityFrameworkWriteConfiguration configuration = (EntityFrameworkWriteConfiguration)configurationBase;
             if (!configuration.Language.IsCsharp())

@@ -18,7 +18,10 @@ namespace KY.Generator.Angular.Writers
 
         public void Write(AngularWriteConfiguration configuration, List<ITransferObject> transferObjects, List<FileTemplate> files)
         {
-            this.modelWriter.Write(configuration.Model, transferObjects).ForEach(files.Add);
+            if (configuration.Model != null)
+            {
+                this.modelWriter.Write(configuration.Model, transferObjects).ForEach(files.Add);
+            }
         }
     }
 }

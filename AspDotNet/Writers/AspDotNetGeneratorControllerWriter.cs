@@ -13,22 +13,23 @@ using KY.Generator.Templates.Extensions;
 
 namespace KY.Generator.AspDotNet.Writers
 {
-    internal class AspDotNetGeneratorControllerWriter : Codeable
+    public class AspDotNetGeneratorControllerWriter : Codeable
     {
-        public void Write(AspDotNetWriteConfiguration configuration, List<FileTemplate> files)
+        public virtual  void Write(AspDotNetWriteConfiguration configuration, List<FileTemplate> files)
         {
             Logger.Trace("Generate generator controller for ASP.net...");
             if (!configuration.Language.IsCsharp())
             {
-                throw new InvalidOperationException($"Can not generate ASP.net Controller for language {configuration.Language?.Name ?? "Empty"}");
+                throw new InvalidOperationException($"Can not generate ASP.net Controller for language {configuration.Language?.Name ?? "Empty"}. Only Csharp is currently implemented");
             }
 
             if (configuration.Standalone)
             {
                 throw new InvalidOperationException("Can not generate Generator.Controller with KY.Generator.CLI.Standalone use KY.Generator.CLI instead");
             }
+            string nameSpace = (configuration.GeneratorController.Namespace ?? configuration.Namespace).AssertIsNotNull(nameof(configuration.Namespace), "asp writer requires a namespace");
             ClassTemplate classTemplate = files.AddFile(configuration.GeneratorController.RelativePath ?? configuration.RelativePath, configuration.AddHeader)
-                                              .AddNamespace(configuration.GeneratorController.Namespace ?? configuration.Namespace)
+                                              .AddNamespace(nameSpace)
                                               .AddClass("GeneratorController", Code.Type(configuration.Template.ControllerBase))
                                               .WithUsing("System")
                                               .WithUsing("System.Linq")
@@ -69,9 +70,9 @@ namespace KY.Generator.AspDotNet.Writers
                        .AddLine(Code.Declare(Code.Type("MemoryOutput"), "output", Code.New(Code.Type("MemoryOutput"))))
                        .AddLine(Code.Declare(Code.Type("Generator"), "generator", Code.New(Code.Type("Generator"))))
                        .AddLine(Code.Local("generator").Method("SetOutput", Code.Local("output")).Close());
-            foreach (string nameSpace in configuration.GeneratorController.Usings)
+            foreach (string ns in configuration.GeneratorController.Usings)
             {
-                classTemplate.AddUsing(nameSpace);
+                classTemplate.AddUsing(ns);
             }
             foreach (string moduleType in configuration.GeneratorController.PreloadModules)
             {
@@ -96,15 +97,15 @@ namespace KY.Generator.AspDotNet.Writers
             }
             else
             {
-                createCode.AddLine(Code.This().Property("HttpContext").Property("Cache").Index(Code.Local("id")).Assign(Code.Local("output").As(Code.Type("MemoryOutput"))).Close());
-                commandCode.AddLine(Code.This().Property("HttpContext").Property("Cache").Index(Code.Local("id")).Assign(Code.Local("output").As(Code.Type("MemoryOutput"))).Close());
+                createCode.AddLine(Code.Static(Code.Type("HttpContext")).Property("Current").Property("Cache").Index(Code.Local("id")).Assign(Code.Local("output").As(Code.Type("MemoryOutput"))).Close());
+                commandCode.AddLine(Code.Static(Code.Type("HttpContext")).Property("Current").Property("Cache").Index(Code.Local("id")).Assign(Code.Local("output").As(Code.Type("MemoryOutput"))).Close());
             }
             createCode.AddLine(Code.Return(Code.Local("id")));
             commandCode.AddLine(Code.Return(Code.Local("id")));
 
             ChainedCodeFragment getFromCacheForFilesFragment = configuration.Template.UseOwnCache
                                                                    ? (ChainedCodeFragment)Code.Local("cache")
-                                                                   : Code.This().Property("HttpContext").Property("Cache");
+                                                                   : Code.Static(Code.Type("HttpContext")).Property("Current").Property("Cache");
             MethodTemplate getFilesMethod = classTemplate.AddMethod("GetFiles", Code.Type("string"))
                                                          .FormatName(configuration.Language, configuration.FormatNames)
                                                          .WithParameter(Code.Type("string"), "id");
@@ -117,7 +118,7 @@ namespace KY.Generator.AspDotNet.Writers
 
             ChainedCodeFragment getFromCacheForFileFragment = configuration.Template.UseOwnCache
                                                                   ? (ChainedCodeFragment)Code.Local("cache")
-                                                                  : Code.This().Property("HttpContext").Property("Cache");
+                                                                  : Code.Static(Code.Type("HttpContext")).Property("Current").Property("Cache");
             MethodTemplate getFileMethod = classTemplate.AddMethod("GetFile", Code.Type("string"))
                                                         .FormatName(configuration.Language, configuration.FormatNames)
                                                         .WithParameter(Code.Type("string"), "id")

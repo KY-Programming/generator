@@ -4,6 +4,7 @@ using System.Linq;
 using KY.Core;
 using KY.Generator.AspDotNet.Configurations;
 using KY.Generator.Csharp.Extensions;
+using KY.Generator.Csharp.Languages;
 using KY.Generator.Templates;
 using KY.Generator.Templates.Extensions;
 using KY.Generator.Transfer;
@@ -11,17 +12,22 @@ using KY.Generator.Transfer.Extensions;
 
 namespace KY.Generator.AspDotNet.Writers
 {
-    internal class AspDotNetEntityControllerWriter : Codeable
+    public class AspDotNetEntityControllerWriter : Codeable
     {
-        public void Write(AspDotNetWriteConfiguration configuration, List<ITransferObject> transferObjects, List<FileTemplate> files)
+        public virtual  void Write(AspDotNetWriteConfiguration configuration, List<ITransferObject> transferObjects, List<FileTemplate> files)
         {
+            if (!configuration.Language.IsCsharp())
+            {
+                throw new InvalidOperationException($"Can not generate ASP.net Controller for language {configuration.Language?.Name ?? "Empty"}. Only Csharp is currently implemented");
+            }
             foreach (AspDotNetWriteEntityControllerConfiguration controllerConfiguration in configuration.Controllers)
             {
                 EntityTransferObject entity = transferObjects.OfType<EntityTransferObject>().FirstOrDefault(x => x.Name == controllerConfiguration.Entity)
                                                              .AssertIsNotNull(nameof(controllerConfiguration.Entity), $"Entity {controllerConfiguration.Entity} not found. Ensure it is read before.");
-
+                
+                string nameSpace = (controllerConfiguration.Namespace ?? configuration.Namespace).AssertIsNotNull(nameof(configuration.Namespace), "asp writer requires a namespace");
                 ClassTemplate controller = files.AddFile(configuration.RelativePath, configuration.AddHeader)
-                                                .AddNamespace(controllerConfiguration.Namespace ?? configuration.Namespace)
+                                                .AddNamespace(nameSpace)
                                                 .AddClass(controllerConfiguration.Name ?? entity.Name + "Controller", Code.Type(configuration.Template.ControllerBase))
                                                 .FormatName(configuration.Language, configuration.FormatNames)
                                                 .WithAttribute("Route", Code.String(controllerConfiguration.Route ?? "[controller]"));

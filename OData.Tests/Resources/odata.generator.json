@@ -8,6 +8,9 @@
     {
       "write": "angular",
       "service": {
+        "formatNames": true
+      },
+      "model": {
         "propertiesToFields": true,
         "formatNames": true
       }

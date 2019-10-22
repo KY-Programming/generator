@@ -1,6 +1,6 @@
 ﻿namespace KY.Generator.AspDotNet.Configurations
 {
-    internal class AspDotNetReadControllerConfiguration
+    public class AspDotNetReadControllerConfiguration
     {
         public string Name { get; set; }
         public string Namespace { get; set; }

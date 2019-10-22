@@ -15,6 +15,7 @@ namespace KY.Generator.Angular.Configurations
             this.Language = TypeScriptLanguage.Instance;
             this.FormatNames = true;
             this.WriteModels = true;
+            this.Model = new AngularWriteModelConfiguration();
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿// ReSharper disable All
+
+using System.IO;
 using Newtonsoft.Json;
 
 namespace KY.Generator.Examples.Json

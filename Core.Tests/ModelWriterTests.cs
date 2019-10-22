@@ -28,8 +28,11 @@ namespace KY.Generator.Core.Tests
         {
             TestConfiguration configuration = new TestConfiguration();
             List<ModelTransferObject> transferObjects = new List<ModelTransferObject>();
-            ModelTransferObject model = new ModelTransferObject();
-            model.Name = "Test1";
+            ModelTransferObject model = new ModelTransferObject
+            {
+                Name = "Test1",
+                Language = new TestLanguage()
+            };
             transferObjects.Add(model);
             List<FileTemplate> files = this.writer.Write(configuration, transferObjects);
             Assert.AreEqual(1, files.Count, "Unexpected number of files");
@@ -41,8 +44,11 @@ namespace KY.Generator.Core.Tests
         {
             TestConfiguration configuration = new TestConfiguration();
             List<ModelTransferObject> transferObjects = new List<ModelTransferObject>();
-            ModelTransferObject model = new ModelTransferObject();
-            model.Namespace = "KY.Test";
+            ModelTransferObject model = new ModelTransferObject
+            {
+                Namespace = "KY.Test",
+                Language = new TestLanguage()
+            };
             transferObjects.Add(model);
             List<FileTemplate> files = this.writer.Write(configuration, transferObjects);
             Assert.AreEqual(1, files[0].Namespaces.Count, "Unexpected number of namespace");
@@ -54,8 +60,11 @@ namespace KY.Generator.Core.Tests
         {
             TestConfiguration configuration = new TestConfiguration();
             List<ModelTransferObject> transferObjects = new List<ModelTransferObject>();
-            ModelTransferObject model = new ModelTransferObject();
-            model.Name = "Test1";
+            ModelTransferObject model = new ModelTransferObject
+            {
+                Name = "Test1",
+                Language = new TestLanguage()
+            };
             transferObjects.Add(model);
             List<FileTemplate> files = this.writer.Write(configuration, transferObjects);
             Assert.AreEqual("Test1", files[0].Namespaces[0].Children[0].Name, "Unexpected class name");
@@ -66,9 +75,12 @@ namespace KY.Generator.Core.Tests
         {
             TestConfiguration configuration = new TestConfiguration();
             List<ModelTransferObject> transferObjects = new List<ModelTransferObject>();
-            ModelTransferObject model = new ModelTransferObject();
-            model.Name = "Test1";
-            model.Namespace = "KY.Test";
+            ModelTransferObject model = new ModelTransferObject
+            {
+                Name = "Test1",
+                Namespace = "KY.Test",
+                Language = new TestLanguage()
+            };
             model.Fields.Add(new FieldTransferObject { Name = "Field1", Type = new TypeTransferObject { Name = "string" } });
             transferObjects.Add(model);
             List<FileTemplate> files = this.writer.Write(configuration, transferObjects);
@@ -84,9 +96,12 @@ namespace KY.Generator.Core.Tests
         {
             TestConfiguration configuration = new TestConfiguration();
             List<ModelTransferObject> transferObjects = new List<ModelTransferObject>();
-            ModelTransferObject model = new ModelTransferObject();
-            model.Name = "Test1";
-            model.Namespace = "KY.Test";
+            ModelTransferObject model = new ModelTransferObject
+            {
+                Name = "Test1",
+                Namespace = "KY.Test",
+                Language = new TestLanguage()
+            };
             model.Properties.Add(new PropertyTransferObject { Name = "Prop1", Type = new TypeTransferObject { Name = "string" } });
             transferObjects.Add(model);
             List<FileTemplate> files = this.writer.Write(configuration, transferObjects);
@@ -102,9 +117,12 @@ namespace KY.Generator.Core.Tests
         {
             TestConfiguration configuration = new TestConfiguration();
             List<ModelTransferObject> transferObjects = new List<ModelTransferObject>();
-            ModelTransferObject model = new ModelTransferObject();
-            model.Name = "Test1";
-            model.Namespace = "KY.Test";
+            ModelTransferObject model = new ModelTransferObject
+            {
+                Name = "Test1",
+                Namespace = "KY.Test",
+                Language = new TestLanguage()
+            };
             model.Properties.Add(new PropertyTransferObject { Name = "Prop1", Type = new TypeTransferObject { Name = "Test2", Namespace = "KY.Test.Different" } });
             transferObjects.Add(model);
             List<FileTemplate> files = this.writer.Write(configuration, transferObjects);

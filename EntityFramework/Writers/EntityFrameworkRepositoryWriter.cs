@@ -12,9 +12,9 @@ using KY.Generator.Transfer.Extensions;
 
 namespace KY.Generator.EntityFramework.Writers
 {
-    internal class EntityFrameworkRepositoryWriter : Codeable
+    public class EntityFrameworkRepositoryWriter : Codeable
     {
-        public void Write(EntityFrameworkWriteConfiguration configuration, List<ITransferObject> transferObjects, List<FileTemplate> files)
+        public virtual void Write(EntityFrameworkWriteConfiguration configuration, List<ITransferObject> transferObjects, List<FileTemplate> files)
         {
             foreach (EntityFrameworkWriteRepositoryConfiguration repositoryConfiguration in configuration.Repositories)
             {

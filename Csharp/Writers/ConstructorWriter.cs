@@ -5,7 +5,7 @@ using KY.Generator.Writers;
 
 namespace KY.Generator.Csharp.Writers
 {
-    internal class ConstructorWriter : MethodWriter
+    public class ConstructorWriter : MethodWriter
     {
         protected override void BeforeBlock(ICodeFragment fragment, IOutputCache output)
         {

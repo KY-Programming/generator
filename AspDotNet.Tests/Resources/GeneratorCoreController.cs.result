@@ -1,4 +1,6 @@
-﻿using System;
+﻿// ReSharper disable All
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using KY.Generator;
@@ -9,7 +11,7 @@ namespace KY.Generator.Test.Controllers
 {
     [Route("[controller]")]
     [Route("api/v1/[controller]")]
-    public partial class GeneratorController : Controller
+    public partial class GeneratorController : ControllerBase
     {
         private static readonly Dictionary<string, MemoryOutput> cache = new Dictionary<string, MemoryOutput>();
 

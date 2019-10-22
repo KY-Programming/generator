@@ -1,12 +1,15 @@
-﻿using System;
+﻿// ReSharper disable All
+
+using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Web.Mvc;
+using System.Web.Http;
 using KY.Generator;
 using KY.Generator.Output;
 
 namespace KY.Generator.Test.Controllers
 {
-    public partial class GeneratorController : Controller
+    public partial class GeneratorController : ApiController
     {
         [ValidateInput(false)]
         public string Create(string configuration)
@@ -22,7 +25,8 @@ namespace KY.Generator.Test.Controllers
             generator.ParseConfiguration(configuration);
             generator.Run();
 
-            this.HttpContext.Cache[id] = outputreturn id;
+            HttpContext.Current.Cache[id] = output as MemoryOutput;
+            return id;
         }
 
         public string Command(string command)
@@ -38,7 +42,8 @@ namespace KY.Generator.Test.Controllers
             generator.ParseCommand(command);
             generator.Run();
 
-            this.HttpContext.Cache[id] = outputreturn id;
+            HttpContext.Current.Cache[id] = output as MemoryOutput;
+            return id;
         }
 
         public string GetFiles(string id)
@@ -47,7 +52,7 @@ namespace KY.Generator.Test.Controllers
             {
                 return null;
             }
-            MemoryOutput output = this.HttpContext.Cache[id];
+            MemoryOutput output = HttpContext.Current.Cache[id];
             return output == null ? null : string.Join(Environment.NewLine, output.Files.Select(x => x.Key));
         }
 
@@ -57,7 +62,7 @@ namespace KY.Generator.Test.Controllers
             {
                 return null;
             }
-            MemoryOutput output = this.HttpContext.Cache[id];
+            MemoryOutput output = HttpContext.Current.Cache[id];
             return output == null || ! output.Files.ContainsKey(path) ? null : output.Files[path];
         }
 

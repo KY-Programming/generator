@@ -14,7 +14,7 @@ using KY.Generator.Transfer.Extensions;
 
 namespace KY.Generator.AspDotNet.Readers
 {
-    internal class AspDotNetControllerReader
+    public class AspDotNetControllerReader
     {
         private readonly ReflectionModelReader modelReader;
 
@@ -23,7 +23,7 @@ namespace KY.Generator.AspDotNet.Readers
             this.modelReader = modelReader;
         }
 
-        public IEnumerable<ITransferObject> Read(AspDotNetReadConfiguration configuration)
+        public virtual IEnumerable<ITransferObject> Read(AspDotNetReadConfiguration configuration)
         {
             Logger.Trace("Read ASP.net controller...");
             List<Assembly> assemblies = new List<Assembly>();

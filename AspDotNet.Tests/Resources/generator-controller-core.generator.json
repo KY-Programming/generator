@@ -2,9 +2,8 @@
   "version": 2,
   "generate": [
     {
-      "write": "asp",
-      "framework": ".net Core 2.0",
-      "controller": {
+      "write": "asp-core",
+      "generatorController": {
         "namespace": "KY.Generator.Test.Controllers",
         "preloadModules": [
           "KY.Generator.Csharp.CsharpModule",

@@ -1,12 +1,21 @@
-﻿namespace KY.Generator.Test.Repositories
+﻿// ReSharper disable All
+
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Data.Entity.Migrations;
+using System.Linq;
+
+namespace KY.Generator.Test.Repositories
 {
     public partial class UserRepository
     {
         private readonly DbSet<User> dataSet;
+        private readonly DataContext dataContext;
 
         public UserRepository(DataContext dataContext = null)
         {
-            this.dataSet = dataContext ?? new DataContext();
+            this.dataContext = dataContext ?? new DataContext();
+            this.dataSet = this.dataContext.Set<User>();
         }
 
         public IQueryable<User> Get()
@@ -22,57 +31,48 @@
         public User Add(User entity)
         {
             User result = this.dataSet.Add(entity);
-            this.dataSet.SaveChanges();
+            this.dataContext.SaveChanges();
             return result;
         }
 
         public IEnumerable<User> Add(IEnumerable<User> entities)
         {
             IEnumerable<User> result = entities.Select(x => this.dataSet.Add(x)).ToList();
-            this.dataSet.SaveChanges();
+            this.dataContext.SaveChanges();
             return result;
         }
 
-        public void Update(User entity)
+        public User Update(User entity)
         {
             this.dataSet.AddOrUpdate(entity);
-            this.dataSet.SaveChanges();
+            this.dataContext.SaveChanges();
+            return entity;
         }
 
-        public void Update(IEnumerable<User> entities)
+        public IEnumerable<User> Update(IEnumerable<User> entities)
         {
-            entities.ForEach(x => this.dataSet.AddOrUpdate(x));
-            this.dataSet.SaveChanges();
-        }
-
-        public void Update(Delta<User> delta, object[] keys)
-        {
-            User entity = this.dataSet.Find(keys);
-            if (entity == null)
-            {
-                throw new InvalidOperationException("Can not find any element with this keys, Use Add(...) method instead");
-            }
-            delta.Patch(entity);
-            this.Update(entity);
-            this.dataSet.SaveChanges();
+            List<User> result = entities.ToList();
+            result.ForEach(x => this.dataSet.AddOrUpdate(x));
+            this.dataContext.SaveChanges();
+            return result;
         }
 
         public void Delete(User entity)
         {
             this.dataSet.Remove(entity);
-            this.dataSet.SaveChanges();
+            this.dataContext.SaveChanges();
         }
 
         public void Delete(IEnumerable<User> entities)
         {
             this.dataSet.RemoveRange(entities);
-            this.dataSet.SaveChanges();
+            this.dataContext.SaveChanges();
         }
 
         public void Delete(params object[] keys)
         {
-            this.dataSet.Remove(keys);
-            this.dataSet.SaveChanges();
+            this.dataSet.Remove(this.dataSet.Find(keys));
+            this.dataContext.SaveChanges();
         }
     }
 }

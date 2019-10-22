@@ -46,7 +46,7 @@ namespace KY.Generator.Tests
             Assert.AreEqual(Resources.User_cs, this.output.Files["Models\\User.cs"]);
             Assert.AreEqual(Resources.UserController_cs, this.output.Files["Controllers\\UserController.cs"]);
             Assert.AreEqual(Resources.UserRepository_cs, this.output.Files["Repositories\\UserRepository.cs"]);
-            Assert.AreEqual("TODO", this.output.Files["Controllers\\DataContext.cs"]);
+            Assert.AreEqual(Resources.DataContext, this.output.Files["Repositories\\DataContext.cs"]);
         }
 
         private bool Run(string configuration)

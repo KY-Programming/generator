@@ -26,6 +26,14 @@ namespace KY.Generator.Configuration
             {
                 throw new ArgumentNullException(nameof(name));
             }
+            if (this.configurationMapping.ContainsKey(name))
+            {
+                throw new InvalidOperationException($"{name} is already mapped. Please use a prefix like my-{name}");
+            }
+            if (this.readerConfigurationMapping.ContainsKey(typeof(TConfiguration)))
+            {
+                throw new InvalidOperationException($"{typeof(TConfiguration)} is already mapped. Please create a derived class");
+            }
             name = name.ToLower();
             this.configurationMapping.Add(name, typeof(TConfiguration));
             this.writerMapping.Add(name, typeof(TWriter));

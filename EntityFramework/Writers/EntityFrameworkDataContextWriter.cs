@@ -11,11 +11,16 @@ using KY.Generator.Transfer.Extensions;
 
 namespace KY.Generator.EntityFramework.Writers
 {
-    internal class EntityFrameworkDataContextWriter : Codeable
+    public class EntityFrameworkDataContextWriter : Codeable
     {
-        public void Write(EntityFrameworkWriteConfiguration configuration, List<ITransferObject> transferObjects, List<FileTemplate> files)
+        public virtual void Write(EntityFrameworkWriteConfiguration configuration, List<ITransferObject> transferObjects, List<FileTemplate> files)
         {
-            ClassTemplate dataContext = files.AddFile(configuration.RelativePath)
+            this.WriteClass(configuration, transferObjects, files);
+        }
+
+        protected virtual ClassTemplate WriteClass(EntityFrameworkWriteConfiguration configuration, List<ITransferObject> transferObjects, List<FileTemplate> files)
+        {
+            ClassTemplate dataContext = files.AddFile(configuration.RelativePath, configuration.AddHeader)
                                                .AddNamespace(configuration.Namespace)
                                                .AddClass("DataContext", Code.Type("DbContext"));
 
@@ -39,8 +44,11 @@ namespace KY.Generator.EntityFramework.Writers
                            .Virtual();
             }
 
+            dataContext.AddConstructor()
+                       .WithThisConstructor(Code.Null());
+
             ConstructorTemplate constructor = dataContext.AddConstructor();
-            ParameterTemplate connectionString = constructor.AddParameter(Code.Type("string"), "connectionString", Code.Null());
+            ParameterTemplate connectionString = constructor.AddParameter(Code.Type("string"), "connectionString");
             if (configuration.IsCore)
             {
                 constructor.WithBaseConstructor(Code.Static(Code.Type("SqlServerDbContextOptionsExtensions")).Method("UseSqlServer", Code.New(Code.Type("DbContextOptionsBuilder")), Code.NullCoalescing(Code.Local(connectionString), Code.Local(defaultConnectionProperty))).Property("Options"))
@@ -65,6 +73,7 @@ namespace KY.Generator.EntityFramework.Writers
                                               .Method("ToTable", Code.String(entity.Table), Code.String(entity.Schema)).BreakLine()
                                               .Method("HasKey", Code.Lambda("x", Code.Csharp("new { " + string.Join(", ", entity.Keys.Select(key => $"x.{key.Name}")) + " }" ))).Close());
             }
+            return dataContext;
         }
     }
 }

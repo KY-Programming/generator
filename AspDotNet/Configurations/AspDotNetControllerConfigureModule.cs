@@ -1,6 +1,6 @@
-﻿namespace KY.Generator.AspDotNet
+﻿namespace KY.Generator.AspDotNet.Configurations
 {
-    internal class AspDotNetControllerConfigureModule
+    public class AspDotNetControllerConfigureModule
     {
         public string Module { get; set; }
         public string Action { get; set; }

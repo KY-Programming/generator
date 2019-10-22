@@ -9,7 +9,7 @@ import { Subject } from "rxjs";
 @Injectable({
     providedIn: "root"
 })
-export class uSeRService {
+export class USeRService {
     private readonly http: HttpClient;
     public serviceUrl: string = "";
 

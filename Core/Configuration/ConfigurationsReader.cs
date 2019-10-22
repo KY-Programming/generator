@@ -42,7 +42,7 @@ namespace KY.Generator.Configuration
                 ConfigurationVersion version = jObject.ToObject<ConfigurationVersion>();
                 if (version?.Generate == null)
                 {
-                    throw new InvalidConfigurationException("Unsupported configuration found.");
+                    throw new InvalidConfigurationException("Unsupported configuration found. Generate tag is missing.");
                 }
                 if (version.Version == 0)
                 {

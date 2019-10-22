@@ -1,4 +1,6 @@
-﻿namespace KY.Generator.Test.Models
+﻿// ReSharper disable All
+
+namespace KY.Generator.Test.Models
 {
     public partial class User
     {

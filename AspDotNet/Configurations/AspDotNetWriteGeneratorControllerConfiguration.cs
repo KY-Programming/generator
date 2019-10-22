@@ -2,7 +2,7 @@
 
 namespace KY.Generator.AspDotNet.Configurations
 {
-    internal class AspDotNetGeneratorControllerConfiguration
+    public class AspDotNetGeneratorControllerConfiguration
     {
         public string RelativePath { get; set; }
         public string Namespace { get; set; }

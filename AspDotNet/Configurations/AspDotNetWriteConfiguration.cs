@@ -5,7 +5,7 @@ using KY.Generator.Csharp.Languages;
 
 namespace KY.Generator.AspDotNet.Configurations
 {
-    internal class AspDotNetWriteConfiguration : ConfigurationBase
+    public class AspDotNetWriteConfiguration : ConfigurationBase
     {
         public string Namespace { get; set; }
         public string RelativePath { get; set; }
@@ -13,7 +13,7 @@ namespace KY.Generator.AspDotNet.Configurations
         public AspDotNetGeneratorControllerConfiguration GeneratorController { get; set; }
         public List<AspDotNetWriteEntityControllerConfiguration> Controllers { get; set; }
         public List<string> Usings { get; set; }
-        public ITemplate Template { get; set; }
+        internal ITemplate Template { get; set; }
 
         public AspDotNetWriteConfiguration()
         {

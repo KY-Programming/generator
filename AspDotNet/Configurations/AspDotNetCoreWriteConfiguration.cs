@@ -2,7 +2,7 @@
 
 namespace KY.Generator.AspDotNet.Configurations
 {
-    internal class AspDotNetCoreWriteConfiguration : AspDotNetWriteConfiguration
+    public class AspDotNetCoreWriteConfiguration : AspDotNetWriteConfiguration
     {
         public AspDotNetCoreWriteConfiguration()
         {

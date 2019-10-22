@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿// ReSharper disable All
+
+using System.Collections.Generic;
 
 namespace KY.Generator.Examples.Json
 {

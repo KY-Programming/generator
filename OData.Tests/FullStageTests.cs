@@ -1,6 +1,9 @@
 using System.Collections.Generic;
+using System.Linq;
+using KY.Core;
 using KY.Core.Dependency;
 using KY.Generator.Angular;
+using KY.Generator.Angular.Configurations;
 using KY.Generator.Configuration;
 using KY.Generator.Mappings;
 using KY.Generator.OData.Tests.Properties;
@@ -50,6 +53,7 @@ namespace KY.Generator.OData.Tests
         {
             List<ConfigurationPair> configurations = this.reader.Parse(configuration);
             configurations.ForEach(x => x.Writers.ForEach(y => y.AddHeader = false));
+            configurations.SelectMany(x => x.Writers).OfType<AngularWriteConfiguration>().ForEach(x => x.Model.AddHeader = false);
             return this.runner.Run(configurations, this.output);
         }
     }

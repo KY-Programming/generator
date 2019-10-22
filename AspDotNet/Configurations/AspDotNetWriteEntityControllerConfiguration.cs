@@ -2,7 +2,7 @@
 
 namespace KY.Generator.AspDotNet.Configurations
 {
-    internal class AspDotNetWriteEntityControllerConfiguration
+    public class AspDotNetWriteEntityControllerConfiguration
     {
         public string Entity { get; set; }
         public string Name { get; set; }

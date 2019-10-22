@@ -1,10 +1,14 @@
-﻿using KY.Generator.Test.Repositories;
-using Microsoft.AspNetCore.Mvc;
+﻿// ReSharper disable All
+
+using System.Collections.Generic;
+using System.Linq;
+using System.Web.Http;
+using KY.Generator.Test.Repositories;
 
 namespace KY.Generator.Test.Controllers
 {
     [Route("api/v1/[controller]")]
-    public partial class UserController : Controller
+    public partial class UserController : ApiController
     {
         private readonly UserRepository repository;
 
@@ -13,31 +17,35 @@ namespace KY.Generator.Test.Controllers
             this.repository = new UserRepository();
         }
 
-        [HttpGet("[action]")]
-        public User Get()
+        public IEnumerable<User> Get(string name = default, string password = default)
         {
-            return this.repository.Get();
+            IQueryable<User> queryable = this.repository.Get();
+            if (name != default)
+            {
+                queryable = queryable.Where(x => x.Name == name);
+            }
+            if (password != default)
+            {
+                queryable = queryable.Where(x => x.Password == password);
+            }
+            return queryable;
         }
 
-        [HttpPost("[action]")]
         public void Post([FromBody] User entity)
         {
             this.repository.Add(entity);
         }
 
-        [HttpPatch("[action]")]
         public void Patch([FromBody] User entity)
         {
             this.repository.Update(entity);
         }
 
-        [HttpPut("[action]")]
         public void Put([FromBody] User entity)
         {
             this.repository.Update(entity);
         }
 
-        [HttpDelete("[action]")]
         public void Delete(string name)
         {
             this.repository.Delete(name);

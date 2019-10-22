@@ -1,0 +1,31 @@
+﻿// ReSharper disable All
+
+using System.Data.Entity;
+
+namespace KY.Generator.Test.Repositories
+{
+    public partial class DataContext : DbContext
+    {
+        public static string DefaultConnection { get; set; } = "name=DataContext";
+        public virtual DbSet<User> User { get; set; }
+
+        public DataContext()
+            : this(null)
+        {
+        }
+
+        public DataContext(string connectionString)
+            : base(connectionString ?? DefaultConnection)
+        {
+            this.Database.CommandTimeout = 300;
+        }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Configurations.AddFromAssembly(this.GetType().Assembly);
+            modelBuilder.Entity<User>()
+                .ToTable("User", "test")
+                .HasKey(x => new { x.Name });
+        }
+    }
+}

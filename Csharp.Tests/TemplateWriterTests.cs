@@ -25,7 +25,7 @@ namespace KY.Generator.Csharp.Tests
         public void Initialize()
         {
             this.resolver = new DependencyResolver();
-            this.output = new FileWriter2(CsharpLanguage.Instance);
+            this.output = new FileWriter(CsharpLanguage.Instance);
         }
 
         [TestMethod]
@@ -110,7 +110,28 @@ namespace KY.Generator.Csharp.Tests
         [TestMethod]
         public void ConstructorWriter()
         {
-            Assert.Inconclusive();
+            ConstructorWriter writer = new ConstructorWriter();
+            ClassTemplate classTemplate = new ClassTemplate((NamespaceTemplate)null, "Test");
+            writer.Write(new ConstructorTemplate(classTemplate), this.output);
+            Assert.AreEqual("public Test()\r\n{\r\n}", this.output.ToString());
+        }
+
+        [TestMethod]
+        public void ConstructorWithBaseCall()
+        {
+            ConstructorWriter writer = new ConstructorWriter();
+            ClassTemplate classTemplate = new ClassTemplate((NamespaceTemplate)null, "Test");
+            writer.Write(new ConstructorTemplate(classTemplate).WithBaseConstructor(), this.output);
+            Assert.AreEqual("public Test()\r\n    : base()\r\n{\r\n}", this.output.ToString());
+        }
+
+        [TestMethod]
+        public void ConstructorWithThisCall()
+        {
+            ConstructorWriter writer = new ConstructorWriter();
+            ClassTemplate classTemplate = new ClassTemplate((NamespaceTemplate)null, "Test");
+            writer.Write(new ConstructorTemplate(classTemplate).WithThisConstructor(), this.output);
+            Assert.AreEqual("public Test()\r\n    : this()\r\n{\r\n}", this.output.ToString());
         }
 
         [TestMethod]

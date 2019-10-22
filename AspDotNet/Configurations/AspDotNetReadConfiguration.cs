@@ -2,7 +2,7 @@
 
 namespace KY.Generator.AspDotNet.Configurations
 {
-    internal class AspDotNetReadConfiguration : ConfigurationBase
+    public class AspDotNetReadConfiguration : ConfigurationBase
     {
         public AspDotNetReadControllerConfiguration Controller { get; set; }
 

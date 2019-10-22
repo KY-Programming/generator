@@ -37,7 +37,7 @@ namespace KY.Generator.Languages
                 throw new NotImplementedException($"The method {nameof(Write)} for type {fileTemplate.GetType().Name} is not implemented in {this.Name}.");
             }
             
-            FileWriter2 fileWriter = new FileWriter2(this);
+            FileWriter fileWriter = new FileWriter(this);
             fileWriter.Add(fileTemplate.Header)
                       .BreakLine()
                       .Add(staticFile.Content, true);

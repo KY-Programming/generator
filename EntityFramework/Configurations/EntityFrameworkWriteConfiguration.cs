@@ -4,7 +4,7 @@ using KY.Generator.Csharp.Languages;
 
 namespace KY.Generator.EntityFramework.Configurations
 {
-    internal class EntityFrameworkWriteConfiguration : ConfigurationBase
+    public class EntityFrameworkWriteConfiguration : ConfigurationBase
     {
         public string Namespace { get; set; }
         public string RelativePath { get; set; }

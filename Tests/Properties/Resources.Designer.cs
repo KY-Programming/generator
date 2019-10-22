@@ -61,6 +61,26 @@ namespace KY.Generator.Tests.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to // ------------------------------------------------------------------------------
+        /////  &lt;auto-generated&gt;
+        /////      This code was generated with testhost 15.0.0.0
+        /////      Manual changes to this file may cause unexpected behavior in your application.
+        /////      Manual changes to this file will be overwritten if the code is regenerated.
+        /////  &lt;/auto-generated&gt;
+        ///// ------------------------------------------------------------------------------
+        ///// ReSharper disable All
+        ///
+        ///using System.Data.Entity;
+        ///
+        ///namespace KY.Ge [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string DataContext {
+            get {
+                return ResourceManager.GetString("DataContext", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {}.
         /// </summary>
         internal static string empty_configuration {
@@ -295,7 +315,9 @@ namespace KY.Generator.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to namespace KY.Generator.Test.Models
+        ///   Looks up a localized string similar to // ReSharper disable All
+        ///
+        ///namespace KY.Generator.Test.Models
         ///{
         ///    public partial class User
         ///    {
@@ -311,13 +333,17 @@ namespace KY.Generator.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using KY.Generator.Test.Repositories;
-        ///using Microsoft.AspNetCore.Mvc;
+        ///   Looks up a localized string similar to // ReSharper disable All
+        ///
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Web.Http;
+        ///using KY.Generator.Test.Repositories;
         ///
         ///namespace KY.Generator.Test.Controllers
         ///{
         ///    [Route(&quot;api/v1/[controller]&quot;)]
-        ///    public partial class UserController
+        ///    public partial class UserController : ApiController
         ///    {
         ///        private readonly UserRepository repository;
         ///
@@ -326,13 +352,7 @@ namespace KY.Generator.Tests.Properties {
         ///            this.repository = new UserRepository();
         ///        }
         ///
-        ///        [HttpGet(&quot;[action]&quot;)]
-        ///        public User Get()
-        ///        {
-        ///            return this.repository.Get();
-        ///        }
-        ///
-        ///        [HttpPost(&quot;[ [rest of string was truncated]&quot;;.
+        ///        public IEnumerable&lt;User&gt; Get(string name = defa [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string UserController_cs {
             get {
@@ -341,28 +361,24 @@ namespace KY.Generator.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using KY.Generator.Test.Repositories;
-        ///using Microsoft.AspNetCore.Mvc;
+        ///   Looks up a localized string similar to // ReSharper disable All
         ///
-        ///namespace KY.Generator.Test.Controllers
+        ///using System.Collections.Generic;
+        ///using System.Data.Entity;
+        ///using System.Data.Entity.Migrations;
+        ///using System.Linq;
+        ///
+        ///namespace KY.Generator.Test.Repositories
         ///{
-        ///    [Route(&quot;api/v1/[controller]&quot;)]
-        ///    public partial class UserController
+        ///    public partial class UserRepository
         ///    {
-        ///        private readonly UserRepository repository;
+        ///        private readonly DbSet&lt;User&gt; dataSet;
+        ///        private readonly DataContext dataContext;
         ///
-        ///        public UserController()
+        ///        public UserRepository(DataContext dataContext = null)
         ///        {
-        ///            this.repository = new UserRepository();
-        ///        }
-        ///
-        ///        [HttpGet(&quot;[action]&quot;)]
-        ///        public User Get()
-        ///        {
-        ///            return this.repository.Get();
-        ///        }
-        ///
-        ///        [HttpPost(&quot;[ [rest of string was truncated]&quot;;.
+        ///            this.dataContext = dataContext ?? new DataContext();
+        ///            this.dataSet = th [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string UserRepository_cs {
             get {

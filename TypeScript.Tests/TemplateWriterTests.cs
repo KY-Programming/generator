@@ -19,7 +19,7 @@ namespace KY.Generator.TypeScript.Tests
         public void Initialize()
         {
             this.resolver = new DependencyResolver();
-            this.output = new FileWriter2(TypeScriptLanguage.Instance);
+            this.output = new FileWriter(TypeScriptLanguage.Instance);
         }
 
 

@@ -2,7 +2,7 @@
 
 namespace KY.Generator.EntityFramework.Configurations
 {
-    internal class EntityFrameworkDataContextConfiguration
+    public class EntityFrameworkDataContextConfiguration
     {
         public string RelativePath { get; set; }
         public string Name { get; set; }

@@ -3,15 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using KY.Core;
-using KY.Core.Extension;
 using KY.Generator.Languages;
 using KY.Generator.Templates;
 
 namespace KY.Generator.Output
 {
-    internal class FileWriter2 : IOutputCache
+    internal class FileWriter : IOutputCache
     {
-        private readonly FileWriter2 parent;
         private int indent;
         private readonly StringBuilder cache;
         private bool isLineClosed;
@@ -20,24 +18,17 @@ namespace KY.Generator.Output
 
         public IEnumerable<ICodeFragment> LastFragments => this.Language.CastSafeTo<BaseLanguage>()?.LastFragments;
 
-        private FileWriter2()
+        private FileWriter()
         {
             this.cache = new StringBuilder();
             this.indent = 0;
             this.isLineClosed = true;
         }
 
-        public FileWriter2(IFormattableLanguage language)
+        public FileWriter(IFormattableLanguage language)
             : this()
         {
             this.Language = language;
-        }
-
-        private FileWriter2(FileWriter2 parent)
-            : this()
-        {
-            this.parent = parent;
-            this.Language = parent.Language;
         }
 
         public IOutputCache Add(string code, bool keepIndent = false)
@@ -66,11 +57,10 @@ namespace KY.Generator.Output
             return this;
         }
 
-        private IOutputCache WriteIndent()
+        private void WriteIndent()
         {
             this.isLineClosed = false;
             this.cache.Append("".PadLeft(this.indent * this.Language.Formatting.IdentCount, this.Language.Formatting.IndentChar));
-            return this;
         }
 
         public IOutputCache ExtraIndent(int indents = 1)
@@ -152,7 +142,7 @@ namespace KY.Generator.Output
 
         public IOutputCache StartBlock()
         {
-            if (this.cache.Length > 0)
+            if (this.cache.Length > 0 && !this.isLineClosed)
             {
                 if (this.Language.Formatting.StartBlockInNewLine)
                 {

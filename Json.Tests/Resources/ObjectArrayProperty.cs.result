@@ -1,4 +1,6 @@
-﻿namespace KY.Generator.Examples.Json
+﻿// ReSharper disable All
+
+namespace KY.Generator.Examples.Json
 {
     public partial class ObjectArrayProperty
     {
