@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>KY.Generator.CLI</id>
-    <version>2.2.0</version>
+    <version>2.3.0</version>
     <title>KY.Generator.CLI</title>
     <authors>KY-Programming</authors>
     <owners>KY-Programming</owners>
@@ -10,22 +10,23 @@
     <projectUrl>https://github.com/KY-Programming/generator</projectUrl>
     <iconUrl>https://ky-programming.de/images/logos/128.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>KY-Generator executable containing all features</description>
+    <description>KY-Generator .NET Framework CLI containing all features.
+Generate classes from oData, .NET assembly, JSON or TSQL to C# or TypeScript. Support Angular, ASP.NET, ASP.NET Core, C# POCOs, TypeScript POCOs, Entity Framework and more.</description>
     <releaseNotes></releaseNotes>
     <copyright>Copyright 2019</copyright>
     <tags>KY-Generator KY Generator CLI</tags>
     <dependencies>
-      <dependency id="KY.Generator.Angular" version="2.2.0" />
-      <dependency id="KY.Generator.AspDotNet" version="2.2.0" />
-      <dependency id="KY.Generator.Core" version="2.2.0" />
-      <dependency id="KY.Generator.Csharp" version="2.2.0" />
-      <dependency id="KY.Generator.EntityFramework" version="2.2.0" />
-      <dependency id="KY.Generator.Json" version="2.2.0" />
-      <dependency id="KY.Generator.OData" version="2.2.0" />
-      <dependency id="KY.Generator.OpenApi" version="2.2.0" />
-      <dependency id="KY.Generator.Reflection" version="2.2.0" />
-      <dependency id="KY.Generator.Tsql" version="2.2.0" />
-      <dependency id="KY.Generator.TypeScript" version="2.2.0" />
+      <dependency id="KY.Generator.Angular" version="2.3.0" />
+      <dependency id="KY.Generator.AspDotNet" version="2.3.0" />
+      <dependency id="KY.Generator.Core" version="2.3.0" />
+      <dependency id="KY.Generator.Csharp" version="2.3.0" />
+      <dependency id="KY.Generator.EntityFramework" version="2.3.0" />
+      <dependency id="KY.Generator.Json" version="2.3.0" />
+      <dependency id="KY.Generator.OData" version="2.3.0" />
+      <dependency id="KY.Generator.OpenApi" version="2.3.0" />
+      <dependency id="KY.Generator.Reflection" version="2.3.0" />
+      <dependency id="KY.Generator.Tsql" version="2.3.0" />
+      <dependency id="KY.Generator.TypeScript" version="2.3.0" />
     </dependencies>
   </metadata>
   <files>

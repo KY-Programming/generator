@@ -33,7 +33,6 @@ namespace KY.Generator.Tsql.Tests
             this.output = this.resolver.Create<MemoryOutput>();
         }
 
-
         [TestMethod]
         public void TestMethod1()
         {

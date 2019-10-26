@@ -20,7 +20,7 @@ namespace KY.Generator.Reflection
         public override void Initialize()
         {
             //this.DependencyResolver.Bind<ReflectionGeneratorConfiguration>().ToSingleton();
-            StaticResolver.TypeMapping = this.DependencyResolver.Get<ITypeMapping>().Initialize();
+            this.DependencyResolver.Get<ITypeMapping>().Initialize();
             //StaticResolver.GeneratorConfiguration = this.DependencyResolver.Get<ReflectionGeneratorConfiguration>();
             this.DependencyResolver.Bind<ReflectionModelReader>().ToSelf();
             this.DependencyResolver.Bind<ReflectionReader>().ToSelf();

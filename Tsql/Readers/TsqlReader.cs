@@ -62,6 +62,7 @@ namespace KY.Generator.Tsql.Readers
                     typeReader.GetPrimaryKeys(readEntity.Schema ?? configuration.Schema, readEntity.Table)
                               .Select(x => new EntityKeyTransferObject { Name = x.Name })
                               .ForEach(entity.Keys.Add);
+                    List<TsqlNavigationProperty> navigationProperties = typeReader.GetNavigationProperties(readEntity.Schema ?? configuration.Schema, readEntity.Table);
                 }
                 foreach (TsqlReadEntityKeyAction action in readEntity.KeyActions)
                 {
