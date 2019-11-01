@@ -67,8 +67,10 @@ namespace KY.Generator.Commands
         private bool Run(string configuration, string path, IOutput output)
         {
             List<ConfigurationPair> configurations = this.Deserialize(configuration);
-            configurations.SelectMany(x => x.Readers).ForEach(x => x.ConfigurationFilePath = path);
-            configurations.SelectMany(x => x.Writers).ForEach(x => x.ConfigurationFilePath = path);
+            ConfigurationEnvironment environment = new ConfigurationEnvironment(path, output.ToString());
+            configurations.SelectMany(x => x.Readers)
+                          .Concat(configurations.SelectMany(x => x.Writers))
+                          .ForEach(x => x.Environment = environment);
             return this.Run(configurations, output);
         }
 

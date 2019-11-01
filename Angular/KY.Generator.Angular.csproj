@@ -5,9 +5,10 @@
     <Authors>KY-Programming</Authors>
     <Company>KY-Programming</Company>
     <Product>KY.Generator</Product>
-    <Version>2.3.0</Version>
+    <Version>2.4.0</Version>
     <Copyright>2019 - KY-Programming</Copyright>
-    <Description>Angular Module for KY-Generator</Description>
+    <Description>Angular Module for KY-Generator
+Download KY.Generator.CLI to use this module</Description>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/KY-Programming/generator</PackageProjectUrl>
     <PackageIconUrl>https://ky-programming.de/images/logos/128.png</PackageIconUrl>
@@ -16,7 +17,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="KY.Core.Common" Version="4.6.2" />
+    <PackageReference Include="KY.Core.Common" Version="4.7.0" />
   </ItemGroup>
 
   <ItemGroup>

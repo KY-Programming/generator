@@ -23,11 +23,14 @@ namespace KY.Generator.Transfer.Extensions
 
         public static void FromType(this TypeTransferObject transferObject, Type type)
         {
-            transferObject.Name = type.Name.Split('`').First();
-            transferObject.Namespace = type.Namespace;
-            foreach (Type argument in type.GetGenericArguments())
+            transferObject.Name = type == null ? null : type.Name.Split('`').First();
+            transferObject.Namespace = type == null ? null : type.Namespace;
+            if (type != null)
             {
-                transferObject.Generics.Add(argument.ToTransferObject());
+                foreach (Type argument in type.GetGenericArguments())
+                {
+                    transferObject.Generics.Add(argument.ToTransferObject());
+                }
             }
         }
     }

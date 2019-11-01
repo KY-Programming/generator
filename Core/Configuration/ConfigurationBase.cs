@@ -22,7 +22,7 @@ namespace KY.Generator.Configuration
         public List<FieldMapping> FieldMapping { get; }
         public List<PropertyMapping> PropertyMapping { get; }
         public bool Standalone { get; set; }
-        public string ConfigurationFilePath { get; set; }
+        public ConfigurationEnvironment Environment { get; set; }
 
         protected ConfigurationBase()
         {
@@ -40,7 +40,7 @@ namespace KY.Generator.Configuration
             this.FieldMapping.AddRange(source.FieldMapping);
             this.PropertyMapping.AddRange(source.PropertyMapping);
             this.Standalone = source.Standalone;
-            this.ConfigurationFilePath = source.ConfigurationFilePath;
+            this.Environment = source.Environment;
         }
     }
 }

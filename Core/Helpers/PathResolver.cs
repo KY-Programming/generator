@@ -23,7 +23,12 @@ namespace KY.Generator
             {
                 return path;
             }
-            path = FileSystem.Combine(FileSystem.Parent(configuration.ConfigurationFilePath), relativePath);
+            path = FileSystem.Combine(FileSystem.Parent(configuration.Environment.ConfigurationFilePath), relativePath);
+            if (FileSystem.FileExists(path))
+            {
+                return path;
+            }
+            path = FileSystem.Combine(FileSystem.Parent(configuration.Environment.OutputPath), relativePath);
             if (FileSystem.FileExists(path))
             {
                 return path;

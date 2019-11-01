@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using KY.Core;
-using KY.Generator.Reflection.Extensions;
 using KY.Generator.Reflection.Language;
 using KY.Generator.Transfer;
 using KY.Generator.Transfer.Extensions;
@@ -129,14 +128,14 @@ namespace KY.Generator.Reflection.Readers
             foreach (FieldInfo field in fields)
             {
                 FieldTransferObject fieldTransferObject = new FieldTransferObject
-                                                               {
-                                                                   Name = field.Name,
-                                                                   Type = new TypeTransferObject
-                                                                          {
-                                                                              Name = field.FieldType.Name,
-                                                                              Namespace = field.FieldType.Namespace
-                                                                          }
-                                                               };
+                                                          {
+                                                              Name = field.Name,
+                                                              Type = new TypeTransferObject
+                                                                     {
+                                                                         Name = field.FieldType.Name,
+                                                                         Namespace = field.FieldType.Namespace
+                                                                     }
+                                                          };
                 model.Fields.Add(fieldTransferObject);
                 this.Read(field.FieldType, fieldTransferObject.Type, list);
             }
@@ -144,12 +143,12 @@ namespace KY.Generator.Reflection.Readers
             foreach (PropertyInfo property in properties)
             {
                 PropertyTransferObject propertyTransferObject = new PropertyTransferObject
-                                                                     {
-                                                                         Name = property.Name,
-                                                                         Type = property.PropertyType.ToTransferObject(),
-                                                                         CanRead = property.CanRead,
-                                                                         CanWrite = property.CanWrite
-                                                                     };
+                                                                {
+                                                                    Name = property.Name,
+                                                                    Type = property.PropertyType.ToTransferObject(),
+                                                                    CanRead = property.CanRead,
+                                                                    CanWrite = property.CanWrite
+                                                                };
                 model.Properties.Add(propertyTransferObject);
                 this.Read(property.PropertyType, propertyTransferObject.Type, list);
             }
