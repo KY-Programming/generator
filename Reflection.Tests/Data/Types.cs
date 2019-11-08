@@ -1,5 +1,7 @@
 ﻿#pragma warning disable 169
+using System;
 using System.Collections.Generic;
+// ReSharper disable ConvertNullableToShortForm
 
 namespace KY.Generator.Reflection.Tests
 {
@@ -22,6 +24,26 @@ namespace KY.Generator.Reflection.Tests
         public double DoubleProperty { get; set; }
         public bool BoolProperty { get; set; }
         public object ObjectProperty { get; set; }
+
+        // Nullable Types
+        public bool? NullableBoolProperty { get; set; }
+        public short? NullableShortProperty { get; set; }
+        public ushort? NullableUShortProperty { get; set; }
+        public int? NullableIntProperty { get; set; }
+        public uint? NullableUIntProperty { get; set; }
+        public long? NullableLongProperty { get; set; }
+        public ulong? NullableULongProperty { get; set; }
+        public float? NullableFloatProperty { get; set; }
+        public double? NullableDoubleProperty { get; set; }
+        public Nullable<bool> Nullable2BoolProperty { get; set; }
+        public Nullable<short> Nullable2ShortProperty { get; set; }
+        public Nullable<ushort> Nullable2UShortProperty { get; set; }
+        public Nullable<int> Nullable2IntProperty { get; set; }
+        public Nullable<uint> Nullable2UIntProperty { get; set; }
+        public Nullable<long> Nullable2LongProperty { get; set; }
+        public Nullable<ulong> Nullable2ULongProperty { get; set; }
+        public Nullable<float> Nullable2FloatProperty { get; set; }
+        public Nullable<double> Nullable2DoubleProperty { get; set; }
 
         // System Types
         public System.String SystemStringProperty { get; set; }

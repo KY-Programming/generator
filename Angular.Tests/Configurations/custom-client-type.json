@@ -1,0 +1,28 @@
+{
+  "version": 2,
+  "generate": [
+    {
+      "read": "asp",
+      "controller": {
+        "assembly": "..\\..\\..\\..\\Examples\\AspDotNet\\WebApi\\bin\\KY.Generator.Examples.AspDotNet.dll",
+        "namespace": "KY.Generator.Examples.AspDotNet.Controllers",
+        "name": "ValuesController"
+      }
+    },
+    {
+      "write": "angular",
+      "service": {
+        "relativePath": "src/app/services",
+        "name": "CustomValuesService",
+        "httpClient": {
+          "name": "CustomHttpClient",
+          "import": "../../custom-http-client"
+        }
+      },
+      "model": {
+        "relativePath": "src/app/models",
+        "propertiesToFields": true
+      }
+    }
+  ]
+}

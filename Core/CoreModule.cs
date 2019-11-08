@@ -7,7 +7,6 @@ using KY.Generator.Commands;
 using KY.Generator.Configuration;
 using KY.Generator.Configurations;
 using KY.Generator.Languages;
-using KY.Generator.Transfer;
 using KY.Generator.Transfer.Readers;
 using KY.Generator.Transfer.Writers;
 
@@ -20,6 +19,7 @@ using KY.Generator.Transfer.Writers;
 [assembly: InternalsVisibleTo("KY.Generator.AspDotNet.Tests")]
 [assembly: InternalsVisibleTo("KY.Generator.OData.Tests")]
 [assembly: InternalsVisibleTo("KY.Generator.Tsql.Tests")]
+[assembly: InternalsVisibleTo("KY.Generator.Angular.Tests")]
 
 namespace KY.Generator
 {

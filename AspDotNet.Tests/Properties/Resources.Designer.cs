@@ -65,15 +65,15 @@ namespace KY.Generator.AspDotNet.Tests.Properties {
         ///  &quot;version&quot;: 2,
         ///  &quot;generate&quot;: [
         ///    {
-        ///      &quot;write&quot;: &quot;asp&quot;,
-        ///      &quot;controller&quot;: {
-        ///        &quot;namespace&quot;: &quot;KY.Generator.Test&quot;,
+        ///      &quot;write&quot;: &quot;asp-core&quot;,
+        ///      &quot;generatorController&quot;: {
+        ///        &quot;namespace&quot;: &quot;KY.Generator.Test.Controllers&quot;,
         ///        &quot;preloadModules&quot;: [
         ///          &quot;KY.Generator.Csharp.CsharpModule&quot;,
         ///          &quot;KY.Generator.TypeScript.TypeScriptModule&quot;,
         ///          &quot;KY.Generator.Reflection.ReflectionModule&quot;,
         ///          &quot;KY.Generator.AspDotNet.AspDotNetModule&quot;
-        ///        ] 
+        ///        ]
         ///      }
         ///    }
         ///  ]
@@ -91,14 +91,14 @@ namespace KY.Generator.AspDotNet.Tests.Properties {
         ///  &quot;generate&quot;: [
         ///    {
         ///      &quot;write&quot;: &quot;asp&quot;,
-        ///      &quot;controller&quot;: {
-        ///        &quot;namespace&quot;: &quot;KY.Generator.Test&quot;,
+        ///      &quot;generatorController&quot;: {
+        ///        &quot;namespace&quot;: &quot;KY.Generator.Test.Controllers&quot;,
         ///        &quot;preloadModules&quot;: [
         ///          &quot;KY.Generator.Csharp.CsharpModule&quot;,
         ///          &quot;KY.Generator.TypeScript.TypeScriptModule&quot;,
         ///          &quot;KY.Generator.Reflection.ReflectionModule&quot;,
         ///          &quot;KY.Generator.AspDotNet.AspDotNetModule&quot;
-        ///        ] 
+        ///        ]
         ///      }
         ///    }
         ///  ]
@@ -111,23 +111,25 @@ namespace KY.Generator.AspDotNet.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using System;
+        ///   Looks up a localized string similar to // ReSharper disable All
+        ///
+        ///using System;
         ///using System.Collections.Generic;
         ///using System.Linq;
+        ///using System.Web.Http;
         ///using KY.Generator;
         ///using KY.Generator.Output;
-        ///using Microsoft.AspNetCore.Mvc;
         ///
         ///namespace KY.Generator.Test.Controllers
         ///{
-        ///    [Route(&quot;[controller]&quot;)]
-        ///    [Route(&quot;api/v1/[controller]&quot;)]
-        ///    public partial class GeneratorController : Controller
+        ///    public partial class GeneratorController : ApiController
         ///    {
-        ///        private static readonly Dictionary&lt;string, MemoryOutput&gt; cache = new Dictionary&lt;string, MemoryOutput&gt;();
-        ///
-        ///        [HttpPost(&quot;[action]&quot;)]
-        ///        public string Create(string [rest of string was truncated]&quot;;.
+        ///        [ValidateInput(false)]
+        ///        public string Create(string configuration)
+        ///        {
+        ///            string id = Guid.NewGuid().ToString();
+        ///            MemoryOutput output = new MemoryOutput();
+        ///            Generator ge [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string GeneratorController_cs {
             get {
@@ -136,7 +138,9 @@ namespace KY.Generator.AspDotNet.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using System;
+        ///   Looks up a localized string similar to // ReSharper disable All
+        ///
+        ///using System;
         ///using System.Collections.Generic;
         ///using System.Linq;
         ///using KY.Generator;
@@ -147,12 +151,12 @@ namespace KY.Generator.AspDotNet.Tests.Properties {
         ///{
         ///    [Route(&quot;[controller]&quot;)]
         ///    [Route(&quot;api/v1/[controller]&quot;)]
-        ///    public partial class GeneratorController : Controller
+        ///    public partial class GeneratorController : ControllerBase
         ///    {
         ///        private static readonly Dictionary&lt;string, MemoryOutput&gt; cache = new Dictionary&lt;string, MemoryOutput&gt;();
         ///
         ///        [HttpPost(&quot;[action]&quot;)]
-        ///        public string Create(string [rest of string was truncated]&quot;;.
+        ///    [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string GeneratorCoreController_cs {
             get {

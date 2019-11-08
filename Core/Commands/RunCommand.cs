@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using KY.Core;
@@ -10,7 +9,6 @@ using KY.Generator.Command;
 using KY.Generator.Configuration;
 using KY.Generator.Module;
 using KY.Generator.Output;
-using KY.Generator.Transfer;
 
 namespace KY.Generator.Commands
 {

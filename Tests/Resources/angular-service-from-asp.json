@@ -12,7 +12,7 @@
         "relativePath": "src/app/services"
       },
       "model": {
-        "modelPath": "src/app/models",
+        "relativePath": "src/app/models",
         "propertiesToFields": true
       } 
     }

@@ -17,9 +17,9 @@ export class AddressService {
         this.http = http;
     }
 
-    public get(query: string): Observable<Address[]> {
+    public get(query: string, httpOptions?: {}): Observable<Address[]> {
         let subject = new Subject<Address[]>();
-        this.http.get(this.serviceUrl + "/Address?" + query).subscribe(result => {
+        this.http.get(this.serviceUrl + "/Address?" + query, httpOptions).subscribe(result => {
             const list: Address[] = [];
             for (const entry of <[]>result) {
                 list.push(new Address(entry));
@@ -31,36 +31,36 @@ export class AddressService {
         return subject;
     }
 
-    public post(model: Address): Observable<void> {
+    public post(model: Address, httpOptions?: {}): Observable<void> {
         let subject = new Subject<void>();
-        this.http.post(this.serviceUrl + "/Address", model).subscribe(() => {
+        this.http.post(this.serviceUrl + "/Address", model, httpOptions).subscribe(() => {
             subject.next();
             subject.complete();
         }, error => subject.error(error));
         return subject;
     }
 
-    public put(model: Address): Observable<void> {
+    public put(model: Address, httpOptions?: {}): Observable<void> {
         let subject = new Subject<void>();
-        this.http.put(this.serviceUrl + "/Address", model).subscribe(() => {
+        this.http.put(this.serviceUrl + "/Address", model, httpOptions).subscribe(() => {
             subject.next();
             subject.complete();
         }, error => subject.error(error));
         return subject;
     }
 
-    public patch(id: number, model: Address): Observable<void> {
+    public patch(id: number, model: Address, httpOptions?: {}): Observable<void> {
         let subject = new Subject<void>();
-        this.http.patch(this.serviceUrl + "/Address?Id=" + id, model).subscribe(() => {
+        this.http.patch(this.serviceUrl + "/Address?Id=" + id, model, httpOptions).subscribe(() => {
             subject.next();
             subject.complete();
         }, error => subject.error(error));
         return subject;
     }
 
-    public delete(id: number): Observable<void> {
+    public delete(id: number, httpOptions?: {}): Observable<void> {
         let subject = new Subject<void>();
-        this.http.delete(this.serviceUrl + "/Address?Id=" + id).subscribe(() => {
+        this.http.delete(this.serviceUrl + "/Address?Id=" + id, httpOptions).subscribe(() => {
             subject.next();
             subject.complete();
         }, error => subject.error(error));

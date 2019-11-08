@@ -34,6 +34,7 @@ namespace KY.Generator.Reflection.Extensions
             typeMapping.Add(ReflectionLanguage.Instance, "System.Collections.Generic.List", CsharpLanguage.Instance, "List", nameSpace: "System.Collections.Generic", fromSystem: true);
             typeMapping.Add(ReflectionLanguage.Instance, "System.Collections.Generic.IEnumerable", CsharpLanguage.Instance, "IEnumerable", nameSpace: "System.Collections.Generic", fromSystem: true);
             typeMapping.Add(ReflectionLanguage.Instance, "System.Collections.Generic.Dictionary", CsharpLanguage.Instance, "Dictionary", nameSpace: "System.Collections.Generic", fromSystem: true);
+            typeMapping.Add(ReflectionLanguage.Instance, "System.Nullable", CsharpLanguage.Instance, "Nullable", nameSpace: "System", fromSystem: true);
 
             typeMapping.Add(ReflectionLanguage.Instance, "System.Array", TypeScriptLanguage.Instance, "Array", true, fromSystem: true);
             typeMapping.Add(ReflectionLanguage.Instance, "System.Boolean", TypeScriptLanguage.Instance, "boolean", true, fromSystem: true);
@@ -59,6 +60,7 @@ namespace KY.Generator.Reflection.Extensions
             typeMapping.Add(ReflectionLanguage.Instance, "System.Collections.Generic.List", TypeScriptLanguage.Instance, "Array", fromSystem: true);
             typeMapping.Add(ReflectionLanguage.Instance, "System.Collections.Generic.IEnumerable", TypeScriptLanguage.Instance, "Array", fromSystem: true);
             typeMapping.Add(ReflectionLanguage.Instance, "System.Collections.Generic.Dictionary", TypeScriptLanguage.Instance, "Dictionary", fromSystem: true);
+            typeMapping.Add(ReflectionLanguage.Instance, "System.Nullable", TypeScriptLanguage.Instance, "Nullable", nameSpace: "System", fromSystem: true);
             return typeMapping;
         }
     }

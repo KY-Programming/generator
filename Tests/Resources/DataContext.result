@@ -25,7 +25,7 @@ namespace KY.Generator.Test.Repositories
             modelBuilder.Configurations.AddFromAssembly(this.GetType().Assembly);
             modelBuilder.Entity<User>()
                 .ToTable("User", "test")
-                .HasKey(x => new { x.Name });
+                .HasKey(x => new { x.Id });
         }
     }
 }

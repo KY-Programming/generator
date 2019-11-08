@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using KY.Core;
 using KY.Core.Dependency;
 using KY.Generator.AspDotNet.Configurations;
 using KY.Generator.Configuration;
@@ -17,12 +16,12 @@ namespace KY.Generator.AspDotNet.Readers
             this.resolver = resolver;
         }
 
-        public virtual  void Read(ConfigurationBase configurationBase, List<ITransferObject> transferObjects)
+        public virtual void Read(ConfigurationBase configurationBase, List<ITransferObject> transferObjects)
         {
             AspDotNetReadConfiguration configuration = (AspDotNetReadConfiguration)configurationBase;
             if (configuration.Controller != null)
             {
-                this.resolver.Create<AspDotNetControllerReader>().Read(configuration).ForEach(transferObjects.Add);
+                this.resolver.Create<AspDotNetControllerReader>().Read(configuration, transferObjects);
             }
         }
     }

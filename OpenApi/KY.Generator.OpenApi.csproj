@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <Company>KY-Programming</Company>
     <Authors>KY-Programming</Authors>
-    <Version>2.4.0</Version>
+    <Version>2.5.0</Version>
     <Product>KY.Generator</Product>
     <Description>OpenApi Module for KY-Generator
 Download KY.Generator.CLI to use this module</Description>
@@ -18,7 +18,7 @@ Download KY.Generator.CLI to use this module</Description>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="KY.Core.Common" Version="4.7.0" />
+    <PackageReference Include="KY.Core.Common" Version="4.7.1" />
     <PackageReference Include="Microsoft.OpenApi.Readers" Version="1.1.3" />
   </ItemGroup>
 

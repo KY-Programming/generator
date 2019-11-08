@@ -21,6 +21,10 @@ namespace KY.Generator.TypeScript.Writers
                 output.Add(template.Types.Single().Name)
                       .Add("[]");
             }
+            else if (template.Name == "Nullable")
+            {
+                output.Add(template.Types.Single().Name);
+            }
             else
             {
                 base.Write(fragment, output);

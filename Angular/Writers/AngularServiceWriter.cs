@@ -4,9 +4,7 @@ using System.Linq;
 using KY.Core;
 using KY.Core.DataAccess;
 using KY.Generator.Angular.Configurations;
-using KY.Generator.Configurations;
 using KY.Generator.Mappings;
-using KY.Generator.Output;
 using KY.Generator.Templates;
 using KY.Generator.Templates.Extensions;
 using KY.Generator.Transfer;
@@ -31,6 +29,8 @@ namespace KY.Generator.Angular.Writers
             {
                 throw new InvalidOperationException($"Can not generate service for ASP.net Controller for language {configuration.Language?.Name ?? "Empty"}");
             }
+            string httpClient = configuration.Service.HttpClient?.Name ?? "HttpClient";
+            string httpClientImport = configuration.Service.HttpClient?.Import ?? "@angular/common/http";
             foreach (HttpServiceTransferObject controller in transferObjects.OfType<HttpServiceTransferObject>())
             {
                 Dictionary<HttpServiceActionParameterTransferObject, ParameterTemplate> mapping = new Dictionary<HttpServiceActionParameterTransferObject, ParameterTemplate>();
@@ -39,14 +39,14 @@ namespace KY.Generator.Angular.Writers
                                                    .AddNamespace(string.Empty)
                                                    .AddClass(controllerName + "Service")
                                                    .FormatName(configuration.Language, configuration.FormatNames)
-                                                   .WithUsing("HttpClient", "@angular/common/http")
+                                                   .WithUsing(httpClient, httpClientImport)
                                                    .WithUsing("Injectable", "@angular/core")
                                                    .WithUsing("Observable", "rxjs")
                                                    .WithUsing("Subject", "rxjs")
                                                    .WithAttribute("Injectable", Code.AnonymousObject().WithProperty("providedIn", Code.String("root")));
-                FieldTemplate httpField = classTemplate.AddField("http", Code.Type("HttpClient")).Readonly().FormatName(configuration.Language, configuration.FormatNames);
+                FieldTemplate httpField = classTemplate.AddField("http", Code.Type(httpClient)).Readonly().FormatName(configuration.Language, configuration.FormatNames);
                 FieldTemplate serviceUrlField = classTemplate.AddField("serviceUrl", Code.Type("string")).Public().FormatName(configuration.Language, configuration.FormatNames).Default(Code.String(string.Empty));
-                classTemplate.AddConstructor().WithParameter(Code.Type("HttpClient"), "http")
+                classTemplate.AddConstructor().WithParameter(Code.Type(httpClient), "http")
                              .WithCode(Code.This().Field(httpField).Assign(Code.Local("http")).Close());
                 string relativeModelPath = FileSystem.RelativeTo(configuration.Model?.RelativePath ?? ".", configuration.Service.RelativePath);
                 foreach (HttpServiceActionTransferObject action in controller.Actions)
@@ -64,6 +64,7 @@ namespace KY.Generator.Angular.Writers
                         ParameterTemplate parameterTemplate = methodTemplate.AddParameter(parameter.Type.ToTemplate(), parameter.Name).FormatName(configuration.Language, configuration.FormatNames);
                         mapping.Add(parameter, parameterTemplate);
                     }
+                    methodTemplate.AddParameter(Code.Type("{}"), "httpOptions?");
                     TypeTemplate subjectType = Code.Generic("Subject", returnType);
                     methodTemplate.WithCode(Code.Declare(subjectType, "subject", Code.New(subjectType)));
                     string uri = ("/" + controller.Route?.Replace("[controller]", controllerName.ToLower()).TrimEnd('/') + "/" + action.Route?.Replace("[action]", action.Name.ToLower())).TrimEnd('/');
@@ -120,7 +121,11 @@ namespace KY.Generator.Angular.Writers
                     methodTemplate.WithCode(
                         Code.This()
                             .Field(httpField)
-                            .Method(action.Type.ToString().ToLowerInvariant(), parameterUrl, action.RequireBodyParameter ? Code.Local(action.Parameters.Single(x => x.FromBody).Name) : null)
+                            .Method(action.Type.ToString().ToLowerInvariant(), 
+                                    parameterUrl, 
+                                    action.RequireBodyParameter ? Code.Local(action.Parameters.Single(x => x.FromBody).Name) : null,
+                                    Code.Local("httpOptions")
+                                )
                             .Method("subscribe", Code.Lambda(hasReturnType ? "result" : null, code), errorCode).Close()
                     );
                     methodTemplate.WithCode(Code.Return(Code.Local("subject")));

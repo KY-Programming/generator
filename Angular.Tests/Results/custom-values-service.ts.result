@@ -1,0 +1,69 @@
+﻿// tslint:disable
+
+import { CustomHttpClient } from "../../custom-http-client";
+import { Injectable } from "@angular/core";
+import { Observable } from "rxjs";
+import { Subject } from "rxjs";
+
+@Injectable({
+    providedIn: "root"
+})
+export class ValuesService {
+    private readonly http: CustomHttpClient;
+    public serviceUrl: string = "";
+
+    public constructor(http: CustomHttpClient) {
+        this.http = http;
+    }
+
+    public get(httpOptions?: {}): Observable<string[]> {
+        let subject = new Subject<string[]>();
+        this.http.get(this.serviceUrl + "", httpOptions).subscribe(result => {
+            const list: string[] = [];
+            for (const entry of <[]>result) {
+                list.push(new string(entry));
+                
+            }
+            subject.next(list);
+            subject.complete();
+        }, error => subject.error(error));
+        return subject;
+    }
+
+    public get2(id: number, httpOptions?: {}): Observable<string> {
+        let subject = new Subject<string>();
+        this.http.get(this.serviceUrl + "?id=" + id, httpOptions).subscribe(result => {
+            const model = new string(result);
+            subject.next(model);
+            subject.complete();
+        }, error => subject.error(error));
+        return subject;
+    }
+
+    public post(value: string, httpOptions?: {}): Observable<void> {
+        let subject = new Subject<void>();
+        this.http.post(this.serviceUrl + "", value, httpOptions).subscribe(() => {
+            subject.next();
+            subject.complete();
+        }, error => subject.error(error));
+        return subject;
+    }
+
+    public put(id: number, value: string, httpOptions?: {}): Observable<void> {
+        let subject = new Subject<void>();
+        this.http.put(this.serviceUrl + "?id=" + id, value, httpOptions).subscribe(() => {
+            subject.next();
+            subject.complete();
+        }, error => subject.error(error));
+        return subject;
+    }
+
+    public delete(id: number, httpOptions?: {}): Observable<void> {
+        let subject = new Subject<void>();
+        this.http.delete(this.serviceUrl + "?id=" + id, httpOptions).subscribe(() => {
+            subject.next();
+            subject.complete();
+        }, error => subject.error(error));
+        return subject;
+    }
+}

@@ -20,13 +20,16 @@ namespace KY.Generator.AspDotNet.Readers
             this.modelReader = modelReader;
         }
 
-        public virtual IEnumerable<ITransferObject> Read(AspDotNetReadConfiguration configuration)
+        public virtual void Read(AspDotNetReadConfiguration configuration, List<ITransferObject> transferObjects)
         {
-            Logger.Trace("Read ASP.net controller...");
+            configuration.Controller.AssertIsNotNull($"ASP: {nameof(configuration.Controller)}");
+            configuration.Controller.Name.AssertIsNotNull($"ASP: {nameof(configuration.Controller)}.{nameof(configuration.Controller.Name)}");
+            configuration.Controller.Namespace.AssertIsNotNull($"ASP: {nameof(configuration.Controller)}.{nameof(configuration.Controller.Namespace)}");
+            Logger.Trace($"Read ASP.NET controller {configuration.Controller.Namespace}{configuration.Controller.Name}...");
             Type type = GeneratorTypeLoader.Get(configuration, configuration.Controller.Assembly, configuration.Controller.Namespace, configuration.Controller.Name);
             if (type == null)
             {
-                yield break;
+                return;
             }
 
             HttpServiceTransferObject controller = new HttpServiceTransferObject();
@@ -39,10 +42,7 @@ namespace KY.Generator.AspDotNet.Readers
             MethodInfo[] methods = type.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
             foreach (MethodInfo method in methods)
             {
-                foreach (ModelTransferObject model in this.modelReader.Read(method.ReturnType))
-                {
-                    yield return model;
-                }
+                this.modelReader.Read(method.ReturnType, transferObjects);
                 foreach (Attribute attribute in method.GetCustomAttributes())
                 {
                     Type attributeType = attribute.GetType();
@@ -63,10 +63,7 @@ namespace KY.Generator.AspDotNet.Readers
                     ParameterInfo[] parameters = method.GetParameters();
                     foreach (ParameterInfo parameter in parameters)
                     {
-                        foreach (ModelTransferObject model in this.modelReader.Read(parameter.ParameterType))
-                        {
-                            yield return model;
-                        }
+                        this.modelReader.Read(parameter.ParameterType, transferObjects);
                     }
                     switch (attributeType.Name)
                     {
@@ -85,6 +82,9 @@ namespace KY.Generator.AspDotNet.Readers
                         case "HttpDeleteAttribute":
                             action.Type = HttpServiceActionTypeTransferObject.Delete;
                             break;
+                        case "ConditionalAttribute":
+                            // Ignore these attributes
+                            continue;
                         default:
                             Logger.Warning($"Unknown controller action attribute {attributeType.Name}");
                             continue;
@@ -116,8 +116,7 @@ namespace KY.Generator.AspDotNet.Readers
                     controller.Actions.Add(action);
                 }
             }
-
-            yield return controller;
+            transferObjects.Add(controller);
         }
     }
 }

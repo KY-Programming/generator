@@ -29,6 +29,7 @@ namespace KY.Generator.Configuration
             this.ClassMapping = new List<ClassMapping>();
             this.FieldMapping = new List<FieldMapping>();
             this.PropertyMapping = new List<PropertyMapping>();
+            this.Environment = new ConfigurationEnvironment(null, null);
         }
 
         public virtual void CopyBaseFrom(ConfigurationBase source)

@@ -17,12 +17,28 @@ namespace KY.Generator.Test.Controllers
             this.repository = new UserRepository();
         }
 
-        public IEnumerable<User> Get(string name = default, string password = default)
+        public IEnumerable<User> Get(int id = default, string name = default, string firstName = default, string lastName = default, int age = default, string password = default)
         {
             IQueryable<User> queryable = this.repository.Get();
+            if (id != default)
+            {
+                queryable = queryable.Where(x => x.Id == id);
+            }
             if (name != default)
             {
                 queryable = queryable.Where(x => x.Name == name);
+            }
+            if (firstName != default)
+            {
+                queryable = queryable.Where(x => x.FirstName == firstName);
+            }
+            if (lastName != default)
+            {
+                queryable = queryable.Where(x => x.LastName == lastName);
+            }
+            if (age != default)
+            {
+                queryable = queryable.Where(x => x.Age == age);
             }
             if (password != default)
             {
@@ -46,9 +62,9 @@ namespace KY.Generator.Test.Controllers
             this.repository.Update(entity);
         }
 
-        public void Delete(string name)
+        public void Delete(int id)
         {
-            this.repository.Delete(name);
+            this.repository.Delete(id);
         }
     }
 }
