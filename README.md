@@ -49,4 +49,5 @@ Run a command [(see Wiki)](https://github.com/KY-Programming/generator/wiki/v2:-
 KY.Generator.exe reflection -assembly=KY.Generator.Examples.Reflection.dll -name=ExampleType -namespace=KY.Generator.Examples.Reflection -relativePath=Output -language=TypeScript
 ```
 
+## More Informations
 For complete overview [see our Wiki](https://github.com/KY-Programming/generator/wiki/v2:-Overview)
