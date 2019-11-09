@@ -1,0 +1,23 @@
+{
+  "version": 2,
+  "generate": [
+    {
+      "read": "asp",
+      "controller": {
+        "assembly": "KY.Generator.Examples.AspDotNet",
+        "namespace": "KY.Generator.Examples.AspDotNet.Controllers",
+        "name": "ValuesController"
+      }
+    },
+    {
+      "write": "angular",
+      "service": {
+        "relativePath": "services"
+      },
+      "model": {
+        "relativePath": "models",
+        "propertiesToFields": true
+      }
+    }
+  ]
+}
