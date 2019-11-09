@@ -67,7 +67,7 @@ namespace KY.Generator.Angular.Writers
                     methodTemplate.AddParameter(Code.Type("{}"), "httpOptions?");
                     TypeTemplate subjectType = Code.Generic("Subject", returnType);
                     methodTemplate.WithCode(Code.Declare(subjectType, "subject", Code.New(subjectType)));
-                    string uri = ("/" + controller.Route?.Replace("[controller]", controllerName.ToLower()).TrimEnd('/') + "/" + action.Route?.Replace("[action]", action.Name.ToLower())).TrimEnd('/');
+                    string uri = ("/" + (controller.Route?.Replace("[controller]", controllerName.ToLower()).TrimEnd('/') ?? controllerName) + "/" + action.Route?.Replace("[action]", action.Name.ToLower())).TrimEnd('/');
 
                     List<HttpServiceActionParameterTransferObject> urlParameters = action.Parameters.Where(x => !x.FromBody && x.AppendName).ToList();
                     List<HttpServiceActionParameterTransferObject> urlDirectParameters = action.Parameters.Where(x => !x.FromBody && !x.AppendName).ToList();
@@ -75,18 +75,19 @@ namespace KY.Generator.Angular.Writers
                     MultilineCodeFragment code = Code.Multiline();
                     DeclareTemplate declareTemplate = null;
                     bool hasReturnType = returnType.Name != "void";
+                    bool isPrimitive = this.IsPrimitive(returnType);
                     if (returnType.Name == "Array")
                     {
                         TypeTemplate type = ((GenericTypeTemplate)returnType).Types[0];
                         declareTemplate = Code.Declare(returnType, "list", Code.TypeScript("[]")).Constant();
                         code.AddLine(declareTemplate)
                             .AddLine(Code.TypeScript("for (const entry of <[]>result)").StartBlock())
-                            .AddLine(Code.Local(declareTemplate).Method("push", Code.New(type, Code.Local("entry"))).Close())
+                            .AddLine(Code.Local(declareTemplate).Method("push", isPrimitive ? (ICodeFragment)Code.Cast(type, Code.Local("entry")) : Code.New(type, Code.Local("entry"))).Close())
                             .AddLine(Code.TypeScript("").EndBlock());
                     }
                     else if (hasReturnType)
                     {
-                        declareTemplate = Code.Declare(returnType, "model", Code.New(returnType, Code.Local("result"))).Constant();
+                        declareTemplate = Code.Declare(returnType, "model", isPrimitive ? (ICodeFragment)Code.Cast(returnType, Code.Local("result")) : Code.New(returnType, Code.Local("result"))).Constant();
                         code.AddLine(declareTemplate);
                     }
                     code.AddLine(Code.Local("subject").Method("next").WithParameter(declareTemplate.ToLocal()).Close())
@@ -131,6 +132,13 @@ namespace KY.Generator.Angular.Writers
                     methodTemplate.WithCode(Code.Return(Code.Local("subject")));
                 }
             }
+        }
+
+        private bool IsPrimitive(TypeTemplate type)
+        {
+            return type is GenericTypeTemplate genericType
+                       ? this.IsPrimitive(genericType.Types.First())
+                       : type.Name == "string" || type.Name == "number" || type.Name == "boolean";
         }
     }
 }

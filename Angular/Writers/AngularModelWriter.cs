@@ -20,6 +20,7 @@ namespace KY.Generator.Angular.Writers
         {
             if (configuration.Model != null)
             {
+                configuration.Model.FormatNames = configuration.FormatNames;
                 this.modelWriter.Write(configuration.Model, transferObjects).ForEach(files.Add);
             }
         }
