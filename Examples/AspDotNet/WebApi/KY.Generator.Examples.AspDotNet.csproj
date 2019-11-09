@@ -127,7 +127,7 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
-    <PostBuildEvent>"$(SolutionDir)packages\ky.generator.cli.standalone\2.5.0\tools\KY.Generator.exe" "$(ProjectDir)generator.json" "$(ProjectDir)..\Angular\src\app"</PostBuildEvent>
+    <PostBuildEvent>"$(SolutionDir)packages\ky.generator.cli.standalone.2.5.0\tools\KY.Generator.exe" "$(ProjectDir)generator.json" "$(SolutionDir)..\Angular\src\app"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
