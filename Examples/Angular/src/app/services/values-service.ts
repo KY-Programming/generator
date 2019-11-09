@@ -7,9 +7,11 @@
 // ------------------------------------------------------------------------------
 // tslint:disable
 
+import { Value } from "../models/value";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable, Subject } from "rxjs";
+import { Observable } from "rxjs";
+import { Subject } from "rxjs";
 
 @Injectable({
     providedIn: "root"
@@ -24,11 +26,11 @@ export class ValuesService {
 
     public get(httpOptions?: {}): Observable<string[]> {
         let subject = new Subject<string[]>();
-        this.http.get(this.serviceUrl + "", httpOptions).subscribe(result => {
+        this.http.get(this.serviceUrl + "/Values", httpOptions).subscribe(result => {
             const list: string[] = [];
             for (const entry of <[]>result) {
-                list.push(entry);
-
+                list.push(<string>entry);
+                
             }
             subject.next(list);
             subject.complete();
@@ -36,28 +38,28 @@ export class ValuesService {
         return subject;
     }
 
-    public get2(id: number, httpOptions?: {}): Observable<string> {
-        let subject = new Subject<string>();
-        this.http.get(this.serviceUrl + "?id=" + id, httpOptions).subscribe(result => {
-            const model = <string>result;
+    public get2(id: number, httpOptions?: {}): Observable<Value> {
+        let subject = new Subject<Value>();
+        this.http.get(this.serviceUrl + "/Values?id=" + id, httpOptions).subscribe(result => {
+            const model = new Value(result);
             subject.next(model);
             subject.complete();
         }, error => subject.error(error));
         return subject;
     }
 
-    public post(value: string, httpOptions?: {}): Observable<void> {
+    public post(value: Value, httpOptions?: {}): Observable<void> {
         let subject = new Subject<void>();
-        this.http.post(this.serviceUrl + "", value, httpOptions).subscribe(() => {
+        this.http.post(this.serviceUrl + "/Values", value, httpOptions).subscribe(() => {
             subject.next();
             subject.complete();
         }, error => subject.error(error));
         return subject;
     }
 
-    public put(id: number, value: string, httpOptions?: {}): Observable<void> {
+    public put(id: number, value: Value, httpOptions?: {}): Observable<void> {
         let subject = new Subject<void>();
-        this.http.put(this.serviceUrl + "?id=" + id, value, httpOptions).subscribe(() => {
+        this.http.put(this.serviceUrl + "/Values?id=" + id, value, httpOptions).subscribe(() => {
             subject.next();
             subject.complete();
         }, error => subject.error(error));
@@ -66,7 +68,7 @@ export class ValuesService {
 
     public delete(id: number, httpOptions?: {}): Observable<void> {
         let subject = new Subject<void>();
-        this.http.delete(this.serviceUrl + "?id=" + id, httpOptions).subscribe(() => {
+        this.http.delete(this.serviceUrl + "/Values?id=" + id, httpOptions).subscribe(() => {
             subject.next();
             subject.complete();
         }, error => subject.error(error));

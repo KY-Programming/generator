@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Web.Http;
+using KY.Generator.Examples.AspDotNet.Models;
 
 namespace KY.Generator.Examples.AspDotNet.Controllers
 {
@@ -9,24 +10,24 @@ namespace KY.Generator.Examples.AspDotNet.Controllers
         [HttpGet]
         public IEnumerable<string> Get()
         {
-            return new string[] { "value1", "value2" };
+            return new[] { "value1", "value2" };
         }
 
         // GET api/values/5
         [HttpGet]
-        public string Get(int id)
+        public Value Get(int id)
         {
-            return "value";
+            return new Value { Id = id, Text = "value" };
         }
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void Post([FromBody] Value value)
         { }
 
         // PUT api/values/5
         [HttpPut]
-        public void Put(int id, [FromBody] string value)
+        public void Put(int id, [FromBody] Value value)
         { }
 
         // DELETE api/values/5
