@@ -48,6 +48,10 @@ namespace KY.Generator.AspDotNet.Readers
                     Type attributeType = attribute.GetType();
                     HttpServiceActionTransferObject action = new HttpServiceActionTransferObject();
                     action.ReturnType = method.ReturnType.ToTransferObject();
+                    if (action.ReturnType.Name == "ActionResult")
+                    {
+                        action.ReturnType = action.ReturnType.Generics.Single();
+                    }
                     action.Route = attributeType.GetProperty("Template")?.GetValue(attribute)?.ToString();
                     int methodNameIndex = 1;
                     while (true)
@@ -96,6 +100,8 @@ namespace KY.Generator.AspDotNet.Readers
                         actionParameter.Name = parameter.Name;
                         actionParameter.Type = parameter.ParameterType.ToTransferObject();
                         actionParameter.FromBody = action.RequireBodyParameter && parameter.GetCustomAttributes().Any(parameterAttribute => parameterAttribute.GetType().Name == "FromBodyAttribute");
+                        actionParameter.Inline = action.Route != null && action.Route.Contains($"{{{parameter.Name}}}");
+                        actionParameter.InlineIndex = actionParameter.Inline ? action.Route.IndexOf($"{{{parameter.Name}}}", StringComparison.Ordinal) : 0;
                         action.Parameters.Add(actionParameter);
                     }
                     if (action.RequireBodyParameter)

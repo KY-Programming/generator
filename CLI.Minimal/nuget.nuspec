@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>KY.Generator.CLI.Minimal</id>
-    <version>2.5.0</version>
+    <version>2.5.1</version>
     <title>KY.Generator.CLI.Full</title>
     <authors>KY-Programming</authors>
     <owners>KY-Programming</owners>
@@ -16,7 +16,7 @@ Generate classes from oData, .NET assembly, JSON or TSQL to C# or TypeScript. Su
     <copyright>Copyright 2019</copyright>
     <tags>KY-Generator KY Generator CLI Minimal</tags>
     <dependencies>
-      <dependency id="KY.Generator.Core" version="2.5.0" />
+      <dependency id="KY.Generator.Core" version="2.5.1" />
     </dependencies>
   </metadata>
   <files>

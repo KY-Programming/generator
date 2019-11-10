@@ -37,7 +37,7 @@ namespace KY.Generator.Angular.Writers
                 string controllerName = controller.Name.TrimEnd("Controller");
                 ClassTemplate classTemplate = files.AddFile(configuration.Service.RelativePath, configuration.AddHeader)
                                                    .AddNamespace(string.Empty)
-                                                   .AddClass(controllerName + "Service")
+                                                   .AddClass(configuration.Service.Name ?? controllerName + "Service")
                                                    .FormatName(configuration.Language, configuration.FormatNames)
                                                    .WithUsing(httpClient, httpClientImport)
                                                    .WithUsing("Injectable", "@angular/core")
@@ -69,8 +69,9 @@ namespace KY.Generator.Angular.Writers
                     methodTemplate.WithCode(Code.Declare(subjectType, "subject", Code.New(subjectType)));
                     string uri = ("/" + (controller.Route?.Replace("[controller]", controllerName.ToLower()).TrimEnd('/') ?? controllerName) + "/" + action.Route?.Replace("[action]", action.Name.ToLower())).TrimEnd('/');
 
-                    List<HttpServiceActionParameterTransferObject> urlParameters = action.Parameters.Where(x => !x.FromBody && x.AppendName).ToList();
-                    List<HttpServiceActionParameterTransferObject> urlDirectParameters = action.Parameters.Where(x => !x.FromBody && !x.AppendName).ToList();
+                    List<HttpServiceActionParameterTransferObject> inlineParameters = action.Parameters.Where(x => !x.FromBody && x.Inline).OrderBy(x => x.InlineIndex).ToList();
+                    List<HttpServiceActionParameterTransferObject> urlParameters = action.Parameters.Where(x => !x.FromBody && !x.Inline && x.AppendName).ToList();
+                    List<HttpServiceActionParameterTransferObject> urlDirectParameters = action.Parameters.Where(x => !x.FromBody && !x.Inline && !x.AppendName).ToList();
                     uri = urlParameters.Count > 0 ? $"{uri}?{urlParameters.First().Name}=" : urlDirectParameters.Count > 0 ? $"{uri}?" : uri;
                     MultilineCodeFragment code = Code.Multiline();
                     DeclareTemplate declareTemplate = null;
@@ -92,7 +93,17 @@ namespace KY.Generator.Angular.Writers
                     }
                     code.AddLine(Code.Local("subject").Method("next").WithParameter(declareTemplate.ToLocal()).Close())
                         .AddLine(Code.Local("subject").Method("complete").Close());
-                    ChainedCodeFragment parameterUrl = Code.This().Field(serviceUrlField).Append(Code.String(uri));
+                    ChainedCodeFragment parameterUrl = Code.This().Field(serviceUrlField);
+                    if (inlineParameters.Count == 0)
+                    {
+                        parameterUrl = parameterUrl.Append(Code.String(uri));
+                    }
+                    foreach (HttpServiceActionParameterTransferObject parameter in inlineParameters)
+                    {
+                        string[] chunks = uri.Split(new [] {$"{{{parameter.Name}}}"}, StringSplitOptions.RemoveEmptyEntries);
+                        parameterUrl = parameterUrl.Append(Code.String(chunks[0])).Append(Code.Local(parameter.Name));
+                        uri = chunks.Length == 1 ? string.Empty : chunks[1];
+                    }
                     bool isFirst = true;
                     foreach (HttpServiceActionParameterTransferObject parameter in urlDirectParameters)
                     {
