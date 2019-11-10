@@ -38,13 +38,18 @@ p {
     margin: 0 16px;
 }
 
-.toolbar #twitter-logo {
-    height: 40px;
+.toolbar a {
+    color: inherit;
     margin: 0 16px;
-}
 
-.toolbar #twitter-logo:hover {
-    opacity: 0.8;
+    &:visited {
+        color: inherit;
+    }
+
+    &:hover {
+        opacity: 0.8;
+        color: inherit;
+    }
 }
 
 .content {

@@ -1,6 +1,13 @@
 {
-    "/api": {
+    "/api/": {
         "target": "http://localhost:53834",
+        "secure": false
+    },
+    "/api-core": {
+        "target": "http://localhost:55570",
+        "pathRewrite": {
+            "^/api-core": ""
+        },
         "secure": false
     }
 }
