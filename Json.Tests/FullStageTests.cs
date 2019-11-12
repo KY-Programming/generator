@@ -68,6 +68,16 @@ namespace KY.Generator.Json.Tests
             Assert.AreEqual(Resources.ObjectArrayProperty_cs, this.output.Files["ObjectArrayProperty.cs"]);
         }
 
+        [TestMethod]
+        public void ComplexWithReader()
+        {
+            Assert.AreEqual(true, this.Run(Resources.complex_with_reader_generator), "Generation not successful");
+            Assert.AreEqual(3, this.output.Files.Count);
+            Assert.AreEqual(Resources.ComplexWithReader_cs, this.output.Files["ComplexWithReader.cs"]);
+            Assert.AreEqual(Resources.ObjectProperty_cs, this.output.Files["ObjectProperty.cs"]);
+            Assert.AreEqual(Resources.ObjectArrayProperty_cs, this.output.Files["ObjectArrayProperty.cs"]);
+        }
+
         private bool Run(string configuration)
         {
             List<ConfigurationPair> configurations = this.reader.Parse(configuration);

@@ -1,0 +1,27 @@
+﻿// ReSharper disable All
+
+using System.Collections.Generic;
+using System.IO;
+using Newtonsoft.Json;
+
+namespace KY.Generator.Examples.Json
+{
+    public partial class ComplexWithReader
+    {
+        public List<string> StringArrayProperty { get; set; }
+        public List<int> NumberArrayProperty { get; set; }
+        public List<ObjectArrayProperty> ObjectArrayProperty { get; set; }
+        public List<object> MixedArrayProperty { get; set; }
+        public ObjectProperty ObjectProperty { get; set; }
+
+        public static ComplexWithReader Load(string fileName)
+        {
+            return Parse(File.ReadAllText(fileName));
+        }
+
+        public static ComplexWithReader Parse(string json)
+        {
+            return JsonConvert.DeserializeObject<ComplexWithReader>(json);
+        }
+    }
+}

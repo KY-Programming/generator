@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <None Remove="Resources\Complex.cs.result" />
+    <None Remove="Resources\ComplexWithReader.cs.result" />
     <None Remove="Resources\ObjectArrayProperty.cs.result" />
     <None Remove="Resources\ObjectProperty.cs.result" />
     <None Remove="Resources\Simple.cs.result" />
@@ -23,6 +24,7 @@
     <Compile Include="Resources\Simple.cs.result" />
     <Compile Include="Resources\SimpleReader.cs.result" />
     <Compile Include="Resources\SimpleWithoutReader.cs.result" />
+    <Compile Include="Resources\ComplexWithReader.cs.result" />
     <Compile Include="Resources\SimpleWithReader.cs.result" />
   </ItemGroup>
 

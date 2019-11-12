@@ -4,6 +4,7 @@ using KY.Core.DataAccess;
 using KY.Generator.Configuration;
 using KY.Generator.Json.Configuration;
 using KY.Generator.Json.Language;
+using KY.Generator.Json.Transfers;
 using KY.Generator.Transfer;
 using KY.Generator.Transfer.Readers;
 using Newtonsoft.Json;
@@ -18,12 +19,12 @@ namespace KY.Generator.Json.Readers
             JsonReadConfiguration configuration = (JsonReadConfiguration)configurationBase;
             JObject source = JsonConvert.DeserializeObject<JObject>(FileSystem.ReadAllText(PathResolver.Resolve(configuration.Source, configuration)));
 
-            this.ReadModel("Unknown", source, transferObjects);
+            this.ReadModel(null, source, transferObjects);
         }
 
         private ModelTransferObject ReadModel(string name, JObject source, List<ITransferObject> list)
         {
-            ModelTransferObject model = new ModelTransferObject { Name = name, Language = JsonLanguage.Instance };
+            ModelTransferObject model = name == null ? new JsonModelTransferObject { Name = "Unknown", Language = JsonLanguage.Instance } : new ModelTransferObject { Name = name, Language = JsonLanguage.Instance };
             list.Add(model);
 
             foreach (JProperty property in source.Properties())

@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using KY.Generator.Configuration;
 using KY.Generator.Configurations;
 using KY.Generator.Json.Configuration;
+using KY.Generator.Json.Transfers;
 using KY.Generator.Mappings;
 using KY.Generator.Templates;
 using KY.Generator.Transfer;
@@ -21,7 +20,7 @@ namespace KY.Generator.Json.Writers
         protected override ClassTemplate WriteClass(IModelConfiguration configuration, ModelTransferObject model, string nameSpace, List<FileTemplate> files)
         {
             ClassTemplate classTemplate = base.WriteClass(configuration, model, nameSpace, files);
-            if (this.jsonConfiguration.Object.WithReader)
+            if (model is JsonModelTransferObject && this.jsonConfiguration.Object.WithReader)
             {
                 ObjectReaderWriter.WriteReader(classTemplate, model, configuration.FormatNames);
             }
@@ -40,7 +39,6 @@ namespace KY.Generator.Json.Writers
             modelWriteConfiguration.FieldsToProperties = configuration.Object.FieldsToProperties;
             modelWriteConfiguration.PropertiesToFields = configuration.Object.PropertiesToFields;
             modelWriteConfiguration.FormatNames = configuration.Object.FormatNames;
-            transferObjects.OfType<ModelTransferObject>().Single().Name = configuration.Object.Name;
             return this.Write(modelWriteConfiguration, transferObjects);
         }
     }

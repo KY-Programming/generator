@@ -1,0 +1,19 @@
+{
+  "version": 2,
+  "generate": [
+    {
+      "read": "json",
+      "source": "Resources/complex.json"
+    },
+    {
+      "write": "json",
+      "language": "csharp",
+      "object": {
+        "name": "ComplexWithReader",
+        "namespace": "KY.Generator.Examples.Json",
+        "formatNames": true,
+        "withReader": true
+      }
+    }
+  ]
+}

@@ -81,9 +81,11 @@ namespace KY.Generator.Json.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using System.Collections.Generic;
+        ///   Looks up a localized string similar to // ReSharper disable All
         ///
-        ///namespace KY.Generator.Examples.Json.Reader
+        ///using System.Collections.Generic;
+        ///
+        ///namespace KY.Generator.Examples.Json
         ///{
         ///    public partial class Complex
         ///    {
@@ -107,7 +109,7 @@ namespace KY.Generator.Json.Tests.Properties {
         ///  &quot;generate&quot;: [
         ///    {
         ///      &quot;read&quot;: &quot;json&quot;,
-        ///      &quot;source&quot;: &quot;complex.json&quot;
+        ///      &quot;source&quot;: &quot;Resources/complex.json&quot;
         ///    },
         ///    {
         ///      &quot;write&quot;: &quot;model&quot;,
@@ -131,7 +133,59 @@ namespace KY.Generator.Json.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to namespace KY.Generator.Examples.Json.Reader
+        ///   Looks up a localized string similar to {
+        ///  &quot;version&quot;: 2,
+        ///  &quot;generate&quot;: [
+        ///    {
+        ///      &quot;read&quot;: &quot;json&quot;,
+        ///      &quot;source&quot;: &quot;Resources/complex.json&quot;
+        ///    },
+        ///    {
+        ///      &quot;write&quot;: &quot;json&quot;,
+        ///      &quot;language&quot;: &quot;csharp&quot;,
+        ///      &quot;object&quot;: {
+        ///        &quot;name&quot;: &quot;ComplexWithReader&quot;,
+        ///        &quot;namespace&quot;: &quot;KY.Generator.Examples.Json&quot;,
+        ///        &quot;formatNames&quot;: true,
+        ///        &quot;withReader&quot;: true
+        ///      }
+        ///    }
+        ///  ]
+        ///}.
+        /// </summary>
+        internal static string complex_with_reader_generator {
+            get {
+                return ResourceManager.GetString("complex_with_reader_generator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to // ReSharper disable All
+        ///
+        ///using System.Collections.Generic;
+        ///using System.IO;
+        ///using Newtonsoft.Json;
+        ///
+        ///namespace KY.Generator.Examples.Json
+        ///{
+        ///    public partial class ComplexWithReader
+        ///    {
+        ///        public List&lt;string&gt; StringArrayProperty { get; set; }
+        ///        public List&lt;int&gt; NumberArrayProperty { get; set; }
+        ///        public List&lt;ObjectArrayProperty&gt; ObjectArrayProperty { get; set; }
+        ///        public List&lt;object&gt; MixedArrayProperty { get; set; }
+        ///        public ObjectProperty ObjectProperty { get;  [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ComplexWithReader_cs {
+            get {
+                return ResourceManager.GetString("ComplexWithReader_cs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to // ReSharper disable All
+        ///
+        ///namespace KY.Generator.Examples.Json
         ///{
         ///    public partial class ObjectArrayProperty
         ///    {
@@ -146,7 +200,9 @@ namespace KY.Generator.Json.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to namespace KY.Generator.Examples.Json.Reader
+        ///   Looks up a localized string similar to // ReSharper disable All
+        ///
+        ///namespace KY.Generator.Examples.Json
         ///{
         ///    public partial class ObjectProperty
         ///    {
@@ -174,7 +230,9 @@ namespace KY.Generator.Json.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to namespace KY.Generator.Examples.Json.Reader
+        ///   Looks up a localized string similar to // ReSharper disable All
+        ///
+        ///namespace KY.Generator.Examples.Json
         ///{
         ///    public partial class Simple
         ///    {
@@ -196,7 +254,7 @@ namespace KY.Generator.Json.Tests.Properties {
         ///  &quot;generate&quot;: [
         ///    {
         ///      &quot;read&quot;: &quot;json&quot;,
-        ///      &quot;source&quot;: &quot;simple.json&quot;
+        ///      &quot;source&quot;: &quot;Resources/simple.json&quot;
         ///    },
         ///    {
         ///      &quot;write&quot;: &quot;json&quot;,
@@ -222,7 +280,7 @@ namespace KY.Generator.Json.Tests.Properties {
         ///  &quot;generate&quot;: [
         ///    {
         ///      &quot;read&quot;: &quot;json&quot;,
-        ///      &quot;source&quot;: &quot;simple.json&quot;
+        ///      &quot;source&quot;: &quot;Resources/simple.json&quot;
         ///    },
         ///    {
         ///      &quot;write&quot;: &quot;json&quot;,
@@ -249,13 +307,13 @@ namespace KY.Generator.Json.Tests.Properties {
         ///  &quot;generate&quot;: [
         ///    {
         ///      &quot;read&quot;: &quot;json&quot;,
-        ///      &quot;source&quot;: &quot;simple.json&quot;
+        ///      &quot;source&quot;: &quot;Resources/simple.json&quot;
         ///    },
         ///    {
         ///      &quot;write&quot;: &quot;json&quot;,
         ///      &quot;language&quot;: &quot;csharp&quot;,
         ///      &quot;object&quot;: {
-        ///        &quot;name&quot;: &quot;SimpleWithReader&quot;,
+        ///        &quot;name&quot;: &quot;Simple&quot;,
         ///        &quot;namespace&quot;: &quot;KY.Generator.Examples.Json&quot;,
         ///        &quot;formatNames&quot;: true
         ///      },
@@ -271,10 +329,12 @@ namespace KY.Generator.Json.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using System.IO;
+        ///   Looks up a localized string similar to // ReSharper disable All
+        ///
+        ///using System.IO;
         ///using Newtonsoft.Json;
         ///
-        ///namespace KY.Generator.Examples.Json.Reader
+        ///namespace KY.Generator.Examples.Json
         ///{
         ///    public partial class SimpleReader
         ///    {
@@ -297,7 +357,9 @@ namespace KY.Generator.Json.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to namespace KY.Generator.Examples.Json.Reader
+        ///   Looks up a localized string similar to // ReSharper disable All
+        ///
+        ///namespace KY.Generator.Examples.Json
         ///{
         ///    public partial class SimpleWithoutReader
         ///    {
@@ -314,10 +376,12 @@ namespace KY.Generator.Json.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using System.IO;
+        ///   Looks up a localized string similar to // ReSharper disable All
+        ///
+        ///using System.IO;
         ///using Newtonsoft.Json;
         ///
-        ///namespace KY.Generator.Examples.Json.Reader
+        ///namespace KY.Generator.Examples.Json
         ///{
         ///    public partial class SimpleWithReader
         ///    {
@@ -330,9 +394,7 @@ namespace KY.Generator.Json.Tests.Properties {
         ///            return Parse(File.ReadAllText(fileName));
         ///        }
         ///
-        ///        public static SimpleWithReader Parse(string json)
-        ///        {
-        ///      [rest of string was truncated]&quot;;.
+        ///        public static SimpleWithReader Parse(string js [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string SimpleWithReader_cs {
             get {
