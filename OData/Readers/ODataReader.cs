@@ -6,6 +6,7 @@ using System.Xml;
 using KY.Core;
 using KY.Core.DataAccess;
 using KY.Generator.Configuration;
+using KY.Generator.Configurations;
 using KY.Generator.OData.Configuration;
 using KY.Generator.OData.Language;
 using KY.Generator.OData.Transfers;

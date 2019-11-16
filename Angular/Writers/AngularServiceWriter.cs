@@ -38,14 +38,14 @@ namespace KY.Generator.Angular.Writers
                 ClassTemplate classTemplate = files.AddFile(configuration.Service.RelativePath, configuration.AddHeader)
                                                    .AddNamespace(string.Empty)
                                                    .AddClass(configuration.Service.Name ?? controllerName + "Service")
-                                                   .FormatName(configuration.Language, configuration.FormatNames)
+                                                   .FormatName(configuration)
                                                    .WithUsing(httpClient, httpClientImport)
                                                    .WithUsing("Injectable", "@angular/core")
                                                    .WithUsing("Observable", "rxjs")
                                                    .WithUsing("Subject", "rxjs")
                                                    .WithAttribute("Injectable", Code.AnonymousObject().WithProperty("providedIn", Code.String("root")));
-                FieldTemplate httpField = classTemplate.AddField("http", Code.Type(httpClient)).Readonly().FormatName(configuration.Language, configuration.FormatNames);
-                FieldTemplate serviceUrlField = classTemplate.AddField("serviceUrl", Code.Type("string")).Public().FormatName(configuration.Language, configuration.FormatNames).Default(Code.String(string.Empty));
+                FieldTemplate httpField = classTemplate.AddField("http", Code.Type(httpClient)).Readonly().FormatName(configuration);
+                FieldTemplate serviceUrlField = classTemplate.AddField("serviceUrl", Code.Type("string")).Public().FormatName(configuration).Default(Code.String(string.Empty));
                 classTemplate.AddConstructor().WithParameter(Code.Type(httpClient), "http")
                              .WithCode(Code.This().Field(httpField).Assign(Code.Local("http")).Close());
                 string relativeModelPath = FileSystem.RelativeTo(configuration.Model?.RelativePath ?? ".", configuration.Service.RelativePath);
@@ -54,14 +54,14 @@ namespace KY.Generator.Angular.Writers
                     ICodeFragment errorCode = Code.Lambda("error", Code.Local("subject").Method("error", Code.Local("error")));
                     this.MapType(controller.Language, configuration.Language, action.ReturnType);
                     TypeTemplate returnType = action.ReturnType.ToTemplate();
-                    this.AddUsing(action.ReturnType, classTemplate, configuration.Language, relativeModelPath);
+                    this.AddUsing(action.ReturnType, classTemplate, configuration, relativeModelPath);
                     MethodTemplate methodTemplate = classTemplate.AddMethod(action.Name, Code.Generic("Observable", returnType))
-                                                                 .FormatName(configuration.Language, configuration.FormatNames);
+                                                                 .FormatName(configuration);
                     foreach (HttpServiceActionParameterTransferObject parameter in action.Parameters)
                     {
                         this.MapType(controller.Language, configuration.Language, parameter.Type);
-                        this.AddUsing(parameter.Type, classTemplate, configuration.Language, relativeModelPath);
-                        ParameterTemplate parameterTemplate = methodTemplate.AddParameter(parameter.Type.ToTemplate(), parameter.Name).FormatName(configuration.Language, configuration.FormatNames);
+                        this.AddUsing(parameter.Type, classTemplate, configuration, relativeModelPath);
+                        ParameterTemplate parameterTemplate = methodTemplate.AddParameter(parameter.Type.ToTemplate(), parameter.Name).FormatName(configuration);
                         mapping.Add(parameter, parameterTemplate);
                     }
                     methodTemplate.AddParameter(Code.Type("{}"), "httpOptions?");

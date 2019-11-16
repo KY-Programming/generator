@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using KY.Generator.Configurations;
 
 namespace KY.Generator.Configuration
 {

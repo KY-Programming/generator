@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 using KY.Core;
 using KY.Generator.Csharp.Templates;
 using KY.Generator.Csharp.Writers;
+using KY.Generator.Extensions;
 using KY.Generator.Languages;
 using KY.Generator.Output;
 using KY.Generator.Templates;
@@ -19,6 +20,13 @@ namespace KY.Generator.Csharp.Languages
 
         private CsharpLanguage()
         {
+            this.Formatting.FileCase = Case.PascalCase;
+            this.Formatting.ClassCase = Case.PascalCase;
+            this.Formatting.FieldCase = Case.CamelCase;
+            this.Formatting.PropertyCase = Case.PascalCase;
+            this.Formatting.MethodCase = Case.PascalCase;
+            this.Formatting.ParameterCase = Case.CamelCase;
+
             this.TemplateWriters[typeof(AttributeTemplate)] = new AttributeWriter(this);
             this.TemplateWriters[typeof(BaseTypeTemplate)] = new BaseTypeWriter();
             this.TemplateWriters[typeof(BaseTemplate)] = new BaseWriter();
@@ -43,32 +51,7 @@ namespace KY.Generator.Csharp.Languages
 
         public override string FormatFileName(string fileName, bool isInterface)
         {
-            return fileName.FirstCharToUpper() + ".cs";
-        }
-
-        public override string FormatClassName(string className)
-        {
-            return className == null ? null : Regex.Replace(className, "[^A-z0-9_]", "_").FirstCharToUpper();
-        }
-
-        public override string FormatPropertyName(string propertyName)
-        {
-            return propertyName == null ? null : Regex.Replace(propertyName, "[^A-z0-9_]", "_").FirstCharToUpper();
-        }
-
-        public override string FormatFieldName(string fieldName)
-        {
-            return fieldName == null ? null : Regex.Replace(fieldName, "[^A-z0-9_]", "_").FirstCharToLower();
-        }
-
-        public override string FormatMethodName(string methodName)
-        {
-            return methodName == null ? null : Regex.Replace(methodName, "[^A-z0-9_]", "_").FirstCharToUpper();
-        }
-
-        public override string FormatParameterName(string parameterName)
-        {
-            return parameterName == null ? null : Regex.Replace(parameterName, "[^A-z0-9_]", "_").FirstCharToLower();
+            return fileName.ToPascalCase() + ".cs";
         }
 
         protected override IEnumerable<UsingTemplate> GetUsings(FileTemplate fileTemplate)

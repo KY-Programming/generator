@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using KY.Core;
 using KY.Generator.Configuration;
+using KY.Generator.Configurations;
 using KY.Generator.Transfer;
 using KY.Generator.Transfer.Readers;
 using KY.Generator.Tsql.Configuration;
 using KY.Generator.Tsql.Language;
+using KY.Generator.Tsql.Transfers;
 using KY.Generator.Tsql.Type;
 
 namespace KY.Generator.Tsql.Readers
@@ -35,7 +37,7 @@ namespace KY.Generator.Tsql.Readers
                         model.Properties.Add(new PropertyTransferObject
                                              {
                                                  Name = column.Name,
-                                                 Type = new TypeTransferObject { Name = column.Type }
+                                                 Type = new TypeTransferObject { Name = column.Type, IsNullable = column.IsNullable }
                                              });
                     }
                     transferObjects.Add(model);
@@ -81,13 +83,26 @@ namespace KY.Generator.Tsql.Readers
                             break;
                         case "add":
                         case "insert":
-                            entity.Keys.Add(new EntityKeyTransferObject {Name = action.Name});
+                            entity.Keys.Add(new EntityKeyTransferObject { Name = action.Name });
                             break;
                         default:
                             throw new InvalidOperationException($"Unknown entity key action {action.Action} found");
                     }
                 }
+                foreach (EntityKeyTransferObject key in entity.Keys)
+                {
+                    key.Property = entity.Model.Properties.FirstOrDefault(x => x.Name == key.Name).AssertIsNotNull(key.Name, $"Key {key.Name} has no matching property");
+                    key.Type = key.Property.Type;
+                }
                 transferObjects.Add(entity);
+            }
+            foreach (TsqlReadStoredProcedure readStoredProcedure in configuration.StoredProcedures)
+            {
+                string schema = readStoredProcedure.Schema ?? configuration.Schema;
+                //List<TsqlColumn> columns = typeReader.GetColumnsFromStoredProcedure(schema, readStoredProcedure.Name);
+                StoredProcedureTransferObject storedProcedure = new StoredProcedureTransferObject { Schema = schema, Name = readStoredProcedure.Name};
+                storedProcedure.ReturnType = new TypeTransferObject { Name = "void", FromSystem = true };
+                transferObjects.Add(storedProcedure);
             }
         }
 

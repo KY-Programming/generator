@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using KY.Generator.Configuration;
+using KY.Generator.Configurations;
 using KY.Generator.Languages;
 
 namespace KY.Generator.Templates.Extensions
@@ -105,12 +107,9 @@ namespace KY.Generator.Templates.Extensions
             return classTemplate;
         }
 
-        public static ClassTemplate FormatName(this ClassTemplate classTemplate, ILanguage language, bool formatNames = true)
+        public static ClassTemplate FormatName(this ClassTemplate classTemplate, IConfiguration configuration)
         {
-            if (formatNames && language is IFormattableLanguage formattableLanguage)
-            {
-                classTemplate.Name = formattableLanguage.FormatClassName(classTemplate.Name);
-            }
+            classTemplate.Name = Formatter.FormatClass(classTemplate.Name, configuration);
             return classTemplate;
         }
     }

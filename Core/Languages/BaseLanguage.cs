@@ -199,12 +199,10 @@ namespace KY.Generator.Languages
             output.BreakLine();
         }
 
-        public abstract string FormatFileName(string fileName, bool isInterface);
-        public abstract string FormatClassName(string className);
-        public abstract string FormatPropertyName(string propertyName);
-        public abstract string FormatFieldName(string fieldName);
-        public abstract string FormatMethodName(string methodName);
-        public abstract string FormatParameterName(string parameterName);
+        public virtual string FormatFileName(string fileName, bool isInterface)
+        {
+            return fileName;
+        }
 
         protected abstract IEnumerable<UsingTemplate> GetUsings(FileTemplate fileTemplate);
 

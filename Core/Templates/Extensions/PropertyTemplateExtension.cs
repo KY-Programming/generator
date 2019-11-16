@@ -1,3 +1,5 @@
+using KY.Generator.Configuration;
+using KY.Generator.Configurations;
 using KY.Generator.Languages;
 using KY.Generator.Models;
 
@@ -61,12 +63,9 @@ namespace KY.Generator.Templates.Extensions
             return property;
         }
 
-        public static PropertyTemplate FormatName(this PropertyTemplate propertyTemplate, ILanguage language, bool formatNames = true)
+        public static PropertyTemplate FormatName(this PropertyTemplate propertyTemplate, IConfiguration configuration)
         {
-            if (formatNames && language is IFormattableLanguage formattableLanguage)
-            {
-                propertyTemplate.Name = formattableLanguage.FormatPropertyName(propertyTemplate.Name);
-            }
+            propertyTemplate.Name = Formatter.FormatProperty(propertyTemplate.Name, configuration);
             return propertyTemplate;
         }
     }

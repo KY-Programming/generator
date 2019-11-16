@@ -1,0 +1,9 @@
+﻿// ReSharper disable All
+
+namespace KY.Generator.Examples.Json
+{
+    public partial class Alllowerobject
+    {
+        public int Prop1 { get; set; }
+    }
+}

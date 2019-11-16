@@ -1,12 +1,7 @@
-﻿using KY.Generator.Languages;
-
-namespace KY.Generator.Configurations
+﻿namespace KY.Generator.Configurations
 {
-    public interface IFormattableConfiguration
+    public interface IFormattableConfiguration : IConfiguration
     {
-        bool FieldsToProperties { get; }
-        bool PropertiesToFields { get; }
         bool FormatNames { get; }
-        ILanguage Language { get; }
     }
 }

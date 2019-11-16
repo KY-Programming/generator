@@ -37,10 +37,7 @@ namespace KY.Generator.Transfer.Writers
             {
                 models.Where(x => x.Name == "Unknown").ForEach(x => x.Name = configuration.Name);
             }
-            if (configuration.FormatNames && configuration.Language is IFormattableLanguage formattableLanguage)
-            {
-                models.ForEach(model => model.Name = formattableLanguage.FormatClassName(model.Name));
-            }
+            models.ForEach(model => model.Name = Formatter.FormatClass(model.Name, configuration));
             foreach (ModelTransferObject model in models)
             {
                 string nameSpace = configuration.SkipNamespace ? string.Empty : configuration.Namespace ?? model.Namespace;
@@ -83,7 +80,7 @@ namespace KY.Generator.Transfer.Writers
 
             foreach (KeyValuePair<string, int> pair in model.EnumValues)
             {
-                string formattedName = configuration.FormatNames && configuration.Language is IFormattableLanguage formattableLanguage ? formattableLanguage.FormatPropertyName(pair.Key) : pair.Key;
+                string formattedName = Formatter.FormatProperty(pair.Key, configuration);
                 enumTemplate.Values.Add(new EnumValueTemplate(pair.Key, Code.Number(pair.Value), formattedName));
             }
             return enumTemplate;
@@ -99,11 +96,11 @@ namespace KY.Generator.Transfer.Writers
             ClassTemplate classTemplate = files.AddFile(configuration.RelativePath, configuration.AddHeader)
                                                .AddNamespace(nameSpace)
                                                .AddClass(model.Name, model.BasedOn?.ToTemplate())
-                                               .FormatName(configuration.Language, configuration.FormatNames);
+                                               .FormatName(configuration);
 
             if (model.BasedOn != null)
             {
-                this.AddUsing(model.BasedOn, classTemplate, configuration.Language);
+                this.AddUsing(model.BasedOn, classTemplate, configuration);
             }
             configuration.Usings?.ForEach(x => classTemplate.AddUsing(x, null, null));
 
@@ -111,14 +108,14 @@ namespace KY.Generator.Transfer.Writers
             classTemplate.IsAbstract = model.IsAbstract;
             if (model.IsGeneric)
             {
-                model.Generics.ForEach(x => this.AddUsing(x, classTemplate, configuration.Language));
+                model.Generics.ForEach(x => this.AddUsing(x, classTemplate, configuration));
                 classTemplate.Generics.AddRange(model.Generics.Select(x => new ClassGenericTemplate(x.Name)));
             }
             foreach (TypeTransferObject interFace in model.Interfaces)
             {
                 this.MapType(model.Language, configuration.Language, interFace);
                 classTemplate.BasedOn.Add(new BaseTypeTemplate(classTemplate, Code.Interface(interFace.Name, interFace.Namespace)));
-                this.AddUsing(interFace, classTemplate, configuration.Language);
+                this.AddUsing(interFace, classTemplate, configuration);
             }
             this.AddFields(model, classTemplate, configuration);
             this.AddProperties(model, classTemplate, configuration);

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using KY.Generator.Configuration;
+using KY.Generator.Configurations;
 using KY.Generator.Output;
 
 namespace KY.Generator.Transfer.Writers

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using KY.Core;
 using KY.Core.Dependency;
 using KY.Generator.Configuration;
+using KY.Generator.Configurations;
 using KY.Generator.Csharp.Languages;
 using KY.Generator.EntityFramework.Configurations;
 using KY.Generator.Output;

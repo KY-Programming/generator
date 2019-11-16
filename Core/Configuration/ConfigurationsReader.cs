@@ -55,7 +55,7 @@ namespace KY.Generator.Configuration
                 }
                 if (this.versions.ContainsKey(version.Version))
                 {
-                    return this.versions[version.Version].Read(version.Generate);
+                    return this.versions[version.Version].Read(version);
                 }
                 throw new InvalidConfigurationException($"No reader for version {version.Version} found");
             }

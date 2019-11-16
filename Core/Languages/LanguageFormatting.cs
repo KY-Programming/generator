@@ -1,6 +1,8 @@
+using KY.Generator.Configuration;
+
 namespace KY.Generator.Languages
 {
-    public class LanguageFormatting
+    public class LanguageFormatting : ConfigurationFormatting
     {
         public string LineClosing { get; set; }
         public char IndentChar { get; set; }

@@ -8,6 +8,7 @@ using KY.Generator.Templates;
 using KY.Generator.Templates.Extensions;
 using KY.Generator.Transfer;
 using KY.Generator.Transfer.Extensions;
+using KY.Generator.Tsql.Transfers;
 
 namespace KY.Generator.EntityFramework.Writers
 {
@@ -40,7 +41,7 @@ namespace KY.Generator.EntityFramework.Writers
             foreach (EntityTransferObject entity in transferObjects.OfType<EntityTransferObject>())
             {
                 dataContext.AddProperty(entity.Name, Code.Generic("DbSet", entity.Model.ToTemplate()))
-                           .FormatName(configuration.Language, configuration.FormatNames)
+                           .FormatName(configuration)
                            .Virtual();
             }
 
@@ -72,6 +73,11 @@ namespace KY.Generator.EntityFramework.Writers
                 createMethod.Code.AddLine(Code.Local(modelBuilder).GenericMethod("Entity", entity.Model.ToTemplate()).BreakLine()
                                               .Method("ToTable", Code.String(entity.Table), Code.String(entity.Schema)).BreakLine()
                                               .Method("HasKey", Code.Lambda("x", Code.Csharp("new { " + string.Join(", ", entity.Keys.Select(key => $"x.{key.Name}")) + " }" ))).Close());
+            }
+            foreach (StoredProcedureTransferObject storedProcedure in transferObjects.OfType<StoredProcedureTransferObject>())
+            {
+                dataContext.AddMethod(storedProcedure.Name, storedProcedure.ReturnType.ToTemplate())
+                           .Code.AddLine(Code.This().Property("Database").Method("ExecuteSqlCommand", Code.String($"exec {storedProcedure.Schema}.{storedProcedure.Name}")).Close());
             }
             return dataContext;
         }

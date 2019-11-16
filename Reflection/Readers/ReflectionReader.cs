@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using KY.Generator.Configuration;
+using KY.Generator.Configurations;
 using KY.Generator.Reflection.Configuration;
 using KY.Generator.Transfer;
 using KY.Generator.Transfer.Readers;

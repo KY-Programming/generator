@@ -1,9 +1,10 @@
 ﻿// ReSharper disable All
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using System.Web.Http;
+using System.Web.Mvc;
 using KY.Generator;
 using KY.Generator.Output;
 
@@ -25,7 +26,7 @@ namespace KY.Generator.Test.Controllers
             generator.ParseConfiguration(configuration);
             generator.Run();
 
-            HttpContext.Current.Cache[id] = output as MemoryOutput;
+            HttpContext.Current.Cache[id] = output;
             return id;
         }
 
@@ -42,7 +43,7 @@ namespace KY.Generator.Test.Controllers
             generator.ParseCommand(command);
             generator.Run();
 
-            HttpContext.Current.Cache[id] = output as MemoryOutput;
+            HttpContext.Current.Cache[id] = output;
             return id;
         }
 
@@ -52,7 +53,7 @@ namespace KY.Generator.Test.Controllers
             {
                 return null;
             }
-            MemoryOutput output = HttpContext.Current.Cache[id];
+            MemoryOutput output = HttpContext.Current.Cache[id] as MemoryOutput;
             return output == null ? null : string.Join(Environment.NewLine, output.Files.Select(x => x.Key));
         }
 
@@ -62,7 +63,7 @@ namespace KY.Generator.Test.Controllers
             {
                 return null;
             }
-            MemoryOutput output = HttpContext.Current.Cache[id];
+            MemoryOutput output = HttpContext.Current.Cache[id] as MemoryOutput;
             return output == null || ! output.Files.ContainsKey(path) ? null : output.Files[path];
         }
 

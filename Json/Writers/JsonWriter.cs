@@ -2,6 +2,7 @@
 using KY.Core;
 using KY.Core.Dependency;
 using KY.Generator.Configuration;
+using KY.Generator.Configurations;
 using KY.Generator.Json.Configuration;
 using KY.Generator.Output;
 using KY.Generator.Templates;

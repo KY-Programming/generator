@@ -9,6 +9,7 @@ namespace KY.Generator.Transfer
         public string Name { get; set; }
         public string Namespace { get; set; }
         public bool FromSystem { get; set; }
+        public bool IsNullable { get; set; }
         public List<TypeTransferObject> Generics { get; }
 
         public TypeTransferObject()

@@ -1,8 +1,9 @@
 ﻿// ReSharper disable All
 
-using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using System.Web.Http;
+using System.Web.Mvc;
 using KY.Generator.Test.Repositories;
 
 namespace KY.Generator.Test.Controllers
@@ -17,7 +18,7 @@ namespace KY.Generator.Test.Controllers
             this.repository = new UserRepository();
         }
 
-        public IEnumerable<User> Get(int id = default, string name = default, string firstName = default, string lastName = default, int age = default, string password = default)
+        public IEnumerable<User> Get(int id = default, string name = default, string firstName = default, string lastName = default, int? age = default, string password = default)
         {
             IQueryable<User> queryable = this.repository.Get();
             if (id != default)

@@ -1,11 +1,12 @@
 using System.Collections.Generic;
+using KY.Generator.Configuration;
 using KY.Generator.Languages;
 using KY.Generator.Mappings;
 using Newtonsoft.Json;
 
-namespace KY.Generator.Configuration
+namespace KY.Generator.Configurations
 {
-    public abstract class ConfigurationBase
+    public abstract class ConfigurationBase : IConfiguration
     {
         public bool VerifySsl { get; set; } = true;
 
@@ -23,6 +24,7 @@ namespace KY.Generator.Configuration
         public List<PropertyMapping> PropertyMapping { get; }
         public bool Standalone { get; set; }
         public ConfigurationEnvironment Environment { get; set; }
+        public ConfigurationFormatting Formatting { get; set; }
 
         protected ConfigurationBase()
         {
@@ -30,6 +32,7 @@ namespace KY.Generator.Configuration
             this.FieldMapping = new List<FieldMapping>();
             this.PropertyMapping = new List<PropertyMapping>();
             this.Environment = new ConfigurationEnvironment(null, null);
+            this.Formatting = new ConfigurationFormatting();
         }
 
         public virtual void CopyBaseFrom(ConfigurationBase source)
@@ -42,6 +45,7 @@ namespace KY.Generator.Configuration
             this.PropertyMapping.AddRange(source.PropertyMapping);
             this.Standalone = source.Standalone;
             this.Environment = source.Environment;
+            this.Formatting = source.Formatting;
         }
     }
 }

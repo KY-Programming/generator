@@ -2,6 +2,7 @@
 using System.Linq;
 using KY.Core.DataAccess;
 using KY.Generator.Configuration;
+using KY.Generator.Configurations;
 using KY.Generator.Json.Configuration;
 using KY.Generator.Json.Language;
 using KY.Generator.Json.Transfers;

@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using KY.Generator.Configuration;
+using KY.Generator.Configurations;
 using KY.Generator.Languages;
 using KY.Generator.Models;
 
@@ -73,12 +75,15 @@ namespace KY.Generator.Templates.Extensions
             return methodTemplate;
         }
 
-        public static MethodTemplate FormatName(this MethodTemplate methodTemplate, ILanguage language, bool formatNames = true)
+        public static MethodTemplate FormatName(this MethodTemplate methodTemplate, IConfiguration configuration)
         {
-            if (formatNames && language is IFormattableLanguage formattableLanguage)
-            {
-                methodTemplate.Name = formattableLanguage.FormatMethodName(methodTemplate.Name);
-            }
+            methodTemplate.Name = Formatter.FormatMethod(methodTemplate.Name, configuration);
+            return methodTemplate;
+        }
+
+        public static MethodTemplate FormatName(this MethodTemplate methodTemplate, ILanguage language, bool formatNames)
+        {
+            methodTemplate.Name = Formatter.FormatMethod(methodTemplate.Name, language, formatNames);
             return methodTemplate;
         }
     }

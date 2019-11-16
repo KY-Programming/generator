@@ -11,12 +11,5 @@ namespace KY.Generator.EntityFramework.Configurations
         public bool SuppressLoadTypeConfig { get; set; }
         public List<string> Usings { get; set; }
         public int CommandTimeout { get; set; } = 300;
-        public List<EntityFrameworkStoredProcedure> StoredProcedures { get; set; }
-
-        public EntityFrameworkDataContextConfiguration()
-        {
-            this.StoredProcedures = new List<EntityFrameworkStoredProcedure>();
-
-        }
     }
 }

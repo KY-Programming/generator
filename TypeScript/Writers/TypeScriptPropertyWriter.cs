@@ -11,7 +11,7 @@ namespace KY.Generator.TypeScript.Writers
         public virtual void Write(ICodeFragment fragment, IOutputCache output)
         {
             PropertyTemplate template = (PropertyTemplate)fragment;
-            FieldTemplate fieldTemplate = new FieldTemplate(template.Class, output.Language.FormatFieldName(template.Name), template.Type).FormatName(output.Language);
+            FieldTemplate fieldTemplate = new FieldTemplate(template.Class, template.Name, template.Type).FormatName(output.Language, true);
             if (fieldTemplate.Name == template.Name)
             {
                 fieldTemplate.Name += "Field";

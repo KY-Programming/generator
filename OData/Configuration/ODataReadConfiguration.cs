@@ -1,4 +1,4 @@
-using KY.Generator.Configuration;
+using KY.Generator.Configurations;
 
 namespace KY.Generator.OData.Configuration
 {

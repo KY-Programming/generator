@@ -42,14 +42,14 @@ namespace KY.Generator.AspDotNet.Writers
             {
                 GenericTypeTemplate type = Code.Generic("Dictionary", Code.Type("string"), Code.Type("MemoryOutput"));
                 classTemplate.AddField("cache", type)
-                             .FormatName(configuration.Language, configuration.FormatNames)
+                             .FormatName(configuration)
                              .Static()
                              .Readonly()
                              .DefaultValue = Code.New(type);
             }
 
             MethodTemplate createMethod = classTemplate.AddMethod("Create", Code.Type("string"))
-                                                       .FormatName(configuration.Language, configuration.FormatNames)
+                                                       .FormatName(configuration)
                                                        .WithParameter(Code.Type("string"), "configuration");
             if (!configuration.Template.ValidateInput)
             {
@@ -57,7 +57,7 @@ namespace KY.Generator.AspDotNet.Writers
             }
 
             MethodTemplate commandMethod = classTemplate.AddMethod("Command", Code.Type("string"))
-                                                        .FormatName(configuration.Language, configuration.FormatNames)
+                                                        .FormatName(configuration)
                                                         .WithParameter(Code.Type("string"), "command");
 
             MultilineCodeFragment createCode = createMethod.Code;
@@ -97,8 +97,8 @@ namespace KY.Generator.AspDotNet.Writers
             }
             else
             {
-                createCode.AddLine(Code.Static(Code.Type("HttpContext")).Property("Current").Property("Cache").Index(Code.Local("id")).Assign(Code.Local("output").As(Code.Type("MemoryOutput"))).Close());
-                commandCode.AddLine(Code.Static(Code.Type("HttpContext")).Property("Current").Property("Cache").Index(Code.Local("id")).Assign(Code.Local("output").As(Code.Type("MemoryOutput"))).Close());
+                createCode.AddLine(Code.Static(Code.Type("HttpContext")).Property("Current").Property("Cache").Index(Code.Local("id")).Assign(Code.Local("output")).Close());
+                commandCode.AddLine(Code.Static(Code.Type("HttpContext")).Property("Current").Property("Cache").Index(Code.Local("id")).Assign(Code.Local("output")).Close());
             }
             createCode.AddLine(Code.Return(Code.Local("id")));
             commandCode.AddLine(Code.Return(Code.Local("id")));
@@ -107,10 +107,10 @@ namespace KY.Generator.AspDotNet.Writers
                                                                    ? (ChainedCodeFragment)Code.Local("cache")
                                                                    : Code.Static(Code.Type("HttpContext")).Property("Current").Property("Cache");
             MethodTemplate getFilesMethod = classTemplate.AddMethod("GetFiles", Code.Type("string"))
-                                                         .FormatName(configuration.Language, configuration.FormatNames)
+                                                         .FormatName(configuration)
                                                          .WithParameter(Code.Type("string"), "id");
             getFilesMethod.Code.AddLine(Code.If(Code.Local("id").Equals().Null(), x => x.Code.AddLine(Code.Return(Code.Null()))))
-                          .AddLine(Code.Declare(Code.Type("MemoryOutput"), "output", getFromCacheForFilesFragment.Index(Code.Local("id"))))
+                          .AddLine(Code.Declare(Code.Type("MemoryOutput"), "output", getFromCacheForFilesFragment.Index(Code.Local("id")).As(Code.Type("MemoryOutput"))))
                           .AddLine(Code.Return(Code.InlineIf(Code.Local("output").Equals().Null(),
                                                              Code.Null(),
                                                              Code.Local("string").Method("Join", Code.Local("Environment").Property("NewLine"),
@@ -120,16 +120,16 @@ namespace KY.Generator.AspDotNet.Writers
                                                                   ? (ChainedCodeFragment)Code.Local("cache")
                                                                   : Code.Static(Code.Type("HttpContext")).Property("Current").Property("Cache");
             MethodTemplate getFileMethod = classTemplate.AddMethod("GetFile", Code.Type("string"))
-                                                        .FormatName(configuration.Language, configuration.FormatNames)
+                                                        .FormatName(configuration)
                                                         .WithParameter(Code.Type("string"), "id")
                                                         .WithParameter(Code.Type("string"), "path");
             getFileMethod.Code.AddLine(Code.If(Code.Local("id").Equals().Null(), x => x.Code.AddLine(Code.Return(Code.Null()))))
-                         .AddLine(Code.Declare(Code.Type("MemoryOutput"), "output", getFromCacheForFileFragment.Index(Code.Local("id"))))
+                         .AddLine(Code.Declare(Code.Type("MemoryOutput"), "output", getFromCacheForFileFragment.Index(Code.Local("id")).As(Code.Type("MemoryOutput"))))
                          .AddLine(Code.Return(Code.InlineIf(Code.Local("output").Equals().Null().Or().Not().Local("output").Property("Files").Method("ContainsKey", Code.Local("path")),
                                                             Code.Null(),
                                                             Code.Local("output").Property("Files").Index(Code.Local("path")))));
             MethodTemplate availableMethod = classTemplate.AddMethod("Available", Code.Type("bool"))
-                                                          .FormatName(configuration.Language, configuration.FormatNames);
+                                                          .FormatName(configuration);
             availableMethod.Code.AddLine(Code.Return(Code.Local("true")));
 
             if (configuration.Template.UseAttributes)

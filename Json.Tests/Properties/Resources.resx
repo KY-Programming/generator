@@ -163,4 +163,19 @@
   <data name="ComplexWithReader_cs" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ComplexWithReader.cs.result;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="formatNames" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\formatNames.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="formatNames_generator" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\formatNames.generator.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="Alllowerobject_cs" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Alllowerobject.cs.result;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="Allupperobject_cs" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Allupperobject.cs.result;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="FormatNames_cs" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FormatNames.cs.result;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
 </root>

@@ -1,3 +1,5 @@
+using KY.Generator.Configuration;
+using KY.Generator.Configurations;
 using KY.Generator.Languages;
 using KY.Generator.Models;
 
@@ -41,12 +43,15 @@ namespace KY.Generator.Templates.Extensions
             return field;
         }
 
-        public static FieldTemplate FormatName(this FieldTemplate field, ILanguage language, bool formatNames = true)
+        public static FieldTemplate FormatName(this FieldTemplate field, IConfiguration configuration)
         {
-            if (formatNames && language is IFormattableLanguage formattableLanguage)
-            {
-                field.Name = formattableLanguage.FormatFieldName(field.Name);
-            }
+            field.Name = Formatter.FormatField(field.Name, configuration);
+            return field;
+        }
+
+        public static FieldTemplate FormatName(this FieldTemplate field, ILanguage language, bool formatNames)
+        {
+            field.Name = Formatter.FormatField(field.Name, language, formatNames);
             return field;
         }
     }

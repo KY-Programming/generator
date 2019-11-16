@@ -1,4 +1,5 @@
-﻿using KY.Generator.Configurations;
+﻿using KY.Generator.Configuration;
+using KY.Generator.Configurations;
 using KY.Generator.Languages;
 using KY.Generator.Mappings;
 using KY.Generator.Templates;
@@ -16,11 +17,11 @@ namespace KY.Generator.Transfer.Writers
             this.TypeMapping = typeMapping;
         }
 
-        protected virtual void AddFields(ModelTransferObject model, ClassTemplate classTemplate, IFormattableConfiguration configuration)
+        protected virtual void AddFields(ModelTransferObject model, ClassTemplate classTemplate, IConfiguration configuration)
         {
             foreach (FieldTransferObject field in model.Fields)
             {
-                if (configuration.FieldsToProperties)
+                if (configuration.Formatting.FieldsToProperties)
                 {
                     this.AddProperty(model, field.Name, field.Type, classTemplate, configuration);
                 }
@@ -31,11 +32,11 @@ namespace KY.Generator.Transfer.Writers
             }
         }
 
-        protected virtual void AddProperties(ModelTransferObject model, ClassTemplate classTemplate, IFormattableConfiguration configuration)
+        protected virtual void AddProperties(ModelTransferObject model, ClassTemplate classTemplate, IConfiguration configuration)
         {
             foreach (PropertyTransferObject property in model.Properties)
             {
-                if (configuration.PropertiesToFields)
+                if (configuration.Formatting.PropertiesToFields)
                 {
                     this.AddField(model, property.Name, property.Type, classTemplate, configuration);
                 }
@@ -52,41 +53,34 @@ namespace KY.Generator.Transfer.Writers
             type.Generics.ForEach(x => this.MapType(fromLanguage, toLanguage, x));
         }
 
-        protected virtual void AddField(ModelTransferObject model, string name, TypeTransferObject type, ClassTemplate classTemplate, IFormattableConfiguration configuration)
+        protected virtual void AddField(ModelTransferObject model, string name, TypeTransferObject type, ClassTemplate classTemplate, IConfiguration configuration)
         {
             this.MapType(model.Language, configuration.Language, type);
-            name = configuration.FormatNames && configuration.Language is IFormattableLanguage formattableLanguage ? formattableLanguage.FormatFieldName(name) : name;
-            classTemplate.AddField(name, type.ToTemplate()).Public().FormatName(configuration.Language, configuration.FormatNames);
-            this.AddUsing(type, classTemplate, configuration.Language);
+            classTemplate.AddField(name, type.ToTemplate()).Public().FormatName(configuration);
+            this.AddUsing(type, classTemplate, configuration);
         }
 
-        protected virtual void AddProperty(ModelTransferObject model, string name, TypeTransferObject type, ClassTemplate classTemplate, IFormattableConfiguration configuration, bool canRead = true, bool canWrite = true)
+        protected virtual void AddProperty(ModelTransferObject model, string name, TypeTransferObject type, ClassTemplate classTemplate, IConfiguration configuration, bool canRead = true, bool canWrite = true)
         {
             this.MapType(model.Language, configuration.Language, type);
-            name = configuration.FormatNames && configuration.Language is IFormattableLanguage formattableLanguage ? formattableLanguage.FormatPropertyName(name) : name;
-            PropertyTemplate propertyTemplate = classTemplate.AddProperty(name, type.ToTemplate()).FormatName(configuration.Language, configuration.FormatNames);
+            PropertyTemplate propertyTemplate = classTemplate.AddProperty(name, type.ToTemplate()).FormatName(configuration);
             propertyTemplate.HasGetter = canRead;
             propertyTemplate.HasSetter = canWrite;
-            this.AddUsing(type, classTemplate, configuration.Language);
+            this.AddUsing(type, classTemplate, configuration);
         }
 
-        protected virtual void AddUsing(TypeTransferObject type, ClassTemplate classTemplate, ILanguage language, string relativeModelPath = "./")
+        protected virtual void AddUsing(TypeTransferObject type, ClassTemplate classTemplate, IConfiguration configuration, string relativeModelPath = "./")
         {
             if (type.Name == classTemplate.Name)
             {
                 return;
             }
-            if ((!type.FromSystem || type.FromSystem && language.ImportFromSystem) && !string.IsNullOrEmpty(type.Namespace) && classTemplate.Namespace.Name != type.Namespace)
+            if ((!type.FromSystem || type.FromSystem && configuration.Language.ImportFromSystem) && !string.IsNullOrEmpty(type.Namespace) && classTemplate.Namespace.Name != type.Namespace)
             {
-                string fileName = language is IFormattableLanguage formattableLanguage ? formattableLanguage.FormatFileName(type.Name, false) : type.Name;
+                string fileName = Formatter.FormatFile(type.Name, configuration);
                 classTemplate.AddUsing(type.Namespace, type.Name, $"{relativeModelPath.Replace("\\", "/").TrimEnd('/')}/{fileName}");
             }
-            type.Generics.ForEach(generic => this.AddUsing(generic, classTemplate, language, relativeModelPath));
+            type.Generics.ForEach(generic => this.AddUsing(generic, classTemplate, configuration, relativeModelPath));
         }
-
-        //private string GetTypePath(Type type, IModelConfiguration configuration)
-        //{
-        //    return configuration.Types.FirstOrDefault(x => x.Name == type.Name)?.Using ?? "./" + Code.GetFileName(type.Name);
-        //}
     }
 }

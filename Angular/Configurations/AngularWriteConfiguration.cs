@@ -1,9 +1,10 @@
 ﻿using KY.Generator.Configuration;
+using KY.Generator.Configurations;
 using KY.Generator.TypeScript.Languages;
 
 namespace KY.Generator.Angular.Configurations
 {
-    public class AngularWriteConfiguration : ConfigurationBase
+    public class AngularWriteConfiguration : ConfigurationBase, IFormattableConfiguration
     {
         public AngularWriteServiceConfiguration Service { get; set; }
         public AngularWriteModelConfiguration Model { get; set; }

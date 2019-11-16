@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using KY.Core.Dependency;
+using KY.Generator.Configurations;
 using KY.Generator.Languages;
 using Newtonsoft.Json.Linq;
 
@@ -18,16 +19,16 @@ namespace KY.Generator.Configuration
             this.resolver = resolver;
         }
 
-        public List<ConfigurationPair> Read(JToken token)
+        public List<ConfigurationPair> Read(ConfigurationVersion version)
         {
             List<ConfigurationPair> list = new List<ConfigurationPair>();
-            if (token is JObject obj)
+            if (version.Generate is JObject obj)
             {
                 ConfigurationPair pair = new ConfigurationPair();
                 this.ReadToPair(obj, pair);
                 list.Add(pair);
             }
-            else if (token is JArray array)
+            else if (version.Generate is JArray array)
             {
                 ConfigurationPair pair = new ConfigurationPair();
                 foreach (JToken entry in array)
@@ -36,6 +37,8 @@ namespace KY.Generator.Configuration
                 }
                 list.Add(pair);
             }
+            list.ForEach(pair => pair.Readers.ForEach(reader => reader.Formatting = reader.Formatting ?? version.Formatting));
+            list.ForEach(pair => pair.Writers.ForEach(writer => writer.Formatting = writer.Formatting ?? version.Formatting));
             return list;
         }
 

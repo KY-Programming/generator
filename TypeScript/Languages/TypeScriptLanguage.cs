@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
 using KY.Core;
+using KY.Generator.Extensions;
 using KY.Generator.Languages;
 using KY.Generator.Output;
 using KY.Generator.Templates;
@@ -25,6 +24,13 @@ namespace KY.Generator.TypeScript.Languages
         {
             this.Formatting.StartBlockInNewLine = false;
             this.Formatting.EndFileWithNewLine = true;
+            this.Formatting.FileCase = Case.KebabCase;
+            this.Formatting.ClassCase = Case.PascalCase;
+            this.Formatting.FieldCase = Case.CamelCase;
+            this.Formatting.PropertyCase = Case.CamelCase;
+            this.Formatting.MethodCase = Case.CamelCase;
+            this.Formatting.ParameterCase = Case.CamelCase;
+
             this.HasStaticClasses = false;
             this.TemplateWriters[typeof(BaseTypeTemplate)] = new BaseTypeWriter();
             this.TemplateWriters[typeof(BaseTemplate)] = new BaseWriter();
@@ -57,32 +63,12 @@ namespace KY.Generator.TypeScript.Languages
 
         public override string FormatFileName(string fileName, bool isInterface)
         {
-            return Code.GetFileName(fileName, isInterface);
-        }
-
-        public override string FormatClassName(string className)
-        {
-            return className == null ? null : Regex.Replace(className, "[^A-z0-9_]", "_").FirstCharToUpper();
-        }
-
-        public override string FormatPropertyName(string propertyName)
-        {
-            return propertyName == null ? null : Regex.Replace(propertyName, "[^A-z0-9_]", "_").FirstCharToLower();
-        }
-
-        public override string FormatFieldName(string fieldName)
-        {
-            return fieldName == null ? null : Regex.Replace(fieldName, "[^A-z0-9_]", "_").FirstCharToLower();
-        }
-
-        public override string FormatMethodName(string methodName)
-        {
-            return methodName == null ? null : Regex.Replace(methodName, "[^A-z0-9_]", "_").FirstCharToLower();
-        }
-
-        public override string FormatParameterName(string parameterName)
-        {
-            return parameterName == null ? null : Regex.Replace(parameterName, "[^A-z0-9_]", "_").FirstCharToLower();
+            fileName = Formatter.Format(fileName, this.Formatting.FileCase);
+            if (fileName.StartsWith("i-") || isInterface)
+            {
+                fileName = fileName.TrimStart("i-") + ".interface";
+            }
+            return fileName + ".ts";
         }
 
         protected override IEnumerable<UsingTemplate> GetUsings(FileTemplate fileTemplate)

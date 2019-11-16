@@ -9,36 +9,6 @@ namespace KY.Generator.Core.Tests.Models
         public override string Name => "Test";
         public override bool ImportFromSystem => true;
 
-        public override string FormatFileName(string fileName, bool isInterface)
-        {
-            return fileName;
-        }
-
-        public override string FormatClassName(string className)
-        {
-            return className;
-        }
-
-        public override string FormatPropertyName(string propertyName)
-        {
-            return propertyName;
-        }
-
-        public override string FormatFieldName(string fieldName)
-        {
-            return fieldName;
-        }
-
-        public override string FormatMethodName(string methodName)
-        {
-            return methodName;
-        }
-
-        public override string FormatParameterName(string parameterName)
-        {
-            return parameterName;
-        }
-
         protected override IEnumerable<UsingTemplate> GetUsings(FileTemplate fileTemplate)
         {
             return fileTemplate.GetUsingsByNamespace();

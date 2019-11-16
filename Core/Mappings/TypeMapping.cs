@@ -63,6 +63,7 @@ namespace KY.Generator.Mappings
                 type.Name = mapping.ToType;
                 type.Namespace = mapping.Namespace;
                 type.FromSystem = mapping.FromSystem;
+                type.IsNullable = type.IsNullable && mapping.Nullable;
             }
         }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using KY.Core.DataAccess;
 using KY.Generator.Configuration;
+using KY.Generator.Configurations;
 
 namespace KY.Generator
 {

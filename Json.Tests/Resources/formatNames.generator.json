@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "generate": [
+    {
+      "read": "json",
+      "source": "Resources/formatNames.json"
+    },
+    {
+      "write": "model",
+      "language": "csharp",
+      "name": "FormatNames",
+      "namespace": "KY.Generator.Examples.Json",
+      "formatNames": true
+    }
+  ]
+}

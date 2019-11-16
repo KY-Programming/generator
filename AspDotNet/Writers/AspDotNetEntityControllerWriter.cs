@@ -29,7 +29,7 @@ namespace KY.Generator.AspDotNet.Writers
                 ClassTemplate controller = files.AddFile(configuration.RelativePath, configuration.AddHeader)
                                                 .AddNamespace(nameSpace)
                                                 .AddClass(controllerConfiguration.Name ?? entity.Name + "Controller", Code.Type(configuration.Template.ControllerBase))
-                                                .FormatName(configuration.Language, configuration.FormatNames)
+                                                .FormatName(configuration)
                                                 .WithAttribute("Route", Code.String(controllerConfiguration.Route ?? "[controller]"));
 
                 controller.Usings.AddRange(configuration.Template.Usings);
@@ -54,7 +54,7 @@ namespace KY.Generator.AspDotNet.Writers
                     method.Code.AddLine(queryable);
                     foreach (PropertyTransferObject property in entity.Model.Properties)
                     {
-                        ParameterTemplate parameter = method.AddParameter(property.Type.ToTemplate(), property.Name, Code.Local("default")).FormatName(configuration.Language, configuration.FormatNames);
+                        ParameterTemplate parameter = method.AddParameter(property.Type.ToTemplate(), property.Name, Code.Local("default")).FormatName(configuration);
                         method.Code.AddLine(Code.If(Code.Local(parameter).NotEquals().Local("default"), x => x.Code.AddLine(Code.Local(queryable).Assign(Code.Local(queryable).Method("Where", Code.Lambda("x", Code.Local("x").Property(property.Name).Equals().Local(parameter)))).Close())));
                     }
                     method.Code.AddLine(Code.Return(Code.Local(queryable)));
@@ -107,7 +107,7 @@ namespace KY.Generator.AspDotNet.Writers
                     {
                         PropertyTransferObject property = entity.Model.Properties.First(x => x.Name.Equals(key.Name, StringComparison.InvariantCultureIgnoreCase));
                         parameters.Add(method.AddParameter(property.Type.ToTemplate(), property.Name)
-                                             .FormatName(configuration.Language, configuration.FormatNames));
+                                             .FormatName(configuration));
                     }
                     method.Code.AddLine(Code.This().Field(repositoryField).Method("Delete", parameters.Select(x => Code.Local(x))).Close());
                 }

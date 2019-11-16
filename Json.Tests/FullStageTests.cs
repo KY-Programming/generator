@@ -78,6 +78,16 @@ namespace KY.Generator.Json.Tests
             Assert.AreEqual(Resources.ObjectArrayProperty_cs, this.output.Files["ObjectArrayProperty.cs"]);
         }
 
+        [TestMethod]
+        public void FormatNames()
+        {
+            Assert.AreEqual(true, this.Run(Resources.formatNames_generator), "Generation not successful");
+            Assert.AreEqual(3, this.output.Files.Count);
+            Assert.AreEqual(Resources.FormatNames_cs, this.output.Files["FormatNames.cs"]);
+            Assert.AreEqual(Resources.Alllowerobject_cs, this.output.Files["Alllowerobject.cs"]);
+            Assert.AreEqual(Resources.Allupperobject_cs, this.output.Files["Allupperobject.cs"]);
+        }
+
         private bool Run(string configuration)
         {
             List<ConfigurationPair> configurations = this.reader.Parse(configuration);

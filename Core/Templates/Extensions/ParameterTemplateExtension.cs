@@ -1,15 +1,13 @@
-﻿using KY.Generator.Languages;
+﻿using KY.Generator.Configuration;
+using KY.Generator.Configurations;
 
 namespace KY.Generator.Templates.Extensions
 {
     public static class ParameterTemplateExtension
     {
-        public static ParameterTemplate FormatName(this ParameterTemplate parameter, ILanguage language, bool formatNames = true)
+        public static ParameterTemplate FormatName(this ParameterTemplate parameter, IConfiguration configuration)
         {
-            if (formatNames && language is IFormattableLanguage formattableLanguage)
-            {
-                parameter.Name = formattableLanguage.FormatParameterName(parameter.Name);
-            }
+            parameter.Name = Formatter.FormatParameter(parameter.Name, configuration);
             return parameter;
         }
     }

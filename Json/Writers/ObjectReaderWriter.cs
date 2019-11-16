@@ -5,7 +5,6 @@ using KY.Core;
 using KY.Generator.Csharp.Extensions;
 using KY.Generator.Csharp.Languages;
 using KY.Generator.Json.Configuration;
-using KY.Generator.Languages;
 using KY.Generator.Templates;
 using KY.Generator.Templates.Extensions;
 using KY.Generator.Transfer;
@@ -27,11 +26,10 @@ namespace KY.Generator.Json.Writers
             }
             Logger.Trace("Write JsonReader...");
             string className = configuration.Reader.Name ?? model.Name + "Reader";
-            className = (configuration.Reader.FormatNames ?? configuration.Object.FormatNames) && configuration.Language is IFormattableLanguage formattableLanguage ? formattableLanguage.FormatClassName(className) : className;
             FileTemplate fileTemplate = new FileTemplate(configuration.Reader.RelativePath, configuration.AddHeader);
             ClassTemplate classTemplate = fileTemplate.AddNamespace(configuration.Reader.Namespace ?? model.Namespace ?? configuration.Object.Namespace)
                                                       .AddClass(className)
-                                                      .FormatName(configuration.Language, configuration.FormatNames);
+                                                      .FormatName(configuration);
             WriteReader(classTemplate, model, configuration.FormatNames);
 
             yield return fileTemplate;

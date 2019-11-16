@@ -8,6 +8,7 @@ using KY.Core.Dependency;
 using KY.Core.Module;
 using KY.Generator.Command;
 using KY.Generator.Configuration;
+using KY.Generator.Configurations;
 using KY.Generator.Mappings;
 using KY.Generator.Module;
 using KY.Generator.Output;

@@ -1,0 +1,17 @@
+{
+  "alllower": "1",
+  "ALLUPPER": "1",
+  "camelCase": 1,
+  "PascalCase": 1,
+  "Title Case": 1,
+  "snake_case": 1,
+  "UPPER_SNAKE_CASE": 1,
+  "Darwin_Case": 1,
+  "kebab-case":  1, 
+  "alllowerobject": {
+    "prop1": 1
+  },
+  "ALLUPPEROBJECT": {
+    "prop1": 1
+  }
+}

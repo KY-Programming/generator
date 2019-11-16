@@ -34,7 +34,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -71,9 +71,9 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>"$(SolutionDir)packages\KY.Generator.CLI.Standalone.0.9.4\tools\KY.Generator.exe" "$(ProjectDir)Source\simple-generator.json" "$(ProjectDir)Output"
-"$(SolutionDir)packages\KY.Generator.CLI.Standalone.0.9.4\tools\KY.Generator.exe" "$(ProjectDir)Source\simple-with-reader-generator.json" "$(ProjectDir)Output"
-"$(SolutionDir)packages\KY.Generator.CLI.Standalone.0.9.4\tools\KY.Generator.exe" "$(ProjectDir)Source\simple-with-extern-reader-generator.json" "$(ProjectDir)Output"
-"$(SolutionDir)packages\KY.Generator.CLI.Standalone.0.9.4\tools\KY.Generator.exe" "$(ProjectDir)Source\complex-generator.json" "$(ProjectDir)Output"</PreBuildEvent>
+    <PreBuildEvent>"$(SolutionDir)packages\KY.Generator.CLI.Standalone.2.5.2\tools\KY.Generator.exe" "$(ProjectDir)Source\simple-generator.json" "$(ProjectDir)Output"
+"$(SolutionDir)packages\KY.Generator.CLI.Standalone.2.5.2\tools\KY.Generator.exe" "$(ProjectDir)Source\simple-with-reader-generator.json" "$(ProjectDir)Output"
+"$(SolutionDir)packages\KY.Generator.CLI.Standalone.2.5.2\tools\KY.Generator.exe" "$(ProjectDir)Source\simple-with-extern-reader-generator.json" "$(ProjectDir)Output"
+"$(SolutionDir)packages\KY.Generator.CLI.Standalone.2.5.2\tools\KY.Generator.exe" "$(ProjectDir)Source\complex-generator.json" "$(ProjectDir)Output"</PreBuildEvent>
   </PropertyGroup>
 </Project>

@@ -2,6 +2,7 @@
 using KY.Core.Dependency;
 using KY.Generator.Angular.Configurations;
 using KY.Generator.Configuration;
+using KY.Generator.Configurations;
 using KY.Generator.Output;
 using KY.Generator.Templates;
 using KY.Generator.Transfer;

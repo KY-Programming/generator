@@ -11,8 +11,9 @@ namespace KY.Generator.AspDotNet.Templates
         {
             get
             {
-                yield return new UsingTemplate("System.Collections.Generic", null, null);
+                yield return new UsingTemplate("System.Web", null, null);
                 yield return new UsingTemplate("System.Web.Http", null, null);
+                yield return new UsingTemplate("System.Web.Mvc", null, null);
             }
         }
 

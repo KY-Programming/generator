@@ -43,8 +43,8 @@ namespace KY.Generator.Angular.Tests
         public void CustomHttpClientType()
         {
             Assert.AreEqual(true, this.Run(Resources.custom_client_type), "Generation not successful");
-            Assert.AreEqual(1, this.output.Files.Count);
-            Assert.AreEqual(Resources.custom_values_service_ts, this.output.Files["src\\app\\services\\values-service.ts"]);
+            Assert.AreEqual(2, this.output.Files.Count);
+            Assert.AreEqual(Resources.custom_values_service_ts, this.output.Files["src\\app\\services\\custom-values-service.ts"]);
         }
 
         private bool Run(string configuration)

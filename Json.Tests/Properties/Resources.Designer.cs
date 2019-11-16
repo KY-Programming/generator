@@ -61,6 +61,52 @@ namespace KY.Generator.Json.Tests.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to // ReSharper disable All
+        ///
+        ///namespace KY.Generator.Examples.Json
+        ///{
+        ///    public partial class FormatNames
+        ///    {
+        ///        public string Alllower { get; set; }
+        ///        public string Allupper { get; set; }
+        ///        public int CamelCase { get; set; }
+        ///        public int PascalCase { get; set; }
+        ///        public int TitleCase { get; set; }
+        ///        public int SnakeCase { get; set; }
+        ///        public int UpperSnakeCase { get; set; }
+        ///        public int DarwinCase { get; set; }
+        ///        public int KebabCase { get; [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string Alllowerobject_cs {
+            get {
+                return ResourceManager.GetString("Alllowerobject_cs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to // ReSharper disable All
+        ///
+        ///namespace KY.Generator.Examples.Json
+        ///{
+        ///    public partial class FormatNames
+        ///    {
+        ///        public string Alllower { get; set; }
+        ///        public string Allupper { get; set; }
+        ///        public int CamelCase { get; set; }
+        ///        public int PascalCase { get; set; }
+        ///        public int TitleCase { get; set; }
+        ///        public int SnakeCase { get; set; }
+        ///        public int UpperSnakeCase { get; set; }
+        ///        public int DarwinCase { get; set; }
+        ///        public Alllowerobject Alllo [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string Allupperobject_cs {
+            get {
+                return ResourceManager.GetString("Allupperobject_cs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {
         ///  &quot;stringArrayProperty&quot;: [ &quot;One&quot;, &quot;Two&quot;, &quot;Three&quot; ],
         ///  &quot;numberArrayProperty&quot;: [ 1, 2, 3 ],
@@ -179,6 +225,78 @@ namespace KY.Generator.Json.Tests.Properties {
         internal static string ComplexWithReader_cs {
             get {
                 return ResourceManager.GetString("ComplexWithReader_cs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {
+        ///  &quot;alllower&quot;: &quot;1&quot;,
+        ///  &quot;ALLUPPER&quot;: &quot;1&quot;,
+        ///  &quot;camelCase&quot;: 1,
+        ///  &quot;PascalCase&quot;: 1,
+        ///  &quot;Title Case&quot;: 1,
+        ///  &quot;snake_case&quot;: 1,
+        ///  &quot;UPPER_SNAKE_CASE&quot;: 1,
+        ///  &quot;Darwin_Case&quot;: 1,
+        ///  &quot;kebab-case&quot;:  1, 
+        ///  &quot;alllowerobject&quot;: {
+        ///    &quot;prop1&quot;: 1
+        ///  },
+        ///  &quot;ALLUPPEROBJECT&quot;: {
+        ///    &quot;prop1&quot;: 1
+        ///  }
+        ///}.
+        /// </summary>
+        internal static string formatNames {
+            get {
+                return ResourceManager.GetString("formatNames", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to // ReSharper disable All
+        ///
+        ///namespace KY.Generator.Examples.Json
+        ///{
+        ///    public partial class FormatNames
+        ///    {
+        ///        public string Alllower { get; set; }
+        ///        public string Allupper { get; set; }
+        ///        public int CamelCase { get; set; }
+        ///        public int PascalCase { get; set; }
+        ///        public int TitleCase { get; set; }
+        ///        public int SnakeCase { get; set; }
+        ///        public int UpperSnakeCase { get; set; }
+        ///        public int DarwinCase { get; set; }
+        ///        public int KebabCase { get; [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string FormatNames_cs {
+            get {
+                return ResourceManager.GetString("FormatNames_cs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {
+        ///  &quot;version&quot;: 2,
+        ///  &quot;generate&quot;: [
+        ///    {
+        ///      &quot;read&quot;: &quot;json&quot;,
+        ///      &quot;source&quot;: &quot;Resources/formatNames.json&quot;
+        ///    },
+        ///    {
+        ///      &quot;write&quot;: &quot;model&quot;,
+        ///      &quot;language&quot;: &quot;csharp&quot;,
+        ///      &quot;name&quot;: &quot;FormatNames&quot;,
+        ///      &quot;namespace&quot;: &quot;KY.Generator.Examples.Json&quot;,
+        ///      &quot;formatNames&quot;: true
+        ///    }
+        ///  ]
+        ///}.
+        /// </summary>
+        internal static string formatNames_generator {
+            get {
+                return ResourceManager.GetString("formatNames_generator", resourceCulture);
             }
         }
         
