@@ -26,7 +26,7 @@ namespace KY.Generator.Configuration
         //    return null;
         //}
 
-        public List<ConfigurationPair> Parse(string json)
+        public List<ConfigurationSet> Parse(string json)
         {
             using (JsonTextReader reader = new JsonTextReader(new StringReader(json)))
             {

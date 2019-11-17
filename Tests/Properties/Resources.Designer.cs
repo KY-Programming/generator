@@ -61,18 +61,26 @@ namespace KY.Generator.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to // ------------------------------------------------------------------------------
-        /////  &lt;auto-generated&gt;
-        /////      This code was generated with testhost 15.0.0.0
-        /////      Manual changes to this file may cause unexpected behavior in your application.
-        /////      Manual changes to this file will be overwritten if the code is regenerated.
-        /////  &lt;/auto-generated&gt;
-        ///// ------------------------------------------------------------------------------
-        ///// ReSharper disable All
+        ///   Looks up a localized string similar to // ReSharper disable All
         ///
         ///using System.Data.Entity;
         ///
-        ///namespace KY.Ge [rest of string was truncated]&quot;;.
+        ///namespace KY.Generator.Test.Repositories
+        ///{
+        ///    public partial class DataContext : DbContext
+        ///    {
+        ///        public static string DefaultConnection { get; set; } = &quot;name=DataContext&quot;;
+        ///        public virtual DbSet&lt;User&gt; User { get; set; }
+        ///
+        ///        public DataContext()
+        ///            : this(null)
+        ///        {
+        ///        }
+        ///
+        ///        public DataContext(string connectionString)
+        ///            : base(connectionString ?? DefaultConnection)
+        ///        {
+        ///          [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string DataContext {
             get {
@@ -177,7 +185,6 @@ namespace KY.Generator.Tests.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to {
-        ///  &quot;$schema&quot;: &quot;file:///C:/Projekte/C#/Generator/Core/Configuration/configuration.schema.json&quot;,
         ///  &quot;version&quot;: 2,
         ///  &quot;generate&quot;: {
         ///    &quot;write&quot;: &quot;1&quot;,
@@ -193,7 +200,6 @@ namespace KY.Generator.Tests.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to {
-        ///  &quot;$schema&quot;: &quot;file:///C:/Projekte/C#/Generator/Core/Configuration/configuration.schema.json&quot;,
         ///  &quot;version&quot;: 2,
         ///  &quot;generate&quot;: [
         ///    {
@@ -211,7 +217,6 @@ namespace KY.Generator.Tests.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to {
-        ///  &quot;$schema&quot;: &quot;file:///C:/Projekte/C#/Generator/Core/Configuration/configuration.schema.json&quot;,
         ///  &quot;version&quot;: 2,
         ///  &quot;generate&quot;: [
         ///    [
@@ -231,7 +236,6 @@ namespace KY.Generator.Tests.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to {
-        ///  &quot;$schema&quot;: &quot;file:///C:/Projekte/C#/Generator/Core/Configuration/configuration.schema.json&quot;,
         ///  &quot;version&quot;: 2,
         ///  &quot;generate&quot;: [
         ///    {
@@ -254,7 +258,6 @@ namespace KY.Generator.Tests.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to {
-        ///  &quot;$schema&quot;: &quot;file:///C:/Projekte/C#/Generator/Core/Configuration/configuration.schema.json&quot;,
         ///  &quot;version&quot;: 2,
         ///  &quot;generate&quot;: [
         ///    [
@@ -290,7 +293,31 @@ namespace KY.Generator.Tests.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to {
-        ///  &quot;$schema&quot;: &quot;file:///C:/Projekte/C#/Generator/Core/Configuration/configuration.schema.json&quot;,
+        ///  &quot;version&quot;: 2,
+        ///  &quot;generate&quot;: [
+        ///    [
+        ///      {
+        ///        &quot;write&quot;: &quot;1&quot;,
+        ///        &quot;property1&quot;: &quot;Test1&quot;
+        ///      }
+        ///    ],
+        ///    [
+        ///      {
+        ///        &quot;write&quot;: &quot;2&quot;,
+        ///        &quot;property2&quot;: &quot;Test2&quot;
+        ///      }
+        ///    ]
+        ///  ]
+        ///}.
+        /// </summary>
+        internal static string two_generates_in_array_array {
+            get {
+                return ResourceManager.GetString("two_generates_in_array_array", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {
         ///  &quot;version&quot;: 2,
         ///  &quot;generate&quot;: [
         ///    {
@@ -321,7 +348,11 @@ namespace KY.Generator.Tests.Properties {
         ///{
         ///    public partial class User
         ///    {
+        ///        public int Id { get; set; }
         ///        public string Name { get; set; }
+        ///        public string FirstName { get; set; }
+        ///        public string LastName { get; set; }
+        ///        public int? Age { get; set; }
         ///        public string Password { get; set; }
         ///    }
         ///}.
@@ -335,9 +366,10 @@ namespace KY.Generator.Tests.Properties {
         /// <summary>
         ///   Looks up a localized string similar to // ReSharper disable All
         ///
-        ///using System.Collections.Generic;
         ///using System.Linq;
+        ///using System.Web;
         ///using System.Web.Http;
+        ///using System.Web.Mvc;
         ///using KY.Generator.Test.Repositories;
         ///
         ///namespace KY.Generator.Test.Controllers
@@ -352,7 +384,7 @@ namespace KY.Generator.Tests.Properties {
         ///            this.repository = new UserRepository();
         ///        }
         ///
-        ///        public IEnumerable&lt;User&gt; Get(string name = defa [rest of string was truncated]&quot;;.
+        ///        public IEnumerable&lt;User&gt; Get(int id = de [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string UserController_cs {
             get {

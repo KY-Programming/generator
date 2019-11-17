@@ -51,7 +51,7 @@ namespace KY.Generator.OData.Tests
 
         private bool Run(string configuration)
         {
-            List<ConfigurationPair> configurations = this.reader.Parse(configuration);
+            List<ConfigurationSet> configurations = this.reader.Parse(configuration);
             configurations.ForEach(x => x.Writers.ForEach(y => y.AddHeader = false));
             configurations.SelectMany(x => x.Writers).OfType<AngularWriteConfiguration>().ForEach(x => x.Model.AddHeader = false);
             return this.runner.Run(configurations, this.output);

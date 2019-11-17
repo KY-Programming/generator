@@ -21,13 +21,13 @@ namespace KY.Generator
             this.resolver = resolver;
         }
 
-        public bool Run(List<ConfigurationPair> configurations, IOutput output)
+        public bool Run(List<ConfigurationSet> configurations, IOutput output)
         {
             ReaderConfigurationMapping readers = this.resolver.Get<ReaderConfigurationMapping>();
             WriterConfigurationMapping writers = this.resolver.Get<WriterConfigurationMapping>();
             Logger.Trace($"Start generating {configurations.Count} configurations");
             bool success = true;
-            foreach (ConfigurationPair pair in configurations)
+            foreach (ConfigurationSet pair in configurations)
             {
                 ConfigurationBase missingLanguage = pair.Writers.FirstOrDefault(x => x.Language == null && x.RequireLanguage);
                 if (missingLanguage != null)

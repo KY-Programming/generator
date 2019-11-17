@@ -1,5 +1,4 @@
 {
-  "$schema": "file:///C:/Projekte/C#/Generator/Core/Configuration/configuration.schema.json",
   "version": 2,
   "load": [
     "..\\..\\..\\ky.generator.csharp\\1.2.0\\lib\\netstandard2.0\\KY.Generator.CSharp.dll",

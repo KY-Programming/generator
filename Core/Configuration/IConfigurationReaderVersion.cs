@@ -5,6 +5,6 @@ namespace KY.Generator.Configuration
     internal interface IConfigurationReaderVersion
     {
         int Version { get; }
-        List<ConfigurationPair> Read(ConfigurationVersion version);
+        List<ConfigurationSet> Read(ConfigurationVersion version);
     }
 }

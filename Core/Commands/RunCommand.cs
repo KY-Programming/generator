@@ -58,13 +58,13 @@ namespace KY.Generator.Commands
 
         public bool Run(string configuration, IOutput output)
         {
-            List<ConfigurationPair> configurations = this.Deserialize(configuration);
+            List<ConfigurationSet> configurations = this.Deserialize(configuration);
             return this.Run(configurations, output);
         }
 
         private bool Run(string configuration, string path, IOutput output)
         {
-            List<ConfigurationPair> configurations = this.Deserialize(configuration);
+            List<ConfigurationSet> configurations = this.Deserialize(configuration);
             ConfigurationEnvironment environment = new ConfigurationEnvironment(path, output.ToString());
             configurations.SelectMany(x => x.Readers)
                           .Concat(configurations.SelectMany(x => x.Writers))
@@ -72,13 +72,13 @@ namespace KY.Generator.Commands
             return this.Run(configurations, output);
         }
 
-        private List<ConfigurationPair> Deserialize(string configuration)
+        private List<ConfigurationSet> Deserialize(string configuration)
         {
             ConfigurationsReader configurationsReader = this.resolver.Create<ConfigurationsReader>();
             return configurationsReader.Parse(configuration);
         }
 
-        private bool Run(List<ConfigurationPair> configurations, IOutput output)
+        private bool Run(List<ConfigurationSet> configurations, IOutput output)
         {
             if (configurations == null || configurations.Count == 0)
             {

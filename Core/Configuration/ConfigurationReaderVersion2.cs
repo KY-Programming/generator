@@ -19,30 +19,45 @@ namespace KY.Generator.Configuration
             this.resolver = resolver;
         }
 
-        public List<ConfigurationPair> Read(ConfigurationVersion version)
+        public List<ConfigurationSet> Read(ConfigurationVersion version)
         {
-            List<ConfigurationPair> list = new List<ConfigurationPair>();
+            List<ConfigurationSet> list = new List<ConfigurationSet>();
             if (version.Generate is JObject obj)
             {
-                ConfigurationPair pair = new ConfigurationPair();
-                this.ReadToPair(obj, pair);
-                list.Add(pair);
+                ConfigurationSet set = new ConfigurationSet();
+                this.ReadToPair(obj, set);
+                list.Add(set);
             }
             else if (version.Generate is JArray array)
             {
-                ConfigurationPair pair = new ConfigurationPair();
-                foreach (JToken entry in array)
+                if (array.First is JObject)
                 {
-                    this.ReadToPair(entry, pair);
+                    ConfigurationSet set = new ConfigurationSet();
+                    foreach (JObject entry in array.OfType<JObject>())
+                    {
+                        this.ReadToPair(entry, set);
+                    }
+                    list.Add(set);
                 }
-                list.Add(pair);
+                else if (array.First is JArray)
+                {
+                    foreach (JArray innerArray in array.OfType<JArray>())
+                    {
+                        ConfigurationSet set = new ConfigurationSet();
+                        foreach (JObject entry in innerArray.OfType<JObject>())
+                        {
+                            this.ReadToPair(entry, set);
+                        }
+                        list.Add(set);
+                    }
+                }
             }
             list.ForEach(pair => pair.Readers.ForEach(reader => reader.Formatting = reader.Formatting ?? version.Formatting));
             list.ForEach(pair => pair.Writers.ForEach(writer => writer.Formatting = writer.Formatting ?? version.Formatting));
             return list;
         }
 
-        private void ReadToPair(JToken token, ConfigurationPair pair)
+        private void ReadToPair(JToken token, ConfigurationSet set)
         {
             ReadOrWriteConfiguration configuration = token.ToObject<ReadOrWriteConfiguration>();
             ReaderConfigurationMapping readers = this.resolver.Get<ReaderConfigurationMapping>();
@@ -51,13 +66,13 @@ namespace KY.Generator.Configuration
             {
                 ConfigurationBase configurationBase = token.ToObject(readers.Resolve(configuration.Read)) as ConfigurationBase;
                 this.Prepare(configurationBase);
-                pair.Readers.Add(configurationBase);
+                set.Readers.Add(configurationBase);
             }
             if (configuration.Write != null)
             {
                 ConfigurationBase configurationBase = token.ToObject(writers.Resolve(configuration.Write)) as ConfigurationBase;
                 this.Prepare(configurationBase);
-                pair.Writers.Add(configurationBase);
+                set.Writers.Add(configurationBase);
             }
         }
 

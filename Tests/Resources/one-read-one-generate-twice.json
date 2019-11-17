@@ -1,5 +1,4 @@
 {
-  "$schema": "file:///C:/Projekte/C#/Generator/Core/Configuration/configuration.schema.json",
   "version": 2,
   "generate": [
     [
@@ -15,11 +14,11 @@
     [
       {
         "Read": "2",
-        "Property1": "Test3"
+        "Property2": "Test3"
       },
       {
         "Write": "2",
-        "Property1": "Test4"
+        "Property2": "Test4"
       }
     ]
   ]

@@ -21,16 +21,16 @@ namespace KY.Generator.Configuration
     //        this.ignoredNames = new List<string> { "VerifySSL", "Language", "AddHeader" };
     //    }
 
-    //    public List<ConfigurationPair> Read(JToken token)
+    //    public List<ConfigurationSet> Read(JToken token)
     //    {
     //        string xml = $"{{ \"Configuration\": {token} }}";
     //        XElement element = JsonConvert.DeserializeXNode(xml).Root;
     //        return this.Read(element);
     //    }
 
-    //    public List<ConfigurationPair> Read(XElement element)
+    //    public List<ConfigurationSet> Read(XElement element)
     //    {
-    //        List<ConfigurationPair> list = new List<ConfigurationPair>();
+    //        List<ConfigurationSet> list = new List<ConfigurationSet>();
     //        foreach (XElement configurationElement in element.Elements())
     //        {
     //            string name = configurationElement.Name.LocalName;
@@ -47,7 +47,7 @@ namespace KY.Generator.Configuration
     //            ConfigurationBase configuration = reader.Read(element, configurationElement);
     //            if (configuration != null)
     //            {
-    //                ConfigurationPair pair = new ConfigurationPair();
+    //                ConfigurationSet pair = new ConfigurationSet();
     //                pair.Writers.Add(configuration);
     //                list.Add(pair);
     //            }

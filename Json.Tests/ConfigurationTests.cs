@@ -37,7 +37,7 @@ namespace KY.Generator.Json.Tests
         [TestMethod]
         public void ReadSimpleConfiguration()
         {
-            List<ConfigurationPair> configurations = this.reader.Parse(Resources.simple_generator);
+            List<ConfigurationSet> configurations = this.reader.Parse(Resources.simple_generator);
             Assert.AreEqual(1, configurations.Count, "Unexpected number of configurations");
             Assert.AreEqual(1, configurations[0].Readers.Count, "Unexpected number of readers");
             Assert.AreEqual("Resources/simple.json", configurations[0].Readers[0].CastTo<JsonReadConfiguration>().Source);
@@ -52,7 +52,7 @@ namespace KY.Generator.Json.Tests
         [TestMethod]
         public void ReadSimpleWithReaderConfiguration()
         {
-            List<ConfigurationPair> configurations = this.reader.Parse(Resources.simple_with_reader_generator);
+            List<ConfigurationSet> configurations = this.reader.Parse(Resources.simple_with_reader_generator);
             Assert.AreEqual(1, configurations.Count, "Unexpected number of configurations");
             Assert.AreEqual(1, configurations[0].Readers.Count, "Unexpected number of readers");
             Assert.AreEqual("Resources/simple.json", configurations[0].Readers[0].CastTo<JsonReadConfiguration>().Source);
@@ -69,7 +69,7 @@ namespace KY.Generator.Json.Tests
         [TestMethod]
         public void ReadSimpleWithSeparateReaderConfiguration()
         {
-            List<ConfigurationPair> configurations = this.reader.Parse(Resources.simple_with_separate_reader_generator);
+            List<ConfigurationSet> configurations = this.reader.Parse(Resources.simple_with_separate_reader_generator);
             Assert.AreEqual(1, configurations.Count, "Unexpected number of configurations");
             Assert.AreEqual(1, configurations[0].Readers.Count, "Unexpected number of readers");
             Assert.AreEqual("Resources/simple.json", configurations[0].Readers[0].CastTo<JsonReadConfiguration>().Source);
@@ -86,7 +86,7 @@ namespace KY.Generator.Json.Tests
         [TestMethod]
         public void ReadComplexConfiguration()
         {
-            List<ConfigurationPair> configurations = this.reader.Parse(Resources.complex_generator);
+            List<ConfigurationSet> configurations = this.reader.Parse(Resources.complex_generator);
             Assert.AreEqual(1, configurations.Count, "Unexpected number of configurations");
             Assert.AreEqual(1, configurations[0].Readers.Count, "Unexpected number of readers");
             Assert.AreEqual("Resources/complex.json", configurations[0].Readers[0].CastTo<JsonReadConfiguration>().Source);
