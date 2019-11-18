@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace KY.Generator.Tsql.Configuration
+namespace KY.Generator.Tsql.Configurations
 {
     public class TsqlReadEntity
     {

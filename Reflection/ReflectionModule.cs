@@ -4,7 +4,7 @@ using KY.Generator.Configuration;
 using KY.Generator.Mappings;
 using KY.Generator.Module;
 using KY.Generator.Reflection.Commands;
-using KY.Generator.Reflection.Configuration;
+using KY.Generator.Reflection.Configurations;
 using KY.Generator.Reflection.Extensions;
 using KY.Generator.Reflection.Readers;
 using KY.Generator.Reflection.Writers;

@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
-using KY.Generator.Configuration;
 using KY.Generator.Configurations;
 
-namespace KY.Generator.Tsql.Configuration
+namespace KY.Generator.Tsql.Configurations
 {
     public class TsqlReadConfiguration : ConfigurationBase
     { 

@@ -1,4 +1,4 @@
-﻿namespace KY.Generator.Reflection.Attributes
+﻿namespace KY.Generator.Reflection
 {
     public enum OutputLanguage
     {

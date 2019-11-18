@@ -2,7 +2,7 @@
 using KY.Core;
 using KY.Generator.Configuration;
 using KY.Generator.Configurations;
-using KY.Generator.OpenApi.Configuration;
+using KY.Generator.OpenApi.Configurations;
 using KY.Generator.OpenApi.DataAccess;
 using KY.Generator.Transfer;
 using KY.Generator.Transfer.Readers;

@@ -1,9 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using KY.Generator.Configurations;
-using KY.Generator.Json.Configuration;
+using KY.Generator.Csharp.Extensions;
+using KY.Generator.Json.Configurations;
 using KY.Generator.Json.Transfers;
 using KY.Generator.Mappings;
 using KY.Generator.Templates;
+using KY.Generator.Templates.Extensions;
 using KY.Generator.Transfer;
 using KY.Generator.Transfer.Writers;
 
@@ -40,6 +43,28 @@ namespace KY.Generator.Json.Writers
             modelWriteConfiguration.PropertiesToFields = configuration.Object.PropertiesToFields;
             modelWriteConfiguration.FormatNames = configuration.Object.FormatNames;
             return this.Write(modelWriteConfiguration, transferObjects);
+        }
+
+        protected override FieldTemplate AddField(ModelTransferObject model, string name, TypeTransferObject type, ClassTemplate classTemplate, IConfiguration configuration)
+        {
+            FieldTemplate fieldTemplate = base.AddField(model, name, type, classTemplate, configuration);
+            if (!fieldTemplate.Name.Equals(name, StringComparison.CurrentCultureIgnoreCase))
+            {
+                fieldTemplate.WithAttribute("JsonProperty", Code.String(name));
+                classTemplate.AddUsing("Newtonsoft.Json");
+            }
+            return fieldTemplate;
+        }
+
+        protected override PropertyTemplate AddProperty(ModelTransferObject model, string name, TypeTransferObject type, ClassTemplate classTemplate, IConfiguration configuration, bool canRead = true, bool canWrite = true)
+        {
+            PropertyTemplate propertyTemplate = base.AddProperty(model, name, type, classTemplate, configuration, canRead, canWrite);
+            if (!propertyTemplate.Name.Equals(name, StringComparison.CurrentCultureIgnoreCase))
+            {
+                propertyTemplate.WithAttribute("JsonProperty", Code.String(name));
+                classTemplate.AddUsing("Newtonsoft.Json");
+            }
+            return propertyTemplate;
         }
     }
 }

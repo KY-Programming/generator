@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Net;
-using KY.Generator.Configuration;
+using KY.Core;
 using KY.Generator.Configurations;
 
 namespace KY.Generator.Transfer.Readers
@@ -22,11 +22,13 @@ namespace KY.Generator.Transfer.Readers
 
         private void ReadFromUrl(CookieConfiguration configuration, List<ITransferObject> list)
         {
+            Logger.Trace($"Read cookies from {configuration.Url}");
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(configuration.Url);
             request.CookieContainer = new CookieContainer();
             request.Credentials = CredentialCache.DefaultCredentials;
             using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
             {
+                Logger.Trace($"{response.Cookies.Count} cookies found");
                 foreach (Cookie cookie in response.Cookies)
                 {
                     if (cookie.Name == configuration.Name)

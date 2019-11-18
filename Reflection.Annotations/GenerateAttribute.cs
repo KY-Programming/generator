@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KY.Generator.Reflection.Attributes
+namespace KY.Generator.Reflection
 {
     [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = true)]
     public class GenerateAttribute : Attribute

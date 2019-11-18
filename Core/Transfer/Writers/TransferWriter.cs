@@ -53,20 +53,21 @@ namespace KY.Generator.Transfer.Writers
             type.Generics.ForEach(x => this.MapType(fromLanguage, toLanguage, x));
         }
 
-        protected virtual void AddField(ModelTransferObject model, string name, TypeTransferObject type, ClassTemplate classTemplate, IConfiguration configuration)
+        protected virtual FieldTemplate AddField(ModelTransferObject model, string name, TypeTransferObject type, ClassTemplate classTemplate, IConfiguration configuration)
         {
             this.MapType(model.Language, configuration.Language, type);
-            classTemplate.AddField(name, type.ToTemplate()).Public().FormatName(configuration);
             this.AddUsing(type, classTemplate, configuration);
+            return classTemplate.AddField(name, type.ToTemplate()).Public().FormatName(configuration);
         }
 
-        protected virtual void AddProperty(ModelTransferObject model, string name, TypeTransferObject type, ClassTemplate classTemplate, IConfiguration configuration, bool canRead = true, bool canWrite = true)
+        protected virtual PropertyTemplate AddProperty(ModelTransferObject model, string name, TypeTransferObject type, ClassTemplate classTemplate, IConfiguration configuration, bool canRead = true, bool canWrite = true)
         {
             this.MapType(model.Language, configuration.Language, type);
             PropertyTemplate propertyTemplate = classTemplate.AddProperty(name, type.ToTemplate()).FormatName(configuration);
             propertyTemplate.HasGetter = canRead;
             propertyTemplate.HasSetter = canWrite;
             this.AddUsing(type, classTemplate, configuration);
+            return propertyTemplate;
         }
 
         protected virtual void AddUsing(TypeTransferObject type, ClassTemplate classTemplate, IConfiguration configuration, string relativeModelPath = "./")

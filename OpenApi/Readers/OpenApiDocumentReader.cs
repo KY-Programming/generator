@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using KY.Generator.OpenApi.Configuration;
+using KY.Generator.OpenApi.Configurations;
 using KY.Generator.OpenApi.Extensions;
 using KY.Generator.OpenApi.Languages;
 using KY.Generator.Transfer;

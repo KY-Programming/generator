@@ -2,7 +2,7 @@
 using KY.Core.Dependency;
 using KY.Core.Module;
 using KY.Generator.Configuration;
-using KY.Generator.Json.Configuration;
+using KY.Generator.Json.Configurations;
 using KY.Generator.Json.Extensions;
 using KY.Generator.Json.Readers;
 using KY.Generator.Json.Writers;

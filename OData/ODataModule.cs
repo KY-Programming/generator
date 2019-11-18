@@ -2,7 +2,7 @@
 using KY.Generator.Configuration;
 using KY.Generator.Mappings;
 using KY.Generator.Module;
-using KY.Generator.OData.Configuration;
+using KY.Generator.OData.Configurations;
 using KY.Generator.OData.Extensions;
 using KY.Generator.OData.Readers;
 

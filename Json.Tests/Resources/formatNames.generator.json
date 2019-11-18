@@ -6,11 +6,13 @@
       "source": "Resources/formatNames.json"
     },
     {
-      "write": "model",
+      "write": "json",
       "language": "csharp",
-      "name": "FormatNames",
-      "namespace": "KY.Generator.Examples.Json",
-      "formatNames": true
+      "object": {
+        "name": "FormatNames",
+        "namespace": "KY.Generator.Examples.Json",
+        "formatNames": true
+      }
     }
   ]
 }

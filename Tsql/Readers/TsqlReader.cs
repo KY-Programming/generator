@@ -6,7 +6,7 @@ using KY.Generator.Configuration;
 using KY.Generator.Configurations;
 using KY.Generator.Transfer;
 using KY.Generator.Transfer.Readers;
-using KY.Generator.Tsql.Configuration;
+using KY.Generator.Tsql.Configurations;
 using KY.Generator.Tsql.Language;
 using KY.Generator.Tsql.Transfers;
 using KY.Generator.Tsql.Type;

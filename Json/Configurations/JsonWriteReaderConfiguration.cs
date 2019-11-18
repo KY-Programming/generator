@@ -1,4 +1,4 @@
-﻿namespace KY.Generator.Json.Configuration
+﻿namespace KY.Generator.Json.Configurations
 {
     public class JsonWriteReaderConfiguration
     {

@@ -6,24 +6,15 @@
     <Authors>KY-Programming</Authors>
     <Version>2.7.0</Version>
     <Product>KY.Generator</Product>
-    <Description>oData Module for KY-Generator
-Download KY.Generator.CLI to use this module</Description>
+    <Description>Annotations for Reflection Module for KY-Generator</Description>
     <Copyright>2019 - KY-Programming</Copyright>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/KY-Programming/generator</PackageProjectUrl>
     <PackageIconUrl>https://ky-programming.de/images/logos/128.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/KY-Programming/generator</RepositoryUrl>
-    <PackageTags>KY-Generator KY Generator oData</PackageTags>
+    <RepositoryType></RepositoryType>
+    <PackageTags>KY-Generator KY Generator Reflection Annotations</PackageTags>
+    <RootNamespace>KY.Generator.Reflection</RootNamespace>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="KY.Core.Common" Version="4.7.2" />
-    <PackageReference Include="Microsoft.OData.Edm" Version="7.6.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Core\KY.Generator.Core.csproj" />
-    <ProjectReference Include="..\TypeScript\KY.Generator.TypeScript.csproj" />
-  </ItemGroup>
 
 </Project>

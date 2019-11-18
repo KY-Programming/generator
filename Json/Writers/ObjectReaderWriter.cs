@@ -4,7 +4,7 @@ using System.Linq;
 using KY.Core;
 using KY.Generator.Csharp.Extensions;
 using KY.Generator.Csharp.Languages;
-using KY.Generator.Json.Configuration;
+using KY.Generator.Json.Configurations;
 using KY.Generator.Templates;
 using KY.Generator.Templates.Extensions;
 using KY.Generator.Transfer;

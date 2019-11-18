@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using KY.Generator.Configurations;
 
-namespace KY.Generator.Reflection.Configuration
+namespace KY.Generator.Reflection.Configurations
 {
     internal class ReflectionWriteConfiguration : ConfigurationBase, IModelConfiguration
     {

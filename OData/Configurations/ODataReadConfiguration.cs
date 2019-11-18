@@ -1,6 +1,6 @@
 using KY.Generator.Configurations;
 
-namespace KY.Generator.OData.Configuration
+namespace KY.Generator.OData.Configurations
 {
     public class ODataReadConfiguration : ConfigurationBase
     {

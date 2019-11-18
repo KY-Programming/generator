@@ -5,7 +5,7 @@ using KY.Generator.Configuration;
 using KY.Generator.Configurations;
 using KY.Generator.Csharp;
 using KY.Generator.Csharp.Languages;
-using KY.Generator.Json.Configuration;
+using KY.Generator.Json.Configurations;
 using KY.Generator.Json.Tests.Properties;
 using KY.Generator.Mappings;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

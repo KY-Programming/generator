@@ -39,47 +39,11 @@
     <Reference Include="KY.Core.Common, Version=4.2.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\KY.Core.Common.4.2.1\lib\netstandard2.0\KY.Core.Common.dll</HintPath>
     </Reference>
-    <Reference Include="KY.Core.Meta, Version=4.0.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\KY.Core.Meta.4.0.3\lib\netstandard2.0\KY.Core.Meta.dll</HintPath>
-    </Reference>
-    <Reference Include="KY.Core.Sql, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\KY.Core.Sql.4.0.0\lib\netstandard2.0\KY.Core.Sql.dll</HintPath>
-    </Reference>
-    <Reference Include="KY.Generator.Angular, Version=0.10.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\KY.Generator.Angular.0.10.0\lib\netstandard2.0\KY.Generator.Angular.dll</HintPath>
-    </Reference>
-    <Reference Include="KY.Generator.AspDotNet, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\KY.Generator.AspDotNet.1.0.0\lib\netstandard2.0\KY.Generator.AspDotNet.dll</HintPath>
-    </Reference>
-    <Reference Include="KY.Generator.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\KY.Generator.Core.1.0.0\lib\netstandard2.0\KY.Generator.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="KY.Generator.CSharp, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\KY.Generator.CSharp.1.0.0\lib\netstandard2.0\KY.Generator.CSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="KY.Generator.Json, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\KY.Generator.Json.1.0.0\lib\netstandard2.0\KY.Generator.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="KY.Generator.OData, Version=0.10.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\KY.Generator.OData.0.10.0\lib\netstandard2.0\KY.Generator.OData.dll</HintPath>
-    </Reference>
-    <Reference Include="KY.Generator.Reflection, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\KY.Generator.Reflection.1.0.0\lib\netstandard2.0\KY.Generator.Reflection.dll</HintPath>
-    </Reference>
-    <Reference Include="KY.Generator.Tsql, Version=0.10.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\KY.Generator.Tsql.0.10.0\lib\netstandard2.0\KY.Generator.Tsql.dll</HintPath>
-    </Reference>
-    <Reference Include="KY.Generator.TypeScript, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\KY.Generator.TypeScript.1.0.0\lib\netstandard2.0\KY.Generator.TypeScript.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="KY.Generator.Reflection.Annotations, Version=2.7.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\KY.Generator.Reflection.Annotations.2.7.0-rc.1\lib\netstandard2.0\KY.Generator.Reflection.Annotations.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.SqlClient, Version=4.5.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Data.SqlClient.4.6.0\lib\net461\System.Data.SqlClient.dll</HintPath>
-    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -100,6 +64,6 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>"$(SolutionDir)packages\KY.Generator.CLI.1.0.0\tools\KY.Generator.exe" reflection -fromAttributes -relativePath=..\..\..\KY.Generator.Examples.Reflection.Attributes\Output -language=Csharp -assembly="$(TargetPath)"</PostBuildEvent>
+    <PostBuildEvent>"$(SolutionDir)packages\KY.Generator.CLI.Standalone.2.6.0\tools\KY.Generator.exe" reflection -fromAttributes -relativePath=..\..\..\KY.Generator.Examples.Reflection.Attributes\Output -language=Csharp -assembly="$(TargetPath)"</PostBuildEvent>
   </PropertyGroup>
 </Project>

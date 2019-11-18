@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <Company>KY-Programming</Company>
     <Authors>KY-Programming</Authors>
-    <Version>2.6.0</Version>
+    <Version>2.7.0</Version>
     <Product>KY.Generator</Product>
     <Description>Reflection Module for KY-Generator
 Download KY.Generator.CLI to use this module</Description>
@@ -24,6 +24,7 @@ Download KY.Generator.CLI to use this module</Description>
   <ItemGroup>
     <ProjectReference Include="..\Core\KY.Generator.Core.csproj" />
     <ProjectReference Include="..\CSharp\KY.Generator.Csharp.csproj" />
+    <ProjectReference Include="..\Reflection.Annotations\KY.Generator.Reflection.Annotations.csproj" />
     <ProjectReference Include="..\TypeScript\KY.Generator.TypeScript.csproj" />
   </ItemGroup>
 

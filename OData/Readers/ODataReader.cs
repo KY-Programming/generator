@@ -5,9 +5,8 @@ using System.Net;
 using System.Xml;
 using KY.Core;
 using KY.Core.DataAccess;
-using KY.Generator.Configuration;
 using KY.Generator.Configurations;
-using KY.Generator.OData.Configuration;
+using KY.Generator.OData.Configurations;
 using KY.Generator.OData.Language;
 using KY.Generator.OData.Transfers;
 using KY.Generator.Transfer;
@@ -96,15 +95,18 @@ namespace KY.Generator.OData.Readers
                                                  Type = this.ToTransferObject(edmProperty.Type.Definition, mapping)
                                              });
                     }
-                    foreach (IEdmStructuralProperty key in entityType.DeclaredKey)
+                    if (entityType.DeclaredKey != null)
                     {
-                        PropertyTransferObject property = model.Properties.FirstOrDefault(x => x.Name == key.Name);
-                        entity.Keys.Add(new EntityKeyTransferObject
-                                        {
-                                            Name = key.Name,
-                                            Type = this.ToTransferObject(key.Type.Definition, mapping).Clone(),
-                                            Property = property
-                                        });
+                        foreach (IEdmStructuralProperty key in entityType.DeclaredKey)
+                        {
+                            PropertyTransferObject property = model.Properties.FirstOrDefault(x => x.Name == key.Name);
+                            entity.Keys.Add(new EntityKeyTransferObject
+                                            {
+                                                Name = key.Name,
+                                                Type = this.ToTransferObject(key.Type.Definition, mapping).Clone(),
+                                                Property = property
+                                            });
+                        }
                     }
                     // TODO: Add Navigation Properties
                     list.Add(model);
@@ -174,9 +176,12 @@ namespace KY.Generator.OData.Readers
         private void AddKeysToParameters(Dictionary<IEdmType, TypeTransferObject> mapping, IEdmNavigationSource navigationSource, HttpServiceActionTransferObject action)
         {
             IEdmEntityType entity = this.ToEntity(navigationSource.Type);
-            foreach (IEdmStructuralProperty property in entity.DeclaredKey)
+            if (entity.DeclaredKey != null)
             {
-                action.Parameters.Add(new HttpServiceActionParameterTransferObject { Name = property.Name, Type = this.ToTransferObject(property.Type.Definition, mapping) });
+                foreach (IEdmStructuralProperty property in entity.DeclaredKey)
+                {
+                    action.Parameters.Add(new HttpServiceActionParameterTransferObject { Name = property.Name, Type = this.ToTransferObject(property.Type.Definition, mapping) });
+                }
             }
         }
 

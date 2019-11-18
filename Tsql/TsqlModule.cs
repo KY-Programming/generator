@@ -2,7 +2,7 @@
 using KY.Generator.Configuration;
 using KY.Generator.Mappings;
 using KY.Generator.Module;
-using KY.Generator.Tsql.Configuration;
+using KY.Generator.Tsql.Configurations;
 using KY.Generator.Tsql.Language;
 using KY.Generator.Tsql.Readers;
 

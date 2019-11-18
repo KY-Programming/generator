@@ -1,7 +1,6 @@
-﻿using KY.Generator.Configuration;
-using KY.Generator.Configurations;
+﻿using KY.Generator.Configurations;
 
-namespace KY.Generator.Json.Configuration
+namespace KY.Generator.Json.Configurations
 {
     public class JsonWriteConfiguration : ConfigurationBase, IFormattableConfiguration
     {

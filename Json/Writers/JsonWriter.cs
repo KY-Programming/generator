@@ -3,7 +3,7 @@ using KY.Core;
 using KY.Core.Dependency;
 using KY.Generator.Configuration;
 using KY.Generator.Configurations;
-using KY.Generator.Json.Configuration;
+using KY.Generator.Json.Configurations;
 using KY.Generator.Output;
 using KY.Generator.Templates;
 using KY.Generator.Transfer;
@@ -31,6 +31,10 @@ namespace KY.Generator.Json.Writers
             if (configuration.Reader != null)
             {
                 this.resolver.Create<ObjectReaderWriter>().Write(configuration, transferObjects).ForEach(files.Add);
+            }
+            if (configuration.Object == null && configuration.Reader == null)
+            {
+                Logger.Warning("Json configuration has no model and no reader property. Set at least one of them to start generation");
             }
             files.ForEach(file => configuration.Language.Write(file, output));
         }

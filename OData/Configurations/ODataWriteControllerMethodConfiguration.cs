@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace KY.Generator.OData.Configuration
+namespace KY.Generator.OData.Configurations
 {
     public class ODataWriteControllerMethodConfiguration : Codeable
     {

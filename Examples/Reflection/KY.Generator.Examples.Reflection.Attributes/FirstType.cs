@@ -1,4 +1,4 @@
-﻿using KY.Generator.Reflection.Attributes;
+﻿using KY.Generator.Reflection;
 
 namespace KY.Generator.Examples.Reflection.Attributes
 {

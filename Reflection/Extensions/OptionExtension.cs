@@ -1,6 +1,4 @@
-﻿using KY.Generator.Reflection.Attributes;
-
-namespace KY.Generator.Reflection.Extensions
+﻿namespace KY.Generator.Reflection.Extensions
 {
     public static class OptionExtension
     {

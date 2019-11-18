@@ -1,7 +1,6 @@
-﻿using KY.Generator.Configuration;
-using KY.Generator.Configurations;
+﻿using KY.Generator.Configurations;
 
-namespace KY.Generator.Reflection.Configuration
+namespace KY.Generator.Reflection.Configurations
 {
     internal class ReflectionReadConfiguration : ConfigurationBase
     {

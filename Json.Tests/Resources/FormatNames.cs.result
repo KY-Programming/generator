@@ -1,5 +1,7 @@
 ﻿// ReSharper disable All
 
+using Newtonsoft.Json;
+
 namespace KY.Generator.Examples.Json
 {
     public partial class FormatNames
@@ -8,11 +10,22 @@ namespace KY.Generator.Examples.Json
         public string Allupper { get; set; }
         public int CamelCase { get; set; }
         public int PascalCase { get; set; }
+
+        [JsonProperty("Title Case")]
         public int TitleCase { get; set; }
+
+        [JsonProperty("snake_case")]
         public int SnakeCase { get; set; }
+
+        [JsonProperty("UPPER_SNAKE_CASE")]
         public int UpperSnakeCase { get; set; }
+
+        [JsonProperty("Darwin_Case")]
         public int DarwinCase { get; set; }
+
+        [JsonProperty("kebab-case")]
         public int KebabCase { get; set; }
+
         public Alllowerobject Alllowerobject { get; set; }
         public Allupperobject Allupperobject { get; set; }
     }

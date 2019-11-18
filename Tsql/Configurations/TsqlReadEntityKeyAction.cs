@@ -1,4 +1,4 @@
-namespace KY.Generator.Tsql.Configuration
+namespace KY.Generator.Tsql.Configurations
 {
     public class TsqlReadEntityKeyAction
     {
