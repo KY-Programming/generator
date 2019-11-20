@@ -5,7 +5,7 @@
     <Authors>KY-Programming</Authors>
     <Company>KY-Programming</Company>
     <Product>KY.Generator</Product>
-    <Version>2.7.0</Version>
+    <Version>2.7.1</Version>
     <Description>C# Module for KY-Generator
 Download KY.Generator.CLI to use this module</Description>
     <Copyright>2019 - KY-Programming</Copyright>
@@ -17,7 +17,7 @@ Download KY.Generator.CLI to use this module</Description>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="KY.Core.Common" Version="4.7.2" />
+    <PackageReference Include="KY.Core.Common" Version="4.7.3" />
   </ItemGroup>
 
   <ItemGroup>
