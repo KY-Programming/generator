@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="KY.Generator.CLI.Standalone" Version="2.7.1" />
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="&quot;%25USERPROFILE%25\.nuget\packages\ky.generator.cli.standalone\2.7.1\tools\KY.Generator.exe&quot; &quot;$(ProjectDir)generator.json&quot; &quot;$(ProjectDir)Output&quot;" />
+  </Target>
+
+</Project>

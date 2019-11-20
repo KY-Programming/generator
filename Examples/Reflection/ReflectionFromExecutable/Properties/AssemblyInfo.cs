@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("KY.Generator.Examples.Json.Reader")]
+[assembly: AssemblyTitle("ReflectionFromExecutable")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("KY.Generator.Examples.Json.Reader")]
+[assembly: AssemblyProduct("ReflectionFromExecutable")]
 [assembly: AssemblyCopyright("Copyright ©  2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("5409b36a-ad9c-4951-8cfd-cdfb40cd0872")]
+[assembly: Guid("0d8967c5-740d-4461-9cce-f3fb51191f3d")]
 
 // Version information for an assembly consists of the following four values:
 //

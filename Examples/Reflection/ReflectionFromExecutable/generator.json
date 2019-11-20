@@ -1,0 +1,17 @@
+﻿{
+  "version": 2,
+  "generate": [
+    {
+      "read": "reflection",
+      "assembly": "ReflectionFromExecutable.exe",
+      "namespace": "ReflectionFromExecutable",
+      "name": "TypeToRead"
+    },
+    {
+      "write": "angular",
+      "model": {
+        "propertiesToFields": true
+      }
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+﻿{
+  "version": 2,
+  "generate": [
+    {
+      "read": "reflection",
+      "assembly": "ReflectionFromStandard.dll",
+      "namespace": "ReflectionFromStandard",
+      "name": "TypeToRead"
+    },
+    {
+      "write": "angular",
+      "model": {
+        "propertiesToFields": true
+      }
+    }
+  ]
+}
