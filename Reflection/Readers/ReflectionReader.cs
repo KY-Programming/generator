@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using KY.Generator.Configuration;
+using KY.Core;
 using KY.Generator.Configurations;
 using KY.Generator.Reflection.Configurations;
 using KY.Generator.Transfer;
@@ -23,7 +23,12 @@ namespace KY.Generator.Reflection.Readers
             Type type = GeneratorTypeLoader.Get(configuration, configuration.Assembly, configuration.Namespace, configuration.Name);
             if (type != null)
             {
-                this.modelReader.Read(type, transferObjects);
+                ModelTransferObject selfModel = this.modelReader.Read(type, transferObjects);
+                if (configuration.SkipSelf)
+                {
+                    transferObjects.Remove(selfModel);
+                    Logger.Trace($"{selfModel.Name} ({selfModel.Namespace}) skipped through configuration");
+                }
             }
         }
     }

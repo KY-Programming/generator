@@ -66,6 +66,7 @@ namespace KY.Generator.Reflection.Commands
                             readConfiguration.Name = objectType.Name;
                             readConfiguration.Namespace = objectType.Namespace;
                             readConfiguration.Assembly = objectType.Assembly.Location;
+                            readConfiguration.SkipSelf = attribute is GenerateIndexAttribute;
                             List<ITransferObject> transferObjects = new List<ITransferObject>();
                             this.reader.Read(readConfiguration, transferObjects);
 

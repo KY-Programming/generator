@@ -2,10 +2,11 @@
 
 namespace KY.Generator.Reflection.Configurations
 {
-    internal class ReflectionReadConfiguration : ConfigurationBase
+    public class ReflectionReadConfiguration : ConfigurationBase
     {
         public string Assembly { get; set; }
         public string Name { get; set; }
         public string Namespace { get; set; }
+        public bool SkipSelf { get; set; }
     }
 }

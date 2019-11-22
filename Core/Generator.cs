@@ -135,6 +135,11 @@ namespace KY.Generator
             CommandReader reader = this.resolver.Create<CommandReader>();
             this.command = reader.Read(arguments);
             this.command.Standalone = this.standalone;
+            CommandValueParameter outputParameter = this.command.Parameters.OfType<CommandValueParameter>().FirstOrDefault(x => x.Name.Equals("output", StringComparison.CurrentCultureIgnoreCase));
+            if (outputParameter != null)
+            {
+                this.SetOutput(outputParameter.Value);
+            }
             return this;
         }
 

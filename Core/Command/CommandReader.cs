@@ -19,7 +19,8 @@ namespace KY.Generator.Command
             CommandConfiguration configuration = new CommandConfiguration(arguments.First());
             foreach (string chunk in arguments.Skip(1))
             {
-                configuration.Parameters.Add(chunk[0] == '-' ? CommandValueParameter.Parse(chunk) : new CommandParameter(chunk));
+                string parameter = chunk.Trim();
+                configuration.Parameters.Add(parameter[0] == '-' ? CommandValueParameter.Parse(parameter) : new CommandParameter(parameter));
             }
             configuration.ReadFromParameters(configuration.Parameters, this.languages);
             return configuration;

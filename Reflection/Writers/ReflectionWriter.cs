@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using KY.Core;
 using KY.Generator.Configurations;
 using KY.Generator.Output;
 using KY.Generator.Reflection.Configurations;
@@ -21,7 +20,6 @@ namespace KY.Generator.Reflection.Writers
 
         public void Write(ConfigurationBase configurationBase, List<ITransferObject> transferObjects, IOutput output)
         {
-            Logger.Trace("Generate reflection...");
             ReflectionWriteConfiguration configuration = (ReflectionWriteConfiguration)configurationBase;
             if (configuration.Language == null)
             {
