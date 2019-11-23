@@ -16,9 +16,16 @@ namespace KY.Generator.Output
         public void Write(string fileName, string content)
         {
             string filePath = FileSystem.Combine(this.basePath, fileName.Trim('\\'));
-            Logger.Trace($"Write file {filePath}");
             FileSystem.CreateDirectory(FileSystem.Parent(filePath));
-            FileSystem.WriteAllText(filePath, content, Encoding.UTF8);
+            if (!FileSystem.FileExists(filePath) || FileSystem.ReadAllText(filePath) != content)
+            {
+                Logger.Trace($"Write file {filePath}");
+                FileSystem.WriteAllText(filePath, content, Encoding.UTF8);
+            }
+            else
+            {
+                Logger.Trace($"File has no changes {filePath}");
+            }
         }
 
         public override string ToString()
