@@ -7,11 +7,7 @@
 // ------------------------------------------------------------------------------
 // tslint:disable
 
-export class TypeToRead {
-    public stringProperty: string;
-    public numberProperty: number;
-
-    public constructor(init: Partial<TypeToRead> = undefined) {
-        Object.assign(this, init);
-    }
+export class AnotherType {
+    public stringField: string;
+    public numberField: number;
 }

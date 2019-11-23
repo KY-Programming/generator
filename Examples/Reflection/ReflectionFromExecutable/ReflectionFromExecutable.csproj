@@ -61,6 +61,6 @@
     </PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>"$(SolutionDir)packages\ky.generator.cli.standalone.2.7.1\tools\KY.Generator.exe" "$(ProjectDir)generator.json" "$(ProjectDir)Output"</PostBuildEvent>
+    <PostBuildEvent>"$(SolutionDir)packages\ky.generator.cli.standalone.2.8.0\tools\KY.Generator.exe" "$(ProjectDir)generator.json" "$(ProjectDir)Output"</PostBuildEvent>
   </PropertyGroup>
 </Project>
