@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>KY.Generator.CLI.Core</id>
-    <version>2.7.1</version>
+    <version>2.8.0</version>
     <title>KY.Generator.CLI.Core</title>
     <authors>KY-Programming</authors>
     <owners>KY-Programming</owners>
@@ -16,17 +16,17 @@ Generate classes from oData, .NET assembly, JSON or TSQL to C# or TypeScript. Su
     <copyright>Copyright 2019</copyright>
     <tags>KY-Generator KY Generator .netCore CLI</tags>
     <dependencies>
-      <dependency id="KY.Generator.Angular" version="2.7.1" />
-      <dependency id="KY.Generator.AspDotNet" version="2.7.1" />
-      <dependency id="KY.Generator.Core" version="2.7.1" />
-      <dependency id="KY.Generator.Csharp" version="2.7.1" />
-      <dependency id="KY.Generator.EntityFramework" version="2.7.1" />
-      <dependency id="KY.Generator.Json" version="2.7.1" />
-      <dependency id="KY.Generator.OData" version="2.7.1" />
-      <dependency id="KY.Generator.OpenApi" version="2.7.1" />
-      <dependency id="KY.Generator.Reflection" version="2.7.1" />
-      <dependency id="KY.Generator.Tsql" version="2.7.1" />
-      <dependency id="KY.Generator.TypeScript" version="2.7.1" />
+      <dependency id="KY.Generator.Angular" version="2.8.0" />
+      <dependency id="KY.Generator.AspDotNet" version="2.8.0" />
+      <dependency id="KY.Generator.Core" version="2.8.0" />
+      <dependency id="KY.Generator.Csharp" version="2.8.0" />
+      <dependency id="KY.Generator.EntityFramework" version="2.8.0" />
+      <dependency id="KY.Generator.Json" version="2.8.0" />
+      <dependency id="KY.Generator.OData" version="2.8.0" />
+      <dependency id="KY.Generator.OpenApi" version="2.8.0" />
+      <dependency id="KY.Generator.Reflection" version="2.8.0" />
+      <dependency id="KY.Generator.Tsql" version="2.8.0" />
+      <dependency id="KY.Generator.TypeScript" version="2.8.0" />
     </dependencies>
   </metadata>
   <files>
