@@ -1,6 +1,7 @@
 # KY.Generator ![](https://img.shields.io/nuget/v/KY.Generator.Core.svg?style=flat)
 
 ## Setup for Visual Studio
+
 ### .net Core
 Install nuget package [KY.Generator.CLI.Core.Standalone](https://www.nuget.org/packages/KY.Generator.CLI.Core.Standalone/) ![](https://img.shields.io/nuget/v/KY.Generator.CLI.Core.Standalone.svg?style=flat)
 
@@ -11,9 +12,8 @@ For lower framework version please [create an issue](https://github.com/KY-Progr
 Add an generator.json configuration file [(see Wiki)](https://github.com/KY-Programming/generator/wiki/v2:-Overview#modules)  
 and add an Pre-build event
 ```
-dotnet "%USERPROFILE%\.nuget\packages\ky.generator.cli\2.5.0\tools\KY.Generator.dll" "$(ProjectDir)generator.json" "$(ProjectDir)ClientApp\src\app"
+dotnet "%USERPROFILE%\.nuget\packages\ky.generator.cli.core.standalone\2.5.0\tools\KY.Generator.dll" "$(ProjectDir)generator.json" "$(SolutionDir)ClientApp\src\app"
 ```
-
 ### .net Framework
 Install nuget package [KY.Generator.CLI.Standalone](https://www.nuget.org/packages/KY.Generator.CLI.Standalone/) ![](https://img.shields.io/nuget/v/KY.Generator.CLI.Standalone.svg?style=flat)  
 
@@ -24,10 +24,23 @@ For lower framework version please [create an issue](https://github.com/KY-Progr
 Add an generator.json configuration file [(see Wiki)](https://github.com/KY-Programming/generator/wiki/v2:-Overview#modules)  
 and add an Pre-build event
 ```
-"$(SolutionDir)packages\ky.generator.cli.standalone\2.5.0\tools\KY.Generator.exe" "$(ProjectDir)generator.json" "$(ProjectDir)ClientApp\src\app"
+"$(SolutionDir)packages\ky.generator.cli.standalone.2.5.0\tools\KY.Generator.exe" "$(ProjectDir)generator.json" "$(SolutionDir)ClientApp\src\app"
 ```
 ```
 "<path-to-KY.Generator.exe>" "<path-to-configuration-file>" "<output-path>"
+```
+
+### .net Standard
+Install nuget package [KY.Generator.CLI.Standalone](https://www.nuget.org/packages/KY.Generator.CLI.Standalone/) ![](https://img.shields.io/nuget/v/KY.Generator.CLI.Standalone.svg?style=flat)
+
+All dependencies are included. At least .net Standard 2.0 is required
+
+For lower framework version please [create an issue](https://github.com/KY-Programming/generator/issues/new) and we will try to support your version
+
+Add an generator.json configuration file [(see Wiki)](https://github.com/KY-Programming/generator/wiki/v2:-Overview#modules)  
+and add an Pre-build event
+```
+"%USERPROFILE%\.nuget\packages\ky.generator.cli.standalone\2.5.0\tools\KY.Generator.exe" "$(ProjectDir)generator.json" "$(SolutionDir)ClientApp\src\app"
 ```
 
 ## Setup for Console/Powershell
