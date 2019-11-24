@@ -1,0 +1,22 @@
+﻿{
+  "version": 2,
+  "load": [
+    "..\\CreateModule\\bin\\Debug\\netstandard2.0\\CreateModule.dll"
+  ],
+  "generate": [
+    {
+      "read": "demo",
+      "helloWorld": {
+        "name": "demoHelloWorld",
+        "test1": true
+      }
+    },
+    {
+      "write": "demo",
+      "test2": true,
+      "language": "csharp",
+      "relativePath": "Generated",
+      "formatNames": true
+    }
+  ]
+}

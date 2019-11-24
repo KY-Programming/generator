@@ -1,0 +1,16 @@
+﻿{
+  "version": 2,
+  "generate": [
+    {
+      "read": "demo",
+      "helloWorld": {
+        "name": "demoHelloWorld",
+        "test1": true
+      }
+    },
+    {
+      "write": "demo",
+      "test2": true
+    }
+  ]
+}
