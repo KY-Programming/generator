@@ -18,6 +18,8 @@ namespace KY.Generator.OData.Readers
 {
     internal class ODataReader : ITransferReader
     {
+        private const string BindingParameterName = "bindingParameter";
+
         public void Read(ConfigurationBase configurationBase, List<ITransferObject> transferObjects)
         {
             ODataReadConfiguration configuration = (ODataReadConfiguration)configurationBase;
@@ -70,7 +72,8 @@ namespace KY.Generator.OData.Readers
 
         private Dictionary<IEdmType, TypeTransferObject> ReadModels(IEdmModel edmModel, List<ITransferObject> list)
         {
-            Dictionary<IEdmType, TypeTransferObject> mapping = new Dictionary<IEdmType, TypeTransferObject>();
+            Dictionary<IEdmType, TypeTransferObject> modelMapping = new Dictionary<IEdmType, TypeTransferObject>();
+            Dictionary<IEdmType, EntityTransferObject> entityMapping = new Dictionary<IEdmType, EntityTransferObject>();
             foreach (IEdmSchemaType schemaType in edmModel.SchemaElements.Select(element => edmModel.FindDeclaredType(element.FullName())).Where(x => x != null))
             {
                 if (schemaType.TypeKind == EdmTypeKind.Entity && schemaType is IEdmEntityType entityType)
@@ -81,18 +84,19 @@ namespace KY.Generator.OData.Readers
                                                     Namespace = schemaType.Namespace,
                                                     Language = ODataLanguage.Instance
                                                 };
-                    mapping[entityType.AsActualType()] = model;
+                    modelMapping[entityType.AsActualType()] = model;
                     EntityTransferObject entity = new EntityTransferObject
                                                   {
                                                       Name = schemaType.Name,
                                                       Model = model
                                                   };
+                    entityMapping[entityType.AsActualType()] = entity;
                     foreach (IEdmProperty edmProperty in entityType.DeclaredProperties)
                     {
                         model.Properties.Add(new PropertyTransferObject
                                              {
                                                  Name = edmProperty.Name,
-                                                 Type = this.ToTransferObject(edmProperty.Type.Definition, mapping)
+                                                 Type = this.ToTransferObject(edmProperty.Type.Definition, modelMapping)
                                              });
                     }
                     if (entityType.DeclaredKey != null)
@@ -103,7 +107,7 @@ namespace KY.Generator.OData.Readers
                             entity.Keys.Add(new EntityKeyTransferObject
                                             {
                                                 Name = key.Name,
-                                                Type = this.ToTransferObject(key.Type.Definition, mapping).Clone(),
+                                                Type = this.ToTransferObject(key.Type.Definition, modelMapping).Clone(),
                                                 Property = property
                                             });
                         }
@@ -113,7 +117,29 @@ namespace KY.Generator.OData.Readers
                     list.Add(entity);
                 }
             }
-            return mapping;
+            foreach (IEdmAction action in edmModel.SchemaElements.OfType<IEdmAction>())
+            {
+                IEdmType boundTo = action.FindParameter(BindingParameterName)?.Type.Definition;
+                if (boundTo != null && modelMapping.ContainsKey(boundTo))
+                {
+                    EntityTransferObject entity = entityMapping[boundTo];
+                    EntityActionTransferObject entityAction = new EntityActionTransferObject { Name = action.Name, Namespace = action.Namespace };
+                    if (action.ReturnType != null)
+                    {
+                        entityAction.ReturnType = modelMapping[action.ReturnType.Definition];
+                    }
+                    entity.Actions.Add(entityAction);
+                    foreach (IEdmOperationParameter actionParameter in action.Parameters.Where(parameter => parameter.Name != BindingParameterName))
+                    {
+                        entityAction.Parameters.Add(new EntityActionParameterTransferObject { Name = actionParameter.Name, Type = modelMapping[actionParameter.Type.Definition] });
+                    }
+                }
+                else
+                {
+                    // TODO: Unbound actions
+                }
+            }
+            return modelMapping;
         }
 
         private void ReadServices(IEdmModel model, Dictionary<IEdmType, TypeTransferObject> mapping, List<ITransferObject> list)
@@ -196,7 +222,7 @@ namespace KY.Generator.OData.Readers
                                Name = "Array",
                                Generics =
                                {
-                                   this.ToTransferObject(collectionType.ElementType.Definition, mapping)
+                                   new GenericAliasTransferObject { Type = this.ToTransferObject(collectionType.ElementType.Definition, mapping) }
                                }
                            };
                 }

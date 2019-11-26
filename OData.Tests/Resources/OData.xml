@@ -22,6 +22,9 @@
       </EntityType>
     </Schema>
     <Schema Namespace="Default" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+      <Action Name="Special" IsBound="true">
+        <Parameter Name="bindingParameter" Type="OData.Models.User" />
+      </Action>
       <EntityContainer Name="Container">
         <EntitySet Name="Address" EntityType="OData.Models.Address" />
         <EntitySet Name="uSeR" EntityType="OData.Models.User">
