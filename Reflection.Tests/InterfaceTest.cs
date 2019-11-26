@@ -90,6 +90,17 @@ namespace KY.Generator.Reflection.Tests
             Assert.AreEqual(Resources.subtype, this.output.Files["sub-type.ts"]);
         }
 
+        [TestMethod]
+        public void ExportedTypeWithSubGenericsTest()
+        {
+            bool success = this.RunByTypeName(nameof(ExportedType));
+            Assert.AreEqual(true, success, "Generation not successful");
+            Assert.AreEqual(3, this.output.Files.Count);
+            Assert.AreEqual(Resources.exported_type_ts, this.output.Files["exported-type.ts"]);
+            Assert.AreEqual(Resources.generic_type_ts, this.output.Files["generic-type.ts"]);
+            Assert.AreEqual(Resources.inner_custom_type_ts, this.output.Files["inner-custom-type.ts"]);
+        }
+
         private bool RunByTypeName(string typeName)
         {
             return this.generator.SetParameters(

@@ -1,0 +1,8 @@
+// tslint:disable
+
+import { GenericType } from "./generic-type";
+import { InnerCustomType } from "./inner-custom-type";
+
+export class ExportedType {
+    public listing: GenericType<InnerCustomType>[];
+}

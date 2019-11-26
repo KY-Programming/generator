@@ -107,7 +107,7 @@ namespace KY.Generator.OpenApi.Readers
                            Name = schema.Type,
                            Generics =
                            {
-                               this.Read(configuration, schema.Items, transferObjects)
+                               new GenericAliasTransferObject { Type = this.Read(configuration, schema.Items, transferObjects) }
                            }
                        };
             }
@@ -121,13 +121,12 @@ namespace KY.Generator.OpenApi.Readers
                         };
                 foreach (KeyValuePair<string, OpenApiSchema> propertyPair in schema.Properties)
                 {
-                    
                     PropertyTransferObject property = new PropertyTransferObject
-                                                                    {
-                                                                        Name = propertyPair.Key,
-                                                                        Type = this.Read(configuration, propertyPair.Value, transferObjects)
-                                                                    };
-                    
+                                                      {
+                                                          Name = propertyPair.Key,
+                                                          Type = this.Read(configuration, propertyPair.Value, transferObjects)
+                                                      };
+
                     if (configuration.DataAnnotations && propertyPair.Value.MaxLength.HasValue)
                     {
                         property.Attributes.Add(new AttributeTransferObject
@@ -139,7 +138,7 @@ namespace KY.Generator.OpenApi.Readers
                     }
                     model.Properties.Add(property);
                 }
-                
+
                 transferObjects.Add(model);
                 return model;
             }

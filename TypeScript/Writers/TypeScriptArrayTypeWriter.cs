@@ -14,7 +14,8 @@ namespace KY.Generator.TypeScript.Writers
 
         public void Write(GenericTypeTemplate template, IOutputCache output)
         {
-            output.Add(template.Types.Single().Name + "[]");
+            output.Add(template.Types.Single())
+                  .Add("[]");
         }
     }
 }

@@ -13,6 +13,7 @@ namespace KY.Generator.Reflection.Readers
     {
         public ModelTransferObject Read(Type type, List<ITransferObject> transferObjects)
         {
+            bool isFromSystem = type.Namespace != null && type.Namespace.StartsWith("System");
             ModelTransferObject model = new ModelTransferObject { Language = ReflectionLanguage.Instance };
             model.FromType(type);
             ModelTransferObject existingModel = transferObjects.OfType<ModelTransferObject>().FirstOrDefault(entry => entry.Equals(model));
@@ -29,20 +30,16 @@ namespace KY.Generator.Reflection.Readers
             {
                 this.ReadArray(type, model, transferObjects);
             }
-            else if (type.IsGenericType)
+            else if (type.IsGenericType && isFromSystem)
             {
-                this.ReadGeneric(type, model, transferObjects);
-            }
-            else if (type.Namespace != null && type.Namespace.StartsWith("System"))
-            {
-                // Ignore system types
+                this.ReadGenericFromSystem(type, model, transferObjects);
             }
             else if (type.IsEnum)
             {
                 transferObjects.Add(model);
                 this.ReadEnum(type, model);
             }
-            else
+            else if (!isFromSystem)
             {
                 transferObjects.Add(model);
                 this.ReadClass(type, model, transferObjects);
@@ -57,15 +54,14 @@ namespace KY.Generator.Reflection.Readers
             model.IsGeneric = true;
             model.FromSystem = true;
             Type argument = type.GetElementType() ?? typeof(object);
-            model.Generics.Add(this.Read(argument, transferObjects));
+            model.Generics.Add(new GenericAliasTransferObject { Type = this.Read(argument, transferObjects) });
         }
 
-        private void ReadGeneric(Type type, ModelTransferObject model, List<ITransferObject> transferObjects)
+        private void ReadGenericFromSystem(Type type, ModelTransferObject model, List<ITransferObject> transferObjects)
         {
-            Logger.Trace($"Reflection read generic type {type.Name} ({type.Namespace})");
-            //model.FromSystem = type.Namespace != null && type.Namespace.StartsWith("System");
-            Type typeDefinition = type.GetGenericTypeDefinition();
-            //this.Read(typeDefinition, null, transferObjects);
+            Logger.Trace($"Reflection read generic system type {type.Name} ({type.Namespace})");
+            model.IsGeneric = true;
+            model.FromSystem = true;
             foreach (Type argument in type.GenericTypeArguments)
             {
                 this.Read(argument, transferObjects);
@@ -102,10 +98,22 @@ namespace KY.Generator.Reflection.Readers
             {
                 model.BasedOn = this.Read(type.BaseType, transferObjects);
             }
+            Dictionary<Type, string> genericMapping = new Dictionary<Type, string>();
+            if (type.IsGenericType)
+            {
+                model.IsGeneric = true;
+                model.Generics.Clear();
+                foreach (Type argument in type.GenericTypeArguments)
+                {
+                    string alias = genericMapping.Count > 1 ? $"T{genericMapping.Count}" : "T";
+                    genericMapping.Add(argument, alias);
+                    model.Generics.Add(new GenericAliasTransferObject { Alias = alias });
+                    this.Read(argument, transferObjects);
+                }
+            }
 
             model.IsInterface = type.IsInterface;
             model.IsAbstract = type.IsAbstract;
-            model.IsGeneric = type.IsGenericType;
             foreach (Type interFace in type.GetInterfaces(false))
             {
                 model.Interfaces.Add(this.Read(interFace, transferObjects));
@@ -116,7 +124,9 @@ namespace KY.Generator.Reflection.Readers
                 FieldTransferObject fieldTransferObject = new FieldTransferObject
                                                           {
                                                               Name = field.Name,
-                                                              Type = this.Read(field.FieldType, transferObjects)
+                                                              Type = genericMapping.ContainsKey(field.FieldType)
+                                                                         ? new TypeTransferObject { Name = genericMapping[field.FieldType] }
+                                                                         : this.Read(field.FieldType, transferObjects)
                                                           };
                 model.Fields.Add(fieldTransferObject);
             }
@@ -126,7 +136,9 @@ namespace KY.Generator.Reflection.Readers
                 PropertyTransferObject propertyTransferObject = new PropertyTransferObject
                                                                 {
                                                                     Name = property.Name,
-                                                                    Type = this.Read(property.PropertyType, transferObjects),
+                                                                    Type = genericMapping.ContainsKey(property.PropertyType)
+                                                                               ? new TypeTransferObject { Name = genericMapping[property.PropertyType] }
+                                                                               : this.Read(property.PropertyType, transferObjects),
                                                                     CanRead = property.CanRead,
                                                                     CanWrite = property.CanWrite
                                                                 };

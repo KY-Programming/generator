@@ -106,8 +106,7 @@ namespace KY.Generator.Transfer.Writers
             classTemplate.IsAbstract = model.IsAbstract;
             if (model.IsGeneric)
             {
-                model.Generics.ForEach(x => this.AddUsing(x, classTemplate, configuration));
-                classTemplate.Generics.AddRange(model.Generics.Select(x => new ClassGenericTemplate(x.Name)));
+                classTemplate.Generics.AddRange(model.Generics.Where(x => x.Alias != null).Select(x => new ClassGenericTemplate(x.Alias)));
             }
             foreach (TypeTransferObject interFace in model.Interfaces)
             {

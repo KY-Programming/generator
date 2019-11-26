@@ -1,4 +1,6 @@
-﻿using KY.Generator.Configuration;
+﻿using System.Linq;
+using KY.Core;
+using KY.Generator.Configuration;
 using KY.Generator.Configurations;
 using KY.Generator.Languages;
 using KY.Generator.Mappings;
@@ -50,7 +52,7 @@ namespace KY.Generator.Transfer.Writers
         protected virtual void MapType(ILanguage fromLanguage, ILanguage toLanguage, TypeTransferObject type)
         {
             this.TypeMapping.Get(fromLanguage, toLanguage, type);
-            type.Generics.ForEach(x => this.MapType(fromLanguage, toLanguage, x));
+            type.Generics.Where(x => x.Alias == null).ForEach(x => this.MapType(fromLanguage, toLanguage, x.Type));
         }
 
         protected virtual FieldTemplate AddField(ModelTransferObject model, string name, TypeTransferObject type, ClassTemplate classTemplate, IConfiguration configuration)
@@ -81,7 +83,7 @@ namespace KY.Generator.Transfer.Writers
                 string fileName = Formatter.FormatFile(type.Name, configuration);
                 classTemplate.AddUsing(type.Namespace, type.Name, $"{relativeModelPath.Replace("\\", "/").TrimEnd('/')}/{fileName}");
             }
-            type.Generics.ForEach(generic => this.AddUsing(generic, classTemplate, configuration, relativeModelPath));
+            type.Generics.Where(x => x.Alias == null).ForEach(generic => this.AddUsing(generic.Type, classTemplate, configuration, relativeModelPath));
         }
     }
 }

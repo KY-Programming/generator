@@ -39,10 +39,10 @@ namespace KY.Generator.Writers
             output.Add(template.Name);
             if (template.Generics.Count > 0)
             {
-                output.Add("<").Add(template.Generics, ", ").Add(">");
+                output.Add("<").Add(template.Generics.Select(x => Code.Instance.Type(x.Name)), ", ").Add(">");
             }
             template.BasedOn.OrderBy(x => x.ToType().IsInterface).ForEach(x => output.Add(x));
-            output.Add(template.Generics.Select(x => x.ToConstraints()));
+            output.Add(template.Generics.Select(x => x.ToConstraints()).Where(x => x.Types.Count > 0));
             output.StartBlock();
             if (template.IsInterface)
             {

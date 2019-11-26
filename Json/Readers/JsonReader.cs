@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using KY.Core.DataAccess;
-using KY.Generator.Configuration;
 using KY.Generator.Configurations;
 using KY.Generator.Json.Configurations;
 using KY.Generator.Json.Language;
@@ -43,16 +42,16 @@ namespace KY.Generator.Json.Readers
                     List<JToken> children = property.Value.Children().ToList();
                     if (children.Count == 0 || children.Any(x => x.Type != children.First().Type))
                     {
-                        listType.Generics.Add(new TypeTransferObject { Name = JTokenType.Object.ToString() });
+                        listType.Generics.Add(new GenericAliasTransferObject { Type = new TypeTransferObject { Name = JTokenType.Object.ToString() } });
                     }
                     else if (children.First().Type == JTokenType.Object)
                     {
                         ModelTransferObject entryModel = this.ReadModel(property.Name, (JObject)children.First(), list);
-                        listType.Generics.Add(entryModel);
+                        listType.Generics.Add(new GenericAliasTransferObject { Type = entryModel });
                     }
                     else
                     {
-                        listType.Generics.Add(new TypeTransferObject { Name = children.First().Type.ToString() });
+                        listType.Generics.Add(new GenericAliasTransferObject { Type = new TypeTransferObject { Name = children.First().Type.ToString() } });
                     }
                 }
                 else

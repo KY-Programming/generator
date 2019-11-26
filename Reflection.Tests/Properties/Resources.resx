@@ -124,14 +124,23 @@
   <data name="base_class_and_two_interfaces_type_ts" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Results\base-class-and-two-interfaces-type.ts.result;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
+  <data name="exported_type_ts" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Results\exported-type.ts.result;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
   <data name="first_interface_ts" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Results\first.interface.ts.result;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="generic_type_ts" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Results\generic-type.ts.result;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="inherit_first_interface_ts" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Results\inherit-first.interface.ts.result;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="inherit_interface_type_ts" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Results\inherit-interface-type.ts.result;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="inner_custom_type_ts" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Results\inner-custom-type.ts.result;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="one_interface_type_ts" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Results\one-interface-type.ts.result;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>

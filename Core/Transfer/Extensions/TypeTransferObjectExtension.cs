@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using KY.Core;
 using KY.Generator.Templates;
 
 namespace KY.Generator.Transfer.Extensions
@@ -17,7 +18,7 @@ namespace KY.Generator.Transfer.Extensions
                 return new TypeTemplate(type.Name, type.Namespace, fromSystem: type.FromSystem, isNullable: type.IsNullable);
             }
             GenericTypeTemplate genericTypeTemplate = new GenericTypeTemplate(type.Name, type.Namespace, fromSystem: type.FromSystem, isNullable: type.IsNullable);
-            type.Generics.ForEach(g => genericTypeTemplate.Types.Add(g.ToTemplate()));
+            type.Generics.Where(x => x.Type != null).ForEach(g => genericTypeTemplate.Types.Add(g.Type.ToTemplate()));
             return genericTypeTemplate;
         }
 
@@ -29,7 +30,7 @@ namespace KY.Generator.Transfer.Extensions
             {
                 foreach (Type argument in type.GetGenericArguments())
                 {
-                    transferObject.Generics.Add(argument.ToTransferObject());
+                    transferObject.Generics.Add(new GenericAliasTransferObject { Type = argument.ToTransferObject() });
                 }
             }
         }

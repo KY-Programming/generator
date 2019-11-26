@@ -50,7 +50,7 @@ namespace KY.Generator.AspDotNet.Readers
                     action.ReturnType = method.ReturnType.ToTransferObject();
                     if (action.ReturnType.Name == "ActionResult")
                     {
-                        action.ReturnType = action.ReturnType.Generics.Single();
+                        action.ReturnType = action.ReturnType.Generics.Single().Type;
                     }
                     action.Route = attributeType.GetProperty("Template")?.GetValue(attribute)?.ToString();
                     int methodNameIndex = 1;

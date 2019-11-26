@@ -97,6 +97,22 @@ namespace KY.Generator.Reflection.Tests.Properties {
         /// <summary>
         ///   Looks up a localized string similar to // tslint:disable
         ///
+        ///import { GenericType } from &quot;./generic-type&quot;;
+        ///import { InnerCustomType } from &quot;./inner-custom-type&quot;;
+        ///
+        ///export class ExportedType {
+        ///    public listing: GenericType&lt;InnerCustomType&gt;[];
+        ///}.
+        /// </summary>
+        internal static string exported_type_ts {
+            get {
+                return ResourceManager.GetString("exported_type_ts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to // tslint:disable
+        ///
         ///export interface IFirst {
         ///    firstProperty: string;
         ///}.
@@ -104,6 +120,20 @@ namespace KY.Generator.Reflection.Tests.Properties {
         internal static string first_interface_ts {
             get {
                 return ResourceManager.GetString("first_interface_ts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to // tslint:disable
+        ///
+        ///export class GenericType&lt;T&gt; {
+        ///    public value1: number;
+        ///	public genericValue: T;
+        ///}.
+        /// </summary>
+        internal static string generic_type_ts {
+            get {
+                return ResourceManager.GetString("generic_type_ts", resourceCulture);
             }
         }
         
@@ -135,6 +165,19 @@ namespace KY.Generator.Reflection.Tests.Properties {
         internal static string inherit_interface_type_ts {
             get {
                 return ResourceManager.GetString("inherit_interface_type_ts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to // tslint:disable
+        ///
+        ///export class InnerCustomType {
+        ///    public customValue1: number;
+        ///}.
+        /// </summary>
+        internal static string inner_custom_type_ts {
+            get {
+                return ResourceManager.GetString("inner_custom_type_ts", resourceCulture);
             }
         }
         

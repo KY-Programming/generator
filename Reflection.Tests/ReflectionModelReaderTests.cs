@@ -88,7 +88,7 @@ namespace KY.Generator.Reflection.Tests
             Assert.AreEqual("BasedOnStringList", objects[0].Name);
             Assert.AreEqual("List", objects[0].BasedOn.Name);
             Assert.AreEqual(1, objects[0].BasedOn.Generics.Count, "Unexpected number of generics");
-            Assert.AreEqual("String", objects[0].BasedOn.Generics[0].Name);
+            Assert.AreEqual("String", objects[0].BasedOn.Generics[0].Type.Name);
         }
 
         [TestMethod]
@@ -99,7 +99,7 @@ namespace KY.Generator.Reflection.Tests
             Assert.AreEqual("BasedOnSubtypeList", objects[0].Name);
             Assert.AreEqual("List", objects[0].BasedOn.Name);
             Assert.AreEqual(1, objects[0].BasedOn.Generics.Count, "Unexpected number of generics");
-            Assert.AreEqual("SubType", objects[0].BasedOn.Generics[0].Name);
+            Assert.AreEqual("SubType", objects[0].BasedOn.Generics[0].Type.Name);
             Assert.AreEqual("SubType", objects[1].Name);
         }
 
@@ -107,48 +107,48 @@ namespace KY.Generator.Reflection.Tests
         public void BasedOnCustomGenericString()
         {
             List<ModelTransferObject> objects = this.Read(typeof(BasedOnCustomGenericString));
-            Assert.AreEqual(1, objects.Count, "Unexpected number of models");
+            Assert.AreEqual(2, objects.Count, "Unexpected number of models");
             Assert.AreEqual("BasedOnCustomGenericString", objects[0].Name);
             Assert.AreEqual("CustomGeneric", objects[0].BasedOn.Name);
+            Assert.AreEqual("CustomGeneric", objects[1].Name);
             Assert.AreEqual(1, objects[0].BasedOn.Generics.Count, "Unexpected number of generics");
-            Assert.AreEqual("String", objects[0].BasedOn.Generics[0].Name);
         }
 
         [TestMethod]
         public void BasedOnCustomGenericSubtype()
         {
             List<ModelTransferObject> objects = this.Read(typeof(BasedOnCustomGenericSubtype));
-            Assert.AreEqual(2, objects.Count, "Unexpected number of models");
+            Assert.AreEqual(3, objects.Count, "Unexpected number of models");
             Assert.AreEqual("BasedOnCustomGenericSubtype", objects[0].Name);
             Assert.AreEqual("CustomGeneric", objects[0].BasedOn.Name);
             Assert.AreEqual(1, objects[0].BasedOn.Generics.Count, "Unexpected number of generics");
-            Assert.AreEqual("SubType", objects[0].BasedOn.Generics[0].Name);
-            Assert.AreEqual("SubType", objects[1].Name);
+            Assert.AreEqual("CustomGeneric", objects[1].Name);
+            Assert.AreEqual("SubType", objects[2].Name);
         }
 
         [TestMethod]
         public void CustomGenericStringProperty()
         {
             List<ModelTransferObject> objects = this.Read(typeof(CustomGenericStringProperty));
-            Assert.AreEqual(1, objects.Count, "Unexpected number of models");
+            Assert.AreEqual(2, objects.Count, "Unexpected number of models");
             Assert.AreEqual("CustomGenericStringProperty", objects[0].Name);
             Assert.AreEqual(1, objects[0].Properties.Count, "Unexpected number of properties");
             Assert.AreEqual("CustomGeneric", objects[0].Properties[0].Type.Name);
             Assert.AreEqual(1, objects[0].Properties[0].Type.Generics.Count, "Unexpected number of generics");
-            Assert.AreEqual("String", objects[0].Properties[0].Type.Generics[0].Name);
+            Assert.AreEqual("CustomGeneric", objects[1].Name);
         }
 
         [TestMethod]
         public void CustomGenericSubtypeProperty()
         {
             List<ModelTransferObject> objects = this.Read(typeof(CustomGenericSubtypeProperty));
-            Assert.AreEqual(2, objects.Count, "Unexpected number of models");
+            Assert.AreEqual(3, objects.Count, "Unexpected number of models");
             Assert.AreEqual("CustomGenericSubtypeProperty", objects[0].Name);
             Assert.AreEqual(1, objects[0].Properties.Count, "Unexpected number of properties");
             Assert.AreEqual("CustomGeneric", objects[0].Properties[0].Type.Name);
             Assert.AreEqual(1, objects[0].Properties[0].Type.Generics.Count, "Unexpected number of generics");
-            Assert.AreEqual("SubType", objects[0].Properties[0].Type.Generics[0].Name);
-            Assert.AreEqual("SubType", objects[1].Name);
+            Assert.AreEqual("CustomGeneric", objects[1].Name);
+            Assert.AreEqual("SubType", objects[2].Name);
         }
 
         private List<ModelTransferObject> Read(Type type)
