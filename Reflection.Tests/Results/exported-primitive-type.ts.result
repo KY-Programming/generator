@@ -1,0 +1,7 @@
+// tslint:disable
+
+import { GenericType } from "./generic-type";
+
+export class ExportedPrimitiveType {
+    public value: GenericType<number>;
+}

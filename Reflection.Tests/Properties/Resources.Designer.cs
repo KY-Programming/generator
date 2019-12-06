@@ -100,6 +100,22 @@ namespace KY.Generator.Reflection.Tests.Properties {
         ///import { GenericType } from &quot;./generic-type&quot;;
         ///import { InnerCustomType } from &quot;./inner-custom-type&quot;;
         ///
+        ///export class ExportedPrimitiveType {
+        ///    public value: GenericType&lt;double&gt;;
+        ///}.
+        /// </summary>
+        internal static string exported_primitive_type_ts {
+            get {
+                return ResourceManager.GetString("exported_primitive_type_ts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to // tslint:disable
+        ///
+        ///import { GenericType } from &quot;./generic-type&quot;;
+        ///import { InnerCustomType } from &quot;./inner-custom-type&quot;;
+        ///
         ///export class ExportedType {
         ///    public listing: GenericType&lt;InnerCustomType&gt;[];
         ///}.
@@ -128,7 +144,7 @@ namespace KY.Generator.Reflection.Tests.Properties {
         ///
         ///export class GenericType&lt;T&gt; {
         ///    public value1: number;
-        ///	public genericValue: T;
+        ///    public genericValue: T;
         ///}.
         /// </summary>
         internal static string generic_type_ts {

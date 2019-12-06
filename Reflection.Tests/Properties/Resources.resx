@@ -124,6 +124,9 @@
   <data name="base_class_and_two_interfaces_type_ts" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Results\base-class-and-two-interfaces-type.ts.result;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
+  <data name="exported_primitive_type_ts" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Results\exported-primitive-type.ts.result;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
   <data name="exported_type_ts" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Results\exported-type.ts.result;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>

@@ -101,6 +101,16 @@ namespace KY.Generator.Reflection.Tests
             Assert.AreEqual(Resources.inner_custom_type_ts, this.output.Files["inner-custom-type.ts"]);
         }
 
+        [TestMethod]
+        public void ExportedTypeWithPrimitiveTypeTest()
+        {
+            bool success = this.RunByTypeName(nameof(ExportedPrimitiveType));
+            Assert.AreEqual(true, success, "Generation not successful");
+            Assert.AreEqual(2, this.output.Files.Count);
+            Assert.AreEqual(Resources.exported_primitive_type_ts, this.output.Files["exported-primitive-type.ts"]);
+            Assert.AreEqual(Resources.generic_type_ts, this.output.Files["generic-type.ts"]);
+        }
+
         private bool RunByTypeName(string typeName)
         {
             return this.generator.SetParameters(

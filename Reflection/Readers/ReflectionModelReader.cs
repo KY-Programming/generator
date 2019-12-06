@@ -107,8 +107,11 @@ namespace KY.Generator.Reflection.Readers
                 {
                     string alias = genericMapping.Count > 1 ? $"T{genericMapping.Count}" : "T";
                     genericMapping.Add(argument, alias);
-                    model.Generics.Add(new GenericAliasTransferObject { Alias = alias });
-                    this.Read(argument, transferObjects);
+                    model.Generics.Add(new GenericAliasTransferObject
+                                       {
+                                           Alias = alias, 
+                                           Type = this.Read(argument, transferObjects)
+                                       });
                 }
             }
 

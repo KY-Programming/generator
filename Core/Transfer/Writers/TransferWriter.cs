@@ -52,7 +52,7 @@ namespace KY.Generator.Transfer.Writers
         protected virtual void MapType(ILanguage fromLanguage, ILanguage toLanguage, TypeTransferObject type)
         {
             this.TypeMapping.Get(fromLanguage, toLanguage, type);
-            type.Generics.Where(x => x.Alias == null).ForEach(x => this.MapType(fromLanguage, toLanguage, x.Type));
+            type.Generics.ForEach(x => this.MapType(fromLanguage, toLanguage, x.Type));
         }
 
         protected virtual FieldTemplate AddField(ModelTransferObject model, string name, TypeTransferObject type, ClassTemplate classTemplate, IConfiguration configuration)
