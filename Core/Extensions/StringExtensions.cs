@@ -63,24 +63,6 @@ namespace KY.Generator.Extensions
                 }
                 yield return match;
             }
-            
-            yield break;
-            CaseType previousType = CaseType.Upper;
-            int lastChunk = 0;
-            for (int index = 0; index < value.Length; index++)
-            {
-                CaseType caseType = GetCaseType(value[index]);
-                if (index > 0 && caseType != previousType)
-                {
-                    yield return value.Substring(lastChunk, index);
-                    lastChunk = index;
-                }
-                previousType = caseType;
-            }
-            if (lastChunk < value.Length - 1)
-            {
-                yield return value.Substring(lastChunk, value.Length);
-            }
         }
 
         private static CaseType GetCaseType(char value)

@@ -24,7 +24,7 @@ namespace KY.Generator.Command
             List<IGeneratorCommand> commandsToRun = this.commands.Where(x => x.Names.Any(name => name.Equals(configuration.Command, StringComparison.InvariantCultureIgnoreCase))).ToList();
             if (commandsToRun.Count == 0)
             {
-                Logger.Trace($"Command '{configuration.Command}' not found");
+                Logger.Error($"Command '{configuration.Command}' not found");
             }
             return commandsToRun.Select(x => x.Generate(configuration, output)).ToList().Any(x => x);
         }

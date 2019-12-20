@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>KY.Generator.CLI.Standalone</id>
-    <version>2.9.0</version>
+    <version>3.0.0-rc.2</version>
     <title>KY.Generator.CLI</title>
     <authors>KY-Programming</authors>
     <owners>KY-Programming</owners>
@@ -10,7 +10,7 @@
     <projectUrl>https://github.com/KY-Programming/generator</projectUrl>
     <iconUrl>https://ky-programming.de/images/logos/128.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>KY-Generator .NET Framework CLI Standalone containing all features without dependencies.
+    <description>KY-Generator .NET Framework CLI Standalone containing basic features without dependencies.
 Generate classes from oData, .NET assembly, JSON or TSQL to C# or TypeScript. Support Angular, ASP.NET, ASP.NET Core, C# POCOs, TypeScript POCOs, Entity Framework and more.</description>
     <releaseNotes></releaseNotes>
     <copyright>Copyright 2019</copyright>

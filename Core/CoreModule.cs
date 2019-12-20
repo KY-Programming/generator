@@ -39,7 +39,8 @@ namespace KY.Generator
                 .Map<CookieConfiguration, CookieReader>("cookie");
             this.DependencyResolver.Get<WriterConfigurationMapping>()
                 .Map<GeneratorConfiguration, GeneratorGenerator>("generator")
-                .Map<ModelWriteConfiguration, ModelWriter>("model");
+                .Map<ModelWriteConfiguration, ModelWriter>("model")
+                .Map<DemoConfiguration, DemoWriter>("demo");
         }
     }
 }

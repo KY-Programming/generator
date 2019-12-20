@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>2.9.0</Version>
+    <Version>3.0.0-rc.0</Version>
     <Authors>KY-Programming</Authors>
     <Company>KY-Programming</Company>
     <Product>KY.Generator</Product>
@@ -17,7 +17,7 @@ Download KY.Generator.CLI to use this module</Description>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="KY.Core.Common" Version="4.7.3" />
+    <PackageReference Include="KY.Core.Common" Version="4.8.0-rc.4" />
   </ItemGroup>
 
   <ItemGroup>

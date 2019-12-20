@@ -32,6 +32,7 @@ namespace KY.Generator
                                     .PreloadModule<TsqlModule>()
                                     .PreloadModule<TypeScriptModule>()
                                     .PreloadModule<WatchdogModule>()
+                                    .SetStandalone()
                                     .SetParameters(args)
                                     .Run();
             if (!success)

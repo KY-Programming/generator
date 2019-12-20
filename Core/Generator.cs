@@ -13,7 +13,6 @@ using KY.Generator.Mappings;
 using KY.Generator.Module;
 using KY.Generator.Output;
 using KY.Generator.Syntax;
-using KY.Generator.Transfer;
 using KY.Generator.Transfer.Readers;
 using KY.Generator.Transfer.Writers;
 
@@ -30,7 +29,7 @@ namespace KY.Generator
         public Generator()
         {
             Logger.CatchAll();
-            Logger.Trace($"KY Generator v{Assembly.GetCallingAssembly().GetName().Version}");
+            Logger.Trace($"KY-Generator v{Assembly.GetCallingAssembly().GetName().Version}");
             Logger.Trace("Current Directory: " + Environment.CurrentDirectory);
             Logger.Trace("Log Directory: " + Logger.File.Path);
 
@@ -150,11 +149,24 @@ namespace KY.Generator
                 Logger.Error("No parameters found. Provide at least a command or a path to a configuration file. Generation aborted!");
                 return this;
             }
+            if (parameters.Any(parameter => "msbuild".Equals(parameter)))
+            {
+                Logger.Trace("MsBuild trace mode activated");
+                Logger.WarningTargets.Add(Logger.MsBuildOutput);
+                Logger.ErrorTargets.Add(Logger.MsBuildOutput);
+                Logger.WarningTargets.Remove(Logger.VisualStudioOutput);
+                Logger.ErrorTargets.Remove(Logger.VisualStudioOutput);
+            }
 
             if (FileSystem.FileExists(parameters.First()))
             {
                 return this.SetOutput(parameters.Skip(1).FirstOrDefault())
                            .ReadConfiguration(parameters.First());
+            }
+            if (parameters.First().Contains(":\\"))
+            {
+                Logger.Error($"'{parameters.First()}' not found");
+                return this;
             }
             return this.ParseCommand(parameters);
         }
@@ -171,19 +183,25 @@ namespace KY.Generator
 
         public bool Run()
         {
+            bool result;
             try
             {
-                return this.resolver.Get<CommandRunner>().Run(this.command, this.output);
+                result = this.resolver.Get<CommandRunner>().Run(this.command, this.output);
             }
             catch (Exception exception)
             {
                 Logger.Error(exception);
+                result = false;
             }
             finally
             {
                 Logger.Trace("===============================");
             }
-            return false;
+            if (!result && Logger.ErrorTargets.Contains(Logger.MsBuildOutput))
+            {
+                Logger.Error($"See the full log in: {Logger.File.Path}");
+            }
+            return result;
         }
     }
 }

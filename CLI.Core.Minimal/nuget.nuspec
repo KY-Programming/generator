@@ -2,7 +2,8 @@
 <package >
   <metadata>
     <id>KY.Generator.CLI.Core.Minimal</id>
-    <version>2.9.0</version>
+    <!-- Ensure nuget.targets version is also updated -->
+    <version>3.0.0-rc.1</version>
     <title>KY.Generator.CLI.Core.Minimal</title>
     <authors>KY-Programming</authors>
     <owners>KY-Programming</owners>
@@ -15,12 +16,10 @@ Generate classes from oData, .NET assembly, JSON or TSQL to C# or TypeScript. Su
     <releaseNotes></releaseNotes>
     <copyright>Copyright 2019</copyright>
     <tags>KY-Generator KY Generator .netCore CLI</tags>
-    <dependencies>
-      <dependency id="KY.Generator.Core" version="2.9.0" />
-    </dependencies>
   </metadata>
   <files>
     <file src="bin\Release\netcoreapp2.2\publish\**\*.dll" target="tools" />
     <file src="bin\Release\netcoreapp2.2\publish\**\*.json" target="tools" />
+    <file src="nuget.targets" target="build\KY.Generator.CLI.Core.Minimal.targets" />
   </files>
 </package>

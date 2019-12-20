@@ -5,7 +5,7 @@
     <Company>KY-Programming</Company>
     <Authors>KY-Programming</Authors>
     <Product>KY.Generator</Product>
-    <Version>2.9.0</Version>
+    <Version>3.0.0-rc.0</Version>
     <Description>TSQL Module for KY-Generator
 Download KY.Generator.CLI to use this module</Description>
     <Copyright>2019 - KY-Programming</Copyright>
@@ -18,7 +18,7 @@ Download KY.Generator.CLI to use this module</Description>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="KY.Core.Common" Version="4.7.3" />
+    <PackageReference Include="KY.Core.Common" Version="4.8.0-rc.4" />
     <PackageReference Include="KY.Core.Sql" Version="5.0.0" />
   </ItemGroup>
 

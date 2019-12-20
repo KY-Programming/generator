@@ -141,9 +141,7 @@ namespace KY.Generator.Reflection.Readers
                                                                     Name = property.Name,
                                                                     Type = genericMapping.ContainsKey(property.PropertyType)
                                                                                ? new TypeTransferObject { Name = genericMapping[property.PropertyType] }
-                                                                               : this.Read(property.PropertyType, transferObjects),
-                                                                    CanRead = property.CanRead,
-                                                                    CanWrite = property.CanWrite
+                                                                               : this.Read(property.PropertyType, transferObjects)
                                                                 };
                 model.Properties.Add(propertyTransferObject);
             }

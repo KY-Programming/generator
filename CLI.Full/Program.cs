@@ -12,7 +12,7 @@ using KY.Generator.Tsql;
 using KY.Generator.TypeScript;
 using KY.Generator.Watchdog;
 
-namespace KY.Generator
+namespace KY.Generator.CLI.Full
 {
     internal class Program
     {
@@ -32,7 +32,6 @@ namespace KY.Generator
                                     .PreloadModule<TsqlModule>()
                                     .PreloadModule<TypeScriptModule>()
                                     .PreloadModule<WatchdogModule>()
-                                    .SetStandalone()
                                     .SetParameters(args)
                                     .Run();
             if (!success)

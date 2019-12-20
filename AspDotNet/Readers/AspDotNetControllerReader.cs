@@ -25,7 +25,7 @@ namespace KY.Generator.AspDotNet.Readers
             configuration.Controller.AssertIsNotNull($"ASP: {nameof(configuration.Controller)}");
             configuration.Controller.Name.AssertIsNotNull($"ASP: {nameof(configuration.Controller)}.{nameof(configuration.Controller.Name)}");
             configuration.Controller.Namespace.AssertIsNotNull($"ASP: {nameof(configuration.Controller)}.{nameof(configuration.Controller.Namespace)}");
-            Logger.Trace($"Read ASP.NET controller {configuration.Controller.Namespace}{configuration.Controller.Name}...");
+            Logger.Trace($"Read ASP.NET controller {configuration.Controller.Namespace}.{configuration.Controller.Name}...");
             Type type = GeneratorTypeLoader.Get(configuration, configuration.Controller.Assembly, configuration.Controller.Namespace, configuration.Controller.Name);
             if (type == null)
             {
@@ -42,12 +42,21 @@ namespace KY.Generator.AspDotNet.Readers
             MethodInfo[] methods = type.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
             foreach (MethodInfo method in methods)
             {
-                this.modelReader.Read(method.ReturnType, transferObjects);
+                Type returnType;
+                if (method.ReturnType.Namespace == "System.Threading.Tasks" && method.ReturnType.Name == "Task`1")
+                {
+                    returnType = method.ReturnType.GetGenericArguments().Single();
+                }
+                else
+                {
+                    returnType = method.ReturnType;
+                }
+                this.modelReader.Read(returnType, transferObjects);
                 foreach (Attribute attribute in method.GetCustomAttributes())
                 {
                     Type attributeType = attribute.GetType();
                     HttpServiceActionTransferObject action = new HttpServiceActionTransferObject();
-                    action.ReturnType = method.ReturnType.ToTransferObject();
+                    action.ReturnType = returnType.ToTransferObject();
                     if (action.ReturnType.Name == "ActionResult")
                     {
                         action.ReturnType = action.ReturnType.Generics.Single().Type;
