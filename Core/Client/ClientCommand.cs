@@ -11,7 +11,7 @@ namespace KY.Generator.Client
     {
         public string[] Names { get; } = { "client" };
 
-        public bool Generate(CommandConfiguration configuration, IOutput output)
+        public bool Generate(CommandConfiguration configuration, ref IOutput output)
         {
             string outputPath = configuration.Parameters.GetString("output");
             if (!string.IsNullOrEmpty(outputPath))

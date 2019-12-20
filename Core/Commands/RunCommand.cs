@@ -26,7 +26,7 @@ namespace KY.Generator.Commands
             this.runner = runner;
         }
 
-        public bool Generate(CommandConfiguration configuration, IOutput output)
+        public bool Generate(CommandConfiguration configuration, ref IOutput output)
         {
             Logger.Trace("Execute run command...");
             string outputPath = configuration.Parameters.GetString("output");

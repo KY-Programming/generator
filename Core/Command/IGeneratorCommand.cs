@@ -5,6 +5,6 @@ namespace KY.Generator.Command
     public interface IGeneratorCommand
     {
         string[] Names { get; }
-        bool Generate(CommandConfiguration configuration, IOutput output);
+        bool Generate(CommandConfiguration configuration, ref IOutput output);
     }
 }

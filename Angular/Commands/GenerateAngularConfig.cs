@@ -10,7 +10,7 @@ namespace KY.Generator.Angular.Commands
         public override string SubCommand => "angular-config";
         public override List<string> RequiredParameters => new List<string> { "url" };
 
-        protected override void OnGenerate(CommandConfiguration configuration, IOutput output)
+        protected override void OnGenerate(CommandConfiguration configuration, ref IOutput output)
         {
             this.GetTemplate("generator.json")
                 .SetVariable("url", configuration.Parameters.GetString("url"))

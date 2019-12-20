@@ -16,6 +16,14 @@ namespace KY.Generator.Output
             this.Files.Add(fileName, content);
         }
 
+        public void Delete(string fileName)
+        {
+            this.Files.Remove(fileName);
+        }
+
+        public void Execute()
+        { }
+
         public override string ToString()
         {
             return "Memory";

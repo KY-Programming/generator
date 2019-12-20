@@ -1,36 +1,47 @@
-﻿using System.Text;
-using KY.Core;
+﻿using System;
+using System.Collections.Generic;
 using KY.Core.DataAccess;
 
 namespace KY.Generator.Output
 {
     public class FileOutput : IOutput
     {
+        private readonly List<IOutputAction> actions;
         private readonly string basePath;
 
         public FileOutput(string basePath)
         {
+            this.actions = new List<IOutputAction>();
             this.basePath = basePath;
         }
 
         public void Write(string fileName, string content)
         {
-            string filePath = FileSystem.Combine(this.basePath, fileName.Trim('\\'));
-            FileSystem.CreateDirectory(FileSystem.Parent(filePath));
-            if (!FileSystem.FileExists(filePath) || FileSystem.ReadAllText(filePath) != content)
-            {
-                Logger.Trace($"Write file {filePath}");
-                FileSystem.WriteAllText(filePath, content, Encoding.UTF8);
-            }
-            else
-            {
-                Logger.Trace($"File has no changes {filePath}");
-            }
+            string filePath = this.ToFilePath(fileName);
+            this.RemovePreviousActions(filePath);
+            this.actions.Add(new OutputWriteAction(filePath, content));
         }
 
-        public override string ToString()
+        public void Delete(string fileName)
         {
-            return this.basePath;
+            string filePath = this.ToFilePath(fileName);
+            this.RemovePreviousActions(filePath);
+            this.actions.Add(new OutputDeleteAction(filePath));
+        }
+
+        public void Execute()
+        {
+            this.actions.ForEach(action => action.Execute());
+        }
+
+        private void RemovePreviousActions(string fileName)
+        {
+            this.actions.RemoveAll(action => action.FilePath.Equals(fileName, StringComparison.InvariantCultureIgnoreCase));
+        }
+
+        private string ToFilePath(string fileName)
+        {
+            return FileSystem.Combine(this.basePath, fileName.Trim('\\'));
         }
     }
 }

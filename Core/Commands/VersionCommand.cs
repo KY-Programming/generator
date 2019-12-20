@@ -10,7 +10,7 @@ namespace KY.Generator.Commands
     {
         public string[] Names { get; } = { "version", "-version", "--version", "v", "-v", "--v" };
 
-        public bool Generate(CommandConfiguration configuration, IOutput output)
+        public bool Generate(CommandConfiguration configuration, ref IOutput output)
         {
             bool detailed = configuration.Parameters.GetBool("d");
             Logger.Trace("Execute version command...");

@@ -29,7 +29,7 @@ namespace KY.Generator.Reflection.Commands
             this.writer = writer;
         }
 
-        public bool Generate(CommandConfiguration configuration, IOutput output)
+        public bool Generate(CommandConfiguration configuration, ref IOutput output)
         {
             //Type type = reflectionConfiguration.GetType();
             //foreach (CommandParameter parameter in configuration.Parameters)

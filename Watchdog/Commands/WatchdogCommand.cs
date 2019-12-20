@@ -25,7 +25,7 @@ namespace KY.Generator.Watchdog.Commands
             this.resolver = resolver;
         }
 
-        public bool Generate(CommandConfiguration configuration, IOutput output)
+        public bool Generate(CommandConfiguration configuration, ref IOutput output)
         {
             Logger.Trace("Execute watchdog command...");
             if (configuration.Parameters.GetBool("async"))

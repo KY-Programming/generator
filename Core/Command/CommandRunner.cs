@@ -26,7 +26,12 @@ namespace KY.Generator.Command
             {
                 Logger.Error($"Command '{configuration.Command}' not found");
             }
-            return commandsToRun.Select(x => x.Generate(configuration, output)).ToList().Any(x => x);
+            bool success = commandsToRun.Select(x => x.Generate(configuration, ref output)).ToList().Any(x => x);
+            if (success)
+            {
+                output.Execute();
+            }
+            return success;
         }
     }
 }

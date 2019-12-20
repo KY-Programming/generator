@@ -13,7 +13,7 @@ namespace KY.Generator.Command
         public abstract string SubCommand { get; }
         public virtual List<string> RequiredParameters => new List<string>();
 
-        public bool Generate(CommandConfiguration configuration, IOutput output)
+        public bool Generate(CommandConfiguration configuration, ref IOutput output)
         {
             Logger.Trace("Execute variable command...");
             if (configuration.Parameters.All(x => !x.Name.Equals(this.SubCommand, StringComparison.InvariantCultureIgnoreCase)))
@@ -27,11 +27,11 @@ namespace KY.Generator.Command
                     throw new ArgumentNullException(requiredParameter);
                 }
             }
-            this.OnGenerate(configuration, output);
+            this.OnGenerate(configuration, ref output);
             return true;
         }
 
-        protected abstract void OnGenerate(CommandConfiguration configuration, IOutput output);
+        protected abstract void OnGenerate(CommandConfiguration configuration, ref IOutput output);
 
         protected TemplateSyntax GetTemplate(string template)
         {
