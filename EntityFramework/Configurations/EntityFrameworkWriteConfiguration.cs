@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using KY.Generator.Configuration;
 using KY.Generator.Configurations;
 using KY.Generator.Csharp.Languages;
 
@@ -13,6 +12,7 @@ namespace KY.Generator.EntityFramework.Configurations
         public List<EntityFrameworkWriteRepositoryConfiguration> Repositories { get; set; }
         public virtual bool IsCore => false;
         public List<string> Usings { get; set; }
+
         //public List<IFluentLanguageElement> Fluent { get; private set; }
         public EntityFrameworkDataContextConfiguration DataContext { get; set; }
 
@@ -20,7 +20,7 @@ namespace KY.Generator.EntityFramework.Configurations
         {
             this.Language = CsharpLanguage.Instance;
             this.Repositories = new List<EntityFrameworkWriteRepositoryConfiguration>();
-            this.Usings= new List<string>();
+            this.Usings = new List<string>();
             //this.Fluent = new List<IFluentLanguageElement>();
             this.DataContext = new EntityFrameworkDataContextConfiguration();
         }

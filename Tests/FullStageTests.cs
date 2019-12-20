@@ -26,8 +26,7 @@ namespace KY.Generator.Tests
             this.resolver = new DependencyResolver();
             this.resolver.Bind<ITypeMapping>().ToSingleton<TypeMapping>();
             this.resolver.Bind<IConfigurationReaderVersion>().To<ConfigurationReaderVersion2>();
-            this.resolver.Bind<ReaderConfigurationMapping>().ToSingleton();
-            this.resolver.Bind<WriterConfigurationMapping>().ToSingleton();
+            this.resolver.Bind<ConfigurationMapping>().ToSingleton();
             this.resolver.Create<CoreModule>().Initialize();
             this.resolver.Create<CsharpModule>().Initialize();
             this.resolver.Create<TsqlModule>().Initialize();
@@ -52,7 +51,7 @@ namespace KY.Generator.Tests
         private bool Run(string configuration)
         {
             List<ConfigurationSet> configurations = this.reader.Parse(configuration);
-            configurations.ForEach(x => x.Writers.ForEach(y => y.AddHeader = false));
+            configurations.ForEach(x => x.Configurations.ForEach(y => y.AddHeader = false));
             return this.runner.Run(configurations, this.output);
         }
     }

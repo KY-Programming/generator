@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using KY.Generator.Configuration;
 using KY.Generator.Configurations;
 
 namespace KY.Generator.Transfer.Readers

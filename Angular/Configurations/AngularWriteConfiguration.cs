@@ -1,5 +1,4 @@
-﻿using KY.Generator.Configuration;
-using KY.Generator.Configurations;
+﻿using KY.Generator.Configurations;
 using KY.Generator.TypeScript.Languages;
 
 namespace KY.Generator.Angular.Configurations

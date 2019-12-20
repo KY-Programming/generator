@@ -41,8 +41,7 @@ namespace KY.Generator
             this.resolver.Bind<CommandRunner>().ToSelf();
             this.resolver.Bind<ModuleFinder>().ToSelf();
             this.resolver.Bind<IConfigurationReaderVersion>().To<ConfigurationReaderVersion2>();
-            this.resolver.Bind<ReaderConfigurationMapping>().ToSingleton();
-            this.resolver.Bind<WriterConfigurationMapping>().ToSingleton();
+            this.resolver.Bind<ConfigurationMapping>().ToSingleton();
             this.resolver.Bind<ConfigurationRunner>().ToSelf();
             this.resolver.Bind<ModelWriter>().ToSelf();
             StaticResolver.Resolver = this.resolver;
@@ -95,7 +94,7 @@ namespace KY.Generator
             where TConfiguration : ConfigurationBase
             where TReader : ITransferReader
         {
-            this.resolver.Get<ReaderConfigurationMapping>().Map<TConfiguration, TReader>(name);
+            this.resolver.Get<ConfigurationMapping>().Map<TConfiguration, TReader>(name);
             return this;
         }
 
@@ -103,7 +102,7 @@ namespace KY.Generator
             where TConfiguration : ConfigurationBase
             where TWriter : ITransferWriter
         {
-            this.resolver.Get<WriterConfigurationMapping>().Map<TConfiguration, TWriter>(name);
+            this.resolver.Get<ConfigurationMapping>().Map<TConfiguration, TWriter>(name);
             return this;
         }
 

@@ -5,13 +5,11 @@ namespace KY.Generator.Configuration
 {
     public class ConfigurationSet
     {
-        public List<ConfigurationBase> Readers { get; }
-        public List<ConfigurationBase> Writers { get; }
+        public List<ConfigurationBase> Configurations { get; }
 
         public ConfigurationSet()
         {
-            this.Readers = new List<ConfigurationBase>();
-            this.Writers = new List<ConfigurationBase>();
+            this.Configurations = new List<ConfigurationBase>();
         }
     }
 }

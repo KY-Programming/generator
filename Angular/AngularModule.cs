@@ -17,7 +17,7 @@ namespace KY.Generator.Angular
         public override void Initialize()
         {
             this.DependencyResolver.Bind<IGeneratorCommand>().To<GenerateAngularConfig>();
-            this.DependencyResolver.Get<WriterConfigurationMapping>().Map<AngularWriteConfiguration, AngularWriter>("angular");
+            this.DependencyResolver.Get<ConfigurationMapping>().Map<AngularWriteConfiguration, AngularWriter>("angular");
         }
     }
 }

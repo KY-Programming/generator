@@ -17,7 +17,7 @@ namespace KY.Generator.Tsql
         public override void Initialize()
         {
             this.DependencyResolver.Get<ITypeMapping>().Initialize();
-            this.DependencyResolver.Get<ReaderConfigurationMapping>().Map<TsqlReadConfiguration, TsqlReader>("tsql");
+            this.DependencyResolver.Get<ConfigurationMapping>().Map<TsqlReadConfiguration, TsqlReader>("tsql");
         }
     }
 }

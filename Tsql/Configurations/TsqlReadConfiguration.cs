@@ -3,7 +3,7 @@ using KY.Generator.Configurations;
 
 namespace KY.Generator.Tsql.Configurations
 {
-    public class TsqlReadConfiguration : ConfigurationBase
+    public class TsqlReadConfiguration : ReadConfigurationBase
     { 
         public string Connection { get; set; }
         public List<TsqlReadEntity> Entities { get; }

@@ -23,13 +23,12 @@ namespace KY.Generator
 
         public bool Run(List<ConfigurationSet> configurations, IOutput output)
         {
-            ReaderConfigurationMapping readers = this.resolver.Get<ReaderConfigurationMapping>();
-            WriterConfigurationMapping writers = this.resolver.Get<WriterConfigurationMapping>();
+            ConfigurationMapping mapping = this.resolver.Get<ConfigurationMapping>();
             Logger.Trace($"Start generating {configurations.Count} configurations");
             bool success = true;
-            foreach (ConfigurationSet pair in configurations)
+            foreach (ConfigurationSet set in configurations)
             {
-                ConfigurationBase missingLanguage = pair.Writers.FirstOrDefault(x => x.Language == null && x.RequireLanguage);
+                ConfigurationBase missingLanguage = set.Configurations.FirstOrDefault(x => x.Language == null && x.RequireLanguage);
                 if (missingLanguage != null)
                 {
                     Logger.Trace($"Configuration '{missingLanguage.GetType().Name}' without language found. Generation failed!");
@@ -39,18 +38,16 @@ namespace KY.Generator
                 try
                 {
                     List<ITransferObject> transferObjects = new List<ITransferObject>();
-                    foreach (ConfigurationBase configuration in pair.Readers)
+                    foreach (ConfigurationBase configuration in set.Configurations)
                     {
-                        if (readers.Resolve(configuration) is ITransferReader reader)
+                        switch (mapping.Resolve(configuration))
                         {
-                            reader.Read(configuration, transferObjects);
-                        }
-                    }
-                    foreach (ConfigurationBase configuration in pair.Writers)
-                    {
-                        if (writers.Resolve(configuration) is ITransferWriter writer)
-                        {
-                            writer.Write(configuration, transferObjects, output);
+                            case ITransferReader reader:
+                                reader.Read(configuration, transferObjects);
+                                break;
+                            case ITransferWriter writer:
+                                writer.Write(configuration, transferObjects, output);
+                                break;
                         }
                     }
                 }

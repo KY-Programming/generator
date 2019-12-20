@@ -35,9 +35,8 @@ namespace KY.Generator
             this.DependencyResolver.Bind<IGeneratorCommand>().To<VersionCommand>();
             this.DependencyResolver.Bind<IGeneratorCommand>().To<RunCommand>();
             this.DependencyResolver.Bind<ILanguage>().To<EmptyLanguage>();
-            this.DependencyResolver.Get<ReaderConfigurationMapping>()
-                .Map<CookieConfiguration, CookieReader>("cookie");
-            this.DependencyResolver.Get<WriterConfigurationMapping>()
+            this.DependencyResolver.Get<ConfigurationMapping>()
+                .Map<CookieConfiguration, CookieReader>("cookie")
                 .Map<GeneratorConfiguration, GeneratorGenerator>("generator")
                 .Map<ModelWriteConfiguration, ModelWriter>("model")
                 .Map<DemoConfiguration, DemoWriter>("demo");

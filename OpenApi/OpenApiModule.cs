@@ -20,7 +20,7 @@ namespace KY.Generator.OpenApi
             this.DependencyResolver.Bind<OpenApiDocumentReader>().ToSelf();
             this.DependencyResolver.Bind<OpenApiFileReader>().ToSelf();
             this.DependencyResolver.Bind<OpenApiUrlReader>().ToSelf();
-            this.DependencyResolver.Get<ReaderConfigurationMapping>().Map<OpenApiReadConfiguration, OpenApiReader>("openApi");
+            this.DependencyResolver.Get<ConfigurationMapping>().Map<OpenApiReadConfiguration, OpenApiReader>("openApi");
             this.DependencyResolver.Get<ITypeMapping>().Initialize();
         }
     }

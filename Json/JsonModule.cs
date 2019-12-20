@@ -21,8 +21,9 @@ namespace KY.Generator.Json
         public override void Initialize()
         {
             this.DependencyResolver.Get<ITypeMapping>().Initialize();
-            this.DependencyResolver.Get<ReaderConfigurationMapping>().Map<JsonReadConfiguration, JsonReader>("json");
-            this.DependencyResolver.Get<WriterConfigurationMapping>().Map<JsonWriteConfiguration, JsonWriter>("json");
+            this.DependencyResolver.Get<ConfigurationMapping>()
+                .Map<JsonReadConfiguration, JsonReader>("json")
+                .Map<JsonWriteConfiguration, JsonWriter>("json");
         }
     }
 }

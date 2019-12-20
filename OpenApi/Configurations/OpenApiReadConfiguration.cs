@@ -2,7 +2,7 @@
 
 namespace KY.Generator.OpenApi.Configurations
 {
-    public class OpenApiReadConfiguration : ConfigurationBase
+    public class OpenApiReadConfiguration : ReadConfigurationBase
     {
         public string File { get; set; }
         public string Url { get; set; }

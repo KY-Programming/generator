@@ -15,9 +15,10 @@ namespace KY.Generator.AspDotNet
 
         public override void Initialize()
         {
-            this.DependencyResolver.Get<ReaderConfigurationMapping>().Map<AspDotNetReadConfiguration, AspDotNetReader>("asp");
-            this.DependencyResolver.Get<WriterConfigurationMapping>().Map<AspDotNetWriteConfiguration, AspDotNetWriter>("asp");
-            this.DependencyResolver.Get<WriterConfigurationMapping>().Map<AspDotNetCoreWriteConfiguration, AspDotNetWriter>("asp-core");
+            this.DependencyResolver.Get<ConfigurationMapping>()
+                .Map<AspDotNetReadConfiguration, AspDotNetReader>("asp")
+                .Map<AspDotNetWriteConfiguration, AspDotNetWriter>("asp")
+                .Map<AspDotNetCoreWriteConfiguration, AspDotNetWriter>("asp-core");
         }
     }
 }

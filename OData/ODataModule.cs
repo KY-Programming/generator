@@ -17,7 +17,7 @@ namespace KY.Generator.OData
         public override void Initialize()
         {
             this.DependencyResolver.Get<ITypeMapping>().Initialize();
-            this.DependencyResolver.Get<ReaderConfigurationMapping>().Map<ODataReadConfiguration, ODataReader>("odata-v4");
+            this.DependencyResolver.Get<ConfigurationMapping>().Map<ODataReadConfiguration, ODataReader>("odata-v4");
         }
     }
 }

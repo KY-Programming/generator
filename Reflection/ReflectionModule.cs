@@ -25,8 +25,9 @@ namespace KY.Generator.Reflection
             this.DependencyResolver.Bind<ReflectionModelReader>().ToSelf();
             this.DependencyResolver.Bind<ReflectionReader>().ToSelf();
             this.DependencyResolver.Bind<ReflectionWriter>().ToSelf();
-            this.DependencyResolver.Get<ReaderConfigurationMapping>().Map<ReflectionReadConfiguration, ReflectionReader>("reflection");
-            this.DependencyResolver.Get<WriterConfigurationMapping>().Map<ReflectionWriteConfiguration, ReflectionWriter>("reflection");
+            this.DependencyResolver.Get<ConfigurationMapping>()
+                .Map<ReflectionReadConfiguration, ReflectionReader>("reflection")
+                .Map<ReflectionWriteConfiguration, ReflectionWriter>("reflection");
         }
 
         public override void BeforeConfigure()

@@ -1,8 +1,7 @@
 ﻿namespace KY.Generator.Configurations
 {
-    public class DemoConfiguration : ConfigurationBase
+    public class DemoConfiguration : ReadConfigurationBase
     {
         public string Message { get; set; }
-        public override bool RequireLanguage => false;
     }
 }

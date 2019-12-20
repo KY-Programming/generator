@@ -11,7 +11,7 @@ namespace KY.Generator.EntityFramework
         public EntityFrameworkModule(IDependencyResolver dependencyResolver)
             : base(dependencyResolver)
         {
-            this.DependencyResolver.Get<WriterConfigurationMapping>()
+            this.DependencyResolver.Get<ConfigurationMapping>()
                 .Map<EntityFrameworkWriteConfiguration, EntityFrameworkWriter>("ef")
                 .Map<EntityFrameworkCoreWriteConfiguration, EntityFrameworkWriter>("ef-core");
         }

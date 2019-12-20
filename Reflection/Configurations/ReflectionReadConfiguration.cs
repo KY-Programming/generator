@@ -2,7 +2,7 @@
 
 namespace KY.Generator.Reflection.Configurations
 {
-    public class ReflectionReadConfiguration : ConfigurationBase
+    public class ReflectionReadConfiguration : ReadConfigurationBase
     {
         public string Assembly { get; set; }
         public string Name { get; set; }

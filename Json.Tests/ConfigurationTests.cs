@@ -24,10 +24,8 @@ namespace KY.Generator.Json.Tests
             this.resolver = new DependencyResolver();
             this.resolver.Bind<ITypeMapping>().To<TypeMapping>();
             this.resolver.Bind<IConfigurationReaderVersion>().To<ConfigurationReaderVersion2>();
-            this.resolver.Bind<ReaderConfigurationMapping>().ToSingleton();
-            this.resolver.Get<ReaderConfigurationMapping>();
-            this.resolver.Bind<WriterConfigurationMapping>().ToSingleton();
-            this.resolver.Get<WriterConfigurationMapping>();
+            this.resolver.Bind<ConfigurationMapping>().ToSingleton();
+            this.resolver.Get<ConfigurationMapping>();
             this.resolver.Create<CoreModule>().Initialize();
             this.resolver.Create<CsharpModule>().Initialize();
             this.resolver.Create<JsonModule>().Initialize();
@@ -37,12 +35,11 @@ namespace KY.Generator.Json.Tests
         [TestMethod]
         public void ReadSimpleConfiguration()
         {
-            List<ConfigurationSet> configurations = this.reader.Parse(Resources.simple_generator);
-            Assert.AreEqual(1, configurations.Count, "Unexpected number of configurations");
-            Assert.AreEqual(1, configurations[0].Readers.Count, "Unexpected number of readers");
-            Assert.AreEqual("Resources/simple.json", configurations[0].Readers[0].CastTo<JsonReadConfiguration>().Source);
-            Assert.AreEqual(1, configurations[0].Writers.Count, "Unexpected number of writers");
-            JsonWriteConfiguration writeConfiguration = configurations[0].Writers[0].CastTo<JsonWriteConfiguration>();
+            List<ConfigurationSet> sets = this.reader.Parse(Resources.simple_generator);
+            Assert.AreEqual(1, sets.Count, "Unexpected number of sets");
+            Assert.AreEqual(2, sets[0].Configurations.Count, "Unexpected number of configurations");
+            Assert.AreEqual("Resources/simple.json", sets[0].Configurations[0].CastTo<JsonReadConfiguration>().Source);
+            JsonWriteConfiguration writeConfiguration = sets[0].Configurations[1].CastTo<JsonWriteConfiguration>();
             Assert.AreEqual(CsharpLanguage.Instance, writeConfiguration.Language);
             Assert.AreEqual("SimpleWithoutReader", writeConfiguration.Object.Name);
             Assert.AreEqual("KY.Generator.Examples.Json", writeConfiguration.Object.Namespace);
@@ -52,12 +49,11 @@ namespace KY.Generator.Json.Tests
         [TestMethod]
         public void ReadSimpleWithReaderConfiguration()
         {
-            List<ConfigurationSet> configurations = this.reader.Parse(Resources.simple_with_reader_generator);
-            Assert.AreEqual(1, configurations.Count, "Unexpected number of configurations");
-            Assert.AreEqual(1, configurations[0].Readers.Count, "Unexpected number of readers");
-            Assert.AreEqual("Resources/simple.json", configurations[0].Readers[0].CastTo<JsonReadConfiguration>().Source);
-            Assert.AreEqual(1, configurations[0].Writers.Count, "Unexpected number of writers");
-            JsonWriteConfiguration writeConfiguration = configurations[0].Writers[0].CastTo<JsonWriteConfiguration>();
+            List<ConfigurationSet> sets = this.reader.Parse(Resources.simple_with_reader_generator);
+            Assert.AreEqual(1, sets.Count, "Unexpected number of sets");
+            Assert.AreEqual(2, sets[0].Configurations.Count, "Unexpected number of configurations");
+            Assert.AreEqual("Resources/simple.json", sets[0].Configurations[0].CastTo<JsonReadConfiguration>().Source);
+            JsonWriteConfiguration writeConfiguration = sets[0].Configurations[1].CastTo<JsonWriteConfiguration>();
             Assert.AreEqual(CsharpLanguage.Instance, writeConfiguration.Language);
             Assert.AreEqual("SimpleWithReader", writeConfiguration.Object.Name);
             Assert.AreEqual("KY.Generator.Examples.Json", writeConfiguration.Object.Namespace);
@@ -69,12 +65,11 @@ namespace KY.Generator.Json.Tests
         [TestMethod]
         public void ReadSimpleWithSeparateReaderConfiguration()
         {
-            List<ConfigurationSet> configurations = this.reader.Parse(Resources.simple_with_separate_reader_generator);
-            Assert.AreEqual(1, configurations.Count, "Unexpected number of configurations");
-            Assert.AreEqual(1, configurations[0].Readers.Count, "Unexpected number of readers");
-            Assert.AreEqual("Resources/simple.json", configurations[0].Readers[0].CastTo<JsonReadConfiguration>().Source);
-            Assert.AreEqual(1, configurations[0].Writers.Count, "Unexpected number of writers");
-            JsonWriteConfiguration writeConfiguration = configurations[0].Writers[0].CastTo<JsonWriteConfiguration>();
+            List<ConfigurationSet> sets = this.reader.Parse(Resources.simple_with_separate_reader_generator);
+            Assert.AreEqual(1, sets.Count, "Unexpected number of sets");
+            Assert.AreEqual(2, sets[0].Configurations.Count, "Unexpected number of configurations");
+            Assert.AreEqual("Resources/simple.json", sets[0].Configurations[0].CastTo<JsonReadConfiguration>().Source);
+            JsonWriteConfiguration writeConfiguration = sets[0].Configurations[1].CastTo<JsonWriteConfiguration>();
             Assert.AreEqual(CsharpLanguage.Instance, writeConfiguration.Language);
             Assert.AreEqual("Simple", writeConfiguration.Object.Name);
             Assert.AreEqual("KY.Generator.Examples.Json", writeConfiguration.Object.Namespace);
@@ -86,12 +81,11 @@ namespace KY.Generator.Json.Tests
         [TestMethod]
         public void ReadComplexConfiguration()
         {
-            List<ConfigurationSet> configurations = this.reader.Parse(Resources.complex_generator);
-            Assert.AreEqual(1, configurations.Count, "Unexpected number of configurations");
-            Assert.AreEqual(1, configurations[0].Readers.Count, "Unexpected number of readers");
-            Assert.AreEqual("Resources/complex.json", configurations[0].Readers[0].CastTo<JsonReadConfiguration>().Source);
-            Assert.AreEqual(1, configurations[0].Writers.Count, "Unexpected number of writers");
-            ModelWriteConfiguration writeConfiguration = configurations[0].Writers[0].CastTo<ModelWriteConfiguration>();
+            List<ConfigurationSet> sets = this.reader.Parse(Resources.complex_generator);
+            Assert.AreEqual(1, sets.Count, "Unexpected number of sets");
+            Assert.AreEqual(2, sets[0].Configurations.Count, "Unexpected number of configurations");
+            Assert.AreEqual("Resources/complex.json", sets[0].Configurations[0].CastTo<JsonReadConfiguration>().Source);
+            ModelWriteConfiguration writeConfiguration = sets[0].Configurations[1].CastTo<ModelWriteConfiguration>();
             Assert.AreEqual(CsharpLanguage.Instance, writeConfiguration.Language);
             Assert.AreEqual("Complex", writeConfiguration.Name);
             Assert.AreEqual("KY.Generator.Examples.Json", writeConfiguration.Namespace);

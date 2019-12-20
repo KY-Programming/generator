@@ -66,8 +66,7 @@ namespace KY.Generator.Commands
         {
             List<ConfigurationSet> configurations = this.Deserialize(configuration);
             ConfigurationEnvironment environment = new ConfigurationEnvironment(path, output.ToString());
-            configurations.SelectMany(x => x.Readers)
-                          .Concat(configurations.SelectMany(x => x.Writers))
+            configurations.SelectMany(x => x.Configurations)
                           .ForEach(x => x.Environment = environment);
             return this.Run(configurations, output);
         }
@@ -86,7 +85,7 @@ namespace KY.Generator.Commands
                 return false;
             }
             this.modules.OfType<GeneratorModule>().ForEach(x => x.BeforeRun());
-            if (configurations.Any(x => x.Readers.Any(y => !y.VerifySsl) || x.Writers.Any(y => !y.VerifySsl)))
+            if (configurations.Any(x => x.Configurations.Any(y => !y.VerifySsl)))
             {
                 ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
             }

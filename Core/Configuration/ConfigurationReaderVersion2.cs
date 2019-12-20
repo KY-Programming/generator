@@ -25,7 +25,7 @@ namespace KY.Generator.Configuration
             if (version.Generate is JObject obj)
             {
                 ConfigurationSet set = new ConfigurationSet();
-                this.ReadToPair(obj, set);
+                this.ReadToSet(obj, set);
                 list.Add(set);
             }
             else if (version.Generate is JArray array)
@@ -35,7 +35,7 @@ namespace KY.Generator.Configuration
                     ConfigurationSet set = new ConfigurationSet();
                     foreach (JObject entry in array.OfType<JObject>())
                     {
-                        this.ReadToPair(entry, set);
+                        this.ReadToSet(entry, set);
                     }
                     list.Add(set);
                 }
@@ -46,33 +46,27 @@ namespace KY.Generator.Configuration
                         ConfigurationSet set = new ConfigurationSet();
                         foreach (JObject entry in innerArray.OfType<JObject>())
                         {
-                            this.ReadToPair(entry, set);
+                            this.ReadToSet(entry, set);
                         }
                         list.Add(set);
                     }
                 }
             }
-            list.ForEach(pair => pair.Readers.ForEach(reader => reader.Formatting = reader.Formatting ?? version.Formatting));
-            list.ForEach(pair => pair.Writers.ForEach(writer => writer.Formatting = writer.Formatting ?? version.Formatting));
+            list.ForEach(pair => pair.Configurations.ForEach(configuration => configuration.Formatting = configuration.Formatting ?? version.Formatting));
             return list;
         }
 
-        private void ReadToPair(JToken token, ConfigurationSet set)
+        private void ReadToSet(JObject token, ConfigurationSet set)
         {
-            ReadOrWriteConfiguration configuration = token.ToObject<ReadOrWriteConfiguration>();
-            ReaderConfigurationMapping readers = this.resolver.Get<ReaderConfigurationMapping>();
-            WriterConfigurationMapping writers = this.resolver.Get<WriterConfigurationMapping>();
-            if (configuration.Read != null)
+            ConfigurationMapping mapping = this.resolver.Get<ConfigurationMapping>();
+            List<string> actions = mapping.GetActions();
+            JProperty property = token.Properties().FirstOrDefault(p => actions.Any(action => action.Equals(p.Name, StringComparison.InvariantCultureIgnoreCase)));
+            string configurationName = property?.Value?.ToString();
+            if (configurationName != null)
             {
-                ConfigurationBase configurationBase = token.ToObject(readers.Resolve(configuration.Read)) as ConfigurationBase;
+                ConfigurationBase configurationBase = (ConfigurationBase)token.ToObject(mapping.ResolveConfiguration(configurationName, property.Name));
                 this.Prepare(configurationBase);
-                set.Readers.Add(configurationBase);
-            }
-            if (configuration.Write != null)
-            {
-                ConfigurationBase configurationBase = token.ToObject(writers.Resolve(configuration.Write)) as ConfigurationBase;
-                this.Prepare(configurationBase);
-                set.Writers.Add(configurationBase);
+                set.Configurations.Add(configurationBase);
             }
         }
 

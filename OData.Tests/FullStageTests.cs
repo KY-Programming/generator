@@ -27,8 +27,7 @@ namespace KY.Generator.OData.Tests
             this.resolver = new DependencyResolver();
             this.resolver.Bind<ITypeMapping>().ToSingleton<TypeMapping>();
             this.resolver.Bind<IConfigurationReaderVersion>().To<ConfigurationReaderVersion2>();
-            this.resolver.Bind<ReaderConfigurationMapping>().ToSingleton();
-            this.resolver.Bind<WriterConfigurationMapping>().ToSingleton();
+            this.resolver.Bind<ConfigurationMapping>().ToSingleton();
             this.resolver.Create<CoreModule>().Initialize();
             this.resolver.Create<ODataModule>().Initialize();
             this.resolver.Create<TypeScriptModule>().Initialize();
@@ -51,10 +50,10 @@ namespace KY.Generator.OData.Tests
 
         private bool Run(string configuration)
         {
-            List<ConfigurationSet> configurations = this.reader.Parse(configuration);
-            configurations.ForEach(x => x.Writers.ForEach(y => y.AddHeader = false));
-            configurations.SelectMany(x => x.Writers).OfType<AngularWriteConfiguration>().ForEach(x => x.Model.AddHeader = false);
-            return this.runner.Run(configurations, this.output);
+            List<ConfigurationSet> sets = this.reader.Parse(configuration);
+            sets.ForEach(x => x.Configurations.ForEach(y => y.AddHeader = false));
+            sets.SelectMany(x => x.Configurations).OfType<AngularWriteConfiguration>().ForEach(x => x.Model.AddHeader = false);
+            return this.runner.Run(sets, this.output);
         }
     }
 }
