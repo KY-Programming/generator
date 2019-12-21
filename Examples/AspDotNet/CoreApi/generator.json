@@ -1,5 +1,6 @@
 {
   "version": 2,
+  "output": "..\\..\\Angular\\src\\app",
   "generate": [
     {
       "read": "asp",

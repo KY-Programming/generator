@@ -58,23 +58,23 @@ namespace KY.Generator.Commands
 
         public bool Run(string configuration, IOutput output)
         {
-            List<ConfigurationSet> configurations = this.Deserialize(configuration);
+            List<ConfigurationSet> configurations = this.Deserialize(configuration, output);
             return this.Run(configurations, output);
         }
 
         private bool Run(string configuration, string path, IOutput output)
         {
-            List<ConfigurationSet> configurations = this.Deserialize(configuration);
+            List<ConfigurationSet> configurations = this.Deserialize(configuration, output);
             ConfigurationEnvironment environment = new ConfigurationEnvironment(path, output.ToString());
             configurations.SelectMany(x => x.Configurations)
                           .ForEach(x => x.Environment = environment);
             return this.Run(configurations, output);
         }
 
-        private List<ConfigurationSet> Deserialize(string configuration)
+        private List<ConfigurationSet> Deserialize(string configuration, IOutput output)
         {
             ConfigurationsReader configurationsReader = this.resolver.Create<ConfigurationsReader>();
-            return configurationsReader.Parse(configuration);
+            return configurationsReader.Parse(configuration, output);
         }
 
         private bool Run(List<ConfigurationSet> configurations, IOutput output)

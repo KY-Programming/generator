@@ -24,6 +24,9 @@ namespace KY.Generator.Output
         public void Execute()
         { }
 
+        public void Move(string relativePath)
+        { }
+
         public override string ToString()
         {
             return "Memory";

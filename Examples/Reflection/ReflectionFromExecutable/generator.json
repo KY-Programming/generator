@@ -1,5 +1,6 @@
 ﻿{
   "version": 2,
+  "output":  "Output",
   "generate": [
     {
       "read": "reflection",

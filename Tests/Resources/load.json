@@ -3,7 +3,7 @@
   "load": [
     "..\\..\\..\\ky.generator.csharp\\1.2.0\\lib\\netstandard2.0\\KY.Generator.CSharp.dll",
     "..\\..\\..\\ky.generator.typescript\\1.2.0\\lib\\netstandard2.0\\KY.Generator.TypeScript.dll",
-    "..\\..\\..\\ky.generator.aspdotnet\\2.0.0-rc.0\\lib\\netstandard2.0\\KY.Generator.AspDotNet.dll",
+    "..\\..\\..\\ky.generator.aspdotnet\\2.0.0\\lib\\netstandard2.0\\KY.Generator.AspDotNet.dll",
     "..\\..\\..\\ky.generator.reflection\\1.2.0\\lib\\netstandard2.0\\KY.Generator.Reflection.dll"
   ],
   "generate": {

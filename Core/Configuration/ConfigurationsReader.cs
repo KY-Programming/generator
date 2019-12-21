@@ -5,6 +5,7 @@ using System.Linq;
 using KY.Core;
 using KY.Core.Dependency;
 using KY.Generator.Load;
+using KY.Generator.Output;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -21,12 +22,7 @@ namespace KY.Generator.Configuration
             this.versions = versions.ToDictionary(x => x.Version, x => x);
         }
 
-        //public List<ConfigurationBase> Read()
-        //{
-        //    return null;
-        //}
-
-        public List<ConfigurationSet> Parse(string json)
+        public List<ConfigurationSet> Parse(string json, IOutput output = null)
         {
             using (JsonTextReader reader = new JsonTextReader(new StringReader(json)))
             {
@@ -52,6 +48,10 @@ namespace KY.Generator.Configuration
                 if (version.Load != null && version.Load.Count > 0)
                 {
                     this.resolver.Create<GeneratorModuleLoader>().Load(version.Load);
+                }
+                if (!string.IsNullOrEmpty(version.Output))
+                {
+                    output?.Move(version.Output);
                 }
                 if (this.versions.ContainsKey(version.Version))
                 {

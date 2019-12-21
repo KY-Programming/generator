@@ -8,6 +8,7 @@ namespace KY.Generator.Configuration
         public int Version { get; set; }
         public List<string> Load { get; set; }
         public ConfigurationFormatting Formatting { get; set; }
+        public string Output { get; set; }
         public JContainer Generate { get; set; }
     }
 }

@@ -31,7 +31,7 @@ namespace KY.Generator
                 ConfigurationBase missingLanguage = set.Configurations.FirstOrDefault(x => x.Language == null && x.RequireLanguage);
                 if (missingLanguage != null)
                 {
-                    Logger.Trace($"Configuration '{missingLanguage.GetType().Name}' without language found. Generation failed!");
+                    Logger.Error($"Configuration '{missingLanguage.GetType().Name}' without language found. Generation failed!");
                     success = false;
                     continue;
                 }

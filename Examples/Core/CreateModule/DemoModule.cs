@@ -16,8 +16,9 @@ namespace CreateModule
         public override void Initialize()
         {
             base.Initialize();
-            this.DependencyResolver.Get<ReaderConfigurationMapping>().Map<DemoReadConfiguration, DemoReader>("demo");
-            this.DependencyResolver.Get<WriterConfigurationMapping>().Map<DemoWriteConfiguration, DemoWriter>("demo");
+            this.DependencyResolver.Get<ConfigurationMapping>()
+                .Map<DemoReadConfiguration, DemoReader>("my-demo")
+                .Map<DemoWriteConfiguration, DemoWriter>("my-demo");
         }
     }
 }

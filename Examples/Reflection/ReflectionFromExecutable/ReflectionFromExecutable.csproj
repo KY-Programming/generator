@@ -12,6 +12,8 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -61,6 +63,14 @@
     </PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>"$(SolutionDir)packages\ky.generator.cli.standalone.2.8.0\tools\KY.Generator.exe" "$(ProjectDir)generator.json" "$(ProjectDir)Output"</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
+  <Import Project="..\packages\KY.Generator.CLI.3.0.0\build\KY.Generator.CLI.targets" Condition="Exists('..\packages\KY.Generator.CLI.3.0.0\build\KY.Generator.CLI.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\KY.Generator.CLI.3.0.0\build\KY.Generator.CLI.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\KY.Generator.CLI.3.0.0\build\KY.Generator.CLI.targets'))" />
+  </Target>
 </Project>

@@ -159,7 +159,7 @@ namespace KY.Generator
 
             if (FileSystem.FileExists(parameters.First()))
             {
-                return this.SetOutput(parameters.Skip(1).FirstOrDefault())
+                return this.SetOutput(parameters.Skip(1).FirstOrDefault() ?? FileSystem.Parent(parameters.First()))
                            .ReadConfiguration(parameters.First());
             }
             if (parameters.First().Contains(":\\"))

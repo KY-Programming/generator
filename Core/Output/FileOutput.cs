@@ -7,7 +7,7 @@ namespace KY.Generator.Output
     public class FileOutput : IOutput
     {
         private readonly List<IOutputAction> actions;
-        private readonly string basePath;
+        private string basePath;
 
         public FileOutput(string basePath)
         {
@@ -32,6 +32,11 @@ namespace KY.Generator.Output
         public void Execute()
         {
             this.actions.ForEach(action => action.Execute());
+        }
+
+        public void Move(string path)
+        {
+            this.basePath = FileSystem.IsAbsolute(path) ? path : FileSystem.Combine(this.basePath, path);
         }
 
         private void RemovePreviousActions(string fileName)

@@ -5,14 +5,14 @@
   ],
   "generate": [
     {
-      "read": "demo",
+      "read": "my-demo",
       "helloWorld": {
         "name": "demoHelloWorld",
         "test1": true
       }
     },
     {
-      "write": "demo",
+      "write": "my-demo",
       "test2": true,
       "language": "csharp",
       "relativePath": "Generated",

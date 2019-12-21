@@ -1,11 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="KY.Generator.Core" Version="2.8.0" />
+    <PackageReference Include="KY.Generator.Core" Version="3.0.0" />
   </ItemGroup>
 
 </Project>

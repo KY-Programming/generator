@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using KY.Core;
 using KY.Generator.AspDotNet.Configurations;
+using KY.Generator.Extensions;
 using KY.Generator.Reflection.Language;
 using KY.Generator.Reflection.Readers;
 using KY.Generator.Transfer;
@@ -42,25 +43,14 @@ namespace KY.Generator.AspDotNet.Readers
             MethodInfo[] methods = type.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
             foreach (MethodInfo method in methods)
             {
-                Type returnType;
-                if (method.ReturnType.Namespace == "System.Threading.Tasks" && method.ReturnType.Name == "Task`1")
-                {
-                    returnType = method.ReturnType.GetGenericArguments().Single();
-                }
-                else
-                {
-                    returnType = method.ReturnType;
-                }
+                Type returnType = method.ReturnType.IgnoreGeneric("System.Threading.Tasks", "Task")
+                                        .IgnoreGeneric("Microsoft.AspNetCore.Mvc", "ActionResult");
                 this.modelReader.Read(returnType, transferObjects);
                 foreach (Attribute attribute in method.GetCustomAttributes())
                 {
                     Type attributeType = attribute.GetType();
                     HttpServiceActionTransferObject action = new HttpServiceActionTransferObject();
                     action.ReturnType = returnType.ToTransferObject();
-                    if (action.ReturnType.Name == "ActionResult")
-                    {
-                        action.ReturnType = action.ReturnType.Generics.Single().Type;
-                    }
                     action.Route = attributeType.GetProperty("Template")?.GetValue(attribute)?.ToString();
                     int methodNameIndex = 1;
                     while (true)

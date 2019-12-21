@@ -7,13 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="KY.Generator.CLI.Core.Standalone" Version="2.5.1" />
+    <PackageReference Include="KY.Generator.CLI.Core" Version="3.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
   </ItemGroup>
-
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="rem       dotnet &quot;%25USERPROFILE%25\.nuget\packages\ky.generator.cli.core.standalone\2.5.0\tools\KY.Generator.dll&quot; &quot;$(ProjectDir)generator.json&quot; &quot;$(SolutionDir)..\Angular\src\app&quot;" />
-  </Target>
 
 </Project>
