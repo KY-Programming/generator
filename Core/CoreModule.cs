@@ -39,7 +39,8 @@ namespace KY.Generator
                 .Map<CookieConfiguration, CookieReader>("cookie")
                 .Map<GeneratorConfiguration, GeneratorGenerator>("generator")
                 .Map<ModelWriteConfiguration, ModelWriter>("model")
-                .Map<DemoConfiguration, DemoWriter>("demo");
+                .Map<DemoConfiguration, DemoWriter>("demo")
+                .Map<ExecuteConfiguration, ExecuteReader>("generator", "execute");
         }
     }
 }

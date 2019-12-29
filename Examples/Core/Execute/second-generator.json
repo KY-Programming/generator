@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "generate": [
+    [
+      {
+        "write": "demo"
+      }
+    ]
+  ]
+}

@@ -18,7 +18,7 @@ namespace KY.Generator
     {
         private static void Main(string[] args)
         {
-            Logger.AllTargets.Add(Logger.VisualStudioOutput);
+            Generator.InitializeLogger(args);
 
             bool success = Generator.Initialize()
                                     .PreloadModule<AngularModule>()

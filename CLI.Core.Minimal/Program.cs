@@ -7,7 +7,7 @@ namespace KY.Generator
     {
         static void Main(string[] args)
         {
-            Logger.AllTargets.Add(Logger.VisualStudioOutput);
+            Generator.InitializeLogger(args);
 
             bool success = Generator.Initialize()
                                     .SetParameters(args)

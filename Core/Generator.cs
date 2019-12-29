@@ -148,15 +148,6 @@ namespace KY.Generator
                 Logger.Error("No parameters found. Provide at least a command or a path to a configuration file. Generation aborted!");
                 return this;
             }
-            if (parameters.Any(parameter => "msbuild".Equals(parameter)))
-            {
-                Logger.Trace("MsBuild trace mode activated");
-                Logger.WarningTargets.Add(Logger.MsBuildOutput);
-                Logger.ErrorTargets.Add(Logger.MsBuildOutput);
-                Logger.WarningTargets.Remove(Logger.VisualStudioOutput);
-                Logger.ErrorTargets.Remove(Logger.VisualStudioOutput);
-            }
-
             if (FileSystem.FileExists(parameters.First()))
             {
                 return this.SetOutput(parameters.Skip(1).FirstOrDefault() ?? FileSystem.Parent(parameters.First()))
@@ -201,6 +192,29 @@ namespace KY.Generator
                 Logger.Error($"See the full log in: {Logger.File.Path}");
             }
             return result;
+        }
+
+        public static void InitializeLogger(string[] parameters)
+        {
+            Logger.AllTargets.Add(Logger.VisualStudioOutput);
+            if (parameters.Any(parameter => parameter.ToLowerInvariant().Contains("forwardlogging")))
+            {
+                ForwardConsoleTarget target = new ForwardConsoleTarget();
+                Logger.AllTargets.Clear();
+                Logger.AllTargets.Add(target);
+                Logger.TraceTargets.Clear();
+                Logger.TraceTargets.Add(target);
+                Logger.ErrorTargets.Clear();
+                Logger.ErrorTargets.Add(target);
+            }
+            if (parameters.Any(parameter => "msbuild".Equals(parameter)))
+            {
+                Logger.Trace("MsBuild trace mode activated");
+                Logger.WarningTargets.Add(Logger.MsBuildOutput);
+                Logger.ErrorTargets.Add(Logger.MsBuildOutput);
+                Logger.WarningTargets.Remove(Logger.VisualStudioOutput);
+                Logger.ErrorTargets.Remove(Logger.VisualStudioOutput);
+            }
         }
     }
 }

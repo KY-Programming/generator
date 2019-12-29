@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "generate": [
+    [
+      {
+        "write": "demo"
+      }
+    ],
+    [
+      {
+        "execute": "generator",
+        "file": "second-generator.json"
+      }
+    ]
+  ]
+}

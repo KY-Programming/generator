@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Target Name="KYGeneratorCLITarget" AfterTargets="Build">
-    <Exec Command="%22$(SolutionDir)packages\ky.generator.cli.minimal.3.0.0\tools\KY.Generator.exe%22 %22$(ProjectDir)generator.json%22 %22$(ProjectDir)\%22 msbuild"
+    <Exec Command="%22$(SolutionDir)packages\ky.generator.cli.minimal.3.1.0\tools\KY.Generator.exe%22 %22$(ProjectDir)generator.json%22 %22$(ProjectDir)\%22 msbuild"
           CustomErrorRegularExpression="^Error:"
           CustomWarningRegularExpression="^Warning:"
           ></Exec>
