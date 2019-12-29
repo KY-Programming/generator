@@ -25,6 +25,7 @@ namespace KY.Generator.Configurations
         public bool Standalone { get; set; }
         public ConfigurationEnvironment Environment { get; set; }
         public ConfigurationFormatting Formatting { get; set; }
+        public bool CheckOnOverwrite { get; set; } = true;
 
         protected ConfigurationBase()
         {

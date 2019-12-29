@@ -16,12 +16,12 @@ namespace KY.Generator.Mappings
             this.typeMapping = new List<TypeMappingEntry>();
         }
 
-        public void Add(ILanguage fromLanguage, string fromType, ILanguage toLanguage, string toType, bool nullable = false, string nameSpace = null, bool fromSystem = false, string constructor = null)
+        public void Add(IMappableLanguage fromLanguage, string fromType, IMappableLanguage toLanguage, string toType, bool nullable = false, string nameSpace = null, bool fromSystem = false, string constructor = null)
         {
             this.typeMapping.Add(new TypeMappingEntry(fromLanguage, fromType, toLanguage, toType, nullable, nameSpace, fromSystem, constructor));
         }
 
-        public TypeMappingEntry Get(ILanguage fromLanguage, string fromType, ILanguage toLanguage)
+        public TypeMappingEntry Get(IMappableLanguage fromLanguage, string fromType, IMappableLanguage toLanguage)
         {
             TypeMappingEntry mapping = this.TryGet(fromLanguage, fromType, toLanguage);
             if (mapping == null)
@@ -31,15 +31,15 @@ namespace KY.Generator.Mappings
             return mapping;
         }
         
-        public TypeMappingEntry TryGet(ILanguage fromLanguage, string fromType, ILanguage toLanguage)
+        public TypeMappingEntry TryGet(IMappableLanguage fromLanguage, string fromType, IMappableLanguage toLanguage)
         {
             fromLanguage.AssertIsNotNull(nameof(fromLanguage));
             fromType.AssertIsNotNull(nameof(fromType));
             toLanguage.AssertIsNotNull(nameof(toLanguage));
-            return this.typeMapping.FirstOrDefault(x => x.FromLanguage == fromLanguage && x.FromType == fromType && x.ToLanguage == toLanguage);
+            return this.typeMapping.FirstOrDefault(x => x.FromLanguage.Key == fromLanguage.Key && x.FromType == fromType && x.ToLanguage.Key == toLanguage.Key);
         }
         
-        public TypeMappingEntry TryGet(ILanguage fromLanguage, Type fromType, ILanguage toLanguage)
+        public TypeMappingEntry TryGet(IMappableLanguage fromLanguage, Type fromType, IMappableLanguage toLanguage)
         {
             if (fromType.IsGenericType)
             {
@@ -50,7 +50,7 @@ namespace KY.Generator.Mappings
             return this.TryGet(fromLanguage, fromType.FullName, toLanguage);
         }
 
-        public void Get(ILanguage fromLanguage, ILanguage toLanguage, TypeTransferObject type)
+        public void Get(IMappableLanguage fromLanguage, IMappableLanguage toLanguage, TypeTransferObject type)
         {
             if (type == null)
             {
@@ -67,7 +67,7 @@ namespace KY.Generator.Mappings
             }
         }
 
-        public ITypeMappingSyntax Map(ILanguage language, string type)
+        public ITypeMappingSyntax Map(IMappableLanguage language, string type)
         {
             return new TypeMappingSyntax(this, language, type);
         }

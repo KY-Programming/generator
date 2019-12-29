@@ -4,6 +4,7 @@ using System.Linq;
 using KY.Core;
 using KY.Core.DataAccess;
 using KY.Generator.Angular.Configurations;
+using KY.Generator.Languages;
 using KY.Generator.Mappings;
 using KY.Generator.Templates;
 using KY.Generator.Templates.Extensions;
@@ -33,11 +34,13 @@ namespace KY.Generator.Angular.Writers
             string httpClientImport = configuration.Service.HttpClient?.Import ?? "@angular/common/http";
             foreach (HttpServiceTransferObject controller in transferObjects.OfType<HttpServiceTransferObject>())
             {
+                IMappableLanguage controllerLanguage = controller.Language as IMappableLanguage;
+                IMappableLanguage configurationLanguage = configuration.Language as IMappableLanguage;
                 Dictionary<HttpServiceActionParameterTransferObject, ParameterTemplate> mapping = new Dictionary<HttpServiceActionParameterTransferObject, ParameterTemplate>();
                 string controllerName = controller.Name.TrimEnd("Controller");
-                ClassTemplate classTemplate = files.AddFile(configuration.Service.RelativePath, configuration.AddHeader)
-                                                   .AddNamespace(string.Empty)
-                                                   .AddClass(configuration.Service.Name ?? controllerName + "Service")
+                FileTemplate file = files.AddFile(configuration.Service.RelativePath, configuration.AddHeader, configuration.CheckOnOverwrite);
+                ClassTemplate classTemplate = file.AddNamespace(string.Empty)
+                                                   .AddClass(configuration.Service.Name?.Replace("{0}", controllerName) ?? controllerName + "Service")
                                                    .FormatName(configuration)
                                                    .WithUsing(httpClient, httpClientImport)
                                                    .WithUsing("Injectable", "@angular/core")
@@ -52,19 +55,25 @@ namespace KY.Generator.Angular.Writers
                 foreach (HttpServiceActionTransferObject action in controller.Actions)
                 {
                     ICodeFragment errorCode = Code.Lambda("error", Code.Local("subject").Method("error", Code.Local("error")));
-                    this.MapType(controller.Language, configuration.Language, action.ReturnType);
+                    if (controllerLanguage != null && configurationLanguage != null)
+                    {
+                        this.MapType(controllerLanguage, configurationLanguage, action.ReturnType);
+                    }
                     TypeTemplate returnType = action.ReturnType.ToTemplate();
                     this.AddUsing(action.ReturnType, classTemplate, configuration, relativeModelPath);
                     MethodTemplate methodTemplate = classTemplate.AddMethod(action.Name, Code.Generic("Observable", returnType))
                                                                  .FormatName(configuration);
                     foreach (HttpServiceActionParameterTransferObject parameter in action.Parameters)
                     {
-                        this.MapType(controller.Language, configuration.Language, parameter.Type);
+                        if (controllerLanguage != null && configurationLanguage != null)
+                        {
+                            this.MapType(controllerLanguage, configurationLanguage, parameter.Type);
+                        }
                         this.AddUsing(parameter.Type, classTemplate, configuration, relativeModelPath);
-                        ParameterTemplate parameterTemplate = methodTemplate.AddParameter(parameter.Type.ToTemplate(), parameter.Name).FormatName(configuration);
+                        ParameterTemplate parameterTemplate = methodTemplate.AddParameter(parameter.Type.ToTemplate(), parameter.Name, parameter.IsOptional ? Code.Null() : null).FormatName(configuration);
                         mapping.Add(parameter, parameterTemplate);
                     }
-                    methodTemplate.AddParameter(Code.Type("{}"), "httpOptions?");
+                    methodTemplate.AddParameter(Code.Type("{}"), "httpOptions", Code.Null());
                     TypeTemplate subjectType = Code.Generic("Subject", returnType);
                     methodTemplate.WithCode(Code.Declare(subjectType, "subject", Code.New(subjectType)));
                     string uri = ("/" + (controller.Route?.Replace("[controller]", controllerName.ToLower()).TrimEnd('/') ?? controllerName) + "/" + action.Route?.Replace("[action]", action.Name.ToLower())).TrimEnd('/');

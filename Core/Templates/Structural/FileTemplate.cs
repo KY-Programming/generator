@@ -20,9 +20,11 @@ namespace KY.Generator.Templates
         public string RelativePath { get; }
         public List<NamespaceTemplate> Namespaces { get; }
         public CommentTemplate Header { get; }
+        public bool CheckOnOverwrite { get; }
 
-        public FileTemplate(string relativePath = null, bool addHeader = true)
+        public FileTemplate(string relativePath = null, bool addHeader = true, bool checkOnOverwrite = true)
         {
+            this.CheckOnOverwrite = checkOnOverwrite;
             this.RelativePath = relativePath ?? string.Empty;
             this.Namespaces = new List<NamespaceTemplate>();
             this.Header = new CommentTemplate(addHeader ? Resources.Header : null);

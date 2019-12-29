@@ -11,7 +11,7 @@ using KY.Generator.Writers;
 
 namespace KY.Generator.Languages
 {
-    public abstract class BaseLanguage : Codeable, IFormattableLanguage, ITemplateWriter
+    public abstract class BaseLanguage : Codeable, IFormattableLanguage, IMappableLanguage, ITemplateWriter
     {
         private readonly List<ChainedCodeFragment> progressedChainedCodeFragments;
         private readonly List<ICodeFragment> lastFragments;
@@ -27,6 +27,7 @@ namespace KY.Generator.Languages
         public bool HasAbstractClasses { get; set; } = true;
         public bool HasStaticClasses { get; set; } = true;
         public IEnumerable<ICodeFragment> LastFragments => this.lastFragments;
+        public object Key { get; protected set; } = new object();
 
         protected BaseLanguage()
         {
@@ -176,7 +177,7 @@ namespace KY.Generator.Languages
                 writer.Add(staticFile.Content, true);
             }
             string fileName = FileSystem.Combine(fileTemplate.RelativePath, this.FormatFileName(fileTemplate.Name, fileTemplate.IsInterface()));
-            output.Write(fileName, writer.ToString());
+            output.Write(fileName, writer.ToString(), fileTemplate.CheckOnOverwrite);
         }
 
         protected virtual void WriteHeader(FileTemplate fileTemplate, IOutputCache output)

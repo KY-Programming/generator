@@ -5,10 +5,11 @@ using KY.Generator.Templates;
 
 namespace KY.Generator.Languages
 {
-    public class EmptyLanguage : ILanguage
+    public class EmptyLanguage : IMappableLanguage
     {
         public virtual string Name => "Empty";
         public bool ImportFromSystem => true;
+        public object Key { get; } = new object();
 
         public virtual void Write(FileTemplate file, IOutput output)
         {

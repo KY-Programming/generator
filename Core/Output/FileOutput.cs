@@ -15,11 +15,11 @@ namespace KY.Generator.Output
             this.basePath = basePath;
         }
 
-        public void Write(string fileName, string content)
+        public void Write(string fileName, string content, bool checkOnOverwrite = true)
         {
             string filePath = this.ToFilePath(fileName);
             this.RemovePreviousActions(filePath);
-            this.actions.Add(new OutputWriteAction(filePath, content));
+            this.actions.Add(new OutputWriteAction(filePath, content, checkOnOverwrite));
         }
 
         public void Delete(string fileName)

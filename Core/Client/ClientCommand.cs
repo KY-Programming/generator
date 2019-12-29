@@ -77,7 +77,7 @@ namespace KY.Generator.Client
                 getFileContent.Add(new StringContent(filePath), "path");
                 Logger.Trace($"Request {url}/generator/getFile");
                 HttpResponseMessage getFileResponse = client.PostAsync($"{url}/generator/getFile", getFileContent).Result;
-                output.Write(filePath, getFileResponse.Content.ReadAsStringAsync().Result);
+                output.Write(filePath, getFileResponse.Content.ReadAsStringAsync().Result, configuration.CheckOnOverwrite);
             }
             return true;
         }

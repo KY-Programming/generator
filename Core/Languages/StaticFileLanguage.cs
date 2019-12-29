@@ -43,7 +43,7 @@ namespace KY.Generator.Languages
                       .Add(staticFile.Content, true);
             
             string fileName = FileSystem.Combine(fileTemplate.RelativePath, fileTemplate.Name);
-            output.Write(fileName, fileWriter.ToString());
+            output.Write(fileName, fileWriter.ToString(), fileTemplate.CheckOnOverwrite);
         }
 
         public override void Write(ICodeFragment fragment, IOutputCache output)

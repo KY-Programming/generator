@@ -100,7 +100,8 @@ namespace KY.Generator.AspDotNet.Readers
                         actionParameter.Type = parameter.ParameterType.ToTransferObject();
                         actionParameter.FromBody = action.RequireBodyParameter && parameter.GetCustomAttributes().Any(parameterAttribute => parameterAttribute.GetType().Name == "FromBodyAttribute");
                         actionParameter.Inline = action.Route != null && action.Route.Contains($"{{{parameter.Name}}}");
-                        actionParameter.InlineIndex = actionParameter.Inline ? action.Route.IndexOf($"{{{parameter.Name}}}", StringComparison.Ordinal) : 0;
+                        actionParameter.InlineIndex = actionParameter.Inline && action.Route != null ? action.Route.IndexOf($"{{{parameter.Name}}}", StringComparison.Ordinal) : 0;
+                        actionParameter.IsOptional = parameter.IsOptional;
                         action.Parameters.Add(actionParameter);
                     }
                     if (action.RequireBodyParameter)

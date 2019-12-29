@@ -37,7 +37,7 @@ namespace KY.Generator.Json.Extensions
             return typeMapping;
         }
 
-        public static TypeMappingEntry Get(this ITypeMapping typeMapping, JTokenType type, ILanguage to)
+        public static TypeMappingEntry Get(this ITypeMapping typeMapping, JTokenType type, IMappableLanguage to)
         {
             return typeMapping.Get(JsonLanguage.Instance, type.ToString(), to);
         }

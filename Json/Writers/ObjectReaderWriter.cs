@@ -26,7 +26,7 @@ namespace KY.Generator.Json.Writers
             }
             Logger.Trace("Write JsonReader...");
             string className = configuration.Reader.Name ?? model.Name + "Reader";
-            FileTemplate fileTemplate = new FileTemplate(configuration.Reader.RelativePath, configuration.AddHeader);
+            FileTemplate fileTemplate = new FileTemplate(configuration.Reader.RelativePath, configuration.AddHeader, configuration.CheckOnOverwrite);
             ClassTemplate classTemplate = fileTemplate.AddNamespace(configuration.Reader.Namespace ?? model.Namespace ?? configuration.Object.Namespace)
                                                       .AddClass(className)
                                                       .FormatName(configuration);

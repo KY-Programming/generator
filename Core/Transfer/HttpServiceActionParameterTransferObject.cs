@@ -8,5 +8,6 @@
         public bool Inline { get; set; }
         public int InlineIndex { get; set; }
         public TypeTransferObject Type { get; set; }
+        public bool IsOptional { get; set; }
     }
 }

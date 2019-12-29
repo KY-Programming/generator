@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using KY.Core;
-using KY.Generator.Extensions;
 using KY.Generator.Languages;
 using KY.Generator.Output;
 using KY.Generator.Templates;
@@ -20,7 +19,7 @@ namespace KY.Generator.TypeScript.Languages
         public override string Name => "TypeScript";
         public override bool ImportFromSystem => false;
 
-        private TypeScriptLanguage()
+        protected TypeScriptLanguage()
         {
             this.Formatting.StartBlockInNewLine = false;
             this.Formatting.EndFileWithNewLine = true;

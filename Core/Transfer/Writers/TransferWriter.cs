@@ -49,7 +49,7 @@ namespace KY.Generator.Transfer.Writers
             }
         }
 
-        protected virtual void MapType(ILanguage fromLanguage, ILanguage toLanguage, TypeTransferObject type)
+        protected virtual void MapType(IMappableLanguage fromLanguage, IMappableLanguage toLanguage, TypeTransferObject type)
         {
             this.TypeMapping.Get(fromLanguage, toLanguage, type);
             type.Generics.ForEach(x => this.MapType(fromLanguage, toLanguage, x.Type));
@@ -57,14 +57,20 @@ namespace KY.Generator.Transfer.Writers
 
         protected virtual FieldTemplate AddField(ModelTransferObject model, string name, TypeTransferObject type, ClassTemplate classTemplate, IConfiguration configuration)
         {
-            this.MapType(model.Language, configuration.Language, type);
+            if (model.Language is IMappableLanguage modelLanguage && configuration.Language is IMappableLanguage configurationLanguage)
+            {
+                this.MapType(modelLanguage, configurationLanguage, type);
+            }
             this.AddUsing(type, classTemplate, configuration);
             return classTemplate.AddField(name, type.ToTemplate()).Public().FormatName(configuration);
         }
 
         protected virtual PropertyTemplate AddProperty(ModelTransferObject model, string name, TypeTransferObject type, ClassTemplate classTemplate, IConfiguration configuration, bool canRead = true, bool canWrite = true)
         {
-            this.MapType(model.Language, configuration.Language, type);
+            if (model.Language is IMappableLanguage modelLanguage && configuration.Language is IMappableLanguage configurationLanguage)
+            {
+                this.MapType(modelLanguage, configurationLanguage, type);
+            }
             PropertyTemplate propertyTemplate = classTemplate.AddProperty(name, type.ToTemplate()).FormatName(configuration);
             propertyTemplate.HasGetter = canRead;
             propertyTemplate.HasSetter = canWrite;

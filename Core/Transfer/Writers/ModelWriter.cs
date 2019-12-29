@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using KY.Core;
 using KY.Generator.Configurations;
+using KY.Generator.Languages;
 using KY.Generator.Mappings;
 using KY.Generator.Output;
 using KY.Generator.Templates;
@@ -50,7 +51,10 @@ namespace KY.Generator.Transfer.Writers
             {
                 return;
             }
-            this.MapType(model.Language, configuration.Language, model);
+            if (model.Language is IMappableLanguage modelLanguage && configuration.Language is IMappableLanguage configurationLanguage)
+            {
+                this.MapType(modelLanguage, configurationLanguage, model);
+            }
             if (model.FromSystem)
             {
                 return;
@@ -86,9 +90,12 @@ namespace KY.Generator.Transfer.Writers
 
         protected virtual ClassTemplate WriteClass(IModelConfiguration configuration, ModelTransferObject model, string nameSpace, List<FileTemplate> files)
         {
-            if (model.BasedOn != null)
+            IMappableLanguage modelLanguage = model.Language as IMappableLanguage;
+            IMappableLanguage configurationLanguage = configuration.Language as IMappableLanguage;
+
+            if (model.BasedOn != null && modelLanguage != null && configurationLanguage != null)
             {
-                this.MapType(model.Language, configuration.Language, model.BasedOn);
+                this.MapType(modelLanguage, configurationLanguage, model.BasedOn);
             }
 
             ClassTemplate classTemplate = files.AddFile(configuration.RelativePath, configuration.AddHeader)
@@ -110,7 +117,10 @@ namespace KY.Generator.Transfer.Writers
             }
             foreach (TypeTransferObject interFace in model.Interfaces)
             {
-                this.MapType(model.Language, configuration.Language, interFace);
+                if (modelLanguage != null && configurationLanguage != null)
+                {
+                    this.MapType(modelLanguage, configurationLanguage, interFace);
+                }
                 classTemplate.BasedOn.Add(new BaseTypeTemplate(classTemplate, Code.Interface(interFace.Name, interFace.Namespace)));
                 this.AddUsing(interFace, classTemplate, configuration);
             }

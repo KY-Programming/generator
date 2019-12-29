@@ -1,5 +1,5 @@
-﻿using KY.Generator.Configurations;
-using KY.Generator.TypeScript.Languages;
+﻿using KY.Generator.Angular.Languages;
+using KY.Generator.Configurations;
 
 namespace KY.Generator.Angular.Configurations
 {
@@ -12,7 +12,7 @@ namespace KY.Generator.Angular.Configurations
 
         public AngularWriteConfiguration()
         {
-            this.Language = TypeScriptLanguage.Instance;
+            this.Language = new AngularTypeScriptLanguage();
             this.FormatNames = true;
             this.WriteModels = true;
             this.Model = new AngularWriteModelConfiguration();

@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
-using KY.Core;
 using KY.Generator.Csharp.Templates;
 using KY.Generator.Csharp.Writers;
 using KY.Generator.Extensions;
@@ -18,7 +16,7 @@ namespace KY.Generator.Csharp.Languages
         public override string Name => "Csharp";
         public override bool ImportFromSystem => true;
 
-        private CsharpLanguage()
+        protected CsharpLanguage()
         {
             this.Formatting.FileCase = Case.PascalCase;
             this.Formatting.ClassCase = Case.PascalCase;

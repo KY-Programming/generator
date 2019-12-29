@@ -10,12 +10,12 @@ namespace KY.Generator.Templates
     {
         public string Content { get; }
 
-        public StaticFileTemplate(string name, byte[] content, string relativePath = null, bool addHeader = true)
-            : this(name, Encoding.UTF8.GetString(content), relativePath, addHeader)
+        public StaticFileTemplate(string name, byte[] content, string relativePath = null, bool addHeader = true, bool checkOnOverwrite = true)
+            : this(name, Encoding.UTF8.GetString(content), relativePath, addHeader, checkOnOverwrite)
         { }
 
-        public StaticFileTemplate(string name, string content, string relativePath = null, bool addHeader = true)
-            : base(relativePath, addHeader)
+        public StaticFileTemplate(string name, string content, string relativePath = null, bool addHeader = true, bool checkOnOverwrite = true)
+            : base(relativePath, addHeader, checkOnOverwrite)
         {
             this.Name = name;
             this.Content = content;

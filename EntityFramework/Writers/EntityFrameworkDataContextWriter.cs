@@ -21,7 +21,7 @@ namespace KY.Generator.EntityFramework.Writers
 
         protected virtual ClassTemplate WriteClass(EntityFrameworkWriteConfiguration configuration, List<ITransferObject> transferObjects, List<FileTemplate> files)
         {
-            ClassTemplate dataContext = files.AddFile(configuration.RelativePath, configuration.AddHeader)
+            ClassTemplate dataContext = files.AddFile(configuration.RelativePath, configuration.AddHeader, configuration.CheckOnOverwrite)
                                                .AddNamespace(configuration.Namespace)
                                                .AddClass("DataContext", Code.Type("DbContext"));
 

@@ -4,6 +4,6 @@ namespace KY.Generator.Mappings
 {
     public interface ITypeMappingSyntax
     {
-        void To(ILanguage language, string type, string constructor = null);
+        void To(IMappableLanguage language, string type, string constructor = null);
     }
 }
