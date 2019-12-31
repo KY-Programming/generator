@@ -3,7 +3,7 @@
   <metadata>
     <id>KY.Generator.CLI.Full</id>
     <!-- Ensure nuget.targets version is also updated -->
-    <version>3.2.0</version>
+    <version>3.2.1</version>
     <title>KY.Generator.CLI.Full</title>
     <authors>KY-Programming</authors>
     <owners>KY-Programming</owners>
@@ -17,17 +17,17 @@ Generate classes from oData, .NET assembly, JSON or TSQL to C# or TypeScript. Su
     <copyright>Copyright 2019</copyright>
     <tags>KY-Generator KY Generator CLI</tags>
     <dependencies>
-      <dependency id="KY.Generator.Angular" version="3.2.0" />
-      <dependency id="KY.Generator.AspDotNet" version="3.2.0" />
-      <dependency id="KY.Generator.Core" version="3.2.0" />
-      <dependency id="KY.Generator.Csharp" version="3.2.0" />
-      <dependency id="KY.Generator.EntityFramework" version="3.2.0" />
-      <dependency id="KY.Generator.Json" version="3.2.0" />
-      <dependency id="KY.Generator.OData" version="3.2.0" />
-      <dependency id="KY.Generator.OpenApi" version="3.2.0" />
-      <dependency id="KY.Generator.Reflection" version="3.2.0" />
-      <dependency id="KY.Generator.Tsql" version="3.2.0" />
-      <dependency id="KY.Generator.TypeScript" version="3.2.0" />
+      <dependency id="KY.Generator.Angular" version="3.2.1" />
+      <dependency id="KY.Generator.AspDotNet" version="3.2.1" />
+      <dependency id="KY.Generator.Core" version="3.2.1" />
+      <dependency id="KY.Generator.Csharp" version="3.2.1" />
+      <dependency id="KY.Generator.EntityFramework" version="3.2.1" />
+      <dependency id="KY.Generator.Json" version="3.2.1" />
+      <dependency id="KY.Generator.OData" version="3.2.1" />
+      <dependency id="KY.Generator.OpenApi" version="3.2.1" />
+      <dependency id="KY.Generator.Reflection" version="3.2.1" />
+      <dependency id="KY.Generator.Tsql" version="3.2.1" />
+      <dependency id="KY.Generator.TypeScript" version="3.2.1" />
     </dependencies>
   </metadata>
   <files>
