@@ -31,7 +31,7 @@ namespace KY.Generator.Output
             {
                 Logger.Trace($"File has no changes {this.FilePath}");
             }
-            else if (!this.checkOnOverwrite || this.IsGeneratedFile(content))
+            else if (content.Length == 0 || !this.checkOnOverwrite || this.IsGeneratedFile(content))
             {
                 Logger.Trace($"Overwrite file {this.FilePath}");
                 this.WriteFile();

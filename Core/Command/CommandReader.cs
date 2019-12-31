@@ -17,13 +17,18 @@ namespace KY.Generator.Command
         public CommandConfiguration Read(params string[] arguments)
         {
             CommandConfiguration configuration = new CommandConfiguration(arguments.First());
-            foreach (string chunk in arguments.Skip(1))
+            SetParameters(configuration, arguments.Skip(1));
+            configuration.ReadFromParameters(configuration.Parameters, this.languages);
+            return configuration;
+        }
+
+        public static void SetParameters(CommandConfiguration configuration, IEnumerable<string> parameters)
+        {
+            foreach (string chunk in parameters)
             {
                 string parameter = chunk.Trim();
                 configuration.Parameters.Add(parameter[0] == '-' ? CommandValueParameter.Parse(parameter) : new CommandParameter(parameter));
             }
-            configuration.ReadFromParameters(configuration.Parameters, this.languages);
-            return configuration;
         }
     }
 }

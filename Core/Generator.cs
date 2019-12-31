@@ -150,8 +150,10 @@ namespace KY.Generator
             }
             if (FileSystem.FileExists(parameters.First()))
             {
-                return this.SetOutput(parameters.Skip(1).FirstOrDefault() ?? FileSystem.Parent(parameters.First()))
+                this.SetOutput(parameters.Skip(1).FirstOrDefault() ?? FileSystem.Parent(parameters.First()))
                            .ReadConfiguration(parameters.First());
+                CommandReader.SetParameters(this.command, parameters.Skip(2));
+                return this;
             }
             if (parameters.First().Contains(":\\"))
             {

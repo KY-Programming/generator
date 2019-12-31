@@ -21,14 +21,15 @@ namespace KY.Generator
             this.resolver = resolver;
         }
 
-        public bool Run(List<ConfigurationSet> configurations, IOutput output)
+        public bool Run(List<ConfigurationSet> configurations, IOutput output, bool isBeforeBuild = false)
         {
             ConfigurationMapping mapping = this.resolver.Get<ConfigurationMapping>();
-            Logger.Trace($"Start generating {configurations.Count} configurations");
+            Logger.Trace($"Start generating {configurations.SelectMany(x => x.Configurations).Count(x => x.BeforeBuild == isBeforeBuild)} configurations");
             bool success = true;
             foreach (ConfigurationSet set in configurations)
             {
-                ConfigurationBase missingLanguage = set.Configurations.FirstOrDefault(x => x.Language == null && x.RequireLanguage);
+                List<ConfigurationBase> configurationsToRun = set.Configurations.Where(x => x.BeforeBuild == isBeforeBuild).ToList();
+                ConfigurationBase missingLanguage = configurationsToRun.FirstOrDefault(x => x.Language == null && x.RequireLanguage);
                 if (missingLanguage != null)
                 {
                     Logger.Error($"Configuration '{missingLanguage.GetType().Name}' without language found. Generation failed!");
@@ -38,7 +39,7 @@ namespace KY.Generator
                 try
                 {
                     List<ITransferObject> transferObjects = new List<ITransferObject>();
-                    foreach (ConfigurationBase configuration in set.Configurations)
+                    foreach (ConfigurationBase configuration in configurationsToRun)
                     {
                         switch (mapping.Resolve(configuration))
                         {

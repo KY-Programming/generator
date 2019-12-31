@@ -44,31 +44,31 @@ namespace KY.Generator.Commands
             if (!string.IsNullOrEmpty(path))
             {
                 Logger.Trace("Read settings from: " + path);
-                return this.Run(FileSystem.ReadAllText(path), path, output);
+                return this.Run(FileSystem.ReadAllText(path), path, configuration, output);
             }
             string serialized = configuration.Parameters.GetString("configuration");
             if (!string.IsNullOrEmpty(serialized))
             {
                 Logger.Trace("Read settings from: Memory");
-                return this.Run(serialized, output);
+                return this.Run(serialized, configuration, output);
             }
             Logger.Error("Invalid parameters: Provide at least path to config file)");
             return false;
         }
 
-        public bool Run(string configuration, IOutput output)
+        public bool Run(string serializedConfiguration, CommandConfiguration configuration, IOutput output)
         {
-            List<ConfigurationSet> configurations = this.Deserialize(configuration, output);
-            return this.Run(configurations, output);
+            List<ConfigurationSet> configurations = this.Deserialize(serializedConfiguration, output);
+            return this.Run(configurations, configuration, output);
         }
 
-        private bool Run(string configuration, string path, IOutput output)
+        private bool Run(string serializedConfiguration, string path, CommandConfiguration configuration, IOutput output)
         {
-            List<ConfigurationSet> configurations = this.Deserialize(configuration, output);
+            List<ConfigurationSet> configurations = this.Deserialize(serializedConfiguration, output);
             ConfigurationEnvironment environment = new ConfigurationEnvironment(path, output.ToString());
             configurations.SelectMany(x => x.Configurations)
                           .ForEach(x => x.Environment = environment);
-            return this.Run(configurations, output);
+            return this.Run(configurations, configuration, output);
         }
 
         private List<ConfigurationSet> Deserialize(string configuration, IOutput output)
@@ -77,8 +77,14 @@ namespace KY.Generator.Commands
             return configurationsReader.Parse(configuration, output);
         }
 
-        private bool Run(List<ConfigurationSet> configurations, IOutput output)
+        private bool Run(List<ConfigurationSet> configurations, CommandConfiguration configuration, IOutput output)
         {
+            configuration.AssertIsNotNull(nameof(configurations), "No configuration loaded. Generation failed!");
+            bool isBeforeBuild = configuration.Parameters.Exists("beforeBuild");
+            if (isBeforeBuild)
+            {
+                Logger.Trace("Run only configurations flagged with \"beforeBuild\": true");
+            }
             if (configurations == null || configurations.Count == 0)
             {
                 Logger.Trace("No configuration loaded. Generation failed!");
@@ -89,7 +95,7 @@ namespace KY.Generator.Commands
             {
                 ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
             }
-            bool success = this.runner.Run(configurations, output);
+            bool success = this.runner.Run(configurations, output, isBeforeBuild);
             this.modules.OfType<GeneratorModule>().ForEach(x => x.AfterRun());
             Logger.Trace("All configurations generated");
             return success;
