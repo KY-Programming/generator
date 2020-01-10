@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <Company>KY-Programming</Company>
     <Authors>KY-Programming</Authors>
-    <Version>3.3.0-rc.2</Version>
+    <Version>3.3.0-rc.3</Version>
     <Product>KY.Generator</Product>
     <Description>Annotations for Reflection Module for KY-Generator</Description>
     <Copyright>2019 - KY-Programming</Copyright>

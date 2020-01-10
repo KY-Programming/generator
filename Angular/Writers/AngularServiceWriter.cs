@@ -181,7 +181,7 @@ namespace KY.Generator.Angular.Writers
                     classTemplate.AddMethod("convertAny", Code.Type("string"))
                                  .WithParameter(Code.Type("any"), "value")
                                  .WithCode(Code.Return(Code.InlineIf(Code.Local("value").Equals().ForceNull().Or().Local("value").Equals().Undefined(),
-                                                                     Code.Undefined(),
+                                                                     Code.String(string.Empty),
                                                                      Code.Local("value").Method("toString")
                                                        )
                                            ));
@@ -191,7 +191,7 @@ namespace KY.Generator.Angular.Writers
                     classTemplate.AddMethod("convertDate", Code.Type("string"))
                                  .WithParameter(Code.Type("Date"), "date")
                                  .WithCode(Code.Return(Code.InlineIf(Code.Local("date").Equals().ForceNull().Or().Local("date").Equals().Undefined(),
-                                                                     Code.Undefined(),
+                                                                     Code.String(string.Empty),
                                                                      Code.InlineIf(Code.TypeScript($"typeof(date) === \"string\""),
                                                                                    Code.Local("date"),
                                                                                    Code.Local("date").Method("toISOString")

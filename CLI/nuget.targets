@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Target Name="KYGeneratorCLIBeforeTarget" BeforeTargets="BeforeBuild">
-    <Exec Command="%22$(SolutionDir)packages\ky.generator.cli.3.3.0-rc.2\tools\KY.Generator.exe%22 %22$(ProjectDir)generator.json%22 %22$(ProjectDir)\%22 msbuild"
+    <Exec Command="%22$(SolutionDir)packages\ky.generator.cli.3.3.0-rc.3\tools\KY.Generator.exe%22 %22$(ProjectDir)generator.json%22 %22$(ProjectDir)\%22 msbuild"
           CustomErrorRegularExpression="^Error:"
           CustomWarningRegularExpression="^Warning:"></Exec>
   </Target> <Target Name="KYGeneratorCLIAfterTarget" AfterTargets="AfterBuild">
-    <Exec Command="%22$(SolutionDir)packages\ky.generator.cli.3.3.0-rc.2\tools\KY.Generator.exe%22 %22$(ProjectDir)generator.json%22 %22$(ProjectDir)\%22 msbuild"
+    <Exec Command="%22$(SolutionDir)packages\ky.generator.cli.3.3.0-rc.3\tools\KY.Generator.exe%22 %22$(ProjectDir)generator.json%22 %22$(ProjectDir)\%22 msbuild"
           CustomErrorRegularExpression="^Error:"
           CustomWarningRegularExpression="^Warning:"></Exec>
   </Target>
