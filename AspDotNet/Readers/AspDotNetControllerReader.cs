@@ -86,6 +86,9 @@ namespace KY.Generator.AspDotNet.Readers
                             action.Type = HttpServiceActionTypeTransferObject.Delete;
                             break;
                         case "ConditionalAttribute":
+                        case "DebuggerStepThroughAttribute":
+                        case "AsyncStateMachineAttribute":
+                        case "AuthorizeAttribute":
                             // Ignore these attributes
                             continue;
                         default:
@@ -98,7 +101,7 @@ namespace KY.Generator.AspDotNet.Readers
                         HttpServiceActionParameterTransferObject actionParameter = new HttpServiceActionParameterTransferObject();
                         actionParameter.Name = parameter.Name;
                         actionParameter.Type = parameter.ParameterType.ToTransferObject();
-                        actionParameter.FromBody = action.RequireBodyParameter && parameter.GetCustomAttributes().Any(parameterAttribute => parameterAttribute.GetType().Name == "FromBodyAttribute");
+                        actionParameter.FromBody = action.RequireBodyParameter && this.IsFromBodyParameter(parameter);
                         actionParameter.Inline = action.Route != null && action.Route.Contains($"{{{parameter.Name}}}");
                         actionParameter.InlineIndex = actionParameter.Inline && action.Route != null ? action.Route.IndexOf($"{{{parameter.Name}}}", StringComparison.Ordinal) : 0;
                         actionParameter.IsOptional = parameter.IsOptional;
@@ -118,11 +121,21 @@ namespace KY.Generator.AspDotNet.Readers
                         {
                             throw new InvalidOperationException($"Can not write {method.Name}. {action.Type} requires at least one parameter marked with [FromBody] or can have only one parameter");
                         }
+                        else if (action.Parameters.Count(x => x.FromBody) > 1)
+                        {
+                            throw new InvalidOperationException($"Can not write {method.Name}. {action.Type} can have only one parameter marked with [FromBody] or only one reference type");
+                        }
                     }
                     controller.Actions.Add(action);
                 }
             }
             transferObjects.Add(controller);
+        }
+
+        private bool IsFromBodyParameter(ParameterInfo parameter)
+        {
+            bool hasAttribute = parameter.GetCustomAttributes().Any(parameterAttribute => parameterAttribute.GetType().Name == "FromBodyAttribute");
+            return hasAttribute || !parameter.ParameterType.IsValueType && parameter.ParameterType != typeof(string);
         }
     }
 }

@@ -59,7 +59,7 @@ namespace KY.Generator.Reflection.Readers
 
         private void ReadGenericFromSystem(Type type, ModelTransferObject model, List<ITransferObject> transferObjects)
         {
-            Logger.Trace($"Reflection read generic system type {type.Name} ({type.Namespace})");
+            Logger.Trace($"Reflection read generic system type {type.Name}<{string.Join(",", type.GetGenericArguments().Select(x => x.Name))}> ({type.Namespace})");
             model.IsGeneric = true;
             model.FromSystem = true;
             foreach (Type argument in type.GenericTypeArguments)
@@ -109,7 +109,7 @@ namespace KY.Generator.Reflection.Readers
                     genericMapping.Add(argument, alias);
                     model.Generics.Add(new GenericAliasTransferObject
                                        {
-                                           Alias = alias, 
+                                           Alias = alias,
                                            Type = this.Read(argument, transferObjects)
                                        });
                 }
