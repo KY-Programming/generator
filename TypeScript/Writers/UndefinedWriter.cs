@@ -1,14 +1,22 @@
 ﻿using KY.Generator.Output;
 using KY.Generator.Templates;
+using KY.Generator.TypeScript.Templates;
 using KY.Generator.Writers;
 
 namespace KY.Generator.TypeScript.Writers
 {
-    public class UndefinedWriter : ITemplateWriter
+    public class UndefinedWriter : NullWriter
     {
-        public virtual void Write(ICodeFragment fragment, IOutputCache output)
+        public override void Write(ICodeFragment fragment, IOutputCache output)
         {
-            output.Add("undefined");
+            if (fragment is ForceNullTemplate)
+            {
+                base.Write(fragment, output);
+            }
+            else
+            {
+                output.Add("undefined");
+            }
         }
     }
 }

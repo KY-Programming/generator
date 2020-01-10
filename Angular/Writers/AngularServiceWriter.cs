@@ -89,15 +89,28 @@ namespace KY.Generator.Angular.Writers
                     if (returnType.Name == "Array")
                     {
                         TypeTemplate type = ((GenericTypeTemplate)returnType).Types[0];
+                        ICodeFragment createModelCode = isPrimitive
+                                                            ? (ICodeFragment)Code.Cast(type, Code.Local("entry"))
+                                                            : Code.InlineIf(Code.Local("entry").Equals().ForceNull().Or().Local("entry").Equals().Undefined(),
+                                                                            Code.Undefined(),
+                                                                            Code.New(type, Code.Local("entry"))
+                                                            );
                         declareTemplate = Code.Declare(returnType, "list", Code.TypeScript("[]")).Constant();
                         code.AddLine(declareTemplate)
-                            .AddLine(Code.TypeScript("for (const entry of <[]>result)").StartBlock())
-                            .AddLine(Code.Local(declareTemplate).Method("push", isPrimitive ? (ICodeFragment)Code.Cast(type, Code.Local("entry")) : Code.New(type, Code.Local("entry"))).Close())
-                            .AddLine(Code.TypeScript("").EndBlock());
+                            .AddLine(Code.TypeScript("for (const entry of result) {").BreakLine() /*.StartBlock()*/)
+                            .AddLine(Code.Local(declareTemplate).Method("push", createModelCode).Close())
+                            //.AddLine(Code.TypeScript("").EndBlock());
+                            .AddLine(Code.TypeScript("}").BreakLine());
                     }
                     else if (hasReturnType)
                     {
-                        declareTemplate = Code.Declare(returnType, "model", isPrimitive ? (ICodeFragment)Code.Cast(returnType, Code.Local("result")) : Code.New(returnType, Code.Local("result"))).Constant();
+                        ICodeFragment createModelCode = isPrimitive
+                                                            ? (ICodeFragment)Code.Cast(returnType, Code.Local("result"))
+                                                            : Code.InlineIf(Code.Local("result").Equals().ForceNull().Or().Local("result").Equals().Undefined(),
+                                                                            Code.Undefined(),
+                                                                            Code.New(returnType, Code.Local("result"))
+                                                            );
+                        declareTemplate = Code.Declare(returnType, "model", createModelCode).Constant();
                         code.AddLine(declareTemplate);
                     }
                     code.AddLine(Code.Local("subject").Method("next").WithParameter(declareTemplate.ToLocal()).Close())
@@ -140,10 +153,11 @@ namespace KY.Generator.Angular.Writers
                     methodTemplate.WithCode(
                         Code.This()
                             .Field(httpField)
-                            .Method(action.Type.ToString().ToLowerInvariant(),
-                                    parameterUrl,
-                                    action.RequireBodyParameter ? Code.Local(action.Parameters.Single(x => x.FromBody).Name) : null,
-                                    Code.Local("httpOptions")
+                            .GenericMethod(action.Type.ToString().ToLowerInvariant(),
+                                           returnType,
+                                           parameterUrl,
+                                           action.RequireBodyParameter ? Code.Local(action.Parameters.Single(x => x.FromBody).Name) : null,
+                                           Code.Local("httpOptions")
                             )
                             .Method("subscribe", Code.Lambda(hasReturnType ? "result" : null, code), errorCode).Close()
                     );

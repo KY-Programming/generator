@@ -186,7 +186,7 @@ namespace KY.Generator.Templates.Extensions
             return new NotTemplate().Chain(template);
         }
 
-        private static T Chain<T, TPrevious>(this T template, TPrevious previous)
+        public static T Chain<T, TPrevious>(this T template, TPrevious previous)
             where T : ChainedCodeFragment
             where TPrevious : ChainedCodeFragment
         {

@@ -1,4 +1,6 @@
-﻿using KY.Generator.TypeScript.Templates;
+﻿using KY.Generator.Templates;
+using KY.Generator.Templates.Extensions;
+using KY.Generator.TypeScript.Templates;
 
 namespace KY.Generator.TypeScript
 {
@@ -8,5 +10,26 @@ namespace KY.Generator.TypeScript
         {
             return new TypeScriptTemplate(code);
         }
+
+        public static NullTemplate Undefined(this Code _)
+        {
+            return new NullTemplate();
+        }
+
+        public static NullValueTemplate Undefined(this ChainedCodeFragment template)
+        {
+            return new NullValueTemplate().Chain(template);
+        }
+
+        public static ForceNullTemplate ForceNull(this Code _)
+        {
+            return new ForceNullTemplate();
+        }
+
+        public static ForceNullValueTemplate ForceNull(this ChainedCodeFragment template)
+        {
+            return new ForceNullValueTemplate().Chain(template);
+        }
+
     }
 }
