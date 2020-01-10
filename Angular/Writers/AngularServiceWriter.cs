@@ -4,6 +4,7 @@ using System.Linq;
 using KY.Core;
 using KY.Core.DataAccess;
 using KY.Generator.Angular.Configurations;
+using KY.Generator.Extensions;
 using KY.Generator.Languages;
 using KY.Generator.Mappings;
 using KY.Generator.Templates;
@@ -52,6 +53,8 @@ namespace KY.Generator.Angular.Writers
                 classTemplate.AddConstructor().WithParameter(Code.Type(httpClient), "http")
                              .WithCode(Code.This().Field(httpField).Assign(Code.Local("http")).Close());
                 string relativeModelPath = FileSystem.RelativeTo(configuration.Model?.RelativePath ?? ".", configuration.Service.RelativePath);
+                bool appendConvertAnyMethod = false;
+                bool appendConvertDateMethod = false;
                 foreach (HttpServiceActionTransferObject action in controller.Actions)
                 {
                     ICodeFragment errorCode = Code.Lambda("error", Code.Local("subject").Method("error", Code.Local("error")));
@@ -147,7 +150,16 @@ namespace KY.Generator.Angular.Writers
                             parameterUrl = parameterUrl.Append(Code.String($"&{parameter.Name}="));
                         }
                         isFirst = false;
-                        parameterUrl = parameterUrl.Append(Code.TypeScript($"({name} === undefined ? \"\" : {name})"));
+                        if (parameter.Type.IgnoreNullable().Name == "Date")
+                        {
+                            appendConvertDateMethod = true;
+                            parameterUrl = parameterUrl.Append(Code.This().Method("convertDate", Code.Local(name)));
+                        }
+                        else
+                        {
+                            appendConvertAnyMethod = true;
+                            parameterUrl = parameterUrl.Append(Code.This().Method("convertAny", Code.Local(name)));
+                        }
                     }
 
                     methodTemplate.WithCode(
@@ -162,6 +174,30 @@ namespace KY.Generator.Angular.Writers
                             .Method("subscribe", Code.Lambda(hasReturnType ? "result" : null, code), errorCode).Close()
                     );
                     methodTemplate.WithCode(Code.Return(Code.Local("subject")));
+                }
+
+                if (appendConvertAnyMethod)
+                {
+                    classTemplate.AddMethod("convertAny", Code.Type("string"))
+                                 .WithParameter(Code.Type("any"), "value")
+                                 .WithCode(Code.Return(Code.InlineIf(Code.Local("value").Equals().ForceNull().Or().Local("value").Equals().Undefined(),
+                                                                     Code.Undefined(),
+                                                                     Code.Local("value").Method("toString")
+                                                       )
+                                           ));
+                }
+                if (appendConvertDateMethod)
+                {
+                    classTemplate.AddMethod("convertDate", Code.Type("string"))
+                                 .WithParameter(Code.Type("Date"), "date")
+                                 .WithCode(Code.Return(Code.InlineIf(Code.Local("date").Equals().ForceNull().Or().Local("date").Equals().Undefined(),
+                                                                     Code.Undefined(),
+                                                                     Code.InlineIf(Code.TypeScript($"typeof(date) === \"string\""),
+                                                                                   Code.Local("date"),
+                                                                                   Code.Local("date").Method("toISOString")
+                                                                     )
+                                                       )
+                                           ));
                 }
             }
         }
