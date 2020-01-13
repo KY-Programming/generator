@@ -3,7 +3,7 @@
   <metadata>
     <id>KY.Generator.CLI.Core.Minimal</id>
     <!-- Ensure nuget.targets version is also updated -->
-    <version>3.3.0-rc.3</version>
+    <version>3.3.0</version>
     <title>KY.Generator.CLI.Core.Minimal</title>
     <authors>KY-Programming</authors>
     <owners>KY-Programming</owners>
@@ -14,7 +14,7 @@
     <description>KY-Generator .NET Core CLI containing the minimal required features.
 Generate classes from oData, .NET assembly, JSON or TSQL to C# or TypeScript. Support Angular, ASP.NET, ASP.NET Core, C# POCOs, TypeScript POCOs, Entity Framework and more.</description>
     <releaseNotes></releaseNotes>
-    <copyright>Copyright 2019</copyright>
+    <copyright>Copyright 2020</copyright>
     <tags>KY-Generator KY Generator .netCore CLI</tags>
   </metadata>
   <files>

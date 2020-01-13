@@ -48,5 +48,10 @@ namespace KY.Generator.Output
         {
             return FileSystem.Combine(this.basePath, fileName.Trim('\\'));
         }
+
+        public override string ToString()
+        {
+            return this.basePath;
+        }
     }
 }

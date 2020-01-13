@@ -87,7 +87,7 @@ namespace KY.Generator.Commands
             }
             if (configurations == null || configurations.Count == 0)
             {
-                Logger.Trace("No configuration loaded. Generation failed!");
+                Logger.Trace("No configuration loaded. Provide at least one entry like: ...\"generate\": [{\"write\": \"demo\"}]...");
                 return false;
             }
             this.modules.OfType<GeneratorModule>().ForEach(x => x.BeforeRun());
