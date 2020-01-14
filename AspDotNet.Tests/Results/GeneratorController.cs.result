@@ -1,21 +1,18 @@
-﻿<// ReSharper disable All
+﻿// ReSharper disable All
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Web;
+using System.Web.Http;
+using System.Web.Mvc;
 using KY.Generator;
 using KY.Generator.Output;
-using Microsoft.AspNetCore.Mvc;
 
 namespace KY.Generator.Test.Controllers
 {
-    [Route("[controller]")]
-    [Route("api/v1/[controller]")]
-    public partial class GeneratorController : ControllerBase
+    public partial class GeneratorController : ApiController
     {
-        private static readonly Dictionary<string, MemoryOutput> cache = new Dictionary<string, MemoryOutput>();
-
-        [HttpPost("[action]")]
+        [ValidateInput(false)]
         public string Create(string configuration)
         {
             string id = Guid.NewGuid().ToString();
@@ -29,11 +26,10 @@ namespace KY.Generator.Test.Controllers
             generator.ParseConfiguration(configuration);
             generator.Run();
 
-            cache[id] = output;
+            HttpContext.Current.Cache[id] = output;
             return id;
         }
 
-        [HttpPost("[action]")]
         public string Command(string command)
         {
             string id = Guid.NewGuid().ToString();
@@ -47,36 +43,33 @@ namespace KY.Generator.Test.Controllers
             generator.ParseCommand(command);
             generator.Run();
 
-            cache[id] = output;
+            HttpContext.Current.Cache[id] = output;
             return id;
         }
 
-        [HttpPost("[action]")]
         public string GetFiles(string id)
         {
             if (id == null)
             {
                 return null;
             }
-            MemoryOutput output = cache[id];
+            MemoryOutput output = HttpContext.Current.Cache[id] as MemoryOutput;
             return output == null ? null : string.Join(Environment.NewLine, output.Files.Select(x => x.Key));
         }
 
-        [HttpPost("[action]")]
         public string GetFile(string id, string path)
         {
             if (id == null)
             {
                 return null;
             }
-            MemoryOutput output = cache[id];
+            MemoryOutput output = HttpContext.Current.Cache[id] as MemoryOutput;
             return output == null || ! output.Files.ContainsKey(path) ? null : output.Files[path];
         }
 
-        [HttpGet("[action]")]
         public bool Available()
         {
             return true;
         }
     }
-}>
+}

@@ -7,15 +7,9 @@ namespace KY.Generator
     {
         private static void Main(string[] args)
         {
-            Generator.InitializeLogger(args);
-
-            bool success = Generator.Initialize()
-                                    .SetParameters(args)
-                                    .Run();
-            if (!success)
-            {
-                Environment.ExitCode = 1;
-            }
+            Generator.Create(args)
+                     .Run()
+                     .SetExitCode();
 
 #if DEBUG
             if (Logger.Console.IsConsoleAvailable)

@@ -10,10 +10,10 @@ namespace KY.Generator.Command
         public string Command { get; }
         public List<CommandParameter> Parameters { get; }
 
-        public CommandConfiguration(string command)
+        public CommandConfiguration(string command, List<CommandParameter> parameters = default)
         {
             this.Command = command;
-            this.Parameters = new List<CommandParameter>();
+            this.Parameters = parameters ?? new List<CommandParameter>();
             this.Language = new ForwardFileLanguage();
         }
     }

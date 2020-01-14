@@ -9,18 +9,12 @@ namespace KY.Generator.Reflection.Tests
     [TestClass]
     public class InterfaceTest
     {
-        private Generator generator;
         private MemoryOutput output;
 
         [TestInitialize]
         public void Initialize()
         {
             this.output = new MemoryOutput();
-            this.generator = Generator.Initialize()
-                                      .PreloadModule<CsharpModule>()
-                                      .PreloadModule<TypeScriptModule>()
-                                      .PreloadModule<ReflectionModule>()
-                                      .SetOutput(this.output);
         }
 
         [TestMethod]
@@ -113,16 +107,20 @@ namespace KY.Generator.Reflection.Tests
 
         private bool RunByTypeName(string typeName)
         {
-            return this.generator.SetParameters(
-                "reflection",
-                "-name=" + typeName,
-                "-namespace=KY.Generator.Reflection.Tests",
-                "-language=TypeScript",
-                "-skipNamespace",
-                "-propertiesToFields",
-                "-formatNames",
-                "-skipHeader"
-            ).Run();
+            return Generator.Create("reflection",
+                                    "-name=" + typeName,
+                                    "-namespace=KY.Generator.Reflection.Tests",
+                                    "-language=TypeScript",
+                                    "-skipNamespace",
+                                    "-propertiesToFields",
+                                    "-formatNames",
+                                    "-skipHeader")
+                            .PreloadModule<CsharpModule>()
+                            .PreloadModule<TypeScriptModule>()
+                            .PreloadModule<ReflectionModule>()
+                            .SetOutput(this.output)
+                            .Run()
+                            .GetResult();
         }
     }
 }

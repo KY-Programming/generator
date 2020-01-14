@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using KY.Core;
 using KY.Generator.Command.Extensions;
 using KY.Generator.Languages;
 
@@ -14,20 +15,30 @@ namespace KY.Generator.Command
             this.languages = languages;
         }
 
-        public CommandConfiguration Read(params string[] arguments)
+        public CommandConfiguration Read(params string[] parameters)
         {
-            CommandConfiguration configuration = new CommandConfiguration(arguments.First());
-            SetParameters(configuration, arguments.Skip(1));
+            if (parameters.Length == 0)
+            {
+                Logger.Error("No command found. Provide at least one command like 'run -configuration=\"<path-to-configuration-file>\"'");
+                return null;
+            }
+            List<string> commandList = parameters.Where(x => !x.StartsWith("-")).ToList();
+            if (commandList.Count > 1)
+            {
+                Logger.Error($"Only one command is allowed. All parameters has to start with a dash (-). Commands found: {string.Join(", ", commandList)}");
+                return null;
+            }
+            List<CommandParameter> commandParameters = this.ReadParameters(parameters.Where(x => x.StartsWith("-"))).ToList();
+            CommandConfiguration configuration = new CommandConfiguration(commandList.Single(), commandParameters);
             configuration.ReadFromParameters(configuration.Parameters, this.languages);
             return configuration;
         }
 
-        public static void SetParameters(CommandConfiguration configuration, IEnumerable<string> parameters)
+        private IEnumerable<CommandParameter> ReadParameters(IEnumerable<string> parameters)
         {
-            foreach (string chunk in parameters)
+            foreach (string parameter in parameters)
             {
-                string parameter = chunk.Trim();
-                configuration.Parameters.Add(parameter[0] == '-' ? CommandValueParameter.Parse(parameter) : new CommandParameter(parameter));
+                yield return CommandParameter.Parse(parameter.Trim());
             }
         }
     }

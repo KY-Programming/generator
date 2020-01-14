@@ -7,7 +7,6 @@ using KY.Core.Dependency;
 using KY.Core.Module;
 using KY.Generator.Command;
 using KY.Generator.Configuration;
-using KY.Generator.Module;
 using KY.Generator.Output;
 
 namespace KY.Generator.Commands
@@ -90,13 +89,11 @@ namespace KY.Generator.Commands
                 Logger.Trace("No configuration loaded. Provide at least one entry like: ...\"generate\": [{\"write\": \"demo\"}]...");
                 return false;
             }
-            this.modules.OfType<GeneratorModule>().ForEach(x => x.BeforeRun());
             if (configurations.Any(x => x.Configurations.Any(y => !y.VerifySsl)))
             {
                 ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
             }
             bool success = this.runner.Run(configurations, output, isBeforeBuild);
-            this.modules.OfType<GeneratorModule>().ForEach(x => x.AfterRun());
             Logger.Trace("All configurations generated");
             return success;
         }

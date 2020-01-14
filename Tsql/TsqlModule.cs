@@ -1,14 +1,14 @@
 ﻿using KY.Core.Dependency;
+using KY.Core.Module;
 using KY.Generator.Configuration;
 using KY.Generator.Mappings;
-using KY.Generator.Module;
 using KY.Generator.Tsql.Configurations;
 using KY.Generator.Tsql.Language;
 using KY.Generator.Tsql.Readers;
 
 namespace KY.Generator.Tsql
 {
-    public class TsqlModule : GeneratorModule
+    public class TsqlModule : ModuleBase
     {
         public TsqlModule(IDependencyResolver dependencyResolver)
             : base(dependencyResolver)

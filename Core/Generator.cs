@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using KY.Core;
-using KY.Core.DataAccess;
 using KY.Core.Dependency;
 using KY.Core.Module;
 using KY.Generator.Command;
 using KY.Generator.Configuration;
 using KY.Generator.Configurations;
 using KY.Generator.Mappings;
-using KY.Generator.Module;
 using KY.Generator.Output;
 using KY.Generator.Syntax;
 using KY.Generator.Transfer.Readers;
@@ -18,20 +16,21 @@ using KY.Generator.Transfer.Writers;
 
 namespace KY.Generator
 {
-    public class Generator : IGeneratorRunSyntax
+    public class Generator : IGeneratorRunSyntax, IGeneratorAfterRunSyntax
     {
         private IOutput output;
         private readonly DependencyResolver resolver;
-        private bool standalone;
-        private CommandConfiguration command;
+        private readonly CommandConfiguration command;
+        private bool success;
         private IList<ModuleBase> Modules { get; }
 
-        public Generator()
+        public Generator(params string[] parameters)
         {
-            Logger.CatchAll();
+            InitializeLogger(parameters);
             Logger.Trace($"KY-Generator v{Assembly.GetCallingAssembly().GetName().Version}");
             Logger.Trace("Current Directory: " + Environment.CurrentDirectory);
             Logger.Trace("Log Directory: " + Logger.File.Path);
+            Logger.Trace($"Parameters: {string.Join(" ", parameters)}");
 
             NugetPackageDependencyLoader.Activate();
 
@@ -55,11 +54,14 @@ namespace KY.Generator
             }
             this.Modules.ForEach(module => this.resolver.Bind<ModuleBase>().To(module));
             this.Modules.ForEach(module => module.Initialize());
+
+            CommandReader reader = this.resolver.Create<CommandReader>();
+            this.command = reader.Read(parameters);
         }
 
-        public static Generator Initialize()
+        public static Generator Create(params string[] parameters)
         {
-            return new Generator();
+            return new Generator(parameters);
         }
 
         public Generator PreloadModule<T>() where T : ModuleBase
@@ -106,98 +108,50 @@ namespace KY.Generator
             return this;
         }
 
-        public IGeneratorRunSyntax ReadConfiguration(string path)
-        {
-            Logger.Trace($"Read configuration from {path}");
-            this.Modules.OfType<GeneratorModule>().ForEach(x => x.BeforeConfigure());
-            this.command = new CommandConfiguration("run");
-            this.command.Parameters.Add(new CommandValueParameter("path", path));
-            this.command.Standalone = this.standalone;
-            return this;
-        }
-
-        public IGeneratorRunSyntax ParseConfiguration(string configuration)
-        {
-            Logger.Trace($"Parse configuration {configuration}");
-            this.Modules.OfType<GeneratorModule>().ForEach(x => x.BeforeConfigure());
-            this.command = new CommandConfiguration("run");
-            this.command.Parameters.Add(new CommandValueParameter("configuration", configuration));
-            this.command.Standalone = this.standalone;
-            return this;
-        }
-
-        public IGeneratorRunSyntax ParseCommand(params string[] arguments)
-        {
-            Logger.Trace($"Parse command {string.Join(" ", arguments)}");
-            this.Modules.OfType<GeneratorModule>().ForEach(x => x.BeforeConfigure());
-            CommandReader reader = this.resolver.Create<CommandReader>();
-            this.command = reader.Read(arguments);
-            this.command.Standalone = this.standalone;
-            CommandValueParameter outputParameter = this.command.Parameters.OfType<CommandValueParameter>().FirstOrDefault(x => x.Name.Equals("output", StringComparison.CurrentCultureIgnoreCase));
-            if (outputParameter != null)
-            {
-                this.SetOutput(outputParameter.Value);
-            }
-            return this;
-        }
-
-        public IGeneratorRunSyntax SetParameters(params string[] parameters)
-        {
-            if (parameters.Length == 0)
-            {
-                Logger.Error("No parameters found. Provide at least a command or a path to a configuration file. Generation aborted!");
-                return this;
-            }
-            if (FileSystem.FileExists(parameters.First()))
-            {
-                this.SetOutput(parameters.Skip(1).FirstOrDefault() ?? FileSystem.Parent(parameters.First()))
-                           .ReadConfiguration(parameters.First());
-                CommandReader.SetParameters(this.command, parameters.Skip(2));
-                return this;
-            }
-            if (parameters.First().Contains(":\\"))
-            {
-                Logger.Error($"'{parameters.First()}' not found");
-                return this;
-            }
-            return this.ParseCommand(parameters);
-        }
-
         public Generator SetStandalone()
         {
-            this.standalone = true;
-            if (this.command != null)
-            {
-                this.command.Standalone = true;
-            }
+            this.command.Standalone = true;
             return this;
         }
 
-        public bool Run()
+        public IGeneratorAfterRunSyntax Run()
         {
-            bool result;
             try
             {
-                result = this.resolver.Get<CommandRunner>().Run(this.command, this.output);
+                this.success = this.resolver.Get<CommandRunner>().Run(this.command, this.output);
             }
             catch (Exception exception)
             {
                 Logger.Error(exception);
-                result = false;
+                this.success = false;
             }
             finally
             {
                 Logger.Trace("===============================");
             }
-            if (!result && Logger.ErrorTargets.Contains(Logger.MsBuildOutput))
+            if (!this.success && Logger.ErrorTargets.Contains(Logger.MsBuildOutput))
             {
                 Logger.Error($"See the full log in: {Logger.File.Path}");
             }
-            return result;
+            return this;
         }
 
-        public static void InitializeLogger(string[] parameters)
+        public bool GetResult()
         {
+            return this.success;
+        }
+
+        public void SetExitCode()
+        {
+            if (!this.success)
+            {
+                Environment.ExitCode = 1;
+            }
+        }
+
+        private static void InitializeLogger(string[] parameters)
+        {
+            Logger.CatchAll();
             Logger.AllTargets.Add(Logger.VisualStudioOutput);
             if (parameters.Any(parameter => parameter.ToLowerInvariant().Contains("forwardlogging")))
             {

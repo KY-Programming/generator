@@ -2,6 +2,6 @@
 {
     public interface IGeneratorRunSyntax
     {
-        bool Run();
+        IGeneratorAfterRunSyntax Run();
     }
 }

@@ -18,27 +18,21 @@ namespace KY.Generator
     {
         private static void Main(string[] args)
         {
-            Generator.InitializeLogger(args);
-
-            bool success = Generator.Initialize()
-                                    .PreloadModule<AngularModule>()
-                                    .PreloadModule<AspDotNetModule>()
-                                    .PreloadModule<CsharpModule>()
-                                    .PreloadModule<EntityFrameworkModule>()
-                                    .PreloadModule<JsonModule>()
-                                    .PreloadModule<ODataModule>()
-                                    .PreloadModule<OpenApiModule>()
-                                    .PreloadModule<ReflectionModule>()
-                                    .PreloadModule<TsqlModule>()
-                                    .PreloadModule<TypeScriptModule>()
-                                    .PreloadModule<WatchdogModule>()
-                                    .SetStandalone()
-                                    .SetParameters(args)
-                                    .Run();
-            if (!success)
-            {
-                Environment.ExitCode = 1;
-            }
+            Generator.Create(args)
+                     .PreloadModule<AngularModule>()
+                     .PreloadModule<AspDotNetModule>()
+                     .PreloadModule<CsharpModule>()
+                     .PreloadModule<EntityFrameworkModule>()
+                     .PreloadModule<JsonModule>()
+                     .PreloadModule<ODataModule>()
+                     .PreloadModule<OpenApiModule>()
+                     .PreloadModule<ReflectionModule>()
+                     .PreloadModule<TsqlModule>()
+                     .PreloadModule<TypeScriptModule>()
+                     .PreloadModule<WatchdogModule>()
+                     .SetStandalone()
+                     .Run()
+                     .SetExitCode();
 
 #if DEBUG
             if (Logger.Console.IsConsoleAvailable)

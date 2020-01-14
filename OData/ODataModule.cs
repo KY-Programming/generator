@@ -1,14 +1,14 @@
 ﻿using KY.Core.Dependency;
+using KY.Core.Module;
 using KY.Generator.Configuration;
 using KY.Generator.Mappings;
-using KY.Generator.Module;
 using KY.Generator.OData.Configurations;
 using KY.Generator.OData.Extensions;
 using KY.Generator.OData.Readers;
 
 namespace KY.Generator.OData
 {
-    public class ODataModule : GeneratorModule
+    public class ODataModule : ModuleBase
     {
         public ODataModule(IDependencyResolver dependencyResolver)
             : base(dependencyResolver)
