@@ -144,14 +144,14 @@ namespace KY.Generator.OData.Readers
 
         private void ReadServices(IEdmModel model, Dictionary<IEdmType, TypeTransferObject> mapping, List<ITransferObject> list)
         {
-            foreach (IEdmEntityContainerElement entitySet in model.EntityContainer.Elements)
+            foreach (IEdmEntitySet entitySet in model.EntityContainer.Elements.OfType<IEdmEntitySet>())
             {
-                HttpServiceTransferObject service = new HttpServiceTransferObject
-                                                    {
-                                                        Name = entitySet.Name,
-                                                        Route = entitySet.Name,
-                                                        Language = ODataLanguage.Instance
-                                                    };
+                EntitySetTransferObject service = new EntitySetTransferObject
+                                                  {
+                                                      Name = entitySet.Name,
+                                                      Route = entitySet.Name,
+                                                      Language = ODataLanguage.Instance
+                                                  };
                 if (entitySet is IEdmNavigationSource navigationSource)
                 {
                     service.Actions.Add(this.ReadAction(HttpServiceActionTypeTransferObject.Get, mapping, navigationSource));
@@ -160,6 +160,7 @@ namespace KY.Generator.OData.Readers
                     service.Actions.Add(this.ReadAction(HttpServiceActionTypeTransferObject.Patch, mapping, navigationSource));
                     service.Actions.Add(this.ReadAction(HttpServiceActionTypeTransferObject.Delete, mapping, navigationSource));
                 }
+                service.Entity = list.OfType<EntityTransferObject>().First(x => x.Name == mapping[entitySet.Type.AsElementType()].Name);
                 list.Add(service);
             }
         }
