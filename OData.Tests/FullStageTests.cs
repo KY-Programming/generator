@@ -42,10 +42,10 @@ namespace KY.Generator.OData.Tests
         {
             Assert.AreEqual(true, this.Run(Resources.odata_generator), "Generation not successful");
             Assert.AreEqual(4, this.output.Files.Count);
-            Assert.AreEqual(Resources.address_service_ts, this.output.Files["address-service.ts"]);
+            Assert.AreEqual(Resources.address_service_ts, this.output.Files["address.service.ts"]);
             Assert.AreEqual(Resources.address_ts, this.output.Files["address.ts"]);
             Assert.AreEqual(Resources.user_ts, this.output.Files["user.ts"]);
-            Assert.AreEqual(Resources.u_se_r_service_ts, this.output.Files["u-se-r-service.ts"]);
+            Assert.AreEqual(Resources.u_se_r_service_ts, this.output.Files["u-se-r.service.ts"]);
         }
 
         private bool Run(string configuration)

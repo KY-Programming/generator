@@ -17,13 +17,12 @@ export class CustomValuesService {
         this.http = http;
     }
 
-    public get(httpOptions?: {}): Observable<string[]> {
+    public get(httpOptions: {} = undefined): Observable<string[]> {
         let subject = new Subject<string[]>();
-        this.http.get(this.serviceUrl + "/Values", httpOptions).subscribe(result => {
+        this.http.get<string[]>(this.serviceUrl + "/Values", httpOptions).subscribe(result => {
             const list: string[] = [];
-            for (const entry of <[]>result) {
-                list.push(<string>entry);
-                
+            for (const entry of result) {
+            list.push(<string>entry);
             }
             subject.next(list);
             subject.complete();
@@ -31,40 +30,44 @@ export class CustomValuesService {
         return subject;
     }
 
-    public get2(id: number, httpOptions?: {}): Observable<Value> {
+    public get2(id: number, httpOptions: {} = undefined): Observable<Value> {
         let subject = new Subject<Value>();
-        this.http.get(this.serviceUrl + "/Values?id=" + id, httpOptions).subscribe(result => {
-            const model = new Value(result);
+        this.http.get<Value>(this.serviceUrl + "/Values?id=" + this.convertAny(id), httpOptions).subscribe(result => {
+            const model: Value = result === null || result === undefined ? undefined : new Value(result);
             subject.next(model);
             subject.complete();
         }, error => subject.error(error));
         return subject;
     }
 
-    public post(value: Value, httpOptions?: {}): Observable<void> {
+    public post(value: Value, httpOptions: {} = undefined): Observable<void> {
         let subject = new Subject<void>();
-        this.http.post(this.serviceUrl + "/Values", value, httpOptions).subscribe(() => {
+        this.http.post<void>(this.serviceUrl + "/Values", value, httpOptions).subscribe(() => {
             subject.next();
             subject.complete();
         }, error => subject.error(error));
         return subject;
     }
 
-    public put(id: number, value: Value, httpOptions?: {}): Observable<void> {
+    public put(id: number, value: Value, httpOptions: {} = undefined): Observable<void> {
         let subject = new Subject<void>();
-        this.http.put(this.serviceUrl + "/Values?id=" + id, value, httpOptions).subscribe(() => {
+        this.http.put<void>(this.serviceUrl + "/Values?id=" + this.convertAny(id), value, httpOptions).subscribe(() => {
             subject.next();
             subject.complete();
         }, error => subject.error(error));
         return subject;
     }
 
-    public delete(id: number, httpOptions?: {}): Observable<void> {
+    public delete(id: number, httpOptions: {} = undefined): Observable<void> {
         let subject = new Subject<void>();
-        this.http.delete(this.serviceUrl + "/Values?id=" + id, httpOptions).subscribe(() => {
+        this.http.delete<void>(this.serviceUrl + "/Values?id=" + this.convertAny(id), httpOptions).subscribe(() => {
             subject.next();
             subject.complete();
         }, error => subject.error(error));
         return subject;
+    }
+
+    public convertAny(value: any): string {
+        return value === null || value === undefined ? "" : value.toString();
     }
 }
