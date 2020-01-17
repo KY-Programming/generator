@@ -1,5 +1,6 @@
 using KY.Generator.Configuration;
 using KY.Generator.Languages;
+using KY.Generator.Output;
 
 namespace KY.Generator.Configurations
 {
@@ -7,5 +8,7 @@ namespace KY.Generator.Configurations
     {
         ILanguage Language { get; }
         ConfigurationFormatting Formatting { get; }
+        IOutput Output { get; }
+        ConfigurationEnvironment Environment { get; }
     }
 }

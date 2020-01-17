@@ -1,10 +1,9 @@
-﻿using KY.Generator.Output;
+﻿using KY.Generator.Configurations;
 
 namespace KY.Generator.Command
 {
     public interface IGeneratorCommand
     {
-        string[] Names { get; }
-        bool Generate(CommandConfiguration configuration, ref IOutput output);
+        bool Execute(IConfiguration configurationBase);
     }
 }

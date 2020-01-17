@@ -1,32 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using KY.Core;
+﻿using KY.Generator.Configurations;
 using KY.Generator.Output;
 
 namespace KY.Generator.Command
 {
     public class CommandRunner
     {
-        private readonly List<IGeneratorCommand> commands;
+        private readonly CommandRegister commands;
 
-        public CommandRunner(List<IGeneratorCommand> commands)
+        public CommandRunner(CommandRegister commands)
         {
             this.commands = commands;
         }
 
-        public bool Run(CommandConfiguration configuration, IOutput output)
+        public bool Run(IConfiguration configuration, IOutput output)
         {
             if (configuration == null)
             {
                 return false;
             }
-            List<IGeneratorCommand> commandsToRun = this.commands.Where(x => x.Names.Any(name => name.Equals(configuration.Command, StringComparison.InvariantCultureIgnoreCase))).ToList();
-            if (commandsToRun.Count == 0)
-            {
-                Logger.Error($"Command '{configuration.Command}' not found");
-            }
-            bool success = commandsToRun.Select(x => x.Generate(configuration, ref output)).ToList().Any(x => x);
+            IGeneratorCommand command = this.commands.CreateCommand(configuration);
+            bool success = command.Execute(configuration);
             if (success)
             {
                 output.Execute();

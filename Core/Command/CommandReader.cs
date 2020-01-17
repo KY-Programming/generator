@@ -1,25 +1,29 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using KY.Core;
-using KY.Generator.Command.Extensions;
-using KY.Generator.Languages;
+using KY.Generator.Configuration;
+using KY.Generator.Configurations;
+using KY.Generator.Exceptions;
+using KY.Generator.Extensions;
 
 namespace KY.Generator.Command
 {
-    internal class CommandReader
+    public class CommandReader
     {
-        private readonly List<ILanguage> languages;
+        private readonly CommandRegister commands;
 
-        public CommandReader(List<ILanguage> languages)
+        public CommandReader(CommandRegister commands)
         {
-            this.languages = languages;
+            this.commands = commands;
         }
 
-        public CommandConfiguration Read(params string[] parameters)
+        public IConfiguration Read(List<string> parameters)
         {
-            if (parameters.Length == 0)
+            if (parameters.Count == 0)
             {
-                Logger.Error("No command found. Provide at least one command like 'run -configuration=\"<path-to-configuration-file>\"'");
+                Logger.Error("No command found. Provide at least one command like 'KY.Generator run -configuration=\"<path-to-configuration-file>\"' or 'KY.Generator version'");
                 return null;
             }
             List<string> commandList = parameters.Where(x => !x.StartsWith("-")).ToList();
@@ -29,8 +33,15 @@ namespace KY.Generator.Command
                 return null;
             }
             List<CommandParameter> commandParameters = this.ReadParameters(parameters.Where(x => x.StartsWith("-"))).ToList();
-            CommandConfiguration configuration = new CommandConfiguration(commandList.Single(), commandParameters);
-            configuration.ReadFromParameters(configuration.Parameters, this.languages);
+            
+            IConfiguration configuration = this.commands.CreateConfiguration(commandList.Single());
+            if (configuration == null)
+            {
+                Logger.Error($"Command '{commandList.Single()}' not found");
+                return null;
+            }
+            configuration.Environment?.Parameters.AddRange(commandParameters);
+            this.SetParameters(configuration, commandParameters);
             return configuration;
         }
 
@@ -39,6 +50,34 @@ namespace KY.Generator.Command
             foreach (string parameter in parameters)
             {
                 yield return CommandParameter.Parse(parameter.Trim());
+            }
+        }
+
+        private void SetParameters(IConfiguration configuration, List<CommandParameter> parameters)
+        {
+            parameters.AssertIsNotNull(nameof(parameters));
+            Type type = configuration.GetType();
+            Dictionary<string, PropertyInfo> properties = new Dictionary<string, PropertyInfo>();
+            foreach (PropertyInfo property in type.GetProperties())
+            {
+                properties.Add(property.Name, property);
+                property.GetCustomAttributes<ConfigurationPropertyAttribute>().ForEach(attribute => properties.Add(attribute.Alias, property));
+            }
+            foreach (CommandParameter parameter in parameters)
+            {
+                string parameterName = parameter.Name.ToPascalCase();
+                if (!properties.ContainsKey(parameterName))
+                {
+                    Logger.Warning($"Unknown parameter '{parameterName}'. No matching property in {type.Name} found. Add a matching property or use [{nameof(ConfigurationPropertyAttribute).Replace("Attribute", string.Empty)}(\"{parameterName}\")].");
+                    continue;
+                }
+                PropertyInfo propertyInfo = properties[parameterName];
+                if (!propertyInfo.CanWrite)
+                {
+                    throw new ConfigurationParameterReadOnlyException(parameterName);
+                }
+                object value = CommandParameterConverters.Convert(parameter.Value, propertyInfo);
+                propertyInfo.SetValue(configuration, value);
             }
         }
     }

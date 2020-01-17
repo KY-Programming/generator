@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using KY.Generator.Configuration;
 using KY.Generator.Languages;
 using KY.Generator.Mappings;
+using KY.Generator.Output;
 using Newtonsoft.Json;
 
 namespace KY.Generator.Configurations
@@ -11,20 +12,37 @@ namespace KY.Generator.Configurations
         public bool VerifySsl { get; set; } = true;
 
         [JsonIgnore]
+        [ConfigurationIgnore]
         public ILanguage Language { get; set; }
 
         [JsonProperty("Language")]
+        [ConfigurationProperty("Language")]
         internal string LanguageKey { get; set; }
 
         public bool AddHeader { get; set; } = true;
         public virtual bool RequireLanguage => true;
 
+        [JsonIgnore]
+        public bool SkipHeader
+        {
+            get => !this.AddHeader;
+            set => this.AddHeader = !value;
+        }
+
         public List<ClassMapping> ClassMapping { get; }
         public List<FieldMapping> FieldMapping { get; }
         public List<PropertyMapping> PropertyMapping { get; }
-        public bool Standalone { get; set; }
-        public ConfigurationEnvironment Environment { get; set; }
         public ConfigurationFormatting Formatting { get; set; }
+
+        [JsonIgnore]
+        public bool Standalone { get; set; }
+
+        [JsonIgnore]
+        public ConfigurationEnvironment Environment { get; set; }
+
+        [JsonIgnore]
+        public IOutput Output { get; }
+
         public bool CheckOnOverwrite { get; set; } = true;
         public bool BeforeBuild { get; set; }
 

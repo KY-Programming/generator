@@ -2,6 +2,7 @@
 using KY.Generator.Configuration;
 using KY.Generator.Configurations;
 using KY.Generator.Languages;
+using KY.Generator.Output;
 
 namespace KY.Generator.Core.Tests.Models
 {
@@ -16,6 +17,8 @@ namespace KY.Generator.Core.Tests.Models
         public bool FormatNames { get; set; }
         public ILanguage Language { get; set; }
         public ConfigurationFormatting Formatting { get; }
+        public IOutput Output { get; set; }
+        public ConfigurationEnvironment Environment { get; set; }
 
         public TestConfiguration()
         {

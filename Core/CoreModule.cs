@@ -31,9 +31,17 @@ namespace KY.Generator
 
         public override void Initialize()
         {
-            this.DependencyResolver.Bind<IGeneratorCommand>().To<ClientCommand>();
+            this.DependencyResolver.Get<CommandRegister>()
+                .Register<ClientCommand, ClientConfiguration>("client")
+                .Register<VersionCommand, VersionConfiguration>("version")
+                .Register<VersionCommand, VersionConfiguration>("v")
+                .Register<ExecuteCommand, ExecuteConfiguration>("execute")
+                .Register<ExecuteCommand, ExecuteConfiguration>("exec")
+                .Register<ExecuteCommand, ExecuteConfiguration>("e")
+                .Register<ExecuteCommand, ExecuteConfiguration>("run")
+                .Register<ExecuteCommand, ExecuteConfiguration>("r");
             this.DependencyResolver.Bind<IGeneratorCommand>().To<VersionCommand>();
-            this.DependencyResolver.Bind<IGeneratorCommand>().To<RunCommand>();
+            this.DependencyResolver.Bind<IGeneratorCommand>().To<ExecuteCommand>();
             this.DependencyResolver.Bind<ILanguage>().To<EmptyLanguage>();
             this.DependencyResolver.Get<ConfigurationMapping>()
                 .Map<CookieConfiguration, CookieReader>("cookie")

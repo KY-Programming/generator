@@ -1,25 +1,26 @@
 ﻿using System;
 using System.Linq;
+using System.Reflection;
 using KY.Core;
 using KY.Generator.Command;
-using KY.Generator.Output;
+using KY.Generator.Configurations;
 
 namespace KY.Generator.Commands
 {
     internal class VersionCommand : IGeneratorCommand
     {
-        public string[] Names { get; } = { "version", "-version", "--version", "v", "-v", "--v" };
-
-        public bool Generate(CommandConfiguration configuration, ref IOutput output)
+        public bool Execute(IConfiguration configurationBase)
         {
-            bool detailed = configuration.Parameters.GetBool("d");
             Logger.Trace("Execute version command...");
+            AssemblyName callingName = Assembly.GetEntryAssembly()?.GetName();
+            Logger.Trace($"{callingName?.Name} {callingName?.Version}");
+            VersionConfiguration configuration = (VersionConfiguration)configurationBase;
             Logger.Trace("Loaded assemblies:");
 
             AppDomain.CurrentDomain.GetAssemblies()
                      .Select(x => x.GetName())
                      .OrderBy(x => x.Name)
-                     .ForEach(x => Logger.Trace($"{x.Name} {x.Version} {(detailed ? x.CodeBase.TrimStart("file:///") : "")}"));
+                     .ForEach(x => Logger.Trace($"{x.Name} {x.Version} {(configuration.Detailed ? x.CodeBase.TrimStart("file:///") : "")}"));
             return true;
         }
     }

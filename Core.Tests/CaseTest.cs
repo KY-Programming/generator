@@ -15,11 +15,13 @@ namespace KY.Generator.Core.Tests
         {
             Assert.AreEqual("Alllower", "alllower".ToPascalCase());
         }
+
         [TestMethod]
         public void TestPascalAllLowerNumber()
         {
             Assert.AreEqual("Alllower1", "alllower1".ToPascalCase());
         }
+
         [TestMethod]
         public void TestPascalAllLowerNumbers()
         {
@@ -149,11 +151,13 @@ namespace KY.Generator.Core.Tests
         {
             Assert.AreEqual("alllower", "alllower".ToCamelCase());
         }
+
         [TestMethod]
         public void TestCamelAllLowerNumber()
         {
             Assert.AreEqual("alllower1", "alllower1".ToCamelCase());
         }
+
         [TestMethod]
         public void TestCamelAllLowerNumbers()
         {

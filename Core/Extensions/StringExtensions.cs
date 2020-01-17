@@ -7,26 +7,41 @@ namespace KY.Generator.Extensions
 {
     public static class StringExtensions
     {
+        /// <summary>
+        /// Converts a string to PascalCase (UpperCamelCase)
+        /// </summary>
         public static string ToPascalCase(this string value)
         {
             return string.Join("", Split(value, true).Select(x => x.FirstCharToUpper()));
         }
-
+        
+        /// <summary>
+        /// Converts a string to camelCase (lowerCamelCase)
+        /// </summary>
         public static string ToCamelCase(this string value)
         {
             return string.Join("", Split(value, true).Select(x => x.FirstCharToUpper())).FirstCharToLower();
         }
-
+        
+        /// <summary>
+        /// Converts a string to kebab-case
+        /// </summary>
         public static string ToKebabCase(this string value)
         {
             return string.Join("-", Split(value, true).Select(x => x.ToLowerInvariant()));
         }
-
+        
+        /// <summary>
+        /// Converts a string to snake_case
+        /// </summary>
         public static string ToSnakeCase(this string value)
         {
             return string.Join("_", Split(value, true).Select(x => x.ToLowerInvariant()));
         }
-
+        
+        /// <summary>
+        /// Converts a string to Darwin_Case
+        /// </summary>
         public static string ToDarwinCase(this string value)
         {
             return string.Join("_", Split(value, true).Select(x => x.ToLowerInvariant().FirstCharToUpper()));

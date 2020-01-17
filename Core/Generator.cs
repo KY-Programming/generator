@@ -11,21 +11,21 @@ using KY.Generator.Configurations;
 using KY.Generator.Mappings;
 using KY.Generator.Output;
 using KY.Generator.Syntax;
-using KY.Generator.Transfer.Readers;
 using KY.Generator.Transfer.Writers;
 
 namespace KY.Generator
 {
     public class Generator : IGeneratorRunSyntax, IGeneratorAfterRunSyntax
     {
-        private IOutput output;
         private readonly DependencyResolver resolver;
-        private readonly CommandConfiguration command;
+        private readonly List<string> parameters;
+        private IOutput output;
         private bool success;
         private IList<ModuleBase> Modules { get; }
 
         public Generator(params string[] parameters)
         {
+            this.parameters = parameters.ToList();
             InitializeLogger(parameters);
             Logger.Trace($"KY-Generator v{Assembly.GetCallingAssembly().GetName().Version}");
             Logger.Trace("Current Directory: " + Environment.CurrentDirectory);
@@ -37,7 +37,9 @@ namespace KY.Generator
             this.output = new FileOutput(AppDomain.CurrentDomain.BaseDirectory);
             this.resolver = new DependencyResolver();
             this.resolver.Bind<ITypeMapping>().ToSingleton<TypeMapping>();
+            this.resolver.Bind<CommandReader>().ToSelf();
             this.resolver.Bind<CommandRunner>().ToSelf();
+            this.resolver.Bind<CommandRegister>().ToSingleton();
             this.resolver.Bind<ModuleFinder>().ToSelf();
             this.resolver.Bind<IConfigurationReaderVersion>().To<ConfigurationReaderVersion2>();
             this.resolver.Bind<ConfigurationMapping>().ToSingleton();
@@ -54,9 +56,6 @@ namespace KY.Generator
             }
             this.Modules.ForEach(module => this.resolver.Bind<ModuleBase>().To(module));
             this.Modules.ForEach(module => module.Initialize());
-
-            CommandReader reader = this.resolver.Create<CommandReader>();
-            this.command = reader.Read(parameters);
         }
 
         public static Generator Create(params string[] parameters)
@@ -80,37 +79,17 @@ namespace KY.Generator
             return this.SetOutput(new FileOutput(path));
         }
 
-        public Generator RegisterCommand<T>() where T : IGeneratorCommand
+        public Generator RegisterCommand<TCommand, TConfiguration>(string name, string group = CommandRegister.DefaultGroup) 
+            where TCommand : IGeneratorCommand 
+            where TConfiguration : IConfiguration
         {
-            this.resolver.Bind<IGeneratorCommand>().To<T>();
-            return this;
-        }
-
-        public Generator RegisterCommand(IGeneratorCommand generator)
-        {
-            this.resolver.Bind<IGeneratorCommand>().To(generator);
-            return this;
-        }
-
-        public Generator RegisterReader<TConfiguration, TReader>(string name)
-            where TConfiguration : ConfigurationBase
-            where TReader : ITransferReader
-        {
-            this.resolver.Get<ConfigurationMapping>().Map<TConfiguration, TReader>(name);
-            return this;
-        }
-
-        public Generator RegisterWriter<TConfiguration, TWriter>(string name)
-            where TConfiguration : ConfigurationBase
-            where TWriter : ITransferWriter
-        {
-            this.resolver.Get<ConfigurationMapping>().Map<TConfiguration, TWriter>(name);
+            this.resolver.Get<CommandRegister>().Register<TCommand, TConfiguration>(name, group);
             return this;
         }
 
         public Generator SetStandalone()
         {
-            this.command.Standalone = true;
+            this.parameters.Add("-standalone");
             return this;
         }
 
@@ -118,7 +97,8 @@ namespace KY.Generator
         {
             try
             {
-                this.success = this.resolver.Get<CommandRunner>().Run(this.command, this.output);
+                IConfiguration configuration = this.resolver.Get<CommandReader>().Read(this.parameters);
+                this.success = this.resolver.Get<CommandRunner>().Run(configuration, this.output);
             }
             catch (Exception exception)
             {
