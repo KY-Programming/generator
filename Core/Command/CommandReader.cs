@@ -65,16 +65,16 @@ namespace KY.Generator.Command
             }
             foreach (CommandParameter parameter in parameters)
             {
-                string parameterName = parameter.Name.ToPascalCase();
-                if (!properties.ContainsKey(parameterName))
+                string propertyName = parameter.Name.ToPascalCase();
+                if (!properties.ContainsKey(propertyName))
                 {
-                    Logger.Warning($"Unknown parameter '{parameterName}'. No matching property in {type.Name} found. Add a matching property or use [{nameof(ConfigurationPropertyAttribute).Replace("Attribute", string.Empty)}(\"{parameterName}\")].");
+                    Logger.Warning($"Unknown parameter '{parameter.Name}'. No matching property '{propertyName}' in {type.Name} found. Add a matching property or use [{nameof(ConfigurationPropertyAttribute).Replace("Attribute", string.Empty)}(\"{propertyName}\")].");
                     continue;
                 }
-                PropertyInfo propertyInfo = properties[parameterName];
+                PropertyInfo propertyInfo = properties[propertyName];
                 if (!propertyInfo.CanWrite)
                 {
-                    throw new ConfigurationParameterReadOnlyException(parameterName);
+                    throw new ConfigurationParameterReadOnlyException(propertyName);
                 }
                 object value = CommandParameterConverters.Convert(parameter.Value, propertyInfo);
                 propertyInfo.SetValue(configuration, value);

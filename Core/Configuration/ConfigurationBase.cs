@@ -41,7 +41,7 @@ namespace KY.Generator.Configurations
         public ConfigurationEnvironment Environment { get; set; }
 
         [JsonIgnore]
-        public IOutput Output { get; }
+        public IOutput Output { get; set; }
 
         public bool CheckOnOverwrite { get; set; } = true;
         public bool BeforeBuild { get; set; }

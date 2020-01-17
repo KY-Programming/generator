@@ -42,6 +42,36 @@ namespace KY.Generator.Core.Tests
         }
 
         [TestMethod]
+        public void TestReadBoolTrue()
+        {
+            this.commands.Register<TestCommand, BoolConfiguration>("test");
+            List<string> parameters = new List<string>{ "test", "-test=true"};
+            BoolConfiguration configuration = this.reader.Read(parameters) as BoolConfiguration;
+            Assert.IsNotNull(configuration, "Read failed");
+            Assert.AreEqual(true, configuration.Test);
+        }
+
+        [TestMethod]
+        public void TestReadBoolFalse()
+        {
+            this.commands.Register<TestCommand, BoolConfiguration>("test");
+            List<string> parameters = new List<string>{ "test", "-test=false"};
+            BoolConfiguration configuration = this.reader.Read(parameters) as BoolConfiguration;
+            Assert.IsNotNull(configuration, "Read failed");
+            Assert.AreEqual(false, configuration.Test);
+        }
+
+        [TestMethod]
+        public void TestReadBoolEmpty()
+        {
+            this.commands.Register<TestCommand, BoolConfiguration>("test");
+            List<string> parameters = new List<string>{ "test", "-test"};
+            BoolConfiguration configuration = this.reader.Read(parameters) as BoolConfiguration;
+            Assert.IsNotNull(configuration, "Read failed");
+            Assert.AreEqual(true, configuration.Test);
+        }
+
+        [TestMethod]
         public void TestReadCustomType()
         {
             this.commands.Register<TestCommand, CustomTypeConfiguration>("test");
@@ -60,6 +90,11 @@ namespace KY.Generator.Core.Tests
         private class IntConfiguration : TestConfiguration
         {
             public int Test { get; set; }
+        }
+
+        private class BoolConfiguration : TestConfiguration
+        {
+            public bool Test { get; set; }
         }
 
         private class CustomTypeConfiguration : TestConfiguration
