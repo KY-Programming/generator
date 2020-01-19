@@ -3,11 +3,12 @@ using System.Linq;
 using System.Reflection;
 using KY.Core;
 using KY.Generator.Command;
+using KY.Generator.Configuration;
 using KY.Generator.Configurations;
 
 namespace KY.Generator.Commands
 {
-    internal class VersionCommand : IGeneratorCommand
+    internal class VersionCommand : ICommandLineCommand
     {
         public bool Execute(IConfiguration configurationBase)
         {

@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using KY.Core;
 using KY.Generator.Configuration;
-using KY.Generator.Configurations;
 using KY.Generator.Languages;
 using KY.Generator.Mappings;
 using KY.Generator.Templates;
@@ -49,28 +48,30 @@ namespace KY.Generator.Transfer.Writers
             }
         }
 
+        protected virtual void MapType(ILanguage language, IConfiguration configuration, TypeTransferObject type)
+        {
+            if (language is IMappableLanguage fromLanguage && configuration is IConfigurationWithLanguage configurationWithLanguage && configurationWithLanguage.Language is IMappableLanguage toLanguage)
+            {
+                this.MapType(fromLanguage, toLanguage, type);
+            }
+        }
+
         protected virtual void MapType(IMappableLanguage fromLanguage, IMappableLanguage toLanguage, TypeTransferObject type)
         {
             this.TypeMapping.Get(fromLanguage, toLanguage, type);
-            type.Generics.ForEach(x => this.MapType(fromLanguage, toLanguage, x.Type));
+            type?.Generics.ForEach(x => this.MapType(fromLanguage, toLanguage, x.Type));
         }
 
         protected virtual FieldTemplate AddField(ModelTransferObject model, string name, TypeTransferObject type, ClassTemplate classTemplate, IConfiguration configuration)
         {
-            if (model.Language is IMappableLanguage modelLanguage && configuration.Language is IMappableLanguage configurationLanguage)
-            {
-                this.MapType(modelLanguage, configurationLanguage, type);
-            }
+            this.MapType(model.Language, configuration, type);
             this.AddUsing(type, classTemplate, configuration);
             return classTemplate.AddField(name, type.ToTemplate()).Public().FormatName(configuration);
         }
 
         protected virtual PropertyTemplate AddProperty(ModelTransferObject model, string name, TypeTransferObject type, ClassTemplate classTemplate, IConfiguration configuration, bool canRead = true, bool canWrite = true)
         {
-            if (model.Language is IMappableLanguage modelLanguage && configuration.Language is IMappableLanguage configurationLanguage)
-            {
-                this.MapType(modelLanguage, configurationLanguage, type);
-            }
+            this.MapType(model.Language, configuration, type);
             PropertyTemplate propertyTemplate = classTemplate.AddProperty(name, type.ToTemplate()).FormatName(configuration);
             propertyTemplate.HasGetter = canRead;
             propertyTemplate.HasSetter = canWrite;
@@ -84,12 +85,18 @@ namespace KY.Generator.Transfer.Writers
             {
                 return;
             }
-            if ((!type.FromSystem || type.FromSystem && configuration.Language.ImportFromSystem) && !string.IsNullOrEmpty(type.Namespace) && classTemplate.Namespace.Name != type.Namespace)
+            if ((!type.FromSystem || type.FromSystem && this.ImportFromSystem(configuration)) && !string.IsNullOrEmpty(type.Namespace) && classTemplate.Namespace.Name != type.Namespace)
             {
                 string fileName = Formatter.FormatFile(type.Name, configuration);
                 classTemplate.AddUsing(type.Namespace, type.Name, $"{relativeModelPath.Replace("\\", "/").TrimEnd('/')}/{fileName}");
             }
             type.Generics.Where(x => x.Alias == null).ForEach(generic => this.AddUsing(generic.Type, classTemplate, configuration, relativeModelPath));
+        }
+
+        private bool ImportFromSystem(IConfiguration configuration)
+        {
+            IConfigurationWithLanguage configurationWithLanguage = configuration as IConfigurationWithLanguage;
+            return configurationWithLanguage == null || configurationWithLanguage.Language.ImportFromSystem;
         }
     }
 }

@@ -1,13 +1,10 @@
 ﻿using System.Runtime.CompilerServices;
 using KY.Core.Dependency;
 using KY.Core.Module;
-using KY.Generator.Client;
 using KY.Generator.Command;
 using KY.Generator.Commands;
-using KY.Generator.Configuration;
 using KY.Generator.Configurations;
 using KY.Generator.Languages;
-using KY.Generator.Transfer.Readers;
 using KY.Generator.Transfer.Writers;
 
 [assembly: InternalsVisibleTo("KY.Generator.Tests")]
@@ -31,24 +28,17 @@ namespace KY.Generator
 
         public override void Initialize()
         {
-            this.DependencyResolver.Get<CommandRegister>()
-                .Register<ClientCommand, ClientConfiguration>("client")
-                .Register<VersionCommand, VersionConfiguration>("version")
-                .Register<VersionCommand, VersionConfiguration>("v")
-                .Register<ExecuteCommand, ExecuteConfiguration>("execute")
-                .Register<ExecuteCommand, ExecuteConfiguration>("exec")
-                .Register<ExecuteCommand, ExecuteConfiguration>("e")
-                .Register<ExecuteCommand, ExecuteConfiguration>("run")
-                .Register<ExecuteCommand, ExecuteConfiguration>("r");
-            this.DependencyResolver.Bind<IGeneratorCommand>().To<VersionCommand>();
-            this.DependencyResolver.Bind<IGeneratorCommand>().To<ExecuteCommand>();
             this.DependencyResolver.Bind<ILanguage>().To<EmptyLanguage>();
-            this.DependencyResolver.Get<ConfigurationMapping>()
-                .Map<CookieConfiguration, CookieReader>("cookie")
-                .Map<GeneratorConfiguration, GeneratorGenerator>("generator")
-                .Map<ModelWriteConfiguration, ModelWriter>("model")
-                .Map<DemoConfiguration, DemoWriter>("demo")
-                .Map<ExecuteConfiguration, ExecuteReader>("generator", "execute");
+            this.DependencyResolver.Bind<ModelWriter>().ToSelf();
+            this.DependencyResolver.Get<CommandRegistry>()
+                //.Register<ClientCommand, ClientConfiguration>("client")
+                .Register<VersionCommand, VersionConfiguration>("version").Alias("v")
+                .Register<ExecuteCommand, ExecuteConfiguration>("execute").Alias("exec", "e").Alias("run", "r")
+                .Register<ExecuteSeparateCommand, ExecuteSeparateConfiguration>("separate")
+                .Register<ReadCookieCommand, CookieConfiguration>("cookie", "read")
+                //.Register<GeneratorGenerator, GeneratorConfiguration>("generator", "write")
+                .Register<ModelWriteCommand, ModelWriteConfiguration>("model", "write")
+                .Register<DemoCommand, DemoConfiguration>("demo");
         }
     }
 }

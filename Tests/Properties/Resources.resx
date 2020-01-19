@@ -121,9 +121,6 @@
   <data name="empty_configuration" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\empty-configuration.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
-  <data name="empty_configuration_array" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\empty-configuration-array.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
   <data name="empty_generate" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\empty-generate.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
@@ -148,9 +145,6 @@
   <data name="one_read_one_generate" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\one-read-one-generate.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
-  <data name="one_read_one_generate_twice" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\one-read-one-generate-twice.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
   <data name="two_reads_one_generate" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\two-reads-one-generate.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
@@ -165,8 +159,5 @@
   </data>
   <data name="DataContext" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\DataContext.result;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="two_generates_in_array_array" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\two-generates-in-array-array.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
 </root>

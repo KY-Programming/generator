@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using KY.Generator.AspDotNet.Templates;
-using KY.Generator.Configurations;
+using KY.Generator.Configuration;
 using KY.Generator.Csharp.Languages;
 
 namespace KY.Generator.AspDotNet.Configurations
 {
-    public class AspDotNetWriteConfiguration : ConfigurationBase, IFormattableConfiguration
+    public class AspDotNetWriteConfiguration : ConfigurationWithLanguageBase, IFormattableConfiguration
     {
         public string Namespace { get; set; }
         public string RelativePath { get; set; }

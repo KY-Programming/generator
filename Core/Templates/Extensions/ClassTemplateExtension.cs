@@ -1,8 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using KY.Generator.Configuration;
-using KY.Generator.Configurations;
-using KY.Generator.Languages;
 
 namespace KY.Generator.Templates.Extensions
 {

@@ -1,4 +1,4 @@
-﻿namespace KY.Generator.Configurations
+﻿namespace KY.Generator.Configuration
 {
     public interface IFormattableConfiguration : IConfiguration
     {

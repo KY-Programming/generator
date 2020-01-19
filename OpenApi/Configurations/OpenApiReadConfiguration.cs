@@ -1,8 +1,8 @@
-﻿using KY.Generator.Configurations;
+﻿using KY.Generator.Configuration;
 
 namespace KY.Generator.OpenApi.Configurations
 {
-    public class OpenApiReadConfiguration : ReadConfigurationBase
+    public class OpenApiReadConfiguration : ConfigurationBase
     {
         public string File { get; set; }
         public string Url { get; set; }

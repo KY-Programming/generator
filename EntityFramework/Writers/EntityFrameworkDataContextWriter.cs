@@ -8,7 +8,7 @@ using KY.Generator.Templates;
 using KY.Generator.Templates.Extensions;
 using KY.Generator.Transfer;
 using KY.Generator.Transfer.Extensions;
-using KY.Generator.Tsql.Transfers;
+using KY.Generator.Tsql.TransferObjects;
 
 namespace KY.Generator.EntityFramework.Writers
 {

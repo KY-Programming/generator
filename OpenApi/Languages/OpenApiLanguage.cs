@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using KY.Generator.Languages;
+﻿using KY.Generator.Languages;
 
 namespace KY.Generator.OpenApi.Languages
 {

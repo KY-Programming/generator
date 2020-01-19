@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using KY.Generator.Configuration;
 
 namespace KY.Generator.Configurations
 {
-    public class ModelWriteConfiguration : ConfigurationBase, IModelConfiguration
+    public class ModelWriteConfiguration : ConfigurationWithLanguageBase, IModelConfiguration
     {
         public string Name { get; set; }
         public string Namespace { get; set; }

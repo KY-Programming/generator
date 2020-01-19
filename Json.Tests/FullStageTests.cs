@@ -1,97 +1,78 @@
-using System.Collections.Generic;
-using KY.Core.Dependency;
-using KY.Generator.Configuration;
+using KY.Core;
+using KY.Generator.Core.Tests;
 using KY.Generator.Csharp;
 using KY.Generator.Json.Tests.Properties;
-using KY.Generator.Mappings;
-using KY.Generator.Output;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace KY.Generator.Json.Tests
 {
     [TestClass]
-    public class FullStageTests
+    public class FullStageTests : MsTestBase
     {
-        private IDependencyResolver resolver;
-        private ConfigurationsReader reader;
-        private ConfigurationRunner runner;
-        private MemoryOutput output;
+        private TestConfigurationRunner runner;
 
         [TestInitialize]
         public void Initialize()
         {
-            this.resolver = new DependencyResolver();
-            this.resolver.Bind<ITypeMapping>().ToSingleton<TypeMapping>();
-            this.resolver.Bind<IConfigurationReaderVersion>().To<ConfigurationReaderVersion2>();
-            this.resolver.Bind<ConfigurationMapping>().ToSingleton();
-            this.resolver.Create<CoreModule>().Initialize();
-            this.resolver.Create<CsharpModule>().Initialize();
-            this.resolver.Create<JsonModule>().Initialize();
-            this.reader = this.resolver.Create<ConfigurationsReader>();
-            this.runner = this.resolver.Create<ConfigurationRunner>();
-            this.output = this.resolver.Create<MemoryOutput>();
+            this.runner = new TestConfigurationRunner()
+                          .Initialize<CoreModule>()
+                          .Initialize<CsharpModule>()
+                          .Initialize<JsonModule>();
         }
 
         [TestMethod]
         public void Simple()
         {
-            Assert.AreEqual(true, this.Run(Resources.simple_generator), "Generation not successful");
-            Assert.AreEqual(1, this.output.Files.Count);
-            Assert.AreEqual(Resources.SimpleWithoutReader_cs, this.output.Files["SimpleWithoutReader.cs"]);
+            Assert.AreEqual(true, this.runner.Run(Resources.simple_generator), "Generation not successful");
+            Assert.AreEqual(1, this.runner.Output.Files.Count);
+            Assert.AreEqual(Resources.SimpleWithoutReader_cs, this.runner.Output.Files["SimpleWithoutReader.cs"]);
         }
 
         [TestMethod]
         public void SimpleWithReader()
         {
-            Assert.AreEqual(true, this.Run(Resources.simple_with_reader_generator), "Generation not successful");
-            Assert.AreEqual(1, this.output.Files.Count);
-            Assert.AreEqual(Resources.SimpleWithReader_cs, this.output.Files["SimpleWithReader.cs"]);
+            Assert.AreEqual(true, this.runner.Run(Resources.simple_with_reader_generator), "Generation not successful");
+            Assert.AreEqual(1, this.runner.Output.Files.Count);
+            Assert.AreEqual(Resources.SimpleWithReader_cs, this.runner.Output.Files["SimpleWithReader.cs"]);
         }
 
         [TestMethod]
         public void SimpleWithSeparateReader()
         {
-            Assert.AreEqual(true, this.Run(Resources.simple_with_separate_reader_generator), "Generation not successful");
-            Assert.AreEqual(2, this.output.Files.Count);
-            Assert.AreEqual(Resources.Simple_cs, this.output.Files["Simple.cs"]);
-            Assert.AreEqual(Resources.SimpleReader_cs, this.output.Files["SimpleReader.cs"]);
+            Assert.AreEqual(true, this.runner.Run(Resources.simple_with_separate_reader_generator), "Generation not successful");
+            Assert.AreEqual(2, this.runner.Output.Files.Count);
+            Assert.AreEqual(Resources.Simple_cs, this.runner.Output.Files["Simple.cs"]);
+            Assert.AreEqual(Resources.SimpleReader_cs, this.runner.Output.Files["SimpleReader.cs"]);
         }
 
         [TestMethod]
         public void Complex()
         {
-            Assert.AreEqual(true, this.Run(Resources.complex_generator), "Generation not successful");
-            Assert.AreEqual(3, this.output.Files.Count);
-            Assert.AreEqual(Resources.Complex_cs, this.output.Files["Complex.cs"]);
-            Assert.AreEqual(Resources.ObjectProperty_cs, this.output.Files["ObjectProperty.cs"]);
-            Assert.AreEqual(Resources.ObjectArrayProperty_cs, this.output.Files["ObjectArrayProperty.cs"]);
+            Assert.AreEqual(true, this.runner.Run(Resources.complex_generator), "Generation not successful");
+            Assert.AreEqual(3, this.runner.Output.Files.Count);
+            Assert.AreEqual(Resources.Complex_cs, this.runner.Output.Files["Complex.cs"]);
+            Assert.AreEqual(Resources.ObjectProperty_cs, this.runner.Output.Files["ObjectProperty.cs"]);
+            Assert.AreEqual(Resources.ObjectArrayProperty_cs, this.runner.Output.Files["ObjectArrayProperty.cs"]);
         }
 
         [TestMethod]
         public void ComplexWithReader()
         {
-            Assert.AreEqual(true, this.Run(Resources.complex_with_reader_generator), "Generation not successful");
-            Assert.AreEqual(3, this.output.Files.Count);
-            Assert.AreEqual(Resources.ComplexWithReader_cs, this.output.Files["ComplexWithReader.cs"]);
-            Assert.AreEqual(Resources.ObjectProperty_cs, this.output.Files["ObjectProperty.cs"]);
-            Assert.AreEqual(Resources.ObjectArrayProperty_cs, this.output.Files["ObjectArrayProperty.cs"]);
+            Assert.AreEqual(true, this.runner.Run(Resources.complex_with_reader_generator), "Generation not successful");
+            Assert.AreEqual(3, this.runner.Output.Files.Count);
+            Assert.AreEqual(Resources.ComplexWithReader_cs, this.runner.Output.Files["ComplexWithReader.cs"]);
+            Assert.AreEqual(Resources.ObjectProperty_cs, this.runner.Output.Files["ObjectProperty.cs"]);
+            Assert.AreEqual(Resources.ObjectArrayProperty_cs, this.runner.Output.Files["ObjectArrayProperty.cs"]);
         }
 
         [TestMethod]
         public void FormatNames()
         {
-            Assert.AreEqual(true, this.Run(Resources.formatNames_generator), "Generation not successful");
-            Assert.AreEqual(3, this.output.Files.Count);
-            Assert.AreEqual(Resources.FormatNames_cs, this.output.Files["FormatNames.cs"]);
-            Assert.AreEqual(Resources.Alllowerobject_cs, this.output.Files["Alllowerobject.cs"]);
-            Assert.AreEqual(Resources.Allupperobject_cs, this.output.Files["Allupperobject.cs"]);
-        }
-
-        private bool Run(string configuration)
-        {
-            List<ConfigurationSet> configurations = this.reader.Parse(configuration);
-            configurations.ForEach(x => x.Configurations.ForEach(y => y.AddHeader = false));
-            return this.runner.Run(configurations, this.output);
+            Assert.AreEqual(true, this.runner.Run(Resources.formatNames_generator), "Generation not successful");
+            Assert.AreEqual(3, this.runner.Output.Files.Count);
+            Assert.AreEqual(Resources.FormatNames_cs, this.runner.Output.Files["FormatNames.cs"]);
+            Assert.AreEqual(Resources.Alllowerobject_cs, this.runner.Output.Files["Alllowerobject.cs"]);
+            Assert.AreEqual(Resources.Allupperobject_cs, this.runner.Output.Files["Allupperobject.cs"]);
         }
     }
 }

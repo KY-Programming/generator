@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="KY.Core.Common" Version="4.9.0-rc.0" />
+    <PackageReference Include="KY.Core.Common" Version="4.9.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.4.0" />
     <PackageReference Include="MSTest.TestAdapter" Version="2.0.0" />
     <PackageReference Include="MSTest.TestFramework" Version="2.0.0" />
@@ -16,6 +16,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Angular\KY.Generator.Angular.csproj" />
     <ProjectReference Include="..\AspDotNet\KY.Generator.AspDotNet.csproj" />
+    <ProjectReference Include="..\Core.Tests\KY.Generator.Core.Tests.csproj" />
     <ProjectReference Include="..\Core\KY.Generator.Core.csproj" />
     <ProjectReference Include="..\CSharp\KY.Generator.Csharp.csproj" />
   </ItemGroup>

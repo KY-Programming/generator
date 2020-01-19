@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using KY.Core;
 using KY.Generator.Reflection.Readers;
 using KY.Generator.Transfer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -8,7 +9,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace KY.Generator.Reflection.Tests
 {
     [TestClass]
-    public class ReflectionModelReaderTests
+    public class ReflectionModelReaderTests : MsTestBase
     {
         private ReflectionModelReader reader;
 

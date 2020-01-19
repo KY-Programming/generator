@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using KY.Core;
-using KY.Core.Dependency;
-using KY.Generator.Load;
-using KY.Generator.Output;
+using KY.Generator.Configurations;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -13,51 +11,37 @@ namespace KY.Generator.Configuration
 {
     internal class ConfigurationsReader
     {
-        private readonly IDependencyResolver resolver;
-        private readonly Dictionary<int, IConfigurationReaderVersion> versions;
+        private readonly Dictionary<int, IConfigurationReaderVersion> readers;
 
-        public ConfigurationsReader(IDependencyResolver resolver, IEnumerable<IConfigurationReaderVersion> versions)
+        public ConfigurationsReader(IEnumerable<IConfigurationReaderVersion> readers)
         {
-            this.resolver = resolver;
-            this.versions = versions.ToDictionary(x => x.Version, x => x);
+            this.readers = readers.ToDictionary(x => x.Version, x => x);
         }
 
-        public List<ConfigurationSet> Parse(string json, IOutput output = null)
+        public ExecuteConfiguration Parse(string json)
         {
             using (JsonTextReader reader = new JsonTextReader(new StringReader(json)))
             {
-                JObject jObject;
+                JObject rawConfiguration;
                 try
                 {
-                    jObject = JObject.Load(reader);
+                    rawConfiguration = JObject.Load(reader);
                 }
                 catch (Exception exception)
                 {
-                    throw new InvalidConfigurationException("Can not load json. See inner exception for details", exception);
+                    throw new InvalidConfigurationException("Invalid json. See inner exception for details", exception);
                 }
-                ConfigurationVersion version = jObject.ToObject<ConfigurationVersion>();
-                if (version?.Generate == null)
+                ConfigurationVersion configuration = rawConfiguration.ToObject<ConfigurationVersion>();
+                if (configuration.Version == 0)
                 {
-                    throw new InvalidConfigurationException("Unsupported configuration found. Generate tag is missing.");
+                    configuration.Version = this.readers.Max(x => x.Key);
+                    Logger.Warning($"No version found. Fallback to {configuration.Version}");
                 }
-                if (version.Version == 0)
+                if (this.readers.ContainsKey(configuration.Version))
                 {
-                    version.Version = this.versions.Max(x => x.Key);
-                    Logger.Warning($"No version found. Fallback to {version.Version}");
+                    return this.readers[configuration.Version].Read(rawConfiguration);
                 }
-                if (version.Load != null && version.Load.Count > 0)
-                {
-                    this.resolver.Create<GeneratorModuleLoader>().Load(version.Load);
-                }
-                if (!string.IsNullOrEmpty(version.Output))
-                {
-                    output?.Move(version.Output);
-                }
-                if (this.versions.ContainsKey(version.Version))
-                {
-                    return this.versions[version.Version].Read(version);
-                }
-                throw new InvalidConfigurationException($"No reader for version {version.Version} found");
+                throw new InvalidConfigurationException($"No reader for version {configuration.Version} found");
             }
         }
     }

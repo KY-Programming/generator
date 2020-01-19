@@ -1,11 +1,10 @@
 ﻿using System.Runtime.CompilerServices;
 using KY.Core.Dependency;
 using KY.Core.Module;
-using KY.Generator.Configuration;
+using KY.Generator.Command;
+using KY.Generator.Json.Commands;
 using KY.Generator.Json.Configurations;
 using KY.Generator.Json.Extensions;
-using KY.Generator.Json.Readers;
-using KY.Generator.Json.Writers;
 using KY.Generator.Mappings;
 
 [assembly: InternalsVisibleTo("KY.Generator.Json.Tests")]
@@ -21,9 +20,9 @@ namespace KY.Generator.Json
         public override void Initialize()
         {
             this.DependencyResolver.Get<ITypeMapping>().Initialize();
-            this.DependencyResolver.Get<ConfigurationMapping>()
-                .Map<JsonReadConfiguration, JsonReader>("json")
-                .Map<JsonWriteConfiguration, JsonWriter>("json");
+            this.DependencyResolver.Get<CommandRegistry>()
+                .Register<ReadJsonCommand, JsonReadConfiguration>("json", "read")
+                .Register<WriteJsonCommand, JsonWriteConfiguration>("json", "write");
         }
     }
 }

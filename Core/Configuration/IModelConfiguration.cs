@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace KY.Generator.Configurations
+namespace KY.Generator.Configuration
 {
-    public interface IModelConfiguration : IFormattableConfiguration
+    public interface IModelConfiguration : IConfigurationWithLanguage, IFormattableConfiguration
     {
         string Name { get; set; }
         string Namespace { get; }

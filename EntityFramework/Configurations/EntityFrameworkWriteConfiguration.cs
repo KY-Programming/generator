@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using KY.Generator.Configurations;
+using KY.Generator.Configuration;
 using KY.Generator.Csharp.Languages;
 
 namespace KY.Generator.EntityFramework.Configurations
 {
-    public class EntityFrameworkWriteConfiguration : ConfigurationBase, IFormattableConfiguration
+    public class EntityFrameworkWriteConfiguration : ConfigurationWithLanguageBase, IFormattableConfiguration
     {
         public string Namespace { get; set; }
         public string RelativePath { get; set; }

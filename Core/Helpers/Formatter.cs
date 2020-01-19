@@ -1,7 +1,6 @@
 ﻿using System;
 using KY.Core;
 using KY.Generator.Configuration;
-using KY.Generator.Configurations;
 using KY.Generator.Extensions;
 using KY.Generator.Languages;
 
@@ -15,7 +14,11 @@ namespace KY.Generator
             {
                 return name;
             }
-            return configuration.Language is BaseLanguage baseLanguage ? baseLanguage.FormatFileName(name, false) : Format(name, GetFormatting(configuration).FileCase);
+            if (configuration is IConfigurationWithLanguage configurationWithLanguage && configurationWithLanguage.Language is BaseLanguage baseLanguage)
+            {
+                return baseLanguage.FormatFileName(name, false);
+            }
+            return Format(name, GetFormatting(configuration).FileCase);
         }
 
         public static string FormatClass(string name, IConfiguration configuration)
@@ -109,7 +112,7 @@ namespace KY.Generator
         private static ConfigurationFormatting GetFormatting(IConfiguration configuration)
         {
             ConfigurationFormatting formatting = configuration.Formatting;
-            if (configuration.Language is IFormattableLanguage formattableLanguage)
+            if (configuration is IConfigurationWithLanguage configurationWithLanguage && configurationWithLanguage.Language is IFormattableLanguage formattableLanguage)
             {
                 if (formatting == null)
                 {

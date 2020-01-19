@@ -1,11 +1,8 @@
-using System.Collections.Generic;
-using KY.Core.Dependency;
+using KY.Core;
 using KY.Generator.Angular.Tests.Properties;
 using KY.Generator.AspDotNet;
-using KY.Generator.Configuration;
+using KY.Generator.Core.Tests;
 using KY.Generator.Csharp;
-using KY.Generator.Mappings;
-using KY.Generator.Output;
 using KY.Generator.Reflection;
 using KY.Generator.TypeScript;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -13,44 +10,28 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace KY.Generator.Angular.Tests
 {
     [TestClass]
-    public class FullStageTests
+    public class FullStageTests : MsTestBase
     {
-        private IDependencyResolver resolver;
-        private ConfigurationsReader reader;
-        private ConfigurationRunner runner;
-        private MemoryOutput output;
+        private TestConfigurationRunner runner;
 
         [TestInitialize]
         public void Initialize()
         {
-            this.resolver = new DependencyResolver();
-            this.resolver.Bind<ITypeMapping>().ToSingleton<TypeMapping>();
-            this.resolver.Bind<IConfigurationReaderVersion>().To<ConfigurationReaderVersion2>();
-            this.resolver.Bind<ConfigurationMapping>().ToSingleton();
-            this.resolver.Create<CoreModule>().Initialize();
-            this.resolver.Create<CsharpModule>().Initialize();
-            this.resolver.Create<AspDotNetModule>().Initialize();
-            this.resolver.Create<AngularModule>().Initialize();
-            this.resolver.Create<ReflectionModule>().Initialize();
-            this.resolver.Create<TypeScriptModule>().Initialize();
-            this.reader = this.resolver.Create<ConfigurationsReader>();
-            this.runner = this.resolver.Create<ConfigurationRunner>();
-            this.output = this.resolver.Create<MemoryOutput>();
+            this.runner = new TestConfigurationRunner();
+            this.runner.Resolver.Create<CoreModule>().Initialize();
+            this.runner.Resolver.Create<CsharpModule>().Initialize();
+            this.runner.Resolver.Create<AspDotNetModule>().Initialize();
+            this.runner.Resolver.Create<AngularModule>().Initialize();
+            this.runner.Resolver.Create<ReflectionModule>().Initialize();
+            this.runner.Resolver.Create<TypeScriptModule>().Initialize();
         }
 
         [TestMethod]
         public void CustomHttpClientType()
         {
-            Assert.AreEqual(true, this.Run(Resources.custom_client_type), "Generation not successful");
-            Assert.AreEqual(2, this.output.Files.Count);
-            Assert.AreEqual(Resources.custom_values_service_ts, this.output.Files["src\\app\\services\\custom-values.service.ts"]);
-        }
-
-        private bool Run(string configuration)
-        {
-            List<ConfigurationSet> configurations = this.reader.Parse(configuration);
-            configurations.ForEach(x => x.Configurations.ForEach(y => y.AddHeader = false));
-            return this.runner.Run(configurations, this.output);
+            Assert.AreEqual(true, this.runner.Run(Resources.custom_client_type), "Generation not successful");
+            Assert.AreEqual(2, this.runner.Output.Files.Count);
+            Assert.AreEqual(Resources.custom_values_service_ts, this.runner.Output.Files["src\\app\\services\\custom-values.service.ts"]);
         }
     }
 }

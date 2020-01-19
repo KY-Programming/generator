@@ -1,4 +1,4 @@
-﻿using KY.Generator.Configurations;
+﻿using KY.Generator.Configuration;
 
 namespace KY.Generator.Tests.Models
 {

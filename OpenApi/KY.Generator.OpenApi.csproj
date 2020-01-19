@@ -18,7 +18,7 @@ Download KY.Generator.CLI to use this module</Description>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="KY.Core.Common" Version="4.9.0-rc.0" />
+    <PackageReference Include="KY.Core.Common" Version="4.9.0" />
     <PackageReference Include="Microsoft.OpenApi.Readers" Version="1.1.4" />
   </ItemGroup>
 
@@ -26,10 +26,6 @@ Download KY.Generator.CLI to use this module</Description>
     <ProjectReference Include="..\Core\KY.Generator.Core.csproj" />
     <ProjectReference Include="..\CSharp\KY.Generator.Csharp.csproj" />
     <ProjectReference Include="..\TypeScript\KY.Generator.TypeScript.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Transfers\" />
   </ItemGroup>
 
 </Project>

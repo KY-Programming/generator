@@ -4,19 +4,21 @@ using System.Linq;
 using System.Reflection;
 using KY.Core;
 using KY.Generator.Configuration;
-using KY.Generator.Configurations;
 using KY.Generator.Exceptions;
 using KY.Generator.Extensions;
+using KY.Generator.Languages;
 
 namespace KY.Generator.Command
 {
     public class CommandReader
     {
-        private readonly CommandRegister commands;
+        private readonly CommandRegistry commands;
+        private readonly List<ILanguage> languages;
 
-        public CommandReader(CommandRegister commands)
+        public CommandReader(CommandRegistry commands, List<ILanguage> languages)
         {
             this.commands = commands;
+            this.languages = languages;
         }
 
         public IConfiguration Read(List<string> parameters)
@@ -33,7 +35,7 @@ namespace KY.Generator.Command
                 return null;
             }
             List<CommandParameter> commandParameters = this.ReadParameters(parameters.Where(x => x.StartsWith("-"))).ToList();
-            
+
             IConfiguration configuration = this.commands.CreateConfiguration(commandList.Single());
             if (configuration == null)
             {
@@ -42,6 +44,11 @@ namespace KY.Generator.Command
             }
             configuration.Environment?.Parameters.AddRange(commandParameters);
             this.SetParameters(configuration, commandParameters);
+            if (configuration is IConfigurationWithLanguage configurationWithLanguage)
+            {
+                configurationWithLanguage.Language = this.languages.FirstOrDefault(language => language.Name.Equals(configurationWithLanguage.LanguageKey, StringComparison.InvariantCultureIgnoreCase))
+                                                     ?? configurationWithLanguage.Language;
+            }
             return configuration;
         }
 
@@ -60,6 +67,10 @@ namespace KY.Generator.Command
             Dictionary<string, PropertyInfo> properties = new Dictionary<string, PropertyInfo>();
             foreach (PropertyInfo property in type.GetProperties())
             {
+                if (property.GetCustomAttributes<ConfigurationIgnoreAttribute>().Any())
+                {
+                    continue;
+                }
                 properties.Add(property.Name, property);
                 property.GetCustomAttributes<ConfigurationPropertyAttribute>().ForEach(attribute => properties.Add(attribute.Alias, property));
             }

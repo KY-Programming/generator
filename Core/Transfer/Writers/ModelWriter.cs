@@ -2,34 +2,22 @@
 using System.Collections.Generic;
 using System.Linq;
 using KY.Core;
-using KY.Generator.Configurations;
-using KY.Generator.Languages;
+using KY.Generator.Configuration;
 using KY.Generator.Mappings;
-using KY.Generator.Output;
 using KY.Generator.Templates;
 using KY.Generator.Templates.Extensions;
 using KY.Generator.Transfer.Extensions;
 
 namespace KY.Generator.Transfer.Writers
 {
-    public class ModelWriter : TransferWriter, ITransferWriter
+    public class ModelWriter : TransferWriter
     {
         public ModelWriter(ITypeMapping typeMapping)
             : base(typeMapping)
         { }
 
-        public virtual void Write(ConfigurationBase configurationBase, List<ITransferObject> transferObjects, IOutput output)
-        {
-            IModelConfiguration configuration = (IModelConfiguration)configurationBase;
-            this.Write(configuration, transferObjects).ForEach(file => configuration.Language.Write(file, output));
-        }
-
         public virtual List<FileTemplate> Write(IModelConfiguration configuration, IEnumerable<ITransferObject> transferObjects)
         {
-            if (configuration.Language == null)
-            {
-                throw new InvalidOperationException("Can not write model without language");
-            }
             List<FileTemplate> files = new List<FileTemplate>();
             List<ModelTransferObject> models = transferObjects.OfType<ModelTransferObject>().ToList();
             if (!string.IsNullOrEmpty(configuration.Name))
@@ -51,10 +39,7 @@ namespace KY.Generator.Transfer.Writers
             {
                 return;
             }
-            if (model.Language is IMappableLanguage modelLanguage && configuration.Language is IMappableLanguage configurationLanguage)
-            {
-                this.MapType(modelLanguage, configurationLanguage, model);
-            }
+            this.MapType(model.Language, configuration, model);
             if (model.FromSystem)
             {
                 return;
@@ -90,13 +75,7 @@ namespace KY.Generator.Transfer.Writers
 
         protected virtual ClassTemplate WriteClass(IModelConfiguration configuration, ModelTransferObject model, string nameSpace, List<FileTemplate> files)
         {
-            IMappableLanguage modelLanguage = model.Language as IMappableLanguage;
-            IMappableLanguage configurationLanguage = configuration.Language as IMappableLanguage;
-
-            if (model.BasedOn != null && modelLanguage != null && configurationLanguage != null)
-            {
-                this.MapType(modelLanguage, configurationLanguage, model.BasedOn);
-            }
+            this.MapType(model.Language, configuration, model.BasedOn);
 
             ClassTemplate classTemplate = files.AddFile(configuration.RelativePath, configuration.AddHeader)
                                                .AddNamespace(nameSpace)
@@ -117,10 +96,7 @@ namespace KY.Generator.Transfer.Writers
             }
             foreach (TypeTransferObject interFace in model.Interfaces)
             {
-                if (modelLanguage != null && configurationLanguage != null)
-                {
-                    this.MapType(modelLanguage, configurationLanguage, interFace);
-                }
+                this.MapType(model.Language, configuration, interFace);
                 classTemplate.BasedOn.Add(new BaseTypeTemplate(classTemplate, Code.Interface(interFace.Name, interFace.Namespace)));
                 this.AddUsing(interFace, classTemplate, configuration);
             }

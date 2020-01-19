@@ -1,7 +1,6 @@
 ﻿using KY.Generator.Languages;
 using KY.Generator.Output;
 using KY.Generator.Templates;
-using KY.Generator.Templates.Extensions;
 
 namespace KY.Generator.Writers
 {
@@ -22,24 +21,5 @@ namespace KY.Generator.Writers
                 output.Add(codeFragment);
             }
         }
-
-        //public virtual void Write(IMetaElementList elements, ICodeFragment codeFragment)
-        //{
-        //    MultilineCodeFragment fragment = (MultilineCodeFragment)codeFragment;
-        //    foreach (ICodeFragment innerFragment in fragment.Fragments)
-        //    {
-        //        elements.Add(innerFragment, this.Language);
-        //    }
-        //}
-
-        //public virtual void Write(IMetaFragmentList fragments, ICodeFragment codeFragment)
-        //{
-        //    MultilineCodeFragment fragment = (MultilineCodeFragment)codeFragment;
-        //    foreach (ICodeFragment innerFragment in fragment.Fragments)
-        //    {
-        //        fragments.Add(innerFragment, this.Language);
-        //        fragments.AddNewLine();
-        //    }
-        //}
     }
 }

@@ -1,5 +1,5 @@
 ﻿using System;
-using KY.Generator.Configurations;
+using KY.Generator.Configuration;
 
 namespace KY.Generator.Watchdog.Configurations
 {

@@ -1,9 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using KY.Core;
 using KY.Core.Dependency;
+using KY.Generator.Command;
 using KY.Generator.Configurations;
+using KY.Generator.Exceptions;
+using KY.Generator.Extensions;
 using KY.Generator.Languages;
+using KY.Generator.Load;
 using Newtonsoft.Json.Linq;
 
 namespace KY.Generator.Configuration
@@ -19,60 +24,61 @@ namespace KY.Generator.Configuration
             this.resolver = resolver;
         }
 
-        public List<ConfigurationSet> Read(ConfigurationVersion version)
+        public ExecuteConfiguration Read(JObject rawConfiguration)
         {
-            List<ConfigurationSet> list = new List<ConfigurationSet>();
-            if (version.Generate is JObject obj)
+            ExecuteConfiguration configuration = rawConfiguration.ToObject<ExecuteConfiguration>();
+            if (configuration.Load != null && configuration.Load.Count > 0)
             {
-                ConfigurationSet set = new ConfigurationSet();
-                this.ReadToSet(obj, set);
-                list.Add(set);
+                this.resolver.Create<GeneratorModuleLoader>().Load(configuration.Load);
             }
-            else if (version.Generate is JArray array)
+            ConfigurationVersion2 configuration2 = rawConfiguration.ToObject<ConfigurationVersion2>();
+            if (configuration2.Execute == null)
             {
-                if (array.First is JObject)
+                throw new InvalidConfigurationException("Invalid configuration found. 'execute' tag is missing.");
+            }
+            if (configuration2.Execute is JObject obj)
+            {
+                configuration.Execute.Add(this.ReadConfiguration(obj));
+            }
+            else if (configuration2.Execute is JArray array)
+            {
+                foreach (JToken token in array)
                 {
-                    ConfigurationSet set = new ConfigurationSet();
-                    foreach (JObject entry in array.OfType<JObject>())
+                    if (token is JObject jObject)
                     {
-                        this.ReadToSet(entry, set);
+                        configuration.Execute.Add(this.ReadConfiguration(jObject));
                     }
-                    list.Add(set);
-                }
-                else if (array.First is JArray)
-                {
-                    foreach (JArray innerArray in array.OfType<JArray>())
+                    else
                     {
-                        ConfigurationSet set = new ConfigurationSet();
-                        foreach (JObject entry in innerArray.OfType<JObject>())
-                        {
-                            this.ReadToSet(entry, set);
-                        }
-                        list.Add(set);
+                        throw new InvalidConfigurationException($"Invalid configuration found. Unknown entry in 'execute' tag found. Expected 'Object' but got '{token.Type}'");
                     }
                 }
             }
-            list.ForEach(pair => pair.Configurations.ForEach(configuration => configuration.Formatting = configuration.Formatting ?? version.Formatting));
-            return list;
+            return configuration;
         }
 
-        private void ReadToSet(JObject token, ConfigurationSet set)
+        private IConfiguration ReadConfiguration(JObject rawConfiguration)
         {
-            ConfigurationMapping mapping = this.resolver.Get<ConfigurationMapping>();
-            List<string> actions = mapping.GetActions();
-            JProperty property = token.Properties().FirstOrDefault(p => actions.Any(action => action.Equals(p.Name, StringComparison.InvariantCultureIgnoreCase)));
-            string configurationName = property?.Value?.ToString();
-            if (configurationName != null)
+            CommandRegistry commands = this.resolver.Get<CommandRegistry>();
+            List<string> groups = commands.GetGroups();
+            JProperty property = rawConfiguration.Properties().FirstOrDefault(p => groups.Any(action => action.Equals(p.Name, StringComparison.InvariantCultureIgnoreCase)));
+            if (property == null)
             {
-                ConfigurationBase configurationBase = (ConfigurationBase)token.ToObject(mapping.ResolveConfiguration(configurationName, property.Name));
-                this.Prepare(configurationBase);
-                set.Configurations.Add(configurationBase);
+                JProperty firstProperty = rawConfiguration.Properties().FirstOrDefault();
+                string command = firstProperty == null ? "{ <empty-object> }" : $"{{ \"{firstProperty.Name}\": \"{firstProperty.Value}\", ... }}";
+                throw new UnknownCommandException(command);
             }
-        }
-
-        private void Prepare(ConfigurationBase configurationBase)
-        {
-            configurationBase.Language = configurationBase.Language ?? this.resolver.Get<List<ILanguage>>().FirstOrDefault(x => x.Name.Equals(configurationBase.LanguageKey, StringComparison.InvariantCultureIgnoreCase));
+            Type type = commands.GetConfigurationType(property.Value.ToString(), property.Name);
+            IConfiguration configuration = (IConfiguration)rawConfiguration.ToObject(type);
+            configuration.Environment.Command = property.Name;
+            configuration.Environment.CommandGroup = property.Value.ToString();
+            if (configuration is IConfigurationWithLanguage configurationWithLanguage)
+            {
+                List<ILanguage> languages = this.resolver.Get<List<ILanguage>>();
+                configurationWithLanguage.Language = languages.FirstOrDefault(language => language.Name.Equals(configurationWithLanguage.LanguageKey, StringComparison.InvariantCultureIgnoreCase))
+                                                         ?? configurationWithLanguage.Language;
+            }
+            return configuration;
         }
     }
 }

@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using KY.Generator.Configuration;
 using KY.Generator.Configurations;
 using KY.Generator.Csharp.Extensions;
 using KY.Generator.Json.Configurations;
-using KY.Generator.Json.Transfers;
+using KY.Generator.Json.TransferObjects;
 using KY.Generator.Mappings;
 using KY.Generator.Templates;
 using KY.Generator.Templates.Extensions;

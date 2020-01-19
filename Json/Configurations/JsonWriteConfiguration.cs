@@ -1,8 +1,8 @@
-﻿using KY.Generator.Configurations;
+﻿using KY.Generator.Configuration;
 
 namespace KY.Generator.Json.Configurations
 {
-    public class JsonWriteConfiguration : ConfigurationBase, IFormattableConfiguration
+    public class JsonWriteConfiguration : ConfigurationWithLanguageBase, IFormattableConfiguration
     {
         public JsonWriteReaderConfiguration Reader { get; set; }
         public JsonWriteObjectConfiguration Object { get; set; }

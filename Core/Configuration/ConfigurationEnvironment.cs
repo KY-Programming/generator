@@ -5,11 +5,13 @@ namespace KY.Generator.Configuration
 {
     public class ConfigurationEnvironment
     {
-        public string ConfigurationFilePath { get; }
-        public string OutputPath { get; }
+        public string ConfigurationFilePath { get; set; }
+        public string OutputPath { get; set; }
         public List<CommandParameter> Parameters { get; }
+        public string Command { get; set; }
+        public string CommandGroup { get; set; }
 
-        public ConfigurationEnvironment(string configurationFilePath, string outputPath)
+        public ConfigurationEnvironment(string configurationFilePath = null, string outputPath = null)
         {
             this.ConfigurationFilePath = configurationFilePath;
             this.OutputPath = outputPath;

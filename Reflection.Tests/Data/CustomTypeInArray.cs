@@ -1,7 +1,4 @@
-﻿using System;
-using System.Text;
-
-namespace KY.Generator.Reflection.Tests
+﻿namespace KY.Generator.Reflection.Tests
 {
     public class CustomTypeInArray
     {

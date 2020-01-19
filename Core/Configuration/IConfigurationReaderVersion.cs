@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using KY.Generator.Configurations;
+using Newtonsoft.Json.Linq;
 
 namespace KY.Generator.Configuration
 {
     internal interface IConfigurationReaderVersion
     {
         int Version { get; }
-        List<ConfigurationSet> Read(ConfigurationVersion version);
+        ExecuteConfiguration Read(JObject rawConfiguration);
     }
 }

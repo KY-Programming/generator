@@ -2,63 +2,64 @@
 using System.Collections.Generic;
 using System.Linq;
 using KY.Core;
-using KY.Core.Dependency;
+using KY.Generator.Command;
 using KY.Generator.Configuration;
-using KY.Generator.Configurations;
-using KY.Generator.Output;
 using KY.Generator.Transfer;
-using KY.Generator.Transfer.Readers;
-using KY.Generator.Transfer.Writers;
 
 namespace KY.Generator
 {
     public class ConfigurationRunner
     {
-        private readonly IDependencyResolver resolver;
+        private readonly CommandRegistry commands;
 
-        public ConfigurationRunner(IDependencyResolver resolver)
+        public ConfigurationRunner(CommandRegistry commands)
         {
-            this.resolver = resolver;
+            this.commands = commands;
         }
 
-        public bool Run(List<ConfigurationSet> configurations, IOutput output, bool isBeforeBuild = false)
+        public bool Run(IEnumerable<IConfiguration> allConfigurations, bool isBeforeBuild = false)
         {
-            ConfigurationMapping mapping = this.resolver.Get<ConfigurationMapping>();
-            Logger.Trace($"Start generating {configurations.SelectMany(x => x.Configurations).Count(x => x.BeforeBuild == isBeforeBuild)} configurations");
-            bool success = true;
-            foreach (ConfigurationSet set in configurations)
+            List<IConfiguration> configurations = allConfigurations.Where(x => x.BeforeBuild == isBeforeBuild).ToList();
+            Logger.Trace($"Start generating {configurations.Count} configurations");
+            IConfiguration missingLanguage = configurations.OfType<IConfigurationWithLanguage>().FirstOrDefault(x => x.Language == null);
+            if (missingLanguage != null)
             {
-                List<ConfigurationBase> configurationsToRun = set.Configurations.Where(x => x.BeforeBuild == isBeforeBuild).ToList();
-                ConfigurationBase missingLanguage = configurationsToRun.FirstOrDefault(x => x.Language == null && x.RequireLanguage);
-                if (missingLanguage != null)
+                Logger.Error($"Configuration '{missingLanguage.GetType().Name}' without language found. Generation failed!");
+                return false;
+            }
+            try
+            {
+                List<ITransferObject> transferObjects = new List<ITransferObject>();
+                foreach (IConfiguration configuration in configurations)
                 {
-                    Logger.Error($"Configuration '{missingLanguage.GetType().Name}' without language found. Generation failed!");
-                    success = false;
-                    continue;
-                }
-                try
-                {
-                    List<ITransferObject> transferObjects = new List<ITransferObject>();
-                    foreach (ConfigurationBase configuration in configurationsToRun)
+                    bool success;
+                    ICommand command = this.commands.CreateCommand(configuration);
+                    if (command is IConfigurationCommand configurationCommand)
                     {
-                        switch (mapping.Resolve(configuration))
-                        {
-                            case ITransferReader reader:
-                                reader.Read(configuration, transferObjects);
-                                break;
-                            case ITransferWriter writer:
-                                writer.Write(configuration, transferObjects, output);
-                                break;
-                        }
+                        success = configurationCommand.Execute(configuration, transferObjects);
+                    }
+                    else if (command is ICommandLineCommand commandLineCommand)
+                    {
+                        success = commandLineCommand.Execute(configuration);
+                    }
+                    else
+                    {
+                        Logger.Trace($"{command.GetType().Name} can not be executed. Implement at least {nameof(IConfigurationCommand)} or {nameof(ICommandLineCommand)}");
+                        success = false;
+                    }
+                    if (!success)
+                    {
+                        return false;
                     }
                 }
-                catch (Exception exception)
-                {
-                    Logger.Error(exception);
-                    success = false;
-                }
+                configurations.Where(x => x.Output != null).Select(x => x.Output).Unique().ForEach(x => x.Execute());
+                return true;
             }
-            return success;
+            catch (Exception exception)
+            {
+                Logger.Error(exception);
+                return false;
+            }
         }
     }
 }

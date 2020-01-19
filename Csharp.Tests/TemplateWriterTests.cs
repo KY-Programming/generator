@@ -16,10 +16,11 @@ using CommentWriter = KY.Generator.Csharp.Writers.CommentWriter;
 namespace KY.Generator.Csharp.Tests
 {
     [TestClass]
-    public class TemplateWriterTests : Codeable
+    public class TemplateWriterTests : MsTestBase
     {
         private IDependencyResolver resolver;
         private IOutputCache output;
+        private static readonly Code Code = default;
 
         [TestInitialize]
         public void Initialize()

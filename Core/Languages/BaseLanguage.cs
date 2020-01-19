@@ -154,6 +154,7 @@ namespace KY.Generator.Languages
 
         public virtual void Write(FileTemplate fileTemplate, IOutput output)
         {
+            output.AssertIsNotNull(nameof(output));
             if (string.IsNullOrEmpty(fileTemplate.Name))
             {
                 Logger.Trace("Empty file skipped");

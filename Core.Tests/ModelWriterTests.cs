@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using KY.Core;
 using KY.Core.Dependency;
 using KY.Generator.Core.Tests.Models;
 using KY.Generator.Mappings;
@@ -10,7 +11,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace KY.Generator.Core.Tests
 {
     [TestClass]
-    public class ModelWriterTests
+    public class ModelWriterTests : MsTestBase
     {
         private IDependencyResolver resolver;
         private ModelWriter writer;

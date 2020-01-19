@@ -1,7 +1,8 @@
 ﻿using KY.Core.Dependency;
 using KY.Core.Module;
-using KY.Generator.Configuration;
+using KY.Generator.Command;
 using KY.Generator.Mappings;
+using KY.Generator.OpenApi.Commands;
 using KY.Generator.OpenApi.Configurations;
 using KY.Generator.OpenApi.DataAccess;
 using KY.Generator.OpenApi.Languages;
@@ -20,7 +21,8 @@ namespace KY.Generator.OpenApi
             this.DependencyResolver.Bind<OpenApiDocumentReader>().ToSelf();
             this.DependencyResolver.Bind<OpenApiFileReader>().ToSelf();
             this.DependencyResolver.Bind<OpenApiUrlReader>().ToSelf();
-            this.DependencyResolver.Get<ConfigurationMapping>().Map<OpenApiReadConfiguration, OpenApiReader>("openApi");
+            this.DependencyResolver.Get<CommandRegistry>()
+                .Register<ReadOpenApiCommand, OpenApiReadConfiguration>("openApi", "read");
             this.DependencyResolver.Get<ITypeMapping>().Initialize();
         }
     }

@@ -1,3 +1,4 @@
+using KY.Core;
 using KY.Generator.Csharp;
 using KY.Generator.Output;
 using KY.Generator.Reflection.Tests.Properties;
@@ -7,7 +8,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace KY.Generator.Reflection.Tests
 {
     [TestClass]
-    public class InterfaceTest
+    public class InterfaceTest : MsTestBase
     {
         private MemoryOutput output;
 

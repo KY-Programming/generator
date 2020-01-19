@@ -7,11 +7,9 @@ using KY.Core.Dependency;
 using KY.Core.Module;
 using KY.Generator.Command;
 using KY.Generator.Configuration;
-using KY.Generator.Configurations;
 using KY.Generator.Mappings;
 using KY.Generator.Output;
 using KY.Generator.Syntax;
-using KY.Generator.Transfer.Writers;
 
 namespace KY.Generator
 {
@@ -38,13 +36,10 @@ namespace KY.Generator
             this.resolver = new DependencyResolver();
             this.resolver.Bind<ITypeMapping>().ToSingleton<TypeMapping>();
             this.resolver.Bind<CommandReader>().ToSelf();
-            this.resolver.Bind<CommandRunner>().ToSelf();
-            this.resolver.Bind<CommandRegister>().ToSingleton();
+            this.resolver.Bind<CommandRegistry>().ToSingleton();
             this.resolver.Bind<ModuleFinder>().ToSelf();
             this.resolver.Bind<IConfigurationReaderVersion>().To<ConfigurationReaderVersion2>();
-            this.resolver.Bind<ConfigurationMapping>().ToSingleton();
             this.resolver.Bind<ConfigurationRunner>().ToSelf();
-            this.resolver.Bind<ModelWriter>().ToSelf();
             StaticResolver.Resolver = this.resolver;
 
             ModuleFinder moduleFinder = this.resolver.Get<ModuleFinder>();
@@ -79,11 +74,11 @@ namespace KY.Generator
             return this.SetOutput(new FileOutput(path));
         }
 
-        public Generator RegisterCommand<TCommand, TConfiguration>(string name, string group = CommandRegister.DefaultGroup) 
-            where TCommand : IGeneratorCommand 
+        public Generator RegisterCommand<TCommand, TConfiguration>(string name, string group = CommandRegistry.DefaultGroup)
+            where TCommand : ICommand
             where TConfiguration : IConfiguration
         {
-            this.resolver.Get<CommandRegister>().Register<TCommand, TConfiguration>(name, group);
+            this.resolver.Get<CommandRegistry>().Register<TCommand, TConfiguration>(name, group);
             return this;
         }
 
@@ -98,7 +93,28 @@ namespace KY.Generator
             try
             {
                 IConfiguration configuration = this.resolver.Get<CommandReader>().Read(this.parameters);
-                this.success = this.resolver.Get<CommandRunner>().Run(configuration, this.output);
+                if (configuration == null)
+                {
+                    this.success = false;
+                }
+                else
+                {
+                    configuration.Output = this.output;
+                    ICommand command = this.resolver.Get<CommandRegistry>().CreateCommand(configuration);
+                    if (command is ICommandLineCommand commandLineCommand)
+                    {
+                        this.success = commandLineCommand.Execute(configuration);
+                        if (this.success)
+                        {
+                            configuration.Output?.Execute();
+                        }
+                    }
+                    else
+                    {
+                        Logger.Error($"Can not execute command '{command.GetType().Name.TrimEnd("Command")}'. Command can only be used in configuration file.");
+                        this.success = false;
+                    }
+                }
             }
             catch (Exception exception)
             {
@@ -107,11 +123,11 @@ namespace KY.Generator
             }
             finally
             {
+                if (!this.success && Logger.ErrorTargets.Contains(Logger.MsBuildOutput))
+                {
+                    Logger.Error($"See the full log in: {Logger.File.Path}");
+                }
                 Logger.Trace("===============================");
-            }
-            if (!this.success && Logger.ErrorTargets.Contains(Logger.MsBuildOutput))
-            {
-                Logger.Error($"See the full log in: {Logger.File.Path}");
             }
             return this;
         }

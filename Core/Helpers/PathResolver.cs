@@ -1,13 +1,12 @@
 ﻿using System;
 using KY.Core.DataAccess;
 using KY.Generator.Configuration;
-using KY.Generator.Configurations;
 
 namespace KY.Generator
 {
     public static class PathResolver
     {
-        public static string Resolve(string relativePath, ConfigurationBase configuration)
+        public static string Resolve(string relativePath, IConfiguration configuration)
         {
             string path = relativePath;
             if (FileSystem.FileExists(path))

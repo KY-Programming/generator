@@ -1,14 +1,12 @@
-using KY.Generator.Configuration;
-using KY.Generator.Languages;
 using KY.Generator.Output;
 
-namespace KY.Generator.Configurations
+namespace KY.Generator.Configuration
 {
     public interface IConfiguration
     {
-        ILanguage Language { get; }
         ConfigurationFormatting Formatting { get; }
-        IOutput Output { get; }
+        IOutput Output { get; set; }
         ConfigurationEnvironment Environment { get; }
+        bool BeforeBuild { get; set; }
     }
 }

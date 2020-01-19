@@ -4,8 +4,6 @@ namespace KY.Generator.Configurations
 {
     public class CookieConfiguration : ConfigurationBase
     {
-        public override bool RequireLanguage => false;
-
         public string Url { get; set; }
         public string Name { get; set; }
         public string Value { get; set; }

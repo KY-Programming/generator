@@ -2,6 +2,7 @@
 using KY.Core.Module;
 using KY.Generator.Command;
 using KY.Generator.Watchdog.Commands;
+using KY.Generator.Watchdog.Configurations;
 
 namespace KY.Generator.Watchdog
 {
@@ -13,7 +14,8 @@ namespace KY.Generator.Watchdog
 
         public override void Initialize()
         {
-            this.DependencyResolver.Bind<IGeneratorCommand>().To<WatchdogCommand>();
+            this.DependencyResolver.Get<CommandRegistry>()
+                .Register<WatchdogCommand, WatchdogConfiguration>("watchdog");
         }
     }
 }

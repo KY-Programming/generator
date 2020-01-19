@@ -1,11 +1,13 @@
-﻿using KY.Generator.Command;
-using KY.Generator.Configurations;
+﻿using System.Collections.Generic;
+using KY.Generator.Command;
+using KY.Generator.Configuration;
+using KY.Generator.Transfer;
 
 namespace KY.Generator.Core.Tests.Models
 {
-    internal class TestCommand : IGeneratorCommand
+    internal class TestCommand : IConfigurationCommand
     {
-        public bool Execute(IConfiguration configuration)
+        public bool Execute(IConfiguration configuration, List<ITransferObject> transferObjects)
         {
             return true;
         }

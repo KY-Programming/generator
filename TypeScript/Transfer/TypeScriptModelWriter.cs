@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using KY.Generator.Configurations;
+using KY.Generator.Configuration;
 using KY.Generator.Mappings;
 using KY.Generator.Templates;
 using KY.Generator.Templates.Extensions;
@@ -21,7 +21,7 @@ namespace KY.Generator.TypeScript.Transfer
         protected override ClassTemplate WriteClass(IModelConfiguration configuration, ModelTransferObject model, string nameSpace, List<FileTemplate> files)
         {
             ClassTemplate classTemplate = base.WriteClass(configuration, model, nameSpace, files);
-            if (!model.IsAbstract && !model.IsInterface && configuration.Language.IsTypeScript())
+            if (!model.IsAbstract && !model.IsInterface && configuration.IsTypeScript())
             {
                 ConstructorTemplate constructor = classTemplate.AddConstructor();
                 constructor.WithParameter(Code.Generic("Partial", classTemplate.ToType()), "init", Code.Null())

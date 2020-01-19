@@ -98,18 +98,6 @@ namespace KY.Generator.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [
-        ///  {},
-        ///  {}
-        ///].
-        /// </summary>
-        internal static string empty_configuration_array {
-            get {
-                return ResourceManager.GetString("empty_configuration_array", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to {
         ///  &quot;generate&quot;:  {} 
         ///}.
@@ -253,66 +241,6 @@ namespace KY.Generator.Tests.Properties {
         internal static string one_read_one_generate {
             get {
                 return ResourceManager.GetString("one_read_one_generate", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {
-        ///  &quot;version&quot;: 2,
-        ///  &quot;generate&quot;: [
-        ///    [
-        ///      {
-        ///        &quot;Read&quot;: &quot;1&quot;,
-        ///        &quot;Property1&quot;: &quot;Test1&quot;
-        ///      },
-        ///      {
-        ///        &quot;Write&quot;: &quot;1&quot;,
-        ///        &quot;Property1&quot;: &quot;Test2&quot;
-        ///      }
-        ///    ],
-        ///    [
-        ///      {
-        ///        &quot;Read&quot;: &quot;2&quot;,
-        ///        &quot;Property1&quot;: &quot;Test3&quot;
-        ///      },
-        ///      {
-        ///        &quot;Write&quot;: &quot;2&quot;,
-        ///        &quot;Property1&quot;: &quot;Test4&quot;
-        ///      }
-        ///    ]
-        ///  ]
-        ///}
-        ///
-        ///.
-        /// </summary>
-        internal static string one_read_one_generate_twice {
-            get {
-                return ResourceManager.GetString("one_read_one_generate_twice", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {
-        ///  &quot;version&quot;: 2,
-        ///  &quot;generate&quot;: [
-        ///    [
-        ///      {
-        ///        &quot;write&quot;: &quot;1&quot;,
-        ///        &quot;property1&quot;: &quot;Test1&quot;
-        ///      }
-        ///    ],
-        ///    [
-        ///      {
-        ///        &quot;write&quot;: &quot;2&quot;,
-        ///        &quot;property2&quot;: &quot;Test2&quot;
-        ///      }
-        ///    ]
-        ///  ]
-        ///}.
-        /// </summary>
-        internal static string two_generates_in_array_array {
-            get {
-                return ResourceManager.GetString("two_generates_in_array_array", resourceCulture);
             }
         }
         

@@ -1,50 +1,31 @@
-using System.Collections.Generic;
-using KY.Core.Dependency;
-using KY.Generator.Configuration;
+using KY.Core;
+using KY.Generator.Core.Tests;
 using KY.Generator.Csharp;
-using KY.Generator.Mappings;
-using KY.Generator.Output;
 using KY.Generator.Tsql.Tests.Properties;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace KY.Generator.Tsql.Tests
 {
     [TestClass]
-    public class FullStageTests
+    public class FullStageTests : MsTestBase
     {
-        private IDependencyResolver resolver;
-        private ConfigurationsReader reader;
-        private ConfigurationRunner runner;
-        private MemoryOutput output;
+        private TestConfigurationRunner runner;
 
         [TestInitialize]
         public void Initialize()
         {
-            this.resolver = new DependencyResolver();
-            this.resolver.Bind<ITypeMapping>().ToSingleton<TypeMapping>();
-            this.resolver.Bind<IConfigurationReaderVersion>().To<ConfigurationReaderVersion2>();
-            this.resolver.Bind<ConfigurationMapping>().ToSingleton();
-            this.resolver.Create<CoreModule>().Initialize();
-            this.resolver.Create<CsharpModule>().Initialize();
-            this.resolver.Create<TsqlModule>().Initialize();
-            this.reader = this.resolver.Create<ConfigurationsReader>();
-            this.runner = this.resolver.Create<ConfigurationRunner>();
-            this.output = this.resolver.Create<MemoryOutput>();
+            this.runner = new TestConfigurationRunner()
+                          .Initialize<CoreModule>()
+                          .Initialize<CsharpModule>()
+                          .Initialize<TsqlModule>();
         }
 
         [TestMethod]
         public void TestMethod1()
         {
-            Assert.AreEqual(true, this.Run(Resources.tsql_generator), "Generation not successful");
-            Assert.AreEqual(1, this.output.Files.Count);
-            Assert.AreEqual(Resources.User_cs, this.output.Files["User.cs"]);
-        }
-
-        private bool Run(string configuration)
-        {
-            List<ConfigurationSet> sets = this.reader.Parse(configuration);
-            sets.ForEach(x => x.Configurations.ForEach(y => y.AddHeader = false));
-            return this.runner.Run(sets, this.output);
+            Assert.AreEqual(true, this.runner.Run(Resources.tsql_generator), "Generation not successful");
+            Assert.AreEqual(1, this.runner.Output.Files.Count);
+            Assert.AreEqual(Resources.User_cs, this.runner.Output.Files["User.cs"]);
         }
     }
 }

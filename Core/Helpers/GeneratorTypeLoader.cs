@@ -4,13 +4,12 @@ using System.Linq;
 using KY.Core;
 using KY.Core.Nuget;
 using KY.Generator.Configuration;
-using KY.Generator.Configurations;
 
 namespace KY.Generator
 {
     public static class GeneratorTypeLoader
     {
-        public static Type Get(ConfigurationBase configuration, string assemblyName, string nameSpace, string typeName, params SearchLocation[] locations)
+        public static Type Get(IConfiguration configuration, string assemblyName, string nameSpace, string typeName, params SearchLocation[] locations)
         {
             List<SearchLocation> list = locations.ToList();
             list.Add(new SearchLocation(configuration.Environment.ConfigurationFilePath));

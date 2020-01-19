@@ -1,8 +1,8 @@
-﻿using KY.Generator.Configurations;
+﻿using KY.Generator.Configuration;
 
 namespace KY.Generator.Json.Configurations
 {
-    internal class JsonReadConfiguration : ReadConfigurationBase
+    internal class JsonReadConfiguration : ConfigurationBase
     {
         public string Source { get; set; }
     }

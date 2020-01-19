@@ -1,10 +1,11 @@
-﻿using KY.Generator.Extensions;
+﻿using KY.Core;
+using KY.Generator.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace KY.Generator.Core.Tests
 {
     [TestClass]
-    public class CaseTest
+    public class CaseTest : MsTestBase
     {
         /****************
          *  PascalCase  *

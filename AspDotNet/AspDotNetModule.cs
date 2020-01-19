@@ -1,9 +1,8 @@
 ﻿using KY.Core.Dependency;
 using KY.Core.Module;
+using KY.Generator.AspDotNet.Commands;
 using KY.Generator.AspDotNet.Configurations;
-using KY.Generator.AspDotNet.Readers;
-using KY.Generator.AspDotNet.Writers;
-using KY.Generator.Configuration;
+using KY.Generator.Command;
 
 namespace KY.Generator.AspDotNet
 {
@@ -15,10 +14,10 @@ namespace KY.Generator.AspDotNet
 
         public override void Initialize()
         {
-            this.DependencyResolver.Get<ConfigurationMapping>()
-                .Map<AspDotNetReadConfiguration, AspDotNetReader>("asp")
-                .Map<AspDotNetWriteConfiguration, AspDotNetWriter>("asp")
-                .Map<AspDotNetCoreWriteConfiguration, AspDotNetWriter>("asp-core");
+            this.DependencyResolver.Get<CommandRegistry>()
+                .Register<ReadAspDotNetCommand, AspDotNetReadConfiguration>("asp", "read")
+                .Register<WriteAspDotNetCommand, AspDotNetWriteConfiguration>("asp", "write")
+                .Register<WriteAspDotNetCommand, AspDotNetCoreWriteConfiguration>("asp-core", "write");
         }
     }
 }
