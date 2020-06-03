@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Target Name="KYGeneratorCLICoreMinimalBeforeTarget" BeforeTargets="BeforeBuild">
-    <Exec Command="dotnet %22%25USERPROFILE%25\.nuget\packages\ky.generator.cli.core.minimal\3.4.0\tools\KY.Generator.dll%22 %22$(ProjectDir)generator.json%22 %22$(ProjectDir)\%22 msbuild beforeBuild"
+    <Exec Command="dotnet %22%25USERPROFILE%25\.nuget\packages\ky.generator.cli.core.minimal\3.4.1\tools\KY.Generator.dll%22 %22$(ProjectDir)generator.json%22 %22$(ProjectDir)\%22 msbuild beforeBuild"
           CustomErrorRegularExpression="^Error:"
           CustomWarningRegularExpression="^Warning:"></Exec>
   </Target>
   <Target Name="KYGeneratorCLICoreMinimalAfterTarget" AfterTargets="AfterBuild">
-    <Exec Command="dotnet %22%25USERPROFILE%25\.nuget\packages\ky.generator.cli.core.minimal\3.4.0\tools\KY.Generator.dll%22 %22$(ProjectDir)generator.json%22 %22$(ProjectDir)\%22 msbuild"
+    <Exec Command="dotnet %22%25USERPROFILE%25\.nuget\packages\ky.generator.cli.core.minimal\3.4.1\tools\KY.Generator.dll%22 %22$(ProjectDir)generator.json%22 %22$(ProjectDir)\%22 msbuild"
           CustomErrorRegularExpression="^Error:"
           CustomWarningRegularExpression="^Warning:"></Exec>
   </Target>

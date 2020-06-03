@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ValuesService } from 'src/app/services/values-service';
+import { ValuesService } from 'src/app/services/values.service';
 
 @Component({
   selector: 'app-web-api',

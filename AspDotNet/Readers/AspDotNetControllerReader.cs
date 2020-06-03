@@ -44,6 +44,7 @@ namespace KY.Generator.AspDotNet.Readers
             foreach (MethodInfo method in methods)
             {
                 Type returnType = method.ReturnType.IgnoreGeneric("System.Threading.Tasks", "Task")
+                                        .IgnoreGeneric("Microsoft.AspNetCore.Mvc", "IActionResult")
                                         .IgnoreGeneric("Microsoft.AspNetCore.Mvc", "ActionResult");
                 this.modelReader.Read(returnType, transferObjects);
                 foreach (Attribute attribute in method.GetCustomAttributes())

@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>KY.Generator.CLI.Standalone</id>
-    <version>3.4.0</version>
+    <version>3.4.1</version>
     <title>KY.Generator.CLI</title>
     <authors>KY-Programming</authors>
     <owners>KY-Programming</owners>

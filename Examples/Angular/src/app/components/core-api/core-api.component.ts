@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ValuesCoreService } from '../../services/values-core-service';
+import { ValuesCoreService } from '../../services/values-core.service';
 
 @Component({
   selector: 'app-core-api',
@@ -57,6 +57,24 @@ export class CoreApiComponent {
       this.result += 'Result from delete: void\r\n';
     }, error => {
       this.result += 'Error from delete: ' + JSON.stringify(error) + '\r\n';
+    });
+  }
+
+  public check(): void {
+    this.result += 'Execute check...\r\n';
+    this.valuesService.check().subscribe(() => {
+      this.result += 'Result from check: void\r\n';
+    }, error => {
+      this.result += 'Error from check: ' + JSON.stringify(error) + '\r\n';
+    });
+  }
+
+  public checkInterface(): void {
+    this.result += 'Execute checkInterface...\r\n';
+    this.valuesService.checkInterface().subscribe(() => {
+      this.result += 'Result from checkInterface: void\r\n';
+    }, error => {
+      this.result += 'Error from checkInterface: ' + JSON.stringify(error) + '\r\n';
     });
   }
 }
