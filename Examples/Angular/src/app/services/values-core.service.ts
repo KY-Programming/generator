@@ -27,11 +27,7 @@ export class ValuesCoreService {
     public get(httpOptions: {} = undefined): Observable<string[]> {
         let subject = new Subject<string[]>();
         this.http.get<string[]>(this.serviceUrl + "/api/values", httpOptions).subscribe(result => {
-            const list: string[] = [];
-            for (const entry of result) {
-            list.push(<string>entry);
-            }
-            subject.next(list);
+            subject.next(result);
             subject.complete();
         }, error => subject.error(error));
         return subject;
@@ -40,8 +36,7 @@ export class ValuesCoreService {
     public get2(id: number, httpOptions: {} = undefined): Observable<Value> {
         let subject = new Subject<Value>();
         this.http.get<Value>(this.serviceUrl + "/api/values/" + id, httpOptions).subscribe(result => {
-            const model: Value = result === null || result === undefined ? undefined : new Value(result);
-            subject.next(model);
+            subject.next(result);
             subject.complete();
         }, error => subject.error(error));
         return subject;

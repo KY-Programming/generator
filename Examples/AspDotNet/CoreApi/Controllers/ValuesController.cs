@@ -37,14 +37,14 @@ namespace KY.Generator.Examples.AspDotNetCore.Controllers
         public void Delete(int id)
         { }
 
-        // GET api/check
+        // GET api/values/check
         [HttpGet("[action]")]
         public ActionResult Check()
         {
             return this.Ok();
         }
 
-        // GET api/checkinterface
+        // GET api/values/checkinterface
         [HttpGet("[action]")]
         public IActionResult CheckInterface()
         {

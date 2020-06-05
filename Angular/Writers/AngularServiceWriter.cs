@@ -86,37 +86,13 @@ namespace KY.Generator.Angular.Writers
                     List<HttpServiceActionParameterTransferObject> urlDirectParameters = action.Parameters.Where(x => !x.FromBody && !x.Inline && !x.AppendName).ToList();
                     uri = urlParameters.Count > 0 ? $"{uri}?{urlParameters.First().Name}=" : urlDirectParameters.Count > 0 ? $"{uri}?" : uri;
                     MultilineCodeFragment code = Code.Multiline();
-                    DeclareTemplate declareTemplate = null;
                     bool hasReturnType = returnType.Name != "void";
-                    bool isPrimitive = this.IsPrimitive(returnType);
-                    if (returnType.Name == "Array")
+                    ExecuteMethodTemplate nextMethod = Code.Local("subject").Method("next");
+                    if (hasReturnType)
                     {
-                        TypeTemplate type = ((GenericTypeTemplate)returnType).Types[0];
-                        ICodeFragment createModelCode = isPrimitive
-                                                            ? (ICodeFragment)Code.Cast(type, Code.Local("entry"))
-                                                            : Code.InlineIf(Code.Local("entry").Equals().ForceNull().Or().Local("entry").Equals().Undefined(),
-                                                                            Code.Undefined(),
-                                                                            Code.New(type, Code.Local("entry"))
-                                                            );
-                        declareTemplate = Code.Declare(returnType, "list", Code.TypeScript("[]")).Constant();
-                        code.AddLine(declareTemplate)
-                            .AddLine(Code.TypeScript("for (const entry of result) {").BreakLine() /*.StartBlock()*/)
-                            .AddLine(Code.Local(declareTemplate).Method("push", createModelCode).Close())
-                            //.AddLine(Code.TypeScript("").EndBlock());
-                            .AddLine(Code.TypeScript("}").BreakLine());
+                        nextMethod.WithParameter(Code.Local("result"));
                     }
-                    else if (hasReturnType)
-                    {
-                        ICodeFragment createModelCode = isPrimitive
-                                                            ? (ICodeFragment)Code.Cast(returnType, Code.Local("result"))
-                                                            : Code.InlineIf(Code.Local("result").Equals().ForceNull().Or().Local("result").Equals().Undefined(),
-                                                                            Code.Undefined(),
-                                                                            Code.New(returnType, Code.Local("result"))
-                                                            );
-                        declareTemplate = Code.Declare(returnType, "model", createModelCode).Constant();
-                        code.AddLine(declareTemplate);
-                    }
-                    code.AddLine(Code.Local("subject").Method("next").WithParameter(declareTemplate.ToLocal()).Close())
+                    code.AddLine(nextMethod.Close())
                         .AddLine(Code.Local("subject").Method("complete").Close());
                     ChainedCodeFragment parameterUrl = Code.This().Field(serviceUrlField);
                     if (inlineParameters.Count == 0)
