@@ -10,7 +10,8 @@
     <projectUrl>https://github.com/KY-Programming/generator</projectUrl>
     <iconUrl>https://ky-programming.de/images/logos/128.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>KY-Generator .NET Core CLI Standalone containing basic features without dependencies.
+    <description>Install this only for .NET CORE or .NET STANDARD assemblies!
+Use this to run from command line. Contains basic features without dependencies.
 Generate classes from oData, .NET assembly, JSON or TSQL to C# or TypeScript. Support Angular, ASP.NET, ASP.NET Core, C# POCOs, TypeScript POCOs, Entity Framework and more.</description>
     <releaseNotes></releaseNotes>
     <copyright>Copyright 2020</copyright>
