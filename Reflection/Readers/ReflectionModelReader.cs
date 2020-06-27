@@ -124,6 +124,11 @@ namespace KY.Generator.Reflection.Readers
             FieldInfo[] fields = type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
             foreach (FieldInfo field in fields)
             {
+                GenerateIgnoreAttribute ignoreAttribute = field.GetCustomAttribute<GenerateIgnoreAttribute>();
+                if (ignoreAttribute != null)
+                {
+                    continue;
+                }
                 FieldTransferObject fieldTransferObject = new FieldTransferObject
                                                           {
                                                               Name = field.Name,
@@ -136,6 +141,11 @@ namespace KY.Generator.Reflection.Readers
             PropertyInfo[] properties = type.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
             foreach (PropertyInfo property in properties)
             {
+                GenerateIgnoreAttribute ignoreAttribute = property.GetCustomAttribute<GenerateIgnoreAttribute>();
+                if (ignoreAttribute != null)
+                {
+                    continue;
+                }
                 PropertyTransferObject propertyTransferObject = new PropertyTransferObject
                                                                 {
                                                                     Name = property.Name,
