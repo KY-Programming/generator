@@ -9,7 +9,15 @@
     <Copyright>2020 - KY-Programming</Copyright>
     <AssemblyName>KY.Generator</AssemblyName>
     <RootNamespace>KY.Generator</RootNamespace>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="KY.Core.Common" Version="4.10.0" />
