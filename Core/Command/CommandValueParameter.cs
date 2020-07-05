@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace KY.Generator.Command
 {
-    public class CommandValueParameter : CommandParameter
+    public class CommandValueParameter : CommandParameterBase
     {
         private static readonly Regex regex = new Regex(@"^-(?<name>[\w-]+)(=(?<value>.+))?$");
         public string Value { get; }

@@ -7,8 +7,10 @@ using KY.Core.DataAccess;
 using KY.Core.Dependency;
 using KY.Core.Module;
 using KY.Generator.Command;
+using KY.Generator.Command.Extensions;
 using KY.Generator.Configuration;
 using KY.Generator.Configurations;
+using KY.Generator.Languages;
 using KY.Generator.Mappings;
 using KY.Generator.Module;
 using KY.Generator.Output;
@@ -23,6 +25,7 @@ namespace KY.Generator
         private IOutput output;
         private readonly DependencyResolver resolver;
         private bool standalone;
+        private bool isBeforeBuild;
         private CommandConfiguration command;
         private IList<ModuleBase> Modules { get; }
 
@@ -112,7 +115,6 @@ namespace KY.Generator
             this.Modules.OfType<GeneratorModule>().ForEach(x => x.BeforeConfigure());
             this.command = new CommandConfiguration("run");
             this.command.Parameters.Add(new CommandValueParameter("path", path));
-            this.command.Standalone = this.standalone;
             return this;
         }
 
@@ -122,22 +124,35 @@ namespace KY.Generator
             this.Modules.OfType<GeneratorModule>().ForEach(x => x.BeforeConfigure());
             this.command = new CommandConfiguration("run");
             this.command.Parameters.Add(new CommandValueParameter("configuration", configuration));
-            this.command.Standalone = this.standalone;
             return this;
         }
 
-        public IGeneratorRunSyntax ParseCommand(params string[] arguments)
+        public IGeneratorRunSyntax ParseCommand(params string[] parameters)
         {
-            Logger.Trace($"Parse command {string.Join(" ", arguments)}");
+            return this.ParseCommand(CommandParameterParser.Parse(parameters).ToList());
+        }
+
+        public IGeneratorRunSyntax ParseCommand(List<ICommandParameter> parameters)
+        {
+            CommandParameter commandParameter = parameters.OfType<CommandParameter>().First();
+            Logger.Trace($"Parse command {commandParameter.Name}");
             this.Modules.OfType<GeneratorModule>().ForEach(x => x.BeforeConfigure());
-            CommandReader reader = this.resolver.Create<CommandReader>();
-            this.command = reader.Read(arguments);
-            this.command.Standalone = this.standalone;
+            this.command = new CommandConfiguration(commandParameter.Name);
+            this.command.Parameters.AddRange(parameters.Where(x => x != commandParameter));
             CommandValueParameter outputParameter = this.command.Parameters.OfType<CommandValueParameter>().FirstOrDefault(x => x.Name.Equals("output", StringComparison.CurrentCultureIgnoreCase));
             if (outputParameter != null)
             {
                 this.SetOutput(outputParameter.Value);
             }
+            return this;
+        }
+
+        public IGeneratorRunSyntax ParseAttributes(string assemblyName)
+        {
+            Logger.Trace($"Read attributes from assembly {assemblyName}");
+            this.Modules.OfType<GeneratorModule>().ForEach(x => x.BeforeConfigure());
+            this.command = new CommandConfiguration("run-by-attributes");
+            this.command.Parameters.Add(new CommandValueParameter("assembly", assemblyName));
             return this;
         }
 
@@ -148,16 +163,47 @@ namespace KY.Generator
                 Logger.Error("No parameters found. Provide at least a command or a path to a configuration file. Generation aborted!");
                 return this;
             }
-            if (FileSystem.FileExists(parameters.First()))
+            List<ICommandParameter> commandParameters = CommandParameterParser.Parse(parameters).ToList();
+            CommandParameter commandParameter = commandParameters.OfType<CommandParameter>().FirstOrDefault();
+            if (commandParameter == null)
             {
-                this.SetOutput(parameters.Skip(1).FirstOrDefault() ?? FileSystem.Parent(parameters.First()))
-                           .ReadConfiguration(parameters.First());
-                CommandReader.SetParameters(this.command, parameters.Skip(2));
+                Logger.Error("No command found. Provide at least a command or a path to a configuration file. Generation aborted!");
                 return this;
             }
-            if (parameters.First().Contains(":\\"))
+            if (commandParameters.Count >= 2 && commandParameters[0].Name.Contains(":\\") && commandParameters[1].Name.Contains(":\\"))
             {
-                Logger.Error($"'{parameters.First()}' not found");
+                Logger.Warning("Legacy output parameter found. Please use -output=\"...\" instead. Generator will fix this for you ;-)");
+                commandParameters[1] = new CommandValueParameter("output", commandParameters[1].Name);
+            }
+            this.isBeforeBuild = commandParameters.Any(x => x.Name.Equals("beforeBuild", StringComparison.CurrentCultureIgnoreCase));
+            if (FileSystem.FileExists(commandParameter.Name))
+            {
+                if (commandParameter.Name.EndsWith(".json", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    this.ReadConfiguration(commandParameter.Name);
+                }
+                else
+                {
+                    this.ParseAttributes(commandParameter.Name);
+                }
+                this.SetOutput(FileSystem.Parent(commandParameter.Name));
+                this.command.Parameters.AddRange(commandParameters.Where(x => x != commandParameter));
+                return this;
+            }
+            CommandValueParameter fallbackParameter = commandParameters.OfType<CommandValueParameter>().FirstOrDefault(x => x.Name.Equals("assembly", StringComparison.CurrentCultureIgnoreCase));
+            if (fallbackParameter != null && FileSystem.FileExists(fallbackParameter.Value))
+            {
+                this.ParseAttributes(fallbackParameter.Value);
+                this.SetOutput(FileSystem.Parent(commandParameter.Name));
+                this.command.Parameters.AddRange(commandParameters.Where(x => x != commandParameter && x != fallbackParameter));
+                return this;
+            }
+            if (commandParameter.Name.Contains(":\\"))
+            {
+                Action<string> log = this.isBeforeBuild ? (Action<string>)Logger.Warning : message => Logger.Error(message);
+                log($"'{commandParameter.Name}' not found");
+                log("Please create a generator.json in your project root");
+                log("See our Wiki on Github: https://github.com/KY-Programming/generator/wiki/v2:-Configuration-Basics");
                 return this;
             }
             return this.ParseCommand(parameters);
@@ -166,10 +212,6 @@ namespace KY.Generator
         public Generator SetStandalone()
         {
             this.standalone = true;
-            if (this.command != null)
-            {
-                this.command.Standalone = true;
-            }
             return this;
         }
 
@@ -178,6 +220,14 @@ namespace KY.Generator
             bool result;
             try
             {
+                if (this.command == null)
+                {
+                    // If we are in before build action, we do not return a error, else the build will always fail before the build is started
+                    return this.isBeforeBuild;
+                }
+                List<ILanguage> languages = this.resolver.Get<List<ILanguage>>();
+                this.command.Standalone = this.standalone;
+                this.command.ReadFromParameters(this.command.Parameters, languages);
                 result = this.resolver.Get<CommandRunner>().Run(this.command, this.output);
             }
             catch (Exception exception)

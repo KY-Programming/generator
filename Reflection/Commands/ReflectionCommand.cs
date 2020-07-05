@@ -9,6 +9,7 @@ using KY.Generator.Languages;
 using KY.Generator.Output;
 using KY.Generator.Reflection.Configurations;
 using KY.Generator.Reflection.Extensions;
+using KY.Generator.Reflection.Helpers;
 using KY.Generator.Reflection.Readers;
 using KY.Generator.Reflection.Writers;
 using KY.Generator.Transfer;
@@ -49,7 +50,7 @@ namespace KY.Generator.Reflection.Commands
                 }
                 foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
                 {
-                    foreach (Type objectType in this.GetTypes(assembly))
+                    foreach (Type objectType in TypeHelper.GetTypes(assembly))
                     {
                         foreach (GenerateAttribute attribute in objectType.GetCustomAttributes<GenerateAttribute>())
                         {
@@ -72,6 +73,7 @@ namespace KY.Generator.Reflection.Commands
 
                             ReflectionWriteConfiguration writeConfiguration = new ReflectionWriteConfiguration();
                             writeConfiguration.CopyBaseFrom(configuration);
+                            writeConfiguration.Language = language;
                             writeConfiguration.Namespace = objectType.Namespace;
                             writeConfiguration.RelativePath = attribute.RelativePath ?? configuration.Parameters.GetString(nameof(ReflectionWriteConfiguration.RelativePath));
                             writeConfiguration.SkipNamespace = attribute.SkipNamespace.ToBool(configuration.Parameters.GetBool(nameof(ReflectionWriteConfiguration.SkipNamespace)));
@@ -95,6 +97,7 @@ namespace KY.Generator.Reflection.Commands
                 
                 ReflectionWriteConfiguration writeConfiguration = new ReflectionWriteConfiguration();
                 writeConfiguration.CopyBaseFrom(configuration);
+                writeConfiguration.Language = configuration.Parameters.GetString(nameof(ReflectionReadConfiguration.Language)).Equals(nameof(OutputLanguage.Csharp), StringComparison.CurrentCultureIgnoreCase) ? (ILanguage)CsharpLanguage.Instance : TypeScriptLanguage.Instance;
                 writeConfiguration.Namespace = configuration.Parameters.GetString(nameof(ReflectionReadConfiguration.Namespace));
                 writeConfiguration.RelativePath = configuration.Parameters.GetString(nameof(ReflectionWriteConfiguration.RelativePath));
                 writeConfiguration.Using = configuration.Parameters.GetString(nameof(ReflectionWriteConfiguration.Using));
@@ -108,18 +111,5 @@ namespace KY.Generator.Reflection.Commands
             return true;
         }
 
-        private IEnumerable<Type> GetTypes(Assembly assembly)
-        {
-            try
-            {
-                return assembly.GetTypes();
-            }
-            catch (ReflectionTypeLoadException exception)
-            {
-                Logger.Error(exception);
-                exception.LoaderExceptions.ForEach(Logger.Error);
-                return Enumerable.Empty<Type>();
-            }
-        }
     }
 }

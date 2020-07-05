@@ -88,7 +88,7 @@ namespace KY.Generator.Watchdog.Commands
             return true;
         }
 
-        private CommandParameter MapParameter(CommandParameter parameter, string command)
+        private ICommandParameter MapParameter(ICommandParameter parameter, string command)
         {
             string name = parameter.Name.TrimStart($"{command}-");
             if (parameter is CommandValueParameter valueParameter)

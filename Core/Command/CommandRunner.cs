@@ -25,6 +25,8 @@ namespace KY.Generator.Command
             if (commandsToRun.Count == 0)
             {
                 Logger.Error($"Command '{configuration.Command}' not found");
+                Logger.Error("Please create a generator.json in your project root");
+                Logger.Error("See our Wiki on Github: https://github.com/KY-Programming/generator/wiki/v3:-Overview#commands");
             }
             bool success = commandsToRun.Select(x => x.Generate(configuration, ref output)).ToList().Any(x => x);
             if (success)

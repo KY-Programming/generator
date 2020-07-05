@@ -14,7 +14,7 @@
     <RepositoryUrl>https://github.com/KY-Programming/generator</RepositoryUrl>
     <RepositoryType></RepositoryType>
     <PackageTags>KY-Generator KY Generator Reflection Annotations</PackageTags>
-    <RootNamespace>KY.Generator.Reflection</RootNamespace>
+    <RootNamespace>KY.Generator</RootNamespace>
   </PropertyGroup>
 
 </Project>

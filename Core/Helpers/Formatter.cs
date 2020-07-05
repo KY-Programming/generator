@@ -75,6 +75,7 @@ namespace KY.Generator
 
         public static string Format(string name, string casing)
         {
+            casing.AssertIsNotNullOrEmpty(nameof(casing));
             if (casing.Equals(Case.CamelCase, StringComparison.CurrentCultureIgnoreCase))
             {
                 return name?.ToCamelCase();

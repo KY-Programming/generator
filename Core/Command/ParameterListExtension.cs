@@ -6,17 +6,17 @@ namespace KY.Generator.Command
 {
     public static class ParameterListExtension
     {
-        public static bool Exists(this IList<CommandParameter> list, string parameter)
+        public static bool Exists(this IList<ICommandParameter> list, string parameter)
         {
             return list.Any(x => parameter.Equals(x.Name, StringComparison.InvariantCultureIgnoreCase));
         }
 
-        public static string GetString(this IList<CommandParameter> list, string parameter)
+        public static string GetString(this IList<ICommandParameter> list, string parameter)
         {
             return list.OfType<CommandValueParameter>().FirstOrDefault(x => parameter.Equals(x.Name, StringComparison.InvariantCultureIgnoreCase))?.Value;
         }
 
-        public static bool GetBool(this IList<CommandParameter> list, string parameter, bool defaultValue = false)
+        public static bool GetBool(this IList<ICommandParameter> list, string parameter, bool defaultValue = false)
         {
             string value = list.GetString(parameter);
             if (bool.TrueString.Equals(value, StringComparison.InvariantCultureIgnoreCase) || string.Empty.Equals(value))
@@ -30,13 +30,13 @@ namespace KY.Generator.Command
             return defaultValue;
         }
 
-        public static int GetInt(this IList<CommandParameter> list, string parameter, int defaultValue = default)
+        public static int GetInt(this IList<ICommandParameter> list, string parameter, int defaultValue = default)
         {
             string value = list.GetString(parameter);
             return int.TryParse(value, out int result) ? result : defaultValue;
         }
 
-        public static TimeSpan GetTimeSpan(this IList<CommandParameter> list, string parameter, TimeSpan defaultValue = default)
+        public static TimeSpan GetTimeSpan(this IList<ICommandParameter> list, string parameter, TimeSpan defaultValue = default)
         {
             string value = list.GetString(parameter);
             if (string.IsNullOrEmpty(value))
