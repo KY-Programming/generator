@@ -3,7 +3,7 @@
   <metadata>
     <id>KY.Generator.CLI.Core.Full</id>
     <!-- Ensure nuget.targets version is also updated -->
-    <version>3.6.0</version>
+    <version>4.0.0-rc.2</version>
     <title>KY.Generator.CLI.Core.Full</title>
     <authors>KY-Programming</authors>
     <owners>KY-Programming</owners>
@@ -18,17 +18,17 @@ Generate classes from oData, .NET assembly, JSON or TSQL to C# or TypeScript. Su
     <copyright>Copyright 2020</copyright>
     <tags>KY-Generator KY Generator .netCore CLI</tags>
     <dependencies>
-      <dependency id="KY.Generator.Angular" version="3.6.0" />
-      <dependency id="KY.Generator.AspDotNet" version="3.6.0" />
-      <dependency id="KY.Generator.Core" version="3.6.0" />
-      <dependency id="KY.Generator.Csharp" version="3.6.0" />
-      <dependency id="KY.Generator.EntityFramework" version="3.6.0" />
-      <dependency id="KY.Generator.Json" version="3.6.0" />
-      <dependency id="KY.Generator.OData" version="3.6.0" />
-      <dependency id="KY.Generator.OpenApi" version="3.6.0" />
-      <dependency id="KY.Generator.Reflection" version="3.6.0" />
-      <dependency id="KY.Generator.Tsql" version="3.6.0" />
-      <dependency id="KY.Generator.TypeScript" version="3.6.0" />
+      <dependency id="KY.Generator.Angular" version="4.0.0-rc.2" />
+      <dependency id="KY.Generator.AspDotNet" version="4.0.0-rc.2" />
+      <dependency id="KY.Generator.Core" version="4.0.0-rc.2" />
+      <dependency id="KY.Generator.Csharp" version="4.0.0-rc.2" />
+      <dependency id="KY.Generator.EntityFramework" version="4.0.0-rc.2" />
+      <dependency id="KY.Generator.Json" version="4.0.0-rc.2" />
+      <dependency id="KY.Generator.OData" version="4.0.0-rc.2" />
+      <dependency id="KY.Generator.OpenApi" version="4.0.0-rc.2" />
+      <dependency id="KY.Generator.Reflection" version="4.0.0-rc.2" />
+      <dependency id="KY.Generator.Tsql" version="4.0.0-rc.2" />
+      <dependency id="KY.Generator.TypeScript" version="4.0.0-rc.2" />
     </dependencies>
   </metadata>
   <files>

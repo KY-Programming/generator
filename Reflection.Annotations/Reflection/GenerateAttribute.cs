@@ -19,7 +19,7 @@ namespace KY.Generator
                 }
                 if (this.RelativePath != null)
                 {
-                    parameter.Add($"-output={this.RelativePath}");
+                    parameter.Add($"-relativePath={this.RelativePath}");
                 }
                 if (this.SkipNamespace == Option.Yes)
                 {

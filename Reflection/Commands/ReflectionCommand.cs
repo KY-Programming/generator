@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using KY.Core;
 using KY.Generator.Command;
@@ -94,22 +93,21 @@ namespace KY.Generator.Reflection.Commands
                 readConfiguration.Assembly = configuration.Parameters.GetString(nameof(ReflectionReadConfiguration.Assembly));
                 List<ITransferObject> transferObjects = new List<ITransferObject>();
                 this.reader.Read(readConfiguration, transferObjects);
-                
+
                 ReflectionWriteConfiguration writeConfiguration = new ReflectionWriteConfiguration();
                 writeConfiguration.CopyBaseFrom(configuration);
-                writeConfiguration.Language = configuration.Parameters.GetString(nameof(ReflectionReadConfiguration.Language)).Equals(nameof(OutputLanguage.Csharp), StringComparison.CurrentCultureIgnoreCase) ? (ILanguage)CsharpLanguage.Instance : TypeScriptLanguage.Instance;
+                writeConfiguration.Language = configuration.Parameters.GetString(nameof(ReflectionReadConfiguration.Language))?.Equals(nameof(OutputLanguage.Csharp), StringComparison.CurrentCultureIgnoreCase) ?? false ? (ILanguage)CsharpLanguage.Instance : TypeScriptLanguage.Instance;
                 writeConfiguration.Namespace = configuration.Parameters.GetString(nameof(ReflectionReadConfiguration.Namespace));
                 writeConfiguration.RelativePath = configuration.Parameters.GetString(nameof(ReflectionWriteConfiguration.RelativePath));
                 writeConfiguration.Using = configuration.Parameters.GetString(nameof(ReflectionWriteConfiguration.Using));
-                writeConfiguration.SkipNamespace = configuration.Parameters.GetBool(nameof(ReflectionWriteConfiguration.SkipNamespace));
-                writeConfiguration.PropertiesToFields = configuration.Parameters.GetBool(nameof(ReflectionWriteConfiguration.PropertiesToFields));
+                writeConfiguration.SkipNamespace = configuration.Parameters.GetBool(nameof(ReflectionWriteConfiguration.SkipNamespace), true);
+                writeConfiguration.PropertiesToFields = configuration.Parameters.GetBool(nameof(ReflectionWriteConfiguration.PropertiesToFields), true);
                 writeConfiguration.FieldsToProperties = configuration.Parameters.GetBool(nameof(ReflectionWriteConfiguration.FieldsToProperties));
-                writeConfiguration.FormatNames = configuration.Parameters.GetBool(nameof(ReflectionWriteConfiguration.FormatNames));
+                writeConfiguration.FormatNames = configuration.Parameters.GetBool(nameof(ReflectionWriteConfiguration.FormatNames), true);
                 this.writer.Write(writeConfiguration, transferObjects, output);
             }
 
             return true;
         }
-
     }
 }
