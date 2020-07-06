@@ -6,13 +6,20 @@ namespace KY.Generator
     [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = true)]
     public class GenerateAttribute : Attribute, IGeneratorCommandAttribute
     {
-        public string Command { get; } = "reflection";
+        public IEnumerable<AttributeCommandConfiguration> Commands
+        {
+            get { return new[] { new AttributeCommandConfiguration("reflection", this.Parameters) }; }
+        }
 
-        public List<string> Parameters
+        private IEnumerable<string> Parameters
         {
             get
             {
-                List<string> parameter = new List<string>();
+                List<string> parameter = new List<string>
+                                         {
+                                             "-namespace=$NAMESPACE$", 
+                                             "-name=$NAME$"
+                                         };
                 if (this.Language != OutputLanguage.Inherit)
                 {
                     parameter.Add($"-language={this.Language}");

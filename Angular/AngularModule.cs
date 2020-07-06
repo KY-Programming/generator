@@ -18,6 +18,8 @@ namespace KY.Generator.Angular
         {
             this.DependencyResolver.Bind<IGeneratorCommand>().To<GenerateAngularConfig>();
             this.DependencyResolver.Get<ConfigurationMapping>().Map<AngularWriteConfiguration, AngularWriter>("angular");
+            this.DependencyResolver.Bind<IGeneratorCommand>().To<AngularServiceCommand>();
+            this.DependencyResolver.Bind<IGeneratorCommand>().To<AngularModelCommand>();
         }
     }
 }

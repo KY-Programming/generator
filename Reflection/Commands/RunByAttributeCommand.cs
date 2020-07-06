@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using KY.Core;
@@ -38,14 +39,16 @@ namespace KY.Generator.Reflection.Commands
             {
                 foreach (IGeneratorCommandAttribute attribute in objectType.GetCustomAttributes().OfType<IGeneratorCommandAttribute>())
                 {
-                    CommandConfiguration command = new CommandConfiguration(attribute.Command);
-                    command.Parameters.Add(new CommandValueParameter("namespace", objectType.Namespace));
-                    command.Parameters.Add(new CommandValueParameter("name", objectType.Name));
-                    if (attribute.Parameters != null)
+                    List<CommandConfiguration> commands = attribute.Commands.Select(x =>
                     {
-                        command.AddParameters(attribute.Parameters);
-                    }
-                    commandRunner.Run(command, output);
+                        CommandConfiguration commandConfiguration = new CommandConfiguration(x.Command).AddParameters(x.Parameters);
+                        foreach (CommandValueParameter commandParameter in commandConfiguration.Parameters.OfType<CommandValueParameter>())
+                        {
+                            commandParameter.Value = commandParameter.Value.Replace("$NAMESPACE$", objectType.Namespace).Replace("$NAME$", objectType.Name);
+                        }
+                        return commandConfiguration;
+                    }).ToList();
+                    commandRunner.Run(commands, output);
                 }
             }
             return true;

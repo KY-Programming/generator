@@ -4,7 +4,6 @@ namespace KY.Generator
 {
     public interface IGeneratorCommandAttribute
     {
-        string Command { get; }
-        List<string> Parameters { get; }
+        IEnumerable<AttributeCommandConfiguration> Commands { get; }
     }
 }

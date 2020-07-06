@@ -200,9 +200,9 @@ namespace KY.Generator
             }
             if (commandParameter.Name.Contains(":\\"))
             {
-                Action<string> log = this.isBeforeBuild ? (Action<string>)Logger.Warning : message => Logger.Error(message);
+                Action<string> log = this.isBeforeBuild ? (Action<string>)Logger.Trace : message => Logger.Error(message);
                 log($"'{commandParameter.Name}' not found");
-                log("Please create a generator.json in your project root");
+                log("Create a generator.json in your project root or use [Generate] attributes");
                 log("See our Wiki on Github: https://github.com/KY-Programming/generator/wiki/v2:-Configuration-Basics");
                 return this;
             }

@@ -18,14 +18,28 @@ namespace KY.Generator.Command
             this.Language = new ForwardFileLanguage();
         }
 
-        public void AddParameters(IEnumerable<string> parameters)
+        public CommandConfiguration AddParameters(IEnumerable<string> parameters)
         {
             this.AddParameters(parameters.ToArray());
+            return this;
         }
         
-        public void AddParameters(params string[] parameters)
+        public CommandConfiguration AddParameters(params string[] parameters)
         {
-            this.Parameters.AddRange(CommandParameterParser.Parse(parameters));
+            this.AddParameters(CommandParameterParser.Parse(parameters));
+            return this;
+        }
+
+        public CommandConfiguration AddParameters(IEnumerable<ICommandParameter> parameters)
+        {
+            this.AddParameters(parameters.ToArray());
+            return this;
+        }
+        
+        public CommandConfiguration AddParameters(params ICommandParameter[] parameters)
+        {
+            this.Parameters.AddRange(parameters);
+            return this;
         }
     }
 }

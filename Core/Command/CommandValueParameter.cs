@@ -6,7 +6,7 @@ namespace KY.Generator.Command
     public class CommandValueParameter : CommandParameterBase
     {
         private static readonly Regex regex = new Regex(@"^-(?<name>[\w-]+)(=(?<value>.+))?$");
-        public string Value { get; }
+        public string Value { get; set; }
 
         public CommandValueParameter(string name, string value)
             : base(name)

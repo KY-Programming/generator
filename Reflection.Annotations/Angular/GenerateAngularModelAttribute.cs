@@ -6,9 +6,16 @@ namespace KY.Generator
     [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = true)]
     public class GenerateAngularModelAttribute : Attribute, IGeneratorCommandAttribute
     {
-        public string Command { get; } = "angular-model";
+        public IEnumerable<AttributeCommandConfiguration> Commands
+        {
+            get { return new[]
+                         {
+                             new AttributeCommandConfiguration("reflection-read", "-namespace=$NAMESPACE$", "-name=$NAME$"),
+                             new AttributeCommandConfiguration("angular-model", this.Parameters)
+                         }; }
+        }
 
-        public List<string> Parameters
+        private List<string> Parameters
         {
             get
             {

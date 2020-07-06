@@ -37,6 +37,7 @@ namespace KY.Generator.Reflection
             //this.DependencyResolver.Bind<IConfigurationReader>().To(configuration.ConfigurationReader ?? (IConfigurationReader)this.DependencyResolver.Create(configuration.ConfigurationReaderType));
             this.DependencyResolver.Bind<IGeneratorCommand>().To<ReflectionCommand>();
             this.DependencyResolver.Bind<IGeneratorCommand>().To<RunByAttributeCommand>();
+            this.DependencyResolver.Bind<IGeneratorCommand>().To<ReflectionReadCommand>();
         }
     }
 }

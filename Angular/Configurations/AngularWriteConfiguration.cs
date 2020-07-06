@@ -10,8 +10,12 @@ namespace KY.Generator.Angular.Configurations
         public bool FormatNames { get; set; }
         public bool WriteModels { get; set; }
 
-        public AngularWriteConfiguration()
+        public AngularWriteConfiguration(ConfigurationBase copyFrom = null)
         {
+            if (copyFrom != null)
+            {
+                this.CopyBaseFrom(copyFrom);
+            }
             this.Language = new AngularTypeScriptLanguage();
             this.FormatNames = true;
             this.WriteModels = true;
