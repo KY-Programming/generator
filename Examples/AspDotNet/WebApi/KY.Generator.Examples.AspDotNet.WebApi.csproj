@@ -130,12 +130,12 @@
     <PostBuildEvent>
     </PostBuildEvent>
   </PropertyGroup>
-  <Import Project="..\packages\KY.Generator.CLI.3.4.1\build\KY.Generator.CLI.targets" Condition="Exists('..\packages\KY.Generator.CLI.3.4.1\build\KY.Generator.CLI.targets')" />
+  <Import Project="..\packages\KY.Generator.CLI.4.0.0-rc.2\build\KY.Generator.CLI.targets" Condition="Exists('..\packages\KY.Generator.CLI.4.0.0-rc.2\build\KY.Generator.CLI.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\KY.Generator.CLI.3.4.1\build\KY.Generator.CLI.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\KY.Generator.CLI.3.4.1\build\KY.Generator.CLI.targets'))" />
+    <Error Condition="!Exists('..\packages\KY.Generator.CLI.4.0.0-rc.2\build\KY.Generator.CLI.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\KY.Generator.CLI.4.0.0-rc.2\build\KY.Generator.CLI.targets'))" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

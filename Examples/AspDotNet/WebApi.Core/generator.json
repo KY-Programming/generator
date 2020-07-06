@@ -5,8 +5,8 @@
     {
       "read": "asp",
       "controller": {
-        "assembly": "KY.Generator.Examples.AspDotNetCore",
-        "namespace": "KY.Generator.Examples.AspDotNetCore.Controllers",
+        "assembly": "KY.Generator.Examples.AspDotNet",
+        "namespace": "KY.Generator.Examples.AspDotNet.Controllers",
         "name": "ValuesController"
       }
     },

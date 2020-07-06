@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using KY.Generator.Examples.AspDotNetCore.Models;
+using KY.Generator.Examples.AspDotNet.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace KY.Generator.Examples.AspDotNetCore.Controllers
+namespace KY.Generator.Examples.AspDotNet.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

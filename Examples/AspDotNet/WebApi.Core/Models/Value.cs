@@ -1,4 +1,4 @@
-﻿namespace KY.Generator.Examples.AspDotNetCore.Models
+﻿namespace KY.Generator.Examples.AspDotNet.Models
 {
     public class Value
     {
