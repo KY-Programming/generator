@@ -22,11 +22,6 @@ namespace KY.Generator.AspDotNet.Writers
             {
                 throw new InvalidOperationException($"Can not generate ASP.net Controller for language {configuration.Language?.Name ?? "Empty"}. Only Csharp is currently implemented");
             }
-
-            if (configuration.Standalone)
-            {
-                throw new InvalidOperationException("Can not generate Generator.Controller with KY.Generator.CLI.Standalone use KY.Generator.CLI instead");
-            }
             string nameSpace = (configuration.GeneratorController.Namespace ?? configuration.Namespace).AssertIsNotNull(nameof(configuration.Namespace), "asp writer requires a namespace");
             ClassTemplate classTemplate = files.AddFile(configuration.GeneratorController.RelativePath ?? configuration.RelativePath, configuration.AddHeader, configuration.CheckOnOverwrite)
                                               .AddNamespace(nameSpace)

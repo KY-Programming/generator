@@ -2,12 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>4.0.0-rc.3</Version>
+    <Version>4.0.0-rc.6</Version>
     <Authors>KY-Programming</Authors>
     <Company>KY-Programming</Company>
     <Product>KY.Generator</Product>
     <Description>Watchdog Module for KY-Generator
-Download KY.Generator.CLI to use this module</Description>
+Download KY.Generator to use this module</Description>
     <Copyright>2020 - KY-Programming</Copyright>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/KY-Programming/generator</PackageProjectUrl>

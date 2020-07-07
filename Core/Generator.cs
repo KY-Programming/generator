@@ -24,7 +24,6 @@ namespace KY.Generator
     {
         private IOutput output;
         private readonly DependencyResolver resolver;
-        private bool standalone;
         private bool isBeforeBuild;
         private CommandConfiguration command;
         private IList<ModuleBase> Modules { get; }
@@ -209,12 +208,6 @@ namespace KY.Generator
             return this.ParseCommand(parameters);
         }
 
-        public Generator SetStandalone()
-        {
-            this.standalone = true;
-            return this;
-        }
-
         public bool Run()
         {
             bool result;
@@ -226,7 +219,6 @@ namespace KY.Generator
                     return this.isBeforeBuild;
                 }
                 List<ILanguage> languages = this.resolver.Get<List<ILanguage>>();
-                this.command.Standalone = this.standalone;
                 this.command.ReadFromParameters(this.command.Parameters, languages);
                 result = this.resolver.Get<CommandRunner>().Run(this.command, this.output);
             }

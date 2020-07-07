@@ -91,6 +91,7 @@ namespace KY.Generator.Reflection.Commands
                 readConfiguration.Name = configuration.Parameters.GetString(nameof(ReflectionReadConfiguration.Name));
                 readConfiguration.Namespace = configuration.Parameters.GetString(nameof(ReflectionReadConfiguration.Namespace));
                 readConfiguration.Assembly = configuration.Parameters.GetString(nameof(ReflectionReadConfiguration.Assembly));
+                readConfiguration.SkipSelf = configuration.Parameters.GetBool(nameof(ReflectionReadConfiguration.SkipSelf));
                 List<ITransferObject> transferObjects = new List<ITransferObject>();
                 this.reader.Read(readConfiguration, transferObjects);
 

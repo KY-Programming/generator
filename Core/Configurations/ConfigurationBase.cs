@@ -22,7 +22,6 @@ namespace KY.Generator.Configurations
         public List<ClassMapping> ClassMapping { get; }
         public List<FieldMapping> FieldMapping { get; }
         public List<PropertyMapping> PropertyMapping { get; }
-        public bool Standalone { get; set; }
         public ConfigurationEnvironment Environment { get; set; }
         public ConfigurationFormatting Formatting { get; set; }
         public bool CheckOnOverwrite { get; set; } = true;
@@ -45,7 +44,6 @@ namespace KY.Generator.Configurations
             this.ClassMapping.AddRange(source.ClassMapping);
             this.FieldMapping.AddRange(source.FieldMapping);
             this.PropertyMapping.AddRange(source.PropertyMapping);
-            this.Standalone = source.Standalone;
             this.Environment = source.Environment;
             this.Formatting = source.Formatting;
         }

@@ -44,6 +44,10 @@ namespace KY.Generator
                 {
                     parameter.Add("-formatNames");
                 }
+                if (this.SkipSelf == Option.Yes)
+                {
+                    parameter.Add("-skipSelf");
+                }
                 return parameter;
             }
         }
@@ -54,8 +58,9 @@ namespace KY.Generator
         public Option PropertiesToFields { get; }
         public Option FieldsToProperties { get; }
         public Option FormatNames { get; }
+        public Option SkipSelf { get; }
 
-        public GenerateAttribute(OutputLanguage language = OutputLanguage.Inherit, string relativePath = null, Option skipNamespace = Option.Inherit, Option propertiesToFields = Option.Inherit, Option fieldsToProperties = Option.Inherit, Option formatNames = Option.Inherit)
+        public GenerateAttribute(OutputLanguage language = OutputLanguage.Inherit, string relativePath = null, Option skipNamespace = Option.Inherit, Option propertiesToFields = Option.Inherit, Option fieldsToProperties = Option.Inherit, Option formatNames = Option.Inherit, Option skipSelf = Option.Inherit)
         {
             this.Language = language;
             this.RelativePath = relativePath;
@@ -63,6 +68,7 @@ namespace KY.Generator
             this.PropertiesToFields = propertiesToFields;
             this.FieldsToProperties = fieldsToProperties;
             this.FormatNames = formatNames;
+            this.SkipSelf = skipSelf;
         }
     }
 }
