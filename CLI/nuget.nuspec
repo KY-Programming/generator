@@ -3,7 +3,7 @@
   <metadata>
     <id>KY.Generator.CLI</id>
     <!-- Ensure nuget.targets version is also updated -->
-    <version>4.0.0-rc.6</version>
+    <version>4.0.0</version>
     <title>KY.Generator.CLI</title>
     <authors>KY-Programming</authors>
     <owners>KY-Programming</owners>
@@ -11,9 +11,10 @@
     <projectUrl>https://github.com/KY-Programming/generator</projectUrl>
     <iconUrl>https://ky-programming.de/images/logos/128.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Install this only for .NET FRAMEWORK assemblies!
-Contains the basic features without dependencies.
-Generate classes from oData, .NET assembly, JSON or TSQL to C# or TypeScript. Support Angular, ASP.NET, ASP.NET Core, C# POCOs, TypeScript POCOs, Entity Framework and more.</description>
+    <description>Command Line Interface for KY-Generator.
+Generate C# or TypeScript classes from .NET assemblies, JSON, TSQL or oData.
+Support for Angular, ASP.NET, ASP.NET Core, C# POCOs, TypeScript POCOs, Entity Framework and more.
+    </description>
     <releaseNotes></releaseNotes>
     <copyright>Copyright 2020</copyright>
     <tags>KY-Generator KY Generator CLI</tags>

@@ -3,7 +3,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.2</TargetFramework>
-    <Version>4.0.0-rc.6</Version>
+    <Version>4.0.0</Version>
     <Authors>KY-Programming</Authors>
     <Product>KY.Generator</Product>
     <Copyright>2020 - KY-Programming</Copyright>
