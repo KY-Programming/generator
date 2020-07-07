@@ -1,8 +1,8 @@
-﻿using KY.Generator.Reflection;
+﻿using KY.Generator;
 
 namespace ReflectionFromAttributes
 {
-    [Generate]
+    [Generate(OutputLanguage.TypeScript, "Output")]
     public class TypeToRead
     {
         public string StringProperty { get; set; }

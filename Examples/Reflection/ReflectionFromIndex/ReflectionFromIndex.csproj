@@ -5,12 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="KY.Generator.CLI.Standalone" Version="3.3.0" />
-    <PackageReference Include="KY.Generator.Reflection.Annotations" Version="3.3.0" />
+    <PackageReference Include="KY.Generator" Version="4.0.0" />
+    <PackageReference Include="KY.Generator.Reflection.Annotations" Version="4.0.0" />
   </ItemGroup>
 
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="&quot;%25USERPROFILE%25\.nuget\packages\ky.generator.cli.standalone\3.0.0\tools\KY.Generator.exe&quot; reflection -fromAttributes  -language=typescript -skipNamespace -propertiesToFields -formatNames -assembly=&quot;$(TargetPath)&quot; -output=&quot;$(ProjectDir)Output&quot;" />
-  </Target>
+  <ItemGroup>
+    <Folder Include="Output\" />
+  </ItemGroup>
 
 </Project>

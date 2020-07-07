@@ -1,8 +1,8 @@
-﻿using KY.Generator.Reflection;
+﻿using KY.Generator;
 
 namespace ReflectionFromIndex
 {
-    [GenerateIndex]
+    [GenerateIndex(OutputLanguage.Inherit, "Output")]
     internal class Index
     {
         public TypeToRead type1;

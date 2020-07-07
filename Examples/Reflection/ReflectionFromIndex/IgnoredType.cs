@@ -1,4 +1,4 @@
-﻿using KY.Generator.Reflection;
+﻿using KY.Generator;
 
 namespace ReflectionFromIndex
 {
