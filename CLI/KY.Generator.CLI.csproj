@@ -62,7 +62,6 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="nuget.nuspec" />
-    <None Include="nuget.targets" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

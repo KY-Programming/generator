@@ -3,7 +3,7 @@
   <metadata>
     <id>KY.Generator.CLI</id>
     <!-- Ensure nuget.targets version is also updated -->
-    <version>4.0.0</version>
+    <version>4.1.0</version>
     <title>KY.Generator.CLI</title>
     <authors>KY-Programming</authors>
     <owners>KY-Programming</owners>
@@ -22,6 +22,5 @@ Support for Angular, ASP.NET, ASP.NET Core, C# POCOs, TypeScript POCOs, Entity F
   <files>
     <file src="bin\Release\*.exe" target="tools" />
     <file src="bin\Release\*.dll" target="tools" />
-    <file src="nuget.targets" target="build\KY.Generator.CLI.targets" />
   </files>
 </package>

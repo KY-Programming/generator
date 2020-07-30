@@ -1,13 +1,52 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
+
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Target Name="KYGeneratorCLICoreBeforeTarget" BeforeTargets="BeforeBuild">
-    <Exec Command="dotnet %22%25USERPROFILE%25\.nuget\packages\ky.generator\4.0.0\tools\KY.Generator.dll%22 %22$(ProjectDir)generator.json%22 -output=%22$(ProjectDir)\%22 -assembly=%22$(TargetPath)%22 msbuild beforeBuild"
+  <Target Name="KYGeneratorBeforeTarget" BeforeTargets="BeforeBuild" Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))' == 'true'">
+      <Exec Command="dotnet %22%25USERPROFILE%25\.nuget\packages\ky.generator\4.1.0\tools\KY.Generator.dll%22 %22$(ProjectDir)generator.json%22 -output=%22$(ProjectDir)\%22 -assembly=%22$(TargetPath)%22 -plattform=%22windows%22 msbuild beforeBuild"
+            CustomErrorRegularExpression="^Error:"
+            CustomWarningRegularExpression="^Warning:">
+      </Exec>
+    </Target>
+    <Target Name="KYGeneratorAfterTarget" AfterTargets="AfterBuild" Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))' == 'true'">
+      <Exec Command="dotnet %22%25USERPROFILE%25\.nuget\packages\ky.generator\4.1.0\tools\KY.Generator.dll%22 %22$(ProjectDir)generator.json%22 -output=%22$(ProjectDir)\%22 -assembly=%22$(TargetPath)%22 -plattform=%22windows%22 msbuild"
+            CustomErrorRegularExpression="^Error:"
+            CustomWarningRegularExpression="^Warning:">
+      </Exec>
+    </Target>
+    <Target Name="KYGeneratorBeforeTarget" BeforeTargets="BeforeBuild" Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' == 'true'">
+      <Exec Command="dotnet %22~/.nuget/packages/ky.generator/4.1.0/tools/KY.Generator.dll%22 %22$(ProjectDir)generator.json%22 -output=%22$(ProjectDir)%22 -assembly=%22$(TargetPath)%22 -plattform=%22osx%22 msbuild beforeBuild"
+            CustomErrorRegularExpression="^Error:"
+            CustomWarningRegularExpression="^Warning:">
+      </Exec>
+    </Target>
+    <Target Name="KYGeneratorAfterTarget" AfterTargets="AfterBuild" Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' == 'true'">
+      <Exec Command="dotnet %22~/.nuget/packages/ky.generator/4.1.0/tools/KY.Generator.dll%22 %22$(ProjectDir)generator.json%22 -output=%22$(ProjectDir)%22 -assembly=%22$(TargetPath)%22 -plattform=%22osx%22 msbuild"
+            CustomErrorRegularExpression="^Error:"
+            CustomWarningRegularExpression="^Warning:">
+      </Exec>
+    </Target>
+    <Target Name="KYGeneratorBeforeTarget" BeforeTargets="BeforeBuild" Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' == 'true'">
+      <Exec Command="dotnet %22~/.nuget/packages/ky.generator/4.1.0/tools/KY.Generator.dll%22 %22$(ProjectDir)generator.json%22 -output=%22$(ProjectDir)%22 -assembly=%22$(TargetPath)%22 -plattform=%22linux%22 msbuild beforeBuild"
+            CustomErrorRegularExpression="^Error:"
+            CustomWarningRegularExpression="^Warning:">
+      </Exec>
+    </Target>
+    <Target Name="KYGeneratorAfterTarget" AfterTargets="AfterBuild" Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' == 'true'">
+      <Exec Command="dotnet %22~/.nuget/packages/ky.generator/4.1.0/tools/KY.Generator.dll%22 %22$(ProjectDir)generator.json%22 -output=%22$(ProjectDir\%22 -assembly=%22$(TargetPath)%22 -plattform=%22linux%22 msbuild"
+            CustomErrorRegularExpression="^Error:"
+            CustomWarningRegularExpression="^Warning:">
+      </Exec>
+    </Target>
+  <Target Name="KYGeneratorBeforeTarget" BeforeTargets="BeforeBuild">
+    <Exec Command="dotnet %22%25USERPROFILE%25\.nuget\packages\ky.generator\4.1.0\tools\KY.Generator.dll%22 %22$(ProjectDir)generator.json%22 -output=%22$(ProjectDir)\%22 -assembly=%22$(TargetPath)%22 -plattform=%22windows2%22 msbuild beforeBuild"
           CustomErrorRegularExpression="^Error:"
-          CustomWarningRegularExpression="^Warning:"></Exec>
+          CustomWarningRegularExpression="^Warning:">
+    </Exec>
   </Target>
-  <Target Name="KYGeneratorCLICoreAfterTarget" AfterTargets="AfterBuild">
-    <Exec Command="dotnet %22%25USERPROFILE%25\.nuget\packages\ky.generator\4.0.0\tools\KY.Generator.dll%22 %22$(ProjectDir)generator.json%22 -output=%22$(ProjectDir)\%22 -assembly=%22$(TargetPath)%22 msbuild"
+  <Target Name="KYGeneratorAfterTarget" AfterTargets="AfterBuild">
+    <Exec Command="dotnet %22%25USERPROFILE%25\.nuget\packages\ky.generator\4.1.0\tools\KY.Generator.dll%22 %22$(ProjectDir)generator.json%22 -output=%22$(ProjectDir)\%22 -assembly=%22$(TargetPath)%22 -plattform=%22windows2%22 msbuild"
           CustomErrorRegularExpression="^Error:"
-          CustomWarningRegularExpression="^Warning:"></Exec>
+          CustomWarningRegularExpression="^Warning:">
+    </Exec>
   </Target>
 </Project>
