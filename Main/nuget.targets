@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Plattform Condition="$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))">windows</Plattform>
+    <Plattform Condition="$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))">linux</Plattform>
+    <Plattform Condition="$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))">osx</Plattform>
+  </PropertyGroup>
+  <Target Name="KYGeneratorWindowsBeforeTarget"
+          BeforeTargets="BeforeBuild"
+          Condition="$(Plattform) == 'windows'">
+    <Exec Command="dotnet --version" ConsoleToMSBuild="true">
+      <Output TaskParameter="ConsoleOutput" PropertyName="FrameworkRaw" />
+    </Exec>
+    <PropertyGroup>
+      <Framework>net461</Framework>
+      <Framework Condition="$(FrameworkRaw.StartsWith('3.'))">netcoreapp3.0</Framework>
+      <Framework Condition="$(FrameworkRaw.StartsWith('2.'))">netcoreapp2.0</Framework>
+    </PropertyGroup>
+    <Exec Command="dotnet %22%25USERPROFILE%25\.nuget\packages\ky.generator\4.2.0\tools\$(Framework)\KY.Generator.dll%22 %22$(ProjectDir)generator.json%22 -output=%22$(ProjectDir)\%22 -assembly=%22$(TargetPath)%22 -plattform=%22$(Plattform)%22 msbuild beforeBuild"
+          Condition="$(Framework) != 'net461'"
+          CustomErrorRegularExpression="^Error:"
+          CustomWarningRegularExpression="^Warning:">
+    </Exec>
+    <Exec Command="%22%25USERPROFILE%25\.nuget\packages\ky.generator\4.2.0\tools\$(Framework)\KY.Generator.exe%22 %22$(ProjectDir)generator.json%22 -output=%22$(ProjectDir)\%22 -assembly=%22$(TargetPath)%22 -plattform=%22$(Plattform)%22 msbuild beforeBuild"
+          Condition="$(Framework) == 'net461'"
+          CustomErrorRegularExpression="^Error:"
+          CustomWarningRegularExpression="^Warning:">
+    </Exec>
+  </Target>
+  <Target Name="KYGeneratorWindowsAfterTarget"
+          AfterTargets="AfterBuild"
+          Condition="$(Plattform) == 'windows'">
+    <PropertyGroup>
+      <Framework>net461</Framework>
+      <Framework Condition="$(FrameworkRaw.StartsWith('3.'))">netcoreapp3.0</Framework>
+      <Framework Condition="$(FrameworkRaw.StartsWith('2.'))">netcoreapp2.0</Framework>
+    </PropertyGroup>
+    <Exec Command="dotnet %22%25USERPROFILE%25\.nuget\packages\ky.generator\4.2.0\tools\$(Framework)\KY.Generator.dll%22 %22$(ProjectDir)generator.json%22 -output=%22$(ProjectDir)\%22 -assembly=%22$(TargetPath)%22 -plattform=%22$(Plattform)%22 msbuild"
+          Condition="$(Framework) != 'net461'"
+          CustomErrorRegularExpression="^Error:"
+          CustomWarningRegularExpression="^Warning:">
+    </Exec>
+    <Exec Command="%22%25USERPROFILE%25\.nuget\packages\ky.generator\4.2.0\tools\$(Framework)\KY.Generator.exe%22 %22$(ProjectDir)generator.json%22 -output=%22$(ProjectDir)\%22 -assembly=%22$(TargetPath)%22 -plattform=%22$(Plattform)%22 msbuild"
+          Condition="$(Framework) == 'net461'"
+          CustomErrorRegularExpression="^Error:"
+          CustomWarningRegularExpression="^Warning:">
+    </Exec>
+  </Target>
+  <Target Name="KYGeneratorLinuxBeforeTarget"
+          BeforeTargets="BeforeBuild"
+          Condition="$(Plattform) == 'linux'">
+    <PropertyGroup>
+      <Framework>net461</Framework>
+      <Framework Condition="$(FrameworkRaw.StartsWith('3.'))">netcoreapp3.0</Framework>
+      <Framework Condition="$(FrameworkRaw.StartsWith('2.'))">netcoreapp2.0</Framework>
+    </PropertyGroup>
+    <Exec Command="dotnet %22~/.nuget/packages/ky.generator/4.2.0/tools/$(Framework)/KY.Generator.dll%22 %22$(ProjectDir)generator.json%22 -output=%22$(ProjectDir)%22 -assembly=%22$(TargetPath)%22 -plattform=%22$(Plattform)%22 msbuild beforeBuild"
+          Condition="$(Framework) != 'net461'"
+          CustomErrorRegularExpression="^Error:"
+          CustomWarningRegularExpression="^Warning:">
+    </Exec>
+    <Message Text="No matching .net framework found. Install at least .net core 2.0"
+             Condition="$(Framework) != 'net461'"></Message>
+  </Target>
+  <Target Name="KYGeneratorLinuxAfterTarget"
+          AfterTargets="AfterBuild"
+          Condition="$(Plattform) == 'linux'">
+    <PropertyGroup>
+      <Framework>net461</Framework>
+      <Framework Condition="$(FrameworkRaw.StartsWith('3.'))">netcoreapp3.0</Framework>
+      <Framework Condition="$(FrameworkRaw.StartsWith('2.'))">netcoreapp2.0</Framework>
+    </PropertyGroup>
+    <Exec Command="dotnet %22~/.nuget/packages/ky.generator/4.2.0/tools/$(Framework)/KY.Generator.dll%22 %22$(ProjectDir)generator.json%22 -output=%22$(ProjectDir)%22 -assembly=%22$(TargetPath)%22 -plattform=%22$(Plattform)%22 msbuild"
+          Condition="$(Framework) != 'net461'"
+          CustomErrorRegularExpression="^Error:"
+          CustomWarningRegularExpression="^Warning:">
+    </Exec>
+    <Message Text="No matching .net framework found. Install at least .net core 2.0"
+             Condition="$(Framework) != 'net461'"></Message>
+  </Target>
+  <Target Name="KYGeneratorOsxBeforeTarget"
+          BeforeTargets="BeforeBuild"
+          Condition="$(Plattform) == 'osx'">
+    <PropertyGroup>
+      <Framework>net461</Framework>
+      <Framework Condition="$(FrameworkRaw.StartsWith('3.'))">netcoreapp3.0</Framework>
+      <Framework Condition="$(FrameworkRaw.StartsWith('2.'))">netcoreapp2.0</Framework>
+    </PropertyGroup>
+    <Exec Command="dotnet %22~/.nuget/packages/ky.generator/4.2.0/tools/$(Framework)/KY.Generator.dll%22 %22$(ProjectDir)generator.json%22 -output=%22$(ProjectDir)%22 -assembly=%22$(TargetPath)%22 -plattform=%22$(Plattform)%22 msbuild beforeBuild"
+          Condition="$(Framework) != 'net461'"
+          CustomErrorRegularExpression="^Error:"
+          CustomWarningRegularExpression="^Warning:">
+    </Exec>
+    <Message Text="No matching .net framework found. Install at least .net core 2.0"
+             Condition="$(Framework) != 'net461'"></Message>
+  </Target>
+  <Target Name="KYGeneratorOsxAfterTarget"
+          AfterTargets="AfterBuild"
+          Condition="$(Plattform) == 'osx'">
+    <PropertyGroup>
+      <Framework>net461</Framework>
+      <Framework Condition="$(FrameworkRaw.StartsWith('3.'))">netcoreapp3.0</Framework>
+      <Framework Condition="$(FrameworkRaw.StartsWith('2.'))">netcoreapp2.0</Framework>
+    </PropertyGroup>
+    <Exec Command="dotnet %22~/.nuget/packages/ky.generator/4.2.0/tools/$(Framework)/KY.Generator.dll%22 %22$(ProjectDir)generator.json%22 -output=%22$(ProjectDir)%22 -assembly=%22$(TargetPath)%22 -plattform=%22$(Plattform)%22 msbuild"
+          Condition="$(Framework) != 'net461'"
+          CustomErrorRegularExpression="^Error:"
+          CustomWarningRegularExpression="^Warning:">
+    </Exec>
+    <Message Text="No matching .net framework found. Install at least .net core 2.0"
+             Condition="$(Framework) != 'net461'"></Message>
+  </Target>
+</Project>

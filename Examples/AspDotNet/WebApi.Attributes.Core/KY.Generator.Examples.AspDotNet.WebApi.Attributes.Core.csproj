@@ -9,8 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="KY.Generator.CLI.Core" Version="4.0.0-rc.3" />
-    <PackageReference Include="KY.Generator.Reflection.Annotations" Version="4.0.0-rc.3" />
+    <PackageReference Include="KY.Generator" Version="4.0.0" />
+    <PackageReference Include="KY.Generator.Reflection.Annotations" Version="4.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
   </ItemGroup>

@@ -3,6 +3,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28705.295
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KY.Generator", "Main\KY.Generator.csproj", "{228EDC4F-4D60-4278-89FE-700FD299CF4D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KY.Generator.Main.Legacy", "Main.Legacy\KY.Generator.Main.Legacy.csproj", "{419A3F6A-A7F5-442A-A468-11E598776A49}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KY.Generator.Csharp", "CSharp\KY.Generator.Csharp.csproj", "{D23DC658-3C95-4A73-BBC7-22A94E81AEE8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KY.Generator.TypeScript", "TypeScript\KY.Generator.TypeScript.csproj", "{51D247CC-BE96-461F-8848-F6B32461FABB}"
@@ -39,8 +43,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KY.Generator.Csharp.Tests",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KY.Generator.TypeScript.Tests", "TypeScript.Tests\KY.Generator.TypeScript.Tests.csproj", "{19310650-3E9D-426C-A64E-0B75C7285DBC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KY.Generator", "CLI.Core\KY.Generator.csproj", "{1BC582DC-61EA-4AF0-9144-DCBF0CF39CAA}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KY.Generator.AspDotNet.Tests", "AspDotNet.Tests\KY.Generator.AspDotNet.Tests.csproj", "{CDF097B8-222D-4258-B762-0112F4A8BEF9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KY.Generator.OData.Tests", "OData.Tests\KY.Generator.OData.Tests.csproj", "{05FA2AAD-850A-4900-9069-3FEE2A0E4143}"
@@ -59,6 +61,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{228EDC4F-4D60-4278-89FE-700FD299CF4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{228EDC4F-4D60-4278-89FE-700FD299CF4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{228EDC4F-4D60-4278-89FE-700FD299CF4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{228EDC4F-4D60-4278-89FE-700FD299CF4D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{419A3F6A-A7F5-442A-A468-11E598776A49}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{419A3F6A-A7F5-442A-A468-11E598776A49}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{419A3F6A-A7F5-442A-A468-11E598776A49}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{419A3F6A-A7F5-442A-A468-11E598776A49}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D23DC658-3C95-4A73-BBC7-22A94E81AEE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D23DC658-3C95-4A73-BBC7-22A94E81AEE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D23DC658-3C95-4A73-BBC7-22A94E81AEE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -131,10 +141,6 @@ Global
 		{19310650-3E9D-426C-A64E-0B75C7285DBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{19310650-3E9D-426C-A64E-0B75C7285DBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{19310650-3E9D-426C-A64E-0B75C7285DBC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1BC582DC-61EA-4AF0-9144-DCBF0CF39CAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1BC582DC-61EA-4AF0-9144-DCBF0CF39CAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1BC582DC-61EA-4AF0-9144-DCBF0CF39CAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1BC582DC-61EA-4AF0-9144-DCBF0CF39CAA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CDF097B8-222D-4258-B762-0112F4A8BEF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CDF097B8-222D-4258-B762-0112F4A8BEF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CDF097B8-222D-4258-B762-0112F4A8BEF9}.Release|Any CPU.ActiveCfg = Release|Any CPU

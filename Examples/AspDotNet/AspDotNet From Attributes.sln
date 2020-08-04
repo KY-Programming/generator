@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.28803.452
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KY.Generator.Examples.AspDotNet.WebApi.Attributes.Core", "WebApi.Attributes.Core\KY.Generator.Examples.AspDotNet.WebApi.Attributes.Core.csproj", "{B79A0469-A13C-4C9A-8B77-2B16629DB773}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KY.Generator.Examples.AspDotNet.WebApi", "WebApi.Attributes\KY.Generator.Examples.AspDotNet.WebApi.csproj", "{0ED8BA63-AE0A-4368-98D2-B4CA0364E514}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KY.Generator.Examples.AspDotNet.WebApi.Attributes", "WebApi.Attributes\KY.Generator.Examples.AspDotNet.WebApi.Attributes.csproj", "{0ED8BA63-AE0A-4368-98D2-B4CA0364E514}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

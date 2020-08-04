@@ -1,18 +1,18 @@
-using System.Reflection;
+﻿using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("KY.Generator.CLI")]
+[assembly: AssemblyTitle("KY.Generator")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
+[assembly: AssemblyCompany("KY-Programming")]
 [assembly: AssemblyProduct("KY.Generator")]
+[assembly: AssemblyCopyright("Copyright © KY-Programming 2006-2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-[assembly: AssemblyCompany("KY-Programming")]
-[assembly: AssemblyCopyright("Copyright � KY-Programming 2006-2020")]
 
 // Setting ComVisible to false makes the types in this assembly not visible
 // to COM components.  If you need to access a type in this assembly from
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("29748168-4987-4914-9473-2a24c19bef7b")]
+[assembly: Guid("419a3f6a-a7f5-442a-a468-11e598776a49")]
 
 // Version information for an assembly consists of the following four values:
 //
