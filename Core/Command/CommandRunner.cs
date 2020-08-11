@@ -38,7 +38,6 @@ namespace KY.Generator.Command
 
         public bool Run(IEnumerable<CommandConfiguration> configurations, IOutput output)
         {
-            GeneratorEnvironment environment = new GeneratorEnvironment();
             bool allCommandsFound = true;
             List<Tuple<IGeneratorCommand, CommandConfiguration>> commandsToRun = new List<Tuple<IGeneratorCommand, CommandConfiguration>>();
             foreach (CommandConfiguration configuration in configurations)
@@ -62,10 +61,6 @@ namespace KY.Generator.Command
 
             foreach (Tuple<IGeneratorCommand, CommandConfiguration> tuple in commandsToRun)
             {
-                if (tuple.Item1 is IUseGeneratorCommandEnvironment useGeneratorCommandEnvironment)
-                {
-                    useGeneratorCommandEnvironment.Environment = environment;
-                }
                 bool success = tuple.Item1.Generate(tuple.Item2, ref output);
                 if (!success)
                 {

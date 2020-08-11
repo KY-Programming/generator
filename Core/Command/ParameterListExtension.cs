@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using KY.Core;
 
 namespace KY.Generator.Command
 {
@@ -18,6 +19,10 @@ namespace KY.Generator.Command
 
         public static bool GetBool(this IList<ICommandParameter> list, string parameter, bool defaultValue = false)
         {
+            if (list.OfType<CommandParameter>().Any(x => parameter.Equals(x.Name, StringComparison.InvariantCultureIgnoreCase)))
+            {
+                return true;
+            }
             string value = list.GetString(parameter);
             if (bool.TrueString.Equals(value, StringComparison.InvariantCultureIgnoreCase) || string.Empty.Equals(value))
             {
@@ -48,7 +53,12 @@ namespace KY.Generator.Command
                 return timeSpan;
             }
             return int.TryParse(value, out int result) ? TimeSpan.FromMilliseconds(result) : defaultValue;
-            
+        }
+
+        public static T GetEnum<T>(this IList<ICommandParameter> list, string parameter, T defaultValue = default)
+        {
+            string value = list.GetString(parameter);
+            return EnumHelper.Parse(value, defaultValue);
         }
     }
 }

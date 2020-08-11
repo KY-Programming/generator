@@ -7,15 +7,16 @@ using KY.Generator.Reflection.Readers;
 
 namespace KY.Generator.Reflection.Commands
 {
-    public class ReflectionReadCommand : IGeneratorCommand, IUseGeneratorCommandEnvironment
+    public class ReflectionReadCommand : IGeneratorCommand
     {
         private readonly IDependencyResolver resolver;
+        private readonly GeneratorEnvironment environment;
         public string[] Names { get; } = { "reflection-read" };
-        public GeneratorEnvironment Environment { get; set; }
 
-        public ReflectionReadCommand(IDependencyResolver resolver)
+        public ReflectionReadCommand(IDependencyResolver resolver, GeneratorEnvironment environment)
         {
             this.resolver = resolver;
+            this.environment = environment;
         }
 
         public bool Generate(CommandConfiguration configuration, ref IOutput output)
@@ -27,7 +28,7 @@ namespace KY.Generator.Reflection.Commands
             readConfiguration.Name = configuration.Parameters.GetString(nameof(ReflectionReadConfiguration.Name));
             readConfiguration.SkipSelf = configuration.Parameters.GetBool(nameof(ReflectionReadConfiguration.SkipSelf));
 
-            this.resolver.Create<ReflectionReader>().Read(readConfiguration, this.Environment.TransferObjects);
+            this.resolver.Create<ReflectionReader>().Read(readConfiguration, this.environment.TransferObjects);
             return true;
         }
     }

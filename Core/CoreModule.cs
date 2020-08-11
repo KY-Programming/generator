@@ -27,14 +27,15 @@ namespace KY.Generator
     {
         public CoreModule(IDependencyResolver dependencyResolver)
             : base(dependencyResolver)
-        { }
-
-        public override void Initialize()
         {
             this.DependencyResolver.Bind<IGeneratorCommand>().To<ClientCommand>();
             this.DependencyResolver.Bind<IGeneratorCommand>().To<VersionCommand>();
             this.DependencyResolver.Bind<IGeneratorCommand>().To<RunCommand>();
             this.DependencyResolver.Bind<ILanguage>().To<EmptyLanguage>();
+        }
+
+        public override void Initialize()
+        {
             this.DependencyResolver.Get<ConfigurationMapping>()
                 .Map<CookieConfiguration, CookieReader>("cookie")
                 .Map<GeneratorConfiguration, GeneratorGenerator>("generator")

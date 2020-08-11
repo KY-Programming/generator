@@ -9,15 +9,16 @@ using KY.Generator.Templates;
 
 namespace KY.Generator.Angular.Commands
 {
-    internal class AngularServiceCommand : IGeneratorCommand, IUseGeneratorCommandEnvironment
+    internal class AngularServiceCommand : IGeneratorCommand
     {
         private readonly IDependencyResolver resolver;
+        private readonly GeneratorEnvironment environment;
         public string[] Names { get; } = { "angular-service" };
-        public GeneratorEnvironment Environment { get; set; }
 
-        public AngularServiceCommand(IDependencyResolver resolver)
+        public AngularServiceCommand(IDependencyResolver resolver, GeneratorEnvironment environment)
         {
             this.resolver = resolver;
+            this.environment = environment;
         }
 
         public bool Generate(CommandConfiguration configuration, ref IOutput output)
@@ -30,7 +31,7 @@ namespace KY.Generator.Angular.Commands
             writeConfiguration.Model.RelativePath = configuration.Parameters.GetString("RelativeModelPath");
             
             List<FileTemplate> files = new List<FileTemplate>();
-            this.resolver.Create<AngularServiceWriter>().Write(writeConfiguration, this.Environment.TransferObjects, files);
+            this.resolver.Create<AngularServiceWriter>().Write(writeConfiguration, this.environment.TransferObjects, files);
             IOutput localOutput = output;
             files.ForEach(file => writeConfiguration.Language.Write(file, localOutput));
 

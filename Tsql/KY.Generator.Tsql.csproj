@@ -5,7 +5,7 @@
     <Company>KY-Programming</Company>
     <Authors>KY-Programming</Authors>
     <Product>KY.Generator</Product>
-    <Version>4.2.0</Version>
+    <Version>4.3.0-rc.0</Version>
     <Description>TSQL Module for KY-Generator
 Download KY.Generator to use this module</Description>
     <Copyright>2020 - KY-Programming</Copyright>
@@ -17,8 +17,16 @@ Download KY.Generator to use this module</Description>
     <PackageTags>KY-Generator KY Generator TSQL</PackageTags>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>..\bin\Debug</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>..\bin\Release</OutputPath>
+  </PropertyGroup>
+
   <ItemGroup>
-    <PackageReference Include="KY.Core.Common" Version="4.11.1" />
+    <PackageReference Include="KY.Core.Common" Version="4.12.0" />
     <PackageReference Include="KY.Core.Sql" Version="5.0.0" />
   </ItemGroup>
 

@@ -9,9 +9,6 @@ namespace KY.Generator.Watchdog
     {
         public WatchdogModule(IDependencyResolver dependencyResolver)
             : base(dependencyResolver)
-        { }
-
-        public override void Initialize()
         {
             this.DependencyResolver.Bind<IGeneratorCommand>().To<WatchdogCommand>();
         }

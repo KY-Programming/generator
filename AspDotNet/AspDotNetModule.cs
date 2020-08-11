@@ -13,7 +13,9 @@ namespace KY.Generator.AspDotNet
     {
         public AspDotNetModule(IDependencyResolver dependencyResolver)
             : base(dependencyResolver)
-        { }
+        {
+            this.DependencyResolver.Bind<IGeneratorCommand>().To<AspDotNetReadControllerCommand>();
+        }
 
         public override void Initialize()
         {
@@ -21,7 +23,6 @@ namespace KY.Generator.AspDotNet
                 .Map<AspDotNetReadConfiguration, AspDotNetReader>("asp")
                 .Map<AspDotNetWriteConfiguration, AspDotNetWriter>("asp")
                 .Map<AspDotNetCoreWriteConfiguration, AspDotNetWriter>("asp-core");
-            this.DependencyResolver.Bind<IGeneratorCommand>().To<AspDotNetReadControllerCommand>();
         }
     }
 }

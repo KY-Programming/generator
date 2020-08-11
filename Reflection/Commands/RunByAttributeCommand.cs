@@ -5,19 +5,22 @@ using System.Reflection;
 using KY.Core;
 using KY.Core.Dependency;
 using KY.Generator.Command;
+using KY.Generator.Models;
 using KY.Generator.Output;
-using KY.Generator.Reflection.Helpers;
 
 namespace KY.Generator.Reflection.Commands
 {
     public class RunByAttributeCommand : IGeneratorCommand
     {
         private readonly IDependencyResolver resolver;
+        private readonly GeneratorEnvironment environment;
+
         public string[] Names { get; } = { "run-by-attributes" };
 
-        public RunByAttributeCommand(IDependencyResolver resolver)
+        public RunByAttributeCommand(IDependencyResolver resolver, GeneratorEnvironment environment)
         {
             this.resolver = resolver;
+            this.environment = environment;
         }
 
         public bool Generate(CommandConfiguration configuration, ref IOutput output)
@@ -29,7 +32,7 @@ namespace KY.Generator.Reflection.Commands
                 Logger.Error("Run from attributes can not be run without assembly parameter");
                 return false;
             }
-            Assembly assembly = GeneratorAssemblyLocator.Locate(assemblyName);
+            Assembly assembly = GeneratorAssemblyLocator.Locate(assemblyName, this.environment);
             if (assembly == null)
             {
                 return false;

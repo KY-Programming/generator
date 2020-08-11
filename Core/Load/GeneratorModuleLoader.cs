@@ -4,6 +4,7 @@ using System.Reflection;
 using KY.Core;
 using KY.Core.Dependency;
 using KY.Core.Module;
+using KY.Generator.Models;
 
 namespace KY.Generator.Load
 {
@@ -11,11 +12,13 @@ namespace KY.Generator.Load
     {
         private readonly IDependencyResolver resolver;
         private readonly ModuleFinder moduleFinder;
+        private readonly GeneratorEnvironment environment;
 
-        public GeneratorModuleLoader(IDependencyResolver resolver, ModuleFinder moduleFinder)
+        public GeneratorModuleLoader(IDependencyResolver resolver, ModuleFinder moduleFinder, GeneratorEnvironment environment)
         {
             this.resolver = resolver;
             this.moduleFinder = moduleFinder;
+            this.environment = environment;
         }
 
         public void Load(IEnumerable<string> modules)
@@ -23,7 +26,7 @@ namespace KY.Generator.Load
             List<ModuleBase> loadedModules = this.moduleFinder.Modules.ToList();
             foreach (string module in modules)
             {
-                Assembly assembly = GeneratorAssemblyLocator.Locate(module);
+                Assembly assembly = GeneratorAssemblyLocator.Locate(module, this.environment);
                 if (assembly == null)
                 {
                     continue;

@@ -5,6 +5,7 @@ using System.Linq;
 using KY.Core;
 using KY.Core.Dependency;
 using KY.Generator.Load;
+using KY.Generator.Models;
 using KY.Generator.Output;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;

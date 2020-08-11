@@ -12,14 +12,15 @@ namespace KY.Generator.Angular
     {
         public AngularModule(IDependencyResolver dependencyResolver)
             : base(dependencyResolver)
-        { }
+        {
+            this.DependencyResolver.Bind<IGeneratorCommand>().To<GenerateAngularConfig>();
+            this.DependencyResolver.Bind<IGeneratorCommand>().To<AngularServiceCommand>();
+            this.DependencyResolver.Bind<IGeneratorCommand>().To<AngularModelCommand>();
+        }
 
         public override void Initialize()
         {
-            this.DependencyResolver.Bind<IGeneratorCommand>().To<GenerateAngularConfig>();
             this.DependencyResolver.Get<ConfigurationMapping>().Map<AngularWriteConfiguration, AngularWriter>("angular");
-            this.DependencyResolver.Bind<IGeneratorCommand>().To<AngularServiceCommand>();
-            this.DependencyResolver.Bind<IGeneratorCommand>().To<AngularModelCommand>();
         }
     }
 }

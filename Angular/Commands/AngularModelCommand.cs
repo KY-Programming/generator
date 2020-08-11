@@ -9,15 +9,16 @@ using KY.Generator.Templates;
 
 namespace KY.Generator.Angular.Commands
 {
-    internal class AngularModelCommand : IGeneratorCommand, IUseGeneratorCommandEnvironment
+    internal class AngularModelCommand : IGeneratorCommand
     {
         private readonly IDependencyResolver resolver;
+        private readonly GeneratorEnvironment environment;
         public string[] Names { get; } = { "angular-model" };
-        public GeneratorEnvironment Environment { get; set; }
 
-        public AngularModelCommand(IDependencyResolver resolver)
+        public AngularModelCommand(IDependencyResolver resolver, GeneratorEnvironment environment)
         {
             this.resolver = resolver;
+            this.environment = environment;
         }
 
         public bool Generate(CommandConfiguration configuration, ref IOutput output)
@@ -33,7 +34,7 @@ namespace KY.Generator.Angular.Commands
             writeConfiguration.Model.FormatNames = configuration.Parameters.GetBool(nameof(AngularWriteModelConfiguration.FormatNames), true);
             
             List<FileTemplate> files = new List<FileTemplate>();
-            this.resolver.Create<AngularModelWriter>().Write(writeConfiguration, this.Environment.TransferObjects, files);
+            this.resolver.Create<AngularModelWriter>().Write(writeConfiguration, this.environment.TransferObjects, files);
             IOutput localOutput = output;
             files.ForEach(file => writeConfiguration.Language.Write(file, localOutput));
 

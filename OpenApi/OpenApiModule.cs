@@ -13,13 +13,14 @@ namespace KY.Generator.OpenApi
     {
         public OpenApiModule(IDependencyResolver dependencyResolver)
             : base(dependencyResolver)
-        { }
-
-        public override void Initialize()
         {
             this.DependencyResolver.Bind<OpenApiDocumentReader>().ToSelf();
             this.DependencyResolver.Bind<OpenApiFileReader>().ToSelf();
             this.DependencyResolver.Bind<OpenApiUrlReader>().ToSelf();
+        }
+
+        public override void Initialize()
+        {
             this.DependencyResolver.Get<ConfigurationMapping>().Map<OpenApiReadConfiguration, OpenApiReader>("openApi");
             this.DependencyResolver.Get<ITypeMapping>().Initialize();
         }

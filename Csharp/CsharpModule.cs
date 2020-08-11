@@ -9,9 +9,6 @@ namespace KY.Generator.Csharp
     {
         public CsharpModule(IDependencyResolver dependencyResolver)
             : base(dependencyResolver)
-        { }
-
-        public override void Initialize()
         {
             this.DependencyResolver.Bind<ILanguage>().To(CsharpLanguage.Instance);
         }

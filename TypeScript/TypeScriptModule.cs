@@ -10,9 +10,6 @@ namespace KY.Generator.TypeScript
     {
         public TypeScriptModule(IDependencyResolver dependencyResolver)
             : base(dependencyResolver)
-        { }
-
-        public override void Initialize()
         {
             this.DependencyResolver.Bind<ILanguage>().To(TypeScriptLanguage.Instance);
             this.DependencyResolver.Bind<TypeScriptModelWriter>().ToSelf();

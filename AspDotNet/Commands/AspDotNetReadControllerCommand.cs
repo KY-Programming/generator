@@ -7,15 +7,16 @@ using KY.Generator.Output;
 
 namespace KY.Generator.AspDotNet.Commands
 {
-    internal class AspDotNetReadControllerCommand : IGeneratorCommand, IUseGeneratorCommandEnvironment
+    internal class AspDotNetReadControllerCommand : IGeneratorCommand
     {
         private readonly IDependencyResolver resolver;
+        private readonly GeneratorEnvironment environment;
         public string[] Names { get; } = { "asp-read-controller" };
-        public GeneratorEnvironment Environment { get; set; }
 
-        public AspDotNetReadControllerCommand(IDependencyResolver resolver)
+        public AspDotNetReadControllerCommand(IDependencyResolver resolver, GeneratorEnvironment environment)
         {
             this.resolver = resolver;
+            this.environment = environment;
         }
 
         public bool Generate(CommandConfiguration configuration, ref IOutput output)
@@ -25,7 +26,7 @@ namespace KY.Generator.AspDotNet.Commands
             readConfiguration.Controller.Namespace = configuration.Parameters.GetString(nameof(AspDotNetReadControllerConfiguration.Namespace));
             readConfiguration.Controller.Name = configuration.Parameters.GetString(nameof(AspDotNetReadControllerConfiguration.Name));
 
-            this.resolver.Create<AspDotNetControllerReader>().Read(readConfiguration, this.Environment.TransferObjects);
+            this.resolver.Create<AspDotNetControllerReader>().Read(readConfiguration, this.environment.TransferObjects);
 
             return true;
         }

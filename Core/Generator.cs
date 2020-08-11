@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 using KY.Core;
 using KY.Core.DataAccess;
 using KY.Core.Dependency;
@@ -12,6 +15,7 @@ using KY.Generator.Configuration;
 using KY.Generator.Configurations;
 using KY.Generator.Languages;
 using KY.Generator.Mappings;
+using KY.Generator.Models;
 using KY.Generator.Module;
 using KY.Generator.Output;
 using KY.Generator.Syntax;
@@ -24,8 +28,8 @@ namespace KY.Generator
     {
         private IOutput output;
         private readonly DependencyResolver resolver;
-        private bool isBeforeBuild;
         private CommandConfiguration command;
+        private readonly GeneratorEnvironment environment;
         private IList<ModuleBase> Modules { get; }
 
         public Generator()
@@ -46,22 +50,26 @@ namespace KY.Generator
             this.resolver.Bind<ConfigurationMapping>().ToSingleton();
             this.resolver.Bind<ConfigurationRunner>().ToSelf();
             this.resolver.Bind<ModelWriter>().ToSelf();
+            this.resolver.Bind<GeneratorEnvironment>().ToSingleton();
+            this.environment = this.resolver.Get<GeneratorEnvironment>();
             StaticResolver.Resolver = this.resolver;
 
             ModuleFinder moduleFinder = this.resolver.Get<ModuleFinder>();
-            moduleFinder.LoadFromAssemblies();
+            this.InitializeModules(moduleFinder.Modules);
             this.Modules = moduleFinder.Modules;
-            foreach (ModuleBase module in this.Modules)
-            {
-                Logger.Trace($"{module.GetType().Name.Replace("Module", "")}-{module.GetType().Assembly.GetName().Version} module loaded");
-            }
-            this.Modules.ForEach(module => this.resolver.Bind<ModuleBase>().To(module));
-            this.Modules.ForEach(module => module.Initialize());
         }
 
         public static Generator Initialize()
         {
             return new Generator();
+        }
+
+        public Generator PreloadModules(string path, string moduleFileNameSearchPattern = default)
+        {
+            ModuleFinder moduleFinder = this.resolver.Get<ModuleFinder>();
+            List<ModuleBase> loadedModules = moduleFinder.LoadFrom(path, moduleFileNameSearchPattern);
+            this.InitializeModules(loadedModules);
+            return this;
         }
 
         public Generator PreloadModule<T>() where T : ModuleBase
@@ -143,6 +151,7 @@ namespace KY.Generator
             {
                 this.SetOutput(outputParameter.Value);
             }
+            this.InitializeEnvironment(parameters);
             return this;
         }
 
@@ -174,7 +183,7 @@ namespace KY.Generator
                 Logger.Warning("Legacy output parameter found. Please use -output=\"...\" instead. Generator will fix this for you ;-)");
                 commandParameters[1] = new CommandValueParameter("output", commandParameters[1].Name);
             }
-            this.isBeforeBuild = commandParameters.Any(x => x.Name.Equals("beforeBuild", StringComparison.CurrentCultureIgnoreCase));
+            this.InitializeEnvironment(commandParameters);
             if (FileSystem.FileExists(commandParameter.Name))
             {
                 if (commandParameter.Name.EndsWith(".json", StringComparison.CurrentCultureIgnoreCase))
@@ -195,11 +204,12 @@ namespace KY.Generator
                 this.ParseAttributes(fallbackParameter.Value);
                 this.SetOutput(FileSystem.Parent(commandParameter.Name));
                 this.command.Parameters.AddRange(commandParameters.Where(x => x != commandParameter && x != fallbackParameter));
+                this.command.Environment.Parameters = commandParameters;
                 return this;
             }
             if (commandParameter.Name.Contains(":\\"))
             {
-                Action<string> log = this.isBeforeBuild ? (Action<string>)Logger.Trace : message => Logger.Error(message);
+                Action<string> log = this.environment.IsBeforeBuild ? (Action<string>)Logger.Trace : message => Logger.Error(message);
                 log($"'{commandParameter.Name}' not found");
                 log("Create a generator.json in your project root or use [Generate] attributes");
                 log("See our Wiki on Github: https://github.com/KY-Programming/generator/wiki/v2:-Configuration-Basics");
@@ -216,11 +226,54 @@ namespace KY.Generator
                 if (this.command == null)
                 {
                     // If we are in before build action, we do not return a error, else the build will always fail before the build is started
-                    return this.isBeforeBuild;
+                    return this.environment.IsBeforeBuild;
                 }
                 List<ILanguage> languages = this.resolver.Get<List<ILanguage>>();
                 this.command.ReadFromParameters(this.command.Parameters, languages);
                 result = this.resolver.Get<CommandRunner>().Run(this.command, this.output);
+                if (this.environment.SwitchContext)
+                {
+                    if (this.environment.SwitchToArchitecture != null)
+                    {
+                        if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                        {
+                            // TODO: Check other possibilities to run x86 in not Windows environments
+                            Logger.Error($"Can not start {this.environment.SwitchToArchitecture} process. Your system does not support this process type.");
+                            result = false;
+                        }
+                        else
+                        {
+                            Logger.Trace($"Different assembly architecture found. Switching to {this.environment.SwitchToArchitecture}...");
+                            Logger.Trace("===============================");
+                            ProcessStartInfo startInfo = new ProcessStartInfo();
+                            string location = Assembly.GetEntryAssembly()?.Location ?? throw new InvalidOperationException("No location found");
+                            Regex regex = new Regex(@"(?<framework>[\\/]net[^\\/]+[\\/])");
+                            string framework = regex.Match(location).Groups["framework"].Captures[0].Value;
+                            string frameworkX86 = framework.Substring(0, framework.Length - 1) + "-" + this.environment.SwitchToArchitecture.ToString().ToLower() + framework.Substring(framework.Length - 1, 1);
+                            location = location.Replace(framework, frameworkX86).Replace(".dll", ".exe");
+                            if (FileSystem.FileExists(location))
+                            {
+                                startInfo.FileName = location;
+                                startInfo.Arguments += string.Join(" ", this.command.Environment.Parameters);
+                                startInfo.Arguments += $" -switchedFrom=\"{this.environment.SwitchToArchitecture}\"";
+                                //startInfo.UseShellExecute = false;
+                                //startInfo.RedirectStandardOutput = true;
+                                //startInfo.RedirectStandardError = true;
+                                Process process = Process.Start(startInfo);
+                                process.OutputDataReceived += (sender, args) => Logger.Trace(">> " + args.Data);
+                                process.ErrorDataReceived += (sender, args) => Logger.Error(">> " + args.Data);
+                                process.WaitForExit();
+                                Logger.Trace($"{this.environment.SwitchToArchitecture} process exited with code {process?.ExitCode}");
+                                result = process?.ExitCode == 0;
+                            }
+                            else
+                            {
+                                Logger.Error($"Can not start {this.environment.SwitchToArchitecture} process. File \"{location}\" not found. Try to update to .net Core Framework 3.0 or later.");
+                                result = false;
+                            }
+                        }
+                    }
+                }
             }
             catch (Exception exception)
             {
@@ -259,6 +312,19 @@ namespace KY.Generator
                 Logger.WarningTargets.Remove(Logger.VisualStudioOutput);
                 Logger.ErrorTargets.Remove(Logger.VisualStudioOutput);
             }
+        }
+
+        private void InitializeModules(IEnumerable<ModuleBase> modules)
+        {
+            List<ModuleBase> list = modules.ToList();
+            list.ForEach(module => this.resolver.Bind<ModuleBase>().To(module));
+            list.ForEach(module => module.Initialize());
+            list.ForEach(module => Logger.Trace($"{module.GetType().Name.Replace("Module", "")}-{module.GetType().Assembly.GetName().Version} module loaded"));
+        }
+
+        private void InitializeEnvironment(List<ICommandParameter> parameters)
+        {
+            this.environment.IsBeforeBuild = parameters.GetBool("beforeBuild");
         }
     }
 }

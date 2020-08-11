@@ -28,7 +28,7 @@ namespace KY.Generator.Command
 
         public override string ToString()
         {
-            return $"-{this.Name}=\"{this.Value}\"";
+            return $"-{this.Name}=\"{this.Value.TrimEnd('\\')}\"";
         }
     }
 }

@@ -15,16 +15,20 @@ namespace KY.Generator.Reflection
     {
         public ReflectionModule(IDependencyResolver dependencyResolver)
             : base(dependencyResolver)
-        { }
+        {
+            this.DependencyResolver.Bind<ReflectionModelReader>().ToSelf();
+            this.DependencyResolver.Bind<ReflectionReader>().ToSelf();
+            this.DependencyResolver.Bind<ReflectionWriter>().ToSelf();
+            this.DependencyResolver.Bind<IGeneratorCommand>().To<ReflectionCommand>();
+            this.DependencyResolver.Bind<IGeneratorCommand>().To<RunByAttributeCommand>();
+            this.DependencyResolver.Bind<IGeneratorCommand>().To<ReflectionReadCommand>();
+        }
 
         public override void Initialize()
         {
             //this.DependencyResolver.Bind<ReflectionGeneratorConfiguration>().ToSingleton();
             this.DependencyResolver.Get<ITypeMapping>().Initialize();
             //StaticResolver.GeneratorConfiguration = this.DependencyResolver.Get<ReflectionGeneratorConfiguration>();
-            this.DependencyResolver.Bind<ReflectionModelReader>().ToSelf();
-            this.DependencyResolver.Bind<ReflectionReader>().ToSelf();
-            this.DependencyResolver.Bind<ReflectionWriter>().ToSelf();
             this.DependencyResolver.Get<ConfigurationMapping>()
                 .Map<ReflectionReadConfiguration, ReflectionReader>("reflection")
                 .Map<ReflectionWriteConfiguration, ReflectionWriter>("reflection");
@@ -35,9 +39,6 @@ namespace KY.Generator.Reflection
             //ReflectionGeneratorConfiguration configuration = this.DependencyResolver.Get<ReflectionGeneratorConfiguration>();
             //this.DependencyResolver.Bind<IGenerator>().To(configuration.Generator ?? (IGenerator)this.DependencyResolver.Create(configuration.GeneratorType));
             //this.DependencyResolver.Bind<IConfigurationReader>().To(configuration.ConfigurationReader ?? (IConfigurationReader)this.DependencyResolver.Create(configuration.ConfigurationReaderType));
-            this.DependencyResolver.Bind<IGeneratorCommand>().To<ReflectionCommand>();
-            this.DependencyResolver.Bind<IGeneratorCommand>().To<RunByAttributeCommand>();
-            this.DependencyResolver.Bind<IGeneratorCommand>().To<ReflectionReadCommand>();
         }
     }
 }

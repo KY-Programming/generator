@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Platforms>AnyCPU;x86</Platforms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="KY.Generator" Version="4.3.0-rc.0" />
+    <PackageReference Include="KY.Generator.Reflection.Annotations" Version="4.2.0" />
+  </ItemGroup>
+
+</Project>

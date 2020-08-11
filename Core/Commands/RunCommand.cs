@@ -7,6 +7,7 @@ using KY.Core.Dependency;
 using KY.Core.Module;
 using KY.Generator.Command;
 using KY.Generator.Configuration;
+using KY.Generator.Models;
 using KY.Generator.Module;
 using KY.Generator.Output;
 
@@ -17,6 +18,7 @@ namespace KY.Generator.Commands
         private readonly List<ModuleBase> modules;
         private readonly IDependencyResolver resolver;
         private readonly ConfigurationRunner runner;
+
         public string[] Names { get; } = { "run" };
 
         public RunCommand(List<ModuleBase> modules, IDependencyResolver resolver, ConfigurationRunner runner)

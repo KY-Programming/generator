@@ -2,33 +2,24 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
     <TargetFrameworks>netcoreapp2.0;netcoreapp3.0</TargetFrameworks>
-    <Version>4.2.0</Version>
+    <Version>4.3.0-rc.0</Version>
     <Authors>KY-Programming</Authors>
     <Product>KY.Generator</Product>
     <Copyright>2020 - KY-Programming</Copyright>
     <AssemblyName>KY.Generator</AssemblyName>
     <RootNamespace>KY.Generator</RootNamespace>
+    <Platforms>AnyCPU;x86</Platforms>
+    <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="KY.Core.Common" Version="4.11.1" />
-  </ItemGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>..\bin\Debug</OutputPath>
+  </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Angular\KY.Generator.Angular.csproj" />
-    <ProjectReference Include="..\AspDotNet\KY.Generator.AspDotNet.csproj" />
-    <ProjectReference Include="..\Core\KY.Generator.Core.csproj" />
-    <ProjectReference Include="..\CSharp\KY.Generator.Csharp.csproj" />
-    <ProjectReference Include="..\EntityFramework\KY.Generator.EntityFramework.csproj" />
-    <ProjectReference Include="..\Json\KY.Generator.Json.csproj" />
-    <ProjectReference Include="..\OData\KY.Generator.OData.csproj" />
-    <ProjectReference Include="..\OpenApi\KY.Generator.OpenApi.csproj" />
-    <ProjectReference Include="..\Reflection\KY.Generator.Reflection.csproj" />
-    <ProjectReference Include="..\Tsql\KY.Generator.Tsql.csproj" />
-    <ProjectReference Include="..\TypeScript\KY.Generator.TypeScript.csproj" />
-    <ProjectReference Include="..\Watchdog\KY.Generator.Watchdog.csproj" />
-  </ItemGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
+    <OutputPath>..\bin\x86\Debug</OutputPath>
+  </PropertyGroup>
 
 </Project>

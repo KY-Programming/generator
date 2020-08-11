@@ -1,51 +1,56 @@
 ﻿using System;
-using KY.Core;
-using KY.Generator.Angular;
-using KY.Generator.AspDotNet;
-using KY.Generator.Csharp;
-using KY.Generator.EntityFramework;
-using KY.Generator.Json;
-using KY.Generator.OData;
-using KY.Generator.OpenApi;
-using KY.Generator.Reflection;
-using KY.Generator.Tsql;
-using KY.Generator.TypeScript;
-using KY.Generator.Watchdog;
+using System.IO;
+using System.Linq;
+using System.Reflection;
 
 namespace KY.Generator
 {
     internal class Program
     {
+        private static string SharedPath { get; } = Path.Combine(Path.GetDirectoryName(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location)), "netstandard2.0");
+
         private static void Main(string[] args)
         {
-            Generator.InitializeLogger(args);
-
-            bool success = Generator.Initialize()
-                                    .PreloadModule<AngularModule>()
-                                    .PreloadModule<AspDotNetModule>()
-                                    .PreloadModule<CsharpModule>()
-                                    .PreloadModule<EntityFrameworkModule>()
-                                    .PreloadModule<JsonModule>()
-                                    .PreloadModule<ODataModule>()
-                                    .PreloadModule<OpenApiModule>()
-                                    .PreloadModule<ReflectionModule>()
-                                    .PreloadModule<TsqlModule>()
-                                    .PreloadModule<TypeScriptModule>()
-                                    .PreloadModule<WatchdogModule>()
-                                    .SetParameters(args)
-                                    .Run();
+            bool success = LoadShared("KY.Core.Common")
+                           && LoadShared("KY.Generator." +
+                                         "Core")
+                           && Run(args);
             if (!success)
             {
                 Environment.ExitCode = 1;
             }
+        }
 
-#if DEBUG
-            if (Logger.Console.IsConsoleAvailable)
+        private static bool LoadShared(string assemblyName)
+        {
+            string coreFileName = Path.Combine(SharedPath, assemblyName + ".dll");
+            if (!File.Exists(coreFileName))
             {
-                Console.WriteLine("Press key to EXIT...");
-                Console.ReadKey();
+                Console.WriteLine($"Error: {assemblyName} not found in {SharedPath}");
+                return false;
             }
-#endif
+            Assembly.LoadFrom(coreFileName);
+            return true;
+        }
+
+        private static bool Run(string[] args)
+        {
+            Assembly core = AppDomain.CurrentDomain.GetAssemblies().Single(x => x.FullName.StartsWith("KY.Generator.Core,"));
+            Type type = core.GetType("KY.Generator.Main");
+            if (type == null)
+            {
+                Console.WriteLine("Error: KY.Generator.Main not found");
+                return false;
+            }
+            MethodInfo runMethod = type.GetMethod("Run", BindingFlags.Public | BindingFlags.Static);
+            if (runMethod == null)
+            {
+                Console.WriteLine("Error: KY.Generator.Main.Run not found");
+                return false;
+            }
+            object[] parameter = new object[1];
+            parameter[0] = args;
+            return (bool)runMethod.Invoke(null, parameter);
         }
     }
 }
