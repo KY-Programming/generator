@@ -12,8 +12,7 @@ namespace KY.Generator
         private static void Main(string[] args)
         {
             bool success = LoadShared("KY.Core.Common")
-                           && LoadShared("KY.Generator." +
-                                         "Core")
+                           && LoadShared("KY.Generator.Core")
                            && Run(args);
             if (!success)
             {
