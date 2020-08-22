@@ -20,6 +20,7 @@ namespace KY.Generator.Angular.Configurations
             this.FormatNames = true;
             this.WriteModels = true;
             this.Model = new AngularWriteModelConfiguration();
+            this.Formatting.AllowedSpecialCharacters = "$";
         }
     }
 }

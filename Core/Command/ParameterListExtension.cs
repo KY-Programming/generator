@@ -17,6 +17,11 @@ namespace KY.Generator.Command
             return list.OfType<CommandValueParameter>().FirstOrDefault(x => parameter.Equals(x.Name, StringComparison.InvariantCultureIgnoreCase))?.Value;
         }
 
+        public static List<string> GetStrings(this IList<ICommandParameter> list, string parameter)
+        {
+            return list.GetString(parameter)?.Split(',').ToList();
+        }
+
         public static bool GetBool(this IList<ICommandParameter> list, string parameter, bool defaultValue = false)
         {
             if (list.OfType<CommandParameter>().Any(x => parameter.Equals(x.Name, StringComparison.InvariantCultureIgnoreCase)))
@@ -39,6 +44,11 @@ namespace KY.Generator.Command
         {
             string value = list.GetString(parameter);
             return int.TryParse(value, out int result) ? result : defaultValue;
+        }
+
+        public static List<int> GetInts(this IList<ICommandParameter> list, string parameter, int defaultValue = default)
+        {
+            return list.GetStrings(parameter)?.Select(value => int.TryParse(value, out int result) ? result : defaultValue).ToList();
         }
 
         public static TimeSpan GetTimeSpan(this IList<ICommandParameter> list, string parameter, TimeSpan defaultValue = default)

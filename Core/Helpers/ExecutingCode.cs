@@ -66,7 +66,7 @@ namespace KY.Generator
             return new BaseTemplate();
         }
 
-        public static ReturnTemplate Return(this Code _, ICodeFragment code)
+        public static ReturnTemplate Return(this Code _, ICodeFragment code = null)
         {
             return new ReturnTemplate(code);
         }
@@ -118,12 +118,22 @@ namespace KY.Generator
 
         public static LambdaTemplate Lambda(this Code _, ICodeFragment code)
         {
-            return new LambdaTemplate(null, code);
+            return new LambdaTemplate((string)null, code);
         }
 
         public static LambdaTemplate Lambda(this Code _, string parameterName, ICodeFragment code)
         {
             return new LambdaTemplate(parameterName, code);
+        }
+
+        public static LambdaTemplate Lambda(this Code _, List<ParameterTemplate> parameters, ICodeFragment code)
+        {
+            return new LambdaTemplate(parameters, code);
+        }
+
+        public static NotTemplate Not(this Code _)
+        {
+            return new NotTemplate();
         }
     }
 }

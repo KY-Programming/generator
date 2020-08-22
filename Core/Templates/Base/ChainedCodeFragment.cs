@@ -5,7 +5,7 @@ namespace KY.Generator.Templates
 {
     public abstract class ChainedCodeFragment : ICodeFragment
     {
-        public abstract string Separator { get; }
+        public virtual string Separator => this.Previous is ThisTemplate || this.Previous is AccessIndexTemplate || this.Previous is ExecuteFieldTemplate || this.Previous is ExecuteMethodTemplate || this.Previous is ExecuteGenericMethodTemplate || this.Previous is ExecutePropertyTemplate || this.Previous is LocalVariableTemplate || this.Previous is NewTemplate || this.Previous is NullValueTemplate ? "." : " ";
         public ChainedCodeFragment Next { get; set; }
         public ChainedCodeFragment Previous { get; set; }
         public bool NewLineAfter { get; set; }

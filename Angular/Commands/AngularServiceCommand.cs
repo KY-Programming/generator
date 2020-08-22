@@ -28,6 +28,8 @@ namespace KY.Generator.Angular.Commands
             writeConfiguration.Service = new AngularWriteServiceConfiguration();
             writeConfiguration.Service.Name = configuration.Parameters.GetString(nameof(AngularWriteServiceConfiguration.Name));
             writeConfiguration.Service.RelativePath = configuration.Parameters.GetString(nameof(AngularWriteServiceConfiguration.RelativePath));
+            writeConfiguration.Service.EndlessTries = configuration.Parameters.GetBool(nameof(AngularWriteServiceConfiguration.EndlessTries));
+            writeConfiguration.Service.Timeouts = configuration.Parameters.GetInts(nameof(AngularWriteServiceConfiguration.Timeouts));
             writeConfiguration.Model.RelativePath = configuration.Parameters.GetString("RelativeModelPath");
             
             List<FileTemplate> files = new List<FileTemplate>();

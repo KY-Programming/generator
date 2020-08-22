@@ -63,6 +63,10 @@ namespace KY.Generator.Angular.Writers
                         this.MapType(controllerLanguage, configurationLanguage, action.ReturnType);
                     }
                     TypeTemplate returnType = action.ReturnType.ToTemplate();
+                    if (returnType.Name == "Task")
+                    {
+                        returnType = new TypeTemplate("void");
+                    }
                     this.AddUsing(action.ReturnType, classTemplate, configuration, relativeModelPath);
                     MethodTemplate methodTemplate = classTemplate.AddMethod(action.Name, Code.Generic("Observable", returnType))
                                                                  .FormatName(configuration);
@@ -86,7 +90,7 @@ namespace KY.Generator.Angular.Writers
                     List<HttpServiceActionParameterTransferObject> urlDirectParameters = action.Parameters.Where(x => !x.FromBody && !x.Inline && !x.AppendName).ToList();
                     uri = urlParameters.Count > 0 ? $"{uri}?{urlParameters.First().Name}=" : urlDirectParameters.Count > 0 ? $"{uri}?" : uri;
                     MultilineCodeFragment code = Code.Multiline();
-                    bool hasReturnType = returnType.Name != "void";
+                    bool hasReturnType = returnType.Name != "void" && returnType.Name != "Task";
                     ExecuteMethodTemplate nextMethod = Code.Local("subject").Method("next");
                     if (hasReturnType)
                     {
@@ -154,35 +158,196 @@ namespace KY.Generator.Angular.Writers
 
                 if (appendConvertAnyMethod)
                 {
-                    classTemplate.AddMethod("convertAny", Code.Type("string"))
-                                 .WithParameter(Code.Type("any"), "value")
-                                 .WithCode(Code.Return(Code.InlineIf(Code.Local("value").Equals().ForceNull().Or().Local("value").Equals().Undefined(),
-                                                                     Code.String(string.Empty),
-                                                                     Code.Local("value").Method("toString")
-                                                       )
-                                           ));
+                    this.AppendConvertAnyMethod(classTemplate);
                 }
                 if (appendConvertDateMethod)
                 {
-                    classTemplate.AddMethod("convertDate", Code.Type("string"))
-                                 .WithParameter(Code.Type("Date"), "date")
-                                 .WithCode(Code.Return(Code.InlineIf(Code.Local("date").Equals().ForceNull().Or().Local("date").Equals().Undefined(),
-                                                                     Code.String(string.Empty),
-                                                                     Code.InlineIf(Code.TypeScript($"typeof(date) === \"string\""),
-                                                                                   Code.Local("date"),
-                                                                                   Code.Local("date").Method("toISOString")
-                                                                     )
-                                                       )
-                                           ));
+                    this.AppendConvertDateMethod(classTemplate);
+                }
+            }
+            List<SignalRHubTransferObject> hubs = transferObjects.OfType<SignalRHubTransferObject>().ToList();
+            FileTemplate connectionStatusFileTemplate = null;
+            EnumTemplate connectionStatusEnum = null;
+            if (hubs.Count > 0)
+            {
+                connectionStatusFileTemplate = files.AddFile(configuration.Model.RelativePath);
+                connectionStatusEnum = connectionStatusFileTemplate
+                                       .AddNamespace(string.Empty)
+                                       .AddEnum("ConnectionStatus")
+                                       .FormatName(configuration)
+                                       .AddValue("connecting")
+                                       .AddValue("connected")
+                                       .AddValue("disconnected");
+            }
+            foreach (SignalRHubTransferObject hub in hubs)
+            {
+                string relativeModelPath = FileSystem.RelativeTo(configuration.Model?.RelativePath ?? ".", configuration.Service.RelativePath);
+                bool appendConvertDateMethod = false;
+                IMappableLanguage hubLanguage = hub.Language as IMappableLanguage;
+                IMappableLanguage configurationLanguage = configuration.Language as IMappableLanguage;
+                FileTemplate file = files.AddFile(configuration.Service.RelativePath, configuration.AddHeader, configuration.CheckOnOverwrite);
+                ClassTemplate classTemplate = file.AddNamespace(string.Empty)
+                                                  .AddClass(configuration.Service.Name?.Replace("{0}", hub.Name) ?? hub.Name + "Service")
+                                                  .FormatName(configuration)
+                                                  .WithUsing("Injectable", "@angular/core")
+                                                  .WithUsing("Subject", "rxjs")
+                                                  .WithUsing("Observable", "rxjs")
+                                                  .WithUsing("ReplaySubject", "rxjs")
+                                                  .WithUsing("flatMap", "rxjs/operators")
+                                                  .WithUsing("of", "rxjs")
+                                                  .WithUsing("HubConnectionBuilder", "@aspnet/signalr")
+                                                  .WithUsing("HubConnectionState", "@aspnet/signalr")
+                                                  .WithUsing("HubConnection", "@aspnet/signalr")
+                                                  .WithUsing(connectionStatusEnum.Name, FileSystem.Combine(relativeModelPath, Formatter.FormatFile(connectionStatusFileTemplate.Name, configuration)).Replace("\\", "/"))
+                                                  .WithAttribute("Injectable", Code.AnonymousObject().WithProperty("providedIn", Code.String("root")));
+                FieldTemplate serviceUrlField = classTemplate.AddField("serviceUrl", Code.Type("string")).Public().FormatName(configuration).Default(Code.String(string.Empty));
+                FieldTemplate connectionField = classTemplate.AddField("connection", Code.Type("HubConnection"));
+                FieldTemplate timeoutsField = null;
+                if (configuration.Service.Timeouts?.Count > 0)
+                {
+                    timeoutsField = classTemplate.AddField("timeouts", Code.Generic("Array", Code.Type("number"))).Readonly()
+                                                 .Default(Code.TypeScript($"[{string.Join(", ", configuration.Service.Timeouts)}]"));
+                }
+                FieldTemplate statusSubjectField = classTemplate.AddField("statusSubject", Code.Generic("ReplaySubject", connectionStatusEnum.ToType())).Readonly()
+                                                                .Default(Code.New(Code.Generic("ReplaySubject", connectionStatusEnum.ToType()), Code.Number(1)));
+                classTemplate.AddField("status$", Code.Generic("Observable", connectionStatusEnum.ToType())).FormatName(configuration).Readonly().Public()
+                             .Default(Code.This().Local(statusSubjectField).Method("asObservable"));
+                MultilineCodeFragment createConnectionCode = Code.Multiline().AddLine(
+                    Code.This().Field(connectionField).Assign(Code.New(Code.Type("HubConnectionBuilder")).Method("withUrl", Code.This().Local(serviceUrlField)).Method("build")).Close()
+                ).AddLine(
+                    Code.This().Field(connectionField).Method("onclose", Code.Lambda(Code.Multiline()
+                                                                                         .AddLine(Code.This().Field(statusSubjectField).Method("next", Code.Local(connectionStatusEnum.Name).Local("connecting")).Close())
+                                                                                         .AddLine(Code.This().Method("connect")))
+                    ).Close()
+                );
+                MultilineCodeFragment errorCode = Code.Multiline().AddLine(Code.This().Field(statusSubjectField).Method("next", Code.Local(connectionStatusEnum.Name).Field("disconnected")).Close());
+                if (timeoutsField != null)
+                {
+                    errorCode.AddLine(Code.Declare(Code.Type("number"), "timeout", Code.This().Field(timeoutsField).Index(Code.Local("trial"))));
+                    if (configuration.Service.EndlessTries)
+                    {
+                        errorCode.AddLine(Code.Local("timeout").Assign(Code.Local("timeout").Or().This().Field(timeoutsField).Index(Code.This().Field(timeoutsField).Field("length").Subtract().Number(1)).Or().Number(0)).Close());
+                    }
+                    else
+                    {
+                        errorCode.AddLine(Code.If(Code.Local("timeout").Equals().Undefined()).WithCode(Code.Local("subject").Method("error", Code.Local("error")).Close()).WithCode(Code.Return()));
+                    }
+                    errorCode.AddLine(Code.Method("setTimeout",
+                                                  Code.Lambda(Code.This().Method("connect", Code.Local("trial").Add().Number(1)).Method("subscribe",
+                                                                                                                                        Code.Lambda(Code.Multiline()
+                                                                                                                                                        .AddLine(Code.Local("subject").Method("next").Close())
+                                                                                                                                                        .AddLine(Code.Local("subject").Method("complete").Close())),
+                                                                                                                                        Code.Lambda("innerError", Code.Local("subject").Method("error", Code.Local("innerError")))
+                                                              )),
+                                                  Code.Local("timeout")
+                                      ).Close());
+                }
+                else
+                {
+                    errorCode.AddLine(Code.Local("subject").Method("error", Code.Local("error")).Close());
+                }
+
+                MethodTemplate connectMethod = classTemplate.AddMethod("Connect", Code.Generic("Observable", Code.Void())).FormatName(configuration)
+                                                            .WithCode(Code.If(Code.Not().This().Local(serviceUrlField))
+                                                                          .WithCode(Code.Throw(Code.Type("Error"), Code.String("serviceUrl can not be empty. Set it via service.serviceUrl."))))
+                                                            .WithCode(Code.If(Code.Not().This().Field(connectionField))
+                                                                          .WithCode(createConnectionCode))
+                                                            .WithCode(Code.If(Code.This().Field(connectionField).Field("state").Equals().Local("HubConnectionState").Local("Connected"))
+                                                                          .WithCode(Code.Return(Code.Method("of", Code.Undefined()))))
+                                                            .WithCode(Code.This().Field(statusSubjectField).Method("next", Code.Local(connectionStatusEnum.Name).Local("connecting")).Close())
+                                                            .WithCode(Code.Declare(Code.Generic("Subject", Code.Void()), "subject", Code.New(Code.Generic("Subject", Code.Void()))))
+                                                            .WithCode(Code.This().Field(connectionField).Method("start")
+                                                                          .Method("then", Code.Lambda(Code.Multiline()
+                                                                                                          .AddLine(Code.Local("subject").Method("next").Close())
+                                                                                                          .AddLine(Code.Local("subject").Method("complete").Close())
+                                                                                                          .AddLine(Code.This().Field(statusSubjectField).Method("next", Code.Local(connectionStatusEnum.Name).Field("connected")).Close())))
+                                                                          .Method("catch", Code.Lambda("error", errorCode)).Close())
+                                                            .WithCode(Code.Return(Code.Local("subject")));
+                if (timeoutsField != null)
+                {
+                    connectMethod.AddParameter(Code.Type("number"), "trial", Code.Number(0));
+                }
+
+                foreach (HttpServiceActionTransferObject action in hub.Actions)
+                {
+                    MethodTemplate methodTemplate = classTemplate.AddMethod(action.Name, Code.Generic("Observable", Code.Type("void")))
+                                                                 .FormatName(configuration);
+                    foreach (HttpServiceActionParameterTransferObject parameter in action.Parameters)
+                    {
+                        if (hubLanguage != null && configurationLanguage != null)
+                        {
+                            this.MapType(hubLanguage, configurationLanguage, parameter.Type);
+                        }
+                        this.AddUsing(parameter.Type, classTemplate, configuration, relativeModelPath);
+                        methodTemplate.AddParameter(parameter.Type.ToTemplate(), parameter.Name, parameter.IsOptional ? Code.Null() : null).FormatName(configuration);
+                    }
+
+                    List<ICodeFragment> parameters = new List<ICodeFragment>();
+                    parameters.Add(Code.String(action.Name));
+                    parameters.AddRange(action.Parameters.Select(parameter => Code.Local(parameter.Name)));
+
+                    methodTemplate.WithCode(Code.Declare(Code.Generic("Subject", Code.Void()), "subject", Code.New(Code.Generic("Subject", Code.Void()))))
+                                  .WithCode(
+                                      Code.This().Method(connectMethod).Method("pipe", Code.Method("flatMap", Code.Lambda(Code.This().Field(connectionField).Method("send", parameters))))
+                                          .Method("subscribe", Code.Lambda(Code.Multiline()
+                                                                               .AddLine(Code.Local("subject").Method("next").Close())
+                                                                               .AddLine(Code.Local("subject").Method("complete").Close())),
+                                                  Code.Lambda("error", Code.Local("subject").Method("error", Code.Local("error")))).Close())
+                                  .WithCode(Code.Return(Code.Local("subject")));
+                }
+                foreach (HttpServiceActionTransferObject action in hub.Events)
+                {
+                    if (action.Parameters.Count > 1)
+                    {
+                        Logger.Error("SignalR hub event: More than one parameter is currently not implemented");
+                        continue;
+                    }
+                    foreach (HttpServiceActionParameterTransferObject parameter in action.Parameters)
+                    {
+                        if (hubLanguage != null && configurationLanguage != null)
+                        {
+                            this.MapType(hubLanguage, configurationLanguage, parameter.Type);
+                        }
+                        this.AddUsing(parameter.Type, classTemplate, configuration, relativeModelPath);
+                    }
+                    TypeTemplate eventType = action.Parameters.Single().Type.ToTemplate();
+                    GenericTypeTemplate subjectType = Code.Generic("Subject", eventType);
+                    FieldTemplate eventPrivateField = classTemplate.AddField(action.Name + "Subject", subjectType).Readonly().FormatName(configuration).Default(Code.New(subjectType));
+                    FieldTemplate eventPublicField = classTemplate.AddField(action.Name + "$", Code.Generic("Observable", eventType)).Public().Readonly().FormatName(configuration)
+                                                                  .Default(Code.This().Local(eventPrivateField).Method("asObservable"));
+                    MultilineCodeFragment code = new MultilineCodeFragment();
+                    code.AddLine(Code.This().Local(eventPrivateField).Method("next", Code.Local(action.Parameters.Single().Name)).Close());
+                    List<ICodeFragment> parameters = new List<ICodeFragment>();
+                    parameters.Add(Code.String(action.Name));
+                    parameters.Add(Code.Lambda(action.Parameters.Select(x => new ParameterTemplate(x.Type.ToTemplate(), x.Name)).ToList(), code));
+                    createConnectionCode.AddLine(Code.This().Local(connectionField).Method("on", parameters).Close());
                 }
             }
         }
 
-        private bool IsPrimitive(TypeTemplate type)
+        private void AppendConvertAnyMethod(ClassTemplate classTemplate)
         {
-            return type is GenericTypeTemplate genericType
-                       ? this.IsPrimitive(genericType.Types.First())
-                       : type.Name == "string" || type.Name == "number" || type.Name == "boolean";
+            classTemplate.AddMethod("convertAny", Code.Type("string"))
+                         .WithParameter(Code.Type("any"), "value")
+                         .WithCode(Code.Return(Code.InlineIf(Code.Local("value").Equals().ForceNull().Or().Local("value").Equals().Undefined(),
+                                                             Code.String(string.Empty),
+                                                             Code.Local("value").Method("toString")
+                                               )
+                                   ));
+        }
+
+        private void AppendConvertDateMethod(ClassTemplate classTemplate)
+        {
+            classTemplate.AddMethod("convertDate", Code.Type("string"))
+                         .WithParameter(Code.Type("Date"), "date")
+                         .WithCode(Code.Return(Code.InlineIf(Code.Local("date").Equals().ForceNull().Or().Local("date").Equals().Undefined(),
+                                                             Code.String(string.Empty),
+                                                             Code.InlineIf(Code.TypeScript($"typeof(date) === \"string\""),
+                                                                           Code.Local("date"),
+                                                                           Code.Local("date").Method("toISOString")
+                                                             )
+                                               )
+                                   ));
         }
     }
 }

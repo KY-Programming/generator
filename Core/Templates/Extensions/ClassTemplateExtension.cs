@@ -19,6 +19,12 @@ namespace KY.Generator.Templates.Extensions
             return usingTemplate;
         }
 
+        public static ClassTemplate WithUsing(this ClassTemplate classTemplate, UsingTemplate usingTemplate)
+        {
+            classTemplate.Usings.Add(usingTemplate);
+            return classTemplate;
+        }
+
         public static ClassTemplate WithUsing(this ClassTemplate classTemplate, string nameSpace, string type, string path)
         {
             classTemplate.AddUsing(nameSpace, type, path);

@@ -10,6 +10,7 @@ namespace KY.Generator.Configuration
         public string ParameterCase { get; set; }
         public bool FieldsToProperties { get; set; }
         public bool PropertiesToFields { get; set; }
+        public string AllowedSpecialCharacters { get; set; }
 
         public virtual void ApplyDefaults(ConfigurationFormatting defaults)
         {

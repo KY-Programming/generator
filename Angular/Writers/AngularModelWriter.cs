@@ -2,14 +2,13 @@
 using KY.Generator.Angular.Configurations;
 using KY.Generator.Templates;
 using KY.Generator.Transfer;
-using KY.Generator.Transfer.Writers;
 using KY.Generator.TypeScript.Transfer;
 
 namespace KY.Generator.Angular.Writers
 {
     public class AngularModelWriter
     {
-        private readonly ModelWriter modelWriter;
+        private readonly TypeScriptModelWriter modelWriter;
 
         public AngularModelWriter(TypeScriptModelWriter modelWriter)
         {

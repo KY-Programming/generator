@@ -140,6 +140,12 @@ namespace KY.Generator.Core.Tests
             Assert.AreEqual("KebabCase123", "kebab-case1-23".ToPascalCase());
         }
 
+        [TestMethod]
+        public void TestPascalKebabCaseAllowedSpecial()
+        {
+            Assert.AreEqual("KebabCase$", "kebab-case$".ToPascalCase("$"));
+        }
+
         /****************
          *  CamelCase  *
          ****************/
@@ -272,6 +278,12 @@ namespace KY.Generator.Core.Tests
         public void TestCamelKebabCaseNumbers()
         {
             Assert.AreEqual("kebabCase123", "kebab-case1-23".ToCamelCase());
+        }
+
+        [TestMethod]
+        public void TestCamelKebabCaseAllowedSpecial()
+        {
+            Assert.AreEqual("kebabCase$", "kebab-case$".ToCamelCase("$"));
         }
     }
 }

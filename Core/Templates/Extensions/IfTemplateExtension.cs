@@ -2,6 +2,12 @@
 {
     public static class IfTemplateExtension
     {
+        public static IfTemplate WithCode(this IfTemplate template, ICodeFragment code)
+        {
+            template.Code.AddLine(code);
+            return template;
+        }
+
         public static ElseIfTemplate ElseIf(this IfTemplate template, ICodeFragment condition)
         {
             ElseIfTemplate elseIfTemplate = new ElseIfTemplate(condition);

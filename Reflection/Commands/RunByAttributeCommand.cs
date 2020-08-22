@@ -40,9 +40,11 @@ namespace KY.Generator.Reflection.Commands
 
             foreach (Type objectType in TypeHelper.GetTypes(assembly))
             {
-                foreach (IGeneratorCommandAttribute attribute in objectType.GetCustomAttributes().OfType<IGeneratorCommandAttribute>())
+                List<Attribute> attributes = objectType.GetCustomAttributes().ToList();
+                List<CommandConfiguration> commands = new List<CommandConfiguration>();
+                foreach (IGeneratorCommandAttribute attribute in attributes.OfType<IGeneratorCommandAttribute>())
                 {
-                    List<CommandConfiguration> commands = attribute.Commands.Select(x =>
+                    commands.AddRange(attribute.Commands.Select(x =>
                     {
                         CommandConfiguration commandConfiguration = new CommandConfiguration(x.Command).AddParameters(x.Parameters);
                         foreach (CommandValueParameter commandParameter in commandConfiguration.Parameters.OfType<CommandValueParameter>())
@@ -50,7 +52,20 @@ namespace KY.Generator.Reflection.Commands
                             commandParameter.Value = commandParameter.Value.Replace("$NAMESPACE$", objectType.Namespace).Replace("$NAME$", objectType.Name);
                         }
                         return commandConfiguration;
-                    }).ToList();
+                    }));
+                }
+                foreach (IGeneratorCommandAdditionalParameterAttribute attribute in attributes.OfType<IGeneratorCommandAdditionalParameterAttribute>())
+                {
+                    foreach (AttributeCommandConfiguration additionalParameters in attribute.Commands)
+                    {
+                        foreach (CommandConfiguration commandConfiguration in commands.Where(x => x.Command == additionalParameters.Command))
+                        {
+                            commandConfiguration.AddParameters(additionalParameters.Parameters);
+                        }
+                    }
+                }
+                if (commands.Count > 0)
+                {
                     commandRunner.Run(commands, output);
                 }
             }

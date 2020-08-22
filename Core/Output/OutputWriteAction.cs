@@ -7,6 +7,7 @@ namespace KY.Generator.Output
     public class OutputWriteAction : IOutputAction
     {
         private readonly bool checkOnOverwrite;
+        private bool executed;
         public string FilePath { get; }
         public string Content { get; }
 
@@ -19,6 +20,11 @@ namespace KY.Generator.Output
 
         public void Execute()
         {
+            if (this.executed)
+            {
+                return;
+            }
+            this.executed = true;
             FileSystem.CreateDirectory(FileSystem.Parent(this.FilePath));
             if (!FileSystem.FileExists(this.FilePath))
             {

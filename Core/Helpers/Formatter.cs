@@ -15,7 +15,8 @@ namespace KY.Generator
             {
                 return name;
             }
-            return configuration.Language is BaseLanguage baseLanguage ? baseLanguage.FormatFileName(name, false) : Format(name, GetFormatting(configuration).FileCase);
+            ConfigurationFormatting formatting = GetFormatting(configuration);
+            return configuration.Language is BaseLanguage baseLanguage ? baseLanguage.FormatFileName(name, false) : Format(name, formatting.FileCase, formatting.AllowedSpecialCharacters);
         }
 
         public static string FormatClass(string name, IConfiguration configuration)
@@ -24,7 +25,8 @@ namespace KY.Generator
             {
                 return name;
             }
-            return Format(name, GetFormatting(configuration).ClassCase);
+            ConfigurationFormatting formatting = GetFormatting(configuration);
+            return Format(name, formatting.ClassCase, formatting.AllowedSpecialCharacters);
         }
 
         public static string FormatField(string name, IConfiguration configuration)
@@ -33,12 +35,13 @@ namespace KY.Generator
             {
                 return name;
             }
-            return Format(name, GetFormatting(configuration).FieldCase);
+            ConfigurationFormatting formatting = GetFormatting(configuration);
+            return Format(name, formatting.FieldCase, formatting.AllowedSpecialCharacters);
         }
 
-        public static string FormatField(string name, ILanguage language, bool formatNames)
+        public static string FormatField(string name, ILanguage language, bool formatNames, string allowedCharacters = "")
         {
-            return formatNames && language is IFormattableLanguage formattableLanguage ? Format(name, formattableLanguage.Formatting.FieldCase) : name;
+            return formatNames && language is IFormattableLanguage formattableLanguage ? Format(name, formattableLanguage.Formatting.FieldCase, allowedCharacters) : name;
         }
 
         public static string FormatProperty(string name, IConfiguration configuration)
@@ -47,7 +50,8 @@ namespace KY.Generator
             {
                 return name;
             }
-            return Format(name, GetFormatting(configuration).PropertyCase);
+            ConfigurationFormatting formatting = GetFormatting(configuration);
+            return Format(name, formatting.PropertyCase, formatting.AllowedSpecialCharacters);
         }
 
         public static string FormatMethod(string name, IConfiguration configuration)
@@ -56,12 +60,13 @@ namespace KY.Generator
             {
                 return name;
             }
-            return Format(name, GetFormatting(configuration).MethodCase);
+            ConfigurationFormatting formatting = GetFormatting(configuration);
+            return Format(name, formatting.MethodCase, formatting.AllowedSpecialCharacters);
         }
 
-        public static string FormatMethod(string name, ILanguage language, bool formatNames)
+        public static string FormatMethod(string name, ILanguage language, bool formatNames, string allowedCharacters = "")
         {
-            return formatNames && language is IFormattableLanguage formattableLanguage ? Format(name, formattableLanguage.Formatting.MethodCase) : name;
+            return formatNames && language is IFormattableLanguage formattableLanguage ? Format(name, formattableLanguage.Formatting.MethodCase, allowedCharacters) : name;
         }
 
         public static string FormatParameter(string name, IConfiguration configuration)
@@ -70,31 +75,32 @@ namespace KY.Generator
             {
                 return name;
             }
-            return Format(name, GetFormatting(configuration).ParameterCase);
+            ConfigurationFormatting formatting = GetFormatting(configuration);
+            return Format(name, formatting.ParameterCase, formatting.AllowedSpecialCharacters);
         }
 
-        public static string Format(string name, string casing)
+        public static string Format(string name, string casing, string allowChars)
         {
             casing.AssertIsNotNullOrEmpty(nameof(casing));
             if (casing.Equals(Case.CamelCase, StringComparison.CurrentCultureIgnoreCase))
             {
-                return name?.ToCamelCase();
+                return name?.ToCamelCase(allowChars);
             }
             if (casing.Equals(Case.PascalCase, StringComparison.CurrentCultureIgnoreCase))
             {
-                return name?.ToPascalCase();
+                return name?.ToPascalCase(allowChars);
             }
             if (casing.Equals(Case.KebabCase, StringComparison.CurrentCultureIgnoreCase))
             {
-                return name?.ToKebabCase();
+                return name?.ToKebabCase(allowChars);
             }
             if (casing.Equals(Case.SnakeCase, StringComparison.CurrentCultureIgnoreCase))
             {
-                return name?.ToSnakeCase();
+                return name?.ToSnakeCase(allowChars);
             }
             if (casing.Equals(Case.DarwinCase, StringComparison.CurrentCultureIgnoreCase))
             {
-                return name?.ToDarwinCase();
+                return name?.ToDarwinCase(allowChars);
             }
             if (casing.Equals(Case.FirstCharToLower, StringComparison.CurrentCultureIgnoreCase))
             {

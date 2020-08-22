@@ -64,7 +64,7 @@ namespace KY.Generator.TypeScript.Languages
 
         public override string FormatFileName(string fileName, bool isInterface)
         {
-            fileName = Formatter.Format(fileName, this.Formatting.FileCase);
+            fileName = Formatter.Format(fileName, this.Formatting.FileCase, this.Formatting.AllowedSpecialCharacters);
             if (fileName.StartsWith("i-") || isInterface)
             {
                 fileName = fileName.TrimStart("i-") + ".interface";

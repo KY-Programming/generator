@@ -7,39 +7,39 @@ namespace KY.Generator.Extensions
 {
     public static class StringExtensions
     {
-        public static string ToPascalCase(this string value)
+        public static string ToPascalCase(this string value, string allowedCharacters = "")
         {
-            return string.Join("", Split(value, true).Select(x => x.FirstCharToUpper()));
+            return string.Join("", Split(value, allowedCharacters).Select(x => x.FirstCharToUpper()));
         }
 
-        public static string ToCamelCase(this string value)
+        public static string ToCamelCase(this string value, string allowedCharacters = "")
         {
-            return string.Join("", Split(value, true).Select(x => x.FirstCharToUpper())).FirstCharToLower();
+            return string.Join("", Split(value, allowedCharacters).Select(x => x.FirstCharToUpper())).FirstCharToLower();
         }
 
-        public static string ToKebabCase(this string value)
+        public static string ToKebabCase(this string value, string allowedCharacters = "")
         {
-            return string.Join("-", Split(value, true).Select(x => x.ToLowerInvariant()));
+            return string.Join("-", Split(value, allowedCharacters).Select(x => x.ToLowerInvariant()));
         }
 
-        public static string ToSnakeCase(this string value)
+        public static string ToSnakeCase(this string value, string allowedCharacters = "")
         {
-            return string.Join("_", Split(value, true).Select(x => x.ToLowerInvariant()));
+            return string.Join("_", Split(value, allowedCharacters).Select(x => x.ToLowerInvariant()));
         }
 
-        public static string ToDarwinCase(this string value)
+        public static string ToDarwinCase(this string value, string allowedCharacters = "")
         {
-            return string.Join("_", Split(value, true).Select(x => x.ToLowerInvariant().FirstCharToUpper()));
+            return string.Join("_", Split(value, allowedCharacters).Select(x => x.ToLowerInvariant().FirstCharToUpper()));
         }
 
-        private static IEnumerable<string> Split(string value, bool skipSpecialChars)
+        private static IEnumerable<string> Split(string value, string allowedCharacters)
         {
             if (value.ToUpperInvariant() == value)
             {
                 value = value.ToLowerInvariant();
             }
             List<string> matches = Regex.Matches(value, @"([a-z]+|[A-Z]+|[0-9]+|[^a-zA-Z0-9]+)").Cast<Match>().Select(x => x.Value)
-                                        .Where(x => !skipSpecialChars || Regex.IsMatch(x, @"^[a-zA-Z0-9]+$"))
+                                        .Where(x => Regex.IsMatch(x, $"^[a-zA-Z0-9{Regex.Escape(allowedCharacters ?? string.Empty)}]+$"))
                                         .ToList();
             string transfer = string.Empty;
             for (int index = 0; index < matches.Count; index++)

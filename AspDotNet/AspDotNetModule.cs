@@ -15,6 +15,7 @@ namespace KY.Generator.AspDotNet
             : base(dependencyResolver)
         {
             this.DependencyResolver.Bind<IGeneratorCommand>().To<AspDotNetReadControllerCommand>();
+            this.DependencyResolver.Bind<IGeneratorCommand>().To<AspDotNetReadHubCommand>();
         }
 
         public override void Initialize()

@@ -5,7 +5,7 @@ namespace KY.Generator.Templates
     public class EnumTemplate : AttributeableTempalte, INamespaceChildren
     {
         public List<UsingTemplate> Usings { get; }
-        public string Name { get; }
+        public string Name { get; set; }
         public TypeTemplate BasedOn { get; set; }
         public NamespaceTemplate Namespace { get; }
         public ClassTemplate ParentClass { get; }

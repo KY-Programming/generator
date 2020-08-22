@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace KY.Generator
 {
     [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = true)]
-    public class GenerateAngularServiceAttribute : Attribute, IGeneratorCommandAttribute
+    public class GenerateAngularHubAttribute : Attribute, IGeneratorCommandAttribute
     {
         public IEnumerable<AttributeCommandConfiguration> Commands
         {
@@ -12,13 +12,13 @@ namespace KY.Generator
             {
                 return new[]
                        {
-                           new AttributeCommandConfiguration("asp-read-controller", "-namespace=$NAMESPACE$", "-name=$NAME$"),
+                           new AttributeCommandConfiguration("asp-read-hub", "-namespace=$NAMESPACE$", "-name=$NAME$"),
                            new AttributeCommandConfiguration("angular-service", this.ServiceParameters),
                            new AttributeCommandConfiguration("angular-model", this.ModelParameters)
                        };
             }
         }
-
+        
         private List<string> ServiceParameters
         {
             get
@@ -84,10 +84,10 @@ namespace KY.Generator
         public Option FieldsToProperties { get; }
         public Option FormatNames { get; }
 
-        public GenerateAngularServiceAttribute()
+        public GenerateAngularHubAttribute()
         { }
 
-        public GenerateAngularServiceAttribute(string relativeServicePath, string relativeModelPath, string name = null, Option propertiesToFields = Option.Inherit, Option fieldsToProperties = Option.Inherit, Option formatNames = Option.Inherit)
+        public GenerateAngularHubAttribute(string relativeServicePath, string relativeModelPath, string name = null, Option propertiesToFields = Option.Inherit, Option fieldsToProperties = Option.Inherit, Option formatNames = Option.Inherit)
         {
             this.RelativePath = relativeServicePath;
             this.RelativeModelPath = relativeModelPath;

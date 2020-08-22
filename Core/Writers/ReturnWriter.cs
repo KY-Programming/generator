@@ -8,9 +8,16 @@ namespace KY.Generator.Writers
         public virtual void Write(ICodeFragment fragment, IOutputCache output)
         {
             ReturnTemplate template = (ReturnTemplate)fragment;
-            output.Add("return ")
-                  .Add(template.Code)
-                  .CloseLine();
+            if (template.Code == null)
+            {
+                output.Add("return").CloseLine();
+            }
+            else
+            {
+                output.Add("return ")
+                      .Add(template.Code)
+                      .CloseLine();
+            }
         }
     }
 }

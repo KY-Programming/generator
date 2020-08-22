@@ -6,12 +6,12 @@ namespace KY.Generator.Templates.Extensions
     {
         public static StringTemplate String(this ChainedCodeFragment template, string value)
         {
-            return new StringTemplate(value);
+            return new StringTemplate(value).Chain(template);
         }
 
         public static NumberTemplate Number(this ChainedCodeFragment template, int value)
         {
-            return new NumberTemplate(value);
+            return new NumberTemplate(value).Chain(template);
         }
 
         public static ExecuteMethodTemplate Method(this ChainedCodeFragment template, string methodName, params ICodeFragment[] parameters)
@@ -19,9 +19,19 @@ namespace KY.Generator.Templates.Extensions
             return new ExecuteMethodTemplate(methodName, parameters).Chain(template);
         }
 
+        public static ExecuteMethodTemplate Method(this ChainedCodeFragment template, MethodTemplate method, params ICodeFragment[] parameters)
+        {
+            return Method(template, method.Name, parameters);
+        }
+
         public static ExecuteMethodTemplate Method(this ChainedCodeFragment template, string methodName, IEnumerable<ICodeFragment> parameters)
         {
             return new ExecuteMethodTemplate(methodName, parameters).Chain(template);
+        }
+
+        public static ExecuteMethodTemplate Method(this ChainedCodeFragment template, MethodTemplate method, IEnumerable<ICodeFragment> parameters)
+        {
+            return Method(template, method.Name, parameters);
         }
 
         public static ExecuteFieldTemplate Field(this ChainedCodeFragment template, string fieldName)
@@ -184,6 +194,26 @@ namespace KY.Generator.Templates.Extensions
         public static NotTemplate Not(this ChainedCodeFragment template)
         {
             return new NotTemplate().Chain(template);
+        }
+
+        public static MathematicalOperatorTemplate Add(this ChainedCodeFragment template)
+        {
+            return new MathematicalOperatorTemplate("+").Chain(template);
+        }
+
+        public static MathematicalOperatorTemplate Subtract(this ChainedCodeFragment template)
+        {
+            return new MathematicalOperatorTemplate("-").Chain(template);
+        }
+
+        public static MathematicalOperatorTemplate Multiply(this ChainedCodeFragment template)
+        {
+            return new MathematicalOperatorTemplate("*").Chain(template);
+        }
+
+        public static MathematicalOperatorTemplate Divide(this ChainedCodeFragment template)
+        {
+            return new MathematicalOperatorTemplate("/").Chain(template);
         }
 
         public static T Chain<T, TPrevious>(this T template, TPrevious previous)
