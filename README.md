@@ -8,7 +8,7 @@ All dependencies are included. At least .net Framework 4.6.1, .net Standard 2.0 
 
 For lower framework version please [create an issue](https://github.com/KY-Programming/generator/issues/new) and we will try to support your version
 
-See [(documentation)](https://generator.ky-programming.de) for more details
+See [documentation](https://generator.ky-programming.de) for more details
 
 ## Setup for Console/Powershell
 Download KY.Generator.exe ![](https://img.shields.io/nuget/v/KY.Generator.CLI.svg?style=flat) from [Releases](https://github.com/KY-Programming/generator/releases)
