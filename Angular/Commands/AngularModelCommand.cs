@@ -6,7 +6,6 @@ using KY.Generator.Command;
 using KY.Generator.Models;
 using KY.Generator.Output;
 using KY.Generator.Templates;
-using KY.Generator.TypeScript.Transfer;
 
 namespace KY.Generator.Angular.Commands
 {
@@ -33,13 +32,8 @@ namespace KY.Generator.Angular.Commands
             writeConfiguration.Model.PropertiesToFields = configuration.Parameters.GetBool(nameof(AngularWriteModelConfiguration.PropertiesToFields), true);
             writeConfiguration.Model.FieldsToProperties = configuration.Parameters.GetBool(nameof(AngularWriteModelConfiguration.FieldsToProperties));
             writeConfiguration.Model.FormatNames = configuration.Parameters.GetBool(nameof(AngularWriteModelConfiguration.FormatNames), true);
-            
+
             List<FileTemplate> files = new List<FileTemplate>();
-            // HACK: Due to strange .net behaviour the type is already bound, but does not match. The name and assembly of the types are equals but the types are different. So fix this with register the type again
-            if (!this.resolver.Contains<TypeScriptModelWriter>())
-            {
-                this.resolver.Bind<TypeScriptModelWriter>().ToSelf();
-            }
             this.resolver.Create<AngularModelWriter>().Write(writeConfiguration, this.environment.TransferObjects, files);
             IOutput localOutput = output;
             files.ForEach(file => writeConfiguration.Language.Write(file, localOutput));

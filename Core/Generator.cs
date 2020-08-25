@@ -212,7 +212,7 @@ namespace KY.Generator
                 Action<string> log = this.environment.IsBeforeBuild ? (Action<string>)Logger.Trace : message => Logger.Error(message);
                 log($"'{commandParameter.Name}' not found");
                 log("Create a generator.json in your project root or use [Generate] attributes");
-                log("See our Wiki on Github: https://github.com/KY-Programming/generator/wiki/v2:-Configuration-Basics");
+                log("See our Documentation: https://generator.ky-programming.de/");
                 return this;
             }
             return this.ParseCommand(parameters);

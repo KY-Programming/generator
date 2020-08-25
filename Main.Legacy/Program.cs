@@ -2,7 +2,6 @@
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.Loader;
 
 namespace KY.Generator
 {
@@ -29,7 +28,7 @@ namespace KY.Generator
                 Console.WriteLine($"Error: {assemblyName} not found in {SharedPath}");
                 return false;
             }
-            AssemblyLoadContext.Default.LoadFromAssemblyPath(coreFileName);
+            Assembly.LoadFrom(coreFileName);
             return true;
         }
 

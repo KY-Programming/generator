@@ -12,7 +12,7 @@ namespace KY.Generator.Transfer.Writers
             DemoConfiguration configuration = (DemoConfiguration)configurationBase;
             Logger.Trace(configuration.Message);
 
-            Logger.Trace("See full documentation on https://github.com/KY-Programming/generator/wiki");
+            Logger.Trace("See full documentation on https://generator.ky-programming.de/");
         }
     }
 }

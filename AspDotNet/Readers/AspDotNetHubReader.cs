@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using KY.Core;
 using KY.Generator.AspDotNet.Configurations;
 using KY.Generator.Reflection.Language;
@@ -49,7 +50,7 @@ namespace KY.Generator.AspDotNet.Readers
                 }
                 HttpServiceActionTransferObject action = new HttpServiceActionTransferObject();
                 action.Name = method.Name;
-                if (method.ReturnType.Name != "void" && method.ReturnType.Name != "Task")
+                if (method.ReturnType.Name != typeof(void).Name && method.ReturnType.Name != nameof(Task))
                 {
                     Logger.Error($"Return type of method {method.Name} in {hub.Name} has to be void or Task");
                 }

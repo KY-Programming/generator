@@ -73,7 +73,7 @@ namespace KY.Generator.Command
 
         private static void CommandDocumentationHint()
         {
-            Logger.Error("See our Wiki on Github: https://github.com/KY-Programming/generator/wiki/v3:-Overview#commands");
+            Logger.Error("See our Documentation: https://generator.ky-programming.de/");
         }
 
         private static void CommandNotFoundError(CommandConfiguration configuration)
