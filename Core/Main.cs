@@ -11,6 +11,9 @@ namespace KY.Generator
 
         public static bool Run(string[] args)
         {
+#if DEBUG
+            System.Diagnostics.Debugger.Launch();
+#endif
             Generator.InitializeLogger(args);
             NugetPackageDependencyLoader.Activate();
             NugetPackageDependencyLoader.Locations.Insert(0, new SearchLocation(SharedPath));
