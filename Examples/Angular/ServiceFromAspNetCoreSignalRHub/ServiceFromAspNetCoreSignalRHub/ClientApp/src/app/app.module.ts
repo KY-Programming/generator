@@ -1,14 +1,15 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
+import { Inject, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
-
 import { AppComponent } from './app.component';
-import { NavMenuComponent } from './nav-menu/nav-menu.component';
-import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
+import { HomeComponent } from './home/home.component';
+import { NavMenuComponent } from './nav-menu/nav-menu.component';
+import { WeatherHubService } from './services/weather-hub.service';
+
 
 @NgModule({
   declarations: [
@@ -31,4 +32,11 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  public constructor(
+    @Inject('BASE_URL') baseUrl: string,
+    weatherHubService: WeatherHubService
+  ) {
+    weatherHubService.serviceUrl = baseUrl + 'hub/weather';
+  }
+}

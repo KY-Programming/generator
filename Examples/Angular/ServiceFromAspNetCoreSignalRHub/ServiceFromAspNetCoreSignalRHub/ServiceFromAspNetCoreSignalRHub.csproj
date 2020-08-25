@@ -13,8 +13,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="KY.Generator" Version="4.3.0" />
-    <PackageReference Include="KY.Generator.Reflection.Annotations" Version="4.4.0-rc.0" />
+    <PackageReference Include="KY.Generator" Version="5.0.0" />
+    <PackageReference Include="KY.Generator.Reflection.Annotations" Version="5.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.7" />
   </ItemGroup>

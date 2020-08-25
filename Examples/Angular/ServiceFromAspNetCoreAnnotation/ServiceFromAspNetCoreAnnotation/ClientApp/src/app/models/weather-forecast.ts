@@ -7,13 +7,13 @@
 // ------------------------------------------------------------------------------
 // tslint:disable
 
-import { EnumToIgnore } from "./enum-to-ignore";
-import { TypeToIgnore } from "./type-to-ignore";
+export class WeatherForecast {
+    public date: Date;
+    public temperatureC: number;
+    public temperatureF: number;
+    public summary: string;
 
-export class TypeToRead {
-    public typeToIgnoreField: TypeToIgnore;
-    public stringProperty: string;
-    public numberProperty: number;
-    public typeToIgnoreProperty: TypeToIgnore;
-    public enumToIgnoreProperty: EnumToIgnore;
+    public constructor(init: Partial<WeatherForecast> = undefined) {
+        Object.assign(this, init);
+    }
 }

@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ServiceFromAspNetCoreSignalRHub.Hubs;
+using ServiceFromAspNetCoreSignalRHub.Services;
 
 namespace ServiceFromAspNetCoreSignalRHub
 {
@@ -23,6 +24,7 @@ namespace ServiceFromAspNetCoreSignalRHub
         {
             services.AddControllersWithViews();
             services.AddSignalR();
+            services.AddSingleton<WeatherService>();
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
