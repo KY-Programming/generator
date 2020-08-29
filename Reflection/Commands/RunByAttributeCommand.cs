@@ -53,20 +53,21 @@ namespace KY.Generator.Reflection.Commands
                         }
                         return commandConfiguration;
                     }));
-                }
-                foreach (IGeneratorCommandAdditionalParameterAttribute attribute in attributes.OfType<IGeneratorCommandAdditionalParameterAttribute>())
-                {
-                    foreach (AttributeCommandConfiguration additionalParameters in attribute.Commands)
+                    foreach (IGeneratorCommandAdditionalParameterAttribute additionalParameterAttribute in attributes.OfType<IGeneratorCommandAdditionalParameterAttribute>())
                     {
-                        foreach (CommandConfiguration commandConfiguration in commands.Where(x => x.Command == additionalParameters.Command))
+                        foreach (AttributeCommandConfiguration additionalParameters in additionalParameterAttribute.Commands)
                         {
-                            commandConfiguration.AddParameters(additionalParameters.Parameters);
+                            foreach (CommandConfiguration commandConfiguration in commands.Where(x => x.Command == additionalParameters.Command))
+                            {
+                                commandConfiguration.AddParameters(additionalParameters.Parameters);
+                            }
                         }
                     }
-                }
-                if (commands.Count > 0)
-                {
-                    commandRunner.Run(commands, output);
+                    if (commands.Count > 0)
+                    {
+                        commandRunner.Run(commands, output);
+                        this.environment.TransferObjects.Clear();
+                    }
                 }
             }
             return true;

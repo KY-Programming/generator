@@ -33,8 +33,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KY.Generator.Reflection.Tes
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KY.Generator.OpenApi", "OpenApi\KY.Generator.OpenApi.csproj", "{F05EFD34-C3B0-4334-9739-925F67DAEB99}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KY.Generator.Tests", "Tests\KY.Generator.Tests.csproj", "{40398861-DCF0-4349-B10A-AFCFDE993B52}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KY.Generator.Core.Tests", "Core.Tests\KY.Generator.Core.Tests.csproj", "{1CFB1E50-F250-448C-8ED5-144544D72638}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KY.Generator.Json.Tests", "Json.Tests\KY.Generator.Json.Tests.csproj", "{FE25DBA7-CF52-437D-A3D3-1A1F4E42FB5B}"
@@ -54,6 +52,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KY.Generator.Angular.Tests", "Angular.Tests\KY.Generator.Angular.Tests.csproj", "{3DD71148-B830-44F3-A2AF-B06F8607D174}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KY.Generator.Reflection.Annotations", "Reflection.Annotations\KY.Generator.Reflection.Annotations.csproj", "{2EE3EB76-45E8-482C-AF13-EE65F4A38B5F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KY.Generator.Tests", "Tests\Generator\KY.Generator.Tests.csproj", "{CD7B6707-035E-481B-9BE6-0FDDB551B2E3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -183,14 +183,6 @@ Global
 		{F05EFD34-C3B0-4334-9739-925F67DAEB99}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F05EFD34-C3B0-4334-9739-925F67DAEB99}.Release|x86.ActiveCfg = Release|Any CPU
 		{F05EFD34-C3B0-4334-9739-925F67DAEB99}.Release|x86.Build.0 = Release|Any CPU
-		{40398861-DCF0-4349-B10A-AFCFDE993B52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{40398861-DCF0-4349-B10A-AFCFDE993B52}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{40398861-DCF0-4349-B10A-AFCFDE993B52}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{40398861-DCF0-4349-B10A-AFCFDE993B52}.Debug|x86.Build.0 = Debug|Any CPU
-		{40398861-DCF0-4349-B10A-AFCFDE993B52}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{40398861-DCF0-4349-B10A-AFCFDE993B52}.Release|Any CPU.Build.0 = Release|Any CPU
-		{40398861-DCF0-4349-B10A-AFCFDE993B52}.Release|x86.ActiveCfg = Release|Any CPU
-		{40398861-DCF0-4349-B10A-AFCFDE993B52}.Release|x86.Build.0 = Release|Any CPU
 		{1CFB1E50-F250-448C-8ED5-144544D72638}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1CFB1E50-F250-448C-8ED5-144544D72638}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1CFB1E50-F250-448C-8ED5-144544D72638}.Debug|x86.ActiveCfg = Debug|Any CPU
@@ -271,6 +263,14 @@ Global
 		{2EE3EB76-45E8-482C-AF13-EE65F4A38B5F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2EE3EB76-45E8-482C-AF13-EE65F4A38B5F}.Release|x86.ActiveCfg = Release|Any CPU
 		{2EE3EB76-45E8-482C-AF13-EE65F4A38B5F}.Release|x86.Build.0 = Release|Any CPU
+		{CD7B6707-035E-481B-9BE6-0FDDB551B2E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD7B6707-035E-481B-9BE6-0FDDB551B2E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD7B6707-035E-481B-9BE6-0FDDB551B2E3}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CD7B6707-035E-481B-9BE6-0FDDB551B2E3}.Debug|x86.Build.0 = Debug|Any CPU
+		{CD7B6707-035E-481B-9BE6-0FDDB551B2E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD7B6707-035E-481B-9BE6-0FDDB551B2E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD7B6707-035E-481B-9BE6-0FDDB551B2E3}.Release|x86.ActiveCfg = Release|Any CPU
+		{CD7B6707-035E-481B-9BE6-0FDDB551B2E3}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
