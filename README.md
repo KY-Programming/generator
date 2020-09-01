@@ -4,7 +4,7 @@
 
 Install nuget package [KY.Generator](https://www.nuget.org/packages/KY.Generator/) ![](https://img.shields.io/nuget/v/KY.Generator.svg?style=flat)
 
-All dependencies are included. At least .net Framework 4.6.1, .net Standard 2.0 or.net Core 2.0 is required
+All dependencies are included. At least .net Framework 4.6.1, .net Standard 2.0 or .net Core 2.0 is required
 
 For lower framework version please [create an issue](https://github.com/KY-Programming/generator/issues/new) and we will try to support your version
 
