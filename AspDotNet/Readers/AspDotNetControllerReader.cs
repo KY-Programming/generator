@@ -43,16 +43,22 @@ namespace KY.Generator.AspDotNet.Readers
             MethodInfo[] methods = type.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
             foreach (MethodInfo method in methods)
             {
+                string fallbackRoute = null;
                 Type returnType = method.ReturnType.IgnoreGeneric("System.Threading.Tasks", "Task")
                                         .IgnoreGeneric("Microsoft.AspNetCore.Mvc", "IActionResult")
                                         .IgnoreGeneric("Microsoft.AspNetCore.Mvc", "ActionResult");
                 this.modelReader.Read(returnType, transferObjects);
+                Attribute methodRouteAttribute = method.GetCustomAttributes().FirstOrDefault(x => x.GetType().Name == "RouteAttribute");
+                if (methodRouteAttribute != null)
+                {
+                    fallbackRoute = methodRouteAttribute.GetType().GetProperty("Template")?.GetValue(methodRouteAttribute)?.ToString();
+                }
                 foreach (Attribute attribute in method.GetCustomAttributes())
                 {
                     Type attributeType = attribute.GetType();
                     HttpServiceActionTransferObject action = new HttpServiceActionTransferObject();
                     action.ReturnType = returnType.ToTransferObject();
-                    action.Route = attributeType.GetProperty("Template")?.GetValue(attribute)?.ToString();
+                    action.Route = attributeType.GetProperty("Template")?.GetValue(attribute)?.ToString() ?? fallbackRoute;
                     int methodNameIndex = 1;
                     while (true)
                     {
@@ -90,6 +96,7 @@ namespace KY.Generator.AspDotNet.Readers
                         case "DebuggerStepThroughAttribute":
                         case "AsyncStateMachineAttribute":
                         case "AuthorizeAttribute":
+                        case "RouteAttribute":
                             // Ignore these attributes
                             continue;
                         default:
