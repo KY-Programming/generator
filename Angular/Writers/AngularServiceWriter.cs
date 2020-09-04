@@ -99,15 +99,15 @@ namespace KY.Generator.Angular.Writers
                     code.AddLine(nextMethod.Close())
                         .AddLine(Code.Local("subject").Method("complete").Close());
                     ChainedCodeFragment parameterUrl = Code.This().Field(serviceUrlField);
-                    if (inlineParameters.Count == 0)
-                    {
-                        parameterUrl = parameterUrl.Append(Code.String(uri));
-                    }
                     foreach (HttpServiceActionParameterTransferObject parameter in inlineParameters)
                     {
                         string[] chunks = uri.Split(new[] { $"{{{parameter.Name}}}" }, StringSplitOptions.RemoveEmptyEntries);
                         parameterUrl = parameterUrl.Append(Code.String(chunks[0])).Append(Code.Local(parameter.Name));
                         uri = chunks.Length == 1 ? string.Empty : chunks[1];
+                    }
+                    if (!string.IsNullOrEmpty(uri))
+                    {
+                        parameterUrl = parameterUrl.Append(Code.String(uri));
                     }
                     bool isFirst = true;
                     foreach (HttpServiceActionParameterTransferObject parameter in urlDirectParameters)
