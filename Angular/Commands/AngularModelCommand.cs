@@ -3,6 +3,7 @@ using KY.Core.Dependency;
 using KY.Generator.Angular.Configurations;
 using KY.Generator.Angular.Writers;
 using KY.Generator.Command;
+using KY.Generator.Command.Extensions;
 using KY.Generator.Models;
 using KY.Generator.Output;
 using KY.Generator.Templates;
@@ -24,8 +25,10 @@ namespace KY.Generator.Angular.Commands
         public bool Generate(CommandConfiguration configuration, ref IOutput output)
         {
             AngularWriteConfiguration writeConfiguration = new AngularWriteConfiguration(configuration);
+            writeConfiguration.ReadFromParameters(configuration.Parameters);
             writeConfiguration.FormatNames = configuration.Parameters.GetBool(nameof(AngularWriteConfiguration.FormatNames), true);
             writeConfiguration.Model = new AngularWriteModelConfiguration();
+            writeConfiguration.Model.CopyBaseFrom(writeConfiguration);
             writeConfiguration.Model.Namespace = configuration.Parameters.GetString(nameof(AngularWriteModelConfiguration.Namespace));
             writeConfiguration.Model.RelativePath = configuration.Parameters.GetString(nameof(AngularWriteModelConfiguration.RelativePath));
             writeConfiguration.Model.SkipNamespace = configuration.Parameters.GetBool(nameof(AngularWriteModelConfiguration.SkipNamespace), true);

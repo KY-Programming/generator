@@ -57,7 +57,7 @@ namespace KY.Generator.Reflection.Commands
                     {
                         foreach (AttributeCommandConfiguration additionalParameters in additionalParameterAttribute.Commands)
                         {
-                            foreach (CommandConfiguration commandConfiguration in commands.Where(x => x.Command == additionalParameters.Command))
+                            foreach (CommandConfiguration commandConfiguration in commands.Where(x => x.Command == additionalParameters.Command || additionalParameters.Command == "*"))
                             {
                                 commandConfiguration.AddParameters(additionalParameters.Parameters);
                             }

@@ -2,7 +2,7 @@
 
 namespace ReflectionFromIndex
 {
-    [GenerateIndex(OutputLanguage.Inherit, "Output")]
+    [GenerateIndex(OutputLanguage.TypeScript, "Output")]
     internal class Index
     {
         public TypeToRead type1;

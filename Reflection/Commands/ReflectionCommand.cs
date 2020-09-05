@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using KY.Core;
 using KY.Generator.Command;
+using KY.Generator.Command.Extensions;
 using KY.Generator.Csharp.Languages;
 using KY.Generator.Languages;
 using KY.Generator.Output;
@@ -60,6 +61,7 @@ namespace KY.Generator.Reflection.Commands
                             }
 
                             ReflectionReadConfiguration readConfiguration = new ReflectionReadConfiguration();
+                            readConfiguration.ReadFromParameters(configuration.Parameters);
                             readConfiguration.CopyBaseFrom(configuration);
                             readConfiguration.Language = language;
                             readConfiguration.Name = objectType.Name;
@@ -70,6 +72,7 @@ namespace KY.Generator.Reflection.Commands
                             this.reader.Read(readConfiguration, transferObjects);
 
                             ReflectionWriteConfiguration writeConfiguration = new ReflectionWriteConfiguration();
+                            writeConfiguration.ReadFromParameters(configuration.Parameters);
                             writeConfiguration.CopyBaseFrom(configuration);
                             writeConfiguration.Language = language;
                             writeConfiguration.Namespace = objectType.Namespace;

@@ -1,9 +1,9 @@
-﻿using System;
-using KY.Generator;
+﻿using KY.Generator;
 
 namespace AnnotationsWithMultipleOutputs
 {
     [GenerateAngularModel("Output\\First")]
+    [GenerateOption(GenerateOption.SkipHeader)]
     public class FirstType
     {
         public string StringProperty { get; set; }

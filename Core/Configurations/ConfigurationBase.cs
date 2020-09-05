@@ -8,15 +8,15 @@ namespace KY.Generator.Configurations
 {
     public abstract class ConfigurationBase : IConfiguration
     {
-        public bool VerifySsl { get; set; } = true;
+        public virtual bool VerifySsl { get; set; } = true;
 
         [JsonIgnore]
-        public ILanguage Language { get; set; }
+        public virtual ILanguage Language { get; set; }
 
         [JsonProperty("Language")]
-        internal string LanguageKey { get; set; }
+        internal virtual string LanguageKey { get; set; }
 
-        public bool AddHeader { get; set; } = true;
+        public virtual bool AddHeader { get; set; } = true;
         public virtual bool RequireLanguage => true;
 
         public List<ClassMapping> ClassMapping { get; }

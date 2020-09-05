@@ -1,5 +1,6 @@
 ﻿using KY.Core.Dependency;
 using KY.Generator.Command;
+using KY.Generator.Command.Extensions;
 using KY.Generator.Models;
 using KY.Generator.Output;
 using KY.Generator.Reflection.Configurations;
@@ -22,6 +23,7 @@ namespace KY.Generator.Reflection.Commands
         public bool Generate(CommandConfiguration configuration, ref IOutput output)
         {
             ReflectionReadConfiguration readConfiguration = new ReflectionReadConfiguration();
+            readConfiguration.ReadFromParameters(configuration.Parameters);
             readConfiguration.CopyBaseFrom(configuration);
             readConfiguration.Assembly = configuration.Parameters.GetString(nameof(ReflectionReadConfiguration.Assembly));
             readConfiguration.Namespace = configuration.Parameters.GetString(nameof(ReflectionReadConfiguration.Namespace));

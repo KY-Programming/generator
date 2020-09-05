@@ -2,6 +2,7 @@
 using KY.Generator.AspDotNet.Configurations;
 using KY.Generator.AspDotNet.Readers;
 using KY.Generator.Command;
+using KY.Generator.Command.Extensions;
 using KY.Generator.Models;
 using KY.Generator.Output;
 
@@ -22,6 +23,7 @@ namespace KY.Generator.AspDotNet.Commands
         public bool Generate(CommandConfiguration configuration, ref IOutput output)
         {
             AspDotNetReadConfiguration readConfiguration = new AspDotNetReadConfiguration();
+            readConfiguration.ReadFromParameters(configuration.Parameters);
             readConfiguration.Hub = new AspDotNetReadHubConfiguration();
             readConfiguration.Hub.Namespace = configuration.Parameters.GetString(nameof(AspDotNetReadHubConfiguration.Namespace));
             readConfiguration.Hub.Name = configuration.Parameters.GetString(nameof(AspDotNetReadHubConfiguration.Name));
