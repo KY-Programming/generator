@@ -24,14 +24,30 @@ namespace KY.Generator.Transfer.Extensions
 
         public static void FromType(this TypeTransferObject transferObject, Type type)
         {
-            transferObject.Name = type == null ? null : type.Name.Split('`').First();
-            transferObject.Namespace = type == null ? null : type.Namespace;
-            if (type != null)
+            if (type == null)
             {
+                return;
+            }
+            if (type.IsGenericType)
+            {
+                transferObject.Name = type.Name.Split('`').First();
+                transferObject.Namespace = type.Namespace;
                 foreach (Type argument in type.GetGenericArguments())
                 {
                     transferObject.Generics.Add(new GenericAliasTransferObject { Type = argument.ToTransferObject() });
                 }
+            }
+            else if (type.IsArray)
+            {
+                transferObject.Name = "Array";
+                transferObject.Namespace = "System";
+                Type argument = type.GetElementType() ?? typeof(object);
+                transferObject.Generics.Add(new GenericAliasTransferObject { Type = argument.ToTransferObject() });
+            }
+            else
+            {
+                transferObject.Name = type.Name;
+                transferObject.Namespace = type.Namespace;
             }
         }
     }
