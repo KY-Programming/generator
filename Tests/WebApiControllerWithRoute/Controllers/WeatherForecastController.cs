@@ -4,12 +4,14 @@ using System.Linq;
 using KY.Generator;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using WebApiControllerWithRoute.Models;
 
 namespace WebApiControllerWithRoute.Controllers
 {
     [ApiController]
     [Route("[controller]")]
     [GenerateAngularService("\\ClientApp\\src\\app\\services", "\\ClientApp\\src\\app\\models")]
+    [GenerateOption(GenerateOption.SkipHeader)]
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
@@ -84,6 +86,19 @@ namespace WebApiControllerWithRoute.Controllers
         public void Test5(int test)
         {
 
+        }
+
+        [HttpGet, Route("test6/{test}")]
+        public string[] Test6(int test)
+        {
+            return Enumerable.Empty<string>().ToArray();
+        }
+
+        [HttpGet, Route("test7/{test}")]
+        [GenerateIgnoreGeneric(typeof(IgnoreMe<>))]
+        public IgnoreMe<string[]> Test7(int test)
+        {
+            return new IgnoreMe<string[]>(Enumerable.Empty<string>().ToArray());
         }
     }
 }
