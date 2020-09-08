@@ -19,12 +19,12 @@
       <Framework Condition="$(FrameworkRaw.StartsWith('2.'))">netcoreapp2.0</Framework>
       <Framework Condition="$(FrameworkRaw.StartsWith('3.'))">netcoreapp3.0</Framework>
     </PropertyGroup>
-    <Exec Command="%22%25USERPROFILE%25\.nuget\packages\ky.generator\5.0.1\tools\$(Framework)\KY.Generator.exe%22 %22$(ProjectDir)generator.json%22 -output=%22$(ProjectDir)\%22 -assembly=%22$(TargetPath)%22 -platform=%22$(GeneratorPlatform)%22 msbuild beforeBuild"
+    <Exec Command="%22%25USERPROFILE%25\.nuget\packages\ky.generator\5.1.0\tools\$(Framework)\KY.Generator.exe%22 %22$(ProjectDir)generator.json%22 -output=%22$(ProjectDir)\%22 -assembly=%22$(TargetPath)%22 -platform=%22$(GeneratorPlatform)%22 msbuild beforeBuild"
           Condition="$(Framework) != 'netcoreapp2.0'"
           CustomErrorRegularExpression="^Error:"
           CustomWarningRegularExpression="^Warning:">
     </Exec>
-    <Exec Command="dotnet %22%25USERPROFILE%25\.nuget\packages\ky.generator\5.0.1\tools\$(Framework)\KY.Generator.dll%22 %22$(ProjectDir)generator.json%22 -output=%22$(ProjectDir)\%22 -assembly=%22$(TargetPath)%22 -plattform=%22$(Plattform)%22 msbuild beforeBuild"
+    <Exec Command="dotnet %22%25USERPROFILE%25\.nuget\packages\ky.generator\5.1.0\tools\$(Framework)\KY.Generator.dll%22 %22$(ProjectDir)generator.json%22 -output=%22$(ProjectDir)\%22 -assembly=%22$(TargetPath)%22 -plattform=%22$(Plattform)%22 msbuild beforeBuild"
           Condition="$(Framework) == 'netcoreapp2.0'"
           CustomErrorRegularExpression="^Error:"
           CustomWarningRegularExpression="^Warning:">
@@ -38,12 +38,12 @@
       <Framework Condition="$(FrameworkRaw.StartsWith('2.'))">netcoreapp2.0</Framework>
       <Framework Condition="$(FrameworkRaw.StartsWith('3.'))">netcoreapp3.0</Framework>
     </PropertyGroup>
-    <Exec Command="%22%25USERPROFILE%25\.nuget\packages\ky.generator\5.0.1\tools\$(Framework)\KY.Generator.exe%22 %22$(ProjectDir)generator.json%22 -output=%22$(ProjectDir)\%22 -assembly=%22$(TargetPath)%22 -platform=%22$(GeneratorPlatform)%22 msbuild"
+    <Exec Command="%22%25USERPROFILE%25\.nuget\packages\ky.generator\5.1.0\tools\$(Framework)\KY.Generator.exe%22 %22$(ProjectDir)generator.json%22 -output=%22$(ProjectDir)\%22 -assembly=%22$(TargetPath)%22 -platform=%22$(GeneratorPlatform)%22 msbuild"
           Condition="$(Framework) != 'netcoreapp2.0'"
           CustomErrorRegularExpression="^Error:"
           CustomWarningRegularExpression="^Warning:">
     </Exec>
-    <Exec Command="dotnet %22%25USERPROFILE%25\.nuget\packages\ky.generator\5.0.1\tools\$(Framework)\KY.Generator.dll%22 %22$(ProjectDir)generator.json%22 -output=%22$(ProjectDir)\%22 -assembly=%22$(TargetPath)%22 -plattform=%22$(Plattform)%22 msbuild"
+    <Exec Command="dotnet %22%25USERPROFILE%25\.nuget\packages\ky.generator\5.1.0\tools\$(Framework)\KY.Generator.dll%22 %22$(ProjectDir)generator.json%22 -output=%22$(ProjectDir)\%22 -assembly=%22$(TargetPath)%22 -plattform=%22$(Plattform)%22 msbuild"
           Condition="$(Framework) == 'netcoreapp2.0'"
           CustomErrorRegularExpression="^Error:"
           CustomWarningRegularExpression="^Warning:">
@@ -59,7 +59,7 @@
       <Framework Condition="$(FrameworkRaw.StartsWith('2.'))">netcoreapp2.0</Framework>
       <Framework Condition="$(FrameworkRaw.StartsWith('3.'))">netcoreapp3.0</Framework>
     </PropertyGroup>
-    <Exec Command="dotnet %22~/.nuget/packages/ky.generator/5.0.1/tools/$(Framework)/KY.Generator.dll%22 %22$(ProjectDir)generator.json%22 -output=%22$(ProjectDir)%22 -assembly=%22$(TargetPath)%22 -platform=%22$(GeneratorPlatform)%22 msbuild beforeBuild"
+    <Exec Command="dotnet %22~/.nuget/packages/ky.generator/5.1.0/tools/$(Framework)/KY.Generator.dll%22 %22$(ProjectDir)generator.json%22 -output=%22$(ProjectDir)%22 -assembly=%22$(TargetPath)%22 -platform=%22$(GeneratorPlatform)%22 msbuild beforeBuild"
           Condition="$(Framework) != 'none'"
           CustomErrorRegularExpression="^Error:"
           CustomWarningRegularExpression="^Warning:">
@@ -76,7 +76,7 @@
       <Framework Condition="$(FrameworkRaw.StartsWith('2.'))">netcoreapp2.0</Framework>
       <Framework Condition="$(FrameworkRaw.StartsWith('3.'))">netcoreapp3.0</Framework>
     </PropertyGroup>
-    <Exec Command="dotnet %22~/.nuget/packages/ky.generator/5.0.1/tools/$(Framework)/KY.Generator.dll%22 %22$(ProjectDir)generator.json%22 -output=%22$(ProjectDir)%22 -assembly=%22$(TargetPath)%22 -platform=%22$(GeneratorPlatform)%22 msbuild"
+    <Exec Command="dotnet %22~/.nuget/packages/ky.generator/5.1.0/tools/$(Framework)/KY.Generator.dll%22 %22$(ProjectDir)generator.json%22 -output=%22$(ProjectDir)%22 -assembly=%22$(TargetPath)%22 -platform=%22$(GeneratorPlatform)%22 msbuild"
           Condition="$(Framework) != 'none'"
           CustomErrorRegularExpression="^Error:"
           CustomWarningRegularExpression="^Warning:">
@@ -95,7 +95,7 @@
       <Framework Condition="$(FrameworkRaw.StartsWith('2.'))">netcoreapp2.0</Framework>
       <Framework Condition="$(FrameworkRaw.StartsWith('3.'))">netcoreapp3.0</Framework>
     </PropertyGroup>
-    <Exec Command="dotnet %22~/.nuget/packages/ky.generator/5.0.1/tools/$(Framework)/KY.Generator.dll%22 %22$(ProjectDir)generator.json%22 -output=%22$(ProjectDir)%22 -assembly=%22$(TargetPath)%22 -platform=%22$(GeneratorPlatform)%22 msbuild beforeBuild"
+    <Exec Command="dotnet %22~/.nuget/packages/ky.generator/5.1.0/tools/$(Framework)/KY.Generator.dll%22 %22$(ProjectDir)generator.json%22 -output=%22$(ProjectDir)%22 -assembly=%22$(TargetPath)%22 -platform=%22$(GeneratorPlatform)%22 msbuild beforeBuild"
           Condition="$(Framework) != 'none'"
           CustomErrorRegularExpression="^Error:"
           CustomWarningRegularExpression="^Warning:">
@@ -112,7 +112,7 @@
       <Framework Condition="$(FrameworkRaw.StartsWith('2.'))">netcoreapp2.0</Framework>
       <Framework Condition="$(FrameworkRaw.StartsWith('3.'))">netcoreapp3.0</Framework>
     </PropertyGroup>
-    <Exec Command="dotnet %22~/.nuget/packages/ky.generator/5.0.1/tools/$(Framework)/KY.Generator.dll%22 %22$(ProjectDir)generator.json%22 -output=%22$(ProjectDir)%22 -assembly=%22$(TargetPath)%22 -platform=%22$(GeneratorPlatform)%22 msbuild"
+    <Exec Command="dotnet %22~/.nuget/packages/ky.generator/5.1.0/tools/$(Framework)/KY.Generator.dll%22 %22$(ProjectDir)generator.json%22 -output=%22$(ProjectDir)%22 -assembly=%22$(TargetPath)%22 -platform=%22$(GeneratorPlatform)%22 msbuild"
           Condition="$(Framework) != 'none'"
           CustomErrorRegularExpression="^Error:"
           CustomWarningRegularExpression="^Warning:">
