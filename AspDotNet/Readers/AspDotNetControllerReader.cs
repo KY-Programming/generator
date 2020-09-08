@@ -37,7 +37,7 @@ namespace KY.Generator.AspDotNet.Readers
             controller.Name = type.Name;
             controller.Language = ReflectionLanguage.Instance;
 
-            Attribute routeAttribute = type.GetCustomAttributes().FirstOrDefault();
+            Attribute routeAttribute = type.GetCustomAttributes().FirstOrDefault(x => x.GetType().Name == "Route");
             controller.Route = routeAttribute?.GetType().GetProperty("Template")?.GetValue(routeAttribute)?.ToString();
 
             MethodInfo[] methods = type.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
@@ -47,6 +47,11 @@ namespace KY.Generator.AspDotNet.Readers
                 Type returnType = method.ReturnType.IgnoreGeneric("System.Threading.Tasks", "Task")
                                         .IgnoreGeneric("Microsoft.AspNetCore.Mvc", "IActionResult")
                                         .IgnoreGeneric("Microsoft.AspNetCore.Mvc", "ActionResult");
+
+                foreach (GenerateIgnoreGenericAttribute attribute in method.GetCustomAttributes<GenerateIgnoreGenericAttribute>())
+                {
+                    returnType = returnType.IgnoreGeneric(attribute.Type);
+                }
                 this.modelReader.Read(returnType, transferObjects);
                 Attribute methodRouteAttribute = method.GetCustomAttributes().FirstOrDefault(x => x.GetType().Name == "RouteAttribute");
                 if (methodRouteAttribute != null)
@@ -97,6 +102,7 @@ namespace KY.Generator.AspDotNet.Readers
                         case "AsyncStateMachineAttribute":
                         case "AuthorizeAttribute":
                         case "RouteAttribute":
+                        case nameof(GenerateIgnoreGenericAttribute):
                             // Ignore these attributes
                             continue;
                         default:

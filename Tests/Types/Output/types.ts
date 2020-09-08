@@ -7,7 +7,10 @@
 // ------------------------------------------------------------------------------
 // tslint:disable
 
-export class TypeToRead {
-    public stringProperty: string;
-    public numberProperty: number;
+import { SubType } from "./sub-type";
+
+export class Types {
+    public stringArrayProperty: string[];
+    public stringList: string[];
+    public subTypeList: SubType[];
 }

@@ -7,7 +7,6 @@
 // ------------------------------------------------------------------------------
 // tslint:disable
 
-export class TypeToRead {
-    public stringProperty: string;
-    public numberProperty: number;
+export class SubType {
+    public property: string;
 }

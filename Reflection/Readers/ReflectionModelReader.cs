@@ -50,11 +50,8 @@ namespace KY.Generator.Reflection.Readers
         private void ReadArray(Type type, ModelTransferObject model, List<ITransferObject> transferObjects)
         {
             Logger.Trace($"Reflection read array {type.Name} ({type.Namespace})");
-            model.Name = "Array";
             model.IsGeneric = true;
             model.FromSystem = true;
-            Type argument = type.GetElementType() ?? typeof(object);
-            model.Generics.Add(new GenericAliasTransferObject { Type = this.Read(argument, transferObjects) });
         }
 
         private void ReadGenericFromSystem(Type type, ModelTransferObject model, List<ITransferObject> transferObjects)

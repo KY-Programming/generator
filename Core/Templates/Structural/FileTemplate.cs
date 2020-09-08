@@ -24,7 +24,7 @@ namespace KY.Generator.Templates
 
         public FileTemplate(string relativePath = null, bool addHeader = true, bool checkOnOverwrite = true)
         {
-            this.CheckOnOverwrite = checkOnOverwrite;
+            this.CheckOnOverwrite = checkOnOverwrite && addHeader;
             this.RelativePath = relativePath ?? string.Empty;
             this.Namespaces = new List<NamespaceTemplate>();
             this.Header = new CommentTemplate(addHeader ? Resources.Header : null);

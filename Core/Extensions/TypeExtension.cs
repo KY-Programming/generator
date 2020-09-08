@@ -10,5 +10,10 @@ namespace KY.Generator.Extensions
         {
             return type.Namespace == nameSpace && type.Name.TrimEnd("`1") == typeName.TrimEnd("`1") ? type.GetGenericArguments().SingleOrDefault() ?? typeof(void) : type;
         }
+
+        public static Type IgnoreGeneric(this Type type, Type typeToIgnore)
+        {
+            return type.IgnoreGeneric(typeToIgnore.Namespace, typeToIgnore.Name);
+        }
     }
 }
