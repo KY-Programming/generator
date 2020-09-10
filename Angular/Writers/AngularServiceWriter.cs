@@ -83,7 +83,7 @@ namespace KY.Generator.Angular.Writers
                     methodTemplate.AddParameter(Code.Type("{}"), "httpOptions", Code.Null());
                     TypeTemplate subjectType = Code.Generic("Subject", returnType);
                     methodTemplate.WithCode(Code.Declare(subjectType, "subject", Code.New(subjectType)));
-                    string uri = ("/" + (controller.Route?.Replace("[controller]", controllerName.ToLower()).TrimEnd('/') ?? controllerName) + "/" + action.Route?.Replace("[action]", action.Name.ToLower())).TrimEnd('/');
+                    string uri = ("/" + (controller.Route?.Replace("[controller]", controllerName.ToLower()).TrimEnd('/') ?? controllerName.ToLower()) + "/" + action.Route?.Replace("[action]", action.Name.ToLower())).TrimEnd('/');
 
                     List<HttpServiceActionParameterTransferObject> inlineParameters = action.Parameters.Where(x => !x.FromBody && x.Inline).OrderBy(x => x.InlineIndex).ToList();
                     List<HttpServiceActionParameterTransferObject> urlParameters = action.Parameters.Where(x => !x.FromBody && !x.Inline && x.AppendName).ToList();

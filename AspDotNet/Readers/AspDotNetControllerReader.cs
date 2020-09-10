@@ -37,7 +37,7 @@ namespace KY.Generator.AspDotNet.Readers
             controller.Name = type.Name;
             controller.Language = ReflectionLanguage.Instance;
 
-            Attribute routeAttribute = type.GetCustomAttributes().FirstOrDefault(x => x.GetType().Name == "Route");
+            Attribute routeAttribute = type.GetCustomAttributes().FirstOrDefault(x => x.GetType().Name == "RouteAttribute");
             controller.Route = routeAttribute?.GetType().GetProperty("Template")?.GetValue(routeAttribute)?.ToString();
 
             MethodInfo[] methods = type.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
