@@ -182,7 +182,6 @@ namespace KY.Generator.Angular.Writers
             foreach (SignalRHubTransferObject hub in hubs)
             {
                 string relativeModelPath = FileSystem.RelativeTo(configuration.Model?.RelativePath ?? ".", configuration.Service.RelativePath);
-                bool appendConvertDateMethod = false;
                 IMappableLanguage hubLanguage = hub.Language as IMappableLanguage;
                 IMappableLanguage configurationLanguage = configuration.Language as IMappableLanguage;
                 FileTemplate file = files.AddFile(configuration.Service.RelativePath, configuration.AddHeader, configuration.CheckOnOverwrite);
