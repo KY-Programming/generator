@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="KY.Generator" Version="5.1.0" />
+    <PackageReference Include="KY.Generator" Version="5.1.2" />
     <PackageReference Include="KY.Generator.Reflection.Annotations" Version="5.0.0-rc.0" />
   </ItemGroup>
 

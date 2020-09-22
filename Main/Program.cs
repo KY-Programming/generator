@@ -12,6 +12,16 @@ namespace KY.Generator
 
         private static void Main(string[] args)
         {
+#if DEBUG
+            if (args.Length == 0)
+            {
+                //args = new[] { @"C:\Projekte\Misc\generator\Tests\AnnotationsWithMultipleOutputs\generator.json", @"-output=C:\Projekte\Misc\generator\Tests\AnnotationsWithMultipleOutputs", @"-assembly=C:\Projekte\Misc\generator\Tests\AnnotationsWithMultipleOutputs\bin\Debug\netstandard2.0\AnnotationsWithMultipleOutputs.dll" };
+                //args = new[] { @"C:\Projekte\Misc\generator\Tests\Types\generator.json", @"-output=C:\Projekte\Misc\generator\Tests\Types", @"-assembly=C:\Projekte\Misc\generator\Tests\Types\bin\Debug\netstandard2.0\Types.dll" };
+                //args = new[] { @"C:\Projekte\Misc\generator\Examples\Reflection\ReflectionFromIndex\generator.json", @"-output=C:\Projekte\Misc\generator\Examples\Reflection\ReflectionFromIndex", @"-assembly=C:\Projekte\Misc\generator\Examples\Reflection\ReflectionFromIndex\bin\Debug\netstandard2.0\ReflectionFromIndex.dll" };
+                args = new[] { @"C:\Projekte\Misc\generator\Tests\WebApiControllerWithRoute\generator.json", @"-output=C:\Projekte\Misc\generator\Tests\WebApiControllerWithRoute", @"-assembly=C:\Projekte\Misc\generator\Tests\WebApiControllerWithRoute\bin\Debug\netcoreapp3.1\WebApiControllerWithRoute.dll" };
+                args = new[] { @"C:\Projekte\Web\Web\generator.json", @"-output=C:\Projekte\Web\Web", @"-assembly=C:\Projekte\Web\Web\bin\Debug\netcoreapp3.1\KY.Web.dll" };
+            }
+#endif
             bool success = LoadShared("KY.Core.Common")
                            && LoadShared("KY.Generator.Core")
                            && Run(args);
