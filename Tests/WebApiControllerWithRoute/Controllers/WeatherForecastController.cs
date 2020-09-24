@@ -12,6 +12,7 @@ namespace WebApiControllerWithRoute.Controllers
     [Route("[controller]")]
     [GenerateAngularService("\\ClientApp\\src\\app\\services", "\\ClientApp\\src\\app\\models")]
     [GenerateOption(GenerateOption.SkipHeader)]
+    [GenerateIgnoreGeneric(typeof(IgnoreMe2<>))]
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
@@ -99,6 +100,51 @@ namespace WebApiControllerWithRoute.Controllers
         public IgnoreMe<string[]> Test7(int test)
         {
             return new IgnoreMe<string[]>(Enumerable.Empty<string>().ToArray());
+        }
+
+        [HttpGet, Route("[action]")]
+        public IgnoreMe2<string[]> Test8()
+        {
+            return new IgnoreMe2<string[]>(Enumerable.Empty<string>().ToArray());
+        }
+
+        [HttpGet, Route("[action]")]
+        [GenerateIgnoreGeneric(typeof(IgnoreMe<>))]
+        [GenerateIgnoreGeneric(typeof(IgnoreMe3<>))]
+        public IgnoreMe3<IgnoreMe<string[]>> Test9()
+        {
+            return new IgnoreMe3<IgnoreMe<string[]>>(new IgnoreMe<string[]>(Enumerable.Empty<string>().ToArray()));
+        }
+
+        [HttpGet, Route("[action]")]
+        [GenerateIgnoreGeneric(typeof(IgnoreMe<>))]
+        [GenerateIgnoreGeneric(typeof(IgnoreMe3<>))]
+        public IgnoreMe<IgnoreMe3<string[]>> Test10()
+        {
+            return new IgnoreMe<IgnoreMe3<string[]>>(new IgnoreMe3<string[]>(Enumerable.Empty<string>().ToArray()));
+        }
+
+        [HttpGet, Route("[action]")]
+        [GenerateIgnoreGeneric(typeof(IgnoreMe3<>))]
+        [GenerateIgnoreGeneric(typeof(IgnoreMe<>))]
+        public IgnoreMe3<IgnoreMe<string[]>> Test11()
+        {
+            return new IgnoreMe3<IgnoreMe<string[]>>(new IgnoreMe<string[]>(Enumerable.Empty<string>().ToArray()));
+        }
+
+        [HttpGet, Route("[action]")]
+        [GenerateIgnoreGeneric(typeof(IgnoreMe3<>))]
+        [GenerateIgnoreGeneric(typeof(IgnoreMe<>))]
+        public IgnoreMe<IgnoreMe3<string[]>> Test12()
+        {
+            return new IgnoreMe<IgnoreMe3<string[]>>(new IgnoreMe3<string[]>(Enumerable.Empty<string>().ToArray()));
+        }
+
+        [HttpGet, Route("[action]")]
+        [GenerateIgnoreGeneric(typeof(IgnoreMe<>))]
+        public IgnoreMe<List<string>> Test13()
+        {
+            return new IgnoreMe<List<string>>(new List<string>());
         }
     }
 }

@@ -125,6 +125,60 @@ export class WeatherForecastService {
         return subject;
     }
 
+    public test8(httpOptions: {} = undefined): Observable<string[]> {
+        let subject = new Subject<string[]>();
+        this.http.get<string[]>(this.serviceUrl + "/weatherforecast/test8", httpOptions).subscribe((result) => {
+            subject.next(result);
+            subject.complete();
+        }, (error) => subject.error(error));
+        return subject;
+    }
+
+    public test9(httpOptions: {} = undefined): Observable<string[]> {
+        let subject = new Subject<string[]>();
+        this.http.get<string[]>(this.serviceUrl + "/weatherforecast/test9", httpOptions).subscribe((result) => {
+            subject.next(result);
+            subject.complete();
+        }, (error) => subject.error(error));
+        return subject;
+    }
+
+    public test10(httpOptions: {} = undefined): Observable<string[]> {
+        let subject = new Subject<string[]>();
+        this.http.get<string[]>(this.serviceUrl + "/weatherforecast/test10", httpOptions).subscribe((result) => {
+            subject.next(result);
+            subject.complete();
+        }, (error) => subject.error(error));
+        return subject;
+    }
+
+    public test11(httpOptions: {} = undefined): Observable<string[]> {
+        let subject = new Subject<string[]>();
+        this.http.get<string[]>(this.serviceUrl + "/weatherforecast/test11", httpOptions).subscribe((result) => {
+            subject.next(result);
+            subject.complete();
+        }, (error) => subject.error(error));
+        return subject;
+    }
+
+    public test12(httpOptions: {} = undefined): Observable<string[]> {
+        let subject = new Subject<string[]>();
+        this.http.get<string[]>(this.serviceUrl + "/weatherforecast/test12", httpOptions).subscribe((result) => {
+            subject.next(result);
+            subject.complete();
+        }, (error) => subject.error(error));
+        return subject;
+    }
+
+    public test13(httpOptions: {} = undefined): Observable<string[]> {
+        let subject = new Subject<string[]>();
+        this.http.get<string[]>(this.serviceUrl + "/weatherforecast/test13", httpOptions).subscribe((result) => {
+            subject.next(result);
+            subject.complete();
+        }, (error) => subject.error(error));
+        return subject;
+    }
+
     public convertAny(value: any): string {
         return value === null || value === undefined ? "" : value.toString();
     }

@@ -2,7 +2,7 @@
 
 namespace KY.Generator
 {
-    [AttributeUsage(AttributeTargets.Method, Inherited = false, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class, Inherited = false, AllowMultiple = true)]
     public class GenerateIgnoreGenericAttribute : Attribute
     {
         public Type Type { get; }

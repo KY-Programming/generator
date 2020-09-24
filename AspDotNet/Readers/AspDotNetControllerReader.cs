@@ -48,10 +48,10 @@ namespace KY.Generator.AspDotNet.Readers
                                         .IgnoreGeneric("Microsoft.AspNetCore.Mvc", "IActionResult")
                                         .IgnoreGeneric("Microsoft.AspNetCore.Mvc", "ActionResult");
 
-                foreach (GenerateIgnoreGenericAttribute attribute in method.GetCustomAttributes<GenerateIgnoreGenericAttribute>())
-                {
-                    returnType = returnType.IgnoreGeneric(attribute.Type);
-                }
+                IEnumerable<Type> typesToIgnore = method.GetCustomAttributes<GenerateIgnoreGenericAttribute>()
+                                                        .Concat(type.GetCustomAttributes<GenerateIgnoreGenericAttribute>())
+                                                        .Select(x => x.Type);
+                returnType = returnType.IgnoreGeneric(typesToIgnore);
                 this.modelReader.Read(returnType, transferObjects);
                 Attribute methodRouteAttribute = method.GetCustomAttributes().FirstOrDefault(x => x.GetType().Name == "RouteAttribute");
                 if (methodRouteAttribute != null)
