@@ -9,9 +9,9 @@ namespace KY.Generator
 {
     public static class Formatter
     {
-        public static string FormatFile(string name, IConfiguration configuration)
+        public static string FormatFile(string name, IConfiguration configuration, bool force = false)
         {
-            if (configuration is IFormattableConfiguration formattableConfiguration && !formattableConfiguration.FormatNames)
+            if (configuration is IFormattableConfiguration formattableConfiguration && !formattableConfiguration.FormatNames && !force)
             {
                 return name;
             }
@@ -19,9 +19,9 @@ namespace KY.Generator
             return configuration.Language is BaseLanguage baseLanguage ? baseLanguage.FormatFileName(name, false) : Format(name, formatting.FileCase, formatting.AllowedSpecialCharacters);
         }
 
-        public static string FormatClass(string name, IConfiguration configuration)
+        public static string FormatClass(string name, IConfiguration configuration, bool force = false)
         {
-            if (configuration is IFormattableConfiguration formattableConfiguration && !formattableConfiguration.FormatNames)
+            if (configuration is IFormattableConfiguration formattableConfiguration && !formattableConfiguration.FormatNames && !force)
             {
                 return name;
             }
@@ -29,9 +29,9 @@ namespace KY.Generator
             return Format(name, formatting.ClassCase, formatting.AllowedSpecialCharacters);
         }
 
-        public static string FormatField(string name, IConfiguration configuration)
+        public static string FormatField(string name, IConfiguration configuration, bool force = false)
         {
-            if (configuration is IFormattableConfiguration formattableConfiguration && !formattableConfiguration.FormatNames)
+            if (configuration is IFormattableConfiguration formattableConfiguration && !formattableConfiguration.FormatNames && !force)
             {
                 return name;
             }
@@ -44,9 +44,9 @@ namespace KY.Generator
             return formatNames && language is IFormattableLanguage formattableLanguage ? Format(name, formattableLanguage.Formatting.FieldCase, allowedCharacters) : name;
         }
 
-        public static string FormatProperty(string name, IConfiguration configuration)
+        public static string FormatProperty(string name, IConfiguration configuration, bool force = false)
         {
-            if (configuration is IFormattableConfiguration formattableConfiguration && !formattableConfiguration.FormatNames)
+            if (configuration is IFormattableConfiguration formattableConfiguration && !formattableConfiguration.FormatNames && !force)
             {
                 return name;
             }
@@ -54,9 +54,9 @@ namespace KY.Generator
             return Format(name, formatting.PropertyCase, formatting.AllowedSpecialCharacters);
         }
 
-        public static string FormatMethod(string name, IConfiguration configuration)
+        public static string FormatMethod(string name, IConfiguration configuration, bool force = false)
         {
-            if (configuration is IFormattableConfiguration formattableConfiguration && !formattableConfiguration.FormatNames)
+            if (configuration is IFormattableConfiguration formattableConfiguration && !formattableConfiguration.FormatNames && !force)
             {
                 return name;
             }
@@ -69,9 +69,9 @@ namespace KY.Generator
             return formatNames && language is IFormattableLanguage formattableLanguage ? Format(name, formattableLanguage.Formatting.MethodCase, allowedCharacters) : name;
         }
 
-        public static string FormatParameter(string name, IConfiguration configuration)
+        public static string FormatParameter(string name, IConfiguration configuration, bool force = false)
         {
-            if (configuration is IFormattableConfiguration formattableConfiguration && !formattableConfiguration.FormatNames)
+            if (configuration is IFormattableConfiguration formattableConfiguration && !formattableConfiguration.FormatNames && !force)
             {
                 return name;
             }

@@ -43,9 +43,9 @@ namespace KY.Generator.Templates.Extensions
             return field;
         }
 
-        public static FieldTemplate FormatName(this FieldTemplate field, IConfiguration configuration)
+        public static FieldTemplate FormatName(this FieldTemplate field, IConfiguration configuration, bool force = false)
         {
-            field.Name = Formatter.FormatField(field.Name, configuration);
+            field.Name = Formatter.FormatField(field.Name, configuration, force);
             return field;
         }
 

@@ -86,7 +86,7 @@ namespace KY.Generator.Transfer.Writers
             }
             if ((!type.FromSystem || type.FromSystem && configuration.Language.ImportFromSystem) && !string.IsNullOrEmpty(type.Namespace) && classTemplate.Namespace.Name != type.Namespace)
             {
-                string fileName = Formatter.FormatFile(type.Name, configuration);
+                string fileName = Formatter.FormatFile(type.Name, configuration, true);
                 classTemplate.AddUsing(type.Namespace, type.Name, $"{relativeModelPath.Replace("\\", "/").TrimEnd('/')}/{fileName}");
             }
             type.Generics.Where(x => x.Alias == null).ForEach(generic => this.AddUsing(generic.Type, classTemplate, configuration, relativeModelPath));

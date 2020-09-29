@@ -4,9 +4,9 @@ namespace KY.Generator.Templates.Extensions
 {
     public static class EnumTemplateExtension
     {
-        public static EnumTemplate FormatName(this EnumTemplate enumTemplate, IConfiguration configuration)
+        public static EnumTemplate FormatName(this EnumTemplate enumTemplate, IConfiguration configuration, bool force = false)
         {
-            enumTemplate.Name = Formatter.FormatClass(enumTemplate.Name, configuration);
+            enumTemplate.Name = Formatter.FormatClass(enumTemplate.Name, configuration, force);
             return enumTemplate;
         }
 

@@ -42,7 +42,7 @@ namespace KY.Generator.Angular.Writers
                 FileTemplate file = files.AddFile(configuration.Service.RelativePath, configuration.AddHeader, configuration.CheckOnOverwrite);
                 ClassTemplate classTemplate = file.AddNamespace(string.Empty)
                                                   .AddClass(configuration.Service.Name?.Replace("{0}", controllerName) ?? controllerName + "Service")
-                                                  .FormatName(configuration)
+                                                  .FormatName(configuration, true)
                                                   .WithUsing(httpClient, httpClientImport)
                                                   .WithUsing("Injectable", "@angular/core")
                                                   .WithUsing("Observable", "rxjs")
@@ -189,7 +189,7 @@ namespace KY.Generator.Angular.Writers
                 FileTemplate file = files.AddFile(configuration.Service.RelativePath, configuration.AddHeader, configuration.CheckOnOverwrite);
                 ClassTemplate classTemplate = file.AddNamespace(string.Empty)
                                                   .AddClass(configuration.Service.Name?.Replace("{0}", hub.Name) ?? hub.Name + "Service")
-                                                  .FormatName(configuration)
+                                                  .FormatName(configuration, true)
                                                   .WithUsing("Injectable", "@angular/core")
                                                   .WithUsing("Subject", "rxjs")
                                                   .WithUsing("Observable", "rxjs")
@@ -199,7 +199,7 @@ namespace KY.Generator.Angular.Writers
                                                   .WithUsing("HubConnectionBuilder", "@aspnet/signalr")
                                                   .WithUsing("HubConnectionState", "@aspnet/signalr")
                                                   .WithUsing("HubConnection", "@aspnet/signalr")
-                                                  .WithUsing(connectionStatusEnum.Name, FileSystem.Combine(relativeModelPath, Formatter.FormatFile(connectionStatusFileTemplate.Name, configuration)).Replace("\\", "/"))
+                                                  .WithUsing(connectionStatusEnum.Name, FileSystem.Combine(relativeModelPath, Formatter.FormatFile(connectionStatusFileTemplate.Name, configuration, true)).Replace("\\", "/"))
                                                   .WithAttribute("Injectable", Code.AnonymousObject().WithProperty("providedIn", Code.String("root")));
                 FieldTemplate serviceUrlField = classTemplate.AddField("serviceUrl", Code.Type("string")).Public().FormatName(configuration).Default(Code.String(string.Empty));
                 FieldTemplate connectionField = classTemplate.AddField("connection", Code.Type("HubConnection"));

@@ -113,9 +113,9 @@ namespace KY.Generator.Templates.Extensions
             return classTemplate;
         }
 
-        public static ClassTemplate FormatName(this ClassTemplate classTemplate, IConfiguration configuration)
+        public static ClassTemplate FormatName(this ClassTemplate classTemplate, IConfiguration configuration, bool force = false)
         {
-            classTemplate.Name = Formatter.FormatClass(classTemplate.Name, configuration);
+            classTemplate.Name = Formatter.FormatClass(classTemplate.Name, configuration, force);
             return classTemplate;
         }
     }
