@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -40,6 +41,10 @@ namespace KY.Generator.AspDotNet.Readers
             Attribute routeAttribute = type.GetCustomAttributes().FirstOrDefault(x => x.GetType().Name == "RouteAttribute");
             controller.Route = routeAttribute?.GetType().GetProperty("Template")?.GetValue(routeAttribute)?.ToString();
 
+            Attribute apiVersionAttribute = type.GetCustomAttributes().FirstOrDefault(x => x.GetType().Name == "ApiVersionAttribute");
+            IEnumerable<object> versions = apiVersionAttribute?.GetType().GetProperty("Versions")?.GetValue(apiVersionAttribute) as IEnumerable<object>;
+            controller.Version = versions?.Last().ToString();
+
             MethodInfo[] methods = type.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
             foreach (MethodInfo method in methods)
             {
@@ -47,6 +52,18 @@ namespace KY.Generator.AspDotNet.Readers
                 Type returnType = method.ReturnType.IgnoreGeneric("System.Threading.Tasks", "Task")
                                         .IgnoreGeneric("Microsoft.AspNetCore.Mvc", "IActionResult")
                                         .IgnoreGeneric("Microsoft.AspNetCore.Mvc", "ActionResult");
+
+                IEnumerable<Attribute> responseTypeAttributes = method.GetCustomAttributes().Where(x => x.GetType().Name == "ProducesResponseTypeAttribute");
+                foreach (Attribute responseTypeAttribute in responseTypeAttributes)
+                {
+                    Type responseTypeAttributeType = responseTypeAttribute.GetType();
+                    int statusCode = (int)responseTypeAttributeType.GetProperty("StatusCode").GetMethod.Invoke(responseTypeAttribute, null);
+                    if (statusCode == 200)
+                    {
+                        returnType = (Type)responseTypeAttributeType.GetProperty("Type").GetMethod.Invoke(responseTypeAttribute, null);
+                        break;
+                    }
+                }
 
                 IEnumerable<Type> typesToIgnore = method.GetCustomAttributes<GenerateIgnoreGenericAttribute>()
                                                         .Concat(type.GetCustomAttributes<GenerateIgnoreGenericAttribute>())
@@ -102,6 +119,8 @@ namespace KY.Generator.AspDotNet.Readers
                         case "AsyncStateMachineAttribute":
                         case "AuthorizeAttribute":
                         case "RouteAttribute":
+                        case "ProducesAttribute":
+                        case "ProducesResponseTypeAttribute":
                         case nameof(GenerateIgnoreGenericAttribute):
                             // Ignore these attributes
                             continue;

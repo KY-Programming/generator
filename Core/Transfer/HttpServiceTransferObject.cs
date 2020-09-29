@@ -7,6 +7,7 @@ namespace KY.Generator.Transfer
     {
         public string Name { get; set; }
         public string Route { get; set; }
+        public string Version { get; set; }
         public ILanguage Language { get; set; }
 
         public List<HttpServiceActionTransferObject> Actions { get; }

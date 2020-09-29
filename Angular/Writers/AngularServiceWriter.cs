@@ -53,6 +53,7 @@ namespace KY.Generator.Angular.Writers
                 classTemplate.AddConstructor().WithParameter(Code.Type(httpClient), "http")
                              .WithCode(Code.This().Field(httpField).Assign(Code.Local("http")).Close());
                 string relativeModelPath = FileSystem.RelativeTo(configuration.Model?.RelativePath ?? ".", configuration.Service.RelativePath);
+                relativeModelPath = string.IsNullOrEmpty(relativeModelPath) ? "." : relativeModelPath;
                 bool appendConvertAnyMethod = false;
                 bool appendConvertDateMethod = false;
                 foreach (HttpServiceActionTransferObject action in controller.Actions)
@@ -88,7 +89,6 @@ namespace KY.Generator.Angular.Writers
                     List<HttpServiceActionParameterTransferObject> inlineParameters = action.Parameters.Where(x => !x.FromBody && x.Inline).OrderBy(x => x.InlineIndex).ToList();
                     List<HttpServiceActionParameterTransferObject> urlParameters = action.Parameters.Where(x => !x.FromBody && !x.Inline && x.AppendName).ToList();
                     List<HttpServiceActionParameterTransferObject> urlDirectParameters = action.Parameters.Where(x => !x.FromBody && !x.Inline && !x.AppendName).ToList();
-                    uri = urlParameters.Count > 0 ? $"{uri}?{urlParameters.First().Name}=" : urlDirectParameters.Count > 0 ? $"{uri}?" : uri;
                     MultilineCodeFragment code = Code.Multiline();
                     bool hasReturnType = returnType.Name != "void" && returnType.Name != "Task";
                     ExecuteMethodTemplate nextMethod = Code.Local("subject").Method("next");
@@ -110,12 +110,17 @@ namespace KY.Generator.Angular.Writers
                         parameterUrl = parameterUrl.Append(Code.String(uri));
                     }
                     bool isFirst = true;
+                    if (controller.Version != null)
+                    {
+                        isFirst = false;
+                        parameterUrl = parameterUrl.Append(Code.String($"?api-version={controller.Version}"));
+                    }
                     foreach (HttpServiceActionParameterTransferObject parameter in urlDirectParameters)
                     {
                         if (isFirst)
                         {
                             isFirst = false;
-                            parameterUrl = parameterUrl.Append(Code.Local(parameter.Name));
+                            parameterUrl = parameterUrl.Append(Code.String("?")).Append(Code.Local(parameter.Name));
                         }
                         else
                         {
@@ -125,10 +130,7 @@ namespace KY.Generator.Angular.Writers
                     foreach (HttpServiceActionParameterTransferObject parameter in urlParameters)
                     {
                         string name = mapping[parameter].Name;
-                        if (!isFirst)
-                        {
-                            parameterUrl = parameterUrl.Append(Code.String($"&{parameter.Name}="));
-                        }
+                        parameterUrl = parameterUrl.Append(isFirst ? Code.String($"?{parameter.Name}=") : Code.String($"&{parameter.Name}="));
                         isFirst = false;
                         if (parameter.Type.IgnoreNullable().Name == "Date")
                         {
