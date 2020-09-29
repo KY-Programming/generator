@@ -199,7 +199,7 @@ namespace KY.Generator
                 return this;
             }
             CommandValueParameter fallbackParameter = commandParameters.OfType<CommandValueParameter>().FirstOrDefault(x => x.Name.Equals("assembly", StringComparison.CurrentCultureIgnoreCase));
-            if (fallbackParameter != null && FileSystem.FileExists(fallbackParameter.Value))
+            if (!this.environment.IsBeforeBuild && fallbackParameter != null && FileSystem.FileExists(fallbackParameter.Value))
             {
                 this.ParseAttributes(fallbackParameter.Value);
                 this.SetOutput(FileSystem.Parent(commandParameter.Name));
