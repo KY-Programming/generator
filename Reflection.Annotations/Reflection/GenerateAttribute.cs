@@ -32,21 +32,41 @@ namespace KY.Generator
                 {
                     parameter.Add("-skipNamespace");
                 }
+                else if (this.SkipNamespace == Option.No)
+                {
+                    parameter.Add("-skipNamespace=false");
+                }
                 if (this.PropertiesToFields == Option.Yes)
                 {
                     parameter.Add("-propertiesToFields");
+                }
+                else if (this.PropertiesToFields == Option.No)
+                {
+                    parameter.Add("-propertiesToFields=false");
                 }
                 if (this.FieldsToProperties == Option.Yes)
                 {
                     parameter.Add("-fieldsToProperties");
                 }
+                else if (this.FieldsToProperties == Option.No)
+                {
+                    parameter.Add("-fieldsToProperties=false");
+                }
                 if (this.FormatNames == Option.Yes)
                 {
                     parameter.Add("-formatNames");
                 }
+                else if (this.FormatNames == Option.No)
+                {
+                    parameter.Add("-formatNames=false");
+                }
                 if (this.SkipSelf == Option.Yes)
                 {
                     parameter.Add("-skipSelf");
+                }
+                else if (this.SkipSelf == Option.No)
+                {
+                    parameter.Add("-skipSelf=false");
                 }
                 return parameter;
             }

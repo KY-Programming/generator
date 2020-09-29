@@ -40,13 +40,25 @@ namespace KY.Generator
                 {
                     parameter.Add("-propertiesToFields");
                 }
+                else if (this.PropertiesToFields == Option.No)
+                {
+                    parameter.Add("-propertiesToFields=false");
+                }
                 if (this.FieldsToProperties == Option.Yes)
                 {
                     parameter.Add("-fieldsToProperties");
                 }
-                if (this.FormatNames == Option.Yes)
+                else if (this.FieldsToProperties == Option.No)
+                {
+                    parameter.Add("-fieldsToProperties=false");
+                }
+                if (this.FormatHubNames == Option.Yes)
                 {
                     parameter.Add("-formatNames");
+                }
+                else if (this.FormatHubNames == Option.No)
+                {
+                    parameter.Add("-formatNames=false");
                 }
                 return parameter;
             }
@@ -65,13 +77,25 @@ namespace KY.Generator
                 {
                     parameter.Add("-propertiesToFields");
                 }
+                else if (this.PropertiesToFields == Option.No)
+                {
+                    parameter.Add("-propertiesToFields=false");
+                }
                 if (this.FieldsToProperties == Option.Yes)
                 {
                     parameter.Add("-fieldsToProperties");
                 }
-                if (this.FormatNames == Option.Yes)
+                else if (this.FieldsToProperties == Option.No)
+                {
+                    parameter.Add("-fieldsToProperties=false");
+                }
+                if (this.FormatModelNames == Option.Yes)
                 {
                     parameter.Add("-formatNames");
+                }
+                else if (this.FormatModelNames == Option.No)
+                {
+                    parameter.Add("-formatNames=false");
                 }
                 return parameter;
             }
@@ -82,19 +106,21 @@ namespace KY.Generator
         public string Name { get; }
         public Option PropertiesToFields { get; }
         public Option FieldsToProperties { get; }
-        public Option FormatNames { get; }
+        public Option FormatHubNames { get; }
+        public Option FormatModelNames { get; }
 
         public GenerateAngularHubAttribute()
         { }
 
-        public GenerateAngularHubAttribute(string relativeServicePath, string relativeModelPath, string name = null, Option propertiesToFields = Option.Inherit, Option fieldsToProperties = Option.Inherit, Option formatNames = Option.Inherit)
+        public GenerateAngularHubAttribute(string relativeServicePath, string relativeModelPath, string name = null, Option propertiesToFields = Option.Inherit, Option fieldsToProperties = Option.Inherit, Option formatNames = Option.Inherit, Option formatHubNames = Option.Inherit, Option formatModelNames = Option.Inherit)
         {
             this.RelativePath = relativeServicePath;
             this.RelativeModelPath = relativeModelPath;
             this.Name = name;
             this.PropertiesToFields = propertiesToFields;
             this.FieldsToProperties = fieldsToProperties;
-            this.FormatNames = formatNames;
+            this.FormatHubNames = formatNames == Option.Inherit ? formatHubNames : formatNames;
+            this.FormatModelNames = formatNames == Option.Inherit ? formatModelNames : formatNames;
         }
     }
 }
