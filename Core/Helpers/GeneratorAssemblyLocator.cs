@@ -2,6 +2,7 @@
 using System.Reflection;
 using System.Runtime.Versioning;
 using KY.Core;
+using KY.Core.Extension;
 using KY.Core.Nuget;
 using KY.Generator.Models;
 
@@ -15,7 +16,8 @@ namespace KY.Generator
             locator.Locations.InsertRange(0, locations);
             Version defaultVersion = typeof(CoreModule).Assembly.GetName().Version;
 
-            ProcessorArchitecture entryArchitecture = Assembly.GetEntryAssembly().GetName().ProcessorArchitecture;
+            Assembly entryAssembly = Assembly.GetEntryAssembly();
+            ProcessorArchitecture entryArchitecture = entryAssembly.GetName().ProcessorArchitecture;
             ProcessorArchitecture assemblyArchitecture = AssemblyName.GetAssemblyName(assemblyName).ProcessorArchitecture;
             if (entryArchitecture != assemblyArchitecture)
             {
@@ -24,9 +26,13 @@ namespace KY.Generator
                 return null;
             }
             Assembly assembly = locator.Locate(assemblyName, defaultVersion);
-            // TODO: Implement switch for different frameworks
-            // TargetFrameworkAttribute targetFrameworkAttribute = assembly.GetCustomAttribute<TargetFrameworkAttribute>();
-            // if(targetFrameworkAttribute.)
+            FrameworkName assemblyTargetFramework = assembly.GetTargetFramework();
+            if (assemblyTargetFramework.IsFramework() && !entryAssembly.GetTargetFramework().IsFramework() && assemblyTargetFramework.Version.Major <= 4)
+            {
+                environment.SwitchContext = true;
+                environment.SwitchToFramework = assemblyTargetFramework;
+                return null;
+            }
             return assembly;
         }
     }

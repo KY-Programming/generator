@@ -25,7 +25,7 @@ Download KY.Generator to use this module</Description>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="KY.Core.Common" Version="4.14.0" />
+    <PackageReference Include="KY.Core.Common" Version="4.15.0" />
     <PackageReference Include="Microsoft.OData.Edm" Version="7.6.2" />
   </ItemGroup>
 
