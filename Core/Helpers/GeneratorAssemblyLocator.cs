@@ -26,12 +26,19 @@ namespace KY.Generator
                 return null;
             }
             Assembly assembly = locator.Locate(assemblyName, defaultVersion);
-            FrameworkName assemblyTargetFramework = assembly.GetTargetFramework();
-            if (assemblyTargetFramework.IsFramework() && !entryAssembly.GetTargetFramework().IsFramework() && assemblyTargetFramework.Version.Major <= 4)
+            try
             {
-                environment.SwitchContext = true;
-                environment.SwitchToFramework = assemblyTargetFramework;
-                return null;
+                FrameworkName assemblyTargetFramework = assembly.GetTargetFramework();
+                if (assemblyTargetFramework.IsFramework() && !entryAssembly.GetTargetFramework().IsFramework() && assemblyTargetFramework.Version.Major <= 4)
+                {
+                    environment.SwitchContext = true;
+                    environment.SwitchToFramework = assemblyTargetFramework;
+                    return null;
+                }
+            }
+            catch (TypeLoadException exception)
+            {
+                Logger.Warning($"Could not check framework compatibility, because assembly {assembly.GetName().Name} could not be loaded\n{exception.Message}");
             }
             return assembly;
         }

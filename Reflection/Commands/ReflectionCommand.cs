@@ -45,7 +45,7 @@ namespace KY.Generator.Reflection.Commands
                 string assemblyName = configuration.Parameters.GetString(nameof(ReflectionReadConfiguration.Assembly));
                 if (!string.IsNullOrEmpty(assemblyName))
                 {
-                    Assembly.LoadFile(assemblyName);
+                    AssemblyHelper.LoadInSameContext(assemblyName);
                 }
                 foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
                 {
