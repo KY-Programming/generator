@@ -8,12 +8,12 @@ using System.Text.RegularExpressions;
 using KY.Core;
 using KY.Core.DataAccess;
 using KY.Core.Dependency;
-using KY.Core.Extension;
 using KY.Core.Module;
 using KY.Generator.Command;
 using KY.Generator.Command.Extensions;
 using KY.Generator.Configuration;
 using KY.Generator.Configurations;
+using KY.Generator.Extensions;
 using KY.Generator.Languages;
 using KY.Generator.Mappings;
 using KY.Generator.Models;
@@ -41,6 +41,7 @@ namespace KY.Generator
             Logger.Trace("Log Directory: " + Logger.File.Path);
 
             NugetPackageDependencyLoader.Activate();
+            NugetPackageDependencyLoader.ResolveDependencies(this.GetType().Assembly);
 
             this.output = new FileOutput(AppDomain.CurrentDomain.BaseDirectory);
             this.resolver = new DependencyResolver();
@@ -246,7 +247,7 @@ namespace KY.Generator
                         {
                             Logger.Trace($"Different assembly architecture found. Switching to {this.environment.SwitchToArchitecture}...");
                         }
-                        if (this.environment.SwitchToFramework != null)
+                        if (this.environment.SwitchToFramework != SwitchableFramework.None)
                         {
                             Logger.Trace($"Different assembly framework found. Switching to {this.environment.SwitchToFramework}...");
                         }
@@ -261,7 +262,7 @@ namespace KY.Generator
                         }
                         string framework = match.Groups["framework"].Value;
                         string separator = match.Groups["separator"].Value;
-                        string switchedFramework = (this.environment.SwitchToFramework != null && this.environment.SwitchToFramework.IsFramework() && this.environment.SwitchToFramework.Version.Major <= 4 ? "net461" : framework)
+                        string switchedFramework = (this.environment.SwitchToFramework.FrameworkName() ?? framework)
                                                    + (this.environment.SwitchToArchitecture != null ? $"-{this.environment.SwitchToArchitecture.ToString().ToLower()}" : "");
                         location = location.Replace(separator + framework + separator, separator + switchedFramework + separator).Replace(".dll", ".exe");
                         if (FileSystem.FileExists(location))
@@ -272,7 +273,7 @@ namespace KY.Generator
                             {
                                 startInfo.Arguments += $" -switchedFromArchitecture=\"{this.environment.SwitchToArchitecture}\"";
                             }
-                            if (this.environment.SwitchToFramework != null)
+                            if (this.environment.SwitchToFramework != SwitchableFramework.None)
                             {
                                 startInfo.Arguments += $" -switchedFromFramework=\"{this.environment.SwitchToFramework}\"";
                             }
@@ -283,7 +284,7 @@ namespace KY.Generator
                             process.OutputDataReceived += (sender, args) => Logger.Trace(">> " + args.Data);
                             process.ErrorDataReceived += (sender, args) => Logger.Error(">> " + args.Data);
                             process.WaitForExit();
-                            Logger.Trace($"{this.environment.SwitchToArchitecture?.ToString() ?? this.environment.SwitchToFramework?.Identifier} process exited with code {process.ExitCode}");
+                            Logger.Trace($"{this.environment.SwitchToArchitecture?.ToString() ?? this.environment.SwitchToFramework.ToString()} process exited with code {process.ExitCode}");
                             result = process.ExitCode == 0;
                         }
                         else

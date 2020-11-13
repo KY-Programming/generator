@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using KY.Core;
 using KY.Core.Nuget;
-using KY.Generator.Configuration;
 using KY.Generator.Configurations;
 
 namespace KY.Generator

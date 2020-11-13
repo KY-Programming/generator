@@ -10,7 +10,7 @@ namespace KY.Generator.Models
         public List<ITransferObject> TransferObjects { get; }
         public bool SwitchContext { get; set; }
         public ProcessorArchitecture? SwitchToArchitecture { get; set; }
-        public FrameworkName SwitchToFramework { get; set; }
+        public SwitchableFramework SwitchToFramework { get; set; }
         public bool IsBeforeBuild { get; set; }
 
         public GeneratorEnvironment()
