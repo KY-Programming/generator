@@ -74,6 +74,15 @@ cd ReflectionX86
 dotnet add package KY.Generator
 dotnet build --no-incremental
 cd ..
-
+REM 
+REM ====================================
+REM ||       ReflectionFromNet5       ||
+REM ====================================
+REM 
+cd ReflectionFromNet5
+dotnet add package KY.Generator
+dotnet add package KY.Generator.Reflection.Annotations
+dotnet build --no-incremental
+cd ..
 
 PAUSE
