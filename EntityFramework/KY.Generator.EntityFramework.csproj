@@ -5,7 +5,7 @@
     <Authors>KY-Programming</Authors>
     <Company>KY-Programming</Company>
     <Product>KY.Generator</Product>
-    <Version>5.5.0-rc.0</Version>
+    <Version>5.5.0</Version>
     <Copyright>2020 - KY-Programming</Copyright>
     <Description>EntityFramework Module for KY-Generator
 Download KY.Generator to use this module</Description>
@@ -25,7 +25,7 @@ Download KY.Generator to use this module</Description>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="KY.Core.Common" Version="4.16.0" />
+    <PackageReference Include="KY.Core.Common" Version="4.16.1" />
   </ItemGroup>
 
   <ItemGroup>
