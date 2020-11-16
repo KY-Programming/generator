@@ -1,6 +1,6 @@
 # KY.Generator ![](https://img.shields.io/nuget/v/KY.Generator.svg?style=flat)
 
-[Documentation](https://generator.ky-programming.de) | [Getting Started](https://generator.ky-programming.de/start) | [Supported Platforms](https://generator.ky-programming.de/start/platforms) | [Need Help?](https://ky-programming.de/contact/mail)
+[Documentation](https://generator.ky-programming.de) | [Getting Started](https://generator.ky-programming.de/start) | [Supported Platforms](https://generator.ky-programming.de/start/platforms) | [Need Help?](https://generator.ky-programming.de/start/help)
 
 ## Setup for Visual Studio
 
