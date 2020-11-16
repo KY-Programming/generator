@@ -51,7 +51,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KY.Generator.EntityFramewor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KY.Generator.Angular.Tests", "Angular.Tests\KY.Generator.Angular.Tests.csproj", "{3DD71148-B830-44F3-A2AF-B06F8607D174}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KY.Generator.Reflection.Annotations", "Reflection.Annotations\KY.Generator.Reflection.Annotations.csproj", "{2EE3EB76-45E8-482C-AF13-EE65F4A38B5F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KY.Generator.Annotations", "Annotations\KY.Generator.Annotations.csproj", "{2EE3EB76-45E8-482C-AF13-EE65F4A38B5F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KY.Generator.Tests", "Tests\Generator\KY.Generator.Tests.csproj", "{CD7B6707-035E-481B-9BE6-0FDDB551B2E3}"
 EndProject
