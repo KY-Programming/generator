@@ -6,7 +6,6 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 using KY.Core;
-using KY.Core.DataAccess;
 using KY.Core.Nuget;
 using KY.Generator.Extensions;
 using KY.Generator.Models;
@@ -33,10 +32,9 @@ namespace KY.Generator
 
             try
             {
-                Assembly test = locator.Locate("System.Reflection.MetadataLoadContext", true);
                 SwitchableFramework entryFramework = entryAssembly.GetSwitchableFramework();
                 SwitchableFramework? assemblyFramework = null;
-                string[] frameworkFiles =Directory.GetFiles(RuntimeEnvironment.GetRuntimeDirectory(), "*.dll");
+                string[] frameworkFiles = Directory.GetFiles(RuntimeEnvironment.GetRuntimeDirectory(), "*.dll");
                 PathAssemblyResolver resolver = new PathAssemblyResolver(AppDomain.CurrentDomain.GetAssemblies().Select(x => x.Location).Concat(frameworkFiles));
                 MetadataLoadContext metadataLoadContext = new MetadataLoadContext(resolver);
 

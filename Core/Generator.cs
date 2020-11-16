@@ -209,12 +209,20 @@ namespace KY.Generator
                 this.command.Environment.Parameters = commandParameters;
                 return this;
             }
-            if (commandParameter.Name.Contains(":\\"))
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && commandParameter.Name.Contains(":\\")
+                || !RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && commandParameter.Name.StartsWith("/")
+            )
             {
-                Action<string> log = this.environment.IsBeforeBuild ? (Action<string>)Logger.Trace : message => Logger.Error(message);
-                log($"'{commandParameter.Name}' not found");
-                log("Create a generator.json in your project root or use [Generate] attributes");
-                log("See our Documentation: https://generator.ky-programming.de/");
+                if (this.environment.IsBeforeBuild)
+                {
+                    Logger.Trace("Nothing to do before build");
+                }
+                else
+                {  
+                    Logger.Error($"'{commandParameter.Name}' not found");
+                    Logger.Error("Create a generator.json in your project root or use [Generate] attributes");
+                    Logger.Error("See our Documentation: https://generator.ky-programming.de/");
+                }
                 return this;
             }
             return this.ParseCommand(parameters);
