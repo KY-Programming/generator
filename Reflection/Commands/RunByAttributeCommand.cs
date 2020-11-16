@@ -49,7 +49,7 @@ namespace KY.Generator.Reflection.Commands
                         CommandConfiguration commandConfiguration = new CommandConfiguration(x.Command).AddParameters(x.Parameters);
                         foreach (CommandValueParameter commandParameter in commandConfiguration.Parameters.OfType<CommandValueParameter>())
                         {
-                            commandParameter.Value = commandParameter.Value.Replace("$NAMESPACE$", objectType.Namespace).Replace("$NAME$", objectType.Name);
+                            commandParameter.Value = commandParameter.Value.Replace("$NAMESPACE$", objectType.Namespace).Replace("$NAME$", objectType.FullName.TrimStart(objectType.Namespace + "."));
                         }
                         return commandConfiguration;
                     }));
