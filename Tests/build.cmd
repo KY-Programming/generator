@@ -40,4 +40,15 @@ dotnet add package KY.Generator.Reflection.Annotations
 dotnet build --no-incremental
 cd ..
 
+REM ==========================================
+REM ||           AnnotationInNestedClass           ||
+REM ==========================================
+REM 
+cd AnnotationInNestedClass
+rmdir /S/Q Output
+dotnet add package KY.Generator
+dotnet add package KY.Generator.Reflection.Annotations
+dotnet build --no-incremental
+cd ..
+
 PAUSE
