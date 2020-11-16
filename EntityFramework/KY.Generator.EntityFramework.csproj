@@ -10,7 +10,7 @@
     <Description>EntityFramework Module for KY-Generator
 Download KY.Generator to use this module</Description>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/KY-Programming/generator</PackageProjectUrl>
+    <PackageProjectUrl>https://generator.ky-programming.de</PackageProjectUrl>
     <PackageIconUrl>https://ky-programming.de/images/logos/128.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/KY-Programming/generator</RepositoryUrl>
     <PackageTags>KY-Generator KY Generator EntityFramework EF</PackageTags>

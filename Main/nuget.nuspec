@@ -8,7 +8,8 @@
     <authors>KY-Programming</authors>
     <owners>KY-Programming</owners>
     <licenseUrl>https://github.com/KY-Programming/generator/blob/master/LICENSE</licenseUrl>
-    <projectUrl>https://github.com/KY-Programming/generator</projectUrl>
+    <projectUrl>https://generator.ky-programming.de</projectUrl>
+    <repository type="git" url="https://github.com/KY-Programming/generator" />
     <iconUrl>https://ky-programming.de/images/logos/128.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Generate C# or TypeScript classes from .NET assemblies, JSON, TSQL or oData.
