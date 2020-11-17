@@ -5,7 +5,7 @@ REM
 cd AnnotationsWithMultipleOutputs
 rmdir /S/Q Output
 dotnet add package KY.Generator
-dotnet add package KY.Generator.Reflection.Annotations
+dotnet add package KY.Generator.Annotations
 dotnet build --no-incremental
 cd ..
 
@@ -16,7 +16,7 @@ REM
 cd Types
 rmdir /S/Q Output
 dotnet add package KY.Generator
-dotnet add package KY.Generator.Reflection.Annotations
+dotnet add package KY.Generator.Annotations
 dotnet build --no-incremental
 cd ..
 
@@ -36,7 +36,7 @@ rmdir /S/Q ClientApp\src\app\routed\services
 rmdir /S/Q ClientApp\src\app\versioned-api\models
 rmdir /S/Q ClientApp\src\app\versioned-api\services
 dotnet add package KY.Generator
-dotnet add package KY.Generator.Reflection.Annotations
+dotnet add package KY.Generator.Annotations
 dotnet build --no-incremental
 cd ..
 
@@ -47,7 +47,7 @@ REM
 cd AnnotationInNestedClass
 rmdir /S/Q Output
 dotnet add package KY.Generator
-dotnet add package KY.Generator.Reflection.Annotations
+dotnet add package KY.Generator.Annotations
 dotnet build --no-incremental
 cd ..
 
