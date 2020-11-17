@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <Company>KY-Programming</Company>
     <Authors>KY-Programming</Authors>
-    <Version>5.5.1</Version>
+    <Version>5.5.2</Version>
     <Product>KY.Generator</Product>
     <Description>TypeScript Module for KY-Generator
 Download KY.Generator to use this module</Description>
@@ -26,7 +26,7 @@ Download KY.Generator to use this module</Description>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="KY.Core.Common" Version="4.16.2" />
+    <PackageReference Include="KY.Core.Common" Version="4.17.0" />
   </ItemGroup>
 
   <ItemGroup>

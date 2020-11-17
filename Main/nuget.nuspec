@@ -3,7 +3,7 @@
   <metadata>
     <id>KY.Generator</id>
     <!-- Ensure nuget.targets version is also updated -->
-    <version>5.5.1</version>
+    <version>5.5.2</version>
     <title>KY.Generator</title>
     <authors>KY-Programming</authors>
     <owners>KY-Programming</owners>
@@ -19,29 +19,29 @@ Support for Angular, ASP.NET, ASP.NET Core, C# POCOs, TypeScript POCOs, Entity F
     <tags>KY-Generator KY Generator</tags>
   </metadata>
   <files>
-    <file src="bin\Release\netcoreapp2.0\publish\**\*.dll" target="tools\netcoreapp2.0" />
-    <file src="bin\Release\netcoreapp2.0\publish\**\*.json" target="tools\netcoreapp2.0" />
-    <!--<file src="bin\Release\netcoreapp2.0\win-x86\publish\**\*.dll" target="tools\netcoreapp2.0-x86" />
-    <file src="bin\Release\netcoreapp2.0\win-x86\publish\**\*.json" target="tools\netcoreapp2.0-x86" />-->
-    <file src="bin\Release\netcoreapp3.0\publish\**\*.dll" target="tools\netcoreapp3.0" />
-    <file src="bin\Release\netcoreapp3.0\publish\**\*.json" target="tools\netcoreapp3.0" />
-    <file src="bin\Release\netcoreapp3.0\publish\**\*.exe" target="tools\netcoreapp3.0" />
-    <file src="bin\Release\netcoreapp3.0\win-x86\publish\**\*.dll" target="tools\netcoreapp3.0-x86" />
-    <file src="bin\Release\netcoreapp3.0\win-x86\publish\**\*.exe" target="tools\netcoreapp3.0-x86" />
-    <file src="bin\Release\netcoreapp3.0\win-x86\publish\**\*.json" target="tools\netcoreapp3.0-x86" />
-    <file src="bin\Release\net5.0\publish\**\*.dll" target="tools\net5.0" />
-    <file src="bin\Release\net5.0\publish\**\*.json" target="tools\net5.0" />
-    <file src="bin\Release\net5.0\publish\**\*.exe" target="tools\net5.0" />
-    <file src="bin\Release\net5.0\win-x86\publish\**\*.dll" target="tools\net5.0-x86" />
-    <file src="bin\Release\net5.0\win-x86\publish\**\*.exe" target="tools\net5.0-x86" />
-    <file src="bin\Release\net5.0\win-x86\publish\**\*.json" target="tools\net5.0-x86" />
-    <file src="..\Main.Legacy\bin\Release\*.exe" target="tools\net461" />
-    <file src="..\Main.Legacy\bin\Release\*.dll" target="tools\net461" />
-    <file src="..\Main.Legacy\bin\Release\*.config" target="tools\net461" />
-    <file src="..\Main.Legacy\bin\x86\Release\*.exe" target="tools\net461-x86" />
-    <file src="..\Main.Legacy\bin\x86\Release\*.dll" target="tools\net461-x86" />
-    <file src="..\Main.Legacy\bin\x86\Release\*.config" target="tools\net461-x86" />
-    <file src="..\bin\Release\netstandard2.0\publish\*.dll" target="tools\netstandard2.0" />
+    <file src="..\bin\Release\netcoreapp2.0\publish\**\*.dll" target="tools\netcoreapp2.0" />
+    <file src="..\bin\Release\netcoreapp2.0\publish\**\*.json" target="tools\netcoreapp2.0" />
+    <!--<file src="..\bin\Release\netcoreapp2.0\win-x86\publish\**\*.dll" target="tools\netcoreapp2.0-x86" />
+    <file src="..\bin\Release\netcoreapp2.0\win-x86\publish\**\*.json" target="tools\netcoreapp2.0-x86" />-->
+    <file src="..\bin\Release\netcoreapp3.0\publish\**\*.dll" target="tools\netcoreapp3.0" />
+    <file src="..\bin\Release\netcoreapp3.0\publish\**\*.json" target="tools\netcoreapp3.0" />
+    <file src="..\bin\Release\netcoreapp3.0\publish\**\*.exe" target="tools\netcoreapp3.0" />
+    <file src="..\bin\Release\netcoreapp3.0\win-x86\publish\**\*.dll" target="tools\netcoreapp3.0-x86" />
+    <file src="..\bin\Release\netcoreapp3.0\win-x86\publish\**\*.exe" target="tools\netcoreapp3.0-x86" />
+    <file src="..\bin\Release\netcoreapp3.0\win-x86\publish\**\*.json" target="tools\netcoreapp3.0-x86" />
+    <file src="..\bin\Release\net5.0\publish\**\*.dll" target="tools\net5.0" />
+    <file src="..\bin\Release\net5.0\publish\**\*.json" target="tools\net5.0" />
+    <file src="..\bin\Release\net5.0\publish\**\*.exe" target="tools\net5.0" />
+    <file src="..\bin\Release\net5.0\win-x86\publish\**\*.dll" target="tools\net5.0-x86" />
+    <file src="..\bin\Release\net5.0\win-x86\publish\**\*.exe" target="tools\net5.0-x86" />
+    <file src="..\bin\Release\net5.0\win-x86\publish\**\*.json" target="tools\net5.0-x86" />
+    <file src="..\bin\Release\net461\publish\**\*.exe" target="tools\net461" />
+    <file src="..\bin\Release\net461\publish\**\*.dll" target="tools\net461" />
+    <file src="..\bin\Release\net461\publish\**\*.config" target="tools\net461" />
+    <file src="..\bin\Release\net461\win-x86\publish\**\*.exe" target="tools\net461-x86" />
+    <file src="..\bin\Release\net461\win-x86\publish\**\*.dll" target="tools\net461-x86" />
+    <file src="..\bin\Release\net461\win-x86\publish\**\*.config" target="tools\net461-x86" />
+    <file src="..\bin\Release\netstandard2.0\publish\**\*.dll" target="tools\netstandard2.0" />
     <file src="nuget.targets" target="build\KY.Generator.targets" />
   </files>
 </package>

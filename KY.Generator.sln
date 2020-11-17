@@ -55,6 +55,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KY.Generator.Annotations", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KY.Generator.Tests", "Tests\Generator\KY.Generator.Tests.csproj", "{CD7B6707-035E-481B-9BE6-0FDDB551B2E3}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KY.Generator.Reflection.Annotations", "Reflection.Annotations\KY.Generator.Reflection.Annotations.csproj", "{110AD9C2-3E31-47D2-B84E-E14DA6604E87}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -271,6 +273,14 @@ Global
 		{CD7B6707-035E-481B-9BE6-0FDDB551B2E3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CD7B6707-035E-481B-9BE6-0FDDB551B2E3}.Release|x86.ActiveCfg = Release|Any CPU
 		{CD7B6707-035E-481B-9BE6-0FDDB551B2E3}.Release|x86.Build.0 = Release|Any CPU
+		{110AD9C2-3E31-47D2-B84E-E14DA6604E87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{110AD9C2-3E31-47D2-B84E-E14DA6604E87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{110AD9C2-3E31-47D2-B84E-E14DA6604E87}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{110AD9C2-3E31-47D2-B84E-E14DA6604E87}.Debug|x86.Build.0 = Debug|Any CPU
+		{110AD9C2-3E31-47D2-B84E-E14DA6604E87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{110AD9C2-3E31-47D2-B84E-E14DA6604E87}.Release|Any CPU.Build.0 = Release|Any CPU
+		{110AD9C2-3E31-47D2-B84E-E14DA6604E87}.Release|x86.ActiveCfg = Release|Any CPU
+		{110AD9C2-3E31-47D2-B84E-E14DA6604E87}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
