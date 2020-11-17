@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="KY.Generator" Version="5.5.0" />
+    <PackageReference Include="KY.Generator" Version="5.5.2" />
   </ItemGroup>
 
 </Project>
