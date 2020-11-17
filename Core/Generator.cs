@@ -272,11 +272,20 @@ namespace KY.Generator
                         string separator = match.Groups["separator"].Value;
                         string switchedFramework = (this.environment.SwitchToFramework.FrameworkName() ?? framework)
                                                    + (this.environment.SwitchToArchitecture != null ? $"-{this.environment.SwitchToArchitecture.ToString().ToLower()}" : "");
-                        location = location.Replace(separator + framework + separator, separator + switchedFramework + separator).Replace(".dll", ".exe");
+                        location = location.Replace(separator + framework + separator, separator + switchedFramework + separator);
                         if (FileSystem.FileExists(location))
                         {
-                            startInfo.FileName = location;
-                            startInfo.Arguments += string.Join(" ", this.command.Environment.Parameters);
+                            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                            {
+                                // Always use the .exe on Windows to fix the dotnet.exe x86 problem
+                                startInfo.FileName = location.Replace(".dll", ".exe");;
+                            }
+                            else
+                            {
+                                startInfo.FileName = "dotnet";
+                                startInfo.Arguments = location;
+                            }
+                            startInfo.Arguments += " " + string.Join(" ", this.command.Environment.Parameters);
                             if (this.environment.SwitchToArchitecture != null)
                             {
                                 startInfo.Arguments += $" -switchedFromArchitecture=\"{this.environment.SwitchToArchitecture}\"";
@@ -321,6 +330,7 @@ namespace KY.Generator
 
         public static void InitializeLogger(string[] parameters)
         {
+            Logger.Console.ShortenEntries = false;
             Logger.AllTargets.Add(Logger.VisualStudioOutput);
             if (parameters.Any(parameter => parameter.ToLowerInvariant().Contains("forwardlogging")))
             {
