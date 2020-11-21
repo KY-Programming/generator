@@ -259,8 +259,6 @@ namespace KY.Generator
                         {
                             Logger.Trace($"Different assembly framework found. Switching to {this.environment.SwitchToFramework}...");
                         }
-                        Logger.Trace("===============================");
-                        ProcessStartInfo startInfo = new ProcessStartInfo();
                         string location = Assembly.GetEntryAssembly()?.Location ?? throw new InvalidOperationException("No location found");
                         Regex regex = new Regex(@"(?<separator>[\\/])(?<framework>net[^\\/]+)[\\/]");
                         Match match = regex.Match(location);
@@ -275,10 +273,12 @@ namespace KY.Generator
                         location = location.Replace(separator + framework + separator, separator + switchedFramework + separator);
                         if (FileSystem.FileExists(location))
                         {
-                            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                            ProcessStartInfo startInfo = new ProcessStartInfo();
+                            string locationExe = location.Replace(".dll", ".exe");
+                            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && FileSystem.FileExists(locationExe))
                             {
                                 // Always use the .exe on Windows to fix the dotnet.exe x86 problem
-                                startInfo.FileName = location.Replace(".dll", ".exe");;
+                                startInfo.FileName = locationExe;
                             }
                             else
                             {
@@ -297,6 +297,7 @@ namespace KY.Generator
                             //startInfo.UseShellExecute = false;
                             //startInfo.RedirectStandardOutput = true;
                             //startInfo.RedirectStandardError = true;
+                            Logger.Trace("===============================");
                             Process process = Process.Start(startInfo);
                             process.OutputDataReceived += (sender, args) => Logger.Trace(">> " + args.Data);
                             process.ErrorDataReceived += (sender, args) => Logger.Error(">> " + args.Data);
