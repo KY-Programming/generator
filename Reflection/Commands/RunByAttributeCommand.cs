@@ -5,6 +5,7 @@ using System.Reflection;
 using KY.Core;
 using KY.Core.Dependency;
 using KY.Generator.Command;
+using KY.Generator.Extensions;
 using KY.Generator.Models;
 using KY.Generator.Output;
 
@@ -37,7 +38,11 @@ namespace KY.Generator.Reflection.Commands
             {
                 return false;
             }
-
+            if (!this.environment.IsOnlyAsync && assembly.IsAsync())
+            {
+                this.environment.SwitchToAsync = true;
+                return true;
+            }
             foreach (Type objectType in TypeHelper.GetTypes(assembly))
             {
                 List<Attribute> attributes = objectType.GetCustomAttributes().ToList();

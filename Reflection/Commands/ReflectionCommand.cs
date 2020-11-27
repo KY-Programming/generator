@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Threading;
 using KY.Core;
 using KY.Generator.Command;
 using KY.Generator.Command.Extensions;
 using KY.Generator.Csharp.Languages;
+using KY.Generator.Extensions;
 using KY.Generator.Languages;
+using KY.Generator.Models;
 using KY.Generator.Output;
 using KY.Generator.Reflection.Configurations;
 using KY.Generator.Reflection.Extensions;
@@ -20,35 +23,49 @@ namespace KY.Generator.Reflection.Commands
     {
         private readonly ReflectionReader reader;
         private readonly ReflectionWriter writer;
+        private readonly GeneratorEnvironment environment;
 
         public string[] Names { get; } = { "reflection" };
 
-        public ReflectionCommand(ReflectionReader reader, ReflectionWriter writer)
+        public ReflectionCommand(ReflectionReader reader, ReflectionWriter writer, GeneratorEnvironment environment)
         {
             this.reader = reader;
             this.writer = writer;
+            this.environment = environment;
         }
 
         public bool Generate(CommandConfiguration configuration, ref IOutput output)
         {
-            //Type type = reflectionConfiguration.GetType();
-            //foreach (CommandParameter parameter in configuration.Parameters)
-            //{
-            //    PropertyInfo propertyInfo = type.GetProperty(parameter.Name);
-            //    if (propertyInfo != null && propertyInfo.CanWrite)
-            //    {
-            //        propertyInfo.SetValue(reflectionConfiguration, );
-            //    }
-            //}
+            bool isAsync = configuration.Parameters.GetBool("async");
+            if (this.environment.IsOnlyAsync && !isAsync)
+            {
+                return true;
+            }
+            if (!this.environment.IsOnlyAsync && isAsync)
+            {
+                this.environment.SwitchToAsync = true;
+                return true;
+            }
+            string assemblyName = configuration.Parameters.GetString(nameof(ReflectionReadConfiguration.Assembly));
+            if (!string.IsNullOrEmpty(assemblyName))
+            {
+                Assembly assembly = GeneratorAssemblyLocator.Locate(assemblyName, this.environment);
+                if (!this.environment.IsOnlyAsync && assembly.IsAsync())
+                {
+                    this.environment.SwitchToAsync = true;
+                    return true;
+                }
+            }
+
             if (configuration.Parameters.GetBool("fromAttributes") || configuration.Parameters.GetBool("fromAttribute"))
             {
-                string assemblyName = configuration.Parameters.GetString(nameof(ReflectionReadConfiguration.Assembly));
-                if (!string.IsNullOrEmpty(assemblyName))
-                {
-                    AssemblyLoadContext.Default?.LoadFromAssemblyPath(assemblyName);
-                }
                 foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
                 {
+                    if (assembly.IsAsync())
+                    {
+                        this.environment.SwitchToAsync = true;
+                        continue;
+                    }
                     foreach (Type objectType in TypeHelper.GetTypes(assembly))
                     {
                         foreach (GenerateAttribute attribute in objectType.GetCustomAttributes<GenerateAttribute>())
@@ -92,7 +109,7 @@ namespace KY.Generator.Reflection.Commands
                 readConfiguration.CopyBaseFrom(configuration);
                 readConfiguration.Name = configuration.Parameters.GetString(nameof(ReflectionReadConfiguration.Name));
                 readConfiguration.Namespace = configuration.Parameters.GetString(nameof(ReflectionReadConfiguration.Namespace));
-                readConfiguration.Assembly = configuration.Parameters.GetString(nameof(ReflectionReadConfiguration.Assembly));
+                readConfiguration.Assembly = assemblyName;
                 readConfiguration.SkipSelf = configuration.Parameters.GetBool(nameof(ReflectionReadConfiguration.SkipSelf));
                 List<ITransferObject> transferObjects = new List<ITransferObject>();
                 this.reader.Read(readConfiguration, transferObjects);

@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 using KY.Core;
+using KY.Core.DataAccess;
 using KY.Core.Nuget;
 using KY.Generator.Extensions;
 using KY.Generator.Models;
@@ -16,10 +17,6 @@ namespace KY.Generator
     {
         public static Assembly Locate(string assemblyName, GeneratorEnvironment environment, params SearchLocation[] locations)
         {
-            NugetAssemblyLocator locator = NugetPackageDependencyLoader.CreateLocator();
-            locator.Locations.InsertRange(0, locations);
-            Version defaultVersion = typeof(CoreModule).Assembly.GetName().Version;
-
             Assembly entryAssembly = Assembly.GetEntryAssembly();
             ProcessorArchitecture entryArchitecture = entryAssembly.GetName().ProcessorArchitecture;
             ProcessorArchitecture assemblyArchitecture = AssemblyName.GetAssemblyName(assemblyName).ProcessorArchitecture;
@@ -32,9 +29,8 @@ namespace KY.Generator
 
             try
             {
-                SwitchableFramework entryFramework = entryAssembly.GetSwitchableFramework();
                 SwitchableFramework? assemblyFramework = null;
-                string[] frameworkFiles = Directory.GetFiles(RuntimeEnvironment.GetRuntimeDirectory(), "*.dll");
+                string[] frameworkFiles = FileSystem.GetFiles(RuntimeEnvironment.GetRuntimeDirectory(), "*.dll");
                 PathAssemblyResolver resolver = new PathAssemblyResolver(AppDomain.CurrentDomain.GetAssemblies().Select(x => x.Location).Concat(frameworkFiles));
                 MetadataLoadContext metadataLoadContext = new MetadataLoadContext(resolver);
 
@@ -60,6 +56,7 @@ namespace KY.Generator
                     }
                 }
 
+                SwitchableFramework entryFramework = entryAssembly.GetSwitchableFramework();
                 if (entryFramework != assemblyFramework && assemblyFramework != SwitchableFramework.None)
                 {
                     environment.SwitchContext = true;
@@ -79,6 +76,9 @@ namespace KY.Generator
             {
                 Logger.Warning($"Could not check framework compatibility, because an error occurred\n{exception.Message}");
             }
+            NugetAssemblyLocator locator = NugetPackageDependencyLoader.CreateLocator();
+            locator.Locations.InsertRange(0, locations);
+            Version defaultVersion = typeof(CoreModule).Assembly.GetName().Version;
             return locator.Locate(assemblyName, defaultVersion);
         }
 

@@ -185,6 +185,10 @@ namespace KY.Generator
                 Logger.Warning("Legacy output parameter found. Please use -output=\"...\" instead. Generator will fix this for you ;-)");
                 commandParameters[1] = new CommandValueParameter("output", commandParameters[1].Name);
             }
+            else if (commandParameters.OfType<CommandParameter>().Count() > 1)
+            {
+                Logger.Warning("Multiple commands found. Only one command is allowed. All parameters has to start with a dash (-). This will be an error within the next major release");
+            }
             this.InitializeEnvironment(commandParameters);
             if (FileSystem.FileExists(commandParameter.Name))
             {
@@ -243,74 +247,11 @@ namespace KY.Generator
                 result = this.resolver.Get<CommandRunner>().Run(this.command, this.output);
                 if (this.environment.SwitchContext)
                 {
-                    if (this.environment.SwitchToArchitecture != null && !RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                    {
-                        // TODO: Check other possibilities to run x86 in not Windows environments
-                        Logger.Error($"Can not start {this.environment.SwitchToArchitecture} process. Your system does not support this process type.");
-                        result = false;
-                    }
-                    else
-                    {
-                        if (this.environment.SwitchToArchitecture != null)
-                        {
-                            Logger.Trace($"Different assembly architecture found. Switching to {this.environment.SwitchToArchitecture}...");
-                        }
-                        if (this.environment.SwitchToFramework != SwitchableFramework.None)
-                        {
-                            Logger.Trace($"Different assembly framework found. Switching to {this.environment.SwitchToFramework}...");
-                        }
-                        string location = Assembly.GetEntryAssembly()?.Location ?? throw new InvalidOperationException("No location found");
-                        Regex regex = new Regex(@"(?<separator>[\\/])(?<framework>net[^\\/]+)[\\/]");
-                        Match match = regex.Match(location);
-                        if (!match.Success)
-                        {
-                            throw new InvalidOperationException($"Invalid location {location}. Location has to include the framework to switch the context");
-                        }
-                        string framework = match.Groups["framework"].Value;
-                        string separator = match.Groups["separator"].Value;
-                        string switchedFramework = (this.environment.SwitchToFramework.FrameworkName() ?? framework)
-                                                   + (this.environment.SwitchToArchitecture != null ? $"-{this.environment.SwitchToArchitecture.ToString().ToLower()}" : "");
-                        location = location.Replace(separator + framework + separator, separator + switchedFramework + separator);
-                        if (FileSystem.FileExists(location))
-                        {
-                            ProcessStartInfo startInfo = new ProcessStartInfo();
-                            string locationExe = location.Replace(".dll", ".exe");
-                            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && FileSystem.FileExists(locationExe))
-                            {
-                                // Always use the .exe on Windows to fix the dotnet.exe x86 problem
-                                startInfo.FileName = locationExe;
-                            }
-                            else
-                            {
-                                startInfo.FileName = "dotnet";
-                                startInfo.Arguments = location;
-                            }
-                            startInfo.Arguments += " " + string.Join(" ", this.command.Environment.Parameters);
-                            if (this.environment.SwitchToArchitecture != null)
-                            {
-                                startInfo.Arguments += $" -switchedFromArchitecture=\"{this.environment.SwitchToArchitecture}\"";
-                            }
-                            if (this.environment.SwitchToFramework != SwitchableFramework.None)
-                            {
-                                startInfo.Arguments += $" -switchedFromFramework=\"{this.environment.SwitchToFramework}\"";
-                            }
-                            //startInfo.UseShellExecute = false;
-                            //startInfo.RedirectStandardOutput = true;
-                            //startInfo.RedirectStandardError = true;
-                            Logger.Trace("===============================");
-                            Process process = Process.Start(startInfo);
-                            process.OutputDataReceived += (sender, args) => Logger.Trace(">> " + args.Data);
-                            process.ErrorDataReceived += (sender, args) => Logger.Error(">> " + args.Data);
-                            process.WaitForExit();
-                            Logger.Trace($"{this.environment.SwitchToArchitecture?.ToString() ?? this.environment.SwitchToFramework.ToString()} process exited with code {process.ExitCode}");
-                            result = process.ExitCode == 0;
-                        }
-                        else
-                        {
-                            Logger.Error($"Can not start {this.environment.SwitchToArchitecture} process. File \"{location}\" not found. Try to update to .net Core Framework 3.0 or later.");
-                            result = false;
-                        }
-                    }
+                    result = this.SwitchContext();
+                }
+                else if (this.environment.SwitchToAsync)
+                {
+                    result = this.SwitchToAsync();
                 }
             }
             catch (Exception exception)
@@ -327,6 +268,94 @@ namespace KY.Generator
                 Logger.Error($"See the full log in: {Logger.File.Path}");
             }
             return result;
+        }
+
+        private bool SwitchContext()
+        {
+            if (this.environment.SwitchToArchitecture != null && !RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                // TODO: Check other possibilities to run x86 in not Windows environments
+                Logger.Error($"Can not start {this.environment.SwitchToArchitecture} process. Your system does not support this process type.");
+                return false;
+            }
+            if (this.environment.SwitchToArchitecture != null)
+            {
+                Logger.Trace($"Different assembly architecture found. Switching to {this.environment.SwitchToArchitecture}...");
+            }
+            if (this.environment.SwitchToFramework != SwitchableFramework.None)
+            {
+                Logger.Trace($"Different assembly framework found. Switching to {this.environment.SwitchToFramework}...");
+            }
+            string location = Assembly.GetEntryAssembly()?.Location ?? throw new InvalidOperationException("No location found");
+            Regex regex = new Regex(@"(?<separator>[\\/])(?<framework>net[^\\/]+)[\\/]");
+            Match match = regex.Match(location);
+            if (!match.Success)
+            {
+                throw new InvalidOperationException($"Invalid location {location}. Location has to include the framework to switch the context");
+            }
+            string framework = match.Groups["framework"].Value;
+            string separator = match.Groups["separator"].Value;
+            string switchedFramework = (this.environment.SwitchToFramework.FrameworkName() ?? framework)
+                                       + (this.environment.SwitchToArchitecture != null ? $"-{this.environment.SwitchToArchitecture.ToString().ToLower()}" : "");
+            location = location.Replace(separator + framework + separator, separator + switchedFramework + separator);
+            if (FileSystem.FileExists(location))
+            {
+                ProcessStartInfo startInfo = new ProcessStartInfo();
+                string locationExe = location.Replace(".dll", ".exe");
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && FileSystem.FileExists(locationExe))
+                {
+                    // Always use the .exe on Windows to fix the dotnet.exe x86 problem
+                    startInfo.FileName = locationExe;
+                }
+                else
+                {
+                    startInfo.FileName = "dotnet";
+                    startInfo.Arguments = location;
+                }
+                startInfo.Arguments += " " + string.Join(" ", this.command.Environment.Parameters);
+                if (this.environment.SwitchToArchitecture != null)
+                {
+                    startInfo.Arguments += $" -switchedFromArchitecture=\"{this.environment.SwitchToArchitecture}\"";
+                }
+                if (this.environment.SwitchToFramework != SwitchableFramework.None)
+                {
+                    startInfo.Arguments += $" -switchedFromFramework=\"{this.environment.SwitchToFramework}\"";
+                }
+                //startInfo.UseShellExecute = false;
+                //startInfo.RedirectStandardOutput = true;
+                //startInfo.RedirectStandardError = true;
+                Logger.Trace("===============================");
+                Process process = Process.Start(startInfo);
+                process.OutputDataReceived += (sender, args) => Logger.Trace(">> " + args.Data);
+                process.ErrorDataReceived += (sender, args) => Logger.Error(">> " + args.Data);
+                process.WaitForExit();
+                Logger.Trace($"{this.environment.SwitchToArchitecture?.ToString() ?? this.environment.SwitchToFramework.ToString()} process exited with code {process.ExitCode}");
+                return process.ExitCode == 0;
+            }
+            Logger.Error($"Can not start {this.environment.SwitchToArchitecture} process. File \"{location}\" not found. Try to update to .net Core Framework 3.0 or later.");
+            return false;
+        }
+
+        private bool SwitchToAsync()
+        {
+            Logger.Trace($"The generation is continued in a separate asynchronous process. You can find the output log here: {Logger.File.Path}");
+            string location = Assembly.GetEntryAssembly()?.Location ?? throw new InvalidOperationException("No location found");
+            ProcessStartInfo startInfo = new ProcessStartInfo();
+            startInfo.UseShellExecute = true;
+            startInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && location.EndsWith(".exe"))
+            {
+                startInfo.FileName = location;
+            }
+            else
+            {
+                startInfo.FileName = "dotnet";
+                startInfo.Arguments = location;
+            }
+            startInfo.Arguments += " " + string.Join(" ", this.command.Environment.Parameters.Where(x => x.Name != "msbuild"));
+            startInfo.Arguments += " -only-async";
+            Process.Start(startInfo);
+            return true;
         }
 
         public static void InitializeLogger(string[] parameters)
@@ -364,6 +393,10 @@ namespace KY.Generator
         private void InitializeEnvironment(List<ICommandParameter> parameters)
         {
             this.environment.IsBeforeBuild = parameters.GetBool("beforeBuild");
+            this.environment.IsMsBuild = parameters.GetBool("msbuild");
+            this.environment.IsOnlyAsync = parameters.GetBool("only-async");
+            this.environment.Command = parameters.OfType<CommandParameter>().FirstOrDefault()?.Name;
+            this.environment.Parameters = parameters.OfType<CommandValueParameter>().ToList();
         }
     }
 }
