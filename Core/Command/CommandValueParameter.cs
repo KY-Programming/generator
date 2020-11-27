@@ -5,7 +5,7 @@ namespace KY.Generator.Command
 {
     public class CommandValueParameter : CommandParameterBase
     {
-        private static readonly Regex regex = new Regex(@"^-(?<name>[\w-]+)(=(?<value>.+))?$");
+        private static readonly Regex regex = new Regex(@"^-(?<name>[\w-]+)(=(?<value>.*))?$");
         public string Value { get; set; }
 
         public CommandValueParameter(string name, string value)
@@ -28,7 +28,7 @@ namespace KY.Generator.Command
 
         public override string ToString()
         {
-            return $"-{this.Name}=\"{this.Value.TrimEnd('\\')}\"";
+            return string.IsNullOrEmpty(this.Value) ? $"-{this.Name}" : $"-{this.Name}=\"{this.Value.TrimEnd('\\')}\"";
         }
     }
 }
