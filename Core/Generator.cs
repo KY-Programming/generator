@@ -372,7 +372,7 @@ namespace KY.Generator
                 Logger.ErrorTargets.Clear();
                 Logger.ErrorTargets.Add(target);
             }
-            if (parameters.Any(parameter => "msbuild".Equals(parameter)))
+            if (parameters.Any(parameter => parameter?.EndsWith("msbuild", StringComparison.CurrentCultureIgnoreCase) ?? false))
             {
                 Logger.Trace("MsBuild trace mode activated");
                 Logger.WarningTargets.Add(Logger.MsBuildOutput);
