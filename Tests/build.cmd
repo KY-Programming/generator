@@ -41,10 +41,32 @@ dotnet build --no-incremental
 cd ..
 
 REM ==========================================
-REM ||           AnnotationInNestedClass           ||
+REM ||       AnnotationInNestedClass        ||
 REM ==========================================
 REM 
 cd AnnotationInNestedClass
+rmdir /S/Q Output
+dotnet add package KY.Generator
+dotnet add package KY.Generator.Annotations
+dotnet build --no-incremental
+cd ..
+
+REM ==========================================
+REM ||           AnnotationAsync           ||
+REM ==========================================
+REM 
+cd AnnotationAsync
+rmdir /S/Q Output
+dotnet add package KY.Generator
+dotnet add package KY.Generator.Annotations
+dotnet build --no-incremental
+cd ..
+
+REM ==========================================
+REM ||       AnnotationAsyncAssembly        ||
+REM ==========================================
+REM 
+cd AnnotationAsyncAssembly
 rmdir /S/Q Output
 dotnet add package KY.Generator
 dotnet add package KY.Generator.Annotations
