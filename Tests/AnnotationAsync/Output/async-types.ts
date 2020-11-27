@@ -9,7 +9,7 @@
 
 import { SubType } from "./sub-type";
 
-export class Types {
+export class AsyncTypes {
     public stringField: string;
     public intField: number;
     public dateTimeField: Date;
