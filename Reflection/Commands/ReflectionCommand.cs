@@ -36,12 +36,9 @@ namespace KY.Generator.Reflection.Commands
 
         public bool Generate(CommandConfiguration configuration, ref IOutput output)
         {
-            bool isAsync = configuration.Parameters.GetBool("async");
-            if (this.environment.IsOnlyAsync && !isAsync)
-            {
-                return true;
-            }
-            if (!this.environment.IsOnlyAsync && isAsync)
+            bool isCommandAsync = configuration.Parameters.GetBool("async");
+            bool isAssemblyAsync = configuration.Parameters.GetBool("async-assembly");
+            if (!this.environment.IsOnlyAsync && isCommandAsync)
             {
                 this.environment.SwitchToAsync = true;
                 return true;
@@ -55,6 +52,10 @@ namespace KY.Generator.Reflection.Commands
                     this.environment.SwitchToAsync = true;
                     return true;
                 }
+            }
+            else if (this.environment.IsOnlyAsync && !isCommandAsync && !isAssemblyAsync)
+            {
+                return true;
             }
 
             if (configuration.Parameters.GetBool("fromAttributes") || configuration.Parameters.GetBool("fromAttribute"))

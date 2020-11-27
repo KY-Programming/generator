@@ -38,7 +38,8 @@ namespace KY.Generator.Reflection.Commands
             {
                 return false;
             }
-            if (!this.environment.IsOnlyAsync && assembly.IsAsync())
+            bool isAssemblyAsync = assembly.IsAsync();
+            if (!this.environment.IsOnlyAsync && isAssemblyAsync)
             {
                 this.environment.SwitchToAsync = true;
                 return true;
@@ -54,7 +55,13 @@ namespace KY.Generator.Reflection.Commands
                         CommandConfiguration commandConfiguration = new CommandConfiguration(x.Command).AddParameters(x.Parameters);
                         foreach (CommandValueParameter commandParameter in commandConfiguration.Parameters.OfType<CommandValueParameter>())
                         {
-                            commandParameter.Value = commandParameter.Value.Replace("$NAMESPACE$", objectType.Namespace).Replace("$NAME$", objectType.FullName.TrimStart(objectType.Namespace + "."));
+                            commandParameter.Value = commandParameter.Value.Replace("$ASSEMBLY$", assemblyName)
+                                                                     .Replace("$NAMESPACE$", objectType.Namespace)
+                                                                     .Replace("$NAME$", objectType.FullName.TrimStart(objectType.Namespace + "."));
+                        }
+                        if (commandConfiguration.Parameters.All(parameter => parameter.Name != "async-assembly"))
+                        {
+                            commandConfiguration.Parameters.Add(new CommandValueParameter("async-assembly", string.Empty));
                         }
                         return commandConfiguration;
                     }));

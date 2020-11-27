@@ -20,7 +20,6 @@ namespace KY.Generator.Reflection.Readers
         public void Read(ConfigurationBase configurationBase, List<ITransferObject> transferObjects)
         {
             ReflectionReadConfiguration configuration = (ReflectionReadConfiguration)configurationBase;
-            Logger.Trace($"Read class {configuration.Namespace}.{configuration.Name}...");
             Type type = GeneratorTypeLoader.Get(configuration, configuration.Assembly, configuration.Namespace, configuration.Name);
             if (type == null)
             {
