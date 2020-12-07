@@ -71,15 +71,26 @@ namespace KY.Generator.Command
                         this.environment.SwitchToAsync = true;
                         continue;
                     }
-                    bool isAssemblyAsync = configuration.IsAsyncAssembly || this.IsAssemblyAsync(configuration);
-                    if (!this.environment.IsOnlyAsync && isAssemblyAsync)
+                    bool? isAssemblyAsync = configuration.IsAsyncAssembly;
+                    if (!isCommandAsync)
                     {
-                        this.environment.SwitchToAsync = true;
-                        continue;
+                        string assemblyName = configuration.Parameters.GetString("assembly");
+                        if (!string.IsNullOrEmpty(assemblyName))
+                        {
+                            isAssemblyAsync = GeneratorAssemblyLocator.Locate(assemblyName, this.environment)?.IsAsync();
+                        }
                     }
-                    if (this.environment.IsOnlyAsync && !isCommandAsync && !isAssemblyAsync)
+                    if (isAssemblyAsync != null)
                     {
-                        continue;
+                        if (!this.environment.IsOnlyAsync && isAssemblyAsync.Value)
+                        {
+                            this.environment.SwitchToAsync = true;
+                            continue;
+                        }
+                        if (this.environment.IsOnlyAsync && !isCommandAsync && !isAssemblyAsync.Value)
+                        {
+                            continue;
+                        }
                     }
                 }
                 bool success = command.Generate(configuration, ref output);
@@ -90,12 +101,6 @@ namespace KY.Generator.Command
             }
             output.Execute();
             return true;
-        }
-
-        private bool IsAssemblyAsync(CommandConfiguration configuration)
-        {
-            string assemblyName = configuration.Parameters.GetString("assembly");
-            return !string.IsNullOrEmpty(assemblyName) && GeneratorAssemblyLocator.Locate(assemblyName, this.environment).IsAsync();
         }
 
         private static void CommandDocumentationHint()

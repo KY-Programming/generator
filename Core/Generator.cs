@@ -313,7 +313,7 @@ namespace KY.Generator
                     startInfo.FileName = "dotnet";
                     startInfo.Arguments = location;
                 }
-                startInfo.Arguments += " " + string.Join(" ", this.command.Environment.Parameters);
+                startInfo.Arguments += $" {this.environment.Command} {string.Join(" ", this.environment.Parameters)}";
                 if (this.environment.SwitchToArchitecture != null)
                 {
                     startInfo.Arguments += $" -switchedFromArchitecture=\"{this.environment.SwitchToArchitecture}\"";

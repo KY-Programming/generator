@@ -19,12 +19,26 @@ namespace KY.Generator
         {
             Assembly entryAssembly = Assembly.GetEntryAssembly();
             ProcessorArchitecture entryArchitecture = entryAssembly.GetName().ProcessorArchitecture;
-            ProcessorArchitecture assemblyArchitecture = AssemblyName.GetAssemblyName(assemblyName).ProcessorArchitecture;
-            if (entryArchitecture != assemblyArchitecture)
+            try
             {
-                environment.SwitchContext = true;
-                environment.SwitchToArchitecture = assemblyArchitecture;
-                return null;
+                ProcessorArchitecture assemblyArchitecture = AssemblyName.GetAssemblyName(assemblyName).ProcessorArchitecture;
+                if (entryArchitecture != assemblyArchitecture)
+                {
+                    environment.SwitchContext = true;
+                    environment.SwitchToArchitecture = assemblyArchitecture;
+                    return null;
+                }
+            }
+            catch (FileNotFoundException)
+            {
+                if (environment.IsBeforeBuild)
+                {
+                    return null;
+                }
+                else
+                {
+                    throw;
+                }
             }
 
             try
