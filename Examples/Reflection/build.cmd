@@ -3,6 +3,7 @@ REM ||    ReflectionFromAttributes    ||
 REM ====================================
 REM 
 cd ReflectionFromAttributes
+rmdir /S/Q bin
 rmdir /S/Q Output
 dotnet add package KY.Generator
 dotnet add package KY.Generator.Annotations
@@ -14,6 +15,7 @@ REM ||       ReflectionFromCore       ||
 REM ====================================
 REM 
 cd ReflectionFromCore
+rmdir /S/Q bin
 rmdir /S/Q Output
 dotnet add package KY.Generator
 dotnet build --no-incremental
@@ -24,6 +26,7 @@ REM ||    ReflectionFromExecutable    ||
 REM ====================================
 REM 
 cd ReflectionFromExecutable
+rmdir /S/Q bin
 rmdir /S/Q Output
 dotnet add package KY.Generator
 dotnet build --no-incremental
@@ -34,6 +37,7 @@ REM ||       ReflectionFromIndex      ||
 REM ====================================
 REM 
 cd ReflectionFromIndex
+rmdir /S/Q bin
 rmdir /S/Q Output
 dotnet add package KY.Generator
 dotnet add package KY.Generator.Annotations
@@ -45,6 +49,7 @@ REM ||    ReflectionFromMultipleAssemblies    ||
 REM ===========================================
 REM 
 cd ReflectionFromMultipleAssemblies\MainAssembly
+rmdir /S/Q bin
 rmdir /S/Q Output
 dotnet add package KY.Generator
 dotnet add package KY.Generator.Annotations
@@ -56,6 +61,7 @@ REM ||     ReflectionFromStandard     ||
 REM ====================================
 REM 
 cd ReflectionFromStandard
+rmdir /S/Q bin
 rmdir /S/Q Output
 dotnet add package KY.Generator
 dotnet build --no-incremental
@@ -66,6 +72,7 @@ REM ||    ReflectionIgnoreAttribute    ||
 REM ====================================
 REM 
 cd ReflectionIgnoreAttribute
+rmdir /S/Q bin
 rmdir /S/Q Output
 dotnet add package KY.Generator
 dotnet add package KY.Generator.Annotations
@@ -77,6 +84,7 @@ REM ||          ReflectionX86          ||
 REM ====================================
 REM 
 cd ReflectionX86
+rmdir /S/Q bin
 del type-to-read.ts
 dotnet add package KY.Generator
 dotnet add package KY.Generator.Annotations
@@ -88,6 +96,7 @@ REM ||       ReflectionFromNet5       ||
 REM ====================================
 REM 
 cd ReflectionFromNet5
+rmdir /S/Q bin
 rmdir /S/Q Output
 dotnet add package KY.Generator
 dotnet add package KY.Generator.Annotations

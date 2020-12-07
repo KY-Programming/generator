@@ -3,6 +3,7 @@ REM ||    AnnotationsWithMultipleOutputs    ||
 REM ==========================================
 REM 
 cd AnnotationsWithMultipleOutputs
+rmdir /S/Q bin
 rmdir /S/Q Output
 dotnet add package KY.Generator
 dotnet add package KY.Generator.Annotations
@@ -14,6 +15,7 @@ REM ||               Types                 ||
 REM ==========================================
 REM 
 cd Types
+rmdir /S/Q bin
 rmdir /S/Q Output
 dotnet add package KY.Generator
 dotnet add package KY.Generator.Annotations
@@ -25,6 +27,7 @@ REM ||           WebApiController           ||
 REM ==========================================
 REM 
 cd WebApiController
+rmdir /S/Q bin
 rmdir /S/Q ClientApp\src\app\fix-casing\models
 rmdir /S/Q ClientApp\src\app\fix-casing\services
 rmdir /S/Q ClientApp\src\app\keep-casing\models
@@ -45,6 +48,7 @@ REM ||       AnnotationInNestedClass        ||
 REM ==========================================
 REM 
 cd AnnotationInNestedClass
+rmdir /S/Q bin
 rmdir /S/Q Output
 dotnet add package KY.Generator
 dotnet add package KY.Generator.Annotations
@@ -56,6 +60,7 @@ REM ||           AnnotationAsync           ||
 REM ==========================================
 REM 
 cd AnnotationAsync
+rmdir /S/Q bin
 rmdir /S/Q Output
 dotnet add package KY.Generator
 dotnet add package KY.Generator.Annotations
@@ -67,6 +72,7 @@ REM ||       AnnotationAsyncAssembly        ||
 REM ==========================================
 REM 
 cd AnnotationAsyncAssembly
+rmdir /S/Q bin
 rmdir /S/Q Output
 dotnet add package KY.Generator
 dotnet add package KY.Generator.Annotations
