@@ -10,6 +10,8 @@ namespace KY.Generator.Command
         public override bool RequireLanguage => false;
         public string Command { get; }
         public List<ICommandParameter> Parameters { get; }
+        public bool SkipAsyncCheck { get; set; }
+        public bool IsAsyncAssembly { get; set; }
 
         public CommandConfiguration(string command)
         {

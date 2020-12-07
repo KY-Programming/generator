@@ -163,6 +163,7 @@ namespace KY.Generator
             this.Modules.OfType<GeneratorModule>().ForEach(x => x.BeforeConfigure());
             this.command = new CommandConfiguration("run-by-attributes");
             this.command.Parameters.Add(new CommandValueParameter("assembly", assemblyName));
+            this.command.SkipAsyncCheck = true;
             return this;
         }
 

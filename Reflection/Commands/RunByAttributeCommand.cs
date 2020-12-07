@@ -53,15 +53,12 @@ namespace KY.Generator.Reflection.Commands
                     commands.AddRange(attribute.Commands.Select(x =>
                     {
                         CommandConfiguration commandConfiguration = new CommandConfiguration(x.Command).AddParameters(x.Parameters);
+                        commandConfiguration.IsAsyncAssembly = isAssemblyAsync;
                         foreach (CommandValueParameter commandParameter in commandConfiguration.Parameters.OfType<CommandValueParameter>())
                         {
                             commandParameter.Value = commandParameter.Value.Replace("$ASSEMBLY$", assemblyName)
                                                                      .Replace("$NAMESPACE$", objectType.Namespace)
                                                                      .Replace("$NAME$", objectType.FullName.TrimStart(objectType.Namespace + "."));
-                        }
-                        if (commandConfiguration.Parameters.All(parameter => parameter.Name != "async-assembly"))
-                        {
-                            commandConfiguration.Parameters.Add(new CommandValueParameter("async-assembly", string.Empty));
                         }
                         return commandConfiguration;
                     }));

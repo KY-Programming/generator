@@ -36,28 +36,7 @@ namespace KY.Generator.Reflection.Commands
 
         public bool Generate(CommandConfiguration configuration, ref IOutput output)
         {
-            bool isCommandAsync = configuration.Parameters.GetBool("async");
-            bool isAssemblyAsync = configuration.Parameters.GetBool("async-assembly");
-            if (!this.environment.IsOnlyAsync && isCommandAsync)
-            {
-                this.environment.SwitchToAsync = true;
-                return true;
-            }
             string assemblyName = configuration.Parameters.GetString(nameof(ReflectionReadConfiguration.Assembly));
-            if (!string.IsNullOrEmpty(assemblyName))
-            {
-                Assembly assembly = GeneratorAssemblyLocator.Locate(assemblyName, this.environment);
-                if (!this.environment.IsOnlyAsync && assembly.IsAsync())
-                {
-                    this.environment.SwitchToAsync = true;
-                    return true;
-                }
-            }
-            else if (this.environment.IsOnlyAsync && !isCommandAsync && !isAssemblyAsync)
-            {
-                return true;
-            }
-
             if (configuration.Parameters.GetBool("fromAttributes") || configuration.Parameters.GetBool("fromAttribute"))
             {
                 foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
