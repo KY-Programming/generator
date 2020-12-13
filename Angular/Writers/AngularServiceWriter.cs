@@ -39,7 +39,7 @@ namespace KY.Generator.Angular.Writers
                 IMappableLanguage configurationLanguage = configuration.Language as IMappableLanguage;
                 Dictionary<HttpServiceActionParameterTransferObject, ParameterTemplate> mapping = new Dictionary<HttpServiceActionParameterTransferObject, ParameterTemplate>();
                 string controllerName = controller.Name.TrimEnd("Controller");
-                FileTemplate file = files.AddFile(configuration.Service.RelativePath, configuration.AddHeader, configuration.CheckOnOverwrite);
+                FileTemplate file = files.AddFile(configuration.Service.RelativePath, configuration.AddHeader, configuration.OutputId);
                 ClassTemplate classTemplate = file.AddNamespace(string.Empty)
                                                   .AddClass(configuration.Service.Name?.Replace("{0}", controllerName) ?? controllerName + "Service")
                                                   .FormatName(configuration, true)
@@ -172,7 +172,7 @@ namespace KY.Generator.Angular.Writers
             EnumTemplate connectionStatusEnum = null;
             if (hubs.Count > 0)
             {
-                connectionStatusFileTemplate = files.AddFile(configuration.Model.RelativePath);
+                connectionStatusFileTemplate = files.AddFile(configuration.Model.RelativePath, configuration.AddHeader, configuration.OutputId);
                 connectionStatusEnum = connectionStatusFileTemplate
                                        .AddNamespace(string.Empty)
                                        .AddEnum("ConnectionStatus")
@@ -186,7 +186,7 @@ namespace KY.Generator.Angular.Writers
                 string relativeModelPath = FileSystem.RelativeTo(configuration.Model?.RelativePath ?? ".", configuration.Service.RelativePath);
                 IMappableLanguage hubLanguage = hub.Language as IMappableLanguage;
                 IMappableLanguage configurationLanguage = configuration.Language as IMappableLanguage;
-                FileTemplate file = files.AddFile(configuration.Service.RelativePath, configuration.AddHeader, configuration.CheckOnOverwrite);
+                FileTemplate file = files.AddFile(configuration.Service.RelativePath, configuration.AddHeader, configuration.OutputId);
                 ClassTemplate classTemplate = file.AddNamespace(string.Empty)
                                                   .AddClass(configuration.Service.Name?.Replace("{0}", hub.Name) ?? hub.Name + "Service")
                                                   .FormatName(configuration, true)

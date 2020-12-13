@@ -20,7 +20,7 @@ namespace KY.Generator.Output
                 return;
             }
             this.executed = true;
-            if (!FileSystem.FileExists(this.FilePath))
+            if (FileSystem.FileExists(this.FilePath))
             {
                 Logger.Trace($"Delete file {this.FilePath}");
                 FileSystem.DeleteFile(this.FilePath);

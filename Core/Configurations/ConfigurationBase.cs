@@ -23,7 +23,6 @@ namespace KY.Generator.Configurations
         public List<FieldMapping> FieldMapping { get; }
         public List<PropertyMapping> PropertyMapping { get; }
         public ConfigurationFormatting Formatting { get; set; }
-        public bool CheckOnOverwrite { get; set; } = true;
         public bool BeforeBuild { get; set; }
 
         protected ConfigurationBase()

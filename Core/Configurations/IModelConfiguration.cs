@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace KY.Generator.Configurations
 {
@@ -10,5 +11,6 @@ namespace KY.Generator.Configurations
         bool AddHeader { get; }
         bool SkipNamespace { get; }
         List<string> Usings { get; }
+        Guid? OutputId { get; }
     }
 }

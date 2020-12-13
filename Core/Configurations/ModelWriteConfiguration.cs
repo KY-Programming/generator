@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace KY.Generator.Configurations
 {
@@ -9,6 +10,7 @@ namespace KY.Generator.Configurations
         public string RelativePath { get; set; }
         public bool SkipNamespace { get; set; }
         public List<string> Usings { get; set; }
+        public Guid? OutputId { get; set; }
         
         public bool FieldsToProperties
         {

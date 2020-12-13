@@ -70,8 +70,7 @@ namespace KY.Generator.Reflection.Commands
                     }
                     if (commands.Count > 0)
                     {
-                        commandRunner.Run(commands, output, this.TransferObjects);
-                        this.TransferObjects.Clear();
+                        commandRunner.Run(commands, output, this.TransferObjects.ToList());
                     }
                 }
             }

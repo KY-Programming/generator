@@ -12,7 +12,6 @@ using KY.Core.Dependency;
 using KY.Core.Extension;
 using KY.Core.Module;
 using KY.Generator.Command;
-using KY.Generator.Commands;
 using KY.Generator.Configuration;
 using KY.Generator.Configurations;
 using KY.Generator.Extensions;
@@ -114,7 +113,7 @@ namespace KY.Generator
             this.resolver.Get<ConfigurationMapping>().Map<TConfiguration, TWriter>(name);
             return this;
         }
-        
+
         public IGeneratorRunSyntax ParseAttributes(string assemblyName)
         {
             Logger.Trace($"Read attributes from assembly {assemblyName}");
@@ -164,6 +163,10 @@ namespace KY.Generator
                     {
                         return this.SwitchToAsync(commandsToRun);
                     }
+                }
+                if (success)
+                {
+                    this.output.Execute();
                 }
             }
             catch (Exception exception)

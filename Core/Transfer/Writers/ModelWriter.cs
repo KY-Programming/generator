@@ -76,7 +76,7 @@ namespace KY.Generator.Transfer.Writers
                 throw new InvalidOperationException("Can not write enum without values");
             }
 
-            EnumTemplate enumTemplate = files.AddFile(configuration.RelativePath, configuration.AddHeader)
+            EnumTemplate enumTemplate = files.AddFile(configuration.RelativePath, configuration.AddHeader, configuration.OutputId)
                                              .AddNamespace(nameSpace)
                                              .AddEnum(model.Name);
 
@@ -98,7 +98,7 @@ namespace KY.Generator.Transfer.Writers
                 this.MapType(modelLanguage, configurationLanguage, model.BasedOn);
             }
 
-            ClassTemplate classTemplate = files.AddFile(configuration.RelativePath, configuration.AddHeader)
+            ClassTemplate classTemplate = files.AddFile(configuration.RelativePath, configuration.AddHeader, configuration.OutputId)
                                                .AddNamespace(nameSpace)
                                                .AddClass(model.Name, model.BasedOn?.ToTemplate())
                                                .FormatName(configuration);

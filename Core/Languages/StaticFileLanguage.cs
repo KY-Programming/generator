@@ -40,10 +40,12 @@ namespace KY.Generator.Languages
             FileWriter fileWriter = new FileWriter(this);
             fileWriter.Add(fileTemplate.Header)
                       .BreakLine()
-                      .Add(staticFile.Content, true);
+                      .Add(staticFile.Content, true)
+                      .BreakLine()
+                      .Add(fileTemplate.OutputIdComment);
             
             string fileName = FileSystem.Combine(fileTemplate.RelativePath, fileTemplate.Name);
-            output.Write(fileName, fileWriter.ToString(), fileTemplate.CheckOnOverwrite);
+            output.Write(fileName, fileWriter.ToString(), fileTemplate.OutputId);
         }
 
         public override void Write(ICodeFragment fragment, IOutputCache output)

@@ -26,7 +26,7 @@ namespace KY.Generator.AspDotNet.Writers
                                                              .AssertIsNotNull(nameof(controllerConfiguration.Entity), $"Entity {controllerConfiguration.Entity} not found. Ensure it is read before.");
                 
                 string nameSpace = (controllerConfiguration.Namespace ?? configuration.Namespace).AssertIsNotNull(nameof(configuration.Namespace), "asp writer requires a namespace");
-                ClassTemplate controller = files.AddFile(configuration.RelativePath, configuration.AddHeader, configuration.CheckOnOverwrite)
+                ClassTemplate controller = files.AddFile(configuration.RelativePath, configuration.AddHeader, configuration.OutputId)
                                                 .AddNamespace(nameSpace)
                                                 .AddClass(controllerConfiguration.Name ?? entity.Name + "Controller", Code.Type(configuration.Template.ControllerBase))
                                                 .FormatName(configuration)

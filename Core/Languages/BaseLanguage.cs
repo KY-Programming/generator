@@ -177,8 +177,9 @@ namespace KY.Generator.Languages
             {
                 writer.Add(staticFile.Content, true);
             }
+            this.WriteFooter(fileTemplate, writer);
             string fileName = FileSystem.Combine(fileTemplate.RelativePath, this.FormatFileName(fileTemplate.Name, fileTemplate.IsInterface()));
-            output.Write(fileName, writer.ToString(), fileTemplate.CheckOnOverwrite);
+            output.Write(fileName, writer.ToString(), fileTemplate.OutputId);
         }
 
         protected virtual void WriteHeader(FileTemplate fileTemplate, IOutputCache output)
@@ -187,6 +188,15 @@ namespace KY.Generator.Languages
             {
                 this.Write(fileTemplate.Header, output);
                 output.BreakLine();
+            }
+        }
+
+        protected virtual void WriteFooter(FileTemplate fileTemplate, IOutputCache output)
+        {
+            if (fileTemplate.OutputIdComment != null)
+            {
+                output.BreakLine();
+                this.Write(fileTemplate.OutputIdComment, output);
             }
         }
 

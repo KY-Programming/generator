@@ -110,12 +110,7 @@ namespace KY.Generator.Command
                     }
                 }
             }
-            IGeneratorCommandResult result = command.Run(output);
-            if (result.Success)
-            {
-                output.Execute();
-            }
-            return result;
+            return command.Run(output);
         }
     }
 }

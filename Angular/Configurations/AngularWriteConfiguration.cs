@@ -1,4 +1,5 @@
-﻿using KY.Generator.Angular.Languages;
+﻿using System;
+using KY.Generator.Angular.Languages;
 using KY.Generator.Configurations;
 
 namespace KY.Generator.Angular.Configurations
@@ -9,6 +10,7 @@ namespace KY.Generator.Angular.Configurations
         public AngularWriteModelConfiguration Model { get; set; }
         public bool FormatNames { get; set; }
         public bool WriteModels { get; set; }
+        public Guid? OutputId { get; set; }
 
         public AngularWriteConfiguration(ConfigurationBase copyFrom = null)
         {

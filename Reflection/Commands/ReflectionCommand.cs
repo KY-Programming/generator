@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using KY.Core;
 using KY.Generator.Command;
@@ -16,19 +17,6 @@ using KY.Generator.TypeScript.Languages;
 
 namespace KY.Generator.Reflection.Commands
 {
-    public class ReflectionCommandParameters : GeneratorCommandParameters
-    {
-        [GeneratorParameter("fromAttribute")]
-        [GeneratorParameter("fromAttributes")]
-        public bool FromAttributes { get; set; }
-
-        public string Name { get; set; }
-        public string Namespace { get; set; }
-        public bool SkipSelf { get; set; }
-        public ILanguage Language { get; set; } = TypeScriptLanguage.Instance;
-        public string Using { get; set; }
-    }
-
     internal class ReflectionCommand : GeneratorCommand<ReflectionCommandParameters>
     {
         private readonly ReflectionReader reader;
@@ -74,6 +62,7 @@ namespace KY.Generator.Reflection.Commands
 
                             ReflectionWriteConfiguration writeConfiguration = new ReflectionWriteConfiguration();
                             writeConfiguration.AddHeader = !this.Parameters.SkipHeader;
+                            writeConfiguration.OutputId = this.TransferObjects.OfType<OutputIdTransferObject>().FirstOrDefault()?.Value;
                             writeConfiguration.Language = language;
                             writeConfiguration.Namespace = objectType.Namespace;
                             writeConfiguration.RelativePath = attribute.RelativePath ?? this.Parameters.RelativePath;
@@ -81,6 +70,9 @@ namespace KY.Generator.Reflection.Commands
                             writeConfiguration.PropertiesToFields = attribute.PropertiesToFields.ToBool(this.Parameters.PropertiesToFields);
                             writeConfiguration.FieldsToProperties = attribute.FieldsToProperties.ToBool(this.Parameters.FieldsToProperties);
                             writeConfiguration.FormatNames = attribute.FormatNames.ToBool(this.Parameters.FormatNames);
+
+                            output.DeleteAllRelatedFiles(writeConfiguration.OutputId, this.Parameters.RelativePath);
+
                             this.writer.Write(writeConfiguration, transferObjects, output);
                         }
                     }
@@ -98,6 +90,7 @@ namespace KY.Generator.Reflection.Commands
 
                 ReflectionWriteConfiguration writeConfiguration = new ReflectionWriteConfiguration();
                 writeConfiguration.AddHeader = !this.Parameters.SkipHeader;
+                writeConfiguration.OutputId = this.TransferObjects.OfType<OutputIdTransferObject>().FirstOrDefault()?.Value;
                 writeConfiguration.Language = this.Parameters.Language?.Name?.Equals(nameof(OutputLanguage.Csharp), StringComparison.CurrentCultureIgnoreCase) ?? false ? (ILanguage)CsharpLanguage.Instance : TypeScriptLanguage.Instance;
                 writeConfiguration.Namespace = this.Parameters.Namespace;
                 writeConfiguration.RelativePath = this.Parameters.RelativePath;
@@ -106,6 +99,9 @@ namespace KY.Generator.Reflection.Commands
                 writeConfiguration.PropertiesToFields = this.Parameters.PropertiesToFields;
                 writeConfiguration.FieldsToProperties = this.Parameters.FieldsToProperties;
                 writeConfiguration.FormatNames = this.Parameters.FormatNames;
+
+                output.DeleteAllRelatedFiles(writeConfiguration.OutputId, this.Parameters.RelativePath);
+
                 this.writer.Write(writeConfiguration, transferObjects, output);
             }
 

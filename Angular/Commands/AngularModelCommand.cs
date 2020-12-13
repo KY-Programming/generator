@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using KY.Core.Dependency;
 using KY.Generator.Angular.Configurations;
 using KY.Generator.Angular.Writers;
 using KY.Generator.Command;
 using KY.Generator.Output;
 using KY.Generator.Templates;
+using KY.Generator.Transfer;
 
 namespace KY.Generator.Angular.Commands
 {
@@ -24,6 +26,7 @@ namespace KY.Generator.Angular.Commands
             AngularWriteConfiguration writeConfiguration = new AngularWriteConfiguration();
             writeConfiguration.AddHeader = !this.Parameters.SkipHeader;
             writeConfiguration.FormatNames = this.Parameters.FormatNames;
+            writeConfiguration.OutputId = this.TransferObjects.OfType<OutputIdTransferObject>().FirstOrDefault()?.Value;
             writeConfiguration.Model = new AngularWriteModelConfiguration();
             writeConfiguration.Model.CopyBaseFrom(writeConfiguration);
             writeConfiguration.Model.Namespace = this.Parameters.Namespace;
@@ -33,10 +36,11 @@ namespace KY.Generator.Angular.Commands
             writeConfiguration.Model.FieldsToProperties = this.Parameters.FieldsToProperties;
             writeConfiguration.Model.FormatNames = this.Parameters.FormatNames;
 
+            output.DeleteAllRelatedFiles(writeConfiguration.OutputId, this.Parameters.RelativePath);
+
             List<FileTemplate> files = new List<FileTemplate>();
             this.resolver.Create<AngularModelWriter>().Write(writeConfiguration, this.TransferObjects, files);
-            IOutput localOutput = output;
-            files.ForEach(file => writeConfiguration.Language.Write(file, localOutput));
+            files.ForEach(file => writeConfiguration.Language.Write(file, output));
 
             return this.Success();
         }

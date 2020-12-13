@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using KY.Core.DataAccess;
 
 namespace KY.Generator.Output
@@ -15,11 +17,11 @@ namespace KY.Generator.Output
             this.basePath = basePath;
         }
 
-        public void Write(string fileName, string content, bool checkOnOverwrite = true)
+        public void Write(string fileName, string content, Guid? outputId)
         {
             string filePath = this.ToFilePath(fileName);
             this.RemovePreviousActions(filePath);
-            this.actions.Add(new OutputWriteAction(filePath, content, checkOnOverwrite));
+            this.actions.Add(new OutputWriteAction(filePath, content, outputId));
         }
 
         public void Delete(string fileName)
@@ -34,6 +36,24 @@ namespace KY.Generator.Output
             this.actions.ForEach(action => action.Execute());
         }
 
+        public void DeleteAllRelatedFiles(Guid? outputId, string relativePath = null)
+        {
+            if (outputId == null)
+            {
+                return;
+            }
+            string path = this.ToFilePath(relativePath);
+            IEnumerable<string> filesToCheck = FileSystem.GetFiles(path, null, SearchOption.AllDirectories)
+                                                         .Where(file => this.actions.All(action => !action.FilePath.Equals(file, StringComparison.CurrentCultureIgnoreCase)));
+            foreach (string file in filesToCheck)
+            {
+                if (FileSystem.ReadAllText(file).Contains($"outputid:{outputId}"))
+                {
+                    this.Delete(file);
+                }
+            }
+        }
+
         public void Move(string path)
         {
             this.basePath = FileSystem.IsAbsolute(path) ? path : FileSystem.Combine(this.basePath, path);
@@ -46,7 +66,7 @@ namespace KY.Generator.Output
 
         private string ToFilePath(string fileName)
         {
-            return FileSystem.Combine(this.basePath, fileName.Trim('\\'));
+            return FileSystem.IsAbsolute(fileName) ? fileName : FileSystem.Combine(this.basePath, fileName);
         }
 
         public override string ToString()

@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using KY.Core;
 using KY.Generator.AspDotNet.Configurations;
-using KY.Generator.AspDotNet.Templates;
 using KY.Generator.Csharp;
 using KY.Generator.Csharp.Extensions;
 using KY.Generator.Csharp.Languages;
-using KY.Generator.Output;
 using KY.Generator.Templates;
 using KY.Generator.Templates.Extensions;
 
@@ -15,7 +12,7 @@ namespace KY.Generator.AspDotNet.Writers
 {
     public class AspDotNetGeneratorControllerWriter : Codeable
     {
-        public virtual  void Write(AspDotNetWriteConfiguration configuration, List<FileTemplate> files)
+        public virtual void Write(AspDotNetWriteConfiguration configuration, List<FileTemplate> files)
         {
             Logger.Trace("Generate generator controller for ASP.net...");
             if (!configuration.Language.IsCsharp())
@@ -23,13 +20,13 @@ namespace KY.Generator.AspDotNet.Writers
                 throw new InvalidOperationException($"Can not generate ASP.net Controller for language {configuration.Language?.Name ?? "Empty"}. Only Csharp is currently implemented");
             }
             string nameSpace = (configuration.GeneratorController.Namespace ?? configuration.Namespace).AssertIsNotNull(nameof(configuration.Namespace), "asp writer requires a namespace");
-            ClassTemplate classTemplate = files.AddFile(configuration.GeneratorController.RelativePath ?? configuration.RelativePath, configuration.AddHeader, configuration.CheckOnOverwrite)
-                                              .AddNamespace(nameSpace)
-                                              .AddClass("GeneratorController", Code.Type(configuration.Template.ControllerBase))
-                                              .WithUsing("System")
-                                              .WithUsing("System.Linq")
-                                              .WithUsing("KY.Generator")
-                                              .WithUsing("KY.Generator.Output");
+            ClassTemplate classTemplate = files.AddFile(configuration.GeneratorController.RelativePath ?? configuration.RelativePath, configuration.AddHeader, configuration.OutputId)
+                                               .AddNamespace(nameSpace)
+                                               .AddClass("GeneratorController", Code.Type(configuration.Template.ControllerBase))
+                                               .WithUsing("System")
+                                               .WithUsing("System.Linq")
+                                               .WithUsing("KY.Generator")
+                                               .WithUsing("KY.Generator.Output");
 
             classTemplate.Usings.AddRange(configuration.Template.Usings);
 
