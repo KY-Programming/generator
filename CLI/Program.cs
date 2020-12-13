@@ -3,14 +3,8 @@ using KY.Core;
 using KY.Generator.Angular;
 using KY.Generator.AspDotNet;
 using KY.Generator.Csharp;
-using KY.Generator.EntityFramework;
-using KY.Generator.Json;
-using KY.Generator.OData;
-using KY.Generator.OpenApi;
 using KY.Generator.Reflection;
-using KY.Generator.Tsql;
 using KY.Generator.TypeScript;
-using KY.Generator.Watchdog;
 
 namespace KY.Generator
 {
@@ -24,14 +18,14 @@ namespace KY.Generator
                                     .PreloadModule<AngularModule>()
                                     .PreloadModule<AspDotNetModule>()
                                     .PreloadModule<CsharpModule>()
-                                    .PreloadModule<EntityFrameworkModule>()
-                                    .PreloadModule<JsonModule>()
-                                    .PreloadModule<ODataModule>()
-                                    .PreloadModule<OpenApiModule>()
+                                    //.PreloadModule<EntityFrameworkModule>()
+                                    //.PreloadModule<JsonModule>()
+                                    //.PreloadModule<ODataModule>()
+                                    //.PreloadModule<OpenApiModule>()
                                     .PreloadModule<ReflectionModule>()
-                                    .PreloadModule<TsqlModule>()
+                                    //.PreloadModule<TsqlModule>()
                                     .PreloadModule<TypeScriptModule>()
-                                    .PreloadModule<WatchdogModule>()
+                                    //.PreloadModule<WatchdogModule>()
                                     .SetParameters(args)
                                     .Run();
             if (!success)

@@ -6,21 +6,20 @@ using KY.Generator.Output;
 
 namespace KY.Generator.Commands
 {
-    internal class VersionCommand : IGeneratorCommand
+    internal class VersionCommand : GeneratorCommand<VersionCommandParameters>
     {
-        public string[] Names { get; } = { "version", "-version", "--version", "v", "-v", "--v" };
+        public override string[] Names { get; } = { "version", "v" };
 
-        public bool Generate(CommandConfiguration configuration, ref IOutput output)
+        public override IGeneratorCommandResult Run(IOutput output)
         {
-            bool detailed = configuration.Parameters.GetBool("d");
             Logger.Trace("Execute version command...");
             Logger.Trace("Loaded assemblies:");
 
             AppDomain.CurrentDomain.GetAssemblies()
                      .Select(x => x.GetName())
                      .OrderBy(x => x.Name)
-                     .ForEach(x => Logger.Trace($"{x.Name} {x.Version} {(detailed ? x.CodeBase.TrimStart("file:///") : "")}"));
-            return true;
+                     .ForEach(x => Logger.Trace($"{x.Name} {x.Version} {(this.Parameters.ShowDetailed ? x.CodeBase.TrimStart("file:///") : "")}"));
+            return this.Success();
         }
     }
 }

@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <Company>KY-Programming</Company>
     <Authors>KY-Programming</Authors>
-    <Version>5.6.1</Version>
+    <Version>6.0.0-rc.0</Version>
     <Product>KY.Generator</Product>
     <Description>ASP.net Module for KY-Generator
 Download KY.Generator to use this module</Description>

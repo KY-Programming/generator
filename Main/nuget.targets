@@ -20,12 +20,12 @@
       <Framework Condition="$(FrameworkRaw.StartsWith('3.'))">netcoreapp3.0</Framework>
       <Framework Condition="$(FrameworkRaw.StartsWith('5.'))">net5.0</Framework>
     </PropertyGroup>
-    <Exec Command="%22$(MSBuildThisFileDirectory)..\tools\$(Framework)\KY.Generator.exe%22 %22$(ProjectDir)generator.json%22 -output=%22$(ProjectDir)\%22 -assembly=%22$(TargetPath)%22 -msbuild -beforeBuild"
+    <Exec Command="%22$(MSBuildThisFileDirectory)..\tools\$(Framework)\KY.Generator.exe%22 fluent -assembly=%22$(TargetPath)%22 --output=%22$(ProjectDir)\%22 --msbuild --beforeBuild"
           Condition="$(Framework) != 'netcoreapp2.0'"
           CustomErrorRegularExpression="^Error:"
           CustomWarningRegularExpression="^Warning:">
     </Exec>
-    <Exec Command="dotnet %22$(MSBuildThisFileDirectory)..\tools\$(Framework)\KY.Generator.dll%22 %22$(ProjectDir)generator.json%22 -output=%22$(ProjectDir)\%22 -assembly=%22$(TargetPath)%22 -msbuild -beforeBuild"
+    <Exec Command="dotnet %22$(MSBuildThisFileDirectory)..\tools\$(Framework)\KY.Generator.dll%22 fluent -assembly=%22$(TargetPath)%22 --output=%22$(ProjectDir)\%22 --msbuild --beforeBuild"
           Condition="$(Framework) == 'netcoreapp2.0'"
           CustomErrorRegularExpression="^Error:"
           CustomWarningRegularExpression="^Warning:">
@@ -34,12 +34,12 @@
   <Target Name="KYGeneratorWindowsAfterTarget"
           AfterTargets="AfterBuild"
           Condition="$(GeneratorPlatform) == 'windows'">
-    <Exec Command="%22$(MSBuildThisFileDirectory)..\tools\$(Framework)\KY.Generator.exe%22 %22$(ProjectDir)generator.json%22 -output=%22$(ProjectDir)\%22 -assembly=%22$(TargetPath)%22 -msbuild"
+    <Exec Command="%22$(MSBuildThisFileDirectory)..\tools\$(Framework)\KY.Generator.exe%22 fluent -assembly=%22$(TargetPath)%22 attributes -assembly=%22$(TargetPath)%22 --output=%22$(ProjectDir)\%22 --msbuild"
           Condition="$(Framework) != 'netcoreapp2.0'"
           CustomErrorRegularExpression="^Error:"
           CustomWarningRegularExpression="^Warning:">
     </Exec>
-    <Exec Command="dotnet %22$(MSBuildThisFileDirectory)..\tools\$(Framework)\KY.Generator.dll%22 %22$(ProjectDir)generator.json%22 -output=%22$(ProjectDir)\%22 -assembly=%22$(TargetPath)%22 -msbuild"
+    <Exec Command="dotnet %22$(MSBuildThisFileDirectory)..\tools\$(Framework)\KY.Generator.dll%22 fluent -assembly=%22$(TargetPath)%22 attributes -assembly=%22$(TargetPath)%22 --output=%22$(ProjectDir)\%22 --msbuild"
           Condition="$(Framework) == 'netcoreapp2.0'"
           CustomErrorRegularExpression="^Error:"
           CustomWarningRegularExpression="^Warning:">
@@ -59,7 +59,7 @@
       <Framework Condition="$(FrameworkRaw.StartsWith('3.'))">netcoreapp3.0</Framework>
       <Framework Condition="$(FrameworkRaw.StartsWith('5.'))">net5.0</Framework>
     </PropertyGroup>
-    <Exec Command="dotnet %22$(MSBuildThisFileDirectory)../tools/$(Framework)/KY.Generator.dll%22 %22$(ProjectDir)generator.json%22 -output=%22$(ProjectDir)%22 -assembly=%22$(TargetPath)%22 -msbuild -beforeBuild"
+    <Exec Command="dotnet %22$(MSBuildThisFileDirectory)../tools/$(Framework)/KY.Generator.dll%22 fluent -assembly=%22$(TargetPath)%22 --output=%22$(ProjectDir)\%22 --msbuild"
           Condition="$(Framework) != 'none'"
           CustomErrorRegularExpression="^Error:"
           CustomWarningRegularExpression="^Warning:">
@@ -71,13 +71,7 @@
   <Target Name="KYGeneratorLinuxAfterTarget"
           AfterTargets="AfterBuild"
           Condition="$(GeneratorPlatform) == 'linux'">
-    <PropertyGroup>
-      <Framework>none</Framework>
-      <Framework Condition="$(FrameworkRaw.StartsWith('2.'))">netcoreapp2.0</Framework>
-      <Framework Condition="$(FrameworkRaw.StartsWith('3.'))">netcoreapp3.0</Framework>
-      <Framework Condition="$(FrameworkRaw.StartsWith('5.'))">net5.0</Framework>
-    </PropertyGroup>
-    <Exec Command="dotnet %22$(MSBuildThisFileDirectory)../tools/$(Framework)/KY.Generator.dll%22 %22$(ProjectDir)generator.json%22 -output=%22$(ProjectDir)%22 -assembly=%22$(TargetPath)%22 -msbuild"
+    <Exec Command="dotnet %22$(MSBuildThisFileDirectory)../tools/$(Framework)/KY.Generator.dll%22 fluent -assembly=%22$(TargetPath)%22 attributes -assembly=%22$(TargetPath)%22 --output=%22$(ProjectDir)\%22 --msbuild"
           Condition="$(Framework) != 'none'"
           CustomErrorRegularExpression="^Error:"
           CustomWarningRegularExpression="^Warning:">
@@ -100,7 +94,7 @@
       <Framework Condition="$(FrameworkRaw.StartsWith('3.'))">netcoreapp3.0</Framework>
       <Framework Condition="$(FrameworkRaw.StartsWith('5.'))">net5.0</Framework>
     </PropertyGroup>
-    <Exec Command="dotnet %22$(MSBuildThisFileDirectory)../tools/$(Framework)/KY.Generator.dll%22 %22$(ProjectDir)generator.json%22 -output=%22$(ProjectDir)%22 -assembly=%22$(TargetPath)%22 -msbuild -beforeBuild"
+    <Exec Command="dotnet %22$(MSBuildThisFileDirectory)../tools/$(Framework)/KY.Generator.dll%22 fluent -assembly=%22$(TargetPath)%22 --output=%22$(ProjectDir)\%22 --msbuild"
           Condition="$(Framework) != 'none'"
           CustomErrorRegularExpression="^Error:"
           CustomWarningRegularExpression="^Warning:">
@@ -112,13 +106,7 @@
   <Target Name="KYGeneratorOsxAfterTarget"
           AfterTargets="AfterBuild"
           Condition="$(GeneratorPlatform) == 'osx'">
-    <PropertyGroup>
-      <Framework>none</Framework>
-      <Framework Condition="$(FrameworkRaw.StartsWith('2.'))">netcoreapp2.0</Framework>
-      <Framework Condition="$(FrameworkRaw.StartsWith('3.'))">netcoreapp3.0</Framework>
-      <Framework Condition="$(FrameworkRaw.StartsWith('5.'))">net5.0</Framework>
-    </PropertyGroup>
-    <Exec Command="dotnet %22$(MSBuildThisFileDirectory)../tools/$(Framework)/KY.Generator.dll%22 %22$(ProjectDir)generator.json%22 -output=%22$(ProjectDir)%22 -assembly=%22$(TargetPath)%22 -msbuild"
+    <Exec Command="dotnet %22$(MSBuildThisFileDirectory)../tools/$(Framework)/KY.Generator.dll%22 fluent -assembly=%22$(TargetPath)%22 attributes -assembly=%22$(TargetPath)%22 --output=%22$(ProjectDir)\%22 --msbuild"
           Condition="$(Framework) != 'none'"
           CustomErrorRegularExpression="^Error:"
           CustomWarningRegularExpression="^Warning:">

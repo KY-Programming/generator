@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using KY.Core.Dependency;
 using KY.Generator.Angular.Tests.Properties;
@@ -16,8 +17,6 @@ namespace KY.Generator.Angular.Tests
     public class FullStageTests
     {
         private IDependencyResolver resolver;
-        private ConfigurationsReader reader;
-        private ConfigurationRunner runner;
         private MemoryOutput output;
 
         [TestInitialize]
@@ -25,16 +24,12 @@ namespace KY.Generator.Angular.Tests
         {
             this.resolver = new DependencyResolver();
             this.resolver.Bind<ITypeMapping>().ToSingleton<TypeMapping>();
-            this.resolver.Bind<IConfigurationReaderVersion>().To<ConfigurationReaderVersion2>();
-            this.resolver.Bind<ConfigurationMapping>().ToSingleton();
             this.resolver.Create<CoreModule>().Initialize();
             this.resolver.Create<CsharpModule>().Initialize();
             this.resolver.Create<AspDotNetModule>().Initialize();
             this.resolver.Create<AngularModule>().Initialize();
             this.resolver.Create<ReflectionModule>().Initialize();
             this.resolver.Create<TypeScriptModule>().Initialize();
-            this.reader = this.resolver.Create<ConfigurationsReader>();
-            this.runner = this.resolver.Create<ConfigurationRunner>();
             this.output = this.resolver.Create<MemoryOutput>();
         }
 
@@ -48,9 +43,11 @@ namespace KY.Generator.Angular.Tests
 
         private bool Run(string configuration)
         {
-            List<ConfigurationSet> configurations = this.reader.Parse(configuration);
-            configurations.ForEach(x => x.Configurations.ForEach(y => y.AddHeader = false));
-            return this.runner.Run(configurations, this.output);
+            // TODO: Implement test with new commands
+            //List<ConfigurationSet> configurations = this.reader.Parse(configuration);
+            //configurations.ForEach(x => x.Configurations.ForEach(y => y.AddHeader = false));
+            //return this.runner.Run(configurations, this.output);
+            throw new NotImplementedException();
         }
     }
 }

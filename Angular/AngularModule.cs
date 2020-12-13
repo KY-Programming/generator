@@ -13,7 +13,6 @@ namespace KY.Generator.Angular
         public AngularModule(IDependencyResolver dependencyResolver)
             : base(dependencyResolver)
         {
-            this.DependencyResolver.Bind<IGeneratorCommand>().To<GenerateAngularConfig>();
             this.DependencyResolver.Bind<IGeneratorCommand>().To<AngularServiceCommand>();
             this.DependencyResolver.Bind<IGeneratorCommand>().To<AngularModelCommand>();
         }

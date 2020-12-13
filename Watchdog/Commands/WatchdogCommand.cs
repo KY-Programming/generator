@@ -1,67 +1,74 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Reflection;
 using KY.Core;
 using KY.Core.DataAccess;
 using KY.Core.Dependency;
 using KY.Generator.Command;
-using KY.Generator.Command.Extensions;
-using KY.Generator.Languages;
 using KY.Generator.Output;
 using KY.Generator.Watchdog.Helpers;
 using KY.Generator.Watchdog.Watchdogs;
 
 namespace KY.Generator.Watchdog.Commands
 {
-    public class WatchdogCommand : IGeneratorCommand
+    public class WatchdogCommandParameters : GeneratorCommandParameters
+    {
+        public string Url { get; set; }
+        public string LaunchSettings { get; set; }
+        public TimeSpan Timeout { get; set; } = TimeSpan.FromMinutes(5);
+        public TimeSpan Delay { get; set; } = TimeSpan.FromSeconds(1);
+        public TimeSpan Sleep { get; set; } = TimeSpan.FromMilliseconds(100);
+        public int Tries { get; set; }
+        public string Command { get; set; }
+    }
+
+    public class WatchdogCommand : GeneratorCommand<WatchdogCommandParameters>
     {
         private readonly IDependencyResolver resolver;
-        public string[] Names { get; } = { "watchdog" };
+        public override string[] Names { get; } = { "watchdog" };
 
         public WatchdogCommand(IDependencyResolver resolver)
         {
             this.resolver = resolver;
         }
 
-        public bool Generate(CommandConfiguration configuration, ref IOutput output)
+        public override IGeneratorCommandResult Run(IOutput output)
         {
             Logger.Trace("Execute watchdog command...");
-            if (configuration.Parameters.GetBool("async"))
+            if (this.Parameters.IsAsync)
             {
                 Logger.Trace("Start generation in separate process...");
                 if (InstanceHelper.IsRunning())
                 {
                     Logger.Trace("Generation aborted. An other watchdog is already running.");
-                    return true;
+                    return this.Success();
                 }
-                string arguments = string.Join(" ", configuration.Parameters.Where(x => x.Name != "async"));
+                string arguments = string.Join(" ", this.Parameters);
                 ProcessStartInfo startInfo = new ProcessStartInfo(Assembly.GetEntryAssembly().Location, $"watchdog {arguments}");
                 startInfo.WindowStyle = ProcessWindowStyle.Hidden;
                 startInfo.WorkingDirectory = FileSystem.Parent(startInfo.FileName);
                 Logger.Trace($"{startInfo.FileName} {startInfo.Arguments}");
                 Process.Start(startInfo);
-                return true;
+                return this.Success();
             }
 
-            string url = configuration.Parameters.GetString("url");
-            string launchSettings = configuration.Parameters.GetString("launchSettings");
-            TimeSpan timeout = configuration.Parameters.GetTimeSpan("timeout", TimeSpan.FromMinutes(5));
-            TimeSpan delay = configuration.Parameters.GetTimeSpan("delay", TimeSpan.FromSeconds(1));
-            TimeSpan sleep = configuration.Parameters.GetTimeSpan("sleep", TimeSpan.FromMilliseconds(100));
-            int tries = configuration.Parameters.GetInt("tries");
+            string url = this.Parameters.Url;
+            string launchSettings = this.Parameters.LaunchSettings;
+            TimeSpan timeout = this.Parameters.Timeout;
+            TimeSpan delay = this.Parameters.Delay;
+            TimeSpan sleep = this.Parameters.Sleep;
+            int tries = this.Parameters.Tries;
 
-            string command = configuration.Parameters.GetString("command");
+            string command = this.Parameters.Command;
             if (string.IsNullOrEmpty(command))
             {
                 Logger.Error("Command can not be empty");
-                return false;
+                return this.Error();
             }
             if (string.IsNullOrEmpty(url) && string.IsNullOrEmpty(launchSettings))
             {
                 Logger.Error("No valid target found. Add at least a -url=... or a -launchSettings=... parameter");
-                return false;
+                return this.Error();
             }
             if (!string.IsNullOrEmpty(launchSettings))
             {
@@ -70,7 +77,7 @@ namespace KY.Generator.Watchdog.Commands
                 if (string.IsNullOrEmpty(url))
                 {
                     Logger.Error("No value for iisSettings/iisExpress/applicationUrl in launchSettings.json found");
-                    return false;
+                    return this.Error();
                 }
                 url += "/api/v1/generator/available";
             }
@@ -78,24 +85,24 @@ namespace KY.Generator.Watchdog.Commands
             bool success = watchdog.WaitAsync().Result;
             if (success)
             {
-                CommandConfiguration nextCommand = new CommandConfiguration(command);
-                nextCommand.CopyBaseFrom(configuration);
-                nextCommand.Parameters.AddRange(configuration.Parameters.Where(x => x.Name.StartsWith(command)).Select(x => this.MapParameter(x, command)));
-                nextCommand.ReadFromParameters(nextCommand.Parameters, this.resolver.Get<List<ILanguage>>());
+                throw new NotImplementedException();
+                //CommandConfiguration nextCommand = new CommandConfiguration(command);
+                //nextCommand.Parameters.AddRange(configuration.Parameters.Where(x => x.Name.StartsWith(command)).Select(x => this.MapParameter(x, command)));
+                //nextCommand.ReadFromParameters(nextCommand.Parameters, this.resolver.Get<List<ILanguage>>());
 
-                this.resolver.Get<CommandRunner>().Run(nextCommand, output);
+                //this.resolver.Get<CommandRunner>().Run(nextCommand, output);
             }
-            return true;
+            return this.Success();
         }
 
-        private ICommandParameter MapParameter(ICommandParameter parameter, string command)
-        {
-            string name = parameter.Name.TrimStart($"{command}-");
-            if (parameter is CommandValueParameter valueParameter)
-            {
-                return new CommandValueParameter(name, valueParameter.Value);
-            }
-            return new CommandParameter(name);
-        }
+        //private ICommandParameter MapParameter(ICommandParameter parameter, string command)
+        //{
+        //    string name = parameter.Name.TrimStart($"{command}-");
+        //    if (parameter is CommandValueParameter valueParameter)
+        //    {
+        //        return new CommandValueParameter(name, valueParameter.Value);
+        //    }
+        //    return new CommandParameter(name);
+        //}
     }
 }

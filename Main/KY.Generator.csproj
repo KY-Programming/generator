@@ -4,7 +4,7 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <TargetFrameworks>netcoreapp2.0;netcoreapp3.0;net5.0</TargetFrameworks>
-    <Version>5.6.1</Version>
+    <Version>6.0.0-rc.0</Version>
     <Authors>KY-Programming</Authors>
     <Product>KY.Generator</Product>
     <Copyright>2020 - KY-Programming</Copyright>

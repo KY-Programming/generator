@@ -8,6 +8,7 @@ using System.Runtime.Versioning;
 using KY.Core;
 using KY.Core.DataAccess;
 using KY.Core.Nuget;
+using KY.Generator.Command;
 using KY.Generator.Extensions;
 using KY.Generator.Models;
 
@@ -15,8 +16,16 @@ namespace KY.Generator
 {
     public static class GeneratorAssemblyLocator
     {
-        public static Assembly Locate(string assemblyName, GeneratorEnvironment environment, params SearchLocation[] locations)
+        public static LocateAssemblyResult Locate(string assemblyName, bool isBeforeBuild, params SearchLocation[] locations)
         {
+            foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies().Where(x => !x.IsDynamic))
+            {
+                if (assembly.Location.Equals(assemblyName, StringComparison.CurrentCultureIgnoreCase) || assembly.GetName().Name.Equals(assemblyName, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    return new LocateAssemblyResult(assembly);
+                }
+            }
+
             Assembly entryAssembly = Assembly.GetEntryAssembly();
             ProcessorArchitecture entryArchitecture = entryAssembly.GetName().ProcessorArchitecture;
             try
@@ -24,28 +33,24 @@ namespace KY.Generator
                 ProcessorArchitecture assemblyArchitecture = AssemblyName.GetAssemblyName(assemblyName).ProcessorArchitecture;
                 if (entryArchitecture != assemblyArchitecture)
                 {
-                    environment.SwitchContext = true;
-                    environment.SwitchToArchitecture = assemblyArchitecture;
-                    return null;
+                    return new LocateAssemblyResult(assemblyArchitecture);
                 }
             }
             catch (FileNotFoundException)
             {
-                if (environment.IsBeforeBuild)
+                if (isBeforeBuild)
                 {
-                    return null;
+                    return new LocateAssemblyResult();
                 }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
 
             try
             {
                 SwitchableFramework? assemblyFramework = null;
                 string[] frameworkFiles = FileSystem.GetFiles(RuntimeEnvironment.GetRuntimeDirectory(), "*.dll");
-                PathAssemblyResolver resolver = new PathAssemblyResolver(AppDomain.CurrentDomain.GetAssemblies().Select(x => x.Location).Concat(frameworkFiles));
+                IEnumerable<string> loadedAssemblies = AppDomain.CurrentDomain.GetAssemblies().Where(x => !x.IsDynamic).Select(x => x.Location);
+                PathAssemblyResolver resolver = new PathAssemblyResolver(loadedAssemblies.Concat(frameworkFiles));
                 MetadataLoadContext metadataLoadContext = new MetadataLoadContext(resolver);
 
                 using (metadataLoadContext)
@@ -73,9 +78,7 @@ namespace KY.Generator
                 SwitchableFramework entryFramework = entryAssembly.GetSwitchableFramework();
                 if (entryFramework != assemblyFramework && assemblyFramework != SwitchableFramework.None)
                 {
-                    environment.SwitchContext = true;
-                    environment.SwitchToFramework = assemblyFramework ?? SwitchableFramework.None;
-                    return null;
+                    return new LocateAssemblyResult(assemblyFramework ?? SwitchableFramework.None);
                 }
             }
             catch (TypeLoadException exception)
@@ -93,7 +96,7 @@ namespace KY.Generator
             NugetAssemblyLocator locator = NugetPackageDependencyLoader.CreateLocator();
             locator.Locations.InsertRange(0, locations);
             Version defaultVersion = typeof(CoreModule).Assembly.GetName().Version;
-            return locator.Locate(assemblyName, defaultVersion);
+            return new LocateAssemblyResult(locator.Locate(assemblyName, defaultVersion));
         }
 
         private static FrameworkName TryParseFrameworkName(string x)
@@ -106,6 +109,41 @@ namespace KY.Generator
             {
                 return null;
             }
+        }
+    }
+
+    public class LocateAssemblyResult : IGeneratorCommandResult
+    {
+        public Assembly Assembly { get; }
+        public bool Success { get; }
+        public bool SwitchContext { get; }
+        public ProcessorArchitecture? SwitchToArchitecture { get; }
+        public SwitchableFramework SwitchToFramework { get; }
+        public bool SwitchToAsync => false;
+
+        public LocateAssemblyResult()
+        {
+            this.Success = false;
+        }
+
+        public LocateAssemblyResult(Assembly assembly)
+        {
+            this.Assembly = assembly;
+            this.Success = assembly != null;
+        }
+
+        public LocateAssemblyResult(ProcessorArchitecture processorArchitecture)
+        {
+            this.Success = false;
+            this.SwitchContext = true;
+            this.SwitchToArchitecture = processorArchitecture;
+        }
+
+        public LocateAssemblyResult(SwitchableFramework framework)
+        {
+            this.Success = false;
+            this.SwitchContext = true;
+            this.SwitchToFramework = framework;
         }
     }
 }

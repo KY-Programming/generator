@@ -12,8 +12,9 @@ namespace KY.Generator
         public static Type Get(ConfigurationBase configuration, string assemblyName, string nameSpace, string typeName, params SearchLocation[] locations)
         {
             List<SearchLocation> list = locations.ToList();
-            list.Add(new SearchLocation(configuration.Environment.ConfigurationFilePath));
-            list.Add(new SearchLocation(configuration.Environment.OutputPath));
+            // TODO: Check if alternative is required
+            //list.Add(new SearchLocation(configuration.Environment.ConfigurationFilePath));
+            //list.Add(new SearchLocation(configuration.Environment.OutputPath));
             Version defaultVersion = typeof(CoreModule).Assembly.GetName().Version;
             return NugetPackageTypeLoader.Get(assemblyName, nameSpace, typeName, defaultVersion, list.ToArray());
         }

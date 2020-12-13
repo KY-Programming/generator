@@ -22,7 +22,6 @@ namespace KY.Generator.Configurations
         public List<ClassMapping> ClassMapping { get; }
         public List<FieldMapping> FieldMapping { get; }
         public List<PropertyMapping> PropertyMapping { get; }
-        public ConfigurationEnvironment Environment { get; set; }
         public ConfigurationFormatting Formatting { get; set; }
         public bool CheckOnOverwrite { get; set; } = true;
         public bool BeforeBuild { get; set; }
@@ -32,7 +31,6 @@ namespace KY.Generator.Configurations
             this.ClassMapping = new List<ClassMapping>();
             this.FieldMapping = new List<FieldMapping>();
             this.PropertyMapping = new List<PropertyMapping>();
-            this.Environment = new ConfigurationEnvironment(null, null);
             this.Formatting = new ConfigurationFormatting();
         }
 
@@ -44,7 +42,6 @@ namespace KY.Generator.Configurations
             this.ClassMapping.AddRange(source.ClassMapping);
             this.FieldMapping.AddRange(source.FieldMapping);
             this.PropertyMapping.AddRange(source.PropertyMapping);
-            this.Environment = source.Environment;
             this.Formatting = source.Formatting;
         }
     }

@@ -3,114 +3,119 @@ using System.Collections.Generic;
 using System.Linq;
 using KY.Core;
 using KY.Generator.Extensions;
-using KY.Generator.Models;
 using KY.Generator.Output;
+using KY.Generator.Transfer;
 
 namespace KY.Generator.Command
 {
     public class CommandRunner
     {
-        private readonly List<IGeneratorCommand> commands;
-        private readonly GeneratorEnvironment environment;
+        private readonly List<IGeneratorCommand> allCommands;
 
-        public CommandRunner(List<IGeneratorCommand> commands, GeneratorEnvironment environment)
+        public CommandRunner(List<IGeneratorCommand> allCommands)
         {
-            this.commands = commands;
-            this.environment = environment;
+            this.allCommands = allCommands;
         }
 
-        public bool Run(CommandConfiguration configuration, IOutput output)
-        {
-            if (configuration == null)
-            {
-                return false;
-            }
-            List<IGeneratorCommand> commandsToRun = this.commands.Where(x => x.Names.Any(name => name.Equals(configuration.Command, StringComparison.InvariantCultureIgnoreCase))).ToList();
-            if (commandsToRun.Count == 0)
-            {
-                CommandNotFoundError(configuration);
-                CommandDocumentationHint();
-            }
-            return this.Run(commandsToRun.Select(x => Tuple.Create(x, configuration)), output);
-        }
-
-        public bool Run(IEnumerable<CommandConfiguration> configurations, IOutput output)
+        public List<IGeneratorCommand> Convert(IEnumerable<RawCommand> commands, List<ITransferObject> transferObjects = null)
         {
             bool allCommandsFound = true;
-            List<Tuple<IGeneratorCommand, CommandConfiguration>> commandsToRun = new List<Tuple<IGeneratorCommand, CommandConfiguration>>();
-            foreach (CommandConfiguration configuration in configurations)
+            List<IGeneratorCommand> foundCommands = new List<IGeneratorCommand>();
+            foreach (RawCommand rawCommand in commands)
             {
-                IGeneratorCommand commandToRun = this.commands.SingleOrDefault(x => x.Names.Any(name => name.Equals(configuration.Command, StringComparison.InvariantCultureIgnoreCase)));
-                if (commandToRun == null)
+                IGeneratorCommand command = this.FindCommand(rawCommand.Name);
+                if (command == null)
                 {
                     allCommandsFound = false;
-                    CommandNotFoundError(configuration);
+                    GeneratorErrors.CommandNotFoundError(rawCommand);
                 }
                 else
                 {
-                    commandsToRun.Add(Tuple.Create(commandToRun, configuration));
+                    command.Parse(rawCommand.Parameters);
+                    command.TransferObjects = transferObjects;
+                    foundCommands.Add(command);
                 }
             }
             if (!allCommandsFound)
             {
-                CommandDocumentationHint();
-                return false;
+                GeneratorErrors.CommandDocumentationHint();
             }
-            return this.Run(commandsToRun, output);
+            return foundCommands;
+        }
+        
+
+        public IGeneratorCommand FindCommand(string command)
+        {
+            return this.allCommands.SingleOrDefault(x => x.Names.Any(name => name.Equals(command, StringComparison.InvariantCultureIgnoreCase)));
         }
 
-        private bool Run(IEnumerable<Tuple<IGeneratorCommand, CommandConfiguration>> tuples, IOutput output)
+        public IGeneratorCommandResult Run(IEnumerable<RawCommand> commands, IOutput output, List<ITransferObject> transferObjects)
         {
-            foreach ((IGeneratorCommand command, CommandConfiguration configuration) in tuples)
+            return this.Run(this.Convert(commands, transferObjects), output);
+        }
+
+        public IGeneratorCommandResult Run(RawCommand command, IOutput output, List<ITransferObject> transferObjects)
+        {
+            return this.Run(command.Yield(), output, transferObjects);
+        }
+
+        public IGeneratorCommandResult Run(IEnumerable<IGeneratorCommand> commands, IOutput output)
+        {
+            IGeneratorCommandResult result = null;
+            foreach (IGeneratorCommand command in commands)
             {
-                if (!configuration.SkipAsyncCheck)
+                result = command.Run(output);
+                if (!result.Success)
                 {
-                    bool isCommandAsync = configuration.Parameters.GetBool("async");
-                    if (!this.environment.IsOnlyAsync && isCommandAsync)
-                    {
-                        this.environment.SwitchToAsync = true;
-                        continue;
-                    }
-                    bool? isAssemblyAsync = configuration.IsAsyncAssembly;
-                    if (!isCommandAsync)
-                    {
-                        string assemblyName = configuration.Parameters.GetString("assembly");
-                        if (!string.IsNullOrEmpty(assemblyName))
-                        {
-                            isAssemblyAsync = GeneratorAssemblyLocator.Locate(assemblyName, this.environment)?.IsAsync();
-                        }
-                    }
-                    if (isAssemblyAsync != null)
-                    {
-                        if (!this.environment.IsOnlyAsync && isAssemblyAsync.Value)
-                        {
-                            this.environment.SwitchToAsync = true;
-                            continue;
-                        }
-                        if (this.environment.IsOnlyAsync && !isCommandAsync && !isAssemblyAsync.Value)
-                        {
-                            continue;
-                        }
-                    }
-                }
-                bool success = command.Generate(configuration, ref output);
-                if (!success)
-                {
-                    return false;
+                    return result;
                 }
             }
-            output.Execute();
-            return true;
+            return result ?? new SuccessResult();
         }
 
-        private static void CommandDocumentationHint()
+        public IGeneratorCommandResult Run(IGeneratorCommand command, IOutput output)
         {
-            Logger.Error("See our Documentation: https://generator.ky-programming.de/");
-        }
-
-        private static void CommandNotFoundError(CommandConfiguration configuration)
-        {
-            Logger.Error($"Command '{configuration.Command}' not found");
+            if (!string.IsNullOrEmpty(command.Parameters.Output))
+            {
+                output.Move(command.Parameters.Output);
+            }
+            if (!command.Parameters.SkipAsyncCheck)
+            {
+                if (!command.Parameters.IsOnlyAsync && command.Parameters.IsAsync)
+                {
+                    return new SwitchAsyncResult();
+                }
+                bool? isAssemblyAsync = command.Parameters.IsAsyncAssembly;
+                if (!command.Parameters.IsAsync)
+                {
+                    if (!string.IsNullOrEmpty(command.Parameters.Assembly))
+                    {
+                        LocateAssemblyResult locateAssemblyResult = GeneratorAssemblyLocator.Locate(command.Parameters.Assembly, command.Parameters.IsBeforeBuild);
+                        if (locateAssemblyResult.SwitchContext)
+                        {
+                            return locateAssemblyResult;
+                        }
+                        isAssemblyAsync = locateAssemblyResult.Assembly?.IsAsync();
+                    }
+                }
+                if (isAssemblyAsync != null)
+                {
+                    if (!command.Parameters.IsOnlyAsync && isAssemblyAsync.Value)
+                    {
+                        return new SwitchAsyncResult();
+                    }
+                    if (command.Parameters.IsOnlyAsync && !command.Parameters.IsAsync && !isAssemblyAsync.Value)
+                    {
+                        return new SwitchAsyncResult();
+                    }
+                }
+            }
+            IGeneratorCommandResult result = command.Run(output);
+            if (result.Success)
+            {
+                output.Execute();
+            }
+            return result;
         }
     }
 }

@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Threading;
 using KY.Core;
 using KY.Generator.Command;
-using KY.Generator.Command.Extensions;
 using KY.Generator.Csharp.Languages;
 using KY.Generator.Extensions;
 using KY.Generator.Languages;
-using KY.Generator.Models;
 using KY.Generator.Output;
 using KY.Generator.Reflection.Configurations;
 using KY.Generator.Reflection.Extensions;
@@ -19,47 +16,54 @@ using KY.Generator.TypeScript.Languages;
 
 namespace KY.Generator.Reflection.Commands
 {
-    internal class ReflectionCommand : IGeneratorCommand
+    public class ReflectionCommandParameters : GeneratorCommandParameters
+    {
+        [GeneratorParameter("fromAttribute")]
+        [GeneratorParameter("fromAttributes")]
+        public bool FromAttributes { get; set; }
+
+        public string Name { get; set; }
+        public string Namespace { get; set; }
+        public bool SkipSelf { get; set; }
+        public ILanguage Language { get; set; } = TypeScriptLanguage.Instance;
+        public string Using { get; set; }
+    }
+
+    internal class ReflectionCommand : GeneratorCommand<ReflectionCommandParameters>
     {
         private readonly ReflectionReader reader;
         private readonly ReflectionWriter writer;
-        private readonly GeneratorEnvironment environment;
 
-        public string[] Names { get; } = { "reflection" };
+        public override string[] Names { get; } = { "reflection" };
 
-        public ReflectionCommand(ReflectionReader reader, ReflectionWriter writer, GeneratorEnvironment environment)
+        public ReflectionCommand(ReflectionReader reader, ReflectionWriter writer)
         {
             this.reader = reader;
             this.writer = writer;
-            this.environment = environment;
         }
 
-        public bool Generate(CommandConfiguration configuration, ref IOutput output)
+        public override IGeneratorCommandResult Run(IOutput output)
         {
-            string assemblyName = configuration.Parameters.GetString(nameof(ReflectionReadConfiguration.Assembly));
-            if (configuration.Parameters.GetBool("fromAttributes") || configuration.Parameters.GetBool("fromAttribute"))
+            if (this.Parameters.FromAttributes)
             {
                 foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
                 {
-                    if (assembly.IsAsync())
+                    if (assembly.IsAsync() && !this.Parameters.IsAsync)
                     {
-                        this.environment.SwitchToAsync = true;
-                        continue;
+                        return this.SwitchAsync();
                     }
                     foreach (Type objectType in TypeHelper.GetTypes(assembly))
                     {
                         foreach (GenerateAttribute attribute in objectType.GetCustomAttributes<GenerateAttribute>())
                         {
-                            ILanguage language = attribute.Language == OutputLanguage.Inherit ? configuration.Language : attribute.Language == OutputLanguage.Csharp ? (ILanguage)CsharpLanguage.Instance : TypeScriptLanguage.Instance;
+                            ILanguage language = attribute.Language == OutputLanguage.Inherit ? this.Parameters.Language : attribute.Language == OutputLanguage.Csharp ? (ILanguage)CsharpLanguage.Instance : TypeScriptLanguage.Instance;
                             if (!language.IsCsharp() && !language.IsTypeScript())
                             {
                                 Logger.Error($"No language for type {objectType.Name} set. Set a language via attribute or use parameter (-language=Csharp)");
-                                return false;
+                                return this.Error();
                             }
 
                             ReflectionReadConfiguration readConfiguration = new ReflectionReadConfiguration();
-                            readConfiguration.ReadFromParameters(configuration.Parameters);
-                            readConfiguration.CopyBaseFrom(configuration);
                             readConfiguration.Language = language;
                             readConfiguration.Name = objectType.Name;
                             readConfiguration.Namespace = objectType.Namespace;
@@ -69,15 +73,14 @@ namespace KY.Generator.Reflection.Commands
                             this.reader.Read(readConfiguration, transferObjects);
 
                             ReflectionWriteConfiguration writeConfiguration = new ReflectionWriteConfiguration();
-                            writeConfiguration.ReadFromParameters(configuration.Parameters);
-                            writeConfiguration.CopyBaseFrom(configuration);
+                            writeConfiguration.AddHeader = !this.Parameters.SkipHeader;
                             writeConfiguration.Language = language;
                             writeConfiguration.Namespace = objectType.Namespace;
-                            writeConfiguration.RelativePath = attribute.RelativePath ?? configuration.Parameters.GetString(nameof(ReflectionWriteConfiguration.RelativePath));
-                            writeConfiguration.SkipNamespace = attribute.SkipNamespace.ToBool(configuration.Parameters.GetBool(nameof(ReflectionWriteConfiguration.SkipNamespace)));
-                            writeConfiguration.PropertiesToFields = attribute.PropertiesToFields.ToBool(configuration.Parameters.GetBool(nameof(ReflectionWriteConfiguration.PropertiesToFields)));
-                            writeConfiguration.FieldsToProperties = attribute.FieldsToProperties.ToBool(configuration.Parameters.GetBool(nameof(ReflectionWriteConfiguration.FieldsToProperties)));
-                            writeConfiguration.FormatNames = attribute.FormatNames.ToBool(configuration.Parameters.GetBool(nameof(ReflectionWriteConfiguration.FormatNames)));
+                            writeConfiguration.RelativePath = attribute.RelativePath ?? this.Parameters.RelativePath;
+                            writeConfiguration.SkipNamespace = attribute.SkipNamespace.ToBool(this.Parameters.SkipNamespace);
+                            writeConfiguration.PropertiesToFields = attribute.PropertiesToFields.ToBool(this.Parameters.PropertiesToFields);
+                            writeConfiguration.FieldsToProperties = attribute.FieldsToProperties.ToBool(this.Parameters.FieldsToProperties);
+                            writeConfiguration.FormatNames = attribute.FormatNames.ToBool(this.Parameters.FormatNames);
                             this.writer.Write(writeConfiguration, transferObjects, output);
                         }
                     }
@@ -86,28 +89,27 @@ namespace KY.Generator.Reflection.Commands
             else
             {
                 ReflectionReadConfiguration readConfiguration = new ReflectionReadConfiguration();
-                readConfiguration.CopyBaseFrom(configuration);
-                readConfiguration.Name = configuration.Parameters.GetString(nameof(ReflectionReadConfiguration.Name));
-                readConfiguration.Namespace = configuration.Parameters.GetString(nameof(ReflectionReadConfiguration.Namespace));
-                readConfiguration.Assembly = assemblyName;
-                readConfiguration.SkipSelf = configuration.Parameters.GetBool(nameof(ReflectionReadConfiguration.SkipSelf));
+                readConfiguration.Name = this.Parameters.Name;
+                readConfiguration.Namespace = this.Parameters.Namespace;
+                readConfiguration.Assembly = this.Parameters.Assembly;
+                readConfiguration.SkipSelf = this.Parameters.SkipSelf;
                 List<ITransferObject> transferObjects = new List<ITransferObject>();
                 this.reader.Read(readConfiguration, transferObjects);
 
                 ReflectionWriteConfiguration writeConfiguration = new ReflectionWriteConfiguration();
-                writeConfiguration.CopyBaseFrom(configuration);
-                writeConfiguration.Language = configuration.Parameters.GetString(nameof(ReflectionReadConfiguration.Language))?.Equals(nameof(OutputLanguage.Csharp), StringComparison.CurrentCultureIgnoreCase) ?? false ? (ILanguage)CsharpLanguage.Instance : TypeScriptLanguage.Instance;
-                writeConfiguration.Namespace = configuration.Parameters.GetString(nameof(ReflectionReadConfiguration.Namespace));
-                writeConfiguration.RelativePath = configuration.Parameters.GetString(nameof(ReflectionWriteConfiguration.RelativePath));
-                writeConfiguration.Using = configuration.Parameters.GetString(nameof(ReflectionWriteConfiguration.Using));
-                writeConfiguration.SkipNamespace = configuration.Parameters.GetBool(nameof(ReflectionWriteConfiguration.SkipNamespace), true);
-                writeConfiguration.PropertiesToFields = configuration.Parameters.GetBool(nameof(ReflectionWriteConfiguration.PropertiesToFields), true);
-                writeConfiguration.FieldsToProperties = configuration.Parameters.GetBool(nameof(ReflectionWriteConfiguration.FieldsToProperties));
-                writeConfiguration.FormatNames = configuration.Parameters.GetBool(nameof(ReflectionWriteConfiguration.FormatNames), true);
+                writeConfiguration.AddHeader = !this.Parameters.SkipHeader;
+                writeConfiguration.Language = this.Parameters.Language?.Name?.Equals(nameof(OutputLanguage.Csharp), StringComparison.CurrentCultureIgnoreCase) ?? false ? (ILanguage)CsharpLanguage.Instance : TypeScriptLanguage.Instance;
+                writeConfiguration.Namespace = this.Parameters.Namespace;
+                writeConfiguration.RelativePath = this.Parameters.RelativePath;
+                writeConfiguration.Using = this.Parameters.Using;
+                writeConfiguration.SkipNamespace = this.Parameters.SkipNamespace;
+                writeConfiguration.PropertiesToFields = this.Parameters.PropertiesToFields;
+                writeConfiguration.FieldsToProperties = this.Parameters.FieldsToProperties;
+                writeConfiguration.FormatNames = this.Parameters.FormatNames;
                 this.writer.Write(writeConfiguration, transferObjects, output);
             }
 
-            return true;
+            return this.Success();
         }
     }
 }

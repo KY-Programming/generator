@@ -6,6 +6,7 @@ using KY.Generator.Command;
 using KY.Generator.Commands;
 using KY.Generator.Configuration;
 using KY.Generator.Configurations;
+using KY.Generator.Fluent;
 using KY.Generator.Languages;
 using KY.Generator.Transfer.Readers;
 using KY.Generator.Transfer.Writers;
@@ -28,9 +29,9 @@ namespace KY.Generator
         public CoreModule(IDependencyResolver dependencyResolver)
             : base(dependencyResolver)
         {
-            this.DependencyResolver.Bind<IGeneratorCommand>().To<ClientCommand>();
+            //this.DependencyResolver.Bind<IGeneratorCommand>().To<ClientCommand>();
             this.DependencyResolver.Bind<IGeneratorCommand>().To<VersionCommand>();
-            this.DependencyResolver.Bind<IGeneratorCommand>().To<RunCommand>();
+            this.DependencyResolver.Bind<IGeneratorCommand>().To<FluentCommand>();
             this.DependencyResolver.Bind<ILanguage>().To<EmptyLanguage>();
         }
 
@@ -39,9 +40,7 @@ namespace KY.Generator
             this.DependencyResolver.Get<ConfigurationMapping>()
                 .Map<CookieConfiguration, CookieReader>("cookie")
                 .Map<GeneratorConfiguration, GeneratorGenerator>("generator")
-                .Map<ModelWriteConfiguration, ModelWriter>("model")
-                .Map<DemoConfiguration, DemoWriter>("demo")
-                .Map<ExecuteConfiguration, ExecuteReader>("generator", "execute");
+                .Map<ModelWriteConfiguration, ModelWriter>("model");
         }
     }
 }

@@ -2,35 +2,31 @@
 using KY.Generator.AspDotNet.Configurations;
 using KY.Generator.AspDotNet.Readers;
 using KY.Generator.Command;
-using KY.Generator.Command.Extensions;
-using KY.Generator.Models;
 using KY.Generator.Output;
 
 namespace KY.Generator.AspDotNet.Commands
 {
-    internal class AspDotNetReadControllerCommand : IGeneratorCommand
+    internal class AspDotNetReadControllerCommand : GeneratorCommand<AspDotNetReadControllerCommandParameters>
     {
         private readonly IDependencyResolver resolver;
-        private readonly GeneratorEnvironment environment;
-        public string[] Names { get; } = { "asp-read-controller" };
+        public override string[] Names { get; } = { "asp-read-controller" };
 
-        public AspDotNetReadControllerCommand(IDependencyResolver resolver, GeneratorEnvironment environment)
+        public AspDotNetReadControllerCommand(IDependencyResolver resolver)
         {
             this.resolver = resolver;
-            this.environment = environment;
         }
 
-        public bool Generate(CommandConfiguration configuration, ref IOutput output)
+        public override IGeneratorCommandResult Run(IOutput output)
         {
             AspDotNetReadConfiguration readConfiguration = new AspDotNetReadConfiguration();
-            readConfiguration.ReadFromParameters(configuration.Parameters);
+            readConfiguration.AddHeader = !this.Parameters.SkipHeader;
             readConfiguration.Controller = new AspDotNetReadControllerConfiguration();
-            readConfiguration.Controller.Namespace = configuration.Parameters.GetString(nameof(AspDotNetReadControllerConfiguration.Namespace));
-            readConfiguration.Controller.Name = configuration.Parameters.GetString(nameof(AspDotNetReadControllerConfiguration.Name));
+            readConfiguration.Controller.Namespace = this.Parameters.Namespace;
+            readConfiguration.Controller.Name = this.Parameters.Name;
 
-            this.resolver.Create<AspDotNetControllerReader>().Read(readConfiguration, this.environment.TransferObjects);
+            this.resolver.Create<AspDotNetControllerReader>().Read(readConfiguration, this.TransferObjects);
 
-            return true;
+            return this.Success();
         }
     }
 }
