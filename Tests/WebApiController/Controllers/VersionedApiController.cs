@@ -11,6 +11,7 @@ namespace WebApiController.Controllers
     [ApiVersion("1.0")]
     [Route("[controller]")]
     [GenerateAngularService("ClientApp/src/app/versioned-api/services", "ClientApp/src/app/versioned-api/models")]
+    [GenerateOption(GenerateOption.SkipHeader)]
     public class VersionedApiController : ControllerBase
     {
         private static readonly string[] summaries = { "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching" };

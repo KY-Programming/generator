@@ -1,13 +1,11 @@
-using System.Collections.Generic;
+using System;
 using KY.Core.Dependency;
 using KY.Generator.AspDotNet;
 using KY.Generator.Configuration;
 using KY.Generator.Csharp;
-using KY.Generator.EntityFramework;
 using KY.Generator.Mappings;
 using KY.Generator.Output;
 using KY.Generator.Tests.Properties;
-using KY.Generator.Tsql;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace KY.Generator.Tests
@@ -16,8 +14,6 @@ namespace KY.Generator.Tests
     public class FullStageTests
     {
         private IDependencyResolver resolver;
-        private ConfigurationsReader reader;
-        private ConfigurationRunner runner;
         private MemoryOutput output;
 
         [TestInitialize]
@@ -25,15 +21,12 @@ namespace KY.Generator.Tests
         {
             this.resolver = new DependencyResolver();
             this.resolver.Bind<ITypeMapping>().ToSingleton<TypeMapping>();
-            this.resolver.Bind<IConfigurationReaderVersion>().To<ConfigurationReaderVersion2>();
             this.resolver.Bind<ConfigurationMapping>().ToSingleton();
             this.resolver.Create<CoreModule>().Initialize();
             this.resolver.Create<CsharpModule>().Initialize();
-            this.resolver.Create<TsqlModule>().Initialize();
+            //this.resolver.Create<TsqlModule>().Initialize();
             this.resolver.Create<AspDotNetModule>().Initialize();
-            this.resolver.Create<EntityFrameworkModule>().Initialize();
-            this.reader = this.resolver.Create<ConfigurationsReader>();
-            this.runner = this.resolver.Create<ConfigurationRunner>();
+            //this.resolver.Create<EntityFrameworkModule>().Initialize();
             this.output = this.resolver.Create<MemoryOutput>();
         }
 
@@ -50,9 +43,10 @@ namespace KY.Generator.Tests
 
         private bool Run(string configuration)
         {
-            List<ConfigurationSet> configurations = this.reader.Parse(configuration);
-            configurations.ForEach(x => x.Configurations.ForEach(y => y.AddHeader = false));
-            return this.runner.Run(configurations, this.output);
+            //List<ConfigurationSet> configurations = this.reader.Parse(configuration);
+            //configurations.ForEach(x => x.Configurations.ForEach(y => y.AddHeader = false));
+            //return this.runner.Run(configurations, this.output);
+            throw new NotImplementedException();
         }
     }
 }

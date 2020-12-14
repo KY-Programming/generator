@@ -7,6 +7,7 @@ namespace WebApiController.Controllers
     [ApiController]
     [Route("[controller]")]
     [GenerateAngularService("ClientApp/src/app/keep-casing/services", "ClientApp/src/app/keep-casing/models", formatModelNames: Option.No)]
+    [GenerateOption(GenerateOption.SkipHeader)]
     public class KeepCasingController : ControllerBase
     {
         [HttpGet]

@@ -5,8 +5,8 @@ REM
 cd AnnotationsWithMultipleOutputs
 rmdir /S/Q bin
 rmdir /S/Q Output
-dotnet add package KY.Generator
-dotnet add package KY.Generator.Annotations
+dotnet add package KY.Generator --prerelease
+dotnet add package KY.Generator.Annotations --prerelease
 dotnet build --no-incremental
 cd ..
 
@@ -17,8 +17,8 @@ REM
 cd Types
 rmdir /S/Q bin
 rmdir /S/Q Output
-dotnet add package KY.Generator
-dotnet add package KY.Generator.Annotations
+dotnet add package KY.Generator --prerelease
+dotnet add package KY.Generator.Annotations --prerelease
 dotnet build --no-incremental
 cd ..
 
@@ -38,8 +38,8 @@ rmdir /S/Q ClientApp\src\app\routed\models
 rmdir /S/Q ClientApp\src\app\routed\services
 rmdir /S/Q ClientApp\src\app\versioned-api\models
 rmdir /S/Q ClientApp\src\app\versioned-api\services
-dotnet add package KY.Generator
-dotnet add package KY.Generator.Annotations
+dotnet add package KY.Generator --prerelease
+dotnet add package KY.Generator.Annotations --prerelease
 dotnet build --no-incremental
 cd ..
 
@@ -50,8 +50,8 @@ REM
 cd AnnotationInNestedClass
 rmdir /S/Q bin
 rmdir /S/Q Output
-dotnet add package KY.Generator
-dotnet add package KY.Generator.Annotations
+dotnet add package KY.Generator --prerelease
+dotnet add package KY.Generator.Annotations --prerelease
 dotnet build --no-incremental
 cd ..
 
@@ -62,8 +62,8 @@ REM
 cd AnnotationAsync
 rmdir /S/Q bin
 rmdir /S/Q Output
-dotnet add package KY.Generator
-dotnet add package KY.Generator.Annotations
+dotnet add package KY.Generator --prerelease
+dotnet add package KY.Generator.Annotations --prerelease
 dotnet build --no-incremental
 cd ..
 
@@ -74,8 +74,8 @@ REM
 cd AnnotationAsyncAssembly
 rmdir /S/Q bin
 rmdir /S/Q Output
-dotnet add package KY.Generator
-dotnet add package KY.Generator.Annotations
+dotnet add package KY.Generator --prerelease
+dotnet add package KY.Generator.Annotations --prerelease
 dotnet build --no-incremental
 cd ..
 

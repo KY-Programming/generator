@@ -11,6 +11,7 @@ namespace WebApiController.Controllers
     [ApiController]
     [Route("[controller]")]
     [GenerateAngularService("ClientApp/src/app/produces/services", "ClientApp/src/app/produces/models")]
+    [GenerateOption(GenerateOption.SkipHeader)]
     public class ProducesController : ControllerBase
     {
         private static readonly string[] summaries = { "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching" };

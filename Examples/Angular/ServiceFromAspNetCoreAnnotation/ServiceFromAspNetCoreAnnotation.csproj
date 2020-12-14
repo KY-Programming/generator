@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -10,11 +10,12 @@
 
     <!-- Set this to true if you enable server-side prerendering -->
     <BuildServerSideRenderer>false</BuildServerSideRenderer>
+    <ProjectGuid>{c2cd74cf-53e6-4c11-86de-4f23690f7cf8}</ProjectGuid>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="KY.Generator" Version="5.6.1" />
-    <PackageReference Include="KY.Generator.Annotations" Version="5.6.1" />
+    <PackageReference Include="KY.Generator" Version="6.0.0-rc.0" />
+    <PackageReference Include="KY.Generator.Annotations" Version="6.0.0-rc.0" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.7" />
   </ItemGroup>
 

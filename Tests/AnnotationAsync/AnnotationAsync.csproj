@@ -1,13 +1,14 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
+    <ProjectGuid>{84eb1514-1fc9-499f-924d-4a93a076f40a}</ProjectGuid>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="KY.Generator" Version="5.6.1" />
-    <PackageReference Include="KY.Generator.Annotations" Version="5.6.1" />
+    <PackageReference Include="KY.Generator" Version="6.0.0-rc.0" />
+    <PackageReference Include="KY.Generator.Annotations" Version="6.0.0-rc.0" />
   </ItemGroup>
 
   <ItemGroup>

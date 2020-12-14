@@ -17,8 +17,6 @@
     <ProjectReference Include="..\..\AspDotNet\KY.Generator.AspDotNet.csproj" />
     <ProjectReference Include="..\..\Core\KY.Generator.Core.csproj" />
     <ProjectReference Include="..\..\CSharp\KY.Generator.Csharp.csproj" />
-    <ProjectReference Include="..\..\EntityFramework\KY.Generator.EntityFramework.csproj" />
-    <ProjectReference Include="..\..\Tsql\KY.Generator.Tsql.csproj" />
   </ItemGroup>
 
   <ItemGroup>

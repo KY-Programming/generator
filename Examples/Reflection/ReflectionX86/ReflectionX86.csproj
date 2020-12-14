@@ -1,13 +1,14 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Platforms>AnyCPU;x86</Platforms>
+    <ProjectGuid>{8c8a1d3a-034b-4633-bf8c-aa6ac39af861}</ProjectGuid>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="KY.Generator" Version="5.6.1" />
-    <PackageReference Include="KY.Generator.Annotations" Version="5.6.1" />
+    <PackageReference Include="KY.Generator" Version="6.0.0-rc.0" />
+    <PackageReference Include="KY.Generator.Annotations" Version="6.0.0-rc.0" />
   </ItemGroup>
 
 </Project>
