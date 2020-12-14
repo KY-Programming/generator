@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+
+<package>
+  <metadata>
+    <id>KY.Generator.Fluent</id>
+    <version>6.1.0-preview.0</version>
+    <title>KY.Generator</title>
+    <authors>KY-Programming</authors>
+    <owners>KY-Programming</owners>
+    <licenseUrl>https://github.com/KY-Programming/generator/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://generator.ky-programming.de</projectUrl>
+    <repository type="git" url="https://github.com/KY-Programming/generator" />
+    <iconUrl>https://ky-programming.de/images/logos/128.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Fluent language for KY-Generator</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright 2020</copyright>
+    <tags>KY-Generator KY Generator Fluent Language</tags>
+    <dependencies>
+      <dependency id="KY.Generator" version="6.1.0-preview.0"></dependency>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\bin\Release\netstandard2.0\publish\KY.Generator.Fluent.dll" target="lib\netcoreapp2.0" />
+    <file src="..\bin\Release\netstandard2.0\publish\KY.Generator.Fluent*.json" target="lib\netcoreapp2.0" />
+  </files>
+</package>

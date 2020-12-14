@@ -23,7 +23,6 @@ namespace KY.Generator.Reflection.Commands
 
         public override IGeneratorCommandResult Run(IOutput output)
         {
-            CommandRunner commandRunner = this.resolver.Get<CommandRunner>();
             if (string.IsNullOrEmpty(this.Parameters.Assembly))
             {
                 Logger.Error("Run from attributes can not be run without assembly parameter");
@@ -39,6 +38,7 @@ namespace KY.Generator.Reflection.Commands
             {
                 return this.SwitchAsync();
             }
+            CommandRunner commandRunner = this.resolver.Get<CommandRunner>();
             foreach (Type objectType in TypeHelper.GetTypes(result.Assembly))
             {
                 List<Attribute> attributes = objectType.GetCustomAttributes().ToList();

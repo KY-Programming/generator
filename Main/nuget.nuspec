@@ -2,8 +2,7 @@
 <package >
   <metadata>
     <id>KY.Generator</id>
-    <!-- Ensure nuget.targets version is also updated -->
-    <version>6.0.0</version>
+    <version>6.1.0-preview.0</version>
     <title>KY.Generator</title>
     <authors>KY-Programming</authors>
     <owners>KY-Programming</owners>

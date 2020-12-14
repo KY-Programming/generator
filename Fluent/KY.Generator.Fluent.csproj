@@ -6,15 +6,14 @@
     <Authors>KY-Programming</Authors>
     <Version>6.1.0-preview.0</Version>
     <Product>KY.Generator</Product>
-    <Description>TypeScript Module for KY-Generator
-Download KY.Generator to use this module</Description>
+    <Description>Fluent language for KY-Generator</Description>
     <Copyright>2020 - KY-Programming</Copyright>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <PackageProjectUrl>https://generator.ky-programming.de</PackageProjectUrl>
     <PackageIconUrl>https://ky-programming.de/images/logos/128.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/KY-Programming/generator</RepositoryUrl>
     <RepositoryType></RepositoryType>
-    <PackageTags>KY-Generator KY Generator TypeScript</PackageTags>
+    <PackageTags>KY-Generator KY Generator Fluent Language</PackageTags>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -24,10 +23,6 @@ Download KY.Generator to use this module</Description>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <OutputPath>..\bin\Release</OutputPath>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="KY.Core.Common" Version="4.17.0" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Core\KY.Generator.Core.csproj" />

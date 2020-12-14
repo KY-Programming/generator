@@ -10,7 +10,7 @@ using KY.Generator.Transfer;
 
 namespace KY.Generator.Angular.Commands
 {
-    internal class AngularModelCommand : GeneratorCommand<AngularModelCommandParameters>
+    public class AngularModelCommand : GeneratorCommand<AngularModelCommandParameters>
     {
         private readonly IDependencyResolver resolver;
 

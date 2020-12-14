@@ -10,7 +10,7 @@ using KY.Generator.Transfer;
 
 namespace KY.Generator.Angular.Commands
 {
-    internal class AngularServiceCommand : GeneratorCommand<AngularServiceCommandParameters>
+    public class AngularServiceCommand : GeneratorCommand<AngularServiceCommandParameters>
     {
         private readonly IDependencyResolver resolver;
         public override string[] Names { get; } = { "angular-service" };

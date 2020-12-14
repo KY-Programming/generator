@@ -6,7 +6,6 @@ using KY.Generator.Command;
 using KY.Generator.Commands;
 using KY.Generator.Configuration;
 using KY.Generator.Configurations;
-using KY.Generator.Fluent;
 using KY.Generator.Languages;
 using KY.Generator.Transfer.Readers;
 using KY.Generator.Transfer.Writers;
@@ -31,7 +30,6 @@ namespace KY.Generator
         {
             //this.DependencyResolver.Bind<IGeneratorCommand>().To<ClientCommand>();
             this.DependencyResolver.Bind<IGeneratorCommand>().To<VersionCommand>();
-            this.DependencyResolver.Bind<IGeneratorCommand>().To<FluentCommand>();
             this.DependencyResolver.Bind<IGeneratorCommand>().To<ReadIdCommand>();
             this.DependencyResolver.Bind<ILanguage>().To<EmptyLanguage>();
         }

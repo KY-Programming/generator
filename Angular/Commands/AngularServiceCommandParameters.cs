@@ -3,7 +3,7 @@ using KY.Generator.Command;
 
 namespace KY.Generator.Angular.Commands
 {
-    internal class AngularServiceCommandParameters : GeneratorCommandParameters
+    public class AngularServiceCommandParameters : GeneratorCommandParameters
     {
         public string Name { get; set; }
         public string RelativeModelPath { get; set; }
