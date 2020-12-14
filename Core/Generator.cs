@@ -135,6 +135,7 @@ namespace KY.Generator
                 GeneratorErrors.CommandDocumentationHint();
                 return this;
             }
+            Logger.Trace("Parameters: " + string.Join(" ", parameters));
 
             List<RawCommand> rawCommands = RawCommandReader.Read(parameters);
             this.commands.AddRange(this.resolver.Get<CommandRunner>().Convert(rawCommands, this.transferObjects));
@@ -149,20 +150,35 @@ namespace KY.Generator
                 List<ILanguage> languages = this.resolver.Get<List<ILanguage>>();
                 GeneratorCommand.AddParser(value => languages.FirstOrDefault(x => x.Name.Equals(value, StringComparison.CurrentCultureIgnoreCase)));
                 CommandRunner runner = this.resolver.Get<CommandRunner>();
-                List<IGeneratorCommand> commandsToRun = this.commands.ToList();
+                List<IGeneratorCommand> asyncCommands = new List<IGeneratorCommand>();
+                IGeneratorCommandResult switchContext = null;
+                bool switchAsync = false;
                 foreach (IGeneratorCommand command in this.commands)
                 {
-                    commandsToRun.Remove(command);
                     IGeneratorCommandResult result = runner.Run(command, this.output);
                     success &= result.Success;
                     if (result.SwitchContext)
                     {
-                        return this.SwitchContext(result, commandsToRun);
+                        switchContext = switchContext ?? result;
+                        asyncCommands.Add(command);
                     }
                     if (result.SwitchToAsync)
                     {
-                        return this.SwitchToAsync(commandsToRun);
+                        switchAsync = true;
+                        asyncCommands.Add(command);
                     }
+                    if (result.RerunOnAsync)
+                    {
+                        asyncCommands.Add(command);
+                    }
+                }
+                if (switchAsync)
+                {
+                    return this.SwitchToAsync(asyncCommands);
+                }
+                if (switchContext != null)
+                {
+                    return this.SwitchContext(switchContext, asyncCommands);
                 }
                 if (success)
                 {

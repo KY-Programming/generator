@@ -43,6 +43,10 @@ namespace KY.Generator.Output
                 return;
             }
             string path = this.ToFilePath(relativePath);
+            if (!FileSystem.DirectoryExists(relativePath))
+            {
+                return;
+            }
             IEnumerable<string> filesToCheck = FileSystem.GetFiles(path, null, SearchOption.AllDirectories)
                                                          .Where(file => this.actions.All(action => !action.FilePath.Equals(file, StringComparison.CurrentCultureIgnoreCase)));
             foreach (string file in filesToCheck)

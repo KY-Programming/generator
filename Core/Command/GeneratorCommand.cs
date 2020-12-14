@@ -84,27 +84,27 @@ namespace KY.Generator.Command
 
         public abstract IGeneratorCommandResult Run(IOutput output);
 
-        protected IGeneratorCommandResult Success()
+        protected SuccessResult Success()
         {
             return new SuccessResult();
         }
 
-        protected IGeneratorCommandResult Error()
+        protected ErrorResult Error()
         {
             return new ErrorResult();
         }
 
-        protected IGeneratorCommandResult SwitchContext(SwitchableFramework switchToFramework)
+        protected SwitchContextResult SwitchContext(SwitchableFramework switchToFramework)
         {
             return new SwitchContextResult(null, switchToFramework);
         }
 
-        protected IGeneratorCommandResult SwitchContext(ProcessorArchitecture? switchToArchitecture, SwitchableFramework switchToFramework = SwitchableFramework.None)
+        protected SwitchContextResult SwitchContext(ProcessorArchitecture? switchToArchitecture, SwitchableFramework switchToFramework = SwitchableFramework.None)
         {
             return new SwitchContextResult(switchToArchitecture, switchToFramework);
         }
 
-        protected IGeneratorCommandResult SwitchAsync()
+        protected SwitchAsyncResult SwitchAsync()
         {
             return new SwitchAsyncResult();
         }

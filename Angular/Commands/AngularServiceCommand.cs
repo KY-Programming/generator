@@ -34,6 +34,7 @@ namespace KY.Generator.Angular.Commands
             writeConfiguration.Model.RelativePath = this.Parameters.RelativeModelPath;
 
             output.DeleteAllRelatedFiles(writeConfiguration.OutputId, this.Parameters.RelativePath);
+            output.DeleteAllRelatedFiles(writeConfiguration.OutputId, this.Parameters.RelativeModelPath);
 
             List<FileTemplate> files = new List<FileTemplate>();
             this.resolver.Create<AngularServiceWriter>().Write(writeConfiguration, this.TransferObjects, files);

@@ -1,0 +1,98 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Xml.Linq;
+using KY.Core.DataAccess;
+using KY.Core.Xml;
+
+namespace KY.Generator
+{
+    public class VisualStudioParser
+    {
+        private static readonly Regex projectRegex = new Regex(@"^Project\(""(?<id>{[a-fA-F0-9-]+})""\)\s*=\s*""(?<name>[^""]+)""\s*,\s*""(?<path>[^""]*)""\s*,\s*""(?<localid>{[a-fA-F0-9-]+})""\s*$");
+
+        public VisualStudioSolution ParseSolution(string path)
+        {
+            if (!FileSystem.FileExists(path))
+            {
+                return null;
+            }
+            VisualStudioSolution solution = new VisualStudioSolution();
+            string[] lines = FileSystem.ReadAllLines(path);
+            foreach (string line in lines)
+            {
+                Match match = projectRegex.Match(line);
+                if (!match.Success)
+                {
+                    continue;
+                }
+                solution.Projects.Add(new VisualStudioSolutionProject
+                                      {
+                                          Id = new Guid(match.Groups["id"].Value),
+                                          Name = match.Groups["name"].Value,
+                                          Path = match.Groups["path"].Value,
+                                          IdInSolution = new Guid(match.Groups["localid"].Value)
+                                      }
+                );
+            }
+            return solution;
+        }
+
+        public VisualStudioSolutionProject ParseProject(string path)
+        {
+            if (!FileSystem.FileExists(path))
+            {
+                return null;
+            }
+
+            VisualStudioSolutionProject project = new VisualStudioSolutionProject();
+
+            XElement element = FileSystem.ReadXml(path);
+            foreach (XElement propertyGroup in element.Elements("PropertyGroup"))
+            {
+                XElement projectGuid = propertyGroup.Element("ProjectGuid");
+                if (projectGuid != null)
+                {
+                    project.Id = new Guid(projectGuid.Value);
+                }
+            }
+
+            return project;
+        }
+
+        public void SetProjectGuid(string path, Guid id)
+        {
+            if (!FileSystem.FileExists(path))
+            {
+                return;
+            }
+
+            string content = FileSystem.ReadAllText(path);
+            if (content.Contains("</PropertyGroup>"))
+            {
+                int index = content.IndexOf("</PropertyGroup>", StringComparison.CurrentCultureIgnoreCase);
+                content = content.Insert(index, $"  <ProjectGuid>{id:B}</ProjectGuid>{Environment.NewLine}  ");
+            }
+            else
+            {
+                int index = content.IndexOf("</Project>", StringComparison.CurrentCultureIgnoreCase);
+                content = content.Insert(index, $"<PropertyGroup>{Environment.NewLine}    <ProjectGuid>{id:B}</ProjectGuid>{Environment.NewLine}  </PropertyGroup>{Environment.NewLine}  ");
+            }
+            FileSystem.WriteAllText(path, content);
+        }
+    }
+
+    public class VisualStudioSolution
+    {
+        public List<VisualStudioSolutionProject> Projects { get; } = new List<VisualStudioSolutionProject>();
+    }
+
+    public class VisualStudioSolutionProject
+    {
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public string Path { get; set; }
+        public Guid IdInSolution { get; set; }
+    }
+}

@@ -10,6 +10,7 @@ namespace KY.Generator.Command
         public ProcessorArchitecture? SwitchToArchitecture { get; }
         public SwitchableFramework SwitchToFramework { get; }
         public bool SwitchToAsync => false;
+        public bool RerunOnAsync => false;
 
         public SwitchContextResult(ProcessorArchitecture? switchToArchitecture, SwitchableFramework switchToFramework)
         {
