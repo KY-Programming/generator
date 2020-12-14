@@ -229,10 +229,10 @@ namespace KY.Generator
             string switchedFramework = (result.SwitchToFramework.FrameworkName() ?? framework)
                                        + (result.SwitchToArchitecture != null ? $"-{result.SwitchToArchitecture.ToString().ToLower()}" : "");
             location = location.Replace(separator + framework + separator, separator + switchedFramework + separator);
-            if (FileSystem.FileExists(location))
+            string locationExe = location.Replace(".dll", ".exe");
+            if (FileSystem.FileExists(location) || FileSystem.FileExists(locationExe))
             {
                 ProcessStartInfo startInfo = new ProcessStartInfo();
-                string locationExe = location.Replace(".dll", ".exe");
                 if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && FileSystem.FileExists(locationExe))
                 {
                     // Always use the .exe on Windows to fix the dotnet.exe x86 problem

@@ -70,7 +70,7 @@ namespace KY.Generator.Output
 
         private string ToFilePath(string fileName)
         {
-            return FileSystem.IsAbsolute(fileName) ? fileName : FileSystem.Combine(this.basePath, fileName);
+            return fileName == null ? this.basePath : FileSystem.IsAbsolute(fileName) ? fileName : FileSystem.Combine(this.basePath, fileName);
         }
 
         public override string ToString()

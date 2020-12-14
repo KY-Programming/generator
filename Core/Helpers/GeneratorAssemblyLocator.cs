@@ -99,11 +99,15 @@ namespace KY.Generator
             return new LocateAssemblyResult(locator.Locate(assemblyName, defaultVersion));
         }
 
-        private static FrameworkName TryParseFrameworkName(string x)
+        private static FrameworkName TryParseFrameworkName(string value)
         {
+            if (string.IsNullOrEmpty(value) || !value.Contains(','))
+            {
+                return null;
+            }
             try
             {
-                return new FrameworkName(x);
+                return new FrameworkName(value);
             }
             catch
             {
