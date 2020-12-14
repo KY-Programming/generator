@@ -122,9 +122,9 @@ namespace KY.Generator.Command
         static GeneratorCommand()
         {
             AddParser(value => value);
-            AddParser(value => !value?.Equals(bool.FalseString) ?? true);
-            AddParser(value => !value?.Equals(bool.FalseString));
-            AddParser(value => value?.Split(',').Select(x => !x.Trim().Equals(bool.FalseString)).ToList());
+            AddParser(value => !value?.Equals(bool.FalseString, StringComparison.CurrentCultureIgnoreCase) ?? true);
+            AddParser(value => !value?.Equals(bool.FalseString, StringComparison.CurrentCultureIgnoreCase));
+            AddParser(value => value?.Split(',').Select(x => !x.Trim().Equals(bool.FalseString, StringComparison.CurrentCultureIgnoreCase)).ToList());
             AddParser(byte.Parse);
             AddParser(value => value == null ? (byte?)null : byte.Parse(value));
             AddParser(value => value?.Split(',').Select(byte.Parse).ToList());

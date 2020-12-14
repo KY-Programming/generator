@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using KY.Core;
+using KY.Core.Dependency;
 using KY.Generator.Extensions;
 using KY.Generator.Output;
 using KY.Generator.Transfer;
@@ -10,11 +11,11 @@ namespace KY.Generator.Command
 {
     public class CommandRunner
     {
-        private readonly List<IGeneratorCommand> allCommands;
+        private readonly IDependencyResolver resolver;
 
-        public CommandRunner(List<IGeneratorCommand> allCommands)
+        public CommandRunner(IDependencyResolver resolver)
         {
-            this.allCommands = allCommands;
+            this.resolver = resolver;
         }
 
         public List<IGeneratorCommand> Convert(IEnumerable<RawCommand> commands, List<ITransferObject> transferObjects = null)
@@ -46,7 +47,7 @@ namespace KY.Generator.Command
 
         public IGeneratorCommand FindCommand(string command)
         {
-            return this.allCommands.SingleOrDefault(x => x.Names.Any(name => name.Equals(command, StringComparison.InvariantCultureIgnoreCase)));
+            return this.resolver.Get<List<IGeneratorCommand>>().SingleOrDefault(x => x.Names.Any(name => name.Equals(command, StringComparison.InvariantCultureIgnoreCase)));
         }
 
         public IGeneratorCommandResult Run(IEnumerable<RawCommand> commands, IOutput output, List<ITransferObject> transferObjects)
