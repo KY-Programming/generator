@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <ProjectGuid>{f32fd57a-e5ce-4ae5-97bc-bbca02f65904}</ProjectGuid>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="KY.Generator.Angular" Version="6.1.0-preview.0" />
+    <PackageReference Include="KY.Generator.Fluent" Version="6.1.0-preview.0" />
+    <PackageReference Include="KY.Generator.Reflection" Version="6.1.0-preview.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Fluent\Fluent.csproj" />
+  </ItemGroup>
+
+</Project>
