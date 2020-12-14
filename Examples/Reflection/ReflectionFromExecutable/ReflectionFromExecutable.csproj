@@ -14,6 +14,8 @@
     <Deterministic>true</Deterministic>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <ProjectGuid>{e1ff119d-87b9-4349-a8cc-adab0f3b83a0}</ProjectGuid>
+    <ProjectGuid>{ee12c8f7-eb8c-43f4-b04b-24b4a5b86569}</ProjectGuid>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
