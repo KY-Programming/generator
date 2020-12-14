@@ -30,9 +30,13 @@ namespace KY.Generator.Fluent
                 return this.Error();
             }
             LocateAssemblyResult result = GeneratorAssemblyLocator.Locate(this.Parameters.Assembly, this.Parameters.IsBeforeBuild);
-            if (!result.Success)
+            if (result.SwitchContext)
             {
                 return result;
+            }
+            if (this.Parameters.IsBeforeBuild && !result.Success)
+            {
+                return this.Success();
             }
             bool isAssemblyAsync = result.Assembly.IsAsync();
             if (!this.Parameters.IsOnlyAsync && isAssemblyAsync)

@@ -32,6 +32,8 @@ Download KY.Generator to use this module</Description>
   <ItemGroup>
     <ProjectReference Include="..\Annotations\KY.Generator.Annotations.csproj" />
     <ProjectReference Include="..\CSharp\KY.Generator.Csharp.csproj" />
+    <ProjectReference Include="..\Fluent\KY.Generator.Fluent.csproj" />
+    <ProjectReference Include="..\TypeScript\KY.Generator.TypeScript.csproj" />
   </ItemGroup>
 
 </Project>
