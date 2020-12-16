@@ -40,9 +40,7 @@ namespace KY.Generator.Languages
             FileWriter fileWriter = new FileWriter(this);
             fileWriter.Add(fileTemplate.Header)
                       .BreakLine()
-                      .Add(staticFile.Content, true)
-                      .BreakLine()
-                      .Add(fileTemplate.OutputIdComment);
+                      .Add(staticFile.Content, true);
             
             string fileName = FileSystem.Combine(fileTemplate.RelativePath, fileTemplate.Name);
             output.Write(fileName, fileWriter.ToString(), fileTemplate.OutputId);

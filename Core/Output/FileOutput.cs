@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using KY.Core;
 using KY.Core.DataAccess;
 
 namespace KY.Generator.Output
@@ -42,19 +43,38 @@ namespace KY.Generator.Output
             {
                 return;
             }
-            string path = this.ToFilePath(relativePath);
-            if (!FileSystem.DirectoryExists(relativePath))
+            try
             {
-                return;
-            }
-            IEnumerable<string> filesToCheck = FileSystem.GetFiles(path, null, SearchOption.AllDirectories)
-                                                         .Where(file => this.actions.All(action => !action.FilePath.Equals(file, StringComparison.CurrentCultureIgnoreCase)));
-            foreach (string file in filesToCheck)
-            {
-                if (FileSystem.ReadAllText(file).Contains($"outputid:{outputId}"))
+                string path = this.ToFilePath(relativePath);
+                if (!FileSystem.DirectoryExists(path))
                 {
-                    this.Delete(file);
+                    return;
                 }
+                IEnumerable<string> filesToCheck = FileSystem.GetFiles(path, null, SearchOption.AllDirectories)
+                                                             .Where(file => this.actions.All(action => !action.FilePath.Equals(file, StringComparison.CurrentCultureIgnoreCase)));
+                foreach (string file in filesToCheck)
+                {
+                    string content = FileSystem.ReadAllText(file);
+                    List<Guid> outputIds = OutputFileHelper.GetOutputIds(content).ToList();
+                    if (!outputIds.Contains(outputId.Value))
+                    {
+                        continue;
+                    }
+                    if (outputIds.Count == 1)
+                    {
+                        this.Delete(file);
+                    }
+                    else
+                    {
+                        Logger.Trace($"Remove output id from {file}");
+                        content = OutputFileHelper.RemoveOutputId(content, outputId.Value);
+                        FileSystem.WriteAllText(file, content);
+                    }
+                }
+            }
+            catch (Exception exception)
+            {
+                Logger.Warning($"Obsolete generated file check gots an {exception.GetType().Name}. {exception.Message}{Environment.NewLine}{exception.StackTrace}");
             }
         }
 

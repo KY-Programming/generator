@@ -22,7 +22,6 @@ namespace KY.Generator.Templates
         public List<NamespaceTemplate> Namespaces { get; }
         public CommentTemplate Header { get; }
         public Guid? OutputId { get; }
-        public CommentTemplate OutputIdComment { get; }
 
         public FileTemplate(string relativePath = null, bool addHeader = true, Guid? outputId = null)
         {
@@ -30,7 +29,6 @@ namespace KY.Generator.Templates
             this.OutputId = outputId;
             this.Namespaces = new List<NamespaceTemplate>();
             this.Header = new CommentTemplate(addHeader ? Resources.Header : null);
-            this.OutputIdComment = outputId == null ? null : new CommentTemplate($"outputid:{outputId.Value}");
         }
 
         public IEnumerable<UsingTemplate> GetUsingsByNamespace()

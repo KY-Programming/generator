@@ -18,7 +18,7 @@ namespace KY.Generator.TypeScript.Writers
             }
             else
             {
-                output.Add($"{{ /* unsupported type for key. Expected string or number. Got '{keyType.Name}' */. }}");
+                output.Add($"{{ /* unsupported type for key. Expected string or number. Got '{keyType.Name}'. */ }}");
             }
         }
     }
