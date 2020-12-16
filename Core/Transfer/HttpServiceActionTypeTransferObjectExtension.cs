@@ -4,7 +4,7 @@
     {
         public static bool IsBodyParameterRequired(this HttpServiceActionTypeTransferObject type)
         {
-            return type == HttpServiceActionTypeTransferObject.Post || type == HttpServiceActionTypeTransferObject.Patch || type == HttpServiceActionTypeTransferObject.Put;
+            return type == HttpServiceActionTypeTransferObject.Patch || type == HttpServiceActionTypeTransferObject.Put;
         }
     }
 }
