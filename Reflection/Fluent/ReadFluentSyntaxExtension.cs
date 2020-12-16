@@ -6,7 +6,8 @@ namespace KY.Generator
 {
     public static class ReadFluentSyntaxExtension
     {
-        public static IReflectionReadAndSwitchToWriteSyntax FromType<T>(this IReadFluentSyntax syntax)
+        /// <inheritdoc cref="IReflectionReadSyntax.FromType{T}"/>
+        public static IReflectionFromTypeOrReflectionReadSyntax FromType<T>(this IReadFluentSyntax syntax)
         {
             return new ReflectionReadSyntax((FluentSyntax)syntax).FromType<T>();
         }

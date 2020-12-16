@@ -6,12 +6,14 @@ namespace KY.Generator
 {
     public static class WriteFluentSyntaxExtension
     {
+        /// <inheritdoc cref="IAngularWriteSyntax.AngularModel"/>
         public static IAngularModelOrAngularWriteSyntax AngularModels(this IWriteFluentSyntax syntax)
         {
             return new AngularWriteSyntax((FluentSyntax)syntax).AngularModel();
         }
-
-        public static IAngularServiceOrAngularWriteSyntax AngularService(this IWriteFluentSyntax syntax)
+        
+        /// <inheritdoc cref="IAngularWriteSyntax.AngularServices"/>
+        public static IAngularServiceOrAngularWriteSyntax AngularServices(this IWriteFluentSyntax syntax)
         {
             return new AngularWriteSyntax((FluentSyntax)syntax).AngularServices();
         }

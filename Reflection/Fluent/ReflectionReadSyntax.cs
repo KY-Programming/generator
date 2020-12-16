@@ -4,7 +4,7 @@ using KY.Generator.Syntax;
 
 namespace KY.Generator.Reflection.Fluent
 {
-    public class ReflectionReadSyntax : IReflectionReadAndSwitchToWriteSyntax
+    public class ReflectionReadSyntax : IReflectionReadSyntax
     {
         private readonly FluentSyntax syntax;
 
@@ -13,7 +13,7 @@ namespace KY.Generator.Reflection.Fluent
             this.syntax = syntax;
         }
 
-        public IReflectionReadAndSwitchToWriteSyntax FromType<T>()
+        public IReflectionFromTypeOrReflectionReadSyntax FromType<T>()
         {
             Type type = typeof(T);
             ReflectionReadCommand command = new ReflectionReadCommand(this.syntax.Resolver);
@@ -21,7 +21,7 @@ namespace KY.Generator.Reflection.Fluent
             command.Parameters.Namespace = type.Namespace;
             command.Parameters.Name = type.Name;
             this.syntax.Commands.Add(command);
-            return this;
+            return new FromTypeSyntax(this, command);
         }
 
         public IWriteFluentSyntax Write()
