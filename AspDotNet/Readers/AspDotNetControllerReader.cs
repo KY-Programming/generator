@@ -48,6 +48,11 @@ namespace KY.Generator.AspDotNet.Readers
             MethodInfo[] methods = type.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
             foreach (MethodInfo method in methods)
             {
+                if (method.GetCustomAttribute<GenerateIgnoreAttribute>() != null)
+                {
+                    continue;
+                }
+
                 string fallbackRoute = null;
                 Type returnType = method.ReturnType.IgnoreGeneric("System.Threading.Tasks", "Task")
                                         .IgnoreGeneric("Microsoft.AspNetCore.Mvc", "IActionResult")
@@ -144,7 +149,7 @@ namespace KY.Generator.AspDotNet.Readers
                     {
                         if (action.Parameters.Count == 0)
                         {
-                            throw new InvalidOperationException($"Can not write {method.Name}. {action.Type} requires at least one parameter, but no parameter found.");
+                            throw new InvalidOperationException($"Can not write {method.Name}. {action.Type} requires at least one parameter, but no parameter found. Use [GenerateIgnore] to skip generation for that method");
                         }
                         if (action.Parameters.Count == 1)
                         {
