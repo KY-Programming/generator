@@ -73,12 +73,13 @@ namespace KY.Generator
                             // Some unnecessary attributes can not be read by a assembly with the wrong framework version, so ignore them
                         }
                     }
+                    assemblyFramework = assemblyFramework ?? SwitchableFramework.None;
                 }
 
                 SwitchableFramework entryFramework = entryAssembly.GetSwitchableFramework();
                 if (entryFramework != assemblyFramework && assemblyFramework != SwitchableFramework.None)
                 {
-                    return new LocateAssemblyResult(assemblyFramework ?? SwitchableFramework.None);
+                    return new LocateAssemblyResult(assemblyFramework.Value);
                 }
             }
             catch (TypeLoadException exception)
