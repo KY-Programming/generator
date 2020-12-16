@@ -187,7 +187,8 @@ namespace KY.Generator.Angular.Writers
                 string relativeModelPath = FileSystem.RelativeTo(configuration.Model?.RelativePath ?? ".", configuration.Service.RelativePath);
                 IMappableLanguage hubLanguage = hub.Language as IMappableLanguage;
                 IMappableLanguage configurationLanguage = configuration.Language as IMappableLanguage;
-                FileTemplate file = files.AddFile(configuration.Service.RelativePath, configuration.AddHeader, configuration.OutputId);
+                FileTemplate file = files.AddFile(configuration.Service.RelativePath, configuration.AddHeader, configuration.OutputId)
+                                         .WithType("service");
                 ClassTemplate classTemplate = file.AddNamespace(string.Empty)
                                                   .AddClass(configuration.Service.Name?.Replace("{0}", hub.Name) ?? hub.Name + "Service")
                                                   .FormatName(configuration, true)
