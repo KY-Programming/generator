@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
+using KY.Core;
 using KY.Core.DataAccess;
 using KY.Core.Xml;
 
@@ -49,12 +50,20 @@ namespace KY.Generator
             VisualStudioSolutionProject project = new VisualStudioSolutionProject();
 
             XElement element = FileSystem.ReadXml(path);
-            foreach (XElement propertyGroup in element.Elements("PropertyGroup"))
+            foreach (XElement propertyGroup in element.GetElementsIgnoreNamespace("PropertyGroup"))
             {
-                XElement projectGuid = propertyGroup.Element("ProjectGuid");
-                if (projectGuid != null)
+                try
                 {
-                    project.Id = new Guid(projectGuid.Value);
+                    XElement projectGuid = propertyGroup.GetElementIgnoreNamespace("ProjectGuid");
+                    if (projectGuid != null)
+                    {
+                        project.Id = new Guid(projectGuid.Value);
+                        break;
+                    }
+                }
+                catch (Exception exception)
+                {
+                    Logger.Warning($"Can not read from .csproj. {exception.Message}{Environment.NewLine}{exception.StackTrace}");
                 }
             }
 
