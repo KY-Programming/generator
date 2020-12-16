@@ -1,4 +1,5 @@
-﻿using KY.Generator.TypeScript.Languages;
+﻿using System;
+using KY.Generator.TypeScript.Languages;
 
 namespace KY.Generator.Angular.Languages
 {
@@ -9,9 +10,14 @@ namespace KY.Generator.Angular.Languages
             this.Key = TypeScriptLanguage.Instance.Key;
         }
 
-        public override string FormatFileName(string fileName, bool isInterface)
+        public override string FormatFileName(string fileName, string fileType = null)
         {
-            return base.FormatFileName(fileName, isInterface).Replace("-service.ts", ".service.ts");
+            string formattedFileName = base.FormatFileName(fileName, fileType);
+            if ("service".Equals(fileType, StringComparison.CurrentCultureIgnoreCase))
+            {
+                formattedFileName = formattedFileName.Replace("-service.ts", ".service.ts");
+            }
+            return formattedFileName;
         }
     }
 }

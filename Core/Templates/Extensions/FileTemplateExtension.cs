@@ -11,6 +11,12 @@ namespace KY.Generator.Templates.Extensions
             return file;
         }
 
+        public static FileTemplate WithType(this FileTemplate file, string type)
+        {
+            file.Type = type;
+            return file;
+        }
+
         public static NamespaceTemplate AddNamespace(this FileTemplate file, string nameSpace)
         {
             NamespaceTemplate namespaceTemplate = new NamespaceTemplate(file, nameSpace);
@@ -21,11 +27,6 @@ namespace KY.Generator.Templates.Extensions
         public static void AddTo(this FileTemplate file, IList<FileTemplate> list)
         {
             list.Add(file);
-        }
-
-        public static bool IsInterface(this FileTemplate file)
-        {
-            return file.Namespaces.FirstOrDefault()?.Children.OfType<ClassTemplate>().FirstOrDefault()?.IsInterface ?? false;
         }
     }
 }

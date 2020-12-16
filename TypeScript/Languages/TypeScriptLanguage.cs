@@ -62,10 +62,10 @@ namespace KY.Generator.TypeScript.Languages
             base.WriteHeader(fileTemplate, output);
         }
 
-        public override string FormatFileName(string fileName, bool isInterface)
+        public override string FormatFileName(string fileName, string fileType = null)
         {
             fileName = Formatter.Format(fileName, this.Formatting.FileCase, this.Formatting.AllowedSpecialCharacters);
-            if (fileName.StartsWith("i-") || isInterface)
+            if (fileName.StartsWith("i-") || "interface".Equals(fileType, StringComparison.CurrentCultureIgnoreCase))
             {
                 fileName = fileName.TrimStart("i-") + ".interface";
             }

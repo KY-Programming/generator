@@ -47,7 +47,7 @@ namespace KY.Generator.Csharp.Languages
             base.WriteHeader(fileTemplate, output);
         }
 
-        public override string FormatFileName(string fileName, bool isInterface)
+        public override string FormatFileName(string fileName, string fileType = null)
         {
             return fileName.ToPascalCase() + ".cs";
         }

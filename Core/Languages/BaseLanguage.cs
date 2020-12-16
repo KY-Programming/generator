@@ -178,7 +178,7 @@ namespace KY.Generator.Languages
                 writer.Add(staticFile.Content, true);
             }
             this.WriteFooter(fileTemplate, writer);
-            string fileName = FileSystem.Combine(fileTemplate.RelativePath, this.FormatFileName(fileTemplate.Name, fileTemplate.IsInterface()));
+            string fileName = FileSystem.Combine(fileTemplate.RelativePath, this.FormatFileName(fileTemplate.Name, fileTemplate.Type));
             output.Write(fileName, writer.ToString(), fileTemplate.OutputId);
         }
 
@@ -211,7 +211,7 @@ namespace KY.Generator.Languages
             output.BreakLine();
         }
 
-        public virtual string FormatFileName(string fileName, bool isInterface)
+        public virtual string FormatFileName(string fileName, string fileType = null)
         {
             return fileName;
         }

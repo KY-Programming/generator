@@ -39,7 +39,8 @@ namespace KY.Generator.Angular.Writers
                 IMappableLanguage configurationLanguage = configuration.Language as IMappableLanguage;
                 Dictionary<HttpServiceActionParameterTransferObject, ParameterTemplate> mapping = new Dictionary<HttpServiceActionParameterTransferObject, ParameterTemplate>();
                 string controllerName = controller.Name.TrimEnd("Controller");
-                FileTemplate file = files.AddFile(configuration.Service.RelativePath, configuration.AddHeader, configuration.OutputId);
+                FileTemplate file = files.AddFile(configuration.Service.RelativePath, configuration.AddHeader, configuration.OutputId)
+                                         .WithType("service");
                 ClassTemplate classTemplate = file.AddNamespace(string.Empty)
                                                   .AddClass(configuration.Service.Name?.Replace("{0}", controllerName) ?? controllerName + "Service")
                                                   .FormatName(configuration, true)

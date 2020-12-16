@@ -18,6 +18,7 @@ namespace KY.Generator.Templates
         }
 
         public string RelativePath { get; }
+        public string Type { get; set; }
         public List<NamespaceTemplate> Namespaces { get; }
         public CommentTemplate Header { get; }
         public Guid? OutputId { get; }

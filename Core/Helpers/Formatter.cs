@@ -16,7 +16,7 @@ namespace KY.Generator
                 return name;
             }
             ConfigurationFormatting formatting = GetFormatting(configuration);
-            return configuration.Language is BaseLanguage baseLanguage ? baseLanguage.FormatFileName(name, false) : Format(name, formatting.FileCase, formatting.AllowedSpecialCharacters);
+            return configuration.Language is BaseLanguage baseLanguage ? baseLanguage.FormatFileName(name) : Format(name, formatting.FileCase, formatting.AllowedSpecialCharacters);
         }
 
         public static string FormatClass(string name, IConfiguration configuration, bool force = false)

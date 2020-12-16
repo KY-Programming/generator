@@ -99,6 +99,7 @@ namespace KY.Generator.Transfer.Writers
             }
 
             ClassTemplate classTemplate = files.AddFile(configuration.RelativePath, configuration.AddHeader, configuration.OutputId)
+                                               .WithType(model.IsInterface ? "interface" : null)
                                                .AddNamespace(nameSpace)
                                                .AddClass(model.Name, model.BasedOn?.ToTemplate())
                                                .FormatName(configuration);
