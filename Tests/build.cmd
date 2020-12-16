@@ -79,4 +79,16 @@ dotnet add package KY.Generator.Annotations --prerelease
 dotnet build --no-incremental
 cd ..
 
+REM ==========================================
+REM ||              Fluent                  ||
+REM ==========================================
+REM 
+cd Fluent\Fluent.Generator
+rmdir /S/Q bin
+rmdir /S/Q Output
+dotnet add package KY.Generator --prerelease
+dotnet add package KY.Generator.Fluent --prerelease
+dotnet build --no-incremental
+cd ..\..
+
 PAUSE

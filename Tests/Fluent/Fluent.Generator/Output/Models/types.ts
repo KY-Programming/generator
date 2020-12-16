@@ -64,7 +64,7 @@ export class Types {
     public intStringDictionary: { [key: number]: string; };
     public stringSubTypeDictionary: { [key: string]: SubType; };
     public intSubTypeDictionary: { [key: number]: SubType; };
-    public subTypeStringDictionary: { /* unsupported type for key. Expected string or number. Got 'SubType' */. };
+    public subTypeStringDictionary: { /* unsupported type for key. Expected string or number. Got 'SubType'. */ };
     public readonlyProperty: string;
     public writeonlyProperty: string;
 
@@ -73,4 +73,4 @@ export class Types {
     }
 }
 
-// outputid:cabb1031-51d3-4479-98b6-c8c0321d279a
+// outputid:f32fd57a-e5ce-4ae5-97bc-bbca02f65904

@@ -64,7 +64,7 @@ export class AsyncTypes {
     public intStringDictionary: { [key: number]: string; };
     public stringSubTypeDictionary: { [key: string]: SubType; };
     public intSubTypeDictionary: { [key: number]: SubType; };
-    public subTypeStringDictionary: { /* unsupported type for key. Expected string or number. Got 'SubType' */. };
+    public subTypeStringDictionary: { /* unsupported type for key. Expected string or number. Got 'SubType'. */ };
     public readonlyProperty: string;
     public writeonlyProperty: string;
 }

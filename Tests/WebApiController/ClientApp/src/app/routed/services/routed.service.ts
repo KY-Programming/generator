@@ -100,7 +100,7 @@ export class RoutedService {
 
     public test52(test: number, httpOptions: {} = undefined): Observable<void> {
         let subject = new Subject<void>();
-        this.http.post<void>(this.serviceUrl + "/routed/test5/{test}", test, httpOptions).subscribe(() => {
+        this.http.post<void>(this.serviceUrl + "/routed/test5/" + test, httpOptions).subscribe(() => {
             subject.next();
             subject.complete();
         }, (error) => subject.error(error));
