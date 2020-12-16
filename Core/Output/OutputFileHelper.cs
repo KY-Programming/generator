@@ -11,7 +11,6 @@ namespace KY.Generator.Output
     public static class OutputFileHelper
     {
         private static readonly Regex outputIdRegex = new Regex("outputid:(?<id>[a-zA-Z0-9-]+)", RegexOptions.Compiled);
-        private static readonly Regex commentLineRegex = new Regex(@"^\s*//", RegexOptions.Compiled);
 
         public static List<Guid> GetOutputIds(string content)
         {
@@ -32,7 +31,7 @@ namespace KY.Generator.Output
         {
             string filteredContent = string.IsNullOrEmpty(content)
                                          ? string.Empty
-                                         : string.Join(Environment.NewLine, content.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).Where(line => !commentLineRegex.IsMatch(line)));
+                                         : string.Join(Environment.NewLine, content.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).Where(line => !line.Contains("// outputid:")));
             return Sha512.Create(filteredContent).ToString();
         }
 

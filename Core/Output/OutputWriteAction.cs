@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using KY.Core;
@@ -47,6 +48,11 @@ namespace KY.Generator.Output
                 if (this.OutputId != null && !readOutputIds.Contains(this.OutputId.Value))
                 {
                     Logger.Trace($"File has no changes {this.FilePath}. Output id appended.");
+                    this.Write(this.Content, readOutputIds);
+                }
+                else if (!contentRead.Contains(this.GetType().Assembly.GetName().Version.ToString()))
+                {
+                    Logger.Trace($"File has no changes {this.FilePath}. Version updated.");
                     this.Write(this.Content, readOutputIds);
                 }
                 else
