@@ -31,7 +31,10 @@ namespace KY.Generator
             try
             {
                 ProcessorArchitecture assemblyArchitecture = AssemblyName.GetAssemblyName(assemblyName).ProcessorArchitecture;
-                if (entryArchitecture != assemblyArchitecture)
+                bool isCompatible64 = (entryArchitecture == ProcessorArchitecture.Amd64 || entryArchitecture == ProcessorArchitecture.MSIL)
+                                    && (assemblyArchitecture == ProcessorArchitecture.Amd64 || entryArchitecture == ProcessorArchitecture.MSIL);
+                bool isCompatible86 = entryArchitecture == ProcessorArchitecture.X86 && assemblyArchitecture == ProcessorArchitecture.X86;
+                if (!isCompatible64 && !isCompatible86)
                 {
                     return new LocateAssemblyResult(assemblyArchitecture);
                 }
