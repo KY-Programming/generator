@@ -15,18 +15,7 @@ See [documentation](https://generator.ky-programming.de) for more details
 ## Setup for Console/Powershell
 Download KY.Generator.exe ![](https://img.shields.io/nuget/v/KY.Generator.CLI.svg?style=flat) from [Releases](https://github.com/KY-Programming/generator/releases)
 
-### Run with configuration file
-Use an .json configuration file [(see Wiki)](https://github.com/KY-Programming/generator/wiki/v2:-Overview#modules)   
-and run in cmd:
-```
-KY.Generator configuration.json Output
-```
-```
-KY.Generator <path-to-configuration-file> <output-path>
-```
-
-### Run a command
-Run a command [(see Wiki)](https://github.com/KY-Programming/generator/wiki/v2:-Overview#commands)
+Run a command [(see Wiki)](https://generator.ky-programming.de/start/commands/overview)
 ```
 KY.Generator.exe reflection -assembly=KY.Generator.Examples.Reflection.dll -name=ExampleType -namespace=KY.Generator.Examples.Reflection -relativePath=Output -language=TypeScript
 ```
