@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <Company>KY-Programming</Company>
     <Authors>KY-Programming</Authors>
-    <Version>6.1.0</Version>
+    <Version>6.2.0-rc.1</Version>
     <Product>KY.Generator</Product>
     <Description>Reflection Module for KY-Generator
 Download KY.Generator to use this module</Description>
@@ -23,6 +23,8 @@ Download KY.Generator to use this module</Description>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <OutputPath>..\bin\Release</OutputPath>
+    <NoWarn>1701;1702;1591</NoWarn>
+    <DocumentationFile>..\bin\Release\KY.Generator.Reflection.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

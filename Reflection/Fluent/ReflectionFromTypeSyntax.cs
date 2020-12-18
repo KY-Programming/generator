@@ -3,12 +3,12 @@ using KY.Generator.Syntax;
 
 namespace KY.Generator.Reflection.Fluent
 {
-    public class FromTypeSyntax : IReflectionFromTypeOrReflectionReadSyntax
+    internal class ReflectionFromTypeSyntax : IReflectionFromTypeOrReflectionReadSyntax
     {
         private readonly ReflectionReadSyntax syntax;
         private readonly ReflectionReadCommand command;
 
-        public FromTypeSyntax(ReflectionReadSyntax syntax, ReflectionReadCommand command)
+        public ReflectionFromTypeSyntax(ReflectionReadSyntax syntax, ReflectionReadCommand command)
         {
             this.syntax = syntax;
             this.command = command;

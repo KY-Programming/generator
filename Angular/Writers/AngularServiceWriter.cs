@@ -26,10 +26,14 @@ namespace KY.Generator.Angular.Writers
 
         public virtual void Write(AngularWriteConfiguration configuration, List<ITransferObject> transferObjects, List<FileTemplate> files)
         {
-            Logger.Trace("Generate angular service for ASP.net controller...");
+            Logger.Trace("Generate angular service for ASP.NET controller...");
             if (!configuration.Language.IsTypeScript())
             {
-                throw new InvalidOperationException($"Can not generate service for ASP.net Controller for language {configuration.Language?.Name ?? "Empty"}");
+                throw new InvalidOperationException($"Can not generate service for ASP.NET controller for language {configuration.Language?.Name ?? "Empty"}");
+            }
+            if (configuration.Model?.RelativePath == null && configuration.Service.RelativePath?.Count(x => x == '/' || x == '\\') > 1)
+            {
+                Logger.Warning("No model path found for Angular Service command. This may lead to wrong model imports!");
             }
             string httpClient = configuration.Service.HttpClient?.Name ?? "HttpClient";
             string httpClientImport = configuration.Service.HttpClient?.Import ?? "@angular/common/http";

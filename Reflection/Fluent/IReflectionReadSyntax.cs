@@ -11,7 +11,7 @@ namespace KY.Generator.Reflection.Fluent
         /// <example>
         /// <code>
         /// this.Read()
-        ///  .FromType&lt;Types.Types&gt;()
+        ///  .FromType&lt;MyClass&gt;()
         ///  .Write()
         ///  .AngularModels().OutputPath("Output/Models").SkipHeader()
         ///  .AngularServices().OutputPath("Output/Services").SkipHeader();

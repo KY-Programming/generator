@@ -4,7 +4,7 @@ using KY.Generator.Syntax;
 
 namespace KY.Generator.Reflection.Fluent
 {
-    public class ReflectionReadSyntax : IReflectionReadSyntax
+    internal class ReflectionReadSyntax : IReflectionReadSyntax
     {
         private readonly FluentSyntax syntax;
 
@@ -21,7 +21,7 @@ namespace KY.Generator.Reflection.Fluent
             command.Parameters.Namespace = type.Namespace;
             command.Parameters.Name = type.Name;
             this.syntax.Commands.Add(command);
-            return new FromTypeSyntax(this, command);
+            return new ReflectionFromTypeSyntax(this, command);
         }
 
         public IWriteFluentSyntax Write()
