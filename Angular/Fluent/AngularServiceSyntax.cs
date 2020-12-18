@@ -1,8 +1,9 @@
-﻿using KY.Generator.Angular.Commands;
+﻿using System.Linq;
+using KY.Generator.Angular.Commands;
 
 namespace KY.Generator.Angular.Fluent
 {
-    public class AngularServiceSyntax : IAngularServiceOrAngularWriteSyntax
+    internal class AngularServiceSyntax : IAngularServiceOrAngularWriteSyntax
     {
         private readonly AngularWriteSyntax syntax;
         private readonly AngularServiceCommand command;
@@ -11,6 +12,7 @@ namespace KY.Generator.Angular.Fluent
         {
             this.syntax = syntax;
             this.command = command;
+            this.command.Parameters.RelativeModelPath = this.syntax.Syntax.Commands.OfType<AngularModelCommand>().FirstOrDefault()?.Parameters.RelativePath;
         }
 
         public IAngularServiceOrAngularWriteSyntax SkipHeader()
@@ -30,7 +32,7 @@ namespace KY.Generator.Angular.Fluent
             this.command.Parameters.RelativePath = path;
             return this;
         }
-        
+
         public IAngularModelOrAngularWriteSyntax AngularModel()
         {
             return this.syntax.AngularModel();

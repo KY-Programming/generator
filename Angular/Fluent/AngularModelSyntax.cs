@@ -1,8 +1,10 @@
-﻿using KY.Generator.Angular.Commands;
+﻿using System.Linq;
+using KY.Core;
+using KY.Generator.Angular.Commands;
 
 namespace KY.Generator.Angular.Fluent
 {
-    public class AngularModelSyntax : IAngularModelOrAngularWriteSyntax
+    internal class AngularModelSyntax : IAngularModelOrAngularWriteSyntax
     {
         private readonly AngularWriteSyntax syntax;
         private readonly AngularModelCommand command;
@@ -28,6 +30,7 @@ namespace KY.Generator.Angular.Fluent
         public IAngularModelOrAngularWriteSyntax OutputPath(string path)
         {
             this.command.Parameters.RelativePath = path;
+            this.syntax.Syntax.Commands.OfType<AngularServiceCommand>().ForEach(x => x.Parameters.RelativeModelPath = path);
             return this;
         }
 

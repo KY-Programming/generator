@@ -3,26 +3,26 @@ using KY.Generator.Syntax;
 
 namespace KY.Generator.Angular.Fluent
 {
-    public class AngularWriteSyntax : IAngularWriteSyntax
+    internal class AngularWriteSyntax : IAngularWriteSyntax
     {
-        private readonly FluentSyntax syntax;
+        public FluentSyntax Syntax { get; }
 
         public AngularWriteSyntax(FluentSyntax syntax)
         {
-            this.syntax = syntax;
+            this.Syntax = syntax;
         }
 
         public IAngularModelOrAngularWriteSyntax AngularModel()
         {
-            AngularModelCommand command = new AngularModelCommand(this.syntax.Resolver);
-            this.syntax.Commands.Add(command);
+            AngularModelCommand command = new AngularModelCommand(this.Syntax.Resolver);
+            this.Syntax.Commands.Add(command);
             return new AngularModelSyntax(this, command);
         }
 
         public IAngularServiceOrAngularWriteSyntax AngularServices()
         { 
-            AngularServiceCommand command = new AngularServiceCommand(this.syntax.Resolver);
-            this.syntax.Commands.Add(command);
+            AngularServiceCommand command = new AngularServiceCommand(this.Syntax.Resolver);
+            this.Syntax.Commands.Add(command);
             return new AngularServiceSyntax(this, command);
         }
     }
