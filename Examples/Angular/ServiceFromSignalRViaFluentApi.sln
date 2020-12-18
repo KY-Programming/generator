@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30709.132
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceFromSignalRViaFluentApi", "ServiceFromSignalRViaFluentApi\ServiceFromSignalRViaFluentApi.csproj", "{64BA4FE5-358C-4D3B-A142-C158684BB35C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{64BA4FE5-358C-4D3B-A142-C158684BB35C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64BA4FE5-358C-4D3B-A142-C158684BB35C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64BA4FE5-358C-4D3B-A142-C158684BB35C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64BA4FE5-358C-4D3B-A142-C158684BB35C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {33C0A99B-CDF9-4DCA-A463-17F3E8449515}
+	EndGlobalSection
+EndGlobal
