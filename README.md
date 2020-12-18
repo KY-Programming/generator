@@ -21,6 +21,7 @@ internal class TypeToRead
   public string Property { get; set; }
 }
 ```
+See the [complete showcase](https://generator.ky-programming.de/start/showcases/annotations)
 
 See [documentation](https://generator.ky-programming.de/start/annotations/overview) for more details
 
@@ -47,6 +48,7 @@ public class GeneratorMain : GeneratorFluentMain
     }
 }
 ```
+See the [complete showcase](https://generator.ky-programming.de/start/fluent-api/annotations)
 
 See [documentation](https://generator.ky-programming.de/start/fluent/overview) for more details
 
