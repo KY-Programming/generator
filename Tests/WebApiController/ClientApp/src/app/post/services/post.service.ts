@@ -46,7 +46,7 @@ export class PostService {
 
     public postWithBodyParameter(model: PostModel, httpOptions: {} = undefined): Observable<void> {
         let subject = new Subject<void>();
-        this.http.post<void>(this.serviceUrl + "/post/postwithbodyparameter" + "?model=" + this.convertAny(model), httpOptions).subscribe(() => {
+        this.http.post<void>(this.serviceUrl + "/post/postwithbodyparameter", model, httpOptions).subscribe(() => {
             subject.next();
             subject.complete();
         }, (error) => subject.error(error));
@@ -55,7 +55,7 @@ export class PostService {
 
     public postWithValueAndBodyParameter(id: number, model: PostModel, httpOptions: {} = undefined): Observable<void> {
         let subject = new Subject<void>();
-        this.http.post<void>(this.serviceUrl + "/post/postwithvalueandbodyparameter" + "?id=" + this.convertAny(id) + "&model=" + this.convertAny(model), httpOptions).subscribe(() => {
+        this.http.post<void>(this.serviceUrl + "/post/postwithvalueandbodyparameter" + "?id=" + this.convertAny(id), model, httpOptions).subscribe(() => {
             subject.next();
             subject.complete();
         }, (error) => subject.error(error));
@@ -64,7 +64,7 @@ export class PostService {
 
     public postWithValueAndBodyParameterFlipped(model: PostModel, id: number, httpOptions: {} = undefined): Observable<void> {
         let subject = new Subject<void>();
-        this.http.post<void>(this.serviceUrl + "/post/postwithvalueandbodyparameterflipped" + "?model=" + this.convertAny(model) + "&id=" + this.convertAny(id), httpOptions).subscribe(() => {
+        this.http.post<void>(this.serviceUrl + "/post/postwithvalueandbodyparameterflipped" + "?id=" + this.convertAny(id), model, httpOptions).subscribe(() => {
             subject.next();
             subject.complete();
         }, (error) => subject.error(error));

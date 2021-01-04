@@ -28,15 +28,11 @@ export class KeepCasingService {
 
     public post(model: CasingModel, httpOptions: {} = undefined): Observable<void> {
         let subject = new Subject<void>();
-        this.http.post<void>(this.serviceUrl + "/keepcasing" + "?model=" + this.convertAny(model), httpOptions).subscribe(() => {
+        this.http.post<void>(this.serviceUrl + "/keepcasing", model, httpOptions).subscribe(() => {
             subject.next();
             subject.complete();
         }, (error) => subject.error(error));
         return subject;
-    }
-
-    public convertAny(value: any): string {
-        return value === null || value === undefined ? "" : value.toString();
     }
 }
 
