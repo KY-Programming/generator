@@ -50,6 +50,8 @@ rmdir /S/Q Service\ClientApp\src\app\services
 cd Generator
 dotnet add package KY.Generator --prerelease
 dotnet add package KY.Generator.Fluent --prerelease
+dotnet add package KY.Generator.Angular --prerelease
+dotnet add package KY.Generator.Reflection --prerelease
 cd ..\..
 dotnet build ServiceFromAspNetCoreViaFluentApi.sln --no-incremental
 
@@ -65,5 +67,7 @@ rmdir /S/Q Service\ClientApp\src\app\services
 cd Generator
 dotnet add package KY.Generator --prerelease
 dotnet add package KY.Generator.Fluent --prerelease
+dotnet add package KY.Generator.Angular --prerelease
+dotnet add package KY.Generator.Reflection --prerelease
 cd ..\..
 dotnet build ServiceFromSignalRViaFluentApi.sln --no-incremental

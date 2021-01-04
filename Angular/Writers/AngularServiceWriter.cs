@@ -155,7 +155,7 @@ namespace KY.Generator.Angular.Writers
                             .GenericMethod(action.Type.ToString().ToLowerInvariant(),
                                            returnType,
                                            parameterUrl,
-                                           action.RequireBodyParameter ? Code.Local(action.Parameters.Single(x => x.FromBody).Name) : null,
+                                           action.Parameters.Any(x => x.FromBody) ? Code.Local(action.Parameters.Single(x => x.FromBody).Name) : null,
                                            Code.Local("httpOptions")
                             )
                             .Method("subscribe", Code.Lambda(hasReturnType ? "result" : null, code), errorCode).Close()
@@ -202,9 +202,9 @@ namespace KY.Generator.Angular.Writers
                                                   .WithUsing("ReplaySubject", "rxjs")
                                                   .WithUsing("flatMap", "rxjs/operators")
                                                   .WithUsing("of", "rxjs")
-                                                  .WithUsing("HubConnectionBuilder", "@aspnet/signalr")
-                                                  .WithUsing("HubConnectionState", "@aspnet/signalr")
-                                                  .WithUsing("HubConnection", "@aspnet/signalr")
+                                                  .WithUsing("HubConnectionBuilder", "@microsoft/signalr")
+                                                  .WithUsing("HubConnectionState", "@microsoft/signalr")
+                                                  .WithUsing("HubConnection", "@microsoft/signalr")
                                                   .WithUsing(connectionStatusEnum.Name, FileSystem.Combine(relativeModelPath, Formatter.FormatFile(connectionStatusFileTemplate.Name, configuration, true)).Replace("\\", "/"))
                                                   .WithAttribute("Injectable", Code.AnonymousObject().WithProperty("providedIn", Code.String("root")));
                 FieldTemplate serviceUrlField = classTemplate.AddField("serviceUrl", Code.Type("string")).Public().FormatName(configuration).Default(Code.String(string.Empty));

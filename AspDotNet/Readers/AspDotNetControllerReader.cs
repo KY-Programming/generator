@@ -58,6 +58,7 @@ namespace KY.Generator.AspDotNet.Readers
                                         .IgnoreGeneric("Microsoft.AspNetCore.Mvc", "IActionResult")
                                         .IgnoreGeneric("Microsoft.AspNetCore.Mvc", "ActionResult");
 
+                // TODO: Accept ProducesAttribute
                 IEnumerable<Attribute> responseTypeAttributes = method.GetCustomAttributes().Where(x => x.GetType().Name == "ProducesResponseTypeAttribute");
                 foreach (Attribute responseTypeAttribute in responseTypeAttributes)
                 {
@@ -139,7 +140,7 @@ namespace KY.Generator.AspDotNet.Readers
                         HttpServiceActionParameterTransferObject actionParameter = new HttpServiceActionParameterTransferObject();
                         actionParameter.Name = parameter.Name;
                         actionParameter.Type = parameter.ParameterType.ToTransferObject();
-                        actionParameter.FromBody = action.RequireBodyParameter && this.IsFromBodyParameter(parameter);
+                        actionParameter.FromBody = this.IsFromBodyParameter(parameter);
                         actionParameter.Inline = action.Route != null && action.Route.Contains($"{{{parameter.Name}}}");
                         actionParameter.InlineIndex = actionParameter.Inline && action.Route != null ? action.Route.IndexOf($"{{{parameter.Name}}}", StringComparison.Ordinal) : 0;
                         actionParameter.IsOptional = parameter.IsOptional;
