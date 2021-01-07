@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -140,11 +139,16 @@ namespace KY.Generator.AspDotNet.Readers
                         HttpServiceActionParameterTransferObject actionParameter = new HttpServiceActionParameterTransferObject();
                         actionParameter.Name = parameter.Name;
                         actionParameter.Type = parameter.ParameterType.ToTransferObject();
-                        actionParameter.FromBody = this.IsFromBodyParameter(parameter);
+                        actionParameter.FromBody = this.IsFromBodyParameter(parameter, action.Type);
+                        actionParameter.FromQuery = this.IsFromQueryParameter(parameter);
                         actionParameter.Inline = action.Route != null && action.Route.Contains($"{{{parameter.Name}}}");
                         actionParameter.InlineIndex = actionParameter.Inline && action.Route != null ? action.Route.IndexOf($"{{{parameter.Name}}}", StringComparison.Ordinal) : 0;
                         actionParameter.IsOptional = parameter.IsOptional;
                         action.Parameters.Add(actionParameter);
+                        if (action.Type == HttpServiceActionTypeTransferObject.Get && actionParameter.Type.Name == "List" && actionParameter.FromQuery)
+                        {
+                            Logger.Error($"HttpGet methods with list parameter {parameter.Name} of {type.FullName}.{method.Name} has to be decorated with [FromQuery]");
+                        }
                     }
                     if (action.RequireBodyParameter)
                     {
@@ -160,10 +164,10 @@ namespace KY.Generator.AspDotNet.Readers
                         {
                             throw new InvalidOperationException($"Can not write {method.Name}. {action.Type} requires at least one parameter marked with [FromBody] or can have only one parameter");
                         }
-                        else if (action.Parameters.Count(x => x.FromBody) > 1)
-                        {
-                            throw new InvalidOperationException($"Can not write {method.Name}. {action.Type} can have only one parameter marked with [FromBody] or only one reference type");
-                        }
+                    }
+                    if (action.Parameters.Count(x => x.FromBody) > 1)
+                    {
+                        throw new InvalidOperationException($"Can not write {method.Name}. {action.Type} can have only one parameter marked with [FromBody] or only one reference type");
                     }
                     controller.Actions.Add(action);
                 }
@@ -171,10 +175,15 @@ namespace KY.Generator.AspDotNet.Readers
             transferObjects.Add(controller);
         }
 
-        private bool IsFromBodyParameter(ParameterInfo parameter)
+        private bool IsFromBodyParameter(ParameterInfo parameter, HttpServiceActionTypeTransferObject method)
         {
             bool hasAttribute = parameter.GetCustomAttributes().Any(parameterAttribute => parameterAttribute.GetType().Name == "FromBodyAttribute");
-            return hasAttribute || !parameter.ParameterType.IsValueType && parameter.ParameterType != typeof(string);
+            return hasAttribute || method != HttpServiceActionTypeTransferObject.Get && !parameter.ParameterType.IsValueType && parameter.ParameterType != typeof(string);
+        }
+
+        private bool IsFromQueryParameter(ParameterInfo parameter)
+        {
+            return parameter.GetCustomAttributes().Any(parameterAttribute => parameterAttribute.GetType().Name == "FromQueryAttribute");
         }
     }
 }

@@ -76,6 +76,8 @@ namespace KY.Generator.Angular.Writers
                     this.AddUsing(action.ReturnType, classTemplate, configuration, relativeModelPath);
                     MethodTemplate methodTemplate = classTemplate.AddMethod(action.Name, Code.Generic("Observable", returnType))
                                                                  .FormatName(configuration);
+                    TypeTemplate subjectType = Code.Generic("Subject", returnType);
+                    methodTemplate.WithCode(Code.Declare(subjectType, "subject", Code.New(subjectType)));
                     foreach (HttpServiceActionParameterTransferObject parameter in action.Parameters)
                     {
                         if (controllerLanguage != null && configurationLanguage != null)
@@ -85,10 +87,13 @@ namespace KY.Generator.Angular.Writers
                         this.AddUsing(parameter.Type, classTemplate, configuration, relativeModelPath);
                         ParameterTemplate parameterTemplate = methodTemplate.AddParameter(parameter.Type.ToTemplate(), parameter.Name, parameter.IsOptional ? Code.Null() : null).FormatName(configuration);
                         mapping.Add(parameter, parameterTemplate);
+                        if (action.Type == HttpServiceActionTypeTransferObject.Get && parameter.Type.Name == "Array")
+                        {
+                            methodTemplate.WithCode(Code.Declare(Code.Type("string"), $"{parameterTemplate.Name}Join",
+                                                                 Code.Local(parameterTemplate).Method("map", Code.Lambda("x", Code.String($"{parameter.Name}=").Append(Code.This().Method("convertAny", Code.Local("x"))))).Method("join", Code.String("&"))));
+                        }
                     }
                     methodTemplate.AddParameter(Code.Type("{}"), "httpOptions", Code.Null());
-                    TypeTemplate subjectType = Code.Generic("Subject", returnType);
-                    methodTemplate.WithCode(Code.Declare(subjectType, "subject", Code.New(subjectType)));
                     if (returnType.Name == "string")
                     {
                         methodTemplate.WithCode(Code.TypeScript("httpOptions = { responseType: 'text', ...httpOptions}").Close());
@@ -139,18 +144,27 @@ namespace KY.Generator.Angular.Writers
                     foreach (HttpServiceActionParameterTransferObject parameter in urlParameters)
                     {
                         string name = mapping[parameter].Name;
-                        parameterUrl = parameterUrl.Append(isFirst ? Code.String($"?{parameter.Name}=") : Code.String($"&{parameter.Name}="));
-                        isFirst = false;
-                        if (parameter.Type.IgnoreNullable().Name == "Date")
+                        if (parameter.FromQuery)
                         {
-                            appendConvertDateMethod = true;
-                            parameterUrl = parameterUrl.Append(Code.This().Method("convertDate", Code.Local(name)));
+                            parameterUrl = parameterUrl.Append(isFirst ? Code.String("?") : Code.String("&"));
+                            appendConvertAnyMethod = true;
+                            parameterUrl = parameterUrl.Append(Code.Local(name + "Join"));
                         }
                         else
                         {
-                            appendConvertAnyMethod = true;
-                            parameterUrl = parameterUrl.Append(Code.This().Method("convertAny", Code.Local(name)));
+                            parameterUrl = parameterUrl.Append(isFirst ? Code.String($"?{parameter.Name}=") : Code.String($"&{parameter.Name}="));
+                            if (parameter.Type.IgnoreNullable().Name == "Date")
+                            {
+                                appendConvertDateMethod = true;
+                                parameterUrl = parameterUrl.Append(Code.This().Method("convertDate", Code.Local(name)));
+                            }
+                            else
+                            {
+                                appendConvertAnyMethod = true;
+                                parameterUrl = parameterUrl.Append(Code.This().Method("convertAny", Code.Local(name)));
+                            }
                         }
+                        isFirst = false;
                     }
 
                     methodTemplate.WithCode(

@@ -4,6 +4,7 @@
     {
         public string Name { get; set; }
         public bool FromBody { get; set; }
+        public bool FromQuery { get; set; }
         public bool AppendName { get; set; } = true;
         public bool Inline { get; set; }
         public int InlineIndex { get; set; }
