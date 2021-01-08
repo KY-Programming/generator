@@ -32,7 +32,7 @@ namespace KY.Generator
             {
                 ProcessorArchitecture assemblyArchitecture = AssemblyName.GetAssemblyName(assemblyName).ProcessorArchitecture;
                 bool isCompatible64 = (entryArchitecture == ProcessorArchitecture.Amd64 || entryArchitecture == ProcessorArchitecture.MSIL)
-                                    && (assemblyArchitecture == ProcessorArchitecture.Amd64 || entryArchitecture == ProcessorArchitecture.MSIL);
+                                    && (assemblyArchitecture == ProcessorArchitecture.Amd64 || assemblyArchitecture == ProcessorArchitecture.MSIL);
                 bool isCompatible86 = entryArchitecture == ProcessorArchitecture.X86 && assemblyArchitecture == ProcessorArchitecture.X86;
                 if (!isCompatible64 && !isCompatible86)
                 {
