@@ -5,11 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="KY.Generator" Version="6.2.1" />
-    <PackageReference Include="KY.Generator.Angular" Version="6.2.1" />
-    <PackageReference Include="KY.Generator.AspDotNet" Version="6.2.0-rc.1" />
-    <PackageReference Include="KY.Generator.Fluent" Version="6.2.1" />
-    <PackageReference Include="KY.Generator.Reflection" Version="6.2.1" />
+    <PackageReference Include="KY.Generator" Version="6.2.2" />
+    <PackageReference Include="KY.Generator.Angular" Version="6.2.2" />
+    <PackageReference Include="KY.Generator.AspDotNet" Version="6.2.2" />
+    <PackageReference Include="KY.Generator.Fluent" Version="6.2.2" />
+    <PackageReference Include="KY.Generator.Reflection" Version="6.2.2" />
   </ItemGroup>
 
   <ItemGroup>
