@@ -91,7 +91,7 @@ namespace KY.Generator.Reflection.Readers
         private void ReadClass(Type type, ModelTransferObject model, List<ITransferObject> transferObjects)
         {
             Logger.Trace($"Reflection read type {type.Name} ({type.Namespace})");
-            if (type.BaseType != typeof(object) && type.BaseType != null)
+            if (type.BaseType != typeof(object) && type.BaseType != typeof(ValueType) && type.BaseType != null)
             {
                 model.BasedOn = this.Read(type.BaseType, transferObjects);
             }
@@ -116,7 +116,11 @@ namespace KY.Generator.Reflection.Readers
             model.IsAbstract = type.IsAbstract;
             foreach (Type interFace in type.GetInterfaces(false))
             {
-                model.Interfaces.Add(this.Read(interFace, transferObjects));
+                ModelTransferObject interfaceTransferObject = this.Read(interFace, transferObjects);
+                if (transferObjects.Contains(interfaceTransferObject))
+                {
+                    model.Interfaces.Add(interfaceTransferObject);
+                }
             }
             FieldInfo[] fields = type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
             foreach (FieldInfo field in fields)

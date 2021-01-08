@@ -145,9 +145,9 @@ namespace KY.Generator.AspDotNet.Readers
                         actionParameter.InlineIndex = actionParameter.Inline && action.Route != null ? action.Route.IndexOf($"{{{parameter.Name}}}", StringComparison.Ordinal) : 0;
                         actionParameter.IsOptional = parameter.IsOptional;
                         action.Parameters.Add(actionParameter);
-                        if (action.Type == HttpServiceActionTypeTransferObject.Get && actionParameter.Type.Name == "List" && actionParameter.FromQuery)
+                        if (action.Type == HttpServiceActionTypeTransferObject.Get && actionParameter.Type.Name == "List" && !actionParameter.FromQuery)
                         {
-                            Logger.Error($"HttpGet methods with list parameter {parameter.Name} of {type.FullName}.{method.Name} has to be decorated with [FromQuery]");
+                            Logger.Error($"HttpGet methods with list parameter '{parameter.Name}' of {type.FullName}.{method.Name} has to be decorated with [FromQuery]");
                         }
                     }
                     if (action.RequireBodyParameter)
