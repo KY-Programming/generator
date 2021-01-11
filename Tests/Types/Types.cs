@@ -13,6 +13,18 @@ namespace Types
         public int IntField;
         public System.DateTime DateTimeField;
 
+        // Constants
+        public const string ConstString = "String";
+        public const short ConstShort = 1;
+        public const ushort ConstUShort = 2;
+        public const int ConstInt = 3;
+        public const uint ConstUInt = 4;
+        public const long ConstLong = 5;
+        public const ulong ConstULong = 6;
+        public const float ConstFloat = 7.1f;
+        public const double ConstDouble = 8.2;
+        public const bool ConstBool = true;
+
         // Types
         public string StringProperty { get; set; }
         public short ShortProperty { get; set; }

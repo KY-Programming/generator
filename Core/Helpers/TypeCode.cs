@@ -1,4 +1,5 @@
-﻿using KY.Generator.Templates;
+﻿using System;
+using KY.Generator.Templates;
 
 namespace KY.Generator
 {
@@ -9,9 +10,29 @@ namespace KY.Generator
             return new StringTemplate(value);
         }
 
-        public static NumberTemplate Number(this Code _, int value)
+        public static NumberTemplate Number(this Code _, long value)
         {
             return new NumberTemplate(value);
+        }
+
+        public static NumberTemplate Number(this Code _, float value)
+        {
+            return new NumberTemplate(value);
+        }
+
+        public static NumberTemplate Number(this Code _, double value)
+        {
+            return new NumberTemplate(value);
+        }
+
+        public static DateTimeTemplate DateTime(this Code _, DateTime value)
+        {
+            return new DateTimeTemplate(value);
+        }
+
+        public static BooleanTemplate Boolean(this Code _, bool value)
+        {
+            return new BooleanTemplate(value);
         }
 
         public static VoidTemplate Void(this Code _)

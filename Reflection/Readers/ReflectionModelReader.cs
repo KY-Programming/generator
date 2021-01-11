@@ -122,6 +122,25 @@ namespace KY.Generator.Reflection.Readers
                     model.Interfaces.Add(interfaceTransferObject);
                 }
             }
+            FieldInfo[] constants = type.GetFields(BindingFlags.Public | BindingFlags.Static);
+            foreach (FieldInfo field in constants)
+            {
+                GenerateIgnoreAttribute ignoreAttribute = field.GetCustomAttribute<GenerateIgnoreAttribute>();
+                if (ignoreAttribute != null)
+                {
+                    continue;
+                }
+                FieldTransferObject fieldTransferObject = new FieldTransferObject
+                                                          {
+                                                              Name = field.Name,
+                                                              Type = genericMapping.ContainsKey(field.FieldType)
+                                                                         ? new TypeTransferObject { Name = genericMapping[field.FieldType] }
+                                                                         : this.Read(field.FieldType, transferObjects),
+                                                              Default = field.GetValue(null)
+                                                          };
+                model.Constants.Add(fieldTransferObject);
+            }
+
             FieldInfo[] fields = type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
             foreach (FieldInfo field in fields)
             {

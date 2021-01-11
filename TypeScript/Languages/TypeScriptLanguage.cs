@@ -6,6 +6,7 @@ using KY.Generator.Output;
 using KY.Generator.Templates;
 using KY.Generator.TypeScript.Templates;
 using KY.Generator.TypeScript.Writers;
+using KY.Generator.Writers;
 
 namespace KY.Generator.TypeScript.Languages
 {
@@ -54,6 +55,8 @@ namespace KY.Generator.TypeScript.Languages
             this.TemplateWriters[typeof(AttributeTemplate)] = new AttributeWriter(this);
             this.TemplateWriters[typeof(AnonymousObjectTemplate)] = new AnonymousObjectWriter();
             this.TemplateWriters[typeof(TypeTemplate)] = new TypeScriptTypeWriter();
+            this.TemplateWriters[typeof(DateTimeTemplate)] = new TypeScriptDateTimeWriter();
+            this.TemplateWriters[typeof(NumberTemplate)] = new TypeScriptNumberWriter();
         }
 
         protected override void WriteHeader(FileTemplate fileTemplate, IOutputCache output)

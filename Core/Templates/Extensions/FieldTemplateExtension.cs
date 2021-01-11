@@ -25,9 +25,9 @@ namespace KY.Generator.Templates.Extensions
             return field;
         }
 
-        public static FieldTemplate Const(this FieldTemplate field, bool value = true)
+        public static FieldTemplate Constant(this FieldTemplate field, bool value = true)
         {
-            field.IsConst = value;
+            field.IsConstant = value;
             return field;
         }
 

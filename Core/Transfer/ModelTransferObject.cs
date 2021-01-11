@@ -15,6 +15,7 @@ namespace KY.Generator.Transfer
         public ModelTransferObject BasedOn { get; set; }
         public ILanguage Language { get; set; }
         public List<TypeTransferObject> Interfaces { get; }
+        public List<FieldTransferObject> Constants { get; }
         public List<FieldTransferObject> Fields { get; }
         public List<PropertyTransferObject> Properties { get; }
         public List<MethodTransferObject> Methods { get; }
@@ -24,6 +25,7 @@ namespace KY.Generator.Transfer
         public ModelTransferObject()
         {
             this.Interfaces = new List<TypeTransferObject>();
+            this.Constants = new List<FieldTransferObject>();
             this.Fields = new List<FieldTransferObject>();
             this.Properties = new List<PropertyTransferObject>();
             this.Usings = new List<string>();

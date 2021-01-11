@@ -3,6 +3,16 @@
 import { SubType } from "./sub-type";
 
 export class Types {
+    public static readonly constString: string = "String";
+    public static readonly constShort: number = 1;
+    public static readonly constUShort: number = 2;
+    public static readonly constInt: number = 3;
+    public static readonly constUInt: number = 4;
+    public static readonly constLong: number = 5;
+    public static readonly constULong: number = 6;
+    public static readonly constFloat: number = 7.1;
+    public static readonly constDouble: number = 8.2;
+    public static readonly constBool: boolean = true;
     public stringField: string;
     public intField: number;
     public dateTimeField: Date;

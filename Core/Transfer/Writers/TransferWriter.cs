@@ -1,6 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using KY.Core;
-using KY.Generator.Configuration;
 using KY.Generator.Configurations;
 using KY.Generator.Languages;
 using KY.Generator.Mappings;
@@ -17,6 +17,62 @@ namespace KY.Generator.Transfer.Writers
         public TransferWriter(ITypeMapping typeMapping)
         {
             this.TypeMapping = typeMapping;
+        }
+
+        protected virtual void AddConstants(ModelTransferObject model, ClassTemplate classTemplate, IConfiguration configuration)
+        {
+            foreach (FieldTransferObject constant in model.Constants)
+            {
+                FieldTemplate fieldTemplate = this.AddField(model, constant.Name, constant.Type, classTemplate, configuration).Constant();
+                if (constant.Default != null)
+                {
+                    Type type = constant.Default.GetType();
+                    if (type == typeof(int))
+                    {
+                        fieldTemplate.DefaultValue = Code.Number((int)constant.Default);
+                    }
+                    else  if (type == typeof(long))
+                    {
+                        fieldTemplate.DefaultValue = Code.Number((long)constant.Default);
+                    }
+                    else  if (type == typeof(short))
+                    {
+                        fieldTemplate.DefaultValue = Code.Number((short)constant.Default);
+                    }
+                    else  if (type == typeof(uint))
+                    {
+                        fieldTemplate.DefaultValue = Code.Number((uint)constant.Default);
+                    }
+                    else  if (type == typeof(ulong))
+                    {
+                        fieldTemplate.DefaultValue = Code.Number((ulong)constant.Default);
+                    }
+                    else  if (type == typeof(ushort))
+                    {
+                        fieldTemplate.DefaultValue = Code.Number((ushort)constant.Default);
+                    }
+                    else if (type == typeof(float))
+                    {
+                        fieldTemplate.DefaultValue = Code.Number((float)constant.Default);
+                    }
+                    else if (type == typeof(double))
+                    {
+                        fieldTemplate.DefaultValue = Code.Number((double)constant.Default);
+                    }
+                    else if (type == typeof(DateTime))
+                    {
+                        fieldTemplate.DefaultValue = Code.DateTime((DateTime)constant.Default);
+                    }
+                    else if (type == typeof(bool))
+                    {
+                        fieldTemplate.DefaultValue = Code.Boolean((bool)constant.Default);
+                    }
+                    else
+                    {
+                        fieldTemplate.DefaultValue = Code.String(constant.Default.ToString());
+                    }
+                }
+            }
         }
 
         protected virtual void AddFields(ModelTransferObject model, ClassTemplate classTemplate, IConfiguration configuration)

@@ -9,7 +9,7 @@ namespace KY.Generator.Templates
         public string Name { get; set; }
         public TypeTemplate Type { get; }
         public bool IsStatic { get; set; }
-        public bool IsConst { get; set; }
+        public bool IsConstant { get; set; }
         public Visibility Visibility { get; set; }
         public ICodeFragment DefaultValue { get; set; }
         public ClassTemplate Class { get; }

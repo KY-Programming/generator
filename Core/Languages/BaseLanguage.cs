@@ -74,6 +74,8 @@ namespace KY.Generator.Languages
             this.TemplateWriters.Add(typeof(NullValueTemplate), new NullValueWriter());
             this.TemplateWriters.Add(typeof(NullTemplate), new NullWriter());
             this.TemplateWriters.Add(typeof(NumberTemplate), new NumberWriter());
+            this.TemplateWriters.Add(typeof(DateTimeTemplate), new DateTimeWriter());
+            this.TemplateWriters.Add(typeof(BooleanTemplate), new BooleanWriter());
             this.TemplateWriters.Add(typeof(OperatorTemplate), new OperatorWriter());
             this.TemplateWriters.Add(typeof(PropertyTemplate), new PropertyWriter());
             this.TemplateWriters.Add(typeof(ReturnTemplate), new ReturnWriter());

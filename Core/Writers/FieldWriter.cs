@@ -26,7 +26,7 @@ namespace KY.Generator.Writers
             output.Add(template.Attributes)
                   .If(template.Visibility != Visibility.None).Add(template.Visibility.ToString().ToLower()).Add(" ").EndIf()
                   .If(template.IsStatic).Add("static ").EndIf()
-                  .If(template.IsConst).Add("const ").EndIf()
+                  .If(template.IsConstant).Add("const ").EndIf()
                   .If(template.IsReadonly).Add("readonly ").EndIf()
                   .Add(template.Type).Add(" ")
                   .Add(template.Name)

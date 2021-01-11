@@ -11,9 +11,8 @@ namespace KY.Generator.TypeScript.Writers
         {
             FieldTemplate template = (FieldTemplate)fragment;
             output.If(template.Visibility != Visibility.None).Add(template.Visibility.ToString().ToLower()).Add(" ").EndIf()
-                  .If(template.IsStatic).Add("static ").EndIf()
-                  .If(template.IsConst).Add("const ").EndIf()
-                  .If(template.IsReadonly).Add("readonly ").EndIf()
+                  .If(template.IsStatic || template.IsConstant).Add("static ").EndIf()
+                  .If(template.IsReadonly || template.IsConstant).Add("readonly ").EndIf()
                   .Add(template.Name)
                   .Add(": ")
                   .Add(template.Type)

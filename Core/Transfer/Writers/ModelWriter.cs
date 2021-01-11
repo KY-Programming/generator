@@ -125,6 +125,7 @@ namespace KY.Generator.Transfer.Writers
                 classTemplate.BasedOn.Add(new BaseTypeTemplate(classTemplate, Code.Interface(interFace.Name, interFace.Namespace)));
                 this.AddUsing(interFace, classTemplate, configuration);
             }
+            this.AddConstants(model, classTemplate, configuration);
             this.AddFields(model, classTemplate, configuration);
             this.AddProperties(model, classTemplate, configuration);
             return classTemplate;
