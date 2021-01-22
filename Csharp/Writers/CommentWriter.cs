@@ -1,5 +1,4 @@
-﻿using System;
-using KY.Core;
+﻿using KY.Core;
 using KY.Generator.Output;
 using KY.Generator.Templates;
 using KY.Generator.Templates.Extensions;
@@ -20,8 +19,7 @@ namespace KY.Generator.Csharp.Writers
             if (comment.Type == CommentType.Summary)
             {
                 output.Add("/// <summary>").BreakLine();
-                string[] lines = comment.Description.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
-                lines.ForEach(x => output.Add("/// ").Add(x).BreakLine());
+                this.SplitLines(comment.Description).ForEach(x => output.Add("/// ").Add(x).BreakLine());
                 output.Add("/// </summary>").BreakLine();
             }
             else
