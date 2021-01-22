@@ -1,4 +1,5 @@
-﻿using KY.Generator.Output;
+﻿using System.Linq;
+using KY.Generator.Output;
 using KY.Generator.Templates;
 using KY.Generator.Writers;
 

@@ -3,10 +3,11 @@ using System.Diagnostics;
 
 namespace KY.Generator.Templates
 {
-    public interface INamespaceChildren
+    public interface INamespaceChildren : ICodeFragment
     {
         string Name { get; }
         List<UsingTemplate> Usings { get; }
+        bool IsPublic { get; }
     }
 
     [DebuggerDisplay("Namespace {Name}")]

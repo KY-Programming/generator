@@ -13,6 +13,7 @@ namespace KY.Generator.Templates
         public ClassTemplate ParentClass { get; }
         public List<ClassGenericTemplate> Generics { get; }
         public List<UsingTemplate> Usings { get; }
+        public bool IsPublic { get; } = true;
         public List<FieldTemplate> Fields { get; }
         public List<PropertyTemplate> Properties { get; }
         public List<MethodTemplate> Methods { get; }

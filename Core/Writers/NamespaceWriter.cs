@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using KY.Generator.Languages;
+﻿using KY.Generator.Languages;
 using KY.Generator.Output;
 using KY.Generator.Templates;
 
@@ -28,8 +27,7 @@ namespace KY.Generator.Writers
                 output.Add($"{this.Language.NamespaceKeyword} {template.Name}")
                       .StartBlock();
             }
-            output.Add(template.Children.OfType<EnumTemplate>())
-                  .Add(template.Children.OfType<ClassTemplate>());
+            output.Add(template.Children);
             if (hasNamespace)
             {
                 output.EndBlock();

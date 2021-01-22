@@ -57,6 +57,7 @@ namespace KY.Generator.TypeScript.Languages
             this.TemplateWriters[typeof(TypeTemplate)] = new TypeScriptTypeWriter();
             this.TemplateWriters[typeof(DateTimeTemplate)] = new TypeScriptDateTimeWriter();
             this.TemplateWriters[typeof(NumberTemplate)] = new TypeScriptNumberWriter();
+            this.TemplateWriters[typeof(DeclareTypeTemplate)] = new DeclareTypeWriter();
         }
 
         protected override void WriteHeader(FileTemplate fileTemplate, IOutputCache output)

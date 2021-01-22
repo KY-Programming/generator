@@ -15,8 +15,8 @@ namespace KY.Generator.TypeScript.Writers
             PropertyValueTemplate last = template.Properties.LastOrDefault();
             foreach (PropertyValueTemplate property in template.Properties)
             {
-                output.Add($"{property.Name}: ")
-                      .Add(property.Value)
+                output.If(property.Value == null).Add(property.Name).EndIf()
+                      .If(property.Value != null).Add($"{property.Name}: ").Add(property.Value).EndIf()
                       .If(property != last).Add(",").EndIf()
                       .BreakLine();
             }

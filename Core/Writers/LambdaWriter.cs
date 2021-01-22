@@ -11,7 +11,7 @@ namespace KY.Generator.Writers
             output.Add("(");
             if (template.Parameters != null)
             {
-                output.Add(template.Parameters);
+                output.Add(template.Parameters, ", ");
             }
             else if (template.ParameterName != null)
             {

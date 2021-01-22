@@ -13,7 +13,7 @@ namespace KY.Generator.Templates
 
         public string Name
         {
-            get => this.name ?? this.Namespaces.FirstOrDefault()?.Children.FirstOrDefault()?.Name;
+            get => this.name ?? this.Namespaces.FirstOrDefault(x => x.Children.Any(y => y.IsPublic))?.Children.FirstOrDefault(x => x.IsPublic)?.Name;
             set => this.name = value;
         }
 
