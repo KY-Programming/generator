@@ -13,10 +13,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="KY.Generator" Version="6.3.0" />
-    <PackageReference Include="KY.Generator.Angular" Version="6.3.0" />
-    <PackageReference Include="KY.Generator.Fluent" Version="6.3.0" />
-    <PackageReference Include="KY.Generator.Reflection" Version="6.3.0" />
+    <PackageReference Include="KY.Generator" Version="6.4.0" />
+    <PackageReference Include="KY.Generator.Angular" Version="6.4.0" />
+    <PackageReference Include="KY.Generator.Fluent" Version="6.4.0" />
+    <PackageReference Include="KY.Generator.Reflection" Version="6.4.0" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="5.0.1" />
   </ItemGroup>
 

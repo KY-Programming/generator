@@ -19,7 +19,7 @@ namespace KY.Generator.Writers
 
         protected string[] SplitLines(string text)
         {
-            return text.Replace("\r", string.Empty).Split('\n');
+            return text.TrimStart('\r').TrimStart('\n').Replace("\r", string.Empty).Split('\n');
         }
     }
 }
