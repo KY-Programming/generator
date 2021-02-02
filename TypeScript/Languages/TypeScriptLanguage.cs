@@ -62,7 +62,7 @@ namespace KY.Generator.TypeScript.Languages
 
         protected override void WriteHeader(FileTemplate fileTemplate, IOutputCache output)
         {
-            fileTemplate.Header.Description += Environment.NewLine + "eslint-disable" + Environment.NewLine + "tslint:disable";
+            fileTemplate.Header.Description += Environment.NewLine + "/* eslint-disable */" + Environment.NewLine + "tslint:disable";
             base.WriteHeader(fileTemplate, output);
         }
 
