@@ -4,10 +4,10 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <Company>KY-Programming</Company>
     <Authors>KY-Programming</Authors>
-    <Version>6.4.0</Version>
+    <Version>6.5.0</Version>
     <Product>KY.Generator</Product>
     <Description>Fluent language for KY-Generator</Description>
-    <Copyright>2020 - KY-Programming</Copyright>
+    <Copyright>2021 - KY-Programming</Copyright>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <PackageProjectUrl>https://generator.ky-programming.de</PackageProjectUrl>
     <PackageIconUrl>https://ky-programming.de/images/logos/128.png</PackageIconUrl>
