@@ -1,4 +1,5 @@
-﻿// tslint:disable
+﻿/* eslint-disable */
+// tslint:disable
 
 export class GetComplexModelService {
     public property: string;

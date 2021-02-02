@@ -1,4 +1,5 @@
-﻿// tslint:disable
+﻿/* eslint-disable */
+// tslint:disable
 
 import { PostModel } from "../models/post-model";
 import { HttpClient } from "@angular/common/http";

@@ -1,4 +1,5 @@
-﻿// tslint:disable
+﻿/* eslint-disable */
+// tslint:disable
 
 export class SubType {
     public property: string;

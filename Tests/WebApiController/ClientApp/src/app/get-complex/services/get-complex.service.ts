@@ -1,4 +1,5 @@
-﻿// tslint:disable
+﻿/* eslint-disable */
+// tslint:disable
 
 import { GetComplexModel } from "../models/get-complex-model";
 import { HttpClient } from "@angular/common/http";

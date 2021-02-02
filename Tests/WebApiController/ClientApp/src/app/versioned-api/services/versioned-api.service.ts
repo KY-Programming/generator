@@ -1,4 +1,5 @@
-﻿// tslint:disable
+﻿/* eslint-disable */
+// tslint:disable
 
 import { WeatherForecast } from "../models/weather-forecast";
 import { HttpClient } from "@angular/common/http";

@@ -1,4 +1,5 @@
-﻿// tslint:disable
+﻿/* eslint-disable */
+// tslint:disable
 
 import { GetComplexModelService } from "./get-complex-model-service";
 

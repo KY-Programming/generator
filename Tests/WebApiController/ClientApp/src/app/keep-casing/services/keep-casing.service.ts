@@ -1,4 +1,5 @@
-﻿// tslint:disable
+﻿/* eslint-disable */
+// tslint:disable
 
 import { CasingModel } from "../models/casing-model";
 import { HttpClient } from "@angular/common/http";
