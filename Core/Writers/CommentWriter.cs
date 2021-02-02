@@ -14,7 +14,7 @@ namespace KY.Generator.Writers
             {
                 return;
             }
-            this.SplitLines(comment.Description).ForEach(line => output.Add("// " + line).BreakLine());
+            this.SplitLines(comment.Description).ForEach(line => output.Add($"// {line}".Trim()).BreakLine());
         }
 
         protected string[] SplitLines(string text)

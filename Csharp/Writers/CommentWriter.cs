@@ -19,7 +19,7 @@ namespace KY.Generator.Csharp.Writers
             if (comment.Type == CommentType.Summary)
             {
                 output.Add("/// <summary>").BreakLine();
-                this.SplitLines(comment.Description).ForEach(x => output.Add("/// ").Add(x).BreakLine());
+                this.SplitLines(comment.Description).ForEach(x => output.Add($"/// {x}".Trim()).BreakLine());
                 output.Add("/// </summary>").BreakLine();
             }
             else
