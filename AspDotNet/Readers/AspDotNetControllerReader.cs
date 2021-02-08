@@ -37,10 +37,11 @@ namespace KY.Generator.AspDotNet.Readers
             controller.Name = type.Name;
             controller.Language = ReflectionLanguage.Instance;
 
-            Attribute routeAttribute = type.GetCustomAttributes().FirstOrDefault(x => x.GetType().Name == "RouteAttribute");
+            List<Attribute> typeAttributes = type.GetCustomAttributes().ToList();
+            Attribute routeAttribute = typeAttributes.FirstOrDefault(x => x.GetType().Name == "RouteAttribute");
             controller.Route = routeAttribute?.GetType().GetProperty("Template")?.GetValue(routeAttribute)?.ToString();
 
-            Attribute apiVersionAttribute = type.GetCustomAttributes().FirstOrDefault(x => x.GetType().Name == "ApiVersionAttribute");
+            Attribute apiVersionAttribute = typeAttributes.FirstOrDefault(x => x.GetType().Name == "ApiVersionAttribute");
             IEnumerable<object> versions = apiVersionAttribute?.GetType().GetProperty("Versions")?.GetValue(apiVersionAttribute) as IEnumerable<object>;
             controller.Version = versions?.Last().ToString();
 
@@ -51,14 +52,21 @@ namespace KY.Generator.AspDotNet.Readers
                 {
                     continue;
                 }
+                
+                List<Attribute> methodAttributes = method.GetCustomAttributes().ToList();
+                Dictionary<HttpServiceActionTypeTransferObject, string> actionTypes = this.GetActionTypes(methodAttributes);
+                if (actionTypes.Count == 0)
+                {
+                    Logger.Error($"{type.FullName}.{method.Name} has to be decorated with at least one of [HttpGet], [HttpPost], [HttpPut], [HttpPatch], [HttpDelete] or with [GenerateIgnore].");
+                    continue;
+                }
 
                 string fallbackRoute = null;
                 Type returnType = method.ReturnType.IgnoreGeneric("System.Threading.Tasks", "Task")
                                         .IgnoreGeneric("Microsoft.AspNetCore.Mvc", "IActionResult")
                                         .IgnoreGeneric("Microsoft.AspNetCore.Mvc", "ActionResult");
 
-                // TODO: Accept ProducesAttribute
-                IEnumerable<Attribute> responseTypeAttributes = method.GetCustomAttributes().Where(x => x.GetType().Name == "ProducesResponseTypeAttribute");
+                IEnumerable<Attribute> responseTypeAttributes = methodAttributes.Where(x => x.GetType().Name == "ProducesResponseTypeAttribute" || x.GetType().Name == "ProducesAttribute");
                 foreach (Attribute responseTypeAttribute in responseTypeAttributes)
                 {
                     Type responseTypeAttributeType = responseTypeAttribute.GetType();
@@ -75,63 +83,22 @@ namespace KY.Generator.AspDotNet.Readers
                                                         .Select(x => x.Type);
                 returnType = returnType.IgnoreGeneric(typesToIgnore);
                 this.modelReader.Read(returnType, transferObjects);
-                Attribute methodRouteAttribute = method.GetCustomAttributes().FirstOrDefault(x => x.GetType().Name == "RouteAttribute");
+                Attribute methodRouteAttribute = methodAttributes.FirstOrDefault(x => x.GetType().Name == "RouteAttribute");
                 if (methodRouteAttribute != null)
                 {
                     fallbackRoute = methodRouteAttribute.GetType().GetProperty("Template")?.GetValue(methodRouteAttribute)?.ToString();
                 }
-                foreach (Attribute attribute in method.GetCustomAttributes())
+                foreach (KeyValuePair<HttpServiceActionTypeTransferObject, string> actionType in actionTypes)
                 {
-                    Type attributeType = attribute.GetType();
                     HttpServiceActionTransferObject action = new HttpServiceActionTransferObject();
+                    action.Name = actionTypes.Count == 1 ? method.Name : $"{method.Name}{actionType.Value}";
                     action.ReturnType = returnType.ToTransferObject();
-                    action.Route = attributeType.GetProperty("Template")?.GetValue(attribute)?.ToString() ?? fallbackRoute;
-                    int methodNameIndex = 1;
-                    while (true)
-                    {
-                        string actionName = $"{method.Name}{(methodNameIndex > 1 ? methodNameIndex.ToString() : "")}";
-                        if (controller.Actions.All(x => !x.Name.Equals(actionName)))
-                        {
-                            action.Name = actionName;
-                            break;
-                        }
-                        methodNameIndex++;
-                    }
+                    action.Route = actionType.Value ?? fallbackRoute;
+                    action.Type = actionType.Key;
                     ParameterInfo[] parameters = method.GetParameters();
                     foreach (ParameterInfo parameter in parameters)
                     {
                         this.modelReader.Read(parameter.ParameterType, transferObjects);
-                    }
-                    switch (attributeType.Name)
-                    {
-                        case "HttpGetAttribute":
-                            action.Type = HttpServiceActionTypeTransferObject.Get;
-                            break;
-                        case "HttpPostAttribute":
-                            action.Type = HttpServiceActionTypeTransferObject.Post;
-                            break;
-                        case "HttpPatchAttribute":
-                            action.Type = HttpServiceActionTypeTransferObject.Patch;
-                            break;
-                        case "HttpPutAttribute":
-                            action.Type = HttpServiceActionTypeTransferObject.Put;
-                            break;
-                        case "HttpDeleteAttribute":
-                            action.Type = HttpServiceActionTypeTransferObject.Delete;
-                            break;
-                        case "ConditionalAttribute":
-                        case "DebuggerStepThroughAttribute":
-                        case "AsyncStateMachineAttribute":
-                        case "AuthorizeAttribute":
-                        case "RouteAttribute":
-                        case "ProducesAttribute":
-                        case "ProducesResponseTypeAttribute":
-                        case nameof(GenerateIgnoreGenericAttribute):
-                            // Ignore these attributes
-                            continue;
-                        default:
-                            Logger.Warning($"Unknown controller action attribute {attributeType.Name}");
-                            continue;
                     }
                     action.RequireBodyParameter = action.Type.IsBodyParameterRequired();
                     foreach (ParameterInfo parameter in parameters)
@@ -173,6 +140,43 @@ namespace KY.Generator.AspDotNet.Readers
                 }
             }
             transferObjects.Add(controller);
+        }
+
+        private Dictionary<HttpServiceActionTypeTransferObject, string> GetActionTypes(List<Attribute> methodAttributes)
+        {
+            return methodAttributes.Select(attribute =>
+                                   {
+                                       Type attributeType = attribute.GetType();
+                                       string route = attributeType.GetProperty("Template")?.GetValue(attribute)?.ToString();
+                                       switch (attributeType.Name)
+                                       {
+                                           case "HttpGetAttribute":
+                                               return Tuple.Create(HttpServiceActionTypeTransferObject.Get, route);
+                                           case "HttpPostAttribute":
+                                               return Tuple.Create(HttpServiceActionTypeTransferObject.Post, route);
+                                           case "HttpPatchAttribute":
+                                               return Tuple.Create(HttpServiceActionTypeTransferObject.Patch, route);
+                                           case "HttpPutAttribute":
+                                               return Tuple.Create(HttpServiceActionTypeTransferObject.Put, route);
+                                           case "HttpDeleteAttribute":
+                                               return Tuple.Create(HttpServiceActionTypeTransferObject.Delete, route);
+                                           case "ConditionalAttribute":
+                                           case "DebuggerStepThroughAttribute":
+                                           case "AsyncStateMachineAttribute":
+                                           case "AuthorizeAttribute":
+                                           case "RouteAttribute":
+                                           case "ProducesAttribute":
+                                           case "ProducesResponseTypeAttribute":
+                                           case nameof(GenerateIgnoreGenericAttribute):
+                                               // Ignore these attributes
+                                               return null;
+                                           default:
+                                               Logger.Warning($"Unknown controller action attribute {attributeType.Name}");
+                                               return null;
+                                       }
+                                   })
+                                   .Where(x => x != null)
+                                   .ToDictionary(x => x.Item1, x => x.Item2);
         }
 
         private bool IsFromBodyParameter(ParameterInfo parameter, HttpServiceActionTypeTransferObject method)
