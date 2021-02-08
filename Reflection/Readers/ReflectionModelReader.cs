@@ -52,6 +52,7 @@ namespace KY.Generator.Reflection.Readers
             Logger.Trace($"Reflection read array {type.Name} ({type.Namespace})");
             model.IsGeneric = true;
             model.FromSystem = true;
+            this.Read(type.GetElementType(), transferObjects);
         }
 
         private void ReadGenericFromSystem(Type type, ModelTransferObject model, List<ITransferObject> transferObjects)
