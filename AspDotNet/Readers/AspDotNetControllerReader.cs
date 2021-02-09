@@ -64,7 +64,15 @@ namespace KY.Generator.AspDotNet.Readers
                 string fallbackRoute = null;
                 Type returnType = method.ReturnType.IgnoreGeneric("System.Threading.Tasks", "Task")
                                         .IgnoreGeneric("Microsoft.AspNetCore.Mvc", "IActionResult")
-                                        .IgnoreGeneric("Microsoft.AspNetCore.Mvc", "ActionResult");
+                                        .IgnoreGeneric("Microsoft.AspNetCore.Mvc", "ActionResult")
+                                        .IgnoreGeneric("System.Web.Mvc", "ActionResult")
+                                        .IgnoreGeneric("System.Web.Mvc", "ContentResult")
+                                        .IgnoreGeneric("System.Web.Mvc", "EmptyResult")
+                                        .IgnoreGeneric("System.Web.Mvc", "FileContentResult")
+                                        .IgnoreGeneric("System.Web.Mvc", "FilePathResult")
+                                        .IgnoreGeneric("System.Web.Mvc", "FileResult")
+                                        .IgnoreGeneric("System.Web.Mvc", "FileStreamResult")
+                                        .IgnoreGeneric("System.Web.Mvc", "JsonResult");
 
                 IEnumerable<Attribute> responseTypeAttributes = methodAttributes.Where(x => x.GetType().Name == "ProducesResponseTypeAttribute" || x.GetType().Name == "ProducesAttribute");
                 foreach (Attribute responseTypeAttribute in responseTypeAttributes)
@@ -73,8 +81,7 @@ namespace KY.Generator.AspDotNet.Readers
                     int statusCode = (int)responseTypeAttributeType.GetProperty("StatusCode").GetMethod.Invoke(responseTypeAttribute, null);
                     if (statusCode == 200)
                     {
-                        returnType = (Type)responseTypeAttributeType.GetProperty("Type").GetMethod.Invoke(responseTypeAttribute, null);
-                        break;
+                        returnType = (Type)responseTypeAttributeType.GetProperty("Type").GetMethod.Invoke(responseTypeAttribute, null) ?? returnType;
                     }
                 }
 
