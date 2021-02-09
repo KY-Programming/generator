@@ -14,8 +14,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="KY.Generator" Version="6.5.0" />
-    <PackageReference Include="KY.Generator.Annotations" Version="6.5.0" />
+    <PackageReference Include="KY.Generator" Version="6.6.0" />
+    <PackageReference Include="KY.Generator.Annotations" Version="6.6.0" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.7" />
   </ItemGroup>
 
