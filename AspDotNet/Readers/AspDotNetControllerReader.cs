@@ -98,7 +98,7 @@ namespace KY.Generator.AspDotNet.Readers
                 foreach (KeyValuePair<HttpServiceActionTypeTransferObject, string> actionType in actionTypes)
                 {
                     HttpServiceActionTransferObject action = new HttpServiceActionTransferObject();
-                    action.Name = actionTypes.Count == 1 ? method.Name : $"{method.Name}{actionType.Value}";
+                    action.Name = actionTypes.Count == 1 ? method.Name : $"{actionType.Key}{method.Name.FirstCharToUpper()}";
                     action.ReturnType = returnType.ToTransferObject();
                     action.Route = actionType.Value ?? fallbackRoute;
                     action.Type = actionType.Key;

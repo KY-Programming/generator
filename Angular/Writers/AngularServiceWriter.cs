@@ -71,10 +71,6 @@ namespace KY.Generator.Angular.Writers
                         this.MapType(controllerLanguage, configurationLanguage, action.ReturnType);
                     }
                     TypeTemplate returnType = action.ReturnType.ToTemplate();
-                    if (returnType.Name == "Task")
-                    {
-                        returnType = new TypeTemplate("void");
-                    }
                     this.AddUsing(action.ReturnType, classTemplate, configuration, relativeModelPath);
                     MethodTemplate methodTemplate = classTemplate.AddMethod(action.Name, Code.Generic("Observable", returnType))
                                                                  .FormatName(configuration);
