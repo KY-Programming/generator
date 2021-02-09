@@ -64,7 +64,8 @@ namespace KY.Generator.Angular.Writers
                 bool appendConvertDateMethod = false;
                 foreach (HttpServiceActionTransferObject action in controller.Actions)
                 {
-                    ICodeFragment errorCode = Code.Lambda("error", Code.Local("subject").Method("error", Code.Local("error")));
+                    string subjectName = action.Parameters.Any(x => x.Name == "subject") ? "rxjsSubject" : "subject";
+                    ICodeFragment errorCode = Code.Lambda("error", Code.Local(subjectName).Method("error", Code.Local("error")));
                     if (controllerLanguage != null && configurationLanguage != null)
                     {
                         this.MapType(controllerLanguage, configurationLanguage, action.ReturnType);
@@ -78,7 +79,7 @@ namespace KY.Generator.Angular.Writers
                     MethodTemplate methodTemplate = classTemplate.AddMethod(action.Name, Code.Generic("Observable", returnType))
                                                                  .FormatName(configuration);
                     TypeTemplate subjectType = Code.Generic("Subject", returnType);
-                    methodTemplate.WithCode(Code.Declare(subjectType, "subject", Code.New(subjectType)));
+                    methodTemplate.WithCode(Code.Declare(subjectType, subjectName, Code.New(subjectType)));
                     foreach (HttpServiceActionParameterTransferObject parameter in action.Parameters)
                     {
                         if (controllerLanguage != null && configurationLanguage != null)
@@ -106,13 +107,13 @@ namespace KY.Generator.Angular.Writers
                     List<HttpServiceActionParameterTransferObject> urlDirectParameters = action.Parameters.Where(x => !x.FromBody && !x.Inline && !x.AppendName).ToList();
                     MultilineCodeFragment code = Code.Multiline();
                     bool hasReturnType = returnType.Name != "void" && returnType.Name != "Task";
-                    ExecuteMethodTemplate nextMethod = Code.Local("subject").Method("next");
+                    ExecuteMethodTemplate nextMethod = Code.Local(subjectName).Method("next");
                     if (hasReturnType)
                     {
                         nextMethod.WithParameter(Code.Local("result"));
                     }
                     code.AddLine(nextMethod.Close())
-                        .AddLine(Code.Local("subject").Method("complete").Close());
+                        .AddLine(Code.Local(subjectName).Method("complete").Close());
                     ChainedCodeFragment parameterUrl = Code.This().Field(serviceUrlField);
                     foreach (HttpServiceActionParameterTransferObject parameter in inlineParameters)
                     {
@@ -179,7 +180,7 @@ namespace KY.Generator.Angular.Writers
                             )
                             .Method("subscribe", Code.Lambda(hasReturnType ? "result" : null, code), errorCode).Close()
                     );
-                    methodTemplate.WithCode(Code.Return(Code.Local("subject")));
+                    methodTemplate.WithCode(Code.Return(Code.Local(subjectName)));
                 }
 
                 if (appendConvertAnyMethod)
@@ -320,8 +321,9 @@ namespace KY.Generator.Angular.Writers
                     List<ICodeFragment> parameters = new List<ICodeFragment>();
                     parameters.Add(Code.String(action.Name));
                     parameters.AddRange(action.Parameters.Select(parameter => Code.Local(parameter.Name)));
-
-                    methodTemplate.WithCode(Code.Declare(Code.Generic("Subject", Code.Void()), "subject", Code.New(Code.Generic("Subject", Code.Void()))))
+                    
+                    string subjectName = action.Parameters.Any(x => x.Name == "subject") ? "rxjsSubject" : "subject";
+                    methodTemplate.WithCode(Code.Declare(Code.Generic("Subject", Code.Void()), subjectName, Code.New(Code.Generic("Subject", Code.Void()))))
                                   .WithCode(
                                       Code.This().Method(connectMethod).Method("pipe",
                                                                                Code.Method("mergeMap", Code.Lambda(Code.This().Field(connectionField))),
@@ -329,10 +331,10 @@ namespace KY.Generator.Angular.Writers
                                                                                Code.Method("mergeMap", Code.Lambda("connection", Code.Local("connection").Method("send", parameters))
                                                                                ))
                                           .Method("subscribe", Code.Lambda(Code.Multiline()
-                                                                               .AddLine(Code.Local("subject").Method("next").Close())
-                                                                               .AddLine(Code.Local("subject").Method("complete").Close())),
-                                                  Code.Lambda("error", Code.Local("subject").Method("error", Code.Local("error")))).Close())
-                                  .WithCode(Code.Return(Code.Local("subject")));
+                                                                               .AddLine(Code.Local(subjectName).Method("next").Close())
+                                                                               .AddLine(Code.Local(subjectName).Method("complete").Close())),
+                                                  Code.Lambda("error", Code.Local(subjectName).Method("error", Code.Local("error")))).Close())
+                                  .WithCode(Code.Return(Code.Local(subjectName)));
                 }
                 foreach (HttpServiceActionTransferObject action in hub.Events)
                 {
