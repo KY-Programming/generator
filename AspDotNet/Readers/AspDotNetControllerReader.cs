@@ -110,6 +110,10 @@ namespace KY.Generator.AspDotNet.Readers
                     action.RequireBodyParameter = action.Type.IsBodyParameterRequired();
                     foreach (ParameterInfo parameter in parameters)
                     {
+                        if (parameter.ParameterType.FullName == "System.Threading.CancellationToken")
+                        {
+                            continue;
+                        }
                         HttpServiceActionParameterTransferObject actionParameter = new HttpServiceActionParameterTransferObject();
                         actionParameter.Name = parameter.Name;
                         actionParameter.Type = parameter.ParameterType.ToTransferObject();
