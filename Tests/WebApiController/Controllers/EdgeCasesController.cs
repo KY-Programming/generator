@@ -1,4 +1,6 @@
-﻿using KY.Generator;
+﻿using System.Collections.Generic;
+using System.Threading;
+using KY.Generator;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApiController.Controllers
@@ -16,5 +18,11 @@ namespace WebApiController.Controllers
         [HttpPost]
         public void Post(string subject)
         { }
+        
+        [HttpGet]
+        public List<string> Cancelable(string subject, CancellationToken token)
+        {
+            return new List<string> { subject };
+        }
     }
 }

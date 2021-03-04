@@ -35,6 +35,15 @@ export class EdgeCasesService {
         return rxjsSubject;
     }
 
+    public cancelable(subject: string, httpOptions: {} = undefined): Observable<string[]> {
+        let rxjsSubject = new Subject<string[]>();
+        this.http.get<string[]>(this.serviceUrl + "/edgecases" + "?subject=" + this.convertAny(subject), httpOptions).subscribe((result) => {
+            rxjsSubject.next(result);
+            rxjsSubject.complete();
+        }, (error) => rxjsSubject.error(error));
+        return rxjsSubject;
+    }
+
     public convertAny(value: any): string {
         return value === null || value === undefined ? "" : value.toString();
     }
