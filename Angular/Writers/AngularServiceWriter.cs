@@ -65,6 +65,7 @@ namespace KY.Generator.Angular.Writers
                 foreach (HttpServiceActionTransferObject action in controller.Actions)
                 {
                     string subjectName = action.Parameters.Any(x => x.Name == "subject") ? "rxjsSubject" : "subject";
+                    bool isGuidReturnType = action.ReturnType.Name == nameof(Guid);
                     ICodeFragment errorCode = Code.Lambda("error", Code.Local(subjectName).Method("error", Code.Local("error")));
                     if (controllerLanguage != null && configurationLanguage != null)
                     {
@@ -106,7 +107,12 @@ namespace KY.Generator.Angular.Writers
                     ExecuteMethodTemplate nextMethod = Code.Local(subjectName).Method("next");
                     if (hasReturnType)
                     {
-                        nextMethod.WithParameter(Code.Local("result"));
+                        ICodeFragment nextCode = Code.Local("result");
+                        if (isGuidReturnType)
+                        {
+                            nextCode = nextCode.CastTo<LocalVariableTemplate>().Method("replace", Code.TypeScript("/(^\"|\"$)/g"), Code.String(string.Empty));
+                        }
+                        nextMethod.WithParameter(nextCode);
                     }
                     code.AddLine(nextMethod.Close())
                         .AddLine(Code.Local(subjectName).Method("complete").Close());

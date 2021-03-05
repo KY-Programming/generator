@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using KY.Generator;
 using Microsoft.AspNetCore.Mvc;
@@ -11,18 +12,30 @@ namespace WebApiController.Controllers
     [GenerateOption(GenerateOption.SkipHeader)]
     public class EdgeCasesController : ControllerBase
     {
-        [HttpGet]
+        [HttpGet("[action]")]
         public void Get(string subject)
         { }
-
-        [HttpPost]
+        
+        [HttpPost("[action]")]
         public void Post(string subject)
         { }
         
-        [HttpGet]
+        [HttpGet("[action]")]
         public List<string> Cancelable(string subject, CancellationToken token)
         {
             return new List<string> { subject };
+        }
+        
+        [HttpGet("[action]")]
+        public string String()
+        {
+            return "Hello World!";
+        }
+        
+        [HttpGet("[action]")]
+        public Guid GetGuid()
+        {
+            return Guid.NewGuid();
         }
     }
 }
