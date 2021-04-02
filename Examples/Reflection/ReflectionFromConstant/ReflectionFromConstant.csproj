@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <ProjectGuid>{41084dd2-495e-4078-bfc1-ca5193667c60}</ProjectGuid>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="KY.Generator" Version="6.6.3" />
+    <PackageReference Include="KY.Generator.Annotations" Version="6.6.3" />
+  </ItemGroup>
+
+</Project>
