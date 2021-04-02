@@ -93,4 +93,16 @@ dotnet add package KY.Generator.Reflection --prerelease
 dotnet build --no-incremental
 cd ..\..
 
+REM ==========================================
+REM ||  ReflectionLoadFromNugetPackageNet5  ||
+REM ==========================================
+REM 
+cd ReflectionLoadFromNugetPackageNet5
+rmdir /S/Q bin
+rmdir /S/Q Output
+dotnet add package KY.Generator --prerelease
+dotnet add package KY.Generator.Reflection --prerelease
+dotnet build --no-incremental
+cd ..\..
+
 PAUSE
