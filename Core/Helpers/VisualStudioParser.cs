@@ -11,7 +11,7 @@ namespace KY.Generator
 {
     public class VisualStudioParser
     {
-        private static readonly Regex projectRegex = new Regex(@"^Project\(""(?<id>{[a-fA-F0-9-]+})""\)\s*=\s*""(?<name>[^""]+)""\s*,\s*""(?<path>[^""]*)""\s*,\s*""(?<localid>{[a-fA-F0-9-]+})""\s*$");
+        private static readonly Regex projectRegex = new Regex(@"^Project\(""(?<typeId>{[a-fA-F0-9-]+})""\)\s*=\s*""(?<name>[^""]+)""\s*,\s*""(?<path>[^""]*)""\s*,\s*""(?<id>{[a-fA-F0-9-]+})""\s*$");
 
         public VisualStudioSolution ParseSolution(string path)
         {
@@ -33,7 +33,7 @@ namespace KY.Generator
                                           Id = new Guid(match.Groups["id"].Value),
                                           Name = match.Groups["name"].Value,
                                           Path = match.Groups["path"].Value,
-                                          IdInSolution = new Guid(match.Groups["localid"].Value)
+                                          TypeId = new Guid(match.Groups["typeId"].Value)
                                       }
                 );
             }
@@ -102,6 +102,6 @@ namespace KY.Generator
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string Path { get; set; }
-        public Guid IdInSolution { get; set; }
+        public Guid TypeId { get; set; }
     }
 }
