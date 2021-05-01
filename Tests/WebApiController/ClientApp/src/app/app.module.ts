@@ -11,6 +11,7 @@ import { HomeComponent } from './home/home.component';
 import { KeepCasingComponent } from './keep-casing/keep-casing.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { VersionedApiComponent } from './versioned-api/versioned-api.component';
+import { DateComponent } from './date/date.component';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { VersionedApiComponent } from './versioned-api/versioned-api.component';
     FetchDataComponent,
     FixCasingComponent,
     KeepCasingComponent,
-    VersionedApiComponent
+    VersionedApiComponent,
+    DateComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -35,9 +37,11 @@ import { VersionedApiComponent } from './versioned-api/versioned-api.component';
       { path: 'fix-casing', component: FixCasingComponent },
       { path: 'keep-casing', component: KeepCasingComponent },
       { path: 'versioned-api', component: VersionedApiComponent },
+      { path: 'date', component: DateComponent },
     ])
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

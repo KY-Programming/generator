@@ -21,6 +21,9 @@ export class ProducesService {
     public get(days: number, httpOptions: {} = undefined): Observable<WeatherForecast[]> {
         let subject = new Subject<WeatherForecast[]>();
         this.http.get<WeatherForecast[]>(this.serviceUrl + "/produces" + "?days=" + this.convertAny(days), httpOptions).subscribe((result) => {
+            if (result) {
+                result.forEach((entry) => entry.date = this.convertToDate(entry.date));
+            }
             subject.next(result);
             subject.complete();
         }, (error) => subject.error(error));
@@ -29,6 +32,10 @@ export class ProducesService {
 
     public convertAny(value: any): string {
         return value === null || value === undefined ? "" : value.toString();
+    }
+
+    public convertToDate(value: string | Date): Date {
+        return typeof(value) === "string" ? new Date(value) : value;
     }
 }
 

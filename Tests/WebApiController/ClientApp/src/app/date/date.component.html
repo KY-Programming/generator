@@ -1,0 +1,37 @@
+<div>
+  <button (click)="load()">Load</button>
+  <button (click)="loadArray()">Load Array</button>
+  <button (click)="loadList()">Load List</button>
+  <button (click)="loadEnumerable()">Load Enumerable</button>
+  <button (click)="loadWrappedArray()">Load Wrapped Array</button>
+</div>
+<div>
+  <button (click)="loadModel()">Load Model</button>
+  <button (click)="loadModelArray()">Load Model Array</button>
+  <button (click)="loadModelList()">Load Model List</button>
+  <button (click)="loadModelEnumerable()">Load Model Enumerable</button>
+</div>
+<div>
+  <button (click)="loadWrappedModel()">Load Wrapped Model</button>
+  <button (click)="loadWrappedModelArray()">Load Wrapped Model Array</button>
+</div>
+<div>
+  <button (click)="loadWrappedModelWithDate()">Load Wrapped Model with Date</button>
+</div>
+<button (click)="send()">Send</button>
+<ng-container *ngIf="message">
+  <div>{{message}}</div>
+</ng-container>
+<ng-container *ngIf="!message">
+  <ng-container *ngFor="let date of dates; let index = index">
+    <div>{{date}}</div>
+    <ng-container *ngIf="isDate[index]">
+      <div>{{date?.toLocaleString()}}</div>
+      <div>Date</div>
+    </ng-container>
+    <ng-container *ngIf="!isDate[index]">
+      <div>{{types[index]}}</div>
+    </ng-container>
+  </ng-container>
+  <pre><code>{{result | json}}</code></pre>
+</ng-container>

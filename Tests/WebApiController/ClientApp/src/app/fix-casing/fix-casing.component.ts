@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CasingModel } from './models/casing-model';
 import { FixCasingService } from './services/fix-casing.service';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-fix-casing',
@@ -12,7 +13,9 @@ export class FixCasingComponent implements OnInit {
 
   constructor(
     private readonly service: FixCasingService
-  ) { }
+  ) {
+    this.service.serviceUrl = environment.baseUrl;
+  }
 
   ngOnInit() {
     this.service.get().subscribe(model => this.model = model);

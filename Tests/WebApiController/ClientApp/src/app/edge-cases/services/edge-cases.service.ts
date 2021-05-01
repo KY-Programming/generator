@@ -56,7 +56,6 @@ export class EdgeCasesService {
 
     public getGuid(httpOptions: {} = undefined): Observable<string> {
         let subject = new Subject<string>();
-        httpOptions = { responseType: 'text', ...httpOptions};
         this.http.get<string>(this.serviceUrl + "/edgecases/getguid", httpOptions).subscribe((result) => {
             subject.next(result.replace(/(^"|"$)/g, ""));
             subject.complete();

@@ -21,6 +21,9 @@ export class RoutedService {
     public get(httpOptions: {} = undefined): Observable<WeatherForecast[]> {
         let subject = new Subject<WeatherForecast[]>();
         this.http.get<WeatherForecast[]>(this.serviceUrl + "/routed", httpOptions).subscribe((result) => {
+            if (result) {
+                result.forEach((entry) => entry.date = this.convertToDate(entry.date));
+            }
             subject.next(result);
             subject.complete();
         }, (error) => subject.error(error));
@@ -30,6 +33,9 @@ export class RoutedService {
     public getThree(httpOptions: {} = undefined): Observable<WeatherForecast[]> {
         let subject = new Subject<WeatherForecast[]>();
         this.http.get<WeatherForecast[]>(this.serviceUrl + "/routed/three", httpOptions).subscribe((result) => {
+            if (result) {
+                result.forEach((entry) => entry.date = this.convertToDate(entry.date));
+            }
             subject.next(result);
             subject.complete();
         }, (error) => subject.error(error));
@@ -39,6 +45,9 @@ export class RoutedService {
     public getThreeDays(httpOptions: {} = undefined): Observable<WeatherForecast[]> {
         let subject = new Subject<WeatherForecast[]>();
         this.http.get<WeatherForecast[]>(this.serviceUrl + "/routed/three/days", httpOptions).subscribe((result) => {
+            if (result) {
+                result.forEach((entry) => entry.date = this.convertToDate(entry.date));
+            }
             subject.next(result);
             subject.complete();
         }, (error) => subject.error(error));
@@ -48,6 +57,9 @@ export class RoutedService {
     public getNext(days: number, httpOptions: {} = undefined): Observable<WeatherForecast[]> {
         let subject = new Subject<WeatherForecast[]>();
         this.http.get<WeatherForecast[]>(this.serviceUrl + "/routed/next/" + days + "/days", httpOptions).subscribe((result) => {
+            if (result) {
+                result.forEach((entry) => entry.date = this.convertToDate(entry.date));
+            }
             subject.next(result);
             subject.complete();
         }, (error) => subject.error(error));
@@ -182,6 +194,10 @@ export class RoutedService {
 
     public convertAny(value: any): string {
         return value === null || value === undefined ? "" : value.toString();
+    }
+
+    public convertToDate(value: string | Date): Date {
+        return typeof(value) === "string" ? new Date(value) : value;
     }
 }
 
