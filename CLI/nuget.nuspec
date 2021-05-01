@@ -3,13 +3,13 @@
   <metadata>
     <id>KY.Generator.CLI</id>
     <!-- Ensure nuget.targets version is also updated -->
-    <version>6.6.5</version>
+    <version>6.6.6</version>
     <title>KY.Generator.CLI</title>
     <authors>KY-Programming</authors>
     <owners>KY-Programming</owners>
     <licenseUrl>https://github.com/KY-Programming/generator/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/KY-Programming/generator</projectUrl>
-    <iconUrl>https://ky-programming.de/images/logos/128.png</iconUrl>
+    <iconUrl>https://ky-programming.de/images/logos/128xGenerator-Spezial.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Command Line Interface for KY-Generator.
 Generate C# or TypeScript classes from .NET assemblies, JSON, TSQL or oData.

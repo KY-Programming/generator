@@ -4,14 +4,14 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <Company>KY-Programming</Company>
     <Authors>KY-Programming</Authors>
-    <Version>6.6.5</Version>
+    <Version>6.6.6</Version>
     <Product>KY.Generator</Product>
     <Description>[Obsolete] Use KY.Generator.Annotations instead
 Annotations for Reflection Module for KY-Generator</Description>
     <Copyright>2021 - KY-Programming</Copyright>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <PackageProjectUrl>https://generator.ky-programming.de</PackageProjectUrl>
-    <PackageIconUrl>https://ky-programming.de/images/logos/128.png</PackageIconUrl>
+    <PackageIconUrl>https://ky-programming.de/images/logos/128xGenerator-Spezial.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/KY-Programming/generator</RepositoryUrl>
     <RepositoryType></RepositoryType>
     <PackageTags>KY-Generator KY Generator Reflection Annotations</PackageTags>

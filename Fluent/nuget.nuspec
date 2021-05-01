@@ -3,21 +3,21 @@
 <package>
   <metadata>
     <id>KY.Generator.Fluent</id>
-    <version>6.6.5</version>
+    <version>6.6.6</version>
     <title>KY.Generator</title>
     <authors>KY-Programming</authors>
     <owners>KY-Programming</owners>
     <licenseUrl>https://github.com/KY-Programming/generator/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://generator.ky-programming.de</projectUrl>
     <repository type="git" url="https://github.com/KY-Programming/generator" />
-    <iconUrl>https://ky-programming.de/images/logos/128.png</iconUrl>
+    <iconUrl>https://ky-programming.de/images/logos/128xGenerator-Spezial.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Fluent language for KY-Generator</description>
     <releaseNotes></releaseNotes>
     <copyright>Copyright 2021</copyright>
     <tags>KY-Generator KY Generator Fluent Language</tags>
     <dependencies>
-      <dependency id="KY.Generator" version="6.6.5"></dependency>
+      <dependency id="KY.Generator" version="6.6.6"></dependency>
     </dependencies>
   </metadata>
   <files>
