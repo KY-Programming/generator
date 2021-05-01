@@ -140,7 +140,7 @@ namespace KY.Generator.Core.Tests
         [TestMethod]
         public void ElseIfWriter()
         {
-            ElseIfTemplate template = new ElseIfTemplate(Code.Local("variable"));
+            ElseIfTemplate template = new ElseIfTemplate(null, Code.Local("variable"));
             template.Code.AddLine(Code.Comment("Some code here"));
             ElseIfWriter writer = new ElseIfWriter();
             writer.Write(template, this.output);
@@ -150,7 +150,7 @@ namespace KY.Generator.Core.Tests
         [TestMethod]
         public void ElseWriter()
         {
-            ElseTemplate template = new ElseTemplate();
+            ElseTemplate template = new ElseTemplate(null);
             template.Code.AddLine(Code.Comment("Some code here"));
             ElseWriter writer = new ElseWriter();
             writer.Write(template, this.output);

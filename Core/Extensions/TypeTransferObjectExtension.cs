@@ -13,5 +13,10 @@ namespace KY.Generator.Extensions
             }
             return type;
         }
+
+        public static bool IsEnumerable(this TypeTransferObject type)
+        {
+            return type.Name == "Array" || type.Name == "List" || type.Name == "IList" || type.Name == "IEnumerable";
+        }
     }
 }

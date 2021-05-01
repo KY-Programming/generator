@@ -4,6 +4,7 @@ using System.Linq;
 using KY.Core;
 using KY.Core.DataAccess;
 using KY.Generator.Angular.Configurations;
+using KY.Generator.Configurations;
 using KY.Generator.Extensions;
 using KY.Generator.Languages;
 using KY.Generator.Mappings;
@@ -61,17 +62,24 @@ namespace KY.Generator.Angular.Writers
                 string relativeModelPath = FileSystem.RelativeTo(configuration.Model?.RelativePath ?? ".", configuration.Service.RelativePath);
                 relativeModelPath = string.IsNullOrEmpty(relativeModelPath) ? "." : relativeModelPath;
                 bool appendConvertAnyMethod = false;
-                bool appendConvertDateMethod = false;
+                bool appendConvertFromDateMethod = false;
+                bool appendConvertToDateMethod = false;
                 foreach (HttpServiceActionTransferObject action in controller.Actions)
                 {
                     string subjectName = action.Parameters.Any(x => x.Name == "subject") ? "rxjsSubject" : "subject";
-                    bool isGuidReturnType = action.ReturnType.Name == nameof(Guid);
+                    bool isEnumerable = action.ReturnType.IsEnumerable();
+                    bool isGuidReturnType = action.ReturnType.Name.Equals(nameof(Guid), StringComparison.CurrentCultureIgnoreCase);
+                    bool isDateReturnType = action.ReturnType.Name.Equals(nameof(DateTime), StringComparison.CurrentCultureIgnoreCase);
+                    bool isDateArrayReturnType = isEnumerable && action.ReturnType.Generics.Count == 1 && action.ReturnType.Generics.First().Type.Name.Equals(nameof(DateTime), StringComparison.CurrentCultureIgnoreCase);
+                    bool isStringReturnType = action.ReturnType.Name.Equals(nameof(String), StringComparison.CurrentCultureIgnoreCase);
                     ICodeFragment errorCode = Code.Lambda("error", Code.Local(subjectName).Method("error", Code.Local("error")));
                     if (controllerLanguage != null && configurationLanguage != null)
                     {
                         this.MapType(controllerLanguage, configurationLanguage, action.ReturnType);
                     }
                     TypeTemplate returnType = action.ReturnType.ToTemplate();
+                    TypeTemplate returnModelType = isEnumerable ? action.ReturnType.Generics.First().Type.ToTemplate() : returnType;
+                    ModelTransferObject returnModel = transferObjects.OfType<ModelTransferObject>().FirstOrDefault(x => x.Name == returnModelType.Name && x.Namespace == returnModelType.Namespace);
                     this.AddUsing(action.ReturnType, classTemplate, configuration, relativeModelPath);
                     MethodTemplate methodTemplate = classTemplate.AddMethod(action.Name, Code.Generic("Observable", returnType))
                                                                  .FormatName(configuration);
@@ -93,9 +101,13 @@ namespace KY.Generator.Angular.Writers
                         }
                     }
                     methodTemplate.AddParameter(Code.Type("{}"), "httpOptions", Code.Null());
-                    if (returnType.Name == "string")
+                    if (isStringReturnType)
                     {
                         methodTemplate.WithCode(Code.TypeScript("httpOptions = { responseType: 'text', ...httpOptions}").Close());
+                    }
+                    if (isDateReturnType && isDateArrayReturnType)
+                    {
+                        appendConvertToDateMethod = true;
                     }
                     string uri = ("/" + (controller.Route?.Replace("[controller]", controllerName.ToLower()).TrimEnd('/') ?? controllerName.ToLower()) + "/" + action.Route?.Replace("[action]", action.Name.ToLower())).TrimEnd('/');
 
@@ -107,12 +119,22 @@ namespace KY.Generator.Angular.Writers
                     ExecuteMethodTemplate nextMethod = Code.Local(subjectName).Method("next");
                     if (hasReturnType)
                     {
-                        ICodeFragment nextCode = Code.Local("result");
+                        LocalVariableTemplate localCode = Code.Local("result");
+                        ICodeFragment nextCode = localCode;
                         if (isGuidReturnType)
                         {
-                            nextCode = nextCode.CastTo<LocalVariableTemplate>().Method("replace", Code.TypeScript("/(^\"|\"$)/g"), Code.String(string.Empty));
+                            nextCode = localCode.Method("replace", Code.TypeScript("/(^\"|\"$)/g"), Code.String(string.Empty));
+                        }
+                        if (isDateReturnType)
+                        {
+                            nextCode = Code.This().Method("convertToDate", nextCode);
+                        }
+                        if (isDateArrayReturnType)
+                        {
+                            nextCode = localCode.Method("map", Code.Lambda("entry", Code.This().Method("convertToDate", Code.Local("entry"))));
                         }
                         nextMethod.WithParameter(nextCode);
+                        appendConvertToDateMethod = this.WriteDateFixes(returnModel, isEnumerable, code, new List<string>{ "result" }, transferObjects, configuration) || appendConvertToDateMethod;
                     }
                     code.AddLine(nextMethod.Close())
                         .AddLine(Code.Local(subjectName).Method("complete").Close());
@@ -159,8 +181,8 @@ namespace KY.Generator.Angular.Writers
                             parameterUrl = parameterUrl.Append(isFirst ? Code.String($"?{parameter.Name}=") : Code.String($"&{parameter.Name}="));
                             if (parameter.Type.IgnoreNullable().Name == "Date")
                             {
-                                appendConvertDateMethod = true;
-                                parameterUrl = parameterUrl.Append(Code.This().Method("convertDate", Code.Local(name)));
+                                appendConvertFromDateMethod = true;
+                                parameterUrl = parameterUrl.Append(Code.This().Method("convertFromDate", Code.Local(name)));
                             }
                             else
                             {
@@ -189,9 +211,13 @@ namespace KY.Generator.Angular.Writers
                 {
                     this.AppendConvertAnyMethod(classTemplate);
                 }
-                if (appendConvertDateMethod)
+                if (appendConvertFromDateMethod)
                 {
-                    this.AppendConvertDateMethod(classTemplate);
+                    this.AppendConvertFromDateMethod(classTemplate);
+                }
+                if (appendConvertToDateMethod)
+                {
+                    this.AppendConvertToDateMethod(classTemplate);
                 }
             }
             List<SignalRHubTransferObject> hubs = transferObjects.OfType<SignalRHubTransferObject>().ToList();
@@ -259,10 +285,10 @@ namespace KY.Generator.Angular.Writers
                     }
                     errorCode.AddLine(Code.Method("setTimeout",
                                                   Code.Lambda(Code.Method("startConnection").Method("subscribe",
-                                                                                                           Code.Lambda(Code.Multiline()
-                                                                                                                           .AddLine(Code.Local("subject").Method("next").Close())
-                                                                                                                           .AddLine(Code.Local("subject").Method("complete").Close())),
-                                                                                                           Code.Lambda("innerError", Code.Local("subject").Method("error", Code.Local("innerError")))
+                                                                                                    Code.Lambda(Code.Multiline()
+                                                                                                                    .AddLine(Code.Local("subject").Method("next").Close())
+                                                                                                                    .AddLine(Code.Local("subject").Method("complete").Close())),
+                                                                                                    Code.Lambda("innerError", Code.Local("subject").Method("error", Code.Local("innerError")))
                                                               )),
                                                   Code.Local("timeout")
                                       ).Close());
@@ -323,7 +349,7 @@ namespace KY.Generator.Angular.Writers
                     List<ICodeFragment> parameters = new List<ICodeFragment>();
                     parameters.Add(Code.String(action.Name));
                     parameters.AddRange(action.Parameters.Select(parameter => Code.Local(parameter.Name)));
-                    
+
                     string subjectName = action.Parameters.Any(x => x.Name == "subject") ? "rxjsSubject" : "subject";
                     methodTemplate.WithCode(Code.Declare(Code.Generic("Subject", Code.Void()), subjectName, Code.New(Code.Generic("Subject", Code.Void()))))
                                   .WithCode(
@@ -381,6 +407,63 @@ namespace KY.Generator.Angular.Writers
             }
         }
 
+        private bool WriteDateFixes(ModelTransferObject model, bool isModelEnumerable, MultilineCodeFragment code, IReadOnlyList<string> chain, List<ITransferObject> transferObjects, IConfiguration configuration)
+        {
+            if (model == null)
+            {
+                return false;
+            }
+            bool datePropertyFound = false;
+            IfTemplate ifTemplate = Code.If(this.WriteFieldChain(chain));
+            foreach (PropertyTransferObject property in model.Properties)
+            {
+                string propertyName = Formatter.FormatProperty(property.Name, configuration);
+                if (property.Type.Name == nameof(DateTime))
+                {
+                    datePropertyFound = true;
+                    if (isModelEnumerable)
+                    {
+                        ifTemplate.WithCode(this.WriteFieldChain(chain).Method("forEach", Code.Lambda("entry", Code.Local("entry").Field(propertyName).Assign(Code.This().Method("convertToDate", Code.Local("entry").Field(propertyName))))).Close());
+                    }
+                    else
+                    {
+                        ifTemplate.WithCode(this.WriteFieldChain(chain).Field(propertyName).Assign(Code.This().Method("convertToDate", this.WriteFieldChain(chain).Field(propertyName))).Close());
+                    }
+                }
+                ModelTransferObject propertyModel = property.Type as ModelTransferObject;
+                TypeTransferObject entryType = propertyModel?.Generics.FirstOrDefault()?.Type;
+                ModelTransferObject entryModel = entryType as ModelTransferObject ?? transferObjects.OfType<ModelTransferObject>().FirstOrDefault(x => x.Name == entryType?.Name && x.Namespace == entryType?.Namespace);
+                if (propertyModel != null && propertyModel.IsEnumerable() && entryModel != null)
+                {
+                    List<string> nextChain = new List<string>(chain);
+                    nextChain.Add( propertyName);
+                    datePropertyFound = this.WriteDateFixes(entryModel, true, ifTemplate.Code, nextChain, transferObjects, configuration);
+                }
+                else if (propertyModel != null && propertyModel.Properties.Count > 0)
+                {
+                    List<string> nextChain = new List<string>(chain);
+                    nextChain.Add(propertyName);
+                    datePropertyFound = this.WriteDateFixes(propertyModel, false, ifTemplate.Code, nextChain, transferObjects, configuration);
+                }
+            }
+            if (datePropertyFound)
+            {
+                code.AddLine(ifTemplate);
+            }
+            return datePropertyFound;
+        }
+
+        private ChainedCodeFragment WriteFieldChain(IEnumerable<string> chain)
+        {
+            List<string> chainList = chain.ToList();
+            ChainedCodeFragment code = Code.Local(chainList.First());
+            foreach (string field in chainList.Skip(1))
+            {
+                code = code.Field(field);
+            }
+            return code;
+        }
+
         private void AppendConvertAnyMethod(ClassTemplate classTemplate)
         {
             classTemplate.AddMethod("convertAny", Code.Type("string"))
@@ -392,9 +475,9 @@ namespace KY.Generator.Angular.Writers
                                    ));
         }
 
-        private void AppendConvertDateMethod(ClassTemplate classTemplate)
+        private void AppendConvertFromDateMethod(ClassTemplate classTemplate)
         {
-            classTemplate.AddMethod("convertDate", Code.Type("string"))
+            classTemplate.AddMethod("convertFromDate", Code.Type("string"))
                          .WithParameter(Code.Type("Date"), "date")
                          .WithCode(Code.Return(Code.InlineIf(Code.Local("date").Equals().ForceNull().Or().Local("date").Equals().Undefined(),
                                                              Code.String(string.Empty),
@@ -402,6 +485,17 @@ namespace KY.Generator.Angular.Writers
                                                                            Code.Local("date"),
                                                                            Code.Local("date").Method("toISOString")
                                                              )
+                                               )
+                                   ));
+        }
+
+        private void AppendConvertToDateMethod(ClassTemplate classTemplate)
+        {
+            classTemplate.AddMethod("convertToDate", Code.Type("Date"))
+                         .WithParameter(Code.Type("string | Date"), "value")
+                         .WithCode(Code.Return(Code.InlineIf(Code.TypeScript($"typeof(value) === \"string\""),
+                                                             Code.New(Code.Type("Date"), Code.Local("value")),
+                                                             Code.Local("value")
                                                )
                                    ));
         }
