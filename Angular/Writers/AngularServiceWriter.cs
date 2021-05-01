@@ -257,7 +257,7 @@ namespace KY.Generator.Angular.Writers
                                               .WithUsing("HubConnection", "@microsoft/signalr")
                                               .WithUsing(connectionStatusEnum.Name, FileSystem.Combine(relativeModelPath, Formatter.FormatFile(connectionStatusFileTemplate.Name, configuration, true)).Replace("\\", "/"))
                                               .WithAttribute("Injectable", Code.AnonymousObject().WithProperty("providedIn", Code.String("root")));
-                FieldTemplate isClosedField = classTemplate.AddField("isClosed", Code.Type("bool"));
+                FieldTemplate isClosedField = classTemplate.AddField("isClosed", Code.Type("boolean"));
                 FieldTemplate serviceUrlField = classTemplate.AddField("serviceUrl", Code.Type("string")).Public().FormatName(configuration).Default(Code.String(string.Empty));
                 FieldTemplate connectionField = classTemplate.AddField("connection", Code.Generic("ReplaySubject", Code.Type("HubConnection")));
                 FieldTemplate timeoutsField = null;
