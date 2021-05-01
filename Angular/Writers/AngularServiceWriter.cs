@@ -134,7 +134,7 @@ namespace KY.Generator.Angular.Writers
                             nextCode = localCode.Method("map", Code.Lambda("entry", Code.This().Method("convertToDate", Code.Local("entry"))));
                         }
                         nextMethod.WithParameter(nextCode);
-                        appendConvertToDateMethod = this.WriteDateFixes(returnModel, isEnumerable, code, new List<string>{ "result" }, transferObjects, configuration) || appendConvertToDateMethod;
+                        appendConvertToDateMethod = this.WriteDateFixes(returnModel, isEnumerable, code, new List<string> { "result" }, new List<TypeTransferObject> { returnModel }, transferObjects, configuration) || appendConvertToDateMethod;
                     }
                     code.AddLine(nextMethod.Close())
                         .AddLine(Code.Local(subjectName).Method("complete").Close());
@@ -257,6 +257,7 @@ namespace KY.Generator.Angular.Writers
                                               .WithUsing("HubConnection", "@microsoft/signalr")
                                               .WithUsing(connectionStatusEnum.Name, FileSystem.Combine(relativeModelPath, Formatter.FormatFile(connectionStatusFileTemplate.Name, configuration, true)).Replace("\\", "/"))
                                               .WithAttribute("Injectable", Code.AnonymousObject().WithProperty("providedIn", Code.String("root")));
+                FieldTemplate isClosedField = classTemplate.AddField("isClosed", Code.Type("bool"));
                 FieldTemplate serviceUrlField = classTemplate.AddField("serviceUrl", Code.Type("string")).Public().FormatName(configuration).Default(Code.String(string.Empty));
                 FieldTemplate connectionField = classTemplate.AddField("connection", Code.Generic("ReplaySubject", Code.Type("HubConnection")));
                 FieldTemplate timeoutsField = null;
@@ -301,13 +302,14 @@ namespace KY.Generator.Angular.Writers
                 MethodTemplate connectMethod = classTemplate.AddMethod("Connect", Code.Generic("Observable", Code.Void())).FormatName(configuration)
                                                             .WithCode(Code.If(Code.Not().This().Local(serviceUrlField))
                                                                           .WithCode(Code.Throw(Code.Type("Error"), Code.String("serviceUrl can not be empty. Set it via service.serviceUrl."))))
-                                                            .WithCode(Code.If(Code.This().Field(connectionField))
+                                                            .WithCode(Code.If(Code.This().Field(connectionField).And().Not().This().Field(isClosedField))
                                                                           .WithCode(Code.Return(Code.This().Local("status$").Method("pipe",
                                                                                                                                     Code.Method("filter", Code.Lambda("status", Code.Local("status").Equals().Local("ConnectionStatus").Field("connected"))),
                                                                                                                                     Code.Method("take", Code.Number(1)),
                                                                                                                                     Code.Method("map", Code.Lambda(Code.AnonymousObject()))
                                                                                                 ))))
-                                                            .WithCode(Code.This().Field(connectionField).Assign(Code.New(connectionField.Type, Code.Number(1))).Close())
+                                                            .WithCode(Code.This().Field(isClosedField).Assign(Code.Boolean(false)).Close())
+                                                            .WithCode(Code.This().Field(connectionField).Assign(Code.InlineIf(Code.This().Field(connectionField), Code.This().Field(connectionField), Code.New(connectionField.Type, Code.Number(1)))).Close())
                                                             .WithCode(Code.Declare(Code.Type("HubConnection"), "hubConnection", Code.New(Code.Type("HubConnectionBuilder")).Method("withUrl", Code.This().Local(serviceUrlField)).Method("build")))
                                                             .WithCode(Code.Declare(Code.Type("() => Observable<void>"), "startConnection", Code.Lambda(
                                                                                        Code.Multiline()
@@ -323,10 +325,18 @@ namespace KY.Generator.Angular.Writers
                                                                                    )))
                                                             .WithCode(createConnectionCode)
                                                             .WithCode(Code.Local("hubConnection").Method("onclose", Code.Lambda(Code.Multiline()
-                                                                                                                                    .AddLine(Code.Method("startConnection").Close()))
+                                                                                                                                    .AddLine(Code.If(Code.Not().This().Field(isClosedField))
+                                                                                                                                                 .WithCode(Code.Method("startConnection").Close())))
                                                                       ).Close())
                                                             .WithCode(Code.This().Field(connectionField).Method("next", Code.Local("hubConnection")).Close())
                                                             .WithCode(Code.Return(Code.Method("startConnection")));
+
+                classTemplate.AddMethod("disconnect", Code.Void())
+                             .WithCode(Code.This().Field(isClosedField).Assign(Code.Boolean(true)).Close())
+                             .WithCode(Code.This().Field(connectionField).Method("subscribe", Code.Lambda("hubConnection", Code.Multiline()
+                                                                                                                               .AddLine(Code.Local("hubConnection").Method("stop").Method("then", Code.Lambda(Code.Multiline().AddLine(Code.This().Field(statusSubjectField).Method("next", Code.Local("ConnectionStatus").Field("disconnected")).Close()))).Close())
+                                                                                 )).Close());
+
                 if (timeoutsField != null)
                 {
                     connectMethod.AddParameter(Code.Type("number"), "trial", Code.Number(0));
@@ -407,7 +417,7 @@ namespace KY.Generator.Angular.Writers
             }
         }
 
-        private bool WriteDateFixes(ModelTransferObject model, bool isModelEnumerable, MultilineCodeFragment code, IReadOnlyList<string> chain, List<ITransferObject> transferObjects, IConfiguration configuration)
+        private bool WriteDateFixes(ModelTransferObject model, bool isModelEnumerable, MultilineCodeFragment code, IReadOnlyList<string> chain, IReadOnlyList<TypeTransferObject> typeChain, List<ITransferObject> transferObjects, IConfiguration configuration)
         {
             if (model == null)
             {
@@ -417,6 +427,10 @@ namespace KY.Generator.Angular.Writers
             IfTemplate ifTemplate = Code.If(this.WriteFieldChain(chain));
             foreach (PropertyTransferObject property in model.Properties)
             {
+                if (typeChain.Any(type => type.Name == property.Type.Name && type.Namespace == property.Type.Namespace))
+                {
+                    continue;
+                }
                 string propertyName = Formatter.FormatProperty(property.Name, configuration);
                 if (property.Type.Name == nameof(DateTime))
                 {
@@ -433,17 +447,17 @@ namespace KY.Generator.Angular.Writers
                 ModelTransferObject propertyModel = property.Type as ModelTransferObject;
                 TypeTransferObject entryType = propertyModel?.Generics.FirstOrDefault()?.Type;
                 ModelTransferObject entryModel = entryType as ModelTransferObject ?? transferObjects.OfType<ModelTransferObject>().FirstOrDefault(x => x.Name == entryType?.Name && x.Namespace == entryType?.Namespace);
+                List<string> nextChain = new List<string>(chain);
+                nextChain.Add(propertyName);
+                List<TypeTransferObject> nextTypeChain = new List<TypeTransferObject>(typeChain);
+                nextTypeChain.Add(property.Type);
                 if (propertyModel != null && propertyModel.IsEnumerable() && entryModel != null)
                 {
-                    List<string> nextChain = new List<string>(chain);
-                    nextChain.Add( propertyName);
-                    datePropertyFound = this.WriteDateFixes(entryModel, true, ifTemplate.Code, nextChain, transferObjects, configuration);
+                    datePropertyFound = this.WriteDateFixes(entryModel, true, ifTemplate.Code, nextChain, nextTypeChain, transferObjects, configuration);
                 }
                 else if (propertyModel != null && propertyModel.Properties.Count > 0)
                 {
-                    List<string> nextChain = new List<string>(chain);
-                    nextChain.Add(propertyName);
-                    datePropertyFound = this.WriteDateFixes(propertyModel, false, ifTemplate.Code, nextChain, transferObjects, configuration);
+                    datePropertyFound = this.WriteDateFixes(propertyModel, false, ifTemplate.Code, nextChain, nextTypeChain, transferObjects, configuration);
                 }
             }
             if (datePropertyFound)
