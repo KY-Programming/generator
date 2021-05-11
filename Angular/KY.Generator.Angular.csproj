@@ -5,13 +5,13 @@
     <Authors>KY-Programming</Authors>
     <Company>KY-Programming</Company>
     <Product>KY.Generator</Product>
-    <Version>6.6.6</Version>
+    <Version>6.7.0</Version>
     <Copyright>2021 - KY-Programming</Copyright>
     <Description>Angular Module for KY-Generator
 Download KY.Generator to use this module</Description>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <PackageProjectUrl>https://generator.ky-programming.de</PackageProjectUrl>
-    <PackageIconUrl>https://ky-programming.de/images/logos/128xGenerator-Spezial.png</PackageIconUrl>
+    <PackageIconUrl>https://ky-programming.de/images/logos/128.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/KY-Programming/generator</RepositoryUrl>
     <PackageTags>KY-Generator KY Generator Angular</PackageTags>
   </PropertyGroup>

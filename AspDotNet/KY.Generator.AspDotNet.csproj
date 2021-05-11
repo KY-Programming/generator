@@ -4,14 +4,14 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <Company>KY-Programming</Company>
     <Authors>KY-Programming</Authors>
-    <Version>6.6.6</Version>
+    <Version>6.7.0</Version>
     <Product>KY.Generator</Product>
     <Description>ASP.net Module for KY-Generator
 Download KY.Generator to use this module</Description>
     <Copyright>2021 - KY-Programming</Copyright>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <PackageProjectUrl>https://generator.ky-programming.de</PackageProjectUrl>
-    <PackageIconUrl>https://ky-programming.de/images/logos/128xGenerator-Spezial.png</PackageIconUrl>
+    <PackageIconUrl>https://ky-programming.de/images/logos/128.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/KY-Programming/generator</RepositoryUrl>
     <PackageTags>KY-Generator KY Generator ASP.net</PackageTags>
   </PropertyGroup>
