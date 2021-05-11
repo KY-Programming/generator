@@ -255,10 +255,12 @@ namespace KY.Generator.Angular.Writers
                                               .WithUsing("take", "rxjs/operators")
                                               .WithUsing("HubConnectionBuilder", "@microsoft/signalr")
                                               .WithUsing("HubConnection", "@microsoft/signalr")
+                                              .WithUsing("LogLevel", "@microsoft/signalr")
                                               .WithUsing(connectionStatusEnum.Name, FileSystem.Combine(relativeModelPath, Formatter.FormatFile(connectionStatusFileTemplate.Name, configuration, true)).Replace("\\", "/"))
                                               .WithAttribute("Injectable", Code.AnonymousObject().WithProperty("providedIn", Code.String("root")));
                 FieldTemplate isClosedField = classTemplate.AddField("isClosed", Code.Type("boolean"));
                 FieldTemplate serviceUrlField = classTemplate.AddField("serviceUrl", Code.Type("string")).Public().FormatName(configuration).Default(Code.String(string.Empty));
+                FieldTemplate logLevelField = classTemplate.AddField("logLevel", Code.Type("LogLevel")).Public().FormatName(configuration).Default(Code.Static(Code.Type("LogLevel")).Field("Error"));
                 FieldTemplate connectionField = classTemplate.AddField("connection", Code.Generic("ReplaySubject", Code.Type("HubConnection")));
                 FieldTemplate timeoutsField = null;
                 if (configuration.Service.Timeouts?.Count > 0)
@@ -310,7 +312,10 @@ namespace KY.Generator.Angular.Writers
                                                                                                 ))))
                                                             .WithCode(Code.This().Field(isClosedField).Assign(Code.Boolean(false)).Close())
                                                             .WithCode(Code.This().Field(connectionField).Assign(Code.InlineIf(Code.This().Field(connectionField), Code.This().Field(connectionField), Code.New(connectionField.Type, Code.Number(1)))).Close())
-                                                            .WithCode(Code.Declare(Code.Type("HubConnection"), "hubConnection", Code.New(Code.Type("HubConnectionBuilder")).Method("withUrl", Code.This().Local(serviceUrlField)).Method("build")))
+                                                            .WithCode(Code.Declare(Code.Type("HubConnection"), "hubConnection", Code.New(Code.Type("HubConnectionBuilder"))
+                                                                                                                                    .Method("withUrl", Code.This().Local(serviceUrlField))
+                                                                                                                                    .Method("configureLogging", Code.This().Field(logLevelField))
+                                                                                                                                    .Method("build")))
                                                             .WithCode(Code.Declare(Code.Type("() => Observable<void>"), "startConnection", Code.Lambda(
                                                                                        Code.Multiline()
                                                                                            .AddLine(Code.This().Field(statusSubjectField).Method("next", Code.Local(connectionStatusEnum.Name).Local("connecting")).Close())
