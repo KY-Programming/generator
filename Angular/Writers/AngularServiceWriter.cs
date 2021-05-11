@@ -333,9 +333,10 @@ namespace KY.Generator.Angular.Writers
 
                 classTemplate.AddMethod("disconnect", Code.Void())
                              .WithCode(Code.This().Field(isClosedField).Assign(Code.Boolean(true)).Close())
-                             .WithCode(Code.This().Field(connectionField).Method("subscribe", Code.Lambda("hubConnection", Code.Multiline()
-                                                                                                                               .AddLine(Code.Local("hubConnection").Method("stop").Method("then", Code.Lambda(Code.Multiline().AddLine(Code.This().Field(statusSubjectField).Method("next", Code.Local("ConnectionStatus").Field("disconnected")).Close()))).Close())
-                                                                                 )).Close());
+                             .WithCode(Code.This().Field(connectionField).Method("pipe", Code.Method("take", Code.Number(1)))
+                                           .Method("subscribe", Code.Lambda("hubConnection", Code.Multiline()
+                                                                                                 .AddLine(Code.Local("hubConnection").Method("stop").Method("then", Code.Lambda(Code.Multiline().AddLine(Code.This().Field(statusSubjectField).Method("next", Code.Local("ConnectionStatus").Field("disconnected")).Close()))).Close())
+                                                   )).Close());
 
                 if (timeoutsField != null)
                 {
