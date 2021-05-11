@@ -232,6 +232,7 @@ namespace KY.Generator.Angular.Writers
                                        .FormatName(configuration)
                                        .AddValue("connecting")
                                        .AddValue("connected")
+                                       .AddValue("sleeping")
                                        .AddValue("disconnected");
             }
             foreach (SignalRHubTransferObject hub in hubs)
@@ -273,10 +274,12 @@ namespace KY.Generator.Angular.Writers
                 classTemplate.AddField("status$", Code.Generic("Observable", connectionStatusEnum.ToType())).FormatName(configuration).Readonly().Public()
                              .Default(Code.This().Local(statusSubjectField).Method("asObservable"));
                 MultilineCodeFragment createConnectionCode = Code.Multiline();
-                MultilineCodeFragment errorCode = Code.Multiline().AddLine(Code.This().Field(statusSubjectField).Method("next", Code.Local(connectionStatusEnum.Name).Field("disconnected")).Close());
+                MultilineCodeFragment errorCode = Code.Multiline();
                 if (timeoutsField != null)
                 {
-                    errorCode.AddLine(Code.Declare(Code.Type("number"), "timeout", Code.This().Field(timeoutsField).Index(Code.Local("trial"))))
+                    errorCode.AddLine(Code.If(Code.This().Field(isClosedField)).WithCode(Code.Return()))
+                             .AddLine(Code.This().Field(statusSubjectField).Method("next", Code.Local(connectionStatusEnum.Name).Field("sleeping")).Close())
+                             .AddLine(Code.Declare(Code.Type("number"), "timeout", Code.This().Field(timeoutsField).Index(Code.Local("trial"))))
                              .AddLine(Code.Local("trial++").Close());
                     if (configuration.Service.EndlessTries)
                     {
@@ -287,21 +290,25 @@ namespace KY.Generator.Angular.Writers
                         errorCode.AddLine(Code.If(Code.Local("timeout").Equals().Undefined()).WithCode(Code.Local("subject").Method("error", Code.Local("error")).Close()).WithCode(Code.Return()));
                     }
                     errorCode.AddLine(Code.Method("setTimeout",
-                                                  Code.Lambda(Code.Method("startConnection").Method("subscribe",
-                                                                                                    Code.Lambda(Code.Multiline()
-                                                                                                                    .AddLine(Code.Local("subject").Method("next").Close())
-                                                                                                                    .AddLine(Code.Local("subject").Method("complete").Close())),
-                                                                                                    Code.Lambda("innerError", Code.Local("subject").Method("error", Code.Local("innerError")))
-                                                              )),
+                                                  Code.Lambda(Code.Multiline()
+                                                                  .AddLine(Code.If(Code.This().Field(isClosedField)).WithCode(Code.Return()))
+                                                                  .AddLine(Code.Method("startConnection").Method("subscribe",
+                                                                                                                 Code.Lambda(Code.Multiline()
+                                                                                                                                 .AddLine(Code.Local("subject").Method("next").Close())
+                                                                                                                                 .AddLine(Code.Local("subject").Method("complete").Close())),
+                                                                                                                 Code.Lambda("innerError", Code.Local("subject").Method("error", Code.Local("innerError")))
+                                                                           ))),
                                                   Code.Local("timeout")
                                       ).Close());
                 }
                 else
                 {
-                    errorCode.AddLine(Code.Local("subject").Method("error", Code.Local("error")).Close());
+                    errorCode.AddLine(Code.This().Field(statusSubjectField).Method("next", Code.Local(connectionStatusEnum.Name).Field("disconnected")).Close())
+                             .AddLine(Code.Local("subject").Method("error", Code.Local("error")).Close());
                 }
 
                 MethodTemplate connectMethod = classTemplate.AddMethod("Connect", Code.Generic("Observable", Code.Void())).FormatName(configuration)
+                                                            .WithComment("Connects to the hub via given serviceUrl.\nAutomatically reconnects on connection loss. \nIf timeout is configured, goes to sleeping state and reconnects after the timeout")
                                                             .WithCode(Code.If(Code.Not().This().Local(serviceUrlField))
                                                                           .WithCode(Code.Throw(Code.Type("Error"), Code.String("serviceUrl can not be empty. Set it via service.serviceUrl."))))
                                                             .WithCode(Code.If(Code.This().Field(connectionField).And().Not().This().Field(isClosedField))
@@ -337,6 +344,7 @@ namespace KY.Generator.Angular.Writers
                                                             .WithCode(Code.Return(Code.Method("startConnection")));
 
                 classTemplate.AddMethod("disconnect", Code.Void())
+                             .WithComment("Close an active connection to the hub.\nIf the service is reconnecting/sleeping the connection attempt will be canceled")
                              .WithCode(Code.This().Field(isClosedField).Assign(Code.Boolean(true)).Close())
                              .WithCode(Code.This().Field(connectionField).Method("pipe", Code.Method("take", Code.Number(1)))
                                            .Method("subscribe", Code.Lambda("hubConnection", Code.Multiline()
@@ -351,7 +359,8 @@ namespace KY.Generator.Angular.Writers
                 foreach (HttpServiceActionTransferObject action in hub.Actions)
                 {
                     MethodTemplate methodTemplate = classTemplate.AddMethod(action.Name, Code.Generic("Observable", Code.Type("void")))
-                                                                 .FormatName(configuration);
+                                                                 .FormatName(configuration)
+                                                                 .WithComment($"Send a \"{action.Name}\" message to the hub with the given parameters. Automatically connects to the hub.");
                     foreach (HttpServiceActionParameterTransferObject parameter in action.Parameters)
                     {
                         if (hubLanguage != null && configurationLanguage != null)
