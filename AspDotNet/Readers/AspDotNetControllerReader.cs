@@ -114,12 +114,13 @@ namespace KY.Generator.AspDotNet.Readers
                         {
                             continue;
                         }
+                        string fullRoute = $"{controller.Route}/{action.Route}";
                         HttpServiceActionParameterTransferObject actionParameter = new HttpServiceActionParameterTransferObject();
                         actionParameter.Name = parameter.Name;
                         actionParameter.Type = parameter.ParameterType.ToTransferObject();
                         actionParameter.FromBody = this.IsFromBodyParameter(parameter, action.Type);
                         actionParameter.FromQuery = this.IsFromQueryParameter(parameter);
-                        actionParameter.Inline = action.Route != null && action.Route.Contains($"{{{parameter.Name}}}");
+                        actionParameter.Inline = fullRoute.Contains($"{{{parameter.Name}}}");
                         actionParameter.InlineIndex = actionParameter.Inline && action.Route != null ? action.Route.IndexOf($"{{{parameter.Name}}}", StringComparison.Ordinal) : 0;
                         actionParameter.IsOptional = parameter.IsOptional;
                         action.Parameters.Add(actionParameter);
