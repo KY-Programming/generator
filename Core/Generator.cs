@@ -45,7 +45,7 @@ namespace KY.Generator
             NugetPackageDependencyLoader.Activate();
             NugetPackageDependencyLoader.ResolveDependencies(this.GetType().Assembly);
 
-            this.output = new FileOutput(AppDomain.CurrentDomain.BaseDirectory);
+            this.output = new FileOutput(Environment.CurrentDirectory);
             this.resolver = new DependencyResolver();
             this.resolver.Bind<ITypeMapping>().ToSingleton<TypeMapping>();
             this.resolver.Bind<CommandRunner>().ToSelf();

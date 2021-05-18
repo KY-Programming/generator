@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using System.Text;
-using System.Text.RegularExpressions;
 using KY.Core;
-using KY.Core.Crypt;
 using KY.Core.DataAccess;
 
 namespace KY.Generator.Output
@@ -60,10 +56,10 @@ namespace KY.Generator.Output
                     Logger.Trace($"File has no changes {this.FilePath}");
                 }
             }
-            else if (contentRead.Length == 0 
+            else if (contentRead.Length == 0
                      || contentReadIsGenerated && (this.OutputId == null || readOutputIds.Count == 0 || readOutputIds.Contains(this.OutputId.Value))
                      || !contentReadIsGenerated && this.OutputId != null && readOutputIds.Contains(this.OutputId.Value)
-                     )
+            )
             {
                 Logger.Trace($"Overwrite file {this.FilePath}");
                 this.Write(this.Content, readOutputIds);
