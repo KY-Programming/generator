@@ -6,10 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="KY.Generator" Version="6.7.1" />
-    <PackageReference Include="KY.Generator.Angular" Version="6.7.1" />
-    <PackageReference Include="KY.Generator.Fluent" Version="6.7.1" />
-    <PackageReference Include="KY.Generator.Reflection" Version="6.7.1" />
+    <PackageReference Include="KY.Generator" Version="6.7.2" />
+    <PackageReference Include="KY.Generator.Angular" Version="6.7.2" />
+    <PackageReference Include="KY.Generator.Fluent" Version="6.7.2" />
+    <PackageReference Include="KY.Generator.Reflection" Version="6.7.2" />
   </ItemGroup>
 
   <ItemGroup>
