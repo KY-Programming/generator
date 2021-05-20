@@ -29,10 +29,16 @@ namespace KY.Generator.Output
 
         public static string GetHash(string content)
         {
-            string filteredContent = string.IsNullOrEmpty(content)
-                                         ? string.Empty
-                                         : string.Join(Environment.NewLine, content.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).Where(line => !line.Contains("// outputid:")));
-            return Sha512.Create(filteredContent).ToString();
+            List<string> filteredContent = string.IsNullOrEmpty(content)
+                                         ? new List<string>()
+                                         :  content.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).Where(line => !line.Contains("// outputid:")).ToList();
+            // Strip header
+            while ((filteredContent.FirstOrDefault()?.StartsWith("//") ?? false) || (filteredContent.FirstOrDefault()?.StartsWith("/*") ?? false))
+            {
+                filteredContent.RemoveAt(0);
+            }
+            
+            return Sha512.Create(string.Join(Environment.NewLine,filteredContent)).ToString();
         }
 
         public static string AppendOutputIds(string content, IEnumerable<Guid> ids, Guid? additionalId = null)
