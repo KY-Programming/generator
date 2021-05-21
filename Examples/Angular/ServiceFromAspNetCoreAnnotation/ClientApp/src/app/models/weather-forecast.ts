@@ -9,9 +9,15 @@
 /* eslint-disable */
 // tslint:disable
 
-export class TypeToRead {
-    public stringProperty: string;
-    public numberProperty: number;
+export class WeatherForecast {
+    public date: Date;
+    public temperatureC: number;
+    public temperatureF: number;
+    public summary: string;
+
+    public constructor(init: Partial<WeatherForecast> = undefined) {
+        Object.assign(this, init);
+    }
 }
 
-// outputid:7ea5334c-5e4f-406b-8224-3e8ee565e7f3
+// outputid:c2cd74cf-53e6-4c11-86de-4f23690f7cf8
