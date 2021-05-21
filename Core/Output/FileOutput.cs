@@ -32,6 +32,12 @@ namespace KY.Generator.Output
             this.actions.Add(new OutputDeleteAction(filePath));
         }
 
+        public void RemoveOutputId(string filePath, Guid outputId, string fileContent = null)
+        {
+            this.RemovePreviousActions(filePath);
+            this.actions.Add(new OutputRemoveIdAction(filePath, outputId, fileContent));
+        }
+
         public void Execute()
         {
             this.actions.ForEach(action => action.Execute());
@@ -66,9 +72,7 @@ namespace KY.Generator.Output
                     }
                     else
                     {
-                        Logger.Trace($"Remove output id from {file}");
-                        content = OutputFileHelper.RemoveOutputId(content, outputId.Value);
-                        FileSystem.WriteAllText(file, content);
+                        this.RemoveOutputId(file, outputId.Value, content);
                     }
                 }
             }
