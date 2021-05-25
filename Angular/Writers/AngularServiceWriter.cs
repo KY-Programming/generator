@@ -440,6 +440,13 @@ namespace KY.Generator.Angular.Writers
             }
             bool datePropertyFound = false;
             IfTemplate ifTemplate = Code.If(this.WriteFieldChain(chain));
+            MultilineCodeFragment innerCode = ifTemplate.Code;
+            if (isModelEnumerable)
+            {
+                innerCode = Code.Multiline();
+                ifTemplate.WithCode(this.WriteFieldChain(chain).Method("forEach", Code.Lambda("entry", innerCode)).Close());
+                chain = new List<string> { "entry" };
+            }
             foreach (PropertyTransferObject property in model.Properties)
             {
                 if (typeChain.Any(type => type.Name == property.Type.Name && type.Namespace == property.Type.Namespace))
@@ -452,11 +459,11 @@ namespace KY.Generator.Angular.Writers
                     datePropertyFound = true;
                     if (isModelEnumerable)
                     {
-                        ifTemplate.WithCode(this.WriteFieldChain(chain).Method("forEach", Code.Lambda("entry", Code.Local("entry").Field(propertyName).Assign(Code.This().Method("convertToDate", Code.Local("entry").Field(propertyName))))).Close());
+                        innerCode.AddLine(Code.Local("entry").Field(propertyName).Assign(Code.This().Method("convertToDate", Code.Local("entry").Field(propertyName))).Close());
                     }
                     else
                     {
-                        ifTemplate.WithCode(this.WriteFieldChain(chain).Field(propertyName).Assign(Code.This().Method("convertToDate", this.WriteFieldChain(chain).Field(propertyName))).Close());
+                        innerCode.AddLine(this.WriteFieldChain(chain).Field(propertyName).Assign(Code.This().Method("convertToDate", this.WriteFieldChain(chain).Field(propertyName))).Close());
                     }
                 }
                 ModelTransferObject propertyModel = property.Type as ModelTransferObject;
@@ -468,11 +475,11 @@ namespace KY.Generator.Angular.Writers
                 nextTypeChain.Add(property.Type);
                 if (propertyModel != null && propertyModel.IsEnumerable() && entryModel != null)
                 {
-                    datePropertyFound = this.WriteDateFixes(entryModel, true, ifTemplate.Code, nextChain, nextTypeChain, transferObjects, configuration);
+                    datePropertyFound = this.WriteDateFixes(entryModel, true, innerCode, nextChain, nextTypeChain, transferObjects, configuration) || datePropertyFound;
                 }
                 else if (propertyModel != null && propertyModel.Properties.Count > 0)
                 {
-                    datePropertyFound = this.WriteDateFixes(propertyModel, false, ifTemplate.Code, nextChain, nextTypeChain, transferObjects, configuration);
+                    datePropertyFound = this.WriteDateFixes(propertyModel, false, innerCode, nextChain, nextTypeChain, transferObjects, configuration) || datePropertyFound;
                 }
             }
             if (datePropertyFound)
