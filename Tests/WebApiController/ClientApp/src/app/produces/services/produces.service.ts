@@ -22,7 +22,9 @@ export class ProducesService {
         let subject = new Subject<WeatherForecast[]>();
         this.http.get<WeatherForecast[]>(this.serviceUrl + "/produces" + "?days=" + this.convertAny(days), httpOptions).subscribe((result) => {
             if (result) {
-                result.forEach((entry) => entry.date = this.convertToDate(entry.date));
+                result.forEach((entry) => {
+                    entry.date = this.convertToDate(entry.date);
+                });
             }
             subject.next(result);
             subject.complete();

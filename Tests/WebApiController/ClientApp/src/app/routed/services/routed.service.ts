@@ -22,7 +22,9 @@ export class RoutedService {
         let subject = new Subject<WeatherForecast[]>();
         this.http.get<WeatherForecast[]>(this.serviceUrl + "/routed", httpOptions).subscribe((result) => {
             if (result) {
-                result.forEach((entry) => entry.date = this.convertToDate(entry.date));
+                result.forEach((entry) => {
+                    entry.date = this.convertToDate(entry.date);
+                });
             }
             subject.next(result);
             subject.complete();
@@ -34,7 +36,9 @@ export class RoutedService {
         let subject = new Subject<WeatherForecast[]>();
         this.http.get<WeatherForecast[]>(this.serviceUrl + "/routed/three", httpOptions).subscribe((result) => {
             if (result) {
-                result.forEach((entry) => entry.date = this.convertToDate(entry.date));
+                result.forEach((entry) => {
+                    entry.date = this.convertToDate(entry.date);
+                });
             }
             subject.next(result);
             subject.complete();
@@ -46,7 +50,9 @@ export class RoutedService {
         let subject = new Subject<WeatherForecast[]>();
         this.http.get<WeatherForecast[]>(this.serviceUrl + "/routed/three/days", httpOptions).subscribe((result) => {
             if (result) {
-                result.forEach((entry) => entry.date = this.convertToDate(entry.date));
+                result.forEach((entry) => {
+                    entry.date = this.convertToDate(entry.date);
+                });
             }
             subject.next(result);
             subject.complete();
@@ -58,7 +64,9 @@ export class RoutedService {
         let subject = new Subject<WeatherForecast[]>();
         this.http.get<WeatherForecast[]>(this.serviceUrl + "/routed/next/" + days + "/days", httpOptions).subscribe((result) => {
             if (result) {
-                result.forEach((entry) => entry.date = this.convertToDate(entry.date));
+                result.forEach((entry) => {
+                    entry.date = this.convertToDate(entry.date);
+                });
             }
             subject.next(result);
             subject.complete();

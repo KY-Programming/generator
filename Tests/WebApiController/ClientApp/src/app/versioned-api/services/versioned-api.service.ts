@@ -22,7 +22,9 @@ export class VersionedApiService {
         let subject = new Subject<WeatherForecast[]>();
         this.http.get<WeatherForecast[]>(this.serviceUrl + "/versionedapi" + "?api-version=1.0", httpOptions).subscribe((result) => {
             if (result) {
-                result.forEach((entry) => entry.date = this.convertToDate(entry.date));
+                result.forEach((entry) => {
+                    entry.date = this.convertToDate(entry.date);
+                });
             }
             subject.next(result);
             subject.complete();
@@ -34,7 +36,9 @@ export class VersionedApiService {
         let subject = new Subject<WeatherForecast[]>();
         this.http.get<WeatherForecast[]>(this.serviceUrl + "/versionedapi/next/" + days + "/days" + "?api-version=1.0", httpOptions).subscribe((result) => {
             if (result) {
-                result.forEach((entry) => entry.date = this.convertToDate(entry.date));
+                result.forEach((entry) => {
+                    entry.date = this.convertToDate(entry.date);
+                });
             }
             subject.next(result);
             subject.complete();
@@ -46,7 +50,9 @@ export class VersionedApiService {
         let subject = new Subject<WeatherForecast[]>();
         this.http.get<WeatherForecast[]>(this.serviceUrl + "/versionedapi/next-days" + "?api-version=1.0" + "&days=" + this.convertAny(days), httpOptions).subscribe((result) => {
             if (result) {
-                result.forEach((entry) => entry.date = this.convertToDate(entry.date));
+                result.forEach((entry) => {
+                    entry.date = this.convertToDate(entry.date);
+                });
             }
             subject.next(result);
             subject.complete();

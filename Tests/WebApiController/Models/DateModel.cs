@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace WebApiController.Models
 {
@@ -31,5 +32,10 @@ namespace WebApiController.Models
     {
         public Guid Id { get; set; } = Guid.NewGuid();
         public DateTime[] Dates { get; set; } = { DateTime.Now, DateTime.Now.AddHours(-1) };
+    }
+
+    public class DateModelWrapperListWrapper
+    {
+        public List<DateModelWrapper> List { get; set; } = new List<DateModelWrapper> { new DateModelWrapper() };
     }
 }

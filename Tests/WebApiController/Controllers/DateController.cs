@@ -73,6 +73,24 @@ namespace WebApiController.Controllers
         }
 
         [HttpGet("[action]")]
+        public IEnumerable<DateModelWrapper> GetWrappedModelList()
+        {
+            yield return new DateModelWrapper();
+        }
+
+        [HttpGet("[action]")]
+        public DateModelWrapperListWrapper GetWrappedModelListWrapper()
+        {
+            return new DateModelWrapperListWrapper();
+        }
+
+        [HttpGet("[action]")]
+        public IEnumerable<DateModelWrapperListWrapper> GetWrappedModelListWrapperList()
+        {
+            yield return new DateModelWrapperListWrapper();
+        }
+
+        [HttpGet("[action]")]
         public DateModelWrapperWithDate GetWrappedModelWithDate()
         {
             return new DateModelWrapperWithDate();
