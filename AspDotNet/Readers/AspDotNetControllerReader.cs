@@ -52,7 +52,7 @@ namespace KY.Generator.AspDotNet.Readers
                 {
                     continue;
                 }
-                
+
                 List<Attribute> methodAttributes = method.GetCustomAttributes().ToList();
                 Dictionary<HttpServiceActionTypeTransferObject, string> actionTypes = this.GetActionTypes(methodAttributes);
                 if (actionTypes.Count == 0)
@@ -102,7 +102,7 @@ namespace KY.Generator.AspDotNet.Readers
                     action.ReturnType = returnType.ToTransferObject();
                     action.Route = actionType.Value ?? fallbackRoute;
                     action.Type = actionType.Key;
-                    ParameterInfo[] parameters = method.GetParameters();
+                    ParameterInfo[] parameters = method.GetParameters().Where(parameter => parameter.GetCustomAttributes().All(attribute => attribute.GetType().Name != "FromServicesAttribute")).ToArray();
                     foreach (ParameterInfo parameter in parameters)
                     {
                         this.modelReader.Read(parameter.ParameterType, transferObjects);
