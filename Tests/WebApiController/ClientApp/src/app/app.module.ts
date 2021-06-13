@@ -12,7 +12,8 @@ import { KeepCasingComponent } from './keep-casing/keep-casing.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { VersionedApiComponent } from './versioned-api/versioned-api.component';
 import { DateComponent } from './date/date.component';
-
+import { EdgeCasesComponent } from './edge-cases/components/edge-cases.component';
+import { EdgeCasesService } from './edge-cases/services/edge-cases.service';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { DateComponent } from './date/date.component';
     FixCasingComponent,
     KeepCasingComponent,
     VersionedApiComponent,
-    DateComponent
+    DateComponent,
+    EdgeCasesComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -38,10 +40,16 @@ import { DateComponent } from './date/date.component';
       { path: 'keep-casing', component: KeepCasingComponent },
       { path: 'versioned-api', component: VersionedApiComponent },
       { path: 'date', component: DateComponent },
+      { path: 'edge-cases', component: EdgeCasesComponent },
     ])
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule {
+  constructor(
+    edgeCases: EdgeCasesService
+  ) {
+    edgeCases.serviceUrl = '/route';
+  }
 }

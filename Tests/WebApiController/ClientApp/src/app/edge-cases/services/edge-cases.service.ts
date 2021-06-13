@@ -63,6 +63,15 @@ export class EdgeCasesService {
         return subject;
     }
 
+    public withDI(value: number, httpOptions: {} = undefined): Observable<boolean> {
+        let subject = new Subject<boolean>();
+        this.http.get<boolean>(this.serviceUrl + "/edgecases/withdi" + "?value=" + this.convertAny(value), httpOptions).subscribe((result) => {
+            subject.next(result);
+            subject.complete();
+        }, (error) => subject.error(error));
+        return subject;
+    }
+
     public convertAny(value: any): string {
         return value === null || value === undefined ? "" : value.toString();
     }

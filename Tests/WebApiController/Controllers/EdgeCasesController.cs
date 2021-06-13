@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using KY.Generator;
 using Microsoft.AspNetCore.Mvc;
+using WebApiController.Services;
 
 namespace WebApiController.Controllers
 {
@@ -36,6 +37,13 @@ namespace WebApiController.Controllers
         public Guid GetGuid()
         {
             return Guid.NewGuid();
+        }
+
+        [HttpGet("[action]")]
+        public bool WithDI([FromServices] DummyService service, int value)
+        {
+            service.Action();
+            return value == 0;
         }
     }
 }
