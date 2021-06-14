@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="KY.Generator.Core" Version="7.0.0-preview.0" />
+    <PackageReference Include="KY.Generator.CSharp" Version="7.0.0-preview.0" />
+    <PackageReference Include="KY.Generator.Fluent" Version="7.0.0-preview.0" />
+  </ItemGroup>
+
+</Project>

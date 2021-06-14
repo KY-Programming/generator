@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="KY.Generator" Version="7.0.0-preview.0" />
+    <PackageReference Include="KY.Generator.Fluent" Version="7.0.0-preview.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CustomModule\CustomModule.csproj" />
+  </ItemGroup>
+
+</Project>

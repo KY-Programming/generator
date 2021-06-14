@@ -10,12 +10,12 @@ namespace KY.Generator.Output
     public class FileOutput : IOutput
     {
         private readonly List<IOutputAction> actions;
-        private string basePath;
+        public string BasePath { get; private set; }
 
         public FileOutput(string basePath)
         {
             this.actions = new List<IOutputAction>();
-            this.basePath = basePath;
+            this.BasePath = basePath;
         }
 
         public void Write(string fileName, string content, Guid? outputId)
@@ -84,7 +84,7 @@ namespace KY.Generator.Output
 
         public void Move(string path)
         {
-            this.basePath = FileSystem.IsAbsolute(path) ? path : FileSystem.Combine(this.basePath, path);
+            this.BasePath = FileSystem.IsAbsolute(path) ? path : FileSystem.Combine(this.BasePath, path);
         }
 
         private void RemovePreviousActions(string fileName)
@@ -94,12 +94,12 @@ namespace KY.Generator.Output
 
         private string ToFilePath(string fileName)
         {
-            return fileName == null ? this.basePath : FileSystem.IsAbsolute(fileName) ? fileName : FileSystem.Combine(this.basePath, fileName);
+            return fileName == null ? this.BasePath : FileSystem.IsAbsolute(fileName) ? fileName : FileSystem.Combine(this.BasePath, fileName);
         }
 
         public override string ToString()
         {
-            return this.basePath;
+            return this.BasePath;
         }
     }
 }
