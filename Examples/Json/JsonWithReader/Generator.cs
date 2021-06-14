@@ -1,6 +1,6 @@
 ﻿using KY.Generator;
 
-namespace JsonWithWriter
+namespace JsonWithReader
 {
     internal class Generator : GeneratorFluentMain
     {

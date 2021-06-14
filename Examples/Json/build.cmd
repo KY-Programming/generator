@@ -1,8 +1,8 @@
 REM ==========================================
-REM ||           JsonWithWriter             ||
+REM ||           JsonWithReader             ||
 REM ==========================================
 REM 
-cd JsonWithWriter
+cd JsonWithReader
 rmdir /S/Q bin
 rmdir /S/Q Output
 dotnet add package KY.Generator --prerelease

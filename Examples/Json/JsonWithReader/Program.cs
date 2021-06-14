@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace JsonWithWriter
+namespace JsonWithReader
 {
     class Program
     {
