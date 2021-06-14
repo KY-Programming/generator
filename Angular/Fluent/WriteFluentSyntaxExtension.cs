@@ -9,13 +9,13 @@ namespace KY.Generator
         /// <inheritdoc cref="IAngularWriteSyntax.AngularModel"/>
         public static IAngularModelOrAngularWriteSyntax AngularModels(this IWriteFluentSyntax syntax)
         {
-            return new AngularWriteSyntax((FluentSyntax)syntax).AngularModel();
+            return new AngularWriteSyntax((IWriteFluentSyntaxInternal)syntax).AngularModel();
         }
         
         /// <inheritdoc cref="IAngularWriteSyntax.AngularServices"/>
         public static IAngularServiceOrAngularWriteSyntax AngularServices(this IWriteFluentSyntax syntax)
         {
-            return new AngularWriteSyntax((FluentSyntax)syntax).AngularServices();
+            return new AngularWriteSyntax((IWriteFluentSyntaxInternal)syntax).AngularServices();
         }
     }
 }

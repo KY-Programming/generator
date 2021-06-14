@@ -6,9 +6,9 @@ namespace KY.Generator.AspDotNet.Fluent
 {
     internal class AspDotNetReadSyntax : IAspDotNetReadSyntax
     {
-        private readonly FluentSyntax syntax;
+        private readonly IReadFluentSyntaxInternal syntax;
 
-        public AspDotNetReadSyntax(FluentSyntax syntax)
+        public AspDotNetReadSyntax(IReadFluentSyntaxInternal syntax)
         {
             this.syntax = syntax;
         }
@@ -37,7 +37,7 @@ namespace KY.Generator.AspDotNet.Fluent
 
         public IWriteFluentSyntax Write()
         {
-            return this.syntax;
+            return this.syntax.Write();
         }
     }
 }

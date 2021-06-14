@@ -4,7 +4,7 @@ using KY.Core.Dependency.Syntax;
 
 namespace KY.Generator.Helpers
 {
-    internal class DependencyResolverReference : IDependencyResolver
+    public class DependencyResolverReference : IDependencyResolver
     {
         public IDependencyResolver Resolver { get; set; }
 

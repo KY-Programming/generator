@@ -26,13 +26,14 @@ Download KY.Generator to use this module</Description>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="KY.Core.Common" Version="4.17.0" />
+    <PackageReference Include="KY.Core.Common" Version="4.20.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Core\KY.Generator.Core.csproj" />
     <ProjectReference Include="..\CSharp\KY.Generator.Csharp.csproj" />
+    <ProjectReference Include="..\Fluent\KY.Generator.Fluent.csproj" />
     <ProjectReference Include="..\TypeScript\KY.Generator.TypeScript.csproj" />
   </ItemGroup>
 

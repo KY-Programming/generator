@@ -81,6 +81,14 @@
       <Project>{D23DC658-3C95-4A73-BBC7-22A94E81AEE8}</Project>
       <Name>KY.Generator.Csharp</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Json\KY.Generator.Json.csproj">
+      <Project>{7f14808d-cedc-4a7d-bc53-da21eedcde1e}</Project>
+      <Name>KY.Generator.Json</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OData\KY.Generator.OData.csproj">
+      <Project>{cdfa710c-3c87-4ffd-980b-69b80f6e8fe3}</Project>
+      <Name>KY.Generator.OData</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Reflection\KY.Generator.Reflection.csproj">
       <Project>{1CD25461-36BC-46A1-ABDD-F710179A641E}</Project>
       <Name>KY.Generator.Reflection</Name>
@@ -88,6 +96,10 @@
     <ProjectReference Include="..\TypeScript\KY.Generator.TypeScript.csproj">
       <Project>{51D247CC-BE96-461F-8848-F6B32461FABB}</Project>
       <Name>KY.Generator.TypeScript</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Watchdog\KY.Generator.Watchdog.csproj">
+      <Project>{3de08fd4-d3c7-496f-a013-e543acc67429}</Project>
+      <Name>KY.Generator.Watchdog</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

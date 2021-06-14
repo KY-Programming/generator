@@ -1,7 +1,9 @@
 ﻿using System.Runtime.CompilerServices;
 using KY.Core.Dependency;
 using KY.Core.Module;
+using KY.Generator.Command;
 using KY.Generator.Configuration;
+using KY.Generator.Json.Commands;
 using KY.Generator.Json.Configurations;
 using KY.Generator.Json.Extensions;
 using KY.Generator.Json.Readers;
@@ -16,7 +18,10 @@ namespace KY.Generator.Json
     {
         public JsonModule(IDependencyResolver dependencyResolver)
             : base(dependencyResolver)
-        { }
+        {
+            this.DependencyResolver.Bind<IGeneratorCommand>().To<JsonReadCommand>();
+            this.DependencyResolver.Bind<IGeneratorCommand>().To<JsonWriteCommand>();
+        }
 
         public override void Initialize()
         {

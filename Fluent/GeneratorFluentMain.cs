@@ -10,8 +10,8 @@ namespace KY.Generator
     /// </summary>
     public abstract class GeneratorFluentMain
     {
-        internal DependencyResolverReference ResolverReference { get; } = new DependencyResolverReference();
-        internal List<FluentSyntax> Syntaxes { get; } = new List<FluentSyntax>();
+        public DependencyResolverReference ResolverReference { get; } = new DependencyResolverReference();
+        public List<IFluentSyntax> Syntaxes { get; } = new List<IFluentSyntax>();
 
         /// <summary>
         /// This method does not do anything. Use at least one extension method from one of the other generator packages e.g. <code>KY.Generator.Angular</code> or <code>KY.Generator.Reflection</code>
@@ -22,7 +22,7 @@ namespace KY.Generator
             this.Syntaxes.Add(syntax);
             return syntax;
         }
-        
+
         /// <summary>
         /// This method does not do anything. Use at least one extension method from one of the other generator packages e.g. <code>KY.Generator.Angular</code> or <code>KY.Generator.Reflection</code>
         /// </summary>

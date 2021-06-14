@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>5.6.1</Version>
+    <Version>7.0.0-preview.0</Version>
     <Authors>KY-Programming</Authors>
     <Company>KY-Programming</Company>
     <Product>KY.Generator</Product>
@@ -25,11 +25,12 @@ Download KY.Generator to use this module</Description>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="KY.Core.Common" Version="4.17.0" />
+    <PackageReference Include="KY.Core.Common" Version="4.20.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Core\KY.Generator.Core.csproj" />
+    <ProjectReference Include="..\Fluent\KY.Generator.Fluent.csproj" />
   </ItemGroup>
 
 </Project>

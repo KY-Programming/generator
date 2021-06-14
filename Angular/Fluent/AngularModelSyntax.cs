@@ -30,7 +30,7 @@ namespace KY.Generator.Angular.Fluent
         public IAngularModelOrAngularWriteSyntax OutputPath(string path)
         {
             this.command.Parameters.RelativePath = path;
-            this.syntax.Syntax.Commands.OfType<AngularServiceCommand>().ForEach(x => x.Parameters.RelativeModelPath = path);
+            this.syntax.Commands.OfType<AngularServiceCommand>().ForEach(x => x.Parameters.RelativeModelPath = path);
             return this;
         }
 

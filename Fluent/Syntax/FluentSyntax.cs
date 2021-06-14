@@ -4,14 +4,20 @@ using KY.Generator.Command;
 
 namespace KY.Generator.Syntax
 {
-    public class FluentSyntax : IReadFluentSyntax, IWriteFluentSyntax
+    public class FluentSyntax : IReadFluentSyntaxInternal, IWriteFluentSyntaxInternal
     {
         public IDependencyResolver Resolver { get; }
-        public List<IGeneratorCommand> Commands { get; } = new List<IGeneratorCommand>();
+
+        public List<IGeneratorCommand> Commands { get; set; } = new List<IGeneratorCommand>();
 
         public FluentSyntax(IDependencyResolver resolver)
         {
             this.Resolver = resolver;
+        }
+
+        public IWriteFluentSyntax Write()
+        {
+            return this;
         }
     }
 }

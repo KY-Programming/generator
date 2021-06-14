@@ -1,28 +1,32 @@
-﻿using KY.Generator.Angular.Commands;
+﻿using System.Collections.Generic;
+using KY.Generator.Angular.Commands;
+using KY.Generator.Command;
 using KY.Generator.Syntax;
 
 namespace KY.Generator.Angular.Fluent
 {
     internal class AngularWriteSyntax : IAngularWriteSyntax
     {
-        public FluentSyntax Syntax { get; }
+        private readonly IWriteFluentSyntaxInternal syntax;
 
-        public AngularWriteSyntax(FluentSyntax syntax)
+        public List<IGeneratorCommand> Commands => this.syntax.Commands;
+
+        public AngularWriteSyntax(IWriteFluentSyntaxInternal syntax)
         {
-            this.Syntax = syntax;
+            this.syntax = syntax;
         }
 
         public IAngularModelOrAngularWriteSyntax AngularModel()
         {
-            AngularModelCommand command = new AngularModelCommand(this.Syntax.Resolver);
-            this.Syntax.Commands.Add(command);
+            AngularModelCommand command = new AngularModelCommand(this.syntax.Resolver);
+            this.syntax.Commands.Add(command);
             return new AngularModelSyntax(this, command);
         }
 
         public IAngularServiceOrAngularWriteSyntax AngularServices()
         { 
-            AngularServiceCommand command = new AngularServiceCommand(this.Syntax.Resolver);
-            this.Syntax.Commands.Add(command);
+            AngularServiceCommand command = new AngularServiceCommand(this.syntax.Resolver);
+            this.syntax.Commands.Add(command);
             return new AngularServiceSyntax(this, command);
         }
     }

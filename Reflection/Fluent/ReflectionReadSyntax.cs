@@ -6,9 +6,9 @@ namespace KY.Generator.Reflection.Fluent
 {
     internal class ReflectionReadSyntax : IReflectionReadSyntax
     {
-        private readonly FluentSyntax syntax;
+        private readonly IReadFluentSyntaxInternal syntax;
 
-        public ReflectionReadSyntax(FluentSyntax syntax)
+        public ReflectionReadSyntax(IReadFluentSyntaxInternal syntax)
         {
             this.syntax = syntax;
         }
@@ -26,7 +26,7 @@ namespace KY.Generator.Reflection.Fluent
 
         public IWriteFluentSyntax Write()
         {
-            return this.syntax;
+            return this.syntax.Write();
         }
     }
 }

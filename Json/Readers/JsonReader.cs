@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using KY.Core.DataAccess;
 using KY.Generator.Configurations;
 using KY.Generator.Json.Configurations;
@@ -17,14 +20,14 @@ namespace KY.Generator.Json.Readers
         public void Read(ConfigurationBase configurationBase, List<ITransferObject> transferObjects)
         {
             JsonReadConfiguration configuration = (JsonReadConfiguration)configurationBase;
-            JObject source = JsonConvert.DeserializeObject<JObject>(FileSystem.ReadAllText(PathResolver.Resolve(configuration.Source, configuration)));
-
-            this.ReadModel(null, source, transferObjects);
+            JObject source = JsonConvert.DeserializeObject<JObject>(FileSystem.ReadAllText(FileSystem.Combine(configuration.BasePath, configuration.Source)));
+            string name = Regex.Replace(FileSystem.GetFileName(configuration.Source), @"\.json$", string.Empty, RegexOptions.CultureInvariant);
+            this.ReadModel(name, source, transferObjects);
         }
 
         private ModelTransferObject ReadModel(string name, JObject source, List<ITransferObject> list)
         {
-            ModelTransferObject model = name == null ? new JsonModelTransferObject { Name = "Unknown", Language = JsonLanguage.Instance } : new ModelTransferObject { Name = name, Language = JsonLanguage.Instance };
+            ModelTransferObject model = new JsonModelTransferObject { Name = name, Language = JsonLanguage.Instance };
             list.Add(model);
 
             foreach (JProperty property in source.Properties())

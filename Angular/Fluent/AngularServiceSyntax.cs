@@ -12,7 +12,7 @@ namespace KY.Generator.Angular.Fluent
         {
             this.syntax = syntax;
             this.command = command;
-            this.command.Parameters.RelativeModelPath = this.syntax.Syntax.Commands.OfType<AngularModelCommand>().FirstOrDefault()?.Parameters.RelativePath;
+            this.command.Parameters.RelativeModelPath = this.syntax.Commands.OfType<AngularModelCommand>().FirstOrDefault()?.Parameters.RelativePath;
         }
 
         public IAngularServiceOrAngularWriteSyntax SkipHeader()
