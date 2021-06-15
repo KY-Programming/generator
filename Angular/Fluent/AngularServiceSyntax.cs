@@ -3,7 +3,7 @@ using KY.Generator.Angular.Commands;
 
 namespace KY.Generator.Angular.Fluent
 {
-    internal class AngularServiceSyntax : IAngularServiceOrAngularWriteSyntax
+    internal class AngularServiceSyntax : IAngularServiceSyntax
     {
         private readonly AngularWriteSyntax syntax;
         private readonly AngularServiceCommand command;
@@ -15,32 +15,22 @@ namespace KY.Generator.Angular.Fluent
             this.command.Parameters.RelativeModelPath = this.syntax.Commands.OfType<AngularModelCommand>().FirstOrDefault()?.Parameters.RelativePath;
         }
 
-        public IAngularServiceOrAngularWriteSyntax SkipHeader()
+        public IAngularServiceSyntax SkipHeader()
         {
             this.command.Parameters.SkipHeader = true;
             return this;
         }
 
-        public IAngularServiceOrAngularWriteSyntax FormatNames(bool value = true)
+        public IAngularServiceSyntax FormatNames(bool value = true)
         {
             this.command.Parameters.FormatNames = value;
             return this;
         }
 
-        public IAngularServiceOrAngularWriteSyntax OutputPath(string path)
+        public IAngularServiceSyntax OutputPath(string path)
         {
             this.command.Parameters.RelativePath = path;
             return this;
-        }
-
-        public IAngularModelOrAngularWriteSyntax AngularModel()
-        {
-            return this.syntax.AngularModel();
-        }
-
-        public IAngularServiceOrAngularWriteSyntax AngularServices()
-        {
-            return this.syntax.AngularServices();
         }
     }
 }

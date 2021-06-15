@@ -1,15 +1,17 @@
-﻿namespace KY.Generator.Angular.Fluent
+﻿using System;
+
+namespace KY.Generator.Angular.Fluent
 {
     public interface IAngularWriteSyntax
     {
         /// <summary>
         /// Writes all models (POCOs) from all previous read actions to the output, with some angular specific modifications
         /// </summary>
-        IAngularModelOrAngularWriteSyntax AngularModel();
+        IAngularWriteSyntax Models(Action<IAngularModelSyntax> action = null);
         
         /// <summary>
         /// Writes all services from all previous read actions to the output
         /// </summary>
-        IAngularServiceOrAngularWriteSyntax AngularServices();
+        IAngularWriteSyntax Services(Action<IAngularServiceSyntax> action = null);
     }
 }

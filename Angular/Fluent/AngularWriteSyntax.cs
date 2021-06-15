@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using KY.Generator.Angular.Commands;
 using KY.Generator.Command;
 using KY.Generator.Syntax;
@@ -16,18 +17,20 @@ namespace KY.Generator.Angular.Fluent
             this.syntax = syntax;
         }
 
-        public IAngularModelOrAngularWriteSyntax AngularModel()
+        public IAngularWriteSyntax Models(Action<IAngularModelSyntax> action = null)
         {
             AngularModelCommand command = new AngularModelCommand(this.syntax.Resolver);
             this.syntax.Commands.Add(command);
-            return new AngularModelSyntax(this, command);
+            action?.Invoke(new AngularModelSyntax(this, command));
+            return this;
         }
 
-        public IAngularServiceOrAngularWriteSyntax AngularServices()
+        public IAngularWriteSyntax Services(Action<IAngularServiceSyntax> action = null)
         { 
             AngularServiceCommand command = new AngularServiceCommand(this.syntax.Resolver);
             this.syntax.Commands.Add(command);
-            return new AngularServiceSyntax(this, command);
+            action?.Invoke(new AngularServiceSyntax(this, command));
+            return this;
         }
     }
 }
