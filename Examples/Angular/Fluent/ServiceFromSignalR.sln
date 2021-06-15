@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30709.132
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceFromSignalR", "ServiceFromSignalR\Service\ServiceFromSignalR.csproj", "{64BA4FE5-358C-4D3B-A142-C158684BB35C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Generator", "ServiceFromSignalR\Generator\Generator.csproj", "{13AEBDE4-A1A8-4508-9CB6-7CBD78013E56}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{64BA4FE5-358C-4D3B-A142-C158684BB35C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64BA4FE5-358C-4D3B-A142-C158684BB35C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64BA4FE5-358C-4D3B-A142-C158684BB35C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64BA4FE5-358C-4D3B-A142-C158684BB35C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13AEBDE4-A1A8-4508-9CB6-7CBD78013E56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13AEBDE4-A1A8-4508-9CB6-7CBD78013E56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13AEBDE4-A1A8-4508-9CB6-7CBD78013E56}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13AEBDE4-A1A8-4508-9CB6-7CBD78013E56}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {33C0A99B-CDF9-4DCA-A463-17F3E8449515}
+	EndGlobalSection
+EndGlobal

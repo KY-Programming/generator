@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <ProjectGuid>{f473e1d8-04b6-4dbc-92ff-db4d63bfe67d}</ProjectGuid>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="KY.Generator" Version="7.0.0-preview.2" />
+    <PackageReference Include="KY.Generator.Annotations" Version="7.0.0-preview.2" />
+  </ItemGroup>
+
+</Project>
