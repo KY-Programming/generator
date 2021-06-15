@@ -3,7 +3,7 @@
 <package>
   <metadata>
     <id>KY.Generator.Fluent</id>
-    <version>7.0.0-preview.0</version>
+    <version>7.0.0-preview.2</version>
     <title>KY.Generator</title>
     <authors>KY-Programming</authors>
     <owners>KY-Programming</owners>
@@ -17,11 +17,12 @@
     <copyright>Copyright 2021</copyright>
     <tags>KY-Generator KY Generator Fluent Language</tags>
     <dependencies>
-      <dependency id="KY.Generator" version="7.0.0-preview.0"></dependency>
+      <dependency id="KY.Generator" version="7.0.0-preview.2"></dependency>
+      <dependency id="KY.Generator.Core" version="7.0.0-preview.2"></dependency>
     </dependencies>
   </metadata>
   <files>
-    <file src="..\bin\Release\netstandard2.0\publish\KY.Generator.Fluent.dll" target="lib\netcoreapp2.0" />
-    <file src="..\bin\Release\netstandard2.0\publish\KY.Generator.Fluent*.json" target="lib\netcoreapp2.0" />
+    <file src="..\bin\Release\netstandard2.0\publish\KY.Generator.Fluent.dll" target="lib\netstandard2.0" />
+    <file src="..\bin\Release\KY.Generator.Fluent*.xml" target="lib\netstandard2.0" />
   </files>
 </package>

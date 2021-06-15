@@ -21,7 +21,7 @@ namespace KY.Generator.EntityFramework.Writers
                 EntityTransferObject entity = transferObjects.OfType<EntityTransferObject>().FirstOrDefault(x => x.Name == repositoryConfiguration.Entity)
                                                              .AssertIsNotNull(nameof(repositoryConfiguration.Entity), $"Entity {repositoryConfiguration.Entity} not found. Ensure it is read before.");
 
-                ClassTemplate repository = files.AddFile(configuration.RelativePath, configuration.AddHeader, configuration.CheckOnOverwrite)
+                ClassTemplate repository = files.AddFile(configuration.RelativePath, configuration.AddHeader, configuration.OutputId)
                                                 .AddNamespace(repositoryConfiguration.Namespace ?? configuration.Namespace)
                                                 .AddClass(repositoryConfiguration.Name ?? entity.Name + "Repository")
                                                 .FormatName(configuration)

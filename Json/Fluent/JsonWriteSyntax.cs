@@ -35,12 +35,9 @@ namespace KY.Generator
             return this;
         }
 
-        public IJsonWriteModelSyntax WithReader(string name = null, string nameSpace = null, string relativePath = null)
+        public IJsonWriteModelSyntax WithoutReader()
         {
-            this.command.Parameters.WithReader = true;
-            this.command.Parameters.ReaderName = name ?? this.command.Parameters.ModelName + "Reader";
-            this.command.Parameters.ReaderNamespace = nameSpace ?? this.command.Parameters.ModelNamespace;
-            this.command.Parameters.ReaderPath = relativePath ?? this.command.Parameters.ModelPath;
+            this.command.Parameters.WithReader = false;
             return this;
         }
     }

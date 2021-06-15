@@ -4,9 +4,14 @@ namespace KY.Generator.Json.Configurations
 {
     public class JsonWriteConfiguration : ConfigurationBase, IFormattableConfiguration
     {
-        public JsonWriteReaderConfiguration Reader { get; set; }
-        public JsonWriteObjectConfiguration Object { get; set; }
+        public string Name { get; set; }
+        public string Namespace { get; set; }
+        public string RelativePath { get; set; }
+        public bool SkipNamespace { get; set; }
+        public bool FieldsToProperties { get; set; }    
+        public bool PropertiesToFields { get; set; }
         public bool FormatNames { get; set; }
+        public bool WithReader { get; set; }
 
         public JsonWriteConfiguration()
         {

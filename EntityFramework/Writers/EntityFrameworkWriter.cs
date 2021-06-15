@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using KY.Core;
 using KY.Core.Dependency;
-using KY.Generator.Configuration;
 using KY.Generator.Configurations;
 using KY.Generator.Csharp.Languages;
 using KY.Generator.EntityFramework.Configurations;
@@ -30,6 +29,7 @@ namespace KY.Generator.EntityFramework.Writers
                 throw new InvalidOperationException("EntityFramework support only Csharp");
             }
             configuration.Namespace.AssertIsNotNull(nameof(configuration.Namespace), "ef and ef-core writer requires a namespace");
+
             List<FileTemplate> files = new List<FileTemplate>();
             if (configuration.Repositories.Count > 0)
             {

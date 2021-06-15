@@ -23,9 +23,9 @@ namespace KY.Generator.Json.Writers
         protected override ClassTemplate WriteClass(IModelConfiguration configuration, ModelTransferObject model, string nameSpace, List<FileTemplate> files)
         {
             ClassTemplate classTemplate = base.WriteClass(configuration, model, nameSpace, files);
-            if (model is JsonModelTransferObject && this.jsonConfiguration.Object.WithReader)
+            if (model is JsonModelTransferObject && this.jsonConfiguration.WithReader)
             {
-                ObjectReaderWriter.WriteReader(classTemplate, model, configuration.FormatNames);
+                this.WriteReader(classTemplate, model, configuration.FormatNames);
             }
             return classTemplate;
         }
@@ -35,14 +35,38 @@ namespace KY.Generator.Json.Writers
             this.jsonConfiguration = configuration;
             ModelWriteConfiguration modelWriteConfiguration = new ModelWriteConfiguration();
             modelWriteConfiguration.CopyBaseFrom(configuration);
-            modelWriteConfiguration.Name = configuration.Object.Name;
-            modelWriteConfiguration.Namespace = configuration.Object.Namespace;
-            modelWriteConfiguration.SkipNamespace = configuration.Object.SkipNamespace;
-            modelWriteConfiguration.RelativePath = configuration.Object.RelativePath;
-            modelWriteConfiguration.FieldsToProperties = configuration.Object.FieldsToProperties;
-            modelWriteConfiguration.PropertiesToFields = configuration.Object.PropertiesToFields;
-            modelWriteConfiguration.FormatNames = configuration.Object.FormatNames;
+            modelWriteConfiguration.Name = configuration.Name;
+            modelWriteConfiguration.Namespace = configuration.Namespace;
+            modelWriteConfiguration.SkipNamespace = configuration.SkipNamespace;
+            modelWriteConfiguration.RelativePath = configuration.RelativePath;
+            modelWriteConfiguration.FieldsToProperties = configuration.FieldsToProperties;
+            modelWriteConfiguration.PropertiesToFields = configuration.PropertiesToFields;
+            modelWriteConfiguration.FormatNames = configuration.FormatNames;
             return this.Write(modelWriteConfiguration, transferObjects);
+        }
+
+        private void WriteReader(ClassTemplate classTemplate, ModelTransferObject model, bool formatNames)
+        {
+            TypeTemplate objectType = Code.Type(model.Name, model.Namespace);
+            if (model.Namespace != classTemplate.Namespace.Name && model.Namespace != null)
+            {
+                classTemplate.AddUsing(model.Namespace);
+            }
+            classTemplate.WithUsing("Newtonsoft.Json")
+                         //.WithUsing("Newtonsoft.Json.Linq")
+                         .WithUsing("System.IO");
+
+            classTemplate.AddMethod("Load", objectType)
+                         .FormatName(model.Language, formatNames)
+                         .WithParameter(Code.Type("string"), "fileName")
+                         .Static()
+                         .Code.AddLine(Code.Return(Code.Method("Parse", Code.Local("File").Method("ReadAllText", Code.Local("fileName")))));
+
+            classTemplate.AddMethod("Parse", objectType)
+                         .FormatName(model.Language, formatNames)
+                         .WithParameter(Code.Type("string"), "json")
+                         .Static()
+                         .Code.AddLine(Code.Return(Code.Local("JsonConvert").GenericMethod("DeserializeObject", objectType, Code.Local("json"))));
         }
 
         protected override FieldTemplate AddField(ModelTransferObject model, string name, TypeTransferObject type, ClassTemplate classTemplate, IConfiguration configuration)

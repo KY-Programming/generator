@@ -5,7 +5,7 @@
     <Company>KY-Programming</Company>
     <Authors>KY-Programming</Authors>
     <Product>KY.Generator</Product>
-    <Version>5.6.1</Version>
+    <Version>7.0.0-preview.2</Version>
     <Description>TSQL Module for KY-Generator
 Download KY.Generator to use this module</Description>
     <Copyright>2020 - KY-Programming</Copyright>
@@ -26,13 +26,14 @@ Download KY.Generator to use this module</Description>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="KY.Core.Common" Version="4.17.0" />
-    <PackageReference Include="KY.Core.Sql" Version="5.0.0" />
+    <PackageReference Include="KY.Core.Common" Version="4.20.0" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="3.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Core\KY.Generator.Core.csproj" />
     <ProjectReference Include="..\CSharp\KY.Generator.Csharp.csproj" />
+    <ProjectReference Include="..\Fluent\KY.Generator.Fluent.csproj" />
     <ProjectReference Include="..\TypeScript\KY.Generator.TypeScript.csproj" />
   </ItemGroup>
 

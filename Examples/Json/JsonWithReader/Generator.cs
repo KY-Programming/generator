@@ -9,20 +9,19 @@ namespace JsonWithReader
             this.Read()
                 .JsonFromFile("Source/complex.json")
                 .Write()
-                .JsonModel("Output", "Complex", "KY.Generator.Examples.Json")
-                .WithReader();
+                .JsonModel("Output", "Complex", "KY.Generator.Examples.Json");
 
             this.Read()
                 .JsonFromFile("Source/simple.json")
                 .Write()
-                .JsonModel("Output", "Simple", "KY.Generator.Examples.Json");
+                .JsonModel("Output", "Simple", "KY.Generator.Examples.Json")
+                .WithoutReader();
 
             this.Read()
                 .JsonFromFile("Source/simple.json")
                 .Write()
                 .AngularModels()
-                .OutputPath("Output")
-                ;
+                .OutputPath("Output");
         }
     }
 }

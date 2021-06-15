@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using KY.Generator.Configuration;
 using KY.Generator.Languages;
@@ -24,6 +25,7 @@ namespace KY.Generator.Configurations
         public List<PropertyMapping> PropertyMapping { get; }
         public ConfigurationFormatting Formatting { get; set; }
         public bool BeforeBuild { get; set; }
+        public Guid? OutputId { get; set; }
 
         protected ConfigurationBase()
         {
