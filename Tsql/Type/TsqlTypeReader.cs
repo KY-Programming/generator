@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 using System.Linq;
 using KY.Core;
-using KY.Core.Sql.Extensions;
 using KY.Generator.Tsql.Properties;
+using Microsoft.Data.SqlClient;
 
 namespace KY.Generator.Tsql.Type
 {
@@ -78,15 +77,15 @@ namespace KY.Generator.Tsql.Type
             column.Type = reader.GetString(reader.GetOrdinal("DATA_TYPE"));
             column.Order = reader.GetInt32(reader.GetOrdinal("ORDINAL_POSITION"));
             column.IsNullable = reader.GetString(reader.GetOrdinal("IS_NULLABLE")) == "YES";
-            column.Length = reader.GetInt32(reader.GetOrdinal("CHARACTER_MAXIMUM_LENGTH"), 0);
+            //column.Length = reader.GetInt32(reader.GetOrdinal("CHARACTER_MAXIMUM_LENGTH"), 0);
             column.IsPrimaryKey = reader.GetInt32(reader.GetOrdinal("IS_PRIMARY")) > 0;
-            column.ForeignKeyName = reader.GetString(reader.GetOrdinal("FOREIGN_NAME"), null)?.Split('_').Last();
-            column.ForeignKeyType = reader.GetString(reader.GetOrdinal("FOREIGN_TABLE_NAME"), null);
+            //column.ForeignKeyName = reader.GetString(reader.GetOrdinal("FOREIGN_NAME"), null)?.Split('_').Last();
+            //column.ForeignKeyType = reader.GetString(reader.GetOrdinal("FOREIGN_TABLE_NAME"), null);
             column.IsIdentity = reader.GetInt32(reader.GetOrdinal("IS_IDENTITY")) > 0;
             column.IsUnicode = reader.GetInt32(reader.GetOrdinal("IS_UNICODE")) > 0;
-            column.Precision = reader.GetByte(reader.GetOrdinal("NUMERIC_PRECISION"), 0);
-            column.Scale = reader.GetInt32(reader.GetOrdinal("NUMERIC_SCALE"), 0);
-            column.DefaultValue = reader.GetString(reader.GetOrdinal("COLUMN_DEFAULT"), null)?.Trim('(', ')', '\'');
+            //column.Precision = reader.GetByte(reader.GetOrdinal("NUMERIC_PRECISION"), 0);
+            //column.Scale = reader.GetInt32(reader.GetOrdinal("NUMERIC_SCALE"), 0);
+            //column.DefaultValue = reader.GetString(reader.GetOrdinal("COLUMN_DEFAULT"), null)?.Trim('(', ')', '\'');
             return column;
         }
 

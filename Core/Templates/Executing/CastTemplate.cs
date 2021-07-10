@@ -1,14 +1,13 @@
 ﻿namespace KY.Generator.Templates
 {
-    public class CastTemplate : ICodeFragment
+    public class CastTemplate : ChainedCodeFragment
     {
         public TypeTemplate Type { get; }
-        public ICodeFragment Code { get; }
+        public override string Separator => "";
 
-        public CastTemplate(TypeTemplate type, ICodeFragment code)
+        public CastTemplate(TypeTemplate type)
         {
             this.Type = type;
-            this.Code = code;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using KY.Generator.Templates;
 
 namespace KY.Generator
@@ -8,6 +9,11 @@ namespace KY.Generator
         public static StringTemplate String(this Code _, string value)
         {
             return new StringTemplate(value);
+        }
+
+        public static StringTemplate String(this Code _, StringBuilder value)
+        {
+            return new StringTemplate(value?.ToString());
         }
 
         public static NumberTemplate Number(this Code _, long value)

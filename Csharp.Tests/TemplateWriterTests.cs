@@ -87,7 +87,7 @@ namespace KY.Generator.Csharp.Tests
         public void CastWriter()
         {
             CastWriter writer = new CastWriter();
-            writer.Write(new CastTemplate(Code.Type("type"), Code.Local("variable")), this.output);
+            writer.Write(new CastTemplate(Code.Type("type")).Local("variable"), this.output);
             Assert.AreEqual("(type)variable", this.output.ToString());
         }
 

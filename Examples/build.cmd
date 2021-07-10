@@ -10,4 +10,8 @@ cd Reflection
 call build.cmd
 cd ../
 
+cd Sqlite
+call build.cmd
+cd ../
+
 PAUSE

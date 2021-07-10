@@ -65,6 +65,11 @@ namespace KY.Generator.Extensions
             }
         }
 
+        public static int IndexOf(this string value, Regex regex)
+        {
+            return regex.Match(value).Index;
+        }
+
         private static CaseType GetCaseType(char value)
         {
             string input = value.ToString();

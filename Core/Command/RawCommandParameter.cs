@@ -7,7 +7,7 @@ namespace KY.Generator.Command
     [DebuggerDisplay("{Name,nq}={Value}")]
     public class RawCommandParameter
     {
-        private static readonly Regex regex = new Regex(@"^-+(?<name>[a-zA-Z0-9-]+)(=(?<value>.*))?$");
+        private static readonly Regex regex = new Regex(@"^-\*?(?<name>[a-zA-Z0-9-]+)(=(?<value>.*))?$");
 
         public string Name { get; }
         public string Value { get; set; }

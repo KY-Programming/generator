@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <Company>KY-Programming</Company>
     <Authors>KY-Programming</Authors>
-    <Version>7.0.0-preview.3</Version>
+    <Version>7.0.0-preview.4</Version>
     <Product>KY.Generator</Product>
     <Description>oData Module for KY-Generator
 Download KY.Generator to use this module</Description>

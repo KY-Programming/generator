@@ -33,16 +33,16 @@ namespace KY.Generator.Output
 
         public IOutputCache Add(string code, bool keepIndent = false)
         {
-            if (this.isLineClosed)
-            {
-                this.WriteIndent();
-            }
             if (keepIndent)
             {
                 this.cache.Append(code);
             }
             else if (code.Contains(Environment.NewLine))
             {
+                if (this.isLineClosed)
+                {
+                    this.WriteIndent();
+                }
                 string[] lines = code.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
                 foreach (string line in lines)
                 {
@@ -52,6 +52,10 @@ namespace KY.Generator.Output
             }
             else
             {
+                if (this.isLineClosed)
+                {
+                    this.WriteIndent();
+                }
                 this.cache.Append(code);
             }
             return this;

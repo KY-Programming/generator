@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text;
 
 namespace KY.Generator.Templates.Extensions
 {
@@ -7,6 +8,11 @@ namespace KY.Generator.Templates.Extensions
         public static StringTemplate String(this ChainedCodeFragment template, string value)
         {
             return new StringTemplate(value).Chain(template);
+        }
+
+        public static StringTemplate String(this ChainedCodeFragment template, StringBuilder value)
+        {
+            return new StringTemplate(value?.ToString()).Chain(template);
         }
 
         public static NumberTemplate Number(this ChainedCodeFragment template, int value)
@@ -153,7 +159,7 @@ namespace KY.Generator.Templates.Extensions
         {
             return new LocalVariableTemplate(name).Chain(template);
         }
-        
+
         public static LocalVariableTemplate Local(this ChainedCodeFragment template, FieldTemplate type)
         {
             return new LocalVariableTemplate(type.Name).Chain(template);
@@ -189,6 +195,11 @@ namespace KY.Generator.Templates.Extensions
         public static AsTemplate As(this ChainedCodeFragment template, TypeTemplate type)
         {
             return new AsTemplate(type).Chain(template);
+        }
+
+        public static CastTemplate Cast(this ChainedCodeFragment template, TypeTemplate type)
+        {
+            return new CastTemplate(type).Chain(template);
         }
 
         public static NotTemplate Not(this ChainedCodeFragment template)

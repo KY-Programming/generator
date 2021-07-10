@@ -20,7 +20,7 @@ namespace KY.Generator.Reflection
             this.DependencyResolver.Bind<ReflectionReader>().ToSelf();
             this.DependencyResolver.Bind<ReflectionWriter>().ToSelf();
             this.DependencyResolver.Bind<IGeneratorCommand>().To<ReflectionCommand>();
-            this.DependencyResolver.Bind<IGeneratorCommand>().To<AttributesCommand>();
+            this.DependencyResolver.Bind<IGeneratorCommand>().To<AnnotationCommand>();
             this.DependencyResolver.Bind<IGeneratorCommand>().To<ReflectionReadCommand>();
         }
 

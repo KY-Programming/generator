@@ -11,8 +11,7 @@ namespace KY.Generator.TypeScript.Writers
             CastTemplate template = (CastTemplate)fragment;
             output.Add("<")
                   .Add(template.Type)
-                  .Add(">")
-                  .Add(template.Code);
+                  .Add(">");
         }
     }
 }

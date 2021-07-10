@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using KY.Core;
+using KY.Generator.Reflection.Extensions;
 using KY.Generator.Reflection.Language;
 using KY.Generator.Transfer;
 using KY.Generator.Transfer.Extensions;
@@ -172,7 +173,8 @@ namespace KY.Generator.Reflection.Readers
                                                                     Name = property.Name,
                                                                     Type = genericMapping.ContainsKey(property.PropertyType)
                                                                                ? new TypeTransferObject { Name = genericMapping[property.PropertyType] }
-                                                                               : this.Read(property.PropertyType, transferObjects)
+                                                                               : this.Read(property.PropertyType, transferObjects),
+                                                                    Attributes = property.GetCustomAttributes().ToTransferObjects().ToList()
                                                                 };
                 model.Properties.Add(propertyTransferObject);
             }

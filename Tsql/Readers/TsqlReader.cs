@@ -108,21 +108,21 @@ namespace KY.Generator.Tsql.Readers
 
         private void Validate(TsqlReadConfiguration configuration)
         {
-            if (string.IsNullOrEmpty(configuration.Connection))
-            {
-                throw new InvalidConfigurationException("Tsql setting without connection found. Connection can not be null or empty");
-            }
-            foreach (TsqlReadEntity entity in configuration.Entities)
-            {
-                if (string.IsNullOrEmpty(entity.Schema ?? configuration.Schema))
-                {
-                    throw new InvalidConfigurationException($"Tsql entity '{entity.Name ?? "without name"}' {nameof(entity.Schema)} can not be null or empty");
-                }
-                if (string.IsNullOrEmpty(entity.Table) && string.IsNullOrEmpty(entity.StoredProcedure))
-                {
-                    throw new InvalidConfigurationException($"Tsql entity '{entity.Name ?? "without name"}' have to has at leas a {nameof(entity.Table)} or {nameof(entity.StoredProcedure)} filled");
-                }
-            }
+            //if (string.IsNullOrEmpty(configuration.Connection))
+            //{
+            //    throw new InvalidConfigurationException("Tsql setting without connection found. Connection can not be null or empty");
+            //}
+            //foreach (TsqlReadEntity entity in configuration.Entities)
+            //{
+            //    if (string.IsNullOrEmpty(entity.Schema ?? configuration.Schema))
+            //    {
+            //        throw new InvalidConfigurationException($"Tsql entity '{entity.Name ?? "without name"}' {nameof(entity.Schema)} can not be null or empty");
+            //    }
+            //    if (string.IsNullOrEmpty(entity.Table) && string.IsNullOrEmpty(entity.StoredProcedure))
+            //    {
+            //        throw new InvalidConfigurationException($"Tsql entity '{entity.Name ?? "without name"}' have to has at leas a {nameof(entity.Table)} or {nameof(entity.StoredProcedure)} filled");
+            //    }
+            //}
         }
     }
 }

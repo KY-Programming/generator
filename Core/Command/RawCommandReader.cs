@@ -12,7 +12,7 @@ namespace KY.Generator.Command
             List<RawCommand> commands = new List<RawCommand>();
             foreach (string parameter in parameters)
             {
-                if (parameter.StartsWith("--"))
+                if (parameter.StartsWith("-*"))
                 {
                     globalParameters.Add(parameter);
                 }

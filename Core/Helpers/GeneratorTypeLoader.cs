@@ -9,7 +9,7 @@ namespace KY.Generator
 {
     public static class GeneratorTypeLoader
     {
-        public static Type Get(ConfigurationBase configuration, string assemblyName, string nameSpace, string typeName, params SearchLocation[] locations)
+        public static Type Get(string assemblyName, string nameSpace, string typeName, params SearchLocation[] locations)
         {
             List<SearchLocation> list = locations.ToList();
             // TODO: Check if alternative is required

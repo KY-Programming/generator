@@ -48,6 +48,7 @@ namespace KY.Generator.Transfer.Extensions
             {
                 transferObject.Name = type.Name;
                 transferObject.Namespace = type.Namespace;
+                transferObject.IsNullable = type.IsByRef || type == typeof(string);
             }
         }
     }

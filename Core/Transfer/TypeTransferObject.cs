@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 namespace KY.Generator.Transfer
 {
@@ -11,10 +12,20 @@ namespace KY.Generator.Transfer
         public bool FromSystem { get; set; }
         public bool IsNullable { get; set; }
         public List<GenericAliasTransferObject> Generics { get; }
+        public TypeTransferObject Original { get; set; }
 
         public TypeTransferObject()
         {
             this.Generics = new List<GenericAliasTransferObject>();
+        }
+
+        public TypeTransferObject(TypeTransferObject type)
+        {
+            this.Name = type.Name;
+            this.Namespace = type.Namespace;
+            this.FromSystem = type.FromSystem;
+            this.IsNullable = type.IsNullable;
+            this.Generics = type.Generics.ToList();
         }
 
         public bool Equals(TypeTransferObject type)

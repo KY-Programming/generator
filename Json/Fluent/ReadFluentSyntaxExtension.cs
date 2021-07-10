@@ -1,12 +1,15 @@
-﻿using KY.Generator.Syntax;
+﻿using System;
+using KY.Generator.Syntax;
 
+// ReSharper disable once CheckNamespace
 namespace KY.Generator
 {
     public static class ReadFluentSyntaxExtension
     {
-        public static ISwitchToWriteSyntax JsonFromFile(this IReadFluentSyntax syntax, string relativePath)
+        public static IReadFluentOrSwitchToWriteSyntax Json(this IReadFluentSyntax syntax, Action<IJsonReadSyntax> action)
         {
-            return new JsonReadSyntax((IReadFluentSyntaxInternal)syntax).FromFile(relativePath);
+            action(new JsonReadSyntax((IReadFluentSyntaxInternal)syntax));
+            return (IReadFluentSyntaxInternal)syntax;
         }
     }
 }

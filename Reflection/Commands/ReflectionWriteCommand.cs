@@ -4,6 +4,7 @@ using KY.Generator.Command;
 using KY.Generator.Configurations;
 using KY.Generator.Csharp.Languages;
 using KY.Generator.Output;
+using KY.Generator.Reflection.Configurations;
 using KY.Generator.Reflection.Writers;
 using KY.Generator.Transfer;
 
@@ -12,7 +13,7 @@ namespace KY.Generator.Reflection.Commands
     internal class ReflectionWriteCommand : GeneratorCommand<ReflectionWriteCommandParameters>
     {
         private readonly IDependencyResolver resolver;
-        
+
         public override string[] Names { get; } = { "reflection-write" };
 
         public ReflectionWriteCommand(IDependencyResolver resolver)
@@ -22,7 +23,7 @@ namespace KY.Generator.Reflection.Commands
 
         public override IGeneratorCommandResult Run(IOutput output)
         {
-            ModelWriteConfiguration configuration = new ModelWriteConfiguration();
+            ReflectionWriteConfiguration configuration = new ReflectionWriteConfiguration();
             configuration.FormatNames = this.Parameters.FormatNames;
             configuration.FieldsToProperties = this.Parameters.FieldsToProperties;
             configuration.PropertiesToFields = this.Parameters.PropertiesToFields;
@@ -34,7 +35,7 @@ namespace KY.Generator.Reflection.Commands
             configuration.Language = CsharpLanguage.Instance;
 
             this.resolver.Create<ReflectionWriter>().Write(configuration, this.TransferObjects, output);
-            
+
             return this.Success();
         }
     }

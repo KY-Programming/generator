@@ -10,13 +10,13 @@ using KY.Generator.Output;
 
 namespace KY.Generator.Reflection.Commands
 {
-    public class AttributesCommand : GeneratorCommand<RunByAttributeCommandParameters>
+    public class AnnotationCommand : GeneratorCommand<RunByAttributeCommandParameters>
     {
         private readonly IDependencyResolver resolver;
 
-        public override string[] Names { get; } = { "attributes" };
+        public override string[] Names { get; } = { "annotation", "attributes" };
 
-        public AttributesCommand(IDependencyResolver resolver)
+        public AnnotationCommand(IDependencyResolver resolver)
         {
             this.resolver = resolver;
         }

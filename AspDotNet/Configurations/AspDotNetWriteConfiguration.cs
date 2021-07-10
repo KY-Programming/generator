@@ -15,7 +15,6 @@ namespace KY.Generator.AspDotNet.Configurations
         public List<AspDotNetWriteEntityControllerConfiguration> Controllers { get; set; }
         public List<string> Usings { get; set; }
         internal ITemplate Template { get; set; }
-        public Guid? OutputId { get; set; }
 
         public AspDotNetWriteConfiguration()
         {

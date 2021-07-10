@@ -39,6 +39,8 @@ namespace KY.Generator.Csharp.Languages
             this.TemplateWriters[typeof(ParameterTemplate)] = new ParameterWriter();
             this.TemplateWriters[typeof(ThrowTemplate)] = new ThrowWriter();
             this.TemplateWriters[typeof(UsingTemplate)] = new UsingWriter();
+            this.TemplateWriters[typeof(UsingDeclarationTemplate)] = new UsingDeclarationWriter();
+            this.TemplateWriters[typeof(VerbatimStringTemplate)] = new VerbatimStringWriter();
         }
 
         protected override void WriteHeader(FileTemplate fileTemplate, IOutputCache output)

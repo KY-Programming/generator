@@ -105,8 +105,20 @@ namespace KY.Generator.Transfer.Writers
             }
         }
 
+        protected void MapType(ILanguage fromLanguage, ILanguage toLanguage, TypeTransferObject type)
+        {
+            if (fromLanguage is IMappableLanguage mappableFromLanguage && toLanguage is IMappableLanguage mappableToLanguage)
+            {
+                this.MapType(mappableFromLanguage, mappableToLanguage, type);
+            }
+        }
+
         protected virtual void MapType(IMappableLanguage fromLanguage, IMappableLanguage toLanguage, TypeTransferObject type)
         {
+            if (type == null)
+            {
+                return;
+            }
             this.TypeMapping.Get(fromLanguage, toLanguage, type);
             type.Generics.ForEach(x => this.MapType(fromLanguage, toLanguage, x.Type));
         }

@@ -81,9 +81,9 @@ namespace KY.Generator
             return new TypeOfTemplate(type);
         }
 
-        public static CastTemplate Cast(this Code _, TypeTemplate type, ICodeFragment code)
+        public static CastTemplate Cast(this Code _, TypeTemplate type)
         {
-            return new CastTemplate(type, code);
+            return new CastTemplate(type);
         }
 
         public static IfTemplate If(this Code _, ICodeFragment condition, Action<IfTemplate> action = null)

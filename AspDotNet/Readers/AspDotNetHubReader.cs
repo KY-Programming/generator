@@ -27,7 +27,7 @@ namespace KY.Generator.AspDotNet.Readers
             configuration.Hub.Name.AssertIsNotNull($"SignalR: {nameof(configuration.Hub)}.{nameof(configuration.Hub.Name)}");
             configuration.Hub.Namespace.AssertIsNotNull($"SignalR: {nameof(configuration.Hub)}.{nameof(configuration.Hub.Namespace)}");
             Logger.Trace($"Read SignalR hub {configuration.Hub.Namespace}.{configuration.Hub.Name}...");
-            Type type = GeneratorTypeLoader.Get(configuration, configuration.Hub.Assembly, configuration.Hub.Namespace, configuration.Hub.Name);
+            Type type = GeneratorTypeLoader.Get(configuration.Hub.Assembly, configuration.Hub.Namespace, configuration.Hub.Name);
             if (type == null || type.BaseType == null || type.BaseType.Name != "Hub`1")
             {
                 return;

@@ -1,12 +1,15 @@
-﻿using KY.Generator.Syntax;
+﻿using System;
+using KY.Generator.Syntax;
 
+// ReSharper disable once CheckNamespace
 namespace KY.Generator
 {
     public static class WriteFluentSyntaxExtension
     {
-        public static IJsonWriteModelOrReaderSyntax JsonModel(this IWriteFluentSyntax syntax, string relativePath, string name, string nameSpace)
+        public static IWriteFluentSyntax Json(this IWriteFluentSyntax syntax, Action<IJsonWriteSyntax> action)
         {
-            return new JsonWriteSyntax((IWriteFluentSyntaxInternal)syntax).Model(relativePath, name, nameSpace);
+            action(new JsonWriteSyntax((IWriteFluentSyntaxInternal)syntax));
+            return syntax;
         }
     }
 }
