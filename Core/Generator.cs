@@ -284,7 +284,7 @@ namespace KY.Generator
                 startInfo.Arguments = location;
             }
             startInfo.Arguments += " " + string.Join(" ", commandsToRun);
-            startInfo.Arguments += " --only-async";
+            startInfo.Arguments += " -*only-async";
             Process.Start(startInfo);
             return true;
         }

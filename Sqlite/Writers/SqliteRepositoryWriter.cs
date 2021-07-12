@@ -36,6 +36,9 @@ namespace KY.Generator.Sqlite.Writers
                          .WithParameter(connectionField.Type, connectionField.Name)
                          .WithCode(Code.This().Field(connectionField).Assign(Code.Local(connectionField.Name)).Close());
 
+
+            model.Properties.ForEach(property => this.MapType(model.Language, SqliteLanguage.Instance, property.Type));
+
             this.WriteCreateTable(classTemplate, connectionField, model, parameters);
             this.WriteDropTable(classTemplate, connectionField, model, parameters);
             this.WriteInsert(classTemplate, connectionField, model, parameters);
@@ -46,15 +49,19 @@ namespace KY.Generator.Sqlite.Writers
 
         private void WriteCreateTable(ClassTemplate classTemplate, FieldTemplate connectionField, SqliteModelTransferObject model, SqliteWriteRepositoryCommandParameters parameters)
         {
+            List<SqlitePropertyTransferObject> columns = model.Properties.Where(p => p.Type.Original != null).ToList();
+            if (columns.Count == 0)
+            {
+                return;
+            }
             DeclareTemplate command = Code.Declare(Code.Type("SqliteCommand"), "command", Code.This().Field(connectionField).Method("CreateCommand"));
             StringBuilder sqlBuilder = new();
             sqlBuilder.AppendLine()
                       .AppendLine($"CREATE TABLE IF NOT EXISTS {parameters.Table ?? model.Name}")
                       .AppendLine("(");
-            SqlitePropertyTransferObject last = model.Properties.Last();
-            foreach (SqlitePropertyTransferObject property in model.Properties)
+            SqlitePropertyTransferObject last = columns.Last();
+            foreach (SqlitePropertyTransferObject property in columns)
             {
-                this.MapType(model.Language, SqliteLanguage.Instance, property.Type);
                 sqlBuilder.Append($"    {property.Name} {property.Type.Name}");
                 if (property.IsNotNull)
                 {
@@ -94,8 +101,12 @@ namespace KY.Generator.Sqlite.Writers
 
         private void WriteInsert(ClassTemplate classTemplate, FieldTemplate connectionField, SqliteModelTransferObject model, SqliteWriteRepositoryCommandParameters parameters)
         {
-            List<SqlitePropertyTransferObject> columns = model.Properties.Where(p => !p.IsAutoIncrement).ToList();
-            SqlitePropertyTransferObject idColumn = model.Properties.FirstOrDefault(column => column.IsAutoIncrement && column.IsPrimaryKey);
+            List<SqlitePropertyTransferObject> columns = model.Properties.Where(p => !p.IsAutoIncrement && p.Type.Original != null).ToList();
+            if (columns.Count == 0)
+            {
+                return;
+            }
+            SqlitePropertyTransferObject idColumn = model.Properties.FirstOrDefault(p => p.IsAutoIncrement && p.IsPrimaryKey && p.Type.Original != null);
             bool isAutoIncrement = idColumn != null;
             DeclareTemplate command = Code.Declare(Code.Type("SqliteCommand"), "command", Code.This().Field(connectionField).Method("CreateCommand"));
             StringBuilder sqlBuilder = new();
@@ -115,7 +126,7 @@ namespace KY.Generator.Sqlite.Writers
             foreach (SqlitePropertyTransferObject column in columns)
             {
                 ICodeFragment valueCode = Code.Local("entry").Field(column.Name);
-                if (!column.IsNotNull && column.Type.Original.IsNullable)
+                if (!column.IsNotNull && (column.Type.Original?.IsNullable ?? column.Type.IsNullable))
                 {
                     classTemplate.AddUsing("System");
                     valueCode = Code.NullCoalescing(valueCode, Code.Cast(Code.Type("object")).Local(nameof(DBNull)).Field("Value"));
@@ -137,7 +148,8 @@ namespace KY.Generator.Sqlite.Writers
 
         private void WriteUpdate(ClassTemplate classTemplate, FieldTemplate connectionField, SqliteModelTransferObject model, SqliteWriteRepositoryCommandParameters parameters)
         {
-            if (model.Properties.All(property => !property.IsPrimaryKey))
+            List<SqlitePropertyTransferObject> columns = model.Properties.Where(p => p.Type.Original != null).ToList();
+            if (columns.Count == 0 || columns.All(property => !property.IsPrimaryKey))
             {
                 return;
             }
@@ -146,7 +158,7 @@ namespace KY.Generator.Sqlite.Writers
             sqlBuilder.AppendLine()
                       .AppendLine($"UPDATE {parameters.Table ?? model.Name}");
             bool isFirst = true;
-            foreach (SqlitePropertyTransferObject column in model.Properties.Where(p => !p.IsPrimaryKey))
+            foreach (SqlitePropertyTransferObject column in columns.Where(p => !p.IsPrimaryKey))
             {
                 if (isFirst)
                 {
@@ -161,7 +173,7 @@ namespace KY.Generator.Sqlite.Writers
                 sqlBuilder.Append($"{column.Name} = @{column.Name.FirstCharToLower()}");
             }
             isFirst = true;
-            foreach (SqlitePropertyTransferObject column in model.Properties.Where(p => p.IsPrimaryKey))
+            foreach (SqlitePropertyTransferObject column in columns.Where(p => p.IsPrimaryKey))
             {
                 if (isFirst)
                 {
@@ -180,7 +192,7 @@ namespace KY.Generator.Sqlite.Writers
                                                  .WithParameter(model.ToTemplate(), "entry")
                                                  .WithCode(Code.Using(command))
                                                  .WithCode(Code.Local(command).Field("CommandText").Assign(Code.VerbatimString(sqlBuilder)).Close());
-            foreach (SqlitePropertyTransferObject column in model.Properties)
+            foreach (SqlitePropertyTransferObject column in columns)
             {
                 ICodeFragment valueCode = Code.Local("entry").Field(column.Name);
                 if (!column.IsNotNull && column.Type.Original.IsNullable)
@@ -198,7 +210,12 @@ namespace KY.Generator.Sqlite.Writers
 
         private void WriteDelete(ClassTemplate classTemplate, FieldTemplate connectionField, SqliteModelTransferObject model, SqliteWriteRepositoryCommandParameters parameters)
         {
-            bool hasPrimaryKey = model.Properties.Any(property => property.IsPrimaryKey);
+            List<SqlitePropertyTransferObject> columns = model.Properties.Where(p => p.Type.Original != null).ToList();
+            if (columns.Count == 0)
+            {
+                return;
+            }
+            bool hasPrimaryKey = columns.Any(property => property.IsPrimaryKey);
             DeclareTemplate command = Code.Declare(Code.Type("SqliteCommand"), "command", Code.This().Field(connectionField).Method("CreateCommand"));
             StringBuilder sqlBuilder = new();
             sqlBuilder.AppendLine()
@@ -206,7 +223,7 @@ namespace KY.Generator.Sqlite.Writers
             if (hasPrimaryKey)
             {
                 bool isFirst = true;
-                foreach (SqlitePropertyTransferObject column in model.Properties.Where(p => p.IsPrimaryKey))
+                foreach (SqlitePropertyTransferObject column in columns.Where(p => p.IsPrimaryKey))
                 {
                     if (isFirst)
                     {
@@ -224,7 +241,7 @@ namespace KY.Generator.Sqlite.Writers
             else
             {
                 bool isFirst = true;
-                foreach (SqlitePropertyTransferObject column in model.Properties)
+                foreach (SqlitePropertyTransferObject column in columns)
                 {
                     if (isFirst)
                     {
@@ -243,10 +260,10 @@ namespace KY.Generator.Sqlite.Writers
                                                  .WithParameter(model.ToTemplate(), "entry")
                                                  .WithCode(Code.Using(command))
                                                  .WithCode(Code.Local(command).Field("CommandText").Assign(Code.VerbatimString(sqlBuilder)).Close());
-            foreach (SqlitePropertyTransferObject column in model.Properties.Where(property => hasPrimaryKey && property.IsPrimaryKey || !hasPrimaryKey))
+            foreach (SqlitePropertyTransferObject column in columns.Where(property => hasPrimaryKey && property.IsPrimaryKey || !hasPrimaryKey))
             {
                 ICodeFragment valueCode = Code.Local("entry").Field(column.Name);
-                if (!column.IsNotNull && column.Type.Original.IsNullable)
+                if (!column.IsNotNull && (column.Type.Original?.IsNullable ?? column.Type.IsNullable))
                 {
                     classTemplate.AddUsing("System");
                     valueCode = Code.NullCoalescing(valueCode, Code.Cast(Code.Type("object")).Local(nameof(DBNull)).Field("Value"));
