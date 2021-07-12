@@ -1,12 +1,14 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
+    <ProjectGuid>{24a70ace-e281-41c6-8732-ac157e92e94a}</ProjectGuid>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="KY.Generator.Fluent" Version="6.7.5" />
+    <PackageReference Include="KY.Generator.Fluent" Version="7.0.0-preview.5" />
+    <PackageReference Include="KY.Generator.Sqlite" Version="7.0.0-preview.5" />
     <PackageReference Include="Microsoft.Data.Sqlite" Version="5.0.7" />
   </ItemGroup>
 

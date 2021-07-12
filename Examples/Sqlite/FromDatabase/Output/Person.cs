@@ -15,6 +15,7 @@ public partial class Person
     public string LastName { get; set; }
     public string? Birthday { get; set; }
     public int Age { get; set; }
+    public string? Address { get; set; }
 }
 
-// outputid:f1500a12-5a64-4e7d-9e36-4336d7ca0ad8
+// outputid:24a70ace-e281-41c6-8732-ac157e92e94a

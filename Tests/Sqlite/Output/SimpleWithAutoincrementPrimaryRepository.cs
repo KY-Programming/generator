@@ -11,13 +11,13 @@
 using System;
 using Microsoft.Data.Sqlite;
 
-namespace ToDatabase
+namespace Sqlite.Models
 {
-    public partial class PersonRepository
+    public partial class SimpleWithAutoincrementPrimaryRepository
     {
         private SqliteConnection connection;
 
-        public PersonRepository(SqliteConnection connection)
+        public SimpleWithAutoincrementPrimaryRepository(SqliteConnection connection)
         {
             this.connection = connection;
         }
@@ -26,14 +26,10 @@ namespace ToDatabase
         {
             using SqliteCommand command = this.connection.CreateCommand();
             command.CommandText = @"
-CREATE TABLE IF NOT EXISTS Person
+CREATE TABLE IF NOT EXISTS SimpleWithAutoincrementPrimary
 (
     Id INTEGER primary key autoincrement,
-    FirstName TEXT not null,
-    LastName TEXT not null,
-    Birthday TEXT,
-    Age INTEGER,
-    Address TEXT
+    StringProperty TEXT
 );";
             command.ExecuteNonQuery();
         }
@@ -41,48 +37,36 @@ CREATE TABLE IF NOT EXISTS Person
         public void DropTable()
         {
             using SqliteCommand command = this.connection.CreateCommand();
-            command.CommandText = @"DROP TABLE IF EXISTS Person;";
+            command.CommandText = @"DROP TABLE IF EXISTS SimpleWithAutoincrementPrimary;";
             command.ExecuteNonQuery();
         }
 
-        public Int32 Insert(Person entry)
+        public Int32 Insert(SimpleWithAutoincrementPrimary entry)
         {
             using SqliteCommand command = this.connection.CreateCommand();
-            command.CommandText = @"INSERT INTO Person (FirstName, LastName, Birthday, Age, Address) VALUES (@firstName, @lastName, @birthday, @age, @address);
+            command.CommandText = @"INSERT INTO SimpleWithAutoincrementPrimary (StringProperty) VALUES (@stringProperty);
 SELECT last_insert_rowid();";
-            command.Parameters.Add(new SqliteParameter("@firstName", entry.FirstName));
-            command.Parameters.Add(new SqliteParameter("@lastName", entry.LastName));
-            command.Parameters.Add(new SqliteParameter("@birthday", entry.Birthday));
-            command.Parameters.Add(new SqliteParameter("@age", entry.Age));
-            command.Parameters.Add(new SqliteParameter("@address", entry.Address ?? (object) DBNull.Value));
+            command.Parameters.Add(new SqliteParameter("@stringProperty", entry.StringProperty ?? (object) DBNull.Value));
             return (Int32)(long) command.ExecuteScalar();
         }
 
-        public void Update(Person entry)
+        public void Update(SimpleWithAutoincrementPrimary entry)
         {
             using SqliteCommand command = this.connection.CreateCommand();
             command.CommandText = @"
-UPDATE Person
-SET FirstName = @firstName,
-    LastName = @lastName,
-    Birthday = @birthday,
-    Age = @age,
-    Address = @address
+UPDATE SimpleWithAutoincrementPrimary
+SET StringProperty = @stringProperty
 WHERE Id = @id";
             command.Parameters.Add(new SqliteParameter("@id", entry.Id));
-            command.Parameters.Add(new SqliteParameter("@firstName", entry.FirstName));
-            command.Parameters.Add(new SqliteParameter("@lastName", entry.LastName));
-            command.Parameters.Add(new SqliteParameter("@birthday", entry.Birthday));
-            command.Parameters.Add(new SqliteParameter("@age", entry.Age));
-            command.Parameters.Add(new SqliteParameter("@address", entry.Address ?? (object) DBNull.Value));
+            command.Parameters.Add(new SqliteParameter("@stringProperty", entry.StringProperty ?? (object) DBNull.Value));
             command.ExecuteNonQuery();
         }
 
-        public void Delete(Person entry)
+        public void Delete(SimpleWithAutoincrementPrimary entry)
         {
             using SqliteCommand command = this.connection.CreateCommand();
             command.CommandText = @"
-DELETE FROM Person
+DELETE FROM SimpleWithAutoincrementPrimary
 WHERE Id = @id";
             command.Parameters.Add(new SqliteParameter("@id", entry.Id));
             command.ExecuteNonQuery();
@@ -90,5 +74,4 @@ WHERE Id = @id";
     }
 }
 
-// outputid:29625c26-0a17-4256-95a5-3f1886bd4181
-// outputid:b2279010-4764-4c25-8beb-a33bf691dff0
+// outputid:cf81755c-700e-4a03-b453-609309187e6b

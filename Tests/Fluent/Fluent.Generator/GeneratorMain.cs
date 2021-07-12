@@ -9,8 +9,9 @@ namespace Fluent.Generator
             this.Read()
                 .FromType<Types.Types>()
                 .Write()
-                .AngularModels().OutputPath("Output/Models").SkipHeader()
-                .AngularServices().OutputPath("Output/Services").SkipHeader();
+                .Angular(angular => angular.Models(config => config.OutputPath("Output/Models").SkipHeader())
+                                           .Services(config => config.OutputPath("Output/Services").SkipHeader())
+                );
         }
     }
 }
