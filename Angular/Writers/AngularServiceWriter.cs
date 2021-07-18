@@ -22,6 +22,8 @@ namespace KY.Generator.Angular.Writers
 {
     public class AngularServiceWriter : TransferWriter
     {
+        private const string apiVersionKey = "{version:apiVersion}";
+
         public AngularServiceWriter(ITypeMapping typeMapping)
             : base(typeMapping)
         { }
@@ -56,7 +58,10 @@ namespace KY.Generator.Angular.Writers
                                                   .WithUsing("Subject", "rxjs")
                                                   .WithAttribute("Injectable", Code.AnonymousObject().WithProperty("providedIn", Code.String("root")));
                 FieldTemplate httpField = classTemplate.AddField("http", Code.Type(httpClient)).Readonly().FormatName(configuration);
-                FieldTemplate serviceUrlField = classTemplate.AddField("serviceUrl", Code.Type("string")).Public().FormatName(configuration).Default(Code.String(string.Empty));
+                FieldTemplate serviceUrlField = classTemplate.AddField("serviceUrlValue", Code.Type("string")).FormatName(configuration).Default(Code.String(string.Empty));
+                PropertyTemplate serviceUrlProperty = classTemplate.AddProperty("serviceUrl", Code.Type("string"))
+                                                                   .WithGetter(Code.Return(Code.This().Field(serviceUrlField)))
+                                                                   .WithSetter(Code.This().Field(serviceUrlField).Assign(Code.Local("value").Method("replace", Code.TypeScript(@"/\/+$/"), Code.String(""))).Close());
                 classTemplate.AddConstructor().WithParameter(Code.Type(httpClient), "http")
                              .WithCode(Code.This().Field(httpField).Assign(Code.Local("http")).Close());
                 string relativeModelPath = FileSystem.RelativeTo(configuration.Model?.RelativePath ?? ".", configuration.Service.RelativePath);
@@ -138,22 +143,29 @@ namespace KY.Generator.Angular.Writers
                     }
                     code.AddLine(nextMethod.Close())
                         .AddLine(Code.Local(subjectName).Method("complete").Close());
-                    ChainedCodeFragment parameterUrl = Code.This().Field(serviceUrlField);
+                    ChainedCodeFragment parameterUrl = Code.This().Property(serviceUrlProperty);
                     foreach (HttpServiceActionParameterTransferObject parameter in inlineParameters)
                     {
                         string[] chunks = uri.Split(new[] { $"{{{parameter.Name}}}" }, StringSplitOptions.RemoveEmptyEntries);
                         parameterUrl = parameterUrl.Append(Code.String(chunks[0])).Append(Code.Local(parameter.Name));
                         uri = chunks.Length == 1 ? string.Empty : chunks[1];
                     }
+                    string actionVersion = action.Version ?? controller.Version;
+                    bool isUrlApiVersion = false;
                     if (!string.IsNullOrEmpty(uri))
                     {
+                        if (uri.Contains(apiVersionKey))
+                        {
+                            isUrlApiVersion = true;
+                            uri = uri.Replace(apiVersionKey, actionVersion);
+                        }
                         parameterUrl = parameterUrl.Append(Code.String(uri));
                     }
                     bool isFirst = true;
-                    if (controller.Version != null)
+                    if (actionVersion != null && !isUrlApiVersion)
                     {
                         isFirst = false;
-                        parameterUrl = parameterUrl.Append(Code.String($"?api-version={controller.Version}"));
+                        parameterUrl = parameterUrl.Append(Code.String($"?api-version={actionVersion}"));
                     }
                     foreach (HttpServiceActionParameterTransferObject parameter in urlDirectParameters)
                     {

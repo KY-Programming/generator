@@ -43,11 +43,38 @@ namespace KY.Generator.Writers
                       .Add(template.DefaultValue)
                       .CloseLine();
             }
-            if (template.Expression != null)
+            else if (template.Expression != null)
             {
                 output.Add(" => ")
                       .Add(template.Expression)
                       .CloseLine();
+            }
+            else if (template.Getter != null || template.Setter != null)
+            {
+                if (template.Getter is MultilineCodeFragment multilineGetter)
+                {
+                    output.Add("get").BreakLine()
+                          .Add("{").BreakLine()
+                          .Add(multilineGetter).BreakLine()
+                          .Add("}");
+                }
+                else if (template.Getter != null)
+                {
+                    output.Add("get => ")
+                          .Add(template.Getter);
+                }
+                if (template.Setter is MultilineCodeFragment multilineSetter)
+                {
+                    output.Add("set").BreakLine()
+                          .Add("{").BreakLine()
+                          .Add(multilineSetter).BreakLine()
+                          .Add("}");
+                }
+                else if (template.Getter != null)
+                {
+                    output.Add("set => ")
+                          .Add(template.Getter);
+                }
             }
             output.BreakLineIfNotEmpty();
         }

@@ -10,6 +10,7 @@ namespace KY.Generator.Transfer
         public bool RequireBodyParameter { get; set; }
         public List<HttpServiceActionParameterTransferObject> Parameters { get; }
         public HttpServiceActionTypeTransferObject Type { get; set; }
+        public string Version { get; set; }
 
         public HttpServiceActionTransferObject()
         {

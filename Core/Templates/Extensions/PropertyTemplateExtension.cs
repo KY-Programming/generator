@@ -63,6 +63,18 @@ namespace KY.Generator.Templates.Extensions
             return property;
         }
 
+        public static PropertyTemplate WithSetter(this PropertyTemplate property, ICodeFragment code)
+        {
+            property.Setter = code;
+            return property;
+        }
+
+        public static PropertyTemplate WithGetter(this PropertyTemplate property, ICodeFragment code)
+        {
+            property.Getter = code;
+            return property;
+        }
+
         public static PropertyTemplate FormatName(this PropertyTemplate propertyTemplate, IConfiguration configuration, bool force = false)
         {
             propertyTemplate.Name = Formatter.FormatProperty(propertyTemplate.Name, configuration, force);

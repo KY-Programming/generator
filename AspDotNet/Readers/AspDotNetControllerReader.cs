@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -88,6 +89,17 @@ namespace KY.Generator.AspDotNet.Readers
                 IEnumerable<Type> typesToIgnore = method.GetCustomAttributes<GenerateIgnoreGenericAttribute>()
                                                         .Concat(type.GetCustomAttributes<GenerateIgnoreGenericAttribute>())
                                                         .Select(x => x.Type);
+                List<string> methodVersions = new List<string>();
+                Attribute versionAttribute = methodAttributes.FirstOrDefault(x => x.GetType().Name == "ApiVersionAttribute");
+                object apiVersions = versionAttribute?.GetType().GetProperty("Versions")?.GetValue(versionAttribute);
+                if (apiVersions is IEnumerable enumerableVersions)
+                {
+                    foreach (object version in enumerableVersions)
+                    {
+                        methodVersions.Add(version.ToString());
+                    }
+                }
+                methodVersions.Sort();
                 returnType = returnType.IgnoreGeneric(typesToIgnore);
                 this.modelReader.Read(returnType, transferObjects);
                 Attribute methodRouteAttribute = methodAttributes.FirstOrDefault(x => x.GetType().Name == "RouteAttribute");
@@ -102,7 +114,8 @@ namespace KY.Generator.AspDotNet.Readers
                     action.ReturnType = returnType.ToTransferObject();
                     action.Route = actionType.Value ?? fallbackRoute;
                     action.Type = actionType.Key;
-                    ParameterInfo[] parameters = method.GetParameters().Where(parameter => parameter.GetCustomAttributes().All(attribute => attribute.GetType().Name != "FromServicesAttribute")).ToArray();
+                    action.Version = methodVersions.LastOrDefault();
+                    ParameterInfo[] parameters = method.GetParameters().Where(parameter => parameter.GetCustomAttributes().Select(attribute => attribute.GetType().Name).All(attributeName => attributeName != "FromServicesAttribute" && attributeName != "FromHeaderAttribute")).ToArray();
                     foreach (ParameterInfo parameter in parameters)
                     {
                         this.modelReader.Read(parameter.ParameterType, transferObjects);

@@ -17,6 +17,8 @@ namespace KY.Generator.Templates
         public ICodeFragment Expression { get; set; }
         public ClassTemplate Class { get; }
         public CommentTemplate Comment { get; set; }
+        public ICodeFragment Setter { get; set; }
+        public ICodeFragment Getter { get; set; }
 
         public PropertyTemplate(ClassTemplate classTemplate, string name, TypeTemplate type)
         {

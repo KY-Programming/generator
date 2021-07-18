@@ -12,23 +12,26 @@ namespace KY.Generator.TypeScript.Writers
         {
             PropertyTemplate template = (PropertyTemplate)fragment;
             FieldTemplate fieldTemplate = new FieldTemplate(template.Class, template.Name, template.Type).FormatName(output.Language, true);
-            if (fieldTemplate.Name == template.Name)
+            if (template.Getter == null && template.HasGetter || template.Setter == null && template.HasSetter)
             {
-                fieldTemplate.Name += "Field";
+                if (fieldTemplate.Name == template.Name)
+                {
+                    fieldTemplate.Name += "Field";
+                }
+                fieldTemplate.DefaultValue = template.DefaultValue;
+                output.Add(fieldTemplate);
             }
-            fieldTemplate.DefaultValue = template.DefaultValue;
-            output.Add(fieldTemplate);
-            if (template.HasGetter)
+            if (template.HasGetter || template.Getter != null)
             {
                 output.If(template.Visibility != Visibility.None).Add(template.Visibility.ToString().ToLower()).Add(" ").EndIf()
                       .If(template.IsStatic).Add("static ").EndIf()
                       .Add($"get {template.Name}(): ")
                       .Add(template.Type)
                       .StartBlock()
-                      .Add(Code.Return(Code.This().Field(fieldTemplate.Name)))
+                      .Add(template.Getter ?? Code.Return(Code.This().Field(fieldTemplate.Name)))
                       .EndBlock();
             }
-            if (template.HasSetter)
+            if (template.HasSetter || template.Setter != null)
             {
                 output.If(template.Visibility != Visibility.None).Add(template.Visibility.ToString().ToLower()).Add(" ").EndIf()
                       .If(template.IsStatic).Add("static ").EndIf()
@@ -36,7 +39,7 @@ namespace KY.Generator.TypeScript.Writers
                       .Add(template.Type)
                       .Add(")")
                       .StartBlock()
-                      .Add(Code.This().Field(fieldTemplate.Name).Assign(Code.Local("value")).Close())
+                      .Add(template.Setter ?? Code.This().Field(fieldTemplate.Name).Assign(Code.Local("value")).Close())
                       .EndBlock();
             }
         }

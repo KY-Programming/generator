@@ -33,7 +33,6 @@ Download KY.Generator to use this module</Description>
   <ItemGroup>
     <ProjectReference Include="..\Core\KY.Generator.Core.csproj" />
     <ProjectReference Include="..\CSharp\KY.Generator.Csharp.csproj" />
-    <ProjectReference Include="..\Reflection.Annotations\KY.Generator.Reflection.Annotations.csproj" />
     <ProjectReference Include="..\Reflection\KY.Generator.Reflection.csproj" />
   </ItemGroup>
 
