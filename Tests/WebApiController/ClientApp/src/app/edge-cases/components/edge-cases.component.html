@@ -7,3 +7,9 @@
   <input [(ngModel)]="guid" readonly>
   <button (click)="getGuid()">Get Guid</button>
 </div>
+
+<div>
+  <input [(ngModel)]="headerValue">
+  <button (click)="withHeader()">With Header</button>
+  <span>{{headerResult}}</span>
+</div>

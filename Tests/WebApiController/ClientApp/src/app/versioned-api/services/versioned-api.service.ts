@@ -12,7 +12,14 @@ import { Subject } from "rxjs";
 })
 export class VersionedApiService {
     private readonly http: HttpClient;
-    public serviceUrl: string = "";
+    private serviceUrlValue: string = "";
+
+    public get serviceUrl(): string {
+        return this.serviceUrlValue;
+    }
+    public set serviceUrl(value: string) {
+        this.serviceUrlValue = value.replace(/\/+$/, "");
+    }
 
     public constructor(http: HttpClient) {
         this.http = http;
@@ -48,7 +55,7 @@ export class VersionedApiService {
 
     public getNext2(days: number, httpOptions: {} = undefined): Observable<WeatherForecast[]> {
         let subject = new Subject<WeatherForecast[]>();
-        this.http.get<WeatherForecast[]>(this.serviceUrl + "/versionedapi/next-days" + "?api-version=1.0" + "&days=" + this.convertAny(days), httpOptions).subscribe((result) => {
+        this.http.get<WeatherForecast[]>(this.serviceUrl + "/versionedapi/next-days" + "?api-version=2.0" + "&days=" + this.convertAny(days), httpOptions).subscribe((result) => {
             if (result) {
                 result.forEach((entry) => {
                     entry.date = this.convertToDate(entry.date);

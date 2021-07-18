@@ -17,7 +17,14 @@ import { Subject } from "rxjs";
 })
 export class DateService {
     private readonly http: HttpClient;
-    public serviceUrl: string = "";
+    private serviceUrlValue: string = "";
+
+    public get serviceUrl(): string {
+        return this.serviceUrlValue;
+    }
+    public set serviceUrl(value: string) {
+        this.serviceUrlValue = value.replace(/\/+$/, "");
+    }
 
     public constructor(http: HttpClient) {
         this.http = http;

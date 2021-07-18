@@ -1,3 +1,8 @@
 <div *ngIf="!models">Loading...</div>
 <div *ngIf="models">Works</div>
 <pre><code>{{models | json}}</code></pre>
+<div>
+  <input type="number" [(ngModel)]="days">
+  <button (click)="getNext()">get</button>
+  <button (click)="getNext2()">get2</button>
+</div>

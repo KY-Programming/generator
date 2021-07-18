@@ -8,7 +8,6 @@ namespace FromDatabase
         {
             this.Read()
                 .Sqlite(sqlite => sqlite.UseConnectionString("Data Source=test.db")
-                                        .UseTable("test")
                                         .UseAll())
                 .Write()
                 .ReflectionModels("Output")

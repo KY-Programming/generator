@@ -1,11 +1,15 @@
 ﻿{
   "/api": {
-    "target": "http://localhost:55458",
+    "target": "http://localhost:5000",
     "secure": false
   },
   "/route": {
-    "target": "http://localhost:55458",
+    "target": "http://localhost:5000",
     "secure": false,
     "pathRewrite": { "^/route": ""}
+  },
+  "/versionedapi": {
+    "target": "http://localhost:5000",
+    "secure": false
   }
 }

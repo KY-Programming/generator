@@ -28,6 +28,7 @@ namespace WebApiController.Controllers
             return this.Random(days);
         }
 
+        [ApiVersion("2.0")]
         [HttpGet("next-days")]
         public IEnumerable<WeatherForecast> GetNext2(int days)
         {

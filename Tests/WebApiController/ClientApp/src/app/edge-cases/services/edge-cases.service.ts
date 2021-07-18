@@ -11,7 +11,14 @@ import { Subject } from "rxjs";
 })
 export class EdgeCasesService {
     private readonly http: HttpClient;
-    public serviceUrl: string = "";
+    private serviceUrlValue: string = "";
+
+    public get serviceUrl(): string {
+        return this.serviceUrlValue;
+    }
+    public set serviceUrl(value: string) {
+        this.serviceUrlValue = value.replace(/\/+$/, "");
+    }
 
     public constructor(http: HttpClient) {
         this.http = http;
@@ -66,6 +73,16 @@ export class EdgeCasesService {
     public withDI(value: number, httpOptions: {} = undefined): Observable<boolean> {
         let subject = new Subject<boolean>();
         this.http.get<boolean>(this.serviceUrl + "/edgecases/withdi" + "?value=" + this.convertAny(value), httpOptions).subscribe((result) => {
+            subject.next(result);
+            subject.complete();
+        }, (error) => subject.error(error));
+        return subject;
+    }
+
+    public fromHeader(value: number = undefined, httpOptions: {} = undefined): Observable<string> {
+        let subject = new Subject<string>();
+        httpOptions = { responseType: 'text', ...httpOptions};
+        this.http.get<string>(this.serviceUrl + "/edgecases/fromheader" + "?value=" + this.convertAny(value), httpOptions).subscribe((result) => {
             subject.next(result);
             subject.complete();
         }, (error) => subject.error(error));

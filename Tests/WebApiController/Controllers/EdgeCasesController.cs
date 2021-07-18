@@ -16,23 +16,23 @@ namespace WebApiController.Controllers
         [HttpGet("[action]")]
         public void Get(string subject)
         { }
-        
+
         [HttpPost("[action]")]
         public void Post(string subject)
         { }
-        
+
         [HttpGet("[action]")]
         public List<string> Cancelable(string subject, CancellationToken token)
         {
             return new List<string> { subject };
         }
-        
+
         [HttpGet("[action]")]
         public string String()
         {
             return "Hello World!";
         }
-        
+
         [HttpGet("[action]")]
         public Guid GetGuid()
         {
@@ -44,6 +44,12 @@ namespace WebApiController.Controllers
         {
             service.Action();
             return value == 0;
+        }
+
+        [HttpGet("[action]")]
+        public string FromHeader([FromHeader] string headerValue = null, int value = 0)
+        {
+            return $"Result: {headerValue} + {value}";
         }
     }
 }
