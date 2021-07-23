@@ -7,12 +7,12 @@ namespace KY.Generator.Templates
     public class AttributeTemplate : ICodeFragment
     {
         public string Name { get; }
-        public ICodeFragment Code { get; private set; }
-        public bool HasValue => this.Code != null;
+        public ICodeFragment[] Code { get; private set; }
+        public bool HasValue => this.Code != null && this.Code.Length > 0;
         public Dictionary<string, object> Properties { get; }
         public bool IsInline { get; set; }
 
-        public AttributeTemplate(string name, ICodeFragment code = null)
+        public AttributeTemplate(string name, params ICodeFragment[] code)
         {
             this.Name = name;
             this.Code = code;
@@ -22,12 +22,6 @@ namespace KY.Generator.Templates
         public AttributeTemplate Property(string name, object value)
         {
             this.Properties.Add(name, value);
-            return this;
-        }
-
-        public AttributeTemplate SetCode(ICodeFragment code)
-        {
-            this.Code = code;
             return this;
         }
     }

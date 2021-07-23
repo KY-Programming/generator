@@ -25,7 +25,7 @@ namespace KY.Generator.TypeScript.Writers
                 output.Add("(");
                 if (template.HasValue)
                 {
-                    output.Add(template.Code);
+                    output.Add(template.Code, ", ");
                 }
                 if (template.Properties.Count > 0)
                 {

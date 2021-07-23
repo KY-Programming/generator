@@ -17,7 +17,7 @@
             return attributableTemplate;
         }
 
-        public static AttributeTemplate AddAttribute<T>(this T attributableTemplate, string name, ICodeFragment code)
+        public static AttributeTemplate AddAttribute<T>(this T attributableTemplate, string name, params ICodeFragment[] code)
             where T : AttributeableTempalte
         {
             AttributeTemplate attribute = new(name, code);
@@ -25,7 +25,7 @@
             return attribute;
         }
 
-        public static T WithAttribute<T>(this T attributableTemplate, string name, ICodeFragment code)
+        public static T WithAttribute<T>(this T attributableTemplate, string name, params ICodeFragment[] code)
             where T : AttributeableTempalte
         {
             attributableTemplate.AddAttribute(name, code);

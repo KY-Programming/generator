@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using KY.Generator.Csharp.Templates;
 using KY.Generator.Csharp.Writers;
 using KY.Generator.Extensions;
@@ -41,12 +42,22 @@ namespace KY.Generator.Csharp.Languages
             this.TemplateWriters[typeof(UsingTemplate)] = new UsingWriter();
             this.TemplateWriters[typeof(UsingDeclarationTemplate)] = new UsingDeclarationWriter();
             this.TemplateWriters[typeof(VerbatimStringTemplate)] = new VerbatimStringWriter();
+            this.TemplateWriters[typeof(ClassTemplate)] = new CsharpClassWriter();
         }
 
         protected override void WriteHeader(FileTemplate fileTemplate, IOutputCache output)
         {
             fileTemplate.Header.Description += Environment.NewLine + "ReSharper disable All";
             base.WriteHeader(fileTemplate, output);
+        }
+
+        public override void Write(FileTemplate fileTemplate, IOutput output)
+        {
+            INamespaceChildren children = fileTemplate.Namespaces.FirstOrDefault()?.Children.FirstOrDefault();
+            UsingTemplate usingTemplate = new UsingTemplate("System.CodeDom.Compiler", null, null);
+            children?.Usings.Add(usingTemplate);
+            base.Write(fileTemplate, output);
+            children?.Usings.Remove(usingTemplate);
         }
 
         public override string FormatFileName(string fileName, string fileType = null)
