@@ -1,6 +1,7 @@
 ﻿using KY.Generator.Csharp.Languages;
 using KY.Generator.Mappings;
 using KY.Generator.Reflection.Language;
+using KY.Generator.TypeScript;
 using KY.Generator.TypeScript.Languages;
 
 namespace KY.Generator.Reflection.Extensions
@@ -29,15 +30,16 @@ namespace KY.Generator.Reflection.Extensions
                        .From("System.UInt32").To("uint").FromSystem()
                        .From("System.UInt64").To("ulong").FromSystem()
                        .From("System.Void").To("void").FromSystem()
+                       .From("System.Collections.Generic.ICollection").To("ICollection").Namespace("System.Collections.Generic").FromSystem()
                        .From("System.Collections.Generic.IList").To("IList").Namespace("System.Collections.Generic").FromSystem()
                        .From("System.Collections.Generic.List").To("List").Namespace("System.Collections.Generic").FromSystem()
                        .From("System.Collections.Generic.IEnumerable").To("IEnumerable").Namespace("System.Collections.Generic").FromSystem()
                        .From("System.Collections.Generic.Dictionary").To("Dictionary").Namespace("System.Collections.Generic").FromSystem()
                        .From("System.Collections.Generic.IDictionary").To("IDictionary").Namespace("System.Collections.Generic").FromSystem()
-                       .From("System.Nullable").To("Nullable").FromSystem();
+                       .From("System.Nullable").To("Nullable").Nullable().FromSystem();
 
             typeMapping.Map(ReflectionLanguage.Instance).To(TypeScriptLanguage.Instance)
-                       .From("System.Array").To("Array").Nullable().FromSystem()
+                       .From("System.Array").To("Array").Nullable().FromSystem().Default(Code.Instance.TypeScript("[]"))
                        .From("System.Boolean").To("boolean").Nullable().FromSystem().Default(Code.Instance.Boolean(false))
                        .From("System.Byte").To("number").Nullable().FromSystem().Default(Code.Instance.Number(0))
                        .From("System.Char").To("number").Nullable().FromSystem().Default(Code.Instance.Number(0))
@@ -56,11 +58,12 @@ namespace KY.Generator.Reflection.Extensions
                        .From("System.UInt32").To("number").Nullable().FromSystem().Default(Code.Instance.Number(0))
                        .From("System.UInt64").To("number").Nullable().FromSystem().Default(Code.Instance.Number(0))
                        .From("System.Void").To("void").Nullable().FromSystem()
-                       .From("System.Collections.Generic.IList").To("Array").Nullable().FromSystem()
-                       .From("System.Collections.Generic.List").To("Array").Nullable().FromSystem()
-                       .From("System.Collections.Generic.IEnumerable").To("Array").Nullable().FromSystem()
-                       .From("System.Collections.Generic.Dictionary").To("Dictionary").Nullable().FromSystem()
-                       .From("System.Collections.Generic.IDictionary").To("Dictionary").Nullable().FromSystem()
+                       .From("System.Collections.Generic.ICollection").To("Array").Nullable().FromSystem().Default(Code.Instance.TypeScript("[]"))
+                       .From("System.Collections.Generic.IList").To("Array").Nullable().FromSystem().Default(Code.Instance.TypeScript("[]"))
+                       .From("System.Collections.Generic.List").To("Array").Nullable().FromSystem().Default(Code.Instance.TypeScript("[]"))
+                       .From("System.Collections.Generic.IEnumerable").To("Array").Nullable().FromSystem().Default(Code.Instance.TypeScript("[]"))
+                       .From("System.Collections.Generic.Dictionary").To("Dictionary").Nullable().FromSystem().Default(Code.Instance.TypeScript("{}"))
+                       .From("System.Collections.Generic.IDictionary").To("Dictionary").Nullable().FromSystem().Default(Code.Instance.TypeScript("{}"))
                        .From("System.Nullable").To("Nullable").Nullable().FromSystem();
 
             return typeMapping;

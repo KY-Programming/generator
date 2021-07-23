@@ -21,6 +21,10 @@ namespace KY.Generator.TypeScript.Writers
                 output.Add(template.Types.Single().Name)
                       .Add("[]");
             }
+            else if (template.Name == "Nullable | undefined")
+            {
+                output.Add(template.Types.Single().Name + " | undefined");
+            }
             else if (template.Name == "Nullable")
             {
                 output.Add(template.Types.Single().Name);

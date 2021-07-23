@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using KY.Core;
 using KY.Core.DataAccess;
 using KY.Generator.Transfer;
 using Newtonsoft.Json;
@@ -18,6 +19,7 @@ namespace KY.Generator.TypeScript.Transfer.Readers
                 return;
             }
             string path = FileSystem.Combine(fullPath, "tsconfig.json");
+            Logger.Trace($"Try to read strict mode from {path}");
             if (!FileSystem.FileExists(path))
             {
                 Match match = pathRegex.Match(path);
@@ -26,14 +28,20 @@ namespace KY.Generator.TypeScript.Transfer.Readers
                     string basePath = match.Groups["path"].Value;
                     path = FileSystem.Combine(basePath, "tsconfig.json");
                 }
+                Logger.Trace($"Try to read strict mode from {path}");
             }
             if (!FileSystem.FileExists(path) && fullPath.Contains("src"))
             {
                 path = FileSystem.Combine(fullPath.Substring(0, fullPath.IndexOf("src")), "tsconfig.json");
+                Logger.Trace($"Try to read strict mode from {path}");
             }
             if (FileSystem.FileExists(path))
             {
                 this.Parse(path, transferObjects);
+            }
+            else
+            {
+                Logger.Trace("Could not find tsconfig.json");
             }
         }
 
@@ -42,6 +50,7 @@ namespace KY.Generator.TypeScript.Transfer.Readers
             string text = FileSystem.ReadAllText(path);
             TsConfig tsConfig = JsonConvert.DeserializeObject<TsConfig>(text);
             transferObjects.Add(tsConfig);
+            Logger.Trace($"Activate TypeScript {(tsConfig?.CompilerOptions?.Strict == true ? "strict" : "regular")} mode");
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace KY.Generator.Sqlite
+namespace KY.Generator
 {
     [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = true)]
     public class GenerateSqliteRepositoryAttribute : Attribute, IGeneratorCommandAttribute

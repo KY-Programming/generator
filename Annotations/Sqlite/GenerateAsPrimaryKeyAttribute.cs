@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KY.Generator.Sqlite
+namespace KY.Generator
 {
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
     public class GenerateAsPrimaryKeyAttribute : Attribute
