@@ -6,7 +6,7 @@ namespace KY.Generator.Templates
     [DebuggerDisplay("TypeTemplate: {Name}")]
     public class TypeTemplate : ICodeFragment
     {
-        public string Name { get; }
+        public string Name { get; set; }
         public string Namespace { get; }
         public bool IsInterface { get; }
         public bool IsNullable { get; }

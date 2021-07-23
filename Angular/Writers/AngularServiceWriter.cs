@@ -105,10 +105,10 @@ namespace KY.Generator.Angular.Writers
                                                                  Code.Local(parameterTemplate).Method("map", Code.Lambda("x", Code.String($"{parameter.Name}=").Append(Code.This().Method("convertAny", Code.Local("x"))))).Method("join", Code.String("&"))));
                         }
                     }
-                    methodTemplate.AddParameter(Code.Type("{}"), "httpOptions", Code.Null());
+                    methodTemplate.AddParameter(Code.Type("{}"), "httpOptions").Optional();
                     if (isStringReturnType)
                     {
-                        methodTemplate.WithCode(Code.TypeScript("httpOptions = { responseType: 'text', ...httpOptions}").Close());
+                        methodTemplate.WithCode(Code.TypeScript("httpOptions? = { responseType: 'text', ...httpOptions}").Close());
                     }
                     if (isDateReturnType && isDateArrayReturnType)
                     {

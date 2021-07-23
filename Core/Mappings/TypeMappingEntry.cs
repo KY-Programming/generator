@@ -1,4 +1,5 @@
 using KY.Generator.Languages;
+using KY.Generator.Templates;
 
 namespace KY.Generator.Mappings
 {
@@ -8,10 +9,11 @@ namespace KY.Generator.Mappings
         public string FromType { get; }
         public IMappableLanguage ToLanguage { get; }
         public string ToType { get; }
-        public bool Nullable { get; }
-        public string Namespace { get; }
-        public bool FromSystem { get; }
+        public bool Nullable { get; set; }
+        public string Namespace { get; set; }
+        public bool FromSystem { get; set; }
         public string Constructor { get; }
+        public ICodeFragment Default { get; set; }
 
         public TypeMappingEntry(IMappableLanguage fromLanguage, string fromType, IMappableLanguage toLanguage, string toType, bool nullable, string nameSpace, bool fromSystem, string constructor = null)
         {

@@ -11,29 +11,32 @@ namespace KY.Generator.Json.Extensions
     {
         public static ITypeMapping Initialize(this ITypeMapping typeMapping)
         {
-            typeMapping.Add(JsonLanguage.Instance, JTokenType.Boolean.ToString(), CsharpLanguage.Instance, "bool", fromSystem: true);
-            typeMapping.Add(JsonLanguage.Instance, JTokenType.Bytes.ToString(), CsharpLanguage.Instance, "byte", fromSystem: true);
-            typeMapping.Add(JsonLanguage.Instance, JTokenType.Integer.ToString(), CsharpLanguage.Instance, "int", fromSystem: true);
-            typeMapping.Add(JsonLanguage.Instance, JTokenType.Float.ToString(), CsharpLanguage.Instance, "double", fromSystem: true);
-            typeMapping.Add(JsonLanguage.Instance, JTokenType.String.ToString(), CsharpLanguage.Instance, "string", true, fromSystem: true);
-            typeMapping.Add(JsonLanguage.Instance, JTokenType.Date.ToString(), CsharpLanguage.Instance, "DateTime", false, "System", true);
-            typeMapping.Add(JsonLanguage.Instance, JTokenType.Guid.ToString(), CsharpLanguage.Instance, "Guid", false, "System", true);
-            typeMapping.Add(JsonLanguage.Instance, JTokenType.Uri.ToString(), CsharpLanguage.Instance, "Uri", false, "System", true);
-            typeMapping.Add(JsonLanguage.Instance, JTokenType.TimeSpan.ToString(), CsharpLanguage.Instance, "TimeSpan", false, "System", true);
-            typeMapping.Add(JsonLanguage.Instance, JTokenType.Array.ToString(), CsharpLanguage.Instance, "List", false, "System.Collections.Generic", true);
-            typeMapping.Add(JsonLanguage.Instance, JTokenType.Object.ToString(), CsharpLanguage.Instance, "object");
+            typeMapping.Map(JsonLanguage.Instance).To(CsharpLanguage.Instance)
+                       .From(JTokenType.Array.ToString()).To("List").Nullable().Namespace("System.Collections.Generic").FromSystem()
+                       .From(JTokenType.Boolean.ToString()).To("bool").FromSystem()
+                       .From(JTokenType.Bytes.ToString()).To("byte").FromSystem()
+                       .From(JTokenType.Integer.ToString()).To("int").FromSystem()
+                       .From(JTokenType.Float.ToString()).To("double").FromSystem()
+                       .From(JTokenType.String.ToString()).To("string").Nullable().FromSystem()
+                       .From(JTokenType.Date.ToString()).To("DateTime").Namespace("System").FromSystem()
+                       .From(JTokenType.Guid.ToString()).To("Guid").Namespace("System").FromSystem()
+                       .From(JTokenType.Uri.ToString()).To("Uri").Namespace("System").FromSystem()
+                       .From(JTokenType.TimeSpan.ToString()).To("TimeSpan").Namespace("System").FromSystem()
+                       .From(JTokenType.Object.ToString()).To("object").Nullable().FromSystem();
 
-            typeMapping.Add(JsonLanguage.Instance, JTokenType.Boolean.ToString(), TypeScriptLanguage.Instance, "boolean", true, fromSystem: true);
-            typeMapping.Add(JsonLanguage.Instance, JTokenType.Bytes.ToString(), TypeScriptLanguage.Instance, "number", true, fromSystem: true);
-            typeMapping.Add(JsonLanguage.Instance, JTokenType.Integer.ToString(), TypeScriptLanguage.Instance, "number", true, fromSystem: true);
-            typeMapping.Add(JsonLanguage.Instance, JTokenType.Float.ToString(), TypeScriptLanguage.Instance, "number", true, fromSystem: true);
-            typeMapping.Add(JsonLanguage.Instance, JTokenType.String.ToString(), TypeScriptLanguage.Instance, "string", true, fromSystem: true);
-            typeMapping.Add(JsonLanguage.Instance, JTokenType.Date.ToString(), TypeScriptLanguage.Instance, "Date", true, fromSystem: true);
-            typeMapping.Add(JsonLanguage.Instance, JTokenType.Guid.ToString(), TypeScriptLanguage.Instance, "string", true, fromSystem: true);
-            typeMapping.Add(JsonLanguage.Instance, JTokenType.Uri.ToString(), TypeScriptLanguage.Instance, "string", true, fromSystem: true);
-            typeMapping.Add(JsonLanguage.Instance, JTokenType.TimeSpan.ToString(), TypeScriptLanguage.Instance, "number", true, fromSystem: true);
-            typeMapping.Add(JsonLanguage.Instance, JTokenType.Array.ToString(), TypeScriptLanguage.Instance, "Array", true, fromSystem: true);
-            typeMapping.Add(JsonLanguage.Instance, JTokenType.Object.ToString(), TypeScriptLanguage.Instance, "Object", true, fromSystem: true);
+            typeMapping.Map(JsonLanguage.Instance).To(TypeScriptLanguage.Instance)
+                       .From(JTokenType.Array.ToString()).To("Array").Nullable().Namespace("System.Collections.Generic").FromSystem()
+                       .From(JTokenType.Boolean.ToString()).To("boolean").Nullable().FromSystem()
+                       .From(JTokenType.Bytes.ToString()).To("number").Nullable().FromSystem()
+                       .From(JTokenType.Integer.ToString()).To("number").Nullable().FromSystem()
+                       .From(JTokenType.Float.ToString()).To("number").Nullable().FromSystem()
+                       .From(JTokenType.String.ToString()).To("string").Nullable().FromSystem()
+                       .From(JTokenType.Date.ToString()).To("Date").Nullable().FromSystem()
+                       .From(JTokenType.Guid.ToString()).To("string").Nullable().FromSystem()
+                       .From(JTokenType.Uri.ToString()).To("string").Nullable().FromSystem()
+                       .From(JTokenType.TimeSpan.ToString()).To("string").Nullable().FromSystem()
+                       .From(JTokenType.Object.ToString()).To("Object").Nullable().FromSystem();
+
             return typeMapping;
         }
 

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using KY.Generator.Templates;
 
 namespace KY.Generator.Transfer
 {
@@ -13,6 +14,7 @@ namespace KY.Generator.Transfer
         public bool IsNullable { get; set; }
         public List<GenericAliasTransferObject> Generics { get; }
         public TypeTransferObject Original { get; set; }
+        public ICodeFragment Default { get; set; }
 
         public TypeTransferObject()
         {

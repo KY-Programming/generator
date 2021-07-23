@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using KY.Core.DataAccess;
 using KY.Core.Dependency;
 using KY.Generator.Angular.Configurations;
 using KY.Generator.Angular.Writers;
@@ -7,6 +8,7 @@ using KY.Generator.Command;
 using KY.Generator.Output;
 using KY.Generator.Templates;
 using KY.Generator.Transfer;
+using KY.Generator.TypeScript.Transfer.Readers;
 
 namespace KY.Generator.Angular.Commands
 {
@@ -35,6 +37,11 @@ namespace KY.Generator.Angular.Commands
 
             output.DeleteAllRelatedFiles(writeConfiguration.OutputId, this.Parameters.RelativePath);
             output.DeleteAllRelatedFiles(writeConfiguration.OutputId, this.Parameters.RelativeModelPath);
+
+            if (output is FileOutput fileOutput)
+            {
+                this.resolver.Create<TsConfigReader>().Read(FileSystem.Combine(fileOutput.BasePath, this.Parameters.RelativePath), this.TransferObjects);
+            }
 
             List<FileTemplate> files = new List<FileTemplate>();
             this.resolver.Create<AngularServiceWriter>().Write(writeConfiguration, this.TransferObjects, files);

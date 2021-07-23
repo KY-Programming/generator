@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using KY.Generator.Angular.Configurations;
 using KY.Generator.Templates;
 using KY.Generator.Transfer;

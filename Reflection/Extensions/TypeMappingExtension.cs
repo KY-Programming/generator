@@ -1,5 +1,4 @@
-﻿
-using KY.Generator.Csharp.Languages;
+﻿using KY.Generator.Csharp.Languages;
 using KY.Generator.Mappings;
 using KY.Generator.Reflection.Language;
 using KY.Generator.TypeScript.Languages;
@@ -10,57 +9,60 @@ namespace KY.Generator.Reflection.Extensions
     {
         public static ITypeMapping Initialize(this ITypeMapping typeMapping)
         {
-            typeMapping.Add(ReflectionLanguage.Instance, "System.Array", CsharpLanguage.Instance, "Array", nameSpace: "System", fromSystem: true);
-            typeMapping.Add(ReflectionLanguage.Instance, "System.Boolean", CsharpLanguage.Instance, "bool", fromSystem: true);
-            typeMapping.Add(ReflectionLanguage.Instance, "System.Byte", CsharpLanguage.Instance, "byte", fromSystem: true);
-            typeMapping.Add(ReflectionLanguage.Instance, "System.Char", CsharpLanguage.Instance, "char", fromSystem: true);
-            typeMapping.Add(ReflectionLanguage.Instance, "System.DateTime", CsharpLanguage.Instance, "DateTime", nameSpace: "System", fromSystem: true);
-            typeMapping.Add(ReflectionLanguage.Instance, "System.Decimal", CsharpLanguage.Instance, "decimal", fromSystem: true);
-            typeMapping.Add(ReflectionLanguage.Instance, "System.Double", CsharpLanguage.Instance, "double", fromSystem: true);
-            typeMapping.Add(ReflectionLanguage.Instance, "System.Guid", CsharpLanguage.Instance, "Guid", nameSpace: "System", fromSystem: true);
-            typeMapping.Add(ReflectionLanguage.Instance, "System.Int16", CsharpLanguage.Instance, "short", fromSystem: true);
-            typeMapping.Add(ReflectionLanguage.Instance, "System.Int32", CsharpLanguage.Instance, "int", fromSystem: true);
-            typeMapping.Add(ReflectionLanguage.Instance, "System.Int64", CsharpLanguage.Instance, "long", fromSystem: true);
-            typeMapping.Add(ReflectionLanguage.Instance, "System.Object", CsharpLanguage.Instance, "unknown", fromSystem: true);
-            typeMapping.Add(ReflectionLanguage.Instance, "System.Single", CsharpLanguage.Instance, "float", fromSystem: true);
-            typeMapping.Add(ReflectionLanguage.Instance, "System.String", CsharpLanguage.Instance, "string", true, fromSystem: true);
-            typeMapping.Add(ReflectionLanguage.Instance, "System.TimeSpan", CsharpLanguage.Instance, "TimeSpan", nameSpace: "System", fromSystem: true);
-            typeMapping.Add(ReflectionLanguage.Instance, "System.UInt16", CsharpLanguage.Instance, "ushort", fromSystem: true);
-            typeMapping.Add(ReflectionLanguage.Instance, "System.UInt32", CsharpLanguage.Instance, "uint", fromSystem: true);
-            typeMapping.Add(ReflectionLanguage.Instance, "System.UInt64", CsharpLanguage.Instance, "ulong", fromSystem: true);
-            typeMapping.Add(ReflectionLanguage.Instance, "System.Void", CsharpLanguage.Instance, "void", fromSystem: true);
-            typeMapping.Add(ReflectionLanguage.Instance, "System.Array", CsharpLanguage.Instance, "Array", fromSystem: true);
-            typeMapping.Add(ReflectionLanguage.Instance, "System.Collections.Generic.IList", CsharpLanguage.Instance, "IList", nameSpace: "System.Collections.Generic", fromSystem: true);
-            typeMapping.Add(ReflectionLanguage.Instance, "System.Collections.Generic.List", CsharpLanguage.Instance, "List", nameSpace: "System.Collections.Generic", fromSystem: true);
-            typeMapping.Add(ReflectionLanguage.Instance, "System.Collections.Generic.IEnumerable", CsharpLanguage.Instance, "IEnumerable", nameSpace: "System.Collections.Generic", fromSystem: true);
-            typeMapping.Add(ReflectionLanguage.Instance, "System.Collections.Generic.Dictionary", CsharpLanguage.Instance, "Dictionary", nameSpace: "System.Collections.Generic", fromSystem: true);
-            typeMapping.Add(ReflectionLanguage.Instance, "System.Nullable", CsharpLanguage.Instance, "Nullable", nameSpace: "System", fromSystem: true);
+            typeMapping.Map(ReflectionLanguage.Instance).To(CsharpLanguage.Instance)
+                       .From("System.Array").To("Array").Namespace("System").FromSystem()
+                       .From("System.Boolean").To("bool").FromSystem()
+                       .From("System.Byte").To("byte").FromSystem()
+                       .From("System.Char").To("char").FromSystem()
+                       .From("System.DateTime").To("DateTime").Namespace("System").FromSystem()
+                       .From("System.Decimal").To("decimal").FromSystem()
+                       .From("System.Double").To("double").FromSystem()
+                       .From("System.Guid").To("Guid").Namespace("System").FromSystem()
+                       .From("System.Int16").To("short").FromSystem()
+                       .From("System.Int32").To("int").FromSystem()
+                       .From("System.Int64").To("long").FromSystem()
+                       .From("System.Object").To("object").FromSystem()
+                       .From("System.Single").To("float").FromSystem()
+                       .From("System.String").To("string").Nullable().FromSystem()
+                       .From("System.TimeSpan").To("TimeSpan").Namespace("System").FromSystem()
+                       .From("System.UInt16").To("ushort").FromSystem()
+                       .From("System.UInt32").To("uint").FromSystem()
+                       .From("System.UInt64").To("ulong").FromSystem()
+                       .From("System.Void").To("void").FromSystem()
+                       .From("System.Collections.Generic.IList").To("IList").Namespace("System.Collections.Generic").FromSystem()
+                       .From("System.Collections.Generic.List").To("List").Namespace("System.Collections.Generic").FromSystem()
+                       .From("System.Collections.Generic.IEnumerable").To("IEnumerable").Namespace("System.Collections.Generic").FromSystem()
+                       .From("System.Collections.Generic.Dictionary").To("Dictionary").Namespace("System.Collections.Generic").FromSystem()
+                       .From("System.Collections.Generic.IDictionary").To("IDictionary").Namespace("System.Collections.Generic").FromSystem()
+                       .From("System.Nullable").To("Nullable").FromSystem();
 
-            typeMapping.Add(ReflectionLanguage.Instance, "System.Array", TypeScriptLanguage.Instance, "Array", true, fromSystem: true);
-            typeMapping.Add(ReflectionLanguage.Instance, "System.Boolean", TypeScriptLanguage.Instance, "boolean", true, fromSystem: true);
-            typeMapping.Add(ReflectionLanguage.Instance, "System.Byte", TypeScriptLanguage.Instance, "number", true, fromSystem: true);
-            typeMapping.Add(ReflectionLanguage.Instance, "System.Char", TypeScriptLanguage.Instance, "number", true, fromSystem: true);
-            typeMapping.Add(ReflectionLanguage.Instance, "System.DateTime", TypeScriptLanguage.Instance, "Date", fromSystem: true);
-            typeMapping.Add(ReflectionLanguage.Instance, "System.Decimal", TypeScriptLanguage.Instance, "number", true, fromSystem: true);
-            typeMapping.Add(ReflectionLanguage.Instance, "System.Double", TypeScriptLanguage.Instance, "number", true, fromSystem: true);
-            typeMapping.Add(ReflectionLanguage.Instance, "System.Guid", TypeScriptLanguage.Instance, "string", true, fromSystem: true);
-            typeMapping.Add(ReflectionLanguage.Instance, "System.Int16", TypeScriptLanguage.Instance, "number", true, fromSystem: true);
-            typeMapping.Add(ReflectionLanguage.Instance, "System.Int32", TypeScriptLanguage.Instance, "number", true, fromSystem: true);
-            typeMapping.Add(ReflectionLanguage.Instance, "System.Int64", TypeScriptLanguage.Instance, "number", true, fromSystem: true);
-            typeMapping.Add(ReflectionLanguage.Instance, "System.Object", TypeScriptLanguage.Instance, "unknown", fromSystem: true);
-            typeMapping.Add(ReflectionLanguage.Instance, "System.Single", TypeScriptLanguage.Instance, "number", fromSystem: true);
-            typeMapping.Add(ReflectionLanguage.Instance, "System.String", TypeScriptLanguage.Instance, "string", true, fromSystem: true);
-            typeMapping.Add(ReflectionLanguage.Instance, "System.TimeSpan", TypeScriptLanguage.Instance, "string", true, fromSystem: true);
-            typeMapping.Add(ReflectionLanguage.Instance, "System.UInt16", TypeScriptLanguage.Instance, "number", true, fromSystem: true);
-            typeMapping.Add(ReflectionLanguage.Instance, "System.UInt32", TypeScriptLanguage.Instance, "number", true, fromSystem: true);
-            typeMapping.Add(ReflectionLanguage.Instance, "System.UInt64", TypeScriptLanguage.Instance, "number", true, fromSystem: true);
-            typeMapping.Add(ReflectionLanguage.Instance, "System.Void", TypeScriptLanguage.Instance, "void", true, fromSystem: true);
-            typeMapping.Add(ReflectionLanguage.Instance, "System.Array", TypeScriptLanguage.Instance, "Array", fromSystem: true);
-            typeMapping.Add(ReflectionLanguage.Instance, "System.Collections.Generic.IList", TypeScriptLanguage.Instance, "Array", fromSystem: true);
-            typeMapping.Add(ReflectionLanguage.Instance, "System.Collections.Generic.List", TypeScriptLanguage.Instance, "Array", fromSystem: true);
-            typeMapping.Add(ReflectionLanguage.Instance, "System.Collections.Generic.IEnumerable", TypeScriptLanguage.Instance, "Array", fromSystem: true);
-            typeMapping.Add(ReflectionLanguage.Instance, "System.Collections.Generic.Dictionary", TypeScriptLanguage.Instance, "Dictionary", fromSystem: true);
-            typeMapping.Add(ReflectionLanguage.Instance, "System.Nullable", TypeScriptLanguage.Instance, "Nullable", nameSpace: "System", fromSystem: true);
+            typeMapping.Map(ReflectionLanguage.Instance).To(TypeScriptLanguage.Instance)
+                       .From("System.Array").To("Array").Nullable().FromSystem()
+                       .From("System.Boolean").To("boolean").Nullable().FromSystem().Default(Code.Instance.Boolean(false))
+                       .From("System.Byte").To("number").Nullable().FromSystem().Default(Code.Instance.Number(0))
+                       .From("System.Char").To("number").Nullable().FromSystem().Default(Code.Instance.Number(0))
+                       .From("System.DateTime").To("Date").Nullable().FromSystem().Default(Code.Instance.New(Code.Instance.Type("Date"), Code.Instance.Number(0)))
+                       .From("System.Decimal").To("number").Nullable().FromSystem().Default(Code.Instance.Number(0))
+                       .From("System.Double").To("number").Nullable().FromSystem().Default(Code.Instance.Number(0))
+                       .From("System.Guid").To("string").Nullable().FromSystem()
+                       .From("System.Int16").To("number").Nullable().FromSystem().Default(Code.Instance.Number(0))
+                       .From("System.Int32").To("number").Nullable().FromSystem().Default(Code.Instance.Number(0))
+                       .From("System.Int64").To("number").Nullable().FromSystem().Default(Code.Instance.Number(0))
+                       .From("System.Object").To("unknown").Nullable().FromSystem()
+                       .From("System.Single").To("number").Nullable().FromSystem().Default(Code.Instance.Number(0))
+                       .From("System.String").To("string").Nullable().FromSystem()
+                       .From("System.TimeSpan").To("string").Nullable().FromSystem()
+                       .From("System.UInt16").To("number").Nullable().FromSystem().Default(Code.Instance.Number(0))
+                       .From("System.UInt32").To("number").Nullable().FromSystem().Default(Code.Instance.Number(0))
+                       .From("System.UInt64").To("number").Nullable().FromSystem().Default(Code.Instance.Number(0))
+                       .From("System.Void").To("void").Nullable().FromSystem()
+                       .From("System.Collections.Generic.IList").To("Array").Nullable().FromSystem()
+                       .From("System.Collections.Generic.List").To("Array").Nullable().FromSystem()
+                       .From("System.Collections.Generic.IEnumerable").To("Array").Nullable().FromSystem()
+                       .From("System.Collections.Generic.Dictionary").To("Dictionary").Nullable().FromSystem()
+                       .From("System.Collections.Generic.IDictionary").To("Dictionary").Nullable().FromSystem()
+                       .From("System.Nullable").To("Nullable").Nullable().FromSystem();
+
             return typeMapping;
         }
     }

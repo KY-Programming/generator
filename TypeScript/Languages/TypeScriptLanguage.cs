@@ -45,7 +45,7 @@ namespace KY.Generator.TypeScript.Languages
             this.TemplateWriters[typeof(ForceNullValueTemplate)] = new UndefinedValueWriter();
             this.TemplateWriters[typeof(NullTemplate)] = new UndefinedWriter();
             this.TemplateWriters[typeof(ForceNullTemplate)] = new UndefinedWriter();
-            this.TemplateWriters[typeof(ParameterTemplate)] = new ParameterWriter();
+            this.TemplateWriters[typeof(ParameterTemplate)] = new TypeScriptParameterWriter();
             this.TemplateWriters[typeof(PropertyTemplate)] = new TypeScriptPropertyWriter();
             this.TemplateWriters[typeof(ThrowTemplate)] = new ThrowWriter();
             this.TemplateWriters[typeof(EnumTemplate)] = new TypeScriptEnumWriter();

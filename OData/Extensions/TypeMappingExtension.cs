@@ -8,24 +8,25 @@ namespace KY.Generator.OData.Extensions
     {
         public static ITypeMapping Initialize(this ITypeMapping typeMapping)
         {
-            typeMapping.Map(ODataLanguage.Instance, "Edm.Duration").To(TypeScriptLanguage.Instance, "string", "String");
-            typeMapping.Map(ODataLanguage.Instance, "Edm.Binary").To(TypeScriptLanguage.Instance, "string", "String");
-            typeMapping.Map(ODataLanguage.Instance, "Edm.Boolean").To(TypeScriptLanguage.Instance, "boolean", "Boolean");
-            typeMapping.Map(ODataLanguage.Instance, "Edm.Byte").To(TypeScriptLanguage.Instance, "number", "Number");
-            typeMapping.Map(ODataLanguage.Instance, "Edm.Date").To(TypeScriptLanguage.Instance, "Date");
-            typeMapping.Map(ODataLanguage.Instance, "Edm.DateTimeOffset").To(TypeScriptLanguage.Instance, "Date");
-            typeMapping.Map(ODataLanguage.Instance, "Edm.Decimal").To(TypeScriptLanguage.Instance, "number", "Number");
-            typeMapping.Map(ODataLanguage.Instance, "Edm.Double").To(TypeScriptLanguage.Instance, "number", "Number");
-            typeMapping.Map(ODataLanguage.Instance, "Edm.Guid").To(TypeScriptLanguage.Instance, "number", "Number");
-            typeMapping.Map(ODataLanguage.Instance, "Edm.Int16").To(TypeScriptLanguage.Instance, "string", "String");
-            typeMapping.Map(ODataLanguage.Instance, "Edm.Int32").To(TypeScriptLanguage.Instance, "number", "Number");
-            typeMapping.Map(ODataLanguage.Instance, "Edm.Int64").To(TypeScriptLanguage.Instance, "number", "Number");
-            typeMapping.Map(ODataLanguage.Instance, "Edm.SByte").To(TypeScriptLanguage.Instance, "number", "Number");
-            typeMapping.Map(ODataLanguage.Instance, "Edm.").To(TypeScriptLanguage.Instance, "number", "Number");
-            typeMapping.Map(ODataLanguage.Instance, "Edm.Single").To(TypeScriptLanguage.Instance, "number", "Number");
-            typeMapping.Map(ODataLanguage.Instance, "Edm.String").To(TypeScriptLanguage.Instance, "string", "String");
-            typeMapping.Map(ODataLanguage.Instance, "Edm.TimeOfDay").To(TypeScriptLanguage.Instance, "string", "String");
-            typeMapping.Map(ODataLanguage.Instance, "Edm.Void").To(TypeScriptLanguage.Instance, "void");
+            typeMapping.Map(ODataLanguage.Instance).To(TypeScriptLanguage.Instance)
+                       .From("Edm.Binary").To("string", "String")
+                       .From("Edm.Boolean").To("boolean", "Boolean")
+                       .From("Edm.Byte").To("number", "Number")
+                       .From("Edm.Date").To("Date")
+                       .From("Edm.DateTimeOffset").To("Date")
+                       .From("Edm.Decimal").To("number", "Number")
+                       .From("Edm.Double").To("number", "Number")
+                       .From("Edm.Decimal").To("number", "Number")
+                       .From("Edm.Duration").To("string", "String")
+                       .From("Edm.Guid").To("string", "String")
+                       .From("Edm.Int16").To("number", "Number")
+                       .From("Edm.Int32").To("number", "Number")
+                       .From("Edm.Int64").To("number", "Number")
+                       .From("Edm.SByte").To("number", "Number")
+                       .From("Edm.Single").To("number", "Number")
+                       .From("Edm.String").To("string", "String")
+                       .From("Edm.TimeOfDay").To("string", "String")
+                       .From("Edm.Void").To("void");
             return typeMapping;
         }
     }

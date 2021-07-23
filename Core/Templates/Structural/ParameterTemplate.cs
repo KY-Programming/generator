@@ -5,6 +5,7 @@
         public TypeTemplate Type { get; }
         public string Name { get; set; }
         public ICodeFragment DefaultValue { get; }
+        public bool IsOptional { get; set; }
 
         public ParameterTemplate(TypeTemplate type, string name, ICodeFragment defaultValue = null)
         {

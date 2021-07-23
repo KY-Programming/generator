@@ -16,9 +16,11 @@ namespace KY.Generator.Mappings
             this.typeMapping = new List<TypeMappingEntry>();
         }
 
-        public void Add(IMappableLanguage fromLanguage, string fromType, IMappableLanguage toLanguage, string toType, bool nullable = false, string nameSpace = null, bool fromSystem = false, string constructor = null)
+        public TypeMappingEntry Add(IMappableLanguage fromLanguage, string fromType, IMappableLanguage toLanguage, string toType, bool nullable = false, string nameSpace = null, bool fromSystem = false, string constructor = null)
         {
-            this.typeMapping.Add(new TypeMappingEntry(fromLanguage, fromType, toLanguage, toType, nullable, nameSpace, fromSystem, constructor));
+            TypeMappingEntry entry = new(fromLanguage, fromType, toLanguage, toType, nullable, nameSpace, fromSystem, constructor);
+            this.typeMapping.Add(entry);
+            return entry;
         }
 
         public TypeMappingEntry Get(IMappableLanguage fromLanguage, string fromType, IMappableLanguage toLanguage)
@@ -65,12 +67,13 @@ namespace KY.Generator.Mappings
                 type.Namespace = mapping.Namespace;
                 type.FromSystem = mapping.FromSystem;
                 type.IsNullable = type.IsNullable && mapping.Nullable;
+                type.Default = mapping.Default;
             }
         }
 
-        public ITypeMappingSyntax Map(IMappableLanguage language, string type)
+        public ITypeMappingMapSyntax Map(IMappableLanguage language)
         {
-            return new TypeMappingSyntax(this, language, type);
+            return new TypeMappingSyntax(this, language);
         }
     }
 }
