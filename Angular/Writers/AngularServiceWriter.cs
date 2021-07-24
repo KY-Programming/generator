@@ -108,7 +108,7 @@ namespace KY.Generator.Angular.Writers
                     methodTemplate.AddParameter(Code.Type("{}"), "httpOptions").Optional();
                     if (isStringReturnType)
                     {
-                        methodTemplate.WithCode(Code.TypeScript("httpOptions? = { responseType: 'text', ...httpOptions}").Close());
+                        methodTemplate.WithCode(Code.TypeScript("httpOptions = { responseType: 'text', ...httpOptions}").Close());
                     }
                     if (isDateReturnType && isDateArrayReturnType)
                     {
@@ -358,7 +358,7 @@ namespace KY.Generator.Angular.Writers
                 classTemplate.AddMethod("disconnect", Code.Void())
                              .WithComment("Close an active connection to the hub.\nIf the service is reconnecting/sleeping the connection attempt will be canceled")
                              .WithCode(Code.This().Field(isClosedField).Assign(Code.Boolean(true)).Close())
-                             .WithCode(Code.This().Field(connectionField).Method("pipe", Code.Method("take", Code.Number(1)))
+                             .WithCode(Code.This().Field(connectionField).NullConditional().Method("pipe", Code.Method("take", Code.Number(1)))
                                            .Method("subscribe", Code.Lambda("hubConnection", Code.Multiline()
                                                                                                  .AddLine(Code.Local("hubConnection").Method("stop").Method("then", Code.Lambda(Code.Multiline().AddLine(Code.This().Field(statusSubjectField).Method("next", Code.Local("ConnectionStatus").Field("disconnected")).Close()))).Close())
                                                    )).Close());

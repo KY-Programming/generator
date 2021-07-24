@@ -227,6 +227,11 @@ namespace KY.Generator.Templates.Extensions
             return new MathematicalOperatorTemplate("/").Chain(template);
         }
 
+        public static NullConditionalTemplate NullConditional(this ChainedCodeFragment template)
+        {
+            return new NullConditionalTemplate().Chain(template);
+        }
+
         public static T Chain<T, TPrevious>(this T template, TPrevious previous)
             where T : ChainedCodeFragment
             where TPrevious : ChainedCodeFragment
