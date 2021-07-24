@@ -299,7 +299,9 @@ namespace KY.Generator.Angular.Writers
                     }
                     else
                     {
-                        errorCode.AddLine(Code.If(Code.Local("timeout").Equals().Undefined()).WithCode(Code.Local("subject").Method("error", Code.Local("error")).Close()).WithCode(Code.Return()));
+                        errorCode.AddLine(Code.If(Code.Local("timeout").Equals().Undefined())
+                                              .WithCode(Code.This().Method("disconnect").Close())
+                                              .WithCode(Code.Local("subject").Method("error", Code.Local("error")).Close()).WithCode(Code.Return()));
                     }
                     errorCode.AddLine(Code.Method("setTimeout",
                                                   Code.Lambda(Code.Multiline()
