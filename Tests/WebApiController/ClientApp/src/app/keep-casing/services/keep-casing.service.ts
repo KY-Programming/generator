@@ -25,7 +25,7 @@ export class KeepCasingService {
         this.http = http;
     }
 
-    public get(httpOptions: {} = undefined): Observable<CasingModel> {
+    public get(httpOptions?: {}): Observable<CasingModel> {
         let subject = new Subject<CasingModel>();
         this.http.get<CasingModel>(this.serviceUrl + "/keepcasing", httpOptions).subscribe((result) => {
             subject.next(result);
@@ -34,7 +34,7 @@ export class KeepCasingService {
         return subject;
     }
 
-    public post(model: CasingModel, httpOptions: {} = undefined): Observable<void> {
+    public post(model: CasingModel, httpOptions?: {}): Observable<void> {
         let subject = new Subject<void>();
         this.http.post<void>(this.serviceUrl + "/keepcasing", model, httpOptions).subscribe(() => {
             subject.next();

@@ -28,7 +28,14 @@ namespace WebApiController.Controllers
             }
             return this.Ok(this.Random(5));
         }
-        
+
+        [HttpGet("[action]")]
+        [Produces(typeof(IEnumerable<WeatherForecast>))]
+        public IActionResult Get2(int days)
+        {
+            return this.Get(days);
+        }
+
         private IEnumerable<WeatherForecast> Random(int days)
         {
             var rng = new Random();

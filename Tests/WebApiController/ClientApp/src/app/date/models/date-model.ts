@@ -5,7 +5,7 @@ export class DateModel {
     public id: string;
     public date: Date;
 
-    public constructor(init: Partial<DateModel> = undefined) {
+    public constructor(init?: Partial<DateModel>) {
         Object.assign(this, init);
     }
 }

@@ -8,7 +8,7 @@ export class GetComplexModel {
     public service: GetComplexModelService;
     public services: GetComplexModelService[];
 
-    public constructor(init: Partial<GetComplexModel> = undefined) {
+    public constructor(init?: Partial<GetComplexModel>) {
         Object.assign(this, init);
     }
 }

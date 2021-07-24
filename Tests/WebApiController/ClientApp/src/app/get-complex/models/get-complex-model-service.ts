@@ -4,7 +4,7 @@
 export class GetComplexModelService {
     public property: string;
 
-    public constructor(init: Partial<GetComplexModelService> = undefined) {
+    public constructor(init?: Partial<GetComplexModelService>) {
         Object.assign(this, init);
     }
 }

@@ -4,7 +4,7 @@
 export class PostModel {
     public value: string;
 
-    public constructor(init: Partial<PostModel> = undefined) {
+    public constructor(init?: Partial<PostModel>) {
         Object.assign(this, init);
     }
 }

@@ -5,7 +5,7 @@ export class DateArrayWrapper {
     public id: string;
     public dates: Date[];
 
-    public constructor(init: Partial<DateArrayWrapper> = undefined) {
+    public constructor(init?: Partial<DateArrayWrapper>) {
         Object.assign(this, init);
     }
 }

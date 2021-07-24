@@ -25,7 +25,7 @@ export class PostService {
         this.http = http;
     }
 
-    public postWithoutParameter(httpOptions: {} = undefined): Observable<void> {
+    public postWithoutParameter(httpOptions?: {}): Observable<void> {
         let subject = new Subject<void>();
         this.http.post<void>(this.serviceUrl + "/post/postwithoutparameter", httpOptions).subscribe(() => {
             subject.next();
@@ -34,7 +34,7 @@ export class PostService {
         return subject;
     }
 
-    public postWithOneParameter(test: string, httpOptions: {} = undefined): Observable<void> {
+    public postWithOneParameter(test: string, httpOptions?: {}): Observable<void> {
         let subject = new Subject<void>();
         this.http.post<void>(this.serviceUrl + "/post/postwithoneparameter" + "?test=" + this.convertAny(test), httpOptions).subscribe(() => {
             subject.next();
@@ -43,7 +43,7 @@ export class PostService {
         return subject;
     }
 
-    public postWithTwoParameter(text: string, count: number, httpOptions: {} = undefined): Observable<void> {
+    public postWithTwoParameter(text: string, count: number, httpOptions?: {}): Observable<void> {
         let subject = new Subject<void>();
         this.http.post<void>(this.serviceUrl + "/post/postwithtwoparameter" + "?text=" + this.convertAny(text) + "&count=" + this.convertAny(count), httpOptions).subscribe(() => {
             subject.next();
@@ -52,7 +52,7 @@ export class PostService {
         return subject;
     }
 
-    public postWithBodyParameter(model: PostModel, httpOptions: {} = undefined): Observable<void> {
+    public postWithBodyParameter(model: PostModel, httpOptions?: {}): Observable<void> {
         let subject = new Subject<void>();
         this.http.post<void>(this.serviceUrl + "/post/postwithbodyparameter", model, httpOptions).subscribe(() => {
             subject.next();
@@ -61,7 +61,7 @@ export class PostService {
         return subject;
     }
 
-    public postWithValueAndBodyParameter(id: number, model: PostModel, httpOptions: {} = undefined): Observable<void> {
+    public postWithValueAndBodyParameter(id: number, model: PostModel, httpOptions?: {}): Observable<void> {
         let subject = new Subject<void>();
         this.http.post<void>(this.serviceUrl + "/post/postwithvalueandbodyparameter" + "?id=" + this.convertAny(id), model, httpOptions).subscribe(() => {
             subject.next();
@@ -70,7 +70,7 @@ export class PostService {
         return subject;
     }
 
-    public postWithValueAndBodyParameterFlipped(model: PostModel, id: number, httpOptions: {} = undefined): Observable<void> {
+    public postWithValueAndBodyParameterFlipped(model: PostModel, id: number, httpOptions?: {}): Observable<void> {
         let subject = new Subject<void>();
         this.http.post<void>(this.serviceUrl + "/post/postwithvalueandbodyparameterflipped" + "?id=" + this.convertAny(id), model, httpOptions).subscribe(() => {
             subject.next();

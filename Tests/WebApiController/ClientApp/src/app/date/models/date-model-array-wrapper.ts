@@ -7,7 +7,7 @@ export class DateModelArrayWrapper {
     public id: string;
     public models: DateModel[];
 
-    public constructor(init: Partial<DateModelArrayWrapper> = undefined) {
+    public constructor(init?: Partial<DateModelArrayWrapper>) {
         Object.assign(this, init);
     }
 }

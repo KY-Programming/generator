@@ -8,7 +8,7 @@ export class DateModelWrapperWithDate {
     public date: Date;
     public model: DateModel;
 
-    public constructor(init: Partial<DateModelWrapperWithDate> = undefined) {
+    public constructor(init?: Partial<DateModelWrapperWithDate>) {
         Object.assign(this, init);
     }
 }

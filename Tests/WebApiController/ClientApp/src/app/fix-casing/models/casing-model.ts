@@ -9,7 +9,7 @@ export class CasingModel {
     public snakeCase: string;
     public upperSnakeCase: string;
 
-    public constructor(init: Partial<CasingModel> = undefined) {
+    public constructor(init?: Partial<CasingModel>) {
         Object.assign(this, init);
     }
 }

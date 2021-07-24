@@ -25,7 +25,7 @@ export class VersionedApiService {
         this.http = http;
     }
 
-    public get(httpOptions: {} = undefined): Observable<WeatherForecast[]> {
+    public get(httpOptions?: {}): Observable<WeatherForecast[]> {
         let subject = new Subject<WeatherForecast[]>();
         this.http.get<WeatherForecast[]>(this.serviceUrl + "/versionedapi" + "?api-version=1.0", httpOptions).subscribe((result) => {
             if (result) {
@@ -39,7 +39,7 @@ export class VersionedApiService {
         return subject;
     }
 
-    public getNext(days: number, httpOptions: {} = undefined): Observable<WeatherForecast[]> {
+    public getNext(days: number, httpOptions?: {}): Observable<WeatherForecast[]> {
         let subject = new Subject<WeatherForecast[]>();
         this.http.get<WeatherForecast[]>(this.serviceUrl + "/versionedapi/next/" + days + "/days" + "?api-version=1.0", httpOptions).subscribe((result) => {
             if (result) {
@@ -53,7 +53,7 @@ export class VersionedApiService {
         return subject;
     }
 
-    public getNext2(days: number, httpOptions: {} = undefined): Observable<WeatherForecast[]> {
+    public getNext2(days: number, httpOptions?: {}): Observable<WeatherForecast[]> {
         let subject = new Subject<WeatherForecast[]>();
         this.http.get<WeatherForecast[]>(this.serviceUrl + "/versionedapi/next-days" + "?api-version=2.0" + "&days=" + this.convertAny(days), httpOptions).subscribe((result) => {
             if (result) {
