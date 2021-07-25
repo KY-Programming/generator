@@ -1,5 +1,5 @@
 ﻿using System;
-using KY.Generator.Sqlite;
+using KY.Generator;
 
 namespace ToDatabase
 {
@@ -16,7 +16,7 @@ namespace ToDatabase
         [GenerateAsNotNull]
         public string LastName { get; set; }
 
-        public DateTime Birthday { get; set; }
+        public DateTime Birthday { get; set; } = DateTime.Today;
         public int Age { get; set; }
         public string Address { get; set; }
     }

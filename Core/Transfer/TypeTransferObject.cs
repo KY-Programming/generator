@@ -15,6 +15,7 @@ namespace KY.Generator.Transfer
         public List<GenericAliasTransferObject> Generics { get; }
         public TypeTransferObject Original { get; set; }
         public ICodeFragment Default { get; set; }
+        public string FullName => $"{this.Namespace}.{this.Name}";
 
         public TypeTransferObject()
         {

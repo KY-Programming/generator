@@ -87,7 +87,9 @@ namespace KY.Generator.Languages
             this.TemplateWriters.Add(typeof(TypeTemplate), new TypeWriter());
             this.TemplateWriters.Add(typeof(VoidTemplate), new VoidWriter());
             this.TemplateWriters.Add(typeof(AppendStringTemplate), new AppendStringWriter());
+            this.TemplateWriters.Add(typeof(AppendAssignStringTemplate), new AppendAssignStringWriter());
             this.TemplateWriters.Add(typeof(MathematicalOperatorTemplate), new MathWriter());
+            this.TemplateWriters.Add(typeof(WhileTemplate), new WhileWriter());
         }
 
         public void Write<T>(IEnumerable<T> fragments, IOutputCache output)

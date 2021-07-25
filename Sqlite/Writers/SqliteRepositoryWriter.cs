@@ -18,6 +18,23 @@ namespace KY.Generator.Sqlite.Writers
 {
     public class SqliteRepositoryWriter : TransferWriter
     {
+        private readonly Dictionary<string, string> getMethodMapping = new()
+                                                                       {
+                                                                           { "System.Boolean", "GetBoolean" },
+                                                                           { "System.Byte", "GetByte" },
+                                                                           { "System.Char", "GetChar" },
+                                                                           { "System.DateTime", "GetDateTime" },
+                                                                           { "System.Decimal", "GetDecimal" },
+                                                                           { "System.Double", "GetDouble" },
+                                                                           { "System.Guid", "GetGuid" },
+                                                                           { "System.Int16", "GetInt16" },
+                                                                           { "System.Int32", "GetInt32" },
+                                                                           { "System.Int64", "GetInt64" },
+                                                                           { "System.Single", "GetFloat" },
+                                                                           { "System.String", "GetString" },
+                                                                           { "System.TimeSpan", "GetTimeSpan" }
+                                                                       };
+
         public SqliteRepositoryWriter(ITypeMapping typeMapping)
             : base(typeMapping)
         { }
@@ -36,11 +53,11 @@ namespace KY.Generator.Sqlite.Writers
                          .WithParameter(connectionField.Type, connectionField.Name)
                          .WithCode(Code.This().Field(connectionField).Assign(Code.Local(connectionField.Name)).Close());
 
-
             model.Properties.ForEach(property => this.MapType(model.Language, SqliteLanguage.Instance, property.Type));
 
             this.WriteCreateTable(classTemplate, connectionField, model, parameters);
             this.WriteDropTable(classTemplate, connectionField, model, parameters);
+            this.WriteGet(classTemplate, connectionField, model, parameters);
             this.WriteInsert(classTemplate, connectionField, model, parameters);
             this.WriteUpdate(classTemplate, connectionField, model, parameters);
             this.WriteDelete(classTemplate, connectionField, model, parameters);
@@ -97,6 +114,62 @@ namespace KY.Generator.Sqlite.Writers
                          .WithCode(Code.Using(command))
                          .WithCode(Code.Local(command).Field("CommandText").Assign(Code.VerbatimString(sql)).Close())
                          .WithCode(Code.Local(command).Method("ExecuteNonQuery").Close());
+        }
+
+        private void WriteGet(ClassTemplate classTemplate, FieldTemplate connectionField, SqliteModelTransferObject model, SqliteWriteRepositoryCommandParameters parameters)
+        {
+            List<SqlitePropertyTransferObject> columns = model.Properties.ToList();
+            if (columns.Count == 0)
+            {
+                return;
+            }
+            classTemplate.AddUsing("System.Collections.Generic");
+            DeclareTemplate command = Code.Declare(Code.Type("SqliteCommand"), "command", Code.This().Field(connectionField).Method("CreateCommand"));
+            StringBuilder sqlBuilder = new();
+            sqlBuilder.AppendLine();
+            sqlBuilder.Append("SELECT ");
+            sqlBuilder.Append(string.Join(", ", columns.Select(column => column.Name)));
+            sqlBuilder.AppendLine();
+            sqlBuilder.Append($"FROM {parameters.Table ?? model.Name}");
+            GenericTypeTemplate returnType = Code.Generic("List", model.ToTemplate());
+            MethodTemplate method = classTemplate.AddMethod("Get", returnType)
+                                                 .WithParameter(Code.Type("string"), "filter", Code.Null())
+                                                 .WithCode(Code.Using(command))
+                                                 .WithCode(Code.Local(command).Field("CommandText").Assign(Code.VerbatimString(sqlBuilder)).Close());
+            method.WithCode(Code.Declare(returnType, "result", Code.New(returnType)));
+            method.WithCode(Code.If(Code.Not().Local("string").Method("IsNullOrEmpty", Code.Local("filter"))).WithCode(
+                                Code.Local(command).Field("CommandText").AppendAssign(Code.String("\\nWHERE ").Append(Code.Local("filter"))).Close()
+                            ));
+            method.WithCode(Code.Using(Code.Declare(Code.Type("SqliteDataReader"), "reader", Code.Local(command).Method("ExecuteReader"))));
+            MultilineCodeFragment whileCode = new();
+            whileCode.AddLine(Code.Declare(model.ToTemplate(), "entry", Code.New(model.ToTemplate())));
+            for (int index = 0; index < columns.Count; index++)
+            {
+                SqlitePropertyTransferObject column = columns[index];
+                if (!this.getMethodMapping.ContainsKey(column.Type.Original.FullName))
+                {
+                    throw new InvalidOperationException($"Can not write reader method for column '{column.Name}'. No get method for type '{column.Type.Original.FullName}' found. Please contact the support team");
+                }
+                string getMethod = this.getMethodMapping[column.Type.Original.FullName];
+                ICodeFragment getCode;
+                if (column.IsNotNull)
+                {
+                    getCode = Code.Local("reader").Method(getMethod, Code.Number(index));
+                }
+                else
+                {
+                    getCode = Code.InlineIf(
+                        Code.Local("reader").Method("IsDBNull", Code.Number(index)),
+                        Code.Null(),
+                        Code.Local("reader").Method(getMethod, Code.Number(index))
+                    );
+                }
+                whileCode.AddLine(Code.Local("entry").Field(column.Name).Assign(getCode).Close());
+            }
+            whileCode.AddLine(Code.Local("result").Method("Add", Code.Local("entry")).Close());
+
+            method.WithCode(Code.While(Code.Local("reader").Method("Read"), whileCode));
+            method.WithCode(Code.Return(Code.Local("result")));
         }
 
         private void WriteInsert(ClassTemplate classTemplate, FieldTemplate connectionField, SqliteModelTransferObject model, SqliteWriteRepositoryCommandParameters parameters)

@@ -12,7 +12,7 @@ namespace KY.Generator.Sqlite.Transfer
         public SqlitePropertyTransferObject(PropertyTransferObject property)
             : base(property)
         {
-            this.IsNotNull = this.Attributes.IsNotNull();
+            this.IsNotNull = this.Attributes.IsNotNull() || !property.Type.IsNullable;
             this.IsPrimaryKey = this.Attributes.IsPrimaryKey();
             this.IsAutoIncrement = this.Attributes.IsAutoIncrement();
         }

@@ -135,5 +135,10 @@ namespace KY.Generator
         {
             return new NotTemplate();
         }
+
+        public static WhileTemplate While(this Code _, ICodeFragment condition, ICodeFragment code = null)
+        {
+            return new WhileTemplate(condition, code);
+        }
     }
 }

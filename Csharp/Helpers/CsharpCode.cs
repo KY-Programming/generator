@@ -30,5 +30,10 @@ namespace KY.Generator.Csharp
         {
             return new VerbatimStringTemplate(value?.ToString());
         }
+
+        public static YieldReturnTemplate YieldReturn(this Code _, ICodeFragment code)
+        {
+            return new YieldReturnTemplate(code);
+        }
     }
 }

@@ -7,12 +7,8 @@
   </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\..\Annotations\KY.Generator.Annotations.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <PackageReference Include="KY.Generator" Version="7.1.0" />
-      <PackageReference Include="KY.Generator.Annotations" Version="7.1.0" />
+      <PackageReference Include="KY.Core.Common" Version="4.20.1" />
+      <PackageReference Include="KY.Generator.Annotations" Version="7.2.0-preview.0" />
       <PackageReference Include="Microsoft.Data.Sqlite" Version="5.0.7" />
     </ItemGroup>
 

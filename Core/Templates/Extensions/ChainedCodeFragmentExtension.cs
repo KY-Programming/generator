@@ -150,6 +150,11 @@ namespace KY.Generator.Templates.Extensions
             return new AppendStringTemplate(code).Chain(template);
         }
 
+        public static AppendAssignStringTemplate AppendAssign(this ChainedCodeFragment template, ICodeFragment code)
+        {
+            return new AppendAssignStringTemplate(code).Chain(template);
+        }
+
         public static NullValueTemplate Null(this ChainedCodeFragment template)
         {
             return new NullValueTemplate().Chain(template);
