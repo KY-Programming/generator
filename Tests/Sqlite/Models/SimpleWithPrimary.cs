@@ -1,4 +1,4 @@
-using KY.Generator.Sqlite;
+using KY.Generator;
 
 namespace Sqlite.Models
 {
@@ -7,7 +7,7 @@ namespace Sqlite.Models
     {
         [GenerateAsPrimaryKey]
         public int Id { get; set; }
-        
+
         public string StringProperty { get; set; }
     }
 }

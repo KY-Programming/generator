@@ -7,7 +7,7 @@ export class FirstType {
     public stringProperty: string;
     public subTypeProperty: SubType;
 
-    public constructor(init: Partial<FirstType> = undefined) {
+    public constructor(init?: Partial<FirstType>) {
         Object.assign(this, init);
     }
 }

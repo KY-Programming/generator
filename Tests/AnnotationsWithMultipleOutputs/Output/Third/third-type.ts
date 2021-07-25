@@ -4,7 +4,7 @@
 export class ThirdType {
     public stringProperty: string;
 
-    public constructor(init: Partial<ThirdType> = undefined) {
+    public constructor(init?: Partial<ThirdType>) {
         Object.assign(this, init);
     }
 }

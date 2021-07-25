@@ -69,7 +69,7 @@ export class Types {
     public readonlyProperty: string;
     public writeonlyProperty: string;
 
-    public constructor(init: Partial<Types> = undefined) {
+    public constructor(init?: Partial<Types>) {
         Object.assign(this, init);
     }
 }

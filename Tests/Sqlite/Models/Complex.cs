@@ -1,4 +1,4 @@
-﻿using KY.Generator.Sqlite;
+﻿using KY.Generator;
 
 namespace Sqlite.Models
 {

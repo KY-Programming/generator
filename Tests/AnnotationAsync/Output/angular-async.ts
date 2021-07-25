@@ -4,7 +4,7 @@
 export class AngularAsync {
     public property: string;
 
-    public constructor(init: Partial<AngularAsync> = undefined) {
+    public constructor(init?: Partial<AngularAsync>) {
         Object.assign(this, init);
     }
 }
