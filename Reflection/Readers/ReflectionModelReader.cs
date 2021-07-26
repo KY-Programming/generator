@@ -40,6 +40,10 @@ namespace KY.Generator.Reflection.Readers
                 transferObjects.Add(model);
                 this.ReadEnum(type, model);
             }
+            else if (type.ContainsGenericParameters)
+            {
+                model.HasUsing = false;
+            }
             else if (!isFromSystem)
             {
                 transferObjects.Add(model);
@@ -97,20 +101,28 @@ namespace KY.Generator.Reflection.Readers
             {
                 model.BasedOn = this.Read(type.BaseType, transferObjects);
             }
-            Dictionary<Type, string> genericMapping = new Dictionary<Type, string>();
             if (type.IsGenericType)
             {
+                Type genericType = type.GetGenericTypeDefinition();
                 model.IsGeneric = true;
                 model.Generics.Clear();
-                foreach (Type argument in type.GenericTypeArguments)
+                if (genericType is TypeInfo typeInfo)
                 {
-                    string alias = genericMapping.Count > 1 ? $"T{genericMapping.Count}" : "T";
-                    genericMapping.Add(argument, alias);
-                    model.Generics.Add(new GenericAliasTransferObject
-                                       {
-                                           Alias = alias,
-                                           Type = this.Read(argument, transferObjects)
-                                       });
+                    for (int index = 0; index < typeInfo.GenericTypeParameters.Length; index++)
+                    {
+                        string alias = typeInfo.GenericTypeParameters[index].Name;
+                        Type argument = type.GenericTypeArguments[index];
+                        model.Generics.Add(new GenericAliasTransferObject
+                                           {
+                                               Alias = alias,
+                                               Type = this.Read(argument, transferObjects)
+                                           });
+                    }
+                    type = genericType;
+                }
+                else
+                {
+                    throw new InvalidOperationException("Internal Error l2sl3: Type is not a TypeInfo");
                 }
             }
 
@@ -135,9 +147,7 @@ namespace KY.Generator.Reflection.Readers
                 FieldTransferObject fieldTransferObject = new FieldTransferObject
                                                           {
                                                               Name = field.Name,
-                                                              Type = genericMapping.ContainsKey(field.FieldType)
-                                                                         ? new TypeTransferObject { Name = genericMapping[field.FieldType] }
-                                                                         : this.Read(field.FieldType, transferObjects),
+                                                              Type = this.Read(field.FieldType, transferObjects),
                                                               Default = field.GetValue(null)
                                                           };
                 model.Constants.Add(fieldTransferObject);
@@ -154,9 +164,7 @@ namespace KY.Generator.Reflection.Readers
                 FieldTransferObject fieldTransferObject = new FieldTransferObject
                                                           {
                                                               Name = field.Name,
-                                                              Type = genericMapping.ContainsKey(field.FieldType)
-                                                                         ? new TypeTransferObject { Name = genericMapping[field.FieldType] }
-                                                                         : this.Read(field.FieldType, transferObjects)
+                                                              Type = this.Read(field.FieldType, transferObjects)
                                                           };
                 model.Fields.Add(fieldTransferObject);
             }
@@ -171,9 +179,7 @@ namespace KY.Generator.Reflection.Readers
                 PropertyTransferObject propertyTransferObject = new PropertyTransferObject
                                                                 {
                                                                     Name = property.Name,
-                                                                    Type = genericMapping.ContainsKey(property.PropertyType)
-                                                                               ? new TypeTransferObject { Name = genericMapping[property.PropertyType] }
-                                                                               : this.Read(property.PropertyType, transferObjects),
+                                                                    Type = this.Read(property.PropertyType, transferObjects),
                                                                     Attributes = property.GetCustomAttributes().ToTransferObjects().ToList()
                                                                 };
                 model.Properties.Add(propertyTransferObject);

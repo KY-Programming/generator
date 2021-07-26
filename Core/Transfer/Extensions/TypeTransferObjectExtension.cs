@@ -44,6 +44,11 @@ namespace KY.Generator.Transfer.Extensions
                 Type argument = type.GetElementType() ?? typeof(object);
                 transferObject.Generics.Add(new GenericAliasTransferObject { Type = argument.ToTransferObject() });
             }
+            else if (type.ContainsGenericParameters)
+            {
+                transferObject.Name = type.Name;
+                transferObject.HasUsing = false;
+            }
             else
             {
                 transferObject.Name = type.Name;

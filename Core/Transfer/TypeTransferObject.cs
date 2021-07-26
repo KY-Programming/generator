@@ -16,6 +16,7 @@ namespace KY.Generator.Transfer
         public TypeTransferObject Original { get; set; }
         public ICodeFragment Default { get; set; }
         public string FullName => $"{this.Namespace}.{this.Name}";
+        public bool HasUsing { get; set; } = true;
 
         public TypeTransferObject()
         {
@@ -29,6 +30,7 @@ namespace KY.Generator.Transfer
             this.FromSystem = type.FromSystem;
             this.IsNullable = type.IsNullable;
             this.Generics = type.Generics.ToList();
+            this.HasUsing = type.HasUsing;
         }
 
         public bool Equals(TypeTransferObject type)

@@ -14,14 +14,7 @@ namespace KY.Generator.Writers
 
         public void Write(TypeTemplate template, IOutputCache output)
         {
-            if (template.IsNullable)
-            {
-                output.Add(string.Format(this.NullableFormatter, template.Name));
-            }
-            else
-            {
                 output.Add(template.Name);
-            }
         }
 
         public void Write(GenericTypeTemplate template, IOutputCache output)

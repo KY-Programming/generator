@@ -31,23 +31,23 @@ namespace KY.Generator.Transfer.Writers
                     {
                         fieldTemplate.DefaultValue = Code.Number((int)constant.Default);
                     }
-                    else  if (type == typeof(long))
+                    else if (type == typeof(long))
                     {
                         fieldTemplate.DefaultValue = Code.Number((long)constant.Default);
                     }
-                    else  if (type == typeof(short))
+                    else if (type == typeof(short))
                     {
                         fieldTemplate.DefaultValue = Code.Number((short)constant.Default);
                     }
-                    else  if (type == typeof(uint))
+                    else if (type == typeof(uint))
                     {
                         fieldTemplate.DefaultValue = Code.Number((uint)constant.Default);
                     }
-                    else  if (type == typeof(ulong))
+                    else if (type == typeof(ulong))
                     {
                         fieldTemplate.DefaultValue = Code.Number((ulong)constant.Default);
                     }
-                    else  if (type == typeof(ushort))
+                    else if (type == typeof(ushort))
                     {
                         fieldTemplate.DefaultValue = Code.Number((ushort)constant.Default);
                     }
@@ -152,7 +152,7 @@ namespace KY.Generator.Transfer.Writers
             {
                 return;
             }
-            if ((!type.FromSystem || type.FromSystem && configuration.Language.ImportFromSystem) && !string.IsNullOrEmpty(type.Namespace) && classTemplate.Namespace.Name != type.Namespace)
+            if ((!type.FromSystem || type.FromSystem && configuration.Language.ImportFromSystem) && type.HasUsing && !string.IsNullOrEmpty(type.Namespace) && classTemplate.Namespace.Name != type.Namespace)
             {
                 string fileName = Formatter.FormatFile(type.Name, configuration, true);
                 classTemplate.AddUsing(type.Namespace, type.Name, $"{relativeModelPath.Replace("\\", "/").TrimEnd('/')}/{fileName}");

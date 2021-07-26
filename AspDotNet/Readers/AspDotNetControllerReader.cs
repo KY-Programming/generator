@@ -192,8 +192,8 @@ namespace KY.Generator.AspDotNet.Readers
                                            case "RouteAttribute":
                                            case "ProducesAttribute":
                                            case "ProducesResponseTypeAttribute":
-                                           case "ApiVersion":
-                                           case "EnableCors":
+                                           case "ApiVersionAttribute":
+                                           case "EnableCorsAttribute":
                                            case nameof(GenerateIgnoreGenericAttribute):
                                                // Ignore these attributes
                                                return null;

@@ -118,7 +118,7 @@ namespace KY.Generator.Sqlite.Writers
 
         private void WriteGet(ClassTemplate classTemplate, FieldTemplate connectionField, SqliteModelTransferObject model, SqliteWriteRepositoryCommandParameters parameters)
         {
-            List<SqlitePropertyTransferObject> columns = model.Properties.ToList();
+            List<SqlitePropertyTransferObject> columns = model.Properties.Where(x => x.Type.Original != null).ToList();
             if (columns.Count == 0)
             {
                 return;

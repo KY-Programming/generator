@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KY.Generator
+namespace KY.Generator.Legacy
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true)]
     public class ProducesAttribute : Attribute
