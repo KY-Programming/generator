@@ -1,9 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
         <Company>KY-Programming</Company>
         <Authors>KY-Programming</Authors>
-        <Version>7.1.0</Version>
+        <Version>7.2.0.0</Version>
         <Product>KY.Generator</Product>
         <Description>Sqlite Module for KY-Generator
             Download KY.Generator to use this module</Description>
@@ -15,7 +15,8 @@
         <PackageTags>KY-Generator KY Generator Sqlite</PackageTags>
         <LangVersion>9</LangVersion>
         <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-    </PropertyGroup>
+      <ProjectGuid>{87b62d3e-939c-499a-ab71-5a7401da324f}</ProjectGuid>
+  </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
       <OutputPath>..\bin\Debug\</OutputPath>
@@ -27,6 +28,7 @@
 
     <ItemGroup>
       <PackageReference Include="KY.Core.Common" Version="4.20.1" />
+      <PackageReference Include="KY.Generator" Version="7.2.0.0" />
       <PackageReference Include="Microsoft.Data.Sqlite" Version="5.0.7" />
     </ItemGroup>
 
