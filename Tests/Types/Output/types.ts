@@ -1,6 +1,7 @@
 ﻿/* eslint-disable */
 // tslint:disable
 
+import { GenericSubType } from "./generic-sub-type";
 import { SubType } from "./sub-type";
 
 export class Types {
@@ -76,6 +77,7 @@ export class Types {
     public stringSubTypeDictionary: { [key: string]: SubType; };
     public intSubTypeDictionary: { [key: number]: SubType; };
     public subTypeStringDictionary: { /* unsupported type for key. Expected string or number. Got 'SubType'. */ };
+    public genericSubType: GenericSubType<string, number>;
     public readonlyProperty: string;
     public writeonlyProperty: string;
 }

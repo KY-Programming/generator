@@ -95,6 +95,7 @@ namespace Types
         public Dictionary<string, SubType> StringSubTypeDictionary { get; set; }
         public Dictionary<int, SubType> IntSubTypeDictionary { get; set; }
         public Dictionary<SubType, string> SubTypeStringDictionary { get; set; }
+        public GenericSubType<string, int> GenericSubType { get; set; }
 
         // Accessors
         public string ReadonlyProperty => string.Empty;
@@ -108,5 +109,13 @@ namespace Types
     public class SubType
     {
         public string Property { get; set; }
+    }
+
+    public class GenericSubType<TOne, TTwo>
+    {
+        public TOne Single { get; }
+        public string Single2 { get; }
+        public IEnumerable<TOne> Enumerable { get; set; }
+        public List<TTwo> List { get; set; }
     }
 }
