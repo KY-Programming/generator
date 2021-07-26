@@ -7,6 +7,7 @@ import { DateModelArrayWrapper } from "../models/date-model-array-wrapper";
 import { DateModelWrapper } from "../models/date-model-wrapper";
 import { DateModelWrapperListWrapper } from "../models/date-model-wrapper-list-wrapper";
 import { DateModelWrapperWithDate } from "../models/date-model-wrapper-with-date";
+import { GenericResult } from "../models/generic-result";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
@@ -218,6 +219,22 @@ export class DateService {
             if (result) {
                 if (result.models) {
                     result.models.forEach((entry) => {
+                        entry.date = this.convertToDate(entry.date);
+                    });
+                }
+            }
+            subject.next(result);
+            subject.complete();
+        }, (error) => subject.error(error));
+        return subject;
+    }
+
+    public getGenericWithModel(httpOptions?: {}): Observable<GenericResult<DateModel>> {
+        let subject = new Subject<GenericResult<DateModel>>();
+        this.http.get<GenericResult<DateModel>>(this.serviceUrl + "/api/date/getgenericwithmodel", httpOptions).subscribe((result) => {
+            if (result) {
+                if (result.rows) {
+                    result.rows.forEach((entry) => {
                         entry.date = this.convertToDate(entry.date);
                     });
                 }

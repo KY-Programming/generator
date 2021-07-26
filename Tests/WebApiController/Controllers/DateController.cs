@@ -102,6 +102,12 @@ namespace WebApiController.Controllers
             return new DateModelArrayWrapper();
         }
 
+        [HttpGet("[action]")]
+        public GenericResult<DateModel> GetGenericWithModel()
+        {
+            return new GenericResult<DateModel>(new List<DateModel> { new DateModel() });
+        }
+
         [HttpPost("[action]")]
         public void Post(DateTime date)
         { }

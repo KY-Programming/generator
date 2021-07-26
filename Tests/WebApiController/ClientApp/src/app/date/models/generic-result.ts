@@ -1,0 +1,14 @@
+﻿/* eslint-disable */
+// tslint:disable
+
+import { DateModel } from "./date-model";
+
+export class GenericResult<T> {
+    public rows: DateModel[];
+
+    public constructor(init: Partial<GenericResult<T>> = undefined) {
+        Object.assign(this, init);
+    }
+}
+
+// outputid:627408ca-a818-4326-b843-415f5bbfb028

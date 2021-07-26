@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using KY.Generator;
 using Microsoft.AspNetCore.Mvc;
+using WebApiController.Models;
 using WebApiController.Services;
 
 namespace WebApiController.Controllers
@@ -50,6 +51,12 @@ namespace WebApiController.Controllers
         public string FromHeader([FromHeader] string headerValue = null, int value = 0)
         {
             return $"Result: {headerValue} + {value}";
+        }
+
+        [HttpGet("[action]")]
+        public GenericResult<string> GenericResult(string value1, string value2)
+        {
+            return new GenericResult<string>(new List<string> { value1, value2 });
         }
     }
 }
