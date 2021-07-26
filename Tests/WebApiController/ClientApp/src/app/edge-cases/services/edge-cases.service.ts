@@ -1,6 +1,7 @@
 ﻿/* eslint-disable */
 // tslint:disable
 
+import { GenericResult } from "../models/generic-result";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
@@ -83,6 +84,15 @@ export class EdgeCasesService {
         let subject = new Subject<string>();
         httpOptions = { responseType: 'text', ...httpOptions};
         this.http.get<string>(this.serviceUrl + "/edgecases/fromheader" + "?value=" + this.convertAny(value), httpOptions).subscribe((result) => {
+            subject.next(result);
+            subject.complete();
+        }, (error) => subject.error(error));
+        return subject;
+    }
+
+    public genericResult(value1: string, value2: string, httpOptions?: {}): Observable<GenericResult<string>> {
+        let subject = new Subject<GenericResult<string>>();
+        this.http.get<GenericResult<string>>(this.serviceUrl + "/edgecases/genericresult" + "?value1=" + this.convertAny(value1) + "&value2=" + this.convertAny(value2), httpOptions).subscribe((result) => {
             subject.next(result);
             subject.complete();
         }, (error) => subject.error(error));

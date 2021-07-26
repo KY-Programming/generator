@@ -2,9 +2,9 @@
 // tslint:disable
 
 export class GenericResult<T> {
-    public rows: string[];
+    public rows: T[];
 
-    public constructor(init: Partial<GenericResult<T>> = undefined) {
+    public constructor(init?: Partial<GenericResult<T>>) {
         Object.assign(this, init);
     }
 }

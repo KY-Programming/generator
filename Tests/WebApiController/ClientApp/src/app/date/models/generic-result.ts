@@ -1,12 +1,10 @@
 ﻿/* eslint-disable */
 // tslint:disable
 
-import { DateModel } from "./date-model";
-
 export class GenericResult<T> {
-    public rows: DateModel[];
+    public rows: T[];
 
-    public constructor(init: Partial<GenericResult<T>> = undefined) {
+    public constructor(init?: Partial<GenericResult<T>>) {
         Object.assign(this, init);
     }
 }
