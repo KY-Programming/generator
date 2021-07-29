@@ -57,7 +57,7 @@ namespace KY.Generator.Command
                 }
                 PropertyInfo property = mapping[parameterName];
                 bool isList = property.PropertyType.Name.StartsWith("List`");
-                if (isList)
+                if (isList && this.OriginalParameters.Count(p => p.Name == parameter.Name) > 1)
                 {
                     IList list = property.GetMethod.Invoke(this.Parameters, null) as IList;
                     if (list == null)
