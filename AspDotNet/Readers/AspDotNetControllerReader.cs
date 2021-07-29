@@ -114,7 +114,6 @@ namespace KY.Generator.AspDotNet.Readers
                 }
                 methodVersions.Sort();
                 returnType = returnType.IgnoreGeneric(typesToIgnore);
-                this.modelReader.Read(returnType, transferObjects, configuration.Controller);
                 Attribute methodRouteAttribute = methodAttributes.FirstOrDefault(x => x.GetType().Name == "RouteAttribute");
                 if (methodRouteAttribute != null)
                 {
@@ -124,15 +123,11 @@ namespace KY.Generator.AspDotNet.Readers
                 {
                     HttpServiceActionTransferObject action = new HttpServiceActionTransferObject();
                     action.Name = actionTypes.Count == 1 ? method.Name : $"{actionType.Key}{method.Name.FirstCharToUpper()}";
-                    action.ReturnType = returnType.ToTransferObject(configuration.Controller);
+                    action.ReturnType = this.modelReader.Read(returnType, transferObjects, configuration.Controller);
                     action.Route = actionType.Value ?? fallbackRoute;
                     action.Type = actionType.Key;
                     action.Version = methodVersions.LastOrDefault();
                     ParameterInfo[] parameters = method.GetParameters().Where(parameter => parameter.GetCustomAttributes().Select(attribute => attribute.GetType().Name).All(attributeName => attributeName != "FromServicesAttribute" && attributeName != "FromHeaderAttribute")).ToArray();
-                    foreach (ParameterInfo parameter in parameters)
-                    {
-                        this.modelReader.Read(parameter.ParameterType, transferObjects, configuration.Controller);
-                    }
                     action.RequireBodyParameter = action.Type.IsBodyParameterRequired();
                     foreach (ParameterInfo parameter in parameters)
                     {
@@ -143,7 +138,7 @@ namespace KY.Generator.AspDotNet.Readers
                         string fullRoute = $"{controller.Route}/{action.Route}";
                         HttpServiceActionParameterTransferObject actionParameter = new HttpServiceActionParameterTransferObject();
                         actionParameter.Name = parameter.Name;
-                        actionParameter.Type = parameter.ParameterType.ToTransferObject(configuration.Controller);
+                        actionParameter.Type = this.modelReader.Read(parameter.ParameterType, transferObjects, configuration.Controller);
                         actionParameter.FromBody = this.IsFromBodyParameter(parameter, action.Type);
                         actionParameter.FromQuery = this.IsFromQueryParameter(parameter);
                         actionParameter.Inline = fullRoute.Contains($"{{{parameter.Name}}}");

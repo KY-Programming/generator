@@ -14,9 +14,16 @@ namespace KY.Generator.Reflection.Readers
     {
         public ModelTransferObject Read(Type type, List<ITransferObject> transferObjects, IFromTypeOptions options = null)
         {
-            bool isFromSystem = type.Namespace != null && type.Namespace.StartsWith("System");
             ModelTransferObject model = new ModelTransferObject { Language = ReflectionLanguage.Instance };
-            model.FromType(type, options);
+            model.Name = model.OriginalName = type.Name;
+            model.Namespace = type.Namespace;
+            model.IsNullable = !type.IsValueType;
+            model.IsGeneric = type.IsGenericType;
+            model.FromSystem = type.Namespace != null && type.Namespace.StartsWith("System");
+            if (model.IsGeneric)
+            {
+                model.Name = type.Name.Split('`').First();
+            }
             ModelTransferObject existingModel = transferObjects.OfType<ModelTransferObject>().FirstOrDefault(entry => entry.Equals(model));
             if (existingModel != null)
             {
@@ -31,7 +38,7 @@ namespace KY.Generator.Reflection.Readers
             {
                 this.ReadArray(type, model, transferObjects);
             }
-            else if (type.IsGenericType && isFromSystem)
+            else if (type.IsGenericType && model.FromSystem)
             {
                 this.ReadGenericFromSystem(type, model, transferObjects);
             }
@@ -43,11 +50,25 @@ namespace KY.Generator.Reflection.Readers
             else if (type.ContainsGenericParameters)
             {
                 model.HasUsing = false;
+                model.Namespace = null;
             }
-            else if (!isFromSystem)
+            else if (!model.FromSystem)
             {
                 transferObjects.Add(model);
                 this.ReadClass(type, model, transferObjects);
+            }
+            if (model.Name == nameof(Nullable))
+            {
+                model.IsNullable = true;
+            }
+            if (!model.FromSystem && options?.ReplaceName != null)
+            {
+                for (int index = 0; index < options.ReplaceName.Count; index++)
+                {
+                    string replaceName = options.ReplaceName[index];
+                    string replaceWith = options.ReplaceWithName?.Skip(index).FirstOrDefault() ?? string.Empty;
+                    model.Name = model.Name.Replace(replaceName, replaceWith);
+                }
             }
             return model;
         }
@@ -55,19 +76,18 @@ namespace KY.Generator.Reflection.Readers
         private void ReadArray(Type type, ModelTransferObject model, List<ITransferObject> transferObjects)
         {
             Logger.Trace($"Reflection read array {type.Name} ({type.Namespace})");
+            model.Name = "Array";
             model.IsGeneric = true;
-            model.FromSystem = true;
-            this.Read(type.GetElementType(), transferObjects);
+            model.HasUsing = false;
+            model.Generics.Add(new GenericAliasTransferObject { Type = this.Read(type.GetElementType(), transferObjects) });
         }
 
         private void ReadGenericFromSystem(Type type, ModelTransferObject model, List<ITransferObject> transferObjects)
         {
             Logger.Trace($"Reflection read generic system type {type.Name}<{string.Join(",", type.GetGenericArguments().Select(x => x.Name))}> ({type.Namespace})");
-            model.IsGeneric = true;
-            model.FromSystem = true;
             foreach (Type argument in type.GenericTypeArguments)
             {
-                this.Read(argument, transferObjects);
+                model.Generics.Add(new GenericAliasTransferObject{ Type = this.Read(argument, transferObjects)});
             }
         }
 
@@ -104,17 +124,16 @@ namespace KY.Generator.Reflection.Readers
             if (type.IsGenericType)
             {
                 Type genericType = type.GetGenericTypeDefinition();
-                model.IsGeneric = true;
                 model.Generics.Clear();
                 if (genericType is TypeInfo typeInfo)
                 {
                     for (int index = 0; index < typeInfo.GenericTypeParameters.Length; index++)
                     {
-                        string alias = typeInfo.GenericTypeParameters[index].Name;
+                        Type alias = typeInfo.GenericTypeParameters[index];
                         Type argument = type.GenericTypeArguments[index];
                         model.Generics.Add(new GenericAliasTransferObject
                                            {
-                                               Alias = alias,
+                                               Alias = this.Read(alias,transferObjects),
                                                Type = this.Read(argument, transferObjects)
                                            });
                     }

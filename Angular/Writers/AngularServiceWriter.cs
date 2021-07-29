@@ -465,12 +465,13 @@ namespace KY.Generator.Angular.Writers
             }
             foreach (PropertyTransferObject property in model.Properties)
             {
-                if (typeChain.Any(type => type.Name == property.Type.Name && type.Namespace == property.Type.Namespace))
+                TypeTransferObject type = model.Generics.FirstOrDefault(generic => generic.Alias?.Name == property.Name)?.Type ?? property.Type;
+                if (typeChain.Any(typeFromChain => typeFromChain.Name == property.Type.Name && typeFromChain.Namespace == property.Type.Namespace))
                 {
                     continue;
                 }
                 string propertyName = Formatter.FormatProperty(property.Name, configuration);
-                if (property.Type.Name == nameof(DateTime))
+                if (type.Name == nameof(DateTime))
                 {
                     datePropertyFound = true;
                     if (isModelEnumerable)
@@ -482,13 +483,14 @@ namespace KY.Generator.Angular.Writers
                         innerCode.AddLine(this.WriteFieldChain(chain).Field(propertyName).Assign(Code.This().Method("convertToDate", this.WriteFieldChain(chain).Field(propertyName))).Close());
                     }
                 }
-                ModelTransferObject propertyModel = property.Type as ModelTransferObject;
+                ModelTransferObject propertyModel = type as ModelTransferObject;
                 TypeTransferObject entryType = propertyModel?.Generics.FirstOrDefault()?.Type;
+                entryType = entryType == null ? null : model.Generics.FirstOrDefault(generic => generic.Alias?.Name == entryType.Name)?.Type ?? entryType;
                 ModelTransferObject entryModel = entryType as ModelTransferObject ?? transferObjects.OfType<ModelTransferObject>().FirstOrDefault(x => x.Name == entryType?.Name && x.Namespace == entryType?.Namespace);
                 List<string> nextChain = new List<string>(chain);
                 nextChain.Add(propertyName);
                 List<TypeTransferObject> nextTypeChain = new List<TypeTransferObject>(typeChain);
-                nextTypeChain.Add(property.Type);
+                nextTypeChain.Add(type);
                 if (propertyModel != null && propertyModel.IsEnumerable() && entryModel != null)
                 {
                     datePropertyFound = this.WriteDateFixes(entryModel, true, innerCode, nextChain, nextTypeChain, transferObjects, configuration) || datePropertyFound;

@@ -9,6 +9,7 @@ namespace KY.Generator.Transfer
     public class TypeTransferObject : ITransferObject
     {
         public string Name { get; set; }
+        public string OriginalName { get; set; }
         public string Namespace { get; set; }
         public bool FromSystem { get; set; }
         public bool IsNullable { get; set; }
@@ -35,7 +36,7 @@ namespace KY.Generator.Transfer
 
         public bool Equals(TypeTransferObject type)
         {
-            return this.Name == type.Name && this.Namespace == type.Namespace;
+            return (this.Name == type.Name || this.OriginalName == type.Name || this.Name == type.OriginalName) && this.Namespace == type.Namespace;
         }
 
         public TypeTransferObject Clone()

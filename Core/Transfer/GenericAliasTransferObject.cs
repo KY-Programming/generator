@@ -2,7 +2,7 @@
 {
     public class GenericAliasTransferObject
     {
-        public string Alias { get; set; }
+        public TypeTransferObject Alias { get; set; }
         public TypeTransferObject Type { get; set; }
     }
 }
