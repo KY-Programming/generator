@@ -1,3 +1,5 @@
+@title KY-Generator Tests
+
 REM ==========================================
 REM ||    AnnotationsWithMultipleOutputs    ||
 REM ==========================================

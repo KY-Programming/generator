@@ -1,12 +1,14 @@
-cd Angular
-call build.cmd
-cd ../
+@title KY-Generator Examples
 
-cd Json
-call build.cmd
+cd Angular
+start build.cmd
 cd ../
 
 cd Reflection
+start build.cmd
+cd ../
+
+cd Json
 call build.cmd
 cd ../
 
