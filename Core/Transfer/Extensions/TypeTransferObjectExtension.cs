@@ -22,7 +22,7 @@ namespace KY.Generator.Transfer.Extensions
             return genericTypeTemplate;
         }
 
-        public static void FromType(this TypeTransferObject transferObject, Type type)
+        public static void FromType(this TypeTransferObject transferObject, Type type, IFromTypeOptions options = null)
         {
             if (type == null)
             {
@@ -34,7 +34,7 @@ namespace KY.Generator.Transfer.Extensions
                 transferObject.Namespace = type.Namespace;
                 foreach (Type argument in type.GetGenericArguments())
                 {
-                    transferObject.Generics.Add(new GenericAliasTransferObject { Type = argument.ToTransferObject() });
+                    transferObject.Generics.Add(new GenericAliasTransferObject { Type = argument.ToTransferObject(options) });
                 }
             }
             else if (type.IsArray)
@@ -42,7 +42,7 @@ namespace KY.Generator.Transfer.Extensions
                 transferObject.Name = "Array";
                 transferObject.Namespace = "System";
                 Type argument = type.GetElementType() ?? typeof(object);
-                transferObject.Generics.Add(new GenericAliasTransferObject { Type = argument.ToTransferObject() });
+                transferObject.Generics.Add(new GenericAliasTransferObject { Type = argument.ToTransferObject(options) });
             }
             else if (type.ContainsGenericParameters)
             {
@@ -58,6 +58,15 @@ namespace KY.Generator.Transfer.Extensions
             if (transferObject.Name == nameof(Nullable))
             {
                 transferObject.IsNullable = true;
+            }
+            if (options?.ReplaceName != null)
+            {
+                for (int index = 0; index < options.ReplaceName.Count; index++)
+                {
+                    string replaceName = options.ReplaceName[index];
+                    string replaceWith = options.ReplaceWithName?.Skip(index).FirstOrDefault() ?? string.Empty;
+                    transferObject.Name = transferObject.Name.Replace(replaceName, replaceWith);
+                }
             }
         }
     }

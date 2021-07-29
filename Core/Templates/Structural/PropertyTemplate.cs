@@ -12,6 +12,7 @@ namespace KY.Generator.Templates
         public bool HasSetter { get; set; }
         public bool IsVirtual { get; set; }
         public bool IsStatic { get; set; }
+        public bool IsOptional { get; set; }
         public Visibility Visibility { get; set; }
         public ICodeFragment DefaultValue { get; set; }
         public ICodeFragment Expression { get; set; }

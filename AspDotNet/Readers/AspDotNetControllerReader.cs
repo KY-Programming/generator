@@ -46,19 +46,32 @@ namespace KY.Generator.AspDotNet.Readers
             IEnumerable<object> versions = apiVersionAttribute?.GetType().GetProperty("Versions")?.GetValue(apiVersionAttribute) as IEnumerable<object>;
             controller.Version = versions?.Last().ToString();
 
-            MethodInfo[] methods = type.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
+            List<MethodInfo> methods = new();
+            Type currentTyp = type;
+            while (currentTyp?.Namespace != null && !currentTyp.Namespace.StartsWith("Microsoft") && !currentTyp.Namespace.StartsWith("System"))
+            {
+                if (currentTyp.GetCustomAttribute<GenerateIgnoreAttribute>() != null)
+                {
+                    break;
+                }
+                methods.AddRange(currentTyp.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly)
+                                           // Remove all overwritten methods
+                                           .Where(method => methods.All(m => m.GetBaseDefinition() != method))
+                );
+                currentTyp = currentTyp.BaseType;
+            }
             foreach (MethodInfo method in methods)
             {
-                if (method.GetCustomAttribute<GenerateIgnoreAttribute>() != null)
+                List<Attribute> methodAttributes = method.GetCustomAttributes().ToList();
+                if (methodAttributes.Any(attribute => attribute is GenerateIgnoreAttribute || attribute.GetType().Name == "NonActionAttribute"))
                 {
                     continue;
                 }
 
-                List<Attribute> methodAttributes = method.GetCustomAttributes().ToList();
                 Dictionary<HttpServiceActionTypeTransferObject, string> actionTypes = this.GetActionTypes(methodAttributes);
                 if (actionTypes.Count == 0)
                 {
-                    Logger.Error($"{type.FullName}.{method.Name} has to be decorated with at least one of [HttpGet], [HttpPost], [HttpPut], [HttpPatch], [HttpDelete] or with [GenerateIgnore].");
+                    Logger.Error($"{type.FullName}.{method.Name} has to be decorated with at least one of [HttpGet], [HttpPost], [HttpPut], [HttpPatch], [HttpDelete], [NonAction] or with [GenerateIgnore].");
                     continue;
                 }
 
@@ -101,7 +114,7 @@ namespace KY.Generator.AspDotNet.Readers
                 }
                 methodVersions.Sort();
                 returnType = returnType.IgnoreGeneric(typesToIgnore);
-                this.modelReader.Read(returnType, transferObjects);
+                this.modelReader.Read(returnType, transferObjects, configuration.Controller);
                 Attribute methodRouteAttribute = methodAttributes.FirstOrDefault(x => x.GetType().Name == "RouteAttribute");
                 if (methodRouteAttribute != null)
                 {
@@ -111,14 +124,14 @@ namespace KY.Generator.AspDotNet.Readers
                 {
                     HttpServiceActionTransferObject action = new HttpServiceActionTransferObject();
                     action.Name = actionTypes.Count == 1 ? method.Name : $"{actionType.Key}{method.Name.FirstCharToUpper()}";
-                    action.ReturnType = returnType.ToTransferObject();
+                    action.ReturnType = returnType.ToTransferObject(configuration.Controller);
                     action.Route = actionType.Value ?? fallbackRoute;
                     action.Type = actionType.Key;
                     action.Version = methodVersions.LastOrDefault();
                     ParameterInfo[] parameters = method.GetParameters().Where(parameter => parameter.GetCustomAttributes().Select(attribute => attribute.GetType().Name).All(attributeName => attributeName != "FromServicesAttribute" && attributeName != "FromHeaderAttribute")).ToArray();
                     foreach (ParameterInfo parameter in parameters)
                     {
-                        this.modelReader.Read(parameter.ParameterType, transferObjects);
+                        this.modelReader.Read(parameter.ParameterType, transferObjects, configuration.Controller);
                     }
                     action.RequireBodyParameter = action.Type.IsBodyParameterRequired();
                     foreach (ParameterInfo parameter in parameters)
@@ -130,7 +143,7 @@ namespace KY.Generator.AspDotNet.Readers
                         string fullRoute = $"{controller.Route}/{action.Route}";
                         HttpServiceActionParameterTransferObject actionParameter = new HttpServiceActionParameterTransferObject();
                         actionParameter.Name = parameter.Name;
-                        actionParameter.Type = parameter.ParameterType.ToTransferObject();
+                        actionParameter.Type = parameter.ParameterType.ToTransferObject(configuration.Controller);
                         actionParameter.FromBody = this.IsFromBodyParameter(parameter, action.Type);
                         actionParameter.FromQuery = this.IsFromQueryParameter(parameter);
                         actionParameter.Inline = fullRoute.Contains($"{{{parameter.Name}}}");
@@ -160,6 +173,27 @@ namespace KY.Generator.AspDotNet.Readers
                     if (action.Parameters.Count(x => x.FromBody) > 1)
                     {
                         throw new InvalidOperationException($"Can not write {method.Name}. {action.Type} can have only one parameter marked with [FromBody] or only one reference type");
+                    }
+                    int tries = 0;
+                    while (controller.Actions.Any(a => a.Name == action.Name))
+                    {
+                        if (tries > 10)
+                        {
+                            throw new InvalidOperationException($"Can not find a suitable name for {action.Name}");
+                        }
+                        if (parameters.Length > 0 && tries == 0)
+                        {
+                            action.Name += "By" + parameters.First().Name.FirstCharToUpper();
+                        }
+                        else if (parameters.Length > tries)
+                        {
+                            action.Name += "And" + parameters.Skip(tries).First().Name.FirstCharToUpper();
+                        }
+                        else
+                        {
+                            action.Name += tries - parameters.Length + 1;
+                        }
+                        tries++;
                     }
                     controller.Actions.Add(action);
                 }

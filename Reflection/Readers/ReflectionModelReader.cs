@@ -12,11 +12,11 @@ namespace KY.Generator.Reflection.Readers
 {
     public class ReflectionModelReader
     {
-        public ModelTransferObject Read(Type type, List<ITransferObject> transferObjects)
+        public ModelTransferObject Read(Type type, List<ITransferObject> transferObjects, IFromTypeOptions options = null)
         {
             bool isFromSystem = type.Namespace != null && type.Namespace.StartsWith("System");
             ModelTransferObject model = new ModelTransferObject { Language = ReflectionLanguage.Instance };
-            model.FromType(type);
+            model.FromType(type, options);
             ModelTransferObject existingModel = transferObjects.OfType<ModelTransferObject>().FirstOrDefault(entry => entry.Equals(model));
             if (existingModel != null)
             {

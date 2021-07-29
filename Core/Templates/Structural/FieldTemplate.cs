@@ -15,6 +15,7 @@ namespace KY.Generator.Templates
         public ClassTemplate Class { get; }
         public CommentTemplate Comment { get; set; }
         public bool IsReadonly { get; set; }
+        public bool IsOptional { get; set; }
 
         public FieldTemplate(ClassTemplate classTemplate, string name, TypeTemplate type)
         {

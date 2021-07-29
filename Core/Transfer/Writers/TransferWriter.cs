@@ -130,7 +130,12 @@ namespace KY.Generator.Transfer.Writers
                 this.MapType(modelLanguage, configurationLanguage, type);
             }
             this.AddUsing(type, classTemplate, configuration);
-            return classTemplate.AddField(name, type.ToTemplate()).Public().FormatName(configuration);
+            FieldTemplate fieldTemplate = classTemplate.AddField(name, type.ToTemplate()).Public().FormatName(configuration);
+            if (configuration.Formatting.WithOptionalProperties)
+            {
+                fieldTemplate.Optional();
+            }
+            return fieldTemplate;
         }
 
         protected virtual PropertyTemplate AddProperty(ModelTransferObject model, string name, TypeTransferObject type, ClassTemplate classTemplate, IConfiguration configuration, bool canRead = true, bool canWrite = true)
@@ -142,6 +147,10 @@ namespace KY.Generator.Transfer.Writers
             PropertyTemplate propertyTemplate = classTemplate.AddProperty(name, type.ToTemplate()).FormatName(configuration);
             propertyTemplate.HasGetter = canRead;
             propertyTemplate.HasSetter = canWrite;
+            if (configuration.Formatting.WithOptionalProperties)
+            {
+                propertyTemplate.Optional();
+            }
             this.AddUsing(type, classTemplate, configuration);
             return propertyTemplate;
         }

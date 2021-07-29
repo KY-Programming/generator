@@ -36,7 +36,6 @@ namespace KY.Generator.Angular.Commands
             writeConfiguration.Model.RelativePath = this.Parameters.RelativeModelPath;
 
             output.DeleteAllRelatedFiles(writeConfiguration.OutputId, this.Parameters.RelativePath);
-            output.DeleteAllRelatedFiles(writeConfiguration.OutputId, this.Parameters.RelativeModelPath);
 
             if (this.Parameters.Strict && !this.TransferObjects.OfType<TsConfig>().Any())
             {
@@ -46,8 +45,7 @@ namespace KY.Generator.Angular.Commands
 
             List<FileTemplate> files = new List<FileTemplate>();
             this.resolver.Create<AngularServiceWriter>().Write(writeConfiguration, this.TransferObjects, files);
-            IOutput localOutput = output;
-            files.ForEach(file => writeConfiguration.Language.Write(file, localOutput));
+            files.ForEach(file => writeConfiguration.Language.Write(file, output));
 
             return this.Success();
         }

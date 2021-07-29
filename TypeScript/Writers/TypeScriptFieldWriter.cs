@@ -14,6 +14,7 @@ namespace KY.Generator.TypeScript.Writers
                   .If(template.IsStatic || template.IsConstant).Add("static ").EndIf()
                   .If(template.IsReadonly || template.IsConstant).Add("readonly ").EndIf()
                   .Add(template.Name)
+                  .If(template.IsOptional).Add("?").EndIf()
                   .Add(": ")
                   .Add(template.Type)
                   .If(template.DefaultValue != null).Add(" = ").Add(template.DefaultValue).EndIf()

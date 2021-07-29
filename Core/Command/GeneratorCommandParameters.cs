@@ -7,7 +7,7 @@
 
         [GeneratorGlobalParameter("beforeBuild")]
         public bool IsBeforeBuild { get; set; }
-        
+
         [GeneratorGlobalParameter("msbuild")]
         public bool IsMsBuild { get; set; }
 
@@ -33,6 +33,8 @@
         public bool SkipNamespace { get; set; } = true;
         public bool PropertiesToFields { get; set; } = true;
         public bool FieldsToProperties { get; set; }
+        public bool PreferInterfaces { get; set; }
+        public bool WithOptionalProperties { get; set; }
         public bool FormatNames { get; set; } = true;
     }
 }

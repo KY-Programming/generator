@@ -98,8 +98,9 @@ namespace KY.Generator.Transfer.Writers
                 this.MapType(modelLanguage, configurationLanguage, model.BasedOn);
             }
 
+            bool isInterface = model.IsInterface || configuration.Formatting.PreferInterfaces;
             ClassTemplate classTemplate = files.AddFile(configuration.RelativePath, configuration.AddHeader, configuration.OutputId)
-                                               .WithType(model.IsInterface ? "interface" : null)
+                                               .WithType(isInterface ? "interface" : null)
                                                .AddNamespace(nameSpace)
                                                .AddClass(model.Name, model.BasedOn?.ToTemplate())
                                                .FormatName(configuration);
@@ -110,7 +111,7 @@ namespace KY.Generator.Transfer.Writers
             }
             configuration.Usings?.ForEach(x => classTemplate.AddUsing(x, null, null));
 
-            classTemplate.IsInterface = model.IsInterface;
+            classTemplate.IsInterface = isInterface;
             classTemplate.IsAbstract = model.IsAbstract;
             if (model.IsGeneric)
             {

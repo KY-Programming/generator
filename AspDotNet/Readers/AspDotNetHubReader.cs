@@ -56,11 +56,11 @@ namespace KY.Generator.AspDotNet.Readers
                 }
                 foreach (ParameterInfo parameter in method.GetParameters())
                 {
-                    this.modelReader.Read(parameter.ParameterType, transferObjects);
+                    this.modelReader.Read(parameter.ParameterType, transferObjects, configuration.Hub);
                     action.Parameters.Add(new HttpServiceActionParameterTransferObject
                                           {
                                               Name = parameter.Name,
-                                              Type = parameter.ParameterType.ToTransferObject()
+                                              Type = parameter.ParameterType.ToTransferObject(configuration.Hub)
                                           });
                 }
                 hub.Actions.Add(action);
@@ -74,11 +74,11 @@ namespace KY.Generator.AspDotNet.Readers
                 action.Name = method.Name;
                 foreach (ParameterInfo parameter in method.GetParameters())
                 {
-                    this.modelReader.Read(parameter.ParameterType, transferObjects);
+                    this.modelReader.Read(parameter.ParameterType, transferObjects, configuration.Hub);
                     action.Parameters.Add(new HttpServiceActionParameterTransferObject
                                           {
                                               Name = parameter.Name,
-                                              Type = parameter.ParameterType.ToTransferObject()
+                                              Type = parameter.ParameterType.ToTransferObject(configuration.Hub)
                                           });
                 }
                 hub.Events.Add(action);

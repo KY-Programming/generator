@@ -6,13 +6,10 @@ using KY.Core.Dependency;
 using KY.Generator.Command;
 using KY.Generator.Csharp.Languages;
 using KY.Generator.Output;
-using KY.Generator.Reflection.Readers;
-using KY.Generator.Sqlite.Readers;
 using KY.Generator.Sqlite.Transfer;
 using KY.Generator.Sqlite.Transfer.Readers;
 using KY.Generator.Sqlite.Writers;
 using KY.Generator.Templates;
-using KY.Generator.Templates.Extensions;
 using KY.Generator.Transfer;
 
 namespace KY.Generator.Sqlite.Commands
@@ -44,6 +41,5 @@ namespace KY.Generator.Sqlite.Commands
             files.ForEach(file => CsharpLanguage.Instance.Write(file, output));
             return this.Success();
         }
-
     }
 }

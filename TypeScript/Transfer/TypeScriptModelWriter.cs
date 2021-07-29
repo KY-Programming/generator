@@ -31,7 +31,7 @@ namespace KY.Generator.TypeScript.Transfer
         protected override ClassTemplate WriteClass(IModelConfiguration configuration, ModelTransferObject model, string nameSpace, List<FileTemplate> files)
         {
             ClassTemplate classTemplate = base.WriteClass(configuration, model, nameSpace, files);
-            if (!model.IsAbstract && !model.IsInterface && configuration.Language.IsTypeScript())
+            if (!model.IsAbstract && !classTemplate.IsInterface && configuration.Language.IsTypeScript())
             {
                 ConstructorTemplate constructor = classTemplate.AddConstructor();
                 constructor.AddParameter(Code.Generic("Partial", classTemplate.ToType()), "init").Optional();

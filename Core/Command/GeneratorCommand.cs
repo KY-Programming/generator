@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -55,28 +56,48 @@ namespace KY.Generator.Command
                     continue;
                 }
                 PropertyInfo property = mapping[parameterName];
-                if (!property.CanWrite)
+                bool isList = property.PropertyType.Name.StartsWith("List`");
+                if (isList)
                 {
-                    Logger.Warning($"Can not write parameter '{parameter.Name}' on '{this.Names.First()}' command. Ensure command property has a public setter.");
-                    continue;
+                    IList list = property.GetMethod.Invoke(this.Parameters, null) as IList;
+                    if (list == null)
+                    {
+                        Logger.Error($"Can not write parameter '{parameter.Name}' on '{this.Names.First()}' command. Parameter is from type List and has to be always initialized");
+                        return false;
+                    }
+                    Type itemType = property.PropertyType.GetGenericArguments().First();
+                    if (!GeneratorCommand.ParameterParser.ContainsKey(itemType))
+                    {
+                        Logger.Error($"Can not write parameter '{parameter.Name}' on '{this.Names.First()}' command. No converter from List<string> to List<{itemType.FullName}> found. Use {nameof(GeneratorCommand)}.{nameof(GeneratorCommand.ParameterParser)} to set a custom parser. Do not map List<T> map T instead");
+                        return false;
+                    }
+                    list.Add(GeneratorCommand.ParameterParser[itemType].Invoke(parameter.Value));
                 }
+                else
+                {
+                    if (!property.CanWrite)
+                    {
+                        Logger.Warning($"Can not write parameter '{parameter.Name}' on '{this.Names.First()}' command. Ensure command property has a public setter.");
+                        continue;
+                    }
 
-                if (!GeneratorCommand.ParameterParser.ContainsKey(property.PropertyType))
-                {
-                    Logger.Error($"Can not write parameter '{parameter.Name}' on '{this.Names.First()}' command. No converter from System.String to {property.PropertyType.FullName} found. Use {nameof(GeneratorCommand)}.{nameof(GeneratorCommand.ParameterParser)} to set a custom parser");
-                    return false;
-                }
-                try
-                {
-                    property.SetMethod.Invoke(this.Parameters, new[]
-                                                               {
-                                                                   GeneratorCommand.ParameterParser[property.PropertyType].Invoke(parameter.Value)
-                                                               });
-                }
-                catch (Exception exception)
-                {
-                    Logger.Error($"Can not set parameter '{this.Names.First()}.{parameter.Name}'. {exception.Message}");
-                    return false;
+                    if (!GeneratorCommand.ParameterParser.ContainsKey(property.PropertyType))
+                    {
+                        Logger.Error($"Can not write parameter '{parameter.Name}' on '{this.Names.First()}' command. No converter from System.String to {property.PropertyType.FullName} found. Use {nameof(GeneratorCommand)}.{nameof(GeneratorCommand.ParameterParser)} to set a custom parser");
+                        return false;
+                    }
+                    try
+                    {
+                        property.SetMethod.Invoke(this.Parameters, new[]
+                                                                   {
+                                                                       GeneratorCommand.ParameterParser[property.PropertyType].Invoke(parameter.Value)
+                                                                   });
+                    }
+                    catch (Exception exception)
+                    {
+                        Logger.Error($"Can not set parameter '{this.Names.First()}.{parameter.Name}'. {exception.Message}");
+                        return false;
+                    }
                 }
             }
             return true;

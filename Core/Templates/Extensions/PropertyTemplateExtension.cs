@@ -37,6 +37,12 @@ namespace KY.Generator.Templates.Extensions
             return property;
         }
 
+        public static PropertyTemplate Optional(this PropertyTemplate property, bool value = true)
+        {
+            property.IsOptional = value;
+            return property;
+        }
+
         public static PropertyTemplate ReadOnly(this PropertyTemplate property)
         {
             property.HasSetter = false;

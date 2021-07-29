@@ -36,6 +36,8 @@ namespace KY.Generator.Angular.Commands
             writeConfiguration.Model.SkipNamespace = this.Parameters.SkipNamespace;
             writeConfiguration.Model.PropertiesToFields = this.Parameters.PropertiesToFields;
             writeConfiguration.Model.FieldsToProperties = this.Parameters.FieldsToProperties;
+            writeConfiguration.Model.PreferInterfaces = this.Parameters.PreferInterfaces;
+            writeConfiguration.Model.WithOptionalProperties = this.Parameters.WithOptionalProperties;
             writeConfiguration.Model.FormatNames = this.Parameters.FormatNames;
 
             output.DeleteAllRelatedFiles(writeConfiguration.OutputId, this.Parameters.RelativePath);

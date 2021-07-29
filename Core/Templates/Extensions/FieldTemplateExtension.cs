@@ -37,6 +37,12 @@ namespace KY.Generator.Templates.Extensions
             return field;
         }
 
+        public static FieldTemplate Optional(this FieldTemplate field, bool value = true)
+        {
+            field.IsOptional = value;
+            return field;
+        }
+
         public static FieldTemplate Default(this FieldTemplate field, ICodeFragment code)
         {
             field.DefaultValue = code;
