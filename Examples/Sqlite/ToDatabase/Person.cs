@@ -19,5 +19,6 @@ namespace ToDatabase
         public DateTime Birthday { get; set; } = DateTime.Today;
         public int Age { get; set; }
         public string Address { get; set; }
+        public Guid Uid { get; set; }
     }
 }

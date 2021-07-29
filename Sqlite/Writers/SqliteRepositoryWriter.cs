@@ -199,7 +199,12 @@ namespace KY.Generator.Sqlite.Writers
             foreach (SqlitePropertyTransferObject column in columns)
             {
                 ICodeFragment valueCode = Code.Local("entry").Field(column.Name);
-                if (!column.IsNotNull && (column.Type.Original?.IsNullable ?? column.Type.IsNullable))
+                if (column.Type.Original.Name == nameof(Guid))
+                {
+                    classTemplate.AddUsing("System");
+                    valueCode = valueCode.CastTo<ExecuteFieldTemplate>().Method("ToString");
+                }
+                else if (!column.IsNotNull && (column.Type.Original?.IsNullable ?? column.Type.IsNullable))
                 {
                     classTemplate.AddUsing("System");
                     valueCode = Code.NullCoalescing(valueCode, Code.Cast(Code.Type("object")).Local(nameof(DBNull)).Field("Value"));
