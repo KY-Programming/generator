@@ -45,7 +45,8 @@ namespace KY.Generator.AspDotNet.Readers
             Type currentTyp = type;
             while (currentTyp?.Namespace != null && !currentTyp.Namespace.StartsWith("Microsoft") && !currentTyp.Namespace.StartsWith("System"))
             {
-                if (currentTyp.GetCustomAttribute<GenerateIgnoreAttribute>() != null)
+                AspDotNetOptions currentOptions = AspDotNetOptions.Get(currentTyp);
+                if (currentOptions.Ignore)
                 {
                     break;
                 }
@@ -69,12 +70,7 @@ namespace KY.Generator.AspDotNet.Readers
                     Logger.Error($"{type.FullName}.{method.Name} has to be decorated with at least one of [HttpGet], [HttpPost], [HttpPut], [HttpPatch], [HttpDelete], [NonAction] or with [GenerateIgnore].");
                     continue;
                 }
-
-                IEnumerable<Type> typesToIgnore = method.GetCustomAttributes<GenerateIgnoreGenericAttribute>()
-                                                        .Concat(type.GetCustomAttributes<GenerateIgnoreGenericAttribute>())
-                                                        .Select(x => x.Type);
                 Type returnType = (methodOptions.Produces ?? method.ReturnType)
-                                  .IgnoreGeneric(typesToIgnore)
                                   .IgnoreGeneric("System.Threading.Tasks", "Task")
                                   .IgnoreGeneric("Microsoft.AspNetCore.Mvc", "IActionResult")
                                   .IgnoreGeneric("Microsoft.AspNetCore.Mvc", "ActionResult")
@@ -85,7 +81,9 @@ namespace KY.Generator.AspDotNet.Readers
                                   .IgnoreGeneric("System.Web.Mvc", "FilePathResult")
                                   .IgnoreGeneric("System.Web.Mvc", "FileResult")
                                   .IgnoreGeneric("System.Web.Mvc", "FileStreamResult")
-                                  .IgnoreGeneric("System.Web.Mvc", "JsonResult");
+                                  .IgnoreGeneric("System.Web.Mvc", "JsonResult")
+                                  .IgnoreGeneric(typeOptions.IgnoreGenerics)
+                                  .IgnoreGeneric(methodOptions.IgnoreGenerics);
 
                 Type returnEntryType = returnType.IgnoreGeneric(typeof(IEnumerable<>)).IgnoreGeneric(typeof(List<>)).IgnoreGeneric(typeof(IList<>));
                 foreach (KeyValuePair<HttpServiceActionTypeTransferObject, string> actionType in actionTypes)

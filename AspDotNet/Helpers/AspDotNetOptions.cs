@@ -11,7 +11,6 @@ namespace KY.Generator.AspDotNet.Helpers
 {
     public class AspDotNetOptions : ReflectionOptions
     {
-
         public bool HttpGet => this.GetRecord<bool>(nameof(this.HttpGet));
         public string HttpGetRoute => this.GetRecord<string>(nameof(this.HttpGetRoute));
         public bool HttpPost => this.GetRecord<bool>(nameof(this.HttpPost));
@@ -31,6 +30,7 @@ namespace KY.Generator.AspDotNet.Helpers
         public List<string> ApiVersion => this.GetRecord<List<string>>(nameof(this.ApiVersion));
         public string Route => this.GetRecord<string>(nameof(this.Route));
         public Type Produces => this.GetRecord<Type>(nameof(this.Produces));
+        public List<Type> IgnoreGenerics => this.GetRecord<List<Type>>(nameof(this.IgnoreGenerics));
 
         static AspDotNetOptions()
         {
@@ -71,6 +71,11 @@ namespace KY.Generator.AspDotNet.Helpers
             Readers.Add("RouteAttribute", (attribute, records) => records.Add(nameof(Route), GetRoute(attribute)));
             Readers.Add("ProducesResponseTypeAttribute", (attribute, records) => records.SetNullCoalescing(nameof(Produces), GetProduces(attribute)));
             Readers.Add("ProducesAttribute", (attribute, records) => records.SetNullCoalescing(nameof(Produces), GetProduces(attribute)));
+            Readers.Add(nameof(GenerateIgnoreGenericAttribute), (attribute, records) =>
+            {
+                records.AddIfNotExists(nameof(IgnoreGenerics), new List<Type>());
+                records[nameof(IgnoreGenerics)].CastTo<List<Type>>().Add(attribute.CastTo<GenerateIgnoreGenericAttribute>().Type);
+            });
         }
 
         private static string GetRoute(Attribute attribute)

@@ -13,6 +13,7 @@ namespace KY.Generator.Reflection
         {
             Readers.Add(nameof(GenerateIgnoreAttribute), (_, records) => records.Add(nameof(Ignore), true));
             Readers.Add(nameof(GeneratePreferInterfacesAttribute), (_, records) => records.Add(nameof(PreferInterfaces), true));
+            Readers.Add(nameof(GenerateStrictAttribute), (_, records) => records.Add(nameof(Strict), true));
         }
 
         public static ReflectionOptions Get(MemberInfo member)

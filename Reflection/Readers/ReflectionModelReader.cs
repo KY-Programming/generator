@@ -14,6 +14,7 @@ namespace KY.Generator.Reflection.Readers
     {
         public ModelTransferObject Read(Type type, List<ITransferObject> transferObjects, IFromTypeOptions options = null)
         {
+            ReflectionOptions typeOptions = ReflectionOptions.Get(type);
             ModelTransferObject model = new ModelTransferObject { Language = ReflectionLanguage.Instance };
             model.Name = model.OriginalName = type.Name;
             model.Namespace = type.Namespace;
@@ -29,7 +30,7 @@ namespace KY.Generator.Reflection.Readers
             {
                 return existingModel;
             }
-            if (type.GetCustomAttributes<GenerateIgnoreAttribute>().Any())
+            if (typeOptions.Ignore)
             {
                 Logger.Trace($"{type.Name} ({type.Namespace}) ignored (decorated with {nameof(GenerateIgnoreAttribute)})");
                 return model;
@@ -87,7 +88,7 @@ namespace KY.Generator.Reflection.Readers
             Logger.Trace($"Reflection read generic system type {type.Name}<{string.Join(",", type.GetGenericArguments().Select(x => x.Name))}> ({type.Namespace})");
             foreach (Type argument in type.GenericTypeArguments)
             {
-                model.Generics.Add(new GenericAliasTransferObject{ Type = this.Read(argument, transferObjects)});
+                model.Generics.Add(new GenericAliasTransferObject { Type = this.Read(argument, transferObjects) });
             }
         }
 
@@ -133,7 +134,7 @@ namespace KY.Generator.Reflection.Readers
                         Type argument = type.GenericTypeArguments[index];
                         model.Generics.Add(new GenericAliasTransferObject
                                            {
-                                               Alias = this.Read(alias,transferObjects),
+                                               Alias = this.Read(alias, transferObjects),
                                                Type = this.Read(argument, transferObjects)
                                            });
                     }
@@ -158,12 +159,12 @@ namespace KY.Generator.Reflection.Readers
             FieldInfo[] constants = type.GetFields(BindingFlags.Public | BindingFlags.Static);
             foreach (FieldInfo field in constants)
             {
-                GenerateIgnoreAttribute ignoreAttribute = field.GetCustomAttribute<GenerateIgnoreAttribute>();
-                if (ignoreAttribute != null)
+                ReflectionOptions fieldOptions = ReflectionOptions.Get(field);
+                if (fieldOptions.Ignore)
                 {
                     continue;
                 }
-                FieldTransferObject fieldTransferObject = new FieldTransferObject
+                FieldTransferObject fieldTransferObject = new()
                                                           {
                                                               Name = field.Name,
                                                               Type = this.Read(field.FieldType, transferObjects),
@@ -175,12 +176,12 @@ namespace KY.Generator.Reflection.Readers
             FieldInfo[] fields = type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
             foreach (FieldInfo field in fields)
             {
-                GenerateIgnoreAttribute ignoreAttribute = field.GetCustomAttribute<GenerateIgnoreAttribute>();
-                if (ignoreAttribute != null)
+                ReflectionOptions fieldOptions = ReflectionOptions.Get(field);
+                if (fieldOptions.Ignore)
                 {
                     continue;
                 }
-                FieldTransferObject fieldTransferObject = new FieldTransferObject
+                FieldTransferObject fieldTransferObject = new()
                                                           {
                                                               Name = field.Name,
                                                               Type = this.Read(field.FieldType, transferObjects)
@@ -190,12 +191,12 @@ namespace KY.Generator.Reflection.Readers
             PropertyInfo[] properties = type.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
             foreach (PropertyInfo property in properties)
             {
-                GenerateIgnoreAttribute ignoreAttribute = property.GetCustomAttribute<GenerateIgnoreAttribute>();
-                if (ignoreAttribute != null)
+                ReflectionOptions propertyOptions = ReflectionOptions.Get(property);
+                if (propertyOptions.Ignore)
                 {
                     continue;
                 }
-                PropertyTransferObject propertyTransferObject = new PropertyTransferObject
+                PropertyTransferObject propertyTransferObject = new()
                                                                 {
                                                                     Name = property.Name,
                                                                     Type = this.Read(property.PropertyType, transferObjects),
