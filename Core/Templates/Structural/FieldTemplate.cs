@@ -16,6 +16,8 @@ namespace KY.Generator.Templates
         public CommentTemplate Comment { get; set; }
         public bool IsReadonly { get; set; }
         public bool IsOptional { get; set; }
+        // TODO: Remove temporary property Strict
+        public bool Strict { get; set; }
 
         public FieldTemplate(ClassTemplate classTemplate, string name, TypeTemplate type)
         {

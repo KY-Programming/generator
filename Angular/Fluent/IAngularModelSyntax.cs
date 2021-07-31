@@ -34,5 +34,12 @@
         /// <param name="value"></param>
         /// <returns></returns>
         IAngularModelSyntax FieldsToProperties(bool value = true);
+
+        /// <summary>
+        /// Generates code, valid for strict mode
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        IAngularModelSyntax Strict(bool value = true);
     }
 }

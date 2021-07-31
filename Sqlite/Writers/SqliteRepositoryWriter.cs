@@ -198,7 +198,7 @@ namespace KY.Generator.Sqlite.Writers
                                                  .WithCode(Code.Local(command).Field("CommandText").Assign(Code.VerbatimString(sqlBuilder)).Close());
             foreach (SqlitePropertyTransferObject column in columns)
             {
-                ICodeFragment valueCode = Code.Local("entry").Field(column.Name);
+                ChainedCodeFragment valueCode = Code.Local("entry").Field(column.Name);
                 if (column.Type.Original.Name == nameof(Guid))
                 {
                     classTemplate.AddUsing("System");
@@ -207,7 +207,7 @@ namespace KY.Generator.Sqlite.Writers
                 else if (!column.IsNotNull && (column.Type.Original?.IsNullable ?? column.Type.IsNullable))
                 {
                     classTemplate.AddUsing("System");
-                    valueCode = Code.NullCoalescing(valueCode, Code.Cast(Code.Type("object")).Local(nameof(DBNull)).Field("Value"));
+                    valueCode = valueCode.NullCoalescing().Cast(Code.Type("object")).Local(nameof(DBNull)).Field("Value");
                 }
                 method.WithCode(Code.Local(command).Field("Parameters").Method("Add", Code.New(Code.Type("SqliteParameter"),
                                                                                                Code.String($"@{column.Name.FirstCharToLower()}"),
@@ -272,11 +272,11 @@ namespace KY.Generator.Sqlite.Writers
                                                  .WithCode(Code.Local(command).Field("CommandText").Assign(Code.VerbatimString(sqlBuilder)).Close());
             foreach (SqlitePropertyTransferObject column in columns)
             {
-                ICodeFragment valueCode = Code.Local("entry").Field(column.Name);
+                ChainedCodeFragment valueCode = Code.Local("entry").Field(column.Name);
                 if (!column.IsNotNull && column.Type.Original.IsNullable)
                 {
                     classTemplate.AddUsing("System");
-                    valueCode = Code.NullCoalescing(valueCode, Code.Cast(Code.Type("object")).Local(nameof(DBNull)).Field("Value"));
+                    valueCode = valueCode.NullCoalescing().Cast(Code.Type("object")).Local(nameof(DBNull)).Field("Value");
                 }
                 method.WithCode(Code.Local(command).Field("Parameters").Method("Add", Code.New(Code.Type("SqliteParameter"),
                                                                                                Code.String($"@{column.Name.FirstCharToLower()}"),
@@ -340,11 +340,11 @@ namespace KY.Generator.Sqlite.Writers
                                                  .WithCode(Code.Local(command).Field("CommandText").Assign(Code.VerbatimString(sqlBuilder)).Close());
             foreach (SqlitePropertyTransferObject column in columns.Where(property => hasPrimaryKey && property.IsPrimaryKey || !hasPrimaryKey))
             {
-                ICodeFragment valueCode = Code.Local("entry").Field(column.Name);
+                ChainedCodeFragment valueCode = Code.Local("entry").Field(column.Name);
                 if (!column.IsNotNull && (column.Type.Original?.IsNullable ?? column.Type.IsNullable))
                 {
                     classTemplate.AddUsing("System");
-                    valueCode = Code.NullCoalescing(valueCode, Code.Cast(Code.Type("object")).Local(nameof(DBNull)).Field("Value"));
+                    valueCode = valueCode.NullCoalescing().Cast(Code.Type("object")).Local(nameof(DBNull)).Field("Value");
                 }
                 method.WithCode(Code.Local(command).Field("Parameters").Method("Add", Code.New(Code.Type("SqliteParameter"),
                                                                                                Code.String($"@{column.Name.FirstCharToLower()}"),

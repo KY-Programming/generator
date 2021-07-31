@@ -114,6 +114,7 @@ namespace KY.Generator.AspDotNet.Readers
                 }
                 methodVersions.Sort();
                 returnType = returnType.IgnoreGeneric(typesToIgnore);
+                Type returnEntryType = returnType.IgnoreGeneric(typeof(IEnumerable<>)).IgnoreGeneric(typeof(List<>)).IgnoreGeneric(typeof(IList<>));
                 Attribute methodRouteAttribute = methodAttributes.FirstOrDefault(x => x.GetType().Name == "RouteAttribute");
                 if (methodRouteAttribute != null)
                 {
@@ -127,6 +128,7 @@ namespace KY.Generator.AspDotNet.Readers
                     action.Route = actionType.Value ?? fallbackRoute;
                     action.Type = actionType.Key;
                     action.Version = methodVersions.LastOrDefault();
+                    action.FixCasingWithMapping = returnEntryType.GetCustomAttribute<GenerateFixCasingWithMappingAttribute>() != null || typeAttributes.Any(x => x is GenerateFixCasingWithMappingAttribute);
                     ParameterInfo[] parameters = method.GetParameters().Where(parameter => parameter.GetCustomAttributes().Select(attribute => attribute.GetType().Name).All(attributeName => attributeName != "FromServicesAttribute" && attributeName != "FromHeaderAttribute")).ToArray();
                     action.RequireBodyParameter = action.Type.IsBodyParameterRequired();
                     foreach (ParameterInfo parameter in parameters)

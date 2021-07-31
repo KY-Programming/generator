@@ -48,16 +48,10 @@ namespace KY.Generator.TypeScript.Transfer
         protected override FieldTemplate AddField(ModelTransferObject model, string name, TypeTransferObject type, ClassTemplate classTemplate, IConfiguration configuration)
         {
             FieldTemplate fieldTemplate = base.AddField(model, name, type, classTemplate, configuration);
-            if (fieldTemplate.DefaultValue == null && this.Strict)
+            fieldTemplate.Strict = this.Strict;
+            if (fieldTemplate.DefaultValue == null && this.Strict && !fieldTemplate.Type.IsNullable)
             {
-                if (fieldTemplate.Type.IsNullable)
-                {
-                    fieldTemplate.Type.Name += " | undefined";
-                }
-                else
-                {
-                    fieldTemplate.DefaultValue = type.Default;
-                }
+                fieldTemplate.DefaultValue = type.Default;
             }
             return fieldTemplate;
         }

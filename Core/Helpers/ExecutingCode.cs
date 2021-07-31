@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using KY.Core;
 using KY.Generator.Templates;
 
 namespace KY.Generator
@@ -118,15 +121,25 @@ namespace KY.Generator
 
         public static LambdaTemplate Lambda(this Code _, ICodeFragment code)
         {
-            return new LambdaTemplate((string)null, code);
+            return new LambdaTemplate(new string[0], code);
         }
 
         public static LambdaTemplate Lambda(this Code _, string parameterName, ICodeFragment code)
         {
-            return new LambdaTemplate(parameterName, code);
+            return new LambdaTemplate(parameterName.Yield(), code);
         }
 
-        public static LambdaTemplate Lambda(this Code _, List<ParameterTemplate> parameters, ICodeFragment code)
+        public static LambdaTemplate Lambda(this Code _, IEnumerable<string> parameterNames, ICodeFragment code)
+        {
+            return new LambdaTemplate(parameterNames, code);
+        }
+
+        public static LambdaTemplate Lambda(this Code _, ParameterTemplate parameter, ICodeFragment code)
+        {
+            return new LambdaTemplate(parameter.Yield(), code);
+        }
+
+        public static LambdaTemplate Lambda(this Code _, IEnumerable<ParameterTemplate> parameters, ICodeFragment code)
         {
             return new LambdaTemplate(parameters, code);
         }

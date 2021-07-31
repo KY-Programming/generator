@@ -3,12 +3,13 @@ using KY.Generator.Templates;
 
 namespace KY.Generator.Writers
 {
-    public class AssignWriter : ITemplateWriter
+    public class NullCoalescingWriter : ITemplateWriter
     {
         public virtual void Write(ICodeFragment fragment, IOutputCache output)
         {
-            AssignTemplate template = (AssignTemplate)fragment;
-            output.Add(template.Operator).Add("= ").Add(template.Code);
+            NullCoalescingTemplate template = (NullCoalescingTemplate)fragment;
+            output.Add(" ?? ")
+                  .Add(template.Code);
         }
     }
 }
