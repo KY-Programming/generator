@@ -82,6 +82,10 @@
       <Project>{D23DC658-3C95-4A73-BBC7-22A94E81AEE8}</Project>
       <Name>KY.Generator.Csharp</Name>
     </ProjectReference>
+    <ProjectReference Include="..\EntityFramework\KY.Generator.EntityFramework.csproj">
+      <Project>{d7639d2a-e750-4343-84e4-6c5fe1c3b197}</Project>
+      <Name>KY.Generator.EntityFramework</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Json\KY.Generator.Json.csproj">
       <Project>{7f14808d-cedc-4a7d-bc53-da21eedcde1e}</Project>
       <Name>KY.Generator.Json</Name>
@@ -90,9 +94,21 @@
       <Project>{cdfa710c-3c87-4ffd-980b-69b80f6e8fe3}</Project>
       <Name>KY.Generator.OData</Name>
     </ProjectReference>
+    <ProjectReference Include="..\OpenApi\KY.Generator.OpenApi.csproj">
+      <Project>{f05efd34-c3b0-4334-9739-925f67daeb99}</Project>
+      <Name>KY.Generator.OpenApi</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Reflection\KY.Generator.Reflection.csproj">
       <Project>{1CD25461-36BC-46A1-ABDD-F710179A641E}</Project>
       <Name>KY.Generator.Reflection</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sqlite\KY.Generator.Sqlite.csproj">
+      <Project>{87b62d3e-939c-499a-ab71-5a7401da324f}</Project>
+      <Name>KY.Generator.Sqlite</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tsql\KY.Generator.Tsql.csproj">
+      <Project>{2d968283-996b-4619-8b10-d8086c2b2922}</Project>
+      <Name>KY.Generator.Tsql</Name>
     </ProjectReference>
     <ProjectReference Include="..\TypeScript\KY.Generator.TypeScript.csproj">
       <Project>{51D247CC-BE96-461F-8848-F6B32461FABB}</Project>
