@@ -11,6 +11,7 @@ namespace KY.Generator.Transfer
         public List<HttpServiceActionParameterTransferObject> Parameters { get; }
         public HttpServiceActionTypeTransferObject Type { get; set; }
         public string Version { get; set; }
+        public bool FixCasingWithMapping { get; set; }
 
         public HttpServiceActionTransferObject()
         {

@@ -51,7 +51,7 @@ namespace KY.Generator.EntityFramework.Writers
                 TypeTemplate dataContextType = Code.Type("DataContext");
                 ConstructorTemplate constructor = repository.AddConstructor();
                 ParameterTemplate dataContextParameter = constructor.AddParameter(dataContextType, "dataContext", Code.Null());
-                constructor.Code.AddLine(Code.This().Field(dataContextField).Assign(Code.NullCoalescing(Code.Local(dataContextParameter), Code.New(dataContextType))).Close())
+                constructor.Code.AddLine(Code.This().Field(dataContextField).Assign(Code.Local(dataContextParameter).NullCoalescing(Code.New(dataContextType))).Close())
                            .AddLine(Code.This().Field(dataSetField).Assign(Code.This().Field(dataContextField).GenericMethod("Set", modelType)).Close());
 
                 repository.AddMethod("Get", Code.Generic("IQueryable", modelType))

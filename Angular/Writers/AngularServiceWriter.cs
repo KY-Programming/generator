@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using KY.Core;
@@ -97,12 +98,22 @@ namespace KY.Generator.Angular.Writers
                             this.MapType(controllerLanguage, configurationLanguage, parameter.Type);
                         }
                         this.AddUsing(parameter.Type, classTemplate, configuration, relativeModelPath);
-                        ParameterTemplate parameterTemplate = methodTemplate.AddParameter(parameter.Type.ToTemplate(), parameter.Name, parameter.IsOptional ? Code.Null() : null).FormatName(configuration);
+                        ParameterTemplate parameterTemplate = methodTemplate.AddParameter(parameter.Type.ToTemplate(), parameter.Name).FormatName(configuration);
+                        if (parameter.IsOptional)
+                        {
+                            parameterTemplate.Optional();
+                        }
                         mapping.Add(parameter, parameterTemplate);
                         if (action.Type == HttpServiceActionTypeTransferObject.Get && parameter.Type.Name == "Array")
                         {
-                            methodTemplate.WithCode(Code.Declare(Code.Type("string"), $"{parameterTemplate.Name}Join",
-                                                                 Code.Local(parameterTemplate).Method("map", Code.Lambda("x", Code.String($"{parameter.Name}=").Append(Code.This().Method("convertAny", Code.Local("x"))))).Method("join", Code.String("&"))));
+                            methodTemplate.WithCode(Code.Declare(
+                                                        Code.Type("string"),
+                                                        $"{parameterTemplate.Name}Join",
+                                                        Code.Local(parameterTemplate).Method("map", Code.Lambda(new[] { "x", "index" },
+                                                                                                                Code.InlineIf(Code.Local("index"),
+                                                                                                                              Code.String($"{parameter.Name}=").Append(Code.This().Method("convertAny", Code.Local("x"))),
+                                                                                                                              Code.This().Method("convertAny", Code.Local("x")))
+                                                                                             )).Method("join", Code.String("&"))));
                         }
                     }
                     methodTemplate.AddParameter(Code.Type("{}"), "httpOptions").Optional();
@@ -141,24 +152,54 @@ namespace KY.Generator.Angular.Writers
                         nextMethod.WithParameter(nextCode);
                         appendConvertToDateMethod = this.WriteDateFixes(returnModel, isEnumerable, code, new List<string> { "result" }, new List<TypeTransferObject> { returnModel }, transferObjects, configuration) || appendConvertToDateMethod;
                     }
+                    if (action.FixCasingWithMapping)
+                    {
+                        IEnumerable<MemberTransferObject> members = (returnModel?.Fields ?? new List<FieldTransferObject>()).Concat<MemberTransferObject>(returnModel?.Properties ?? new List<PropertyTransferObject>());
+                        if (isEnumerable)
+                        {
+                            MultilineCodeFragment innerCode = new MultilineCodeFragment();
+                            foreach (MemberTransferObject member in members)
+                            {
+                                string formattedName = member is PropertyTransferObject ? Formatter.FormatProperty(member.Name, configuration) : Formatter.FormatField(member.Name, configuration);
+                                if (formattedName != member.Name)
+                                {
+                                    innerCode.AddLine(Code.Local("entry").Field(formattedName).Assign(Code.Local("entry").Field(formattedName).Or().Local("entry").Index(Code.String(member.Name))).Close())
+                                             .AddLine(Code.TypeScript($"delete entry['{member.Name}']").Close());
+                                }
+                            }
+                            code.AddLine(Code.If(Code.Local("result")).WithCode(Code.Local("result").Method("forEach", Code.Lambda("entry", innerCode))));
+                        }
+                        else
+                        {
+                            foreach (MemberTransferObject member in members)
+                            {
+                                string formattedName = member is PropertyTransferObject ? Formatter.FormatProperty(member.Name, configuration) : Formatter.FormatField(member.Name, configuration);
+                                if (formattedName != member.Name)
+                                {
+                                    code.AddLine(Code.Local("result").Field(formattedName).Assign(Code.Local("result").Field(formattedName).Or().Local("result").Index(Code.String(member.Name))).Close())
+                                        .AddLine(Code.TypeScript($"delete result['{member.Name}']").Close());
+                                }
+                            }
+                        }
+                    }
                     code.AddLine(nextMethod.Close())
                         .AddLine(Code.Local(subjectName).Method("complete").Close());
                     ChainedCodeFragment parameterUrl = Code.This().Property(serviceUrlProperty);
+                    string actionVersion = action.Version ?? controller.Version;
+                    bool isUrlApiVersion = false;
+                    if (uri?.Contains(apiVersionKey) ?? false)
+                    {
+                        isUrlApiVersion = true;
+                        uri = uri.Replace(apiVersionKey, actionVersion);
+                    }
                     foreach (HttpServiceActionParameterTransferObject parameter in inlineParameters)
                     {
                         string[] chunks = uri.Split(new[] { $"{{{parameter.Name}}}" }, StringSplitOptions.RemoveEmptyEntries);
                         parameterUrl = parameterUrl.Append(Code.String(chunks[0])).Append(Code.Local(parameter.Name));
                         uri = chunks.Length == 1 ? string.Empty : chunks[1];
                     }
-                    string actionVersion = action.Version ?? controller.Version;
-                    bool isUrlApiVersion = false;
                     if (!string.IsNullOrEmpty(uri))
                     {
-                        if (uri.Contains(apiVersionKey))
-                        {
-                            isUrlApiVersion = true;
-                            uri = uri.Replace(apiVersionKey, actionVersion);
-                        }
                         parameterUrl = parameterUrl.Append(Code.String(uri));
                     }
                     bool isFirst = true;
@@ -182,15 +223,14 @@ namespace KY.Generator.Angular.Writers
                     foreach (HttpServiceActionParameterTransferObject parameter in urlParameters)
                     {
                         string name = mapping[parameter].Name;
-                        if (parameter.FromQuery)
+                        parameterUrl = parameterUrl.Append(isFirst ? Code.String($"?{parameter.Name}=") : Code.String($"&{parameter.Name}="));
+                        if (parameter.FromQuery && parameter.Type.Name == "Array")
                         {
-                            parameterUrl = parameterUrl.Append(isFirst ? Code.String("?") : Code.String("&"));
                             appendConvertAnyMethod = true;
-                            parameterUrl = parameterUrl.Append(Code.Local(name + "Join"));
+                            parameterUrl = parameterUrl.Append(Code.This().Method("convertAny", Code.Local(name + "Join")));
                         }
                         else
                         {
-                            parameterUrl = parameterUrl.Append(isFirst ? Code.String($"?{parameter.Name}=") : Code.String($"&{parameter.Name}="));
                             if (parameter.Type.IgnoreNullable().Name == "Date")
                             {
                                 appendConvertFromDateMethod = true;

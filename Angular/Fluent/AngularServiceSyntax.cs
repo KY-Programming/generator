@@ -32,5 +32,17 @@ namespace KY.Generator.Angular.Fluent
             this.command.Parameters.RelativePath = path;
             return this;
         }
+
+        public IAngularServiceSyntax Strict(bool value = true)
+        {
+            this.command.Parameters.Strict = value;
+            return this;
+        }
+
+        public IAngularServiceSyntax Name(string name)
+        {
+            this.command.Parameters.Name = name;
+            return this;
+        }
     }
 }

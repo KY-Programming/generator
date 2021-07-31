@@ -19,15 +19,15 @@ namespace KY.Generator.Angular.Fluent
 
         public IAngularWriteSyntax Models(Action<IAngularModelSyntax> action = null)
         {
-            AngularModelCommand command = new AngularModelCommand(this.syntax.Resolver);
+            AngularModelCommand command = new(this.syntax.Resolver);
             this.syntax.Commands.Add(command);
             action?.Invoke(new AngularModelSyntax(this, command));
             return this;
         }
 
         public IAngularWriteSyntax Services(Action<IAngularServiceSyntax> action = null)
-        { 
-            AngularServiceCommand command = new AngularServiceCommand(this.syntax.Resolver);
+        {
+            AngularServiceCommand command = new(this.syntax.Resolver);
             this.syntax.Commands.Add(command);
             action?.Invoke(new AngularServiceSyntax(this, command));
             return this;

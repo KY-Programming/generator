@@ -105,6 +105,11 @@ namespace KY.Generator.Templates.Extensions
             return new AssignTemplate(code).Chain(template);
         }
 
+        public static AssignTemplate AssignNullishCoalescing(this ChainedCodeFragment template, ICodeFragment code)
+        {
+            return new AssignTemplate(code, "??").Chain(template);
+        }
+
         public static OperatorTemplate And(this ChainedCodeFragment template)
         {
             return new OperatorTemplate(Operator.And).Chain(template);
@@ -235,6 +240,16 @@ namespace KY.Generator.Templates.Extensions
         public static NullConditionalTemplate NullConditional(this ChainedCodeFragment template)
         {
             return new NullConditionalTemplate().Chain(template);
+        }
+
+        public static NullCoalescingTemplate NullCoalescing(this ChainedCodeFragment template)
+        {
+            return new NullCoalescingTemplate().Chain(template);
+        }
+
+        public static ICodeFragment NullCoalescing(this ChainedCodeFragment template, ICodeFragment code)
+        {
+            return new NullCoalescingTemplate(code).Chain(template);
         }
 
         public static T Chain<T, TPrevious>(this T template, TPrevious previous)

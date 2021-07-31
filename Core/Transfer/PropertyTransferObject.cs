@@ -3,14 +3,11 @@ using System.Linq;
 
 namespace KY.Generator.Transfer
 {
-    public class PropertyTransferObject
+    public class PropertyTransferObject : MemberTransferObject
     {
-        public string Name { get; set; }
-        public TypeTransferObject Type { get; set; }
         public bool CanRead { get; set; } = true;
         public bool CanWrite { get; set; } = true;
         public List<AttributeTransferObject> Attributes { get; set; } = new();
-        public string Comment { get; set; }
 
         public PropertyTransferObject()
         { }

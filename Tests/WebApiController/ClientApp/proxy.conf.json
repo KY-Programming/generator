@@ -11,5 +11,13 @@
   "/versionedapi": {
     "target": "http://localhost:5000",
     "secure": false
+  },
+  "/fixcasing": {
+    "target": "http://localhost:5000",
+    "secure": false
+  },
+  "/keepcasing": {
+    "target": "http://localhost:5000",
+    "secure": false
   }
 }

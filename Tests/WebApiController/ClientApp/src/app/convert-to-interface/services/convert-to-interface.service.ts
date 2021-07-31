@@ -1,7 +1,7 @@
 ﻿/* eslint-disable */
 // tslint:disable
 
-import { ConvertMe } from "../models/convert-me";
+import { ConvertMe } from "../models/convert-me.interface";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";

@@ -176,14 +176,6 @@ namespace KY.Generator.Csharp.Tests
         }
 
         [TestMethod]
-        public void NullCoalescingOperatorWriter()
-        {
-            NullCoalescingOperatorWriter writer = new NullCoalescingOperatorWriter();
-            writer.Write(new NullCoalescingOperatorTemplate(Code.Local("left"), Code.Local("right")), this.output);
-            Assert.AreEqual("left ?? right", this.output.ToString());
-        }
-
-        [TestMethod]
         public void ParameterWriter()
         {
             ParameterWriter writer = new ParameterWriter();

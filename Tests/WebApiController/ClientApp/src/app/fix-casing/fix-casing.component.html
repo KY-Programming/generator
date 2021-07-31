@@ -1,3 +1,34 @@
-<div *ngIf="!model">Loading...</div>
-<div *ngIf="model">Works</div>
-<pre><code>{{model | json}}</code></pre>
+<table style="width: 100%">
+  <tr>
+    <td>
+      <div *ngIf="!model">Loading...</div>
+      <pre><code>{{model | json}}</code></pre>
+    </td>
+    <td>
+      <pre><code>
+allower: {{model.alllower}}
+allupper: {{model.allupper}}
+pascalCase: {{model.pascalCase}}
+camelCase: {{model.camelCase}}
+snakeCase: {{model.snakeCase}}
+upperSnakeCase: {{model.upperSnakeCase}}
+      </code></pre>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <div *ngIf="!modelWithMapping">Loading...</div>
+      <pre><code>{{modelWithMapping | json}}</code></pre>
+    </td>
+    <td>
+      <pre><code>
+allower: {{modelWithMapping.alllower}}
+allupper: {{modelWithMapping.allupper}}
+pascalCase: {{modelWithMapping.pascalCase}}
+camelCase: {{modelWithMapping.camelCase}}
+snakeCase: {{modelWithMapping.snakeCase}}
+upperSnakeCase: {{modelWithMapping.upperSnakeCase}}
+      </code></pre>
+    </td>
+  </tr>
+</table>

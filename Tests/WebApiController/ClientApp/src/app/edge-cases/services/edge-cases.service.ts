@@ -80,10 +80,31 @@ export class EdgeCasesService {
         return subject;
     }
 
-    public fromHeader(httpOptions?: {}, value: number = undefined): Observable<string> {
+    public fromHeader(value?: number, httpOptions?: {}): Observable<string> {
         let subject = new Subject<string>();
         httpOptions = { responseType: 'text', ...httpOptions};
         this.http.get<string>(this.serviceUrl + "/edgecases/fromheader" + "?value=" + this.convertAny(value), httpOptions).subscribe((result) => {
+            subject.next(result);
+            subject.complete();
+        }, (error) => subject.error(error));
+        return subject;
+    }
+
+    public fromQuery(queryValue?: string, value?: number, httpOptions?: {}): Observable<string> {
+        let subject = new Subject<string>();
+        httpOptions = { responseType: 'text', ...httpOptions};
+        this.http.get<string>(this.serviceUrl + "/edgecases/fromquery" + "?queryValue=" + this.convertAny(queryValue) + "&value=" + this.convertAny(value), httpOptions).subscribe((result) => {
+            subject.next(result);
+            subject.complete();
+        }, (error) => subject.error(error));
+        return subject;
+    }
+
+    public fromQueryArray(queryArray: string[], httpOptions?: {}): Observable<string> {
+        let subject = new Subject<string>();
+        let queryArrayJoin: string = queryArray.map((x, index) => index ? "queryArray=" + this.convertAny(x) : this.convertAny(x)).join("&");
+        httpOptions = { responseType: 'text', ...httpOptions};
+        this.http.get<string>(this.serviceUrl + "/edgecases/fromqueryarray" + "?queryArray=" + this.convertAny(queryArrayJoin), httpOptions).subscribe((result) => {
             subject.next(result);
             subject.complete();
         }, (error) => subject.error(error));

@@ -1,23 +1,25 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace KY.Generator.Templates
 {
     public class LambdaTemplate : ICodeFragment
     {
         public List<ParameterTemplate> Parameters { get; }
-        public string ParameterName { get; }
+        public List<string> ParameterNames { get; }
         public ICodeFragment Code { get; }
 
-        public LambdaTemplate(string parameterName, ICodeFragment code)
+        public LambdaTemplate(IEnumerable<string> parameterNames, ICodeFragment code)
         {
-            this.ParameterName = parameterName;
+            this.ParameterNames = parameterNames.Where(x => x != null).ToList();
             this.Code = code;
         }
 
-        public LambdaTemplate(List<ParameterTemplate> parameters, ICodeFragment code)
-            : this((string)null, code)
+        public LambdaTemplate(IEnumerable<ParameterTemplate> parameters, ICodeFragment code)
         {
-            this.Parameters = parameters;
+            this.Parameters = parameters.Where(x => x?.Name != null).ToList();
+            this.Code = code;
         }
     }
 }

@@ -240,7 +240,7 @@ namespace KY.Generator.Core.Tests
         [TestMethod]
         public void LambdaWriter()
         {
-            LambdaTemplate template = new LambdaTemplate("parameter", Code.Local("parameter").Method("test"));
+            LambdaTemplate template = new LambdaTemplate("parameter".Yield(), Code.Local("parameter").Method("test"));
             LambdaWriter writer = new LambdaWriter();
             writer.Write(template, this.output);
             Assert.AreEqual("parameter => parameter.test()", this.output.ToString());
@@ -249,7 +249,7 @@ namespace KY.Generator.Core.Tests
         [TestMethod]
         public void LambdaMultiline()
         {
-            LambdaTemplate template = new LambdaTemplate("parameter", Code.Multiline().AddLine(Code.Local("parameter").Method("test").Close()));
+            LambdaTemplate template = new LambdaTemplate("parameter".Yield(), Code.Multiline().AddLine(Code.Local("parameter").Method("test").Close()));
             LambdaWriter writer = new LambdaWriter();
             writer.Write(template, this.output);
             Assert.AreEqual("parameter =>\r\n{\r\n    parameter.test();\r\n}", this.output.ToString());

@@ -36,7 +36,6 @@ namespace KY.Generator.Csharp.Languages
             this.TemplateWriters[typeof(CsharpTemplate)] = new CsharpWriter();
             this.TemplateWriters[typeof(DeclareTemplate)] = new DeclareWriter();
             this.TemplateWriters[typeof(GenericTypeTemplate)] = new CsharpGenericTypeWriter();
-            this.TemplateWriters[typeof(NullCoalescingOperatorTemplate)] = new NullCoalescingOperatorWriter();
             this.TemplateWriters[typeof(ParameterTemplate)] = new ParameterWriter();
             this.TemplateWriters[typeof(ThrowTemplate)] = new ThrowWriter();
             this.TemplateWriters[typeof(UsingTemplate)] = new UsingWriter();

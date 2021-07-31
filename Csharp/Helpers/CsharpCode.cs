@@ -11,11 +11,6 @@ namespace KY.Generator.Csharp
             return new CsharpTemplate(code);
         }
 
-        public static NullCoalescingOperatorTemplate NullCoalescing(this Code _, ICodeFragment codeLeft, ICodeFragment codeRight)
-        {
-            return new NullCoalescingOperatorTemplate(codeLeft, codeRight);
-        }
-
         public static UsingDeclarationTemplate Using(this Code _, ICodeFragment code)
         {
             return new UsingDeclarationTemplate(code);

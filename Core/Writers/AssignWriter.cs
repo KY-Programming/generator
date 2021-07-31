@@ -8,7 +8,7 @@ namespace KY.Generator.Writers
         public virtual void Write(ICodeFragment fragment, IOutputCache output)
         {
             AssignTemplate template = (AssignTemplate)fragment;
-            output.Add("= ").Add(template.Code);
+            output.Add(template.Operator).Add("= ").Add(template.Code);
         }
     }
 }

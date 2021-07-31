@@ -37,3 +37,17 @@ dotnet add package KY.Generator --prerelease
 dotnet add package KY.Generator.Annotations --prerelease
 dotnet build --no-incremental
 cd ..
+
+REM 
+REM ==========================================
+REM ||            Strict                    ||
+REM ==========================================
+REM 
+cd Strict
+rmdir /S/Q bin
+rmdir /S/Q ClientApp\src\app\models
+rmdir /S/Q ClientApp\src\app\services
+dotnet add package KY.Generator --prerelease
+dotnet add package KY.Generator.Annotations --prerelease
+dotnet build --no-incremental
+cd ..
