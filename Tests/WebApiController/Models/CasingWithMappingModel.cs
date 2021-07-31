@@ -1,6 +1,9 @@
-﻿namespace WebApiController.Models
+using KY.Generator;
+
+namespace WebApiController.Models
 {
-    public class CasingModel
+    [GenerateFixCasingWithMapping]
+    public class CasingWithMappingModel
     {
         public string alllower { get; set; }
         public string ALLUPPER { get; set; }
@@ -9,7 +12,7 @@
         public string snake_case { get; set; }
         public string UPPER_SNAKE_CASE { get; set; }
 
-        public CasingModel()
+        public CasingWithMappingModel()
         {
             this.alllower = KY.Core.Random2.NextString();
             this.ALLUPPER = KY.Core.Random2.NextString();

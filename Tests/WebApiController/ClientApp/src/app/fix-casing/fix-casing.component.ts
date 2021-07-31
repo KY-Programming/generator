@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CasingModel } from './models/casing-model';
 import { FixCasingService } from './services/fix-casing.service';
 import { environment } from '../../environments/environment';
+import { CasingWithMappingModel } from './models/casing-with-mapping-model';
 
 @Component({
   selector: 'app-fix-casing',
@@ -10,6 +11,7 @@ import { environment } from '../../environments/environment';
 })
 export class FixCasingComponent implements OnInit {
   public model: CasingModel;
+  public modelWithMapping: CasingWithMappingModel;
 
   constructor(
     private readonly service: FixCasingService
@@ -19,6 +21,7 @@ export class FixCasingComponent implements OnInit {
 
   ngOnInit() {
     this.service.get().subscribe(model => this.model = model);
+    this.service.getWithMapping().subscribe(model => this.modelWithMapping = model);
   }
 
 }

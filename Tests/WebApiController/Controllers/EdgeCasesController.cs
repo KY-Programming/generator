@@ -54,6 +54,18 @@ namespace WebApiController.Controllers
         }
 
         [HttpGet("[action]")]
+        public string FromQuery([FromQuery] string queryValue = null, int value = 0)
+        {
+            return $"Result: {queryValue} + {value}";
+        }
+
+        [HttpGet("[action]")]
+        public string FromQueryArray([FromQuery] List<string> queryArray)
+        {
+            return $"Result: {string.Join(", ", queryArray)}";
+        }
+
+        [HttpGet("[action]")]
         public GenericResult<string> GenericResult(string value1, string value2)
         {
             return new GenericResult<string>(new List<string> { value1, value2 });
