@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using KY.Generator.Models;
 
@@ -9,115 +10,98 @@ namespace KY.Generator.Reflection
     {
         protected static Dictionary<string, Action<Attribute, Dictionary<string, object>>> Readers { get; } = new();
 
-        static ReflectionOptions()
+        protected void Read(IEnumerable<Attribute> attributes)
         {
-            Readers.Add(nameof(GenerateIgnoreAttribute), (_, records) => records.Add(nameof(Ignore), true));
-            Readers.Add(nameof(GeneratePreferInterfacesAttribute), (_, records) => records.Add(nameof(PreferInterfaces), true));
-            Readers.Add(nameof(GenerateStrictAttribute), (_, records) => records.Add(nameof(Strict), true));
+            foreach (Attribute attribute in attributes)
+            {
+                this.Read(attribute);
+            }
         }
 
-        public static ReflectionOptions Get(MemberInfo member)
+        protected virtual void Read(Attribute attribute)
         {
-            return Get<ReflectionOptions>(member);
+            switch (attribute)
+            {
+                case GenerateIgnoreAttribute:
+                    this.IgnoreValue = true;
+                    break;
+                case GeneratePreferInterfacesAttribute:
+                    this.PreferInterfacesValue = true;
+                    break;
+                case GenerateStrictAttribute:
+                    this.StrictValue = true;
+                    break;
+                case GenerateRenameAttribute renameAttribute:
+                    this.ReplaceNameValue[renameAttribute.Replace] = renameAttribute.With;
+                    break;
+            }
         }
 
-        protected static T Get<T>(MemberInfo member)
-            where T : IOptions, new()
+        protected static T Get<T>(ICustomAttributeProvider member, IOptions parent = null, IOptions caller = null)
+            where T : ReflectionOptions, new()
         {
+            OptionsCacheEntry cacheEntry = null;
+            T options = null;
             if (Cache.ContainsKey(member))
             {
-                return (T)Cache[member];
-            }
-            T options = Read<T>(member.GetCustomAttributes(), Get(member.DeclaringType));
-            Cache.Add(member, options);
-            return options;
-        }
-
-        public static ReflectionOptions Get(MethodInfo method)
-        {
-            return Get<ReflectionOptions>(method);
-        }
-
-        protected static T Get<T>(MethodInfo method)
-            where T : IOptions, new()
-        {
-            if (Cache.ContainsKey(method))
-            {
-                return (T)Cache[method];
-            }
-            T options = Read<T>(method.GetCustomAttributes(), Get(method.DeclaringType));
-            Cache.Add(method, options);
-            return options;
-        }
-
-        public static ReflectionOptions Get(ParameterInfo parameter)
-        {
-            return Get<ReflectionOptions>(parameter);
-        }
-
-        protected static T Get<T>(ParameterInfo parameter)
-            where T : IOptions, new()
-        {
-            if (Cache.ContainsKey(parameter))
-            {
-                return (T)Cache[parameter];
-            }
-            T options = Read<T>(parameter.GetCustomAttributes(), Get(parameter.Member));
-            Cache.Add(parameter, options);
-            return options;
-        }
-
-        public static ReflectionOptions Get(Type type)
-        {
-            return Get<ReflectionOptions>(type);
-        }
-
-        protected static T Get<T>(Type type)
-            where T : IOptions, new()
-        {
-            if (Cache.ContainsKey(type))
-            {
-                return (T)Cache[type];
-            }
-            T options = Read<T>(type.GetCustomAttributes(), Get(type.Assembly));
-            Cache.Add(type, options);
-            return options;
-        }
-
-        public static ReflectionOptions Get(Assembly assembly)
-        {
-            return Get<ReflectionOptions>(assembly);
-        }
-
-        protected static T Get<T>(Assembly assembly)
-            where T : IOptions, new()
-        {
-            if (Cache.ContainsKey(assembly))
-            {
-                return (T)Cache[assembly];
-            }
-            T options = Read<T>(assembly.GetCustomAttributes(), Global);
-            Cache.Add(assembly, options);
-            return options;
-        }
-
-        protected static T Read<T>(IEnumerable<Attribute> attributes, IOptions parent)
-            where T : IOptions, new()
-        {
-            T options = new();
-            if (options is ICoreOptions coreOptions)
-            {
-                coreOptions.Parent = parent;
-                foreach (Attribute attribute in attributes)
+                cacheEntry = Cache[member];
+                options = cacheEntry.Get<T>();
+                if (options != null)
                 {
-                    string key = attribute.GetType().Name;
-                    if (Readers.ContainsKey(key))
-                    {
-                        Readers[key].Invoke(attribute, coreOptions.Records);
-                    }
+                    options.Caller = caller;
+                    return options;
                 }
             }
+            options = new();
+            options.Target = member;
+            options.Parent = parent;
+            options.Caller = caller;
+            List<Attribute> attributes = new();
+            if (!(member is Assembly assembly && assembly.FullName.StartsWith("System") || member is Type type && type.Namespace.StartsWith("System.")))
+            {
+                attributes.AddRange(member.GetCustomAttributes(true).OfType<Attribute>());
+                options.Read(attributes);
+            }
+            if (cacheEntry == null)
+            {
+                cacheEntry = new OptionsCacheEntry(attributes);
+                Cache.Add(member, cacheEntry);
+            }
+            cacheEntry.Add(options);
             return options;
+        }
+
+        public static ReflectionOptions Get(MemberInfo member, IOptions caller = null)
+        {
+            return Get<ReflectionOptions>(member, caller);
+        }
+
+        protected static T Get<T>(MemberInfo member, IOptions caller = null)
+            where T : ReflectionOptions, new()
+        {
+            return Get<T>(member, member.DeclaringType == null ? Get(member.GetType().Assembly) : Get(member.DeclaringType), caller);
+        }
+
+        public static ReflectionOptions Get(ParameterInfo parameter, IOptions caller = null)
+        {
+            return Get<ReflectionOptions>(parameter, caller);
+        }
+
+        protected static T Get<T>(ParameterInfo parameter, IOptions caller = null)
+            where T : ReflectionOptions, new()
+        {
+            return Get<T>(parameter, Get(parameter.Member), caller);
+        }
+
+        public static ReflectionOptions Get(Assembly assembly, IOptions caller = null)
+        {
+            return Get<ReflectionOptions>(assembly, caller);
+        }
+
+        protected static T Get<T>(Assembly assembly, IOptions caller = null)
+            where T : ReflectionOptions, new()
+        {
+            return Get<T>(assembly, Global, caller);
         }
     }
 }

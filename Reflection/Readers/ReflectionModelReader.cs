@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using KY.Core;
+using KY.Generator.Models;
 using KY.Generator.Reflection.Extensions;
 using KY.Generator.Reflection.Language;
 using KY.Generator.Transfer;
@@ -12,10 +13,10 @@ namespace KY.Generator.Reflection.Readers
 {
     public class ReflectionModelReader
     {
-        public ModelTransferObject Read(Type type, List<ITransferObject> transferObjects, IFromTypeOptions options = null)
+        public ModelTransferObject Read(Type type, List<ITransferObject> transferObjects, IOptions caller = null)
         {
-            ReflectionOptions typeOptions = ReflectionOptions.Get(type);
-            ModelTransferObject model = new ModelTransferObject { Language = ReflectionLanguage.Instance };
+            ReflectionOptions typeOptions = ReflectionOptions.Get(type, caller);
+            ModelTransferObject model = new() { Language = ReflectionLanguage.Instance };
             model.Name = model.OriginalName = type.Name;
             model.Namespace = type.Namespace;
             model.IsNullable = !type.IsValueType;
@@ -56,19 +57,18 @@ namespace KY.Generator.Reflection.Readers
             else if (!model.FromSystem)
             {
                 transferObjects.Add(model);
-                this.ReadClass(type, model, transferObjects);
+                this.ReadClass(type, model, transferObjects, caller);
             }
             if (model.Name == nameof(Nullable))
             {
                 model.IsNullable = true;
             }
-            if (!model.FromSystem && options?.ReplaceName != null)
+            Dictionary<string,string> replaceName = typeOptions.ReplaceName;
+            if (!model.FromSystem && replaceName != null)
             {
-                for (int index = 0; index < options.ReplaceName.Count; index++)
+                foreach (KeyValuePair<string,string> pair in replaceName)
                 {
-                    string replaceName = options.ReplaceName[index];
-                    string replaceWith = options.ReplaceWithName?.Skip(index).FirstOrDefault() ?? string.Empty;
-                    model.Name = model.Name.Replace(replaceName, replaceWith);
+                    model.Name = model.Name.Replace(pair.Key, pair.Value);
                 }
             }
             return model;
@@ -115,12 +115,13 @@ namespace KY.Generator.Reflection.Readers
             }
         }
 
-        private void ReadClass(Type type, ModelTransferObject model, List<ITransferObject> transferObjects)
+        private void ReadClass(Type type, ModelTransferObject model, List<ITransferObject> transferObjects, IOptions caller = null)
         {
             Logger.Trace($"Reflection read type {type.Name} ({type.Namespace})");
+            ReflectionOptions typeOptions = ReflectionOptions.Get(type, caller);
             if (type.BaseType != typeof(object) && type.BaseType != typeof(ValueType) && type.BaseType != null)
             {
-                model.BasedOn = this.Read(type.BaseType, transferObjects);
+                model.BasedOn = this.Read(type.BaseType, transferObjects, typeOptions);
             }
             if (type.IsGenericType)
             {
@@ -135,7 +136,7 @@ namespace KY.Generator.Reflection.Readers
                         model.Generics.Add(new GenericAliasTransferObject
                                            {
                                                Alias = this.Read(alias, transferObjects),
-                                               Type = this.Read(argument, transferObjects)
+                                               Type = this.Read(argument, transferObjects, typeOptions)
                                            });
                     }
                     type = genericType;
@@ -150,7 +151,7 @@ namespace KY.Generator.Reflection.Readers
             model.IsAbstract = type.IsAbstract;
             foreach (Type interFace in type.GetInterfaces(false))
             {
-                ModelTransferObject interfaceTransferObject = this.Read(interFace, transferObjects);
+                ModelTransferObject interfaceTransferObject = this.Read(interFace, transferObjects, typeOptions);
                 if (transferObjects.Contains(interfaceTransferObject))
                 {
                     model.Interfaces.Add(interfaceTransferObject);

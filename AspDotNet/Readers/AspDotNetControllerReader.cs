@@ -86,27 +86,29 @@ namespace KY.Generator.AspDotNet.Readers
                                   .IgnoreGeneric(methodOptions.IgnoreGenerics);
 
                 Type returnEntryType = returnType.IgnoreGeneric(typeof(IEnumerable<>)).IgnoreGeneric(typeof(List<>)).IgnoreGeneric(typeof(IList<>));
+                AspDotNetOptions returnEntryTypeOptions = AspDotNetOptions.Get(returnEntryType, methodOptions);
                 foreach (KeyValuePair<HttpServiceActionTypeTransferObject, string> actionType in actionTypes)
                 {
-                    HttpServiceActionTransferObject action = new HttpServiceActionTransferObject();
+                    HttpServiceActionTransferObject action = new();
                     action.Name = actionTypes.Count == 1 ? method.Name : $"{actionType.Key}{method.Name.FirstCharToUpper()}";
-                    action.ReturnType = this.modelReader.Read(returnType, transferObjects, configuration.Controller);
+                    action.ReturnType = this.modelReader.Read(returnType, transferObjects, methodOptions);
                     action.Route = actionType.Value ?? methodOptions.Route;
                     action.Type = actionType.Key;
-                    action.Version = methodOptions.ApiVersion?.LastOrDefault();
-                    action.FixCasingWithMapping = returnEntryType.GetCustomAttribute<GenerateFixCasingWithMappingAttribute>() != null || typeAttributes.Any(x => x is GenerateFixCasingWithMappingAttribute);
-                    ParameterInfo[] parameters = method.GetParameters().Where(parameter => parameter.GetCustomAttributes().Select(attribute => attribute.GetType().Name).All(attributeName => attributeName != "FromServicesAttribute" && attributeName != "FromHeaderAttribute")).ToArray();
+                    action.Version = methodOptions.ApiVersion?.OrderByDescending(x => x).FirstOrDefault();
+                    action.FixCasingWithMapping = returnEntryTypeOptions.FixCasingWithMapping || methodOptions.FixCasingWithMapping;
                     action.RequireBodyParameter = action.Type.IsBodyParameterRequired();
                     List<ParameterInfo> parameters = method.GetParameters().Where(
-                        parameter => !AspDotNetOptions.Get(parameter).IsFromHeader && !AspDotNetOptions.Get(parameter).IsFromHeader && parameter.ParameterType.FullName == "System.Threading.CancellationToken"
+                        parameter => !AspDotNetOptions.Get(parameter, methodOptions).IsFromHeader
+                                     && !AspDotNetOptions.Get(parameter, methodOptions).IsFromServices
+                                     && parameter.ParameterType.FullName != "System.Threading.CancellationToken"
                     ).ToList();
                     foreach (ParameterInfo parameter in parameters)
                     {
-                        AspDotNetOptions parameterOptions = AspDotNetOptions.Get(parameter);
+                        AspDotNetOptions parameterOptions = AspDotNetOptions.Get(parameter, methodOptions);
                         string fullRoute = $"{controller.Route}/{action.Route}";
                         HttpServiceActionParameterTransferObject actionParameter = new();
                         actionParameter.Name = parameter.Name;
-                        actionParameter.Type = this.modelReader.Read(parameter.ParameterType, transferObjects, configuration.Controller);
+                        actionParameter.Type = this.modelReader.Read(parameter.ParameterType, transferObjects, methodOptions);
                         actionParameter.FromBody = parameterOptions.IsFromBody || action.Type != HttpServiceActionTypeTransferObject.Get && !parameter.ParameterType.IsValueType && parameter.ParameterType != typeof(string);
                         actionParameter.FromQuery = parameterOptions.IsFromQuery;
                         actionParameter.Inline = fullRoute.Contains($"{{{parameter.Name}}}");

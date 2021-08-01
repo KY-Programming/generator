@@ -15,6 +15,7 @@ Download KY.Generator to use this module</Description>
     <RepositoryUrl>https://github.com/KY-Programming/generator</RepositoryUrl>
     <RepositoryType></RepositoryType>
     <PackageTags>KY-Generator KY Generator Reflection</PackageTags>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

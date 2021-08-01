@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using KY.Core;
 using KY.Generator.AspDotNet.Configurations;
+using KY.Generator.AspDotNet.Helpers;
 using KY.Generator.Reflection.Language;
 using KY.Generator.Reflection.Readers;
 using KY.Generator.Transfer;
@@ -48,6 +49,7 @@ namespace KY.Generator.AspDotNet.Readers
                 {
                     continue;
                 }
+                AspDotNetOptions methodOptions = AspDotNetOptions.Get(method);
                 HttpServiceActionTransferObject action = new HttpServiceActionTransferObject();
                 action.Name = method.Name;
                 if (method.ReturnType.Name != typeof(void).Name && method.ReturnType.Name != nameof(Task))
@@ -59,7 +61,7 @@ namespace KY.Generator.AspDotNet.Readers
                     action.Parameters.Add(new HttpServiceActionParameterTransferObject
                                           {
                                               Name = parameter.Name,
-                                              Type = this.modelReader.Read(parameter.ParameterType, transferObjects, configuration.Hub)
+                                              Type = this.modelReader.Read(parameter.ParameterType, transferObjects, methodOptions)
                                           });
                 }
                 hub.Actions.Add(action);
@@ -69,6 +71,7 @@ namespace KY.Generator.AspDotNet.Readers
             MethodInfo[] notificationMethods = notificationType.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
             foreach (MethodInfo method in notificationMethods)
             {
+                AspDotNetOptions methodOptions = AspDotNetOptions.Get(method);
                 HttpServiceActionTransferObject action = new HttpServiceActionTransferObject();
                 action.Name = method.Name;
                 foreach (ParameterInfo parameter in method.GetParameters())
@@ -76,7 +79,7 @@ namespace KY.Generator.AspDotNet.Readers
                     action.Parameters.Add(new HttpServiceActionParameterTransferObject
                                           {
                                               Name = parameter.Name,
-                                              Type = this.modelReader.Read(parameter.ParameterType, transferObjects, configuration.Hub)
+                                              Type = this.modelReader.Read(parameter.ParameterType, transferObjects, methodOptions)
                                           });
                 }
                 hub.Events.Add(action);

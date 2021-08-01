@@ -4,78 +4,101 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using KY.Core;
-using KY.Generator.Extensions;
+using KY.Generator.Models;
 using KY.Generator.Reflection;
 
 namespace KY.Generator.AspDotNet.Helpers
 {
     public class AspDotNetOptions : ReflectionOptions
     {
-        public bool HttpGet => this.GetRecord<bool>(nameof(this.HttpGet));
-        public string HttpGetRoute => this.GetRecord<string>(nameof(this.HttpGetRoute));
-        public bool HttpPost => this.GetRecord<bool>(nameof(this.HttpPost));
-        public string HttpPostRoute => this.GetRecord<string>(nameof(this.HttpPostRoute));
-        public bool HttpPatch => this.GetRecord<bool>(nameof(this.HttpPatch));
-        public string HttpPatchRoute => this.GetRecord<string>(nameof(this.HttpPatchRoute));
-        public bool HttpPut => this.GetRecord<bool>(nameof(this.HttpPut));
-        public string HttpPutRoute => this.GetRecord<string>(nameof(this.HttpPutRoute));
-        public bool HttpDelete => this.GetRecord<bool>(nameof(this.HttpDelete));
-        public string HttpDeleteRoute => this.GetRecord<string>(nameof(this.HttpDeleteRoute));
+        private List<string> apiVersionValue;
+        private List<Type> ignoreGenericsValue;
+        private bool? fixCasingWithMappingValue;
 
-        public bool IsNonAction => this.GetRecord<bool>(nameof(this.IsNonAction));
-        public bool IsFromServices => this.GetRecord<bool>(nameof(this.IsFromServices));
-        public bool IsFromHeader => this.GetRecord<bool>(nameof(this.IsFromHeader));
-        public bool IsFromBody => this.GetRecord<bool>(nameof(this.IsFromBody));
-        public bool IsFromQuery => this.GetRecord<bool>(nameof(this.IsFromQuery));
-        public List<string> ApiVersion => this.GetRecord<List<string>>(nameof(this.ApiVersion));
-        public string Route => this.GetRecord<string>(nameof(this.Route));
-        public Type Produces => this.GetRecord<Type>(nameof(this.Produces));
-        public List<Type> IgnoreGenerics => this.GetRecord<List<Type>>(nameof(this.IgnoreGenerics));
+        public bool HttpGet { get; private set; }
+        public string HttpGetRoute { get; private set; }
+        public bool HttpPost { get; private set; }
+        public string HttpPostRoute { get; private set; }
+        public bool HttpPatch { get; private set; }
+        public string HttpPatchRoute { get; private set; }
+        public bool HttpPut { get; private set; }
+        public string HttpPutRoute { get; private set; }
+        public bool HttpDelete { get; private set; }
+        public string HttpDeleteRoute { get; private set; }
 
-        static AspDotNetOptions()
+        public bool IsNonAction { get; private set; }
+        public bool IsFromServices { get; private set; }
+        public bool IsFromHeader { get; private set; }
+        public bool IsFromBody { get; private set; }
+        public bool IsFromQuery { get; private set; }
+        public List<string> ApiVersion => this.GetMerged(this.apiVersionValue, this.Parent?.CastSafeTo<AspDotNetOptions>()?.ApiVersion);
+        public string Route { get; private set; }
+        public Type Produces { get; private set; }
+        public List<Type> IgnoreGenerics => this.GetMerged(this.ignoreGenericsValue, this.Parent?.CastSafeTo<AspDotNetOptions>()?.IgnoreGenerics, this.Parent?.CastSafeTo<AspDotNetOptions>()?.IgnoreGenerics);
+        public bool FixCasingWithMapping => this.fixCasingWithMappingValue ?? this.Parent?.CastSafeTo<AspDotNetOptions>()?.FixCasingWithMapping ?? false;
+
+        protected override void Read(Attribute attribute)
         {
-            Readers.Add("HttpGetAttribute", (attribute, records) =>
+            base.Read(attribute);
+            switch (attribute.GetType().Name)
             {
-                records.Add(nameof(HttpGet), true);
-                records.Add(nameof(HttpGetRoute), GetRoute(attribute));
-            });
-            Readers.Add("HttpPostAttribute", (attribute, records) =>
+                case "HttpGetAttribute":
+                    this.HttpGet = true;
+                    this.HttpGetRoute = GetRoute(attribute);
+                    break;
+                case "HttpPostAttribute":
+                    this.HttpPost = true;
+                    this.HttpPostRoute = GetRoute(attribute);
+                    break;
+                case "HttpPatchAttribute":
+                    this.HttpPatch = true;
+                    this.HttpPatchRoute = GetRoute(attribute);
+                    break;
+                case "HttpPutAttribute":
+                    this.HttpPut = true;
+                    this.HttpPutRoute = GetRoute(attribute);
+                    break;
+                case "HttpDeleteAttribute":
+                    this.HttpDelete = true;
+                    this.HttpDeleteRoute = GetRoute(attribute);
+                    break;
+                case "NonActionAttribute":
+                    this.IsNonAction = true;
+                    break;
+                case "FromServicesAttribute":
+                    this.IsFromServices = true;
+                    break;
+                case "FromHeaderAttribute":
+                    this.IsFromHeader = true;
+                    break;
+                case "FromBodyAttribute":
+                    this.IsFromBody = true;
+                    break;
+                case "FromQueryAttribute":
+                    this.IsFromQuery = true;
+                    break;
+                case "ApiVersionAttribute":
+                    this.apiVersionValue = attribute.GetType().GetProperty("Versions")?
+                                                    .GetValue(attribute)?.CastSafeTo<IEnumerable>().OfType<object>()
+                                                    .Select(x => x.ToString()).OrderBy(x => x).ToList();
+                    break;
+                case "RouteAttribute":
+                    this.Route = GetRoute(attribute);
+                    break;
+                case "ProducesResponseTypeAttribute":
+                case "ProducesAttribute":
+                    this.Produces = GetProduces(attribute) ?? this.Produces;
+                    break;
+            }
+            switch (attribute)
             {
-                records.Add(nameof(HttpPost), true);
-                records.Add(nameof(HttpPostRoute), GetRoute(attribute));
-            });
-            Readers.Add("HttpPatchAttribute", (attribute, records) =>
-            {
-                records.Add(nameof(HttpPatch), true);
-                records.Add(nameof(HttpPatchRoute), GetRoute(attribute));
-            });
-            Readers.Add("HttpPutAttribute", (attribute, records) =>
-            {
-                records.Add(nameof(HttpPut), true);
-                records.Add(nameof(HttpPutRoute), GetRoute(attribute));
-            });
-            Readers.Add("HttpDeleteAttribute", (attribute, records) =>
-            {
-                records.Add(nameof(HttpDelete), true);
-                records.Add(nameof(HttpDeleteRoute), GetRoute(attribute));
-            });
-
-            Readers.Add("FromServicesAttribute", (_, records) => records.Add(nameof(IsFromServices), true));
-            Readers.Add("FromHeaderAttribute", (_, records) => records.Add(nameof(IsFromHeader), true));
-            Readers.Add("FromBodyAttribute", (_, records) => records.Add(nameof(IsFromBody), true));
-            Readers.Add("FromQueryAttribute", (_, records) => records.Add(nameof(IsFromQuery), true));
-            Readers.Add("ApiVersionAttribute", (attribute, records) => records.Add(
-                            nameof(ApiVersion),
-                            attribute.GetType().GetProperty("Versions")?.GetValue(attribute)?.CastSafeTo<IEnumerable>().OfType<object>().Select(x => x.ToString()).OrderBy(x => x).ToList()
-                        ));
-            Readers.Add("RouteAttribute", (attribute, records) => records.Add(nameof(Route), GetRoute(attribute)));
-            Readers.Add("ProducesResponseTypeAttribute", (attribute, records) => records.SetNullCoalescing(nameof(Produces), GetProduces(attribute)));
-            Readers.Add("ProducesAttribute", (attribute, records) => records.SetNullCoalescing(nameof(Produces), GetProduces(attribute)));
-            Readers.Add(nameof(GenerateIgnoreGenericAttribute), (attribute, records) =>
-            {
-                records.AddIfNotExists(nameof(IgnoreGenerics), new List<Type>());
-                records[nameof(IgnoreGenerics)].CastTo<List<Type>>().Add(attribute.CastTo<GenerateIgnoreGenericAttribute>().Type);
-            });
+                case GenerateIgnoreGenericAttribute ignoreGenericAttribute:
+                    (this.ignoreGenericsValue ??= new List<Type>()).Add(ignoreGenericAttribute.Type);
+                    break;
+                case GenerateFixCasingWithMappingAttribute:
+                    this.fixCasingWithMappingValue = true;
+                    break;
+            }
         }
 
         private static string GetRoute(Attribute attribute)
@@ -94,29 +117,19 @@ namespace KY.Generator.AspDotNet.Helpers
             return null;
         }
 
-        public new static AspDotNetOptions Get(MemberInfo member)
+        public new static AspDotNetOptions Get(MemberInfo member, IOptions caller = null)
         {
-            return Get<AspDotNetOptions>(member);
+            return Get<AspDotNetOptions>(member, caller);
         }
 
-        public new static AspDotNetOptions Get(ParameterInfo parameter)
+        public new static AspDotNetOptions Get(ParameterInfo parameter, IOptions caller = null)
         {
-            return Get<AspDotNetOptions>(parameter);
+            return Get<AspDotNetOptions>(parameter, caller);
         }
 
-        public new static AspDotNetOptions Get(MethodInfo method)
+        public new static AspDotNetOptions Get(Assembly assembly, IOptions caller = null)
         {
-            return Get<AspDotNetOptions>(method);
-        }
-
-        public new static AspDotNetOptions Get(Type type)
-        {
-            return Get<AspDotNetOptions>(type);
-        }
-
-        public new static AspDotNetOptions Get(Assembly assembly)
-        {
-            return Get<AspDotNetOptions>(assembly);
+            return Get<AspDotNetOptions>(assembly, caller);
         }
     }
 }

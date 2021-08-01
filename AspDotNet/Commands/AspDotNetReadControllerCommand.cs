@@ -23,8 +23,6 @@ namespace KY.Generator.AspDotNet.Commands
             readConfiguration.Controller = new AspDotNetReadControllerConfiguration();
             readConfiguration.Controller.Namespace = this.Parameters.Namespace;
             readConfiguration.Controller.Name = this.Parameters.Name;
-            readConfiguration.Controller.ReplaceName = this.Parameters.ReplaceName;
-            readConfiguration.Controller.ReplaceWithName = this.Parameters.ReplaceWithName;
 
             this.resolver.Create<AspDotNetControllerReader>().Read(readConfiguration, this.TransferObjects);
 

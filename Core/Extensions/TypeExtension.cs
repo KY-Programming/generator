@@ -14,6 +14,10 @@ namespace KY.Generator.Extensions
 
         public static Type IgnoreGeneric(this Type type, params Type[] typesToIgnore)
         {
+            if (typesToIgnore == null)
+            {
+                return type;
+            }
             bool isChanged = false;
             foreach (Type typeToIgnore in typesToIgnore)
             {
@@ -30,7 +34,7 @@ namespace KY.Generator.Extensions
 
         public static Type IgnoreGeneric(this Type type, IEnumerable<Type> typesToIgnore)
         {
-            return type.IgnoreGeneric(typesToIgnore.ToArray());
+            return type.IgnoreGeneric(typesToIgnore?.ToArray());
         }
     }
 }

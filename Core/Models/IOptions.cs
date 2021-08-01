@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace KY.Generator.Models
 {
     public interface IOptions
@@ -9,5 +11,9 @@ namespace KY.Generator.Models
         bool OptionalFields { get; }
         bool OptionalProperties { get; }
         bool Ignore { get; }
+        Dictionary<string, string> ReplaceName { get; }
+
+        IOptions Parent { get; set; }
+        IOptions Caller { get; set; }
     }
 }
