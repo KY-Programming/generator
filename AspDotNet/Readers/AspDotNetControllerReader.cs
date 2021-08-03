@@ -37,7 +37,7 @@ namespace KY.Generator.AspDotNet.Readers
             controller.Name = type.Name;
             controller.Language = ReflectionLanguage.Instance;
 
-            AspDotNetOptions typeOptions = AspDotNetOptions.Get(type);
+            IAspDotNetOptions typeOptions = AspDotNetOptions.Get(type);
             controller.Route = typeOptions.Route;
             controller.Version = typeOptions.ApiVersion?.LastOrDefault();
 
@@ -45,7 +45,7 @@ namespace KY.Generator.AspDotNet.Readers
             Type currentTyp = type;
             while (currentTyp?.Namespace != null && !currentTyp.Namespace.StartsWith("Microsoft") && !currentTyp.Namespace.StartsWith("System"))
             {
-                AspDotNetOptions currentOptions = AspDotNetOptions.Get(currentTyp);
+                IAspDotNetOptions currentOptions = AspDotNetOptions.Get(currentTyp);
                 if (currentOptions.Ignore)
                 {
                     break;
@@ -58,7 +58,7 @@ namespace KY.Generator.AspDotNet.Readers
             }
             foreach (MethodInfo method in methods)
             {
-                AspDotNetOptions methodOptions = AspDotNetOptions.Get(method);
+                IAspDotNetOptions methodOptions = AspDotNetOptions.Get(method);
                 if (methodOptions.Ignore || methodOptions.IsNonAction)
                 {
                     continue;
@@ -86,7 +86,7 @@ namespace KY.Generator.AspDotNet.Readers
                                   .IgnoreGeneric(methodOptions.IgnoreGenerics);
 
                 Type returnEntryType = returnType.IgnoreGeneric(typeof(IEnumerable<>)).IgnoreGeneric(typeof(List<>)).IgnoreGeneric(typeof(IList<>));
-                AspDotNetOptions returnEntryTypeOptions = AspDotNetOptions.Get(returnEntryType, methodOptions);
+                IAspDotNetOptions returnEntryTypeOptions = AspDotNetOptions.Get(returnEntryType, methodOptions);
                 foreach (KeyValuePair<HttpServiceActionTypeTransferObject, string> actionType in actionTypes)
                 {
                     HttpServiceActionTransferObject action = new();
@@ -104,7 +104,7 @@ namespace KY.Generator.AspDotNet.Readers
                     ).ToList();
                     foreach (ParameterInfo parameter in parameters)
                     {
-                        AspDotNetOptions parameterOptions = AspDotNetOptions.Get(parameter, methodOptions);
+                        IAspDotNetOptions parameterOptions = AspDotNetOptions.Get(parameter, methodOptions);
                         string fullRoute = $"{controller.Route}/{action.Route}";
                         HttpServiceActionParameterTransferObject actionParameter = new();
                         actionParameter.Name = parameter.Name;
@@ -166,7 +166,7 @@ namespace KY.Generator.AspDotNet.Readers
             transferObjects.Add(controller);
         }
 
-        private Dictionary<HttpServiceActionTypeTransferObject, string> GetActionTypes(AspDotNetOptions options)
+        private Dictionary<HttpServiceActionTypeTransferObject, string> GetActionTypes(IAspDotNetOptions options)
         {
             Dictionary<HttpServiceActionTypeTransferObject, string> dictionary = new();
             if (options.HttpGet)

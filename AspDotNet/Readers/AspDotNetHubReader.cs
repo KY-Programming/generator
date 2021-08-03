@@ -49,7 +49,7 @@ namespace KY.Generator.AspDotNet.Readers
                 {
                     continue;
                 }
-                AspDotNetOptions methodOptions = AspDotNetOptions.Get(method);
+                IAspDotNetOptions methodOptions = AspDotNetOptions.Get(method);
                 HttpServiceActionTransferObject action = new HttpServiceActionTransferObject();
                 action.Name = method.Name;
                 if (method.ReturnType.Name != typeof(void).Name && method.ReturnType.Name != nameof(Task))
@@ -71,7 +71,7 @@ namespace KY.Generator.AspDotNet.Readers
             MethodInfo[] notificationMethods = notificationType.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
             foreach (MethodInfo method in notificationMethods)
             {
-                AspDotNetOptions methodOptions = AspDotNetOptions.Get(method);
+                IAspDotNetOptions methodOptions = AspDotNetOptions.Get(method);
                 HttpServiceActionTransferObject action = new HttpServiceActionTransferObject();
                 action.Name = method.Name;
                 foreach (ParameterInfo parameter in method.GetParameters())

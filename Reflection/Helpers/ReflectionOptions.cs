@@ -1,107 +1,49 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using KY.Generator.Models;
 
 namespace KY.Generator.Reflection
 {
-    public class ReflectionOptions : Options
+    public class ReflectionOptions : Options, IReflectionOptions
     {
-        protected static Dictionary<string, Action<Attribute, Dictionary<string, object>>> Readers { get; } = new();
+        public bool Strict => this.GetPrimitive<ReflectionOptionsPart, bool>(x => x?.Strict);
+        public bool PropertiesToFields => this.GetPrimitive<ReflectionOptionsPart, bool>(x => x?.PropertiesToFields);
+        public bool FieldsToProperties => this.GetPrimitive<ReflectionOptionsPart, bool>(x => x?.FieldsToProperties);
+        public bool PreferInterfaces => this.GetPrimitive<ReflectionOptionsPart, bool>(x => x?.PreferInterfaces);
+        public bool OptionalFields => this.GetPrimitive<ReflectionOptionsPart, bool>(x => x?.OptionalFields);
+        public bool OptionalProperties => this.GetPrimitive<ReflectionOptionsPart, bool>(x => x?.OptionalProperties);
+        public bool Ignore => this.GetPrimitive<ReflectionOptionsPart, bool>(x => x?.Ignore);
+        public Dictionary<string, string> ReplaceName => this.GetMerged<IReflectionOptions, string, string>(this.Get<ReflectionOptionsPart>()?.ReplaceName, x => x?.ReplaceName);
 
-        protected void Read(IEnumerable<Attribute> attributes)
+        protected ReflectionOptions(ICustomAttributeProvider target, Options parent, IOptions caller = null)
+            : base(target, parent, caller)
         {
-            foreach (Attribute attribute in attributes)
+            Options entry = GetOrCreate(target, parent);
+            if (this.CanRead(target))
             {
-                this.Read(attribute);
+                this.Add(entry.GetOrRead(ReflectionOptionsReader.Read));
             }
         }
 
-        protected virtual void Read(Attribute attribute)
+        public static IReflectionOptions Get(MemberInfo member, IOptions caller = null)
         {
-            switch (attribute)
-            {
-                case GenerateIgnoreAttribute:
-                    this.IgnoreValue = true;
-                    break;
-                case GeneratePreferInterfacesAttribute:
-                    this.PreferInterfacesValue = true;
-                    break;
-                case GenerateStrictAttribute:
-                    this.StrictValue = true;
-                    break;
-                case GenerateRenameAttribute renameAttribute:
-                    this.ReplaceNameValue[renameAttribute.Replace] = renameAttribute.With;
-                    break;
-            }
+            return new ReflectionOptions(member, (Options)Get(member.DeclaringType), caller);
         }
 
-        protected static T Get<T>(ICustomAttributeProvider member, IOptions parent = null, IOptions caller = null)
-            where T : ReflectionOptions, new()
+        public static IReflectionOptions Get(ParameterInfo parameter, IOptions caller = null)
         {
-            OptionsCacheEntry cacheEntry = null;
-            T options = null;
-            if (Cache.ContainsKey(member))
-            {
-                cacheEntry = Cache[member];
-                options = cacheEntry.Get<T>();
-                if (options != null)
-                {
-                    options.Caller = caller;
-                    return options;
-                }
-            }
-            options = new();
-            options.Target = member;
-            options.Parent = parent;
-            options.Caller = caller;
-            List<Attribute> attributes = new();
-            if (!(member is Assembly assembly && assembly.FullName.StartsWith("System") || member is Type type && type.Namespace.StartsWith("System.")))
-            {
-                attributes.AddRange(member.GetCustomAttributes(true).OfType<Attribute>());
-                options.Read(attributes);
-            }
-            if (cacheEntry == null)
-            {
-                cacheEntry = new OptionsCacheEntry(attributes);
-                Cache.Add(member, cacheEntry);
-            }
-            cacheEntry.Add(options);
-            return options;
+            return new ReflectionOptions(parameter, (Options)Get(parameter.Member), caller);
         }
 
-        public static ReflectionOptions Get(MemberInfo member, IOptions caller = null)
+        public static IReflectionOptions Get(Type type, IOptions caller = null)
         {
-            return Get<ReflectionOptions>(member, caller);
+            return new ReflectionOptions(type, (Options)Get(type.Assembly), caller);
         }
 
-        protected static T Get<T>(MemberInfo member, IOptions caller = null)
-            where T : ReflectionOptions, new()
+        public static IReflectionOptions Get(Assembly assembly, IOptions caller = null)
         {
-            return Get<T>(member, member.DeclaringType == null ? Get(member.GetType().Assembly) : Get(member.DeclaringType), caller);
-        }
-
-        public static ReflectionOptions Get(ParameterInfo parameter, IOptions caller = null)
-        {
-            return Get<ReflectionOptions>(parameter, caller);
-        }
-
-        protected static T Get<T>(ParameterInfo parameter, IOptions caller = null)
-            where T : ReflectionOptions, new()
-        {
-            return Get<T>(parameter, Get(parameter.Member), caller);
-        }
-
-        public static ReflectionOptions Get(Assembly assembly, IOptions caller = null)
-        {
-            return Get<ReflectionOptions>(assembly, caller);
-        }
-
-        protected static T Get<T>(Assembly assembly, IOptions caller = null)
-            where T : ReflectionOptions, new()
-        {
-            return Get<T>(assembly, Global, caller);
+            return new ReflectionOptions(assembly, Global, caller);
         }
     }
 }

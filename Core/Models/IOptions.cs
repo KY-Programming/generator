@@ -12,8 +12,5 @@ namespace KY.Generator.Models
         bool OptionalProperties { get; }
         bool Ignore { get; }
         Dictionary<string, string> ReplaceName { get; }
-
-        IOptions Parent { get; set; }
-        IOptions Caller { get; set; }
     }
 }

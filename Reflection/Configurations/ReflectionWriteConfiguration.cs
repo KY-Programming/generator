@@ -25,8 +25,6 @@ namespace KY.Generator.Reflection.Configurations
         public bool SkipNamespace { get; set; }
         public List<string> Usings { get; }
         public bool FormatNames { get; set; }
-        public string ReplaceName { get; set; }
-        public string WithName { get; set; }
 
         public ReflectionWriteConfiguration()
         {
