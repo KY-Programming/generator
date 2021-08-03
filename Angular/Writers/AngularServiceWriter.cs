@@ -84,8 +84,9 @@ namespace KY.Generator.Angular.Writers
                         this.MapType(controllerLanguage, configurationLanguage, action.ReturnType);
                     }
                     TypeTemplate returnType = action.ReturnType.ToTemplate();
-                    TypeTemplate returnModelType = isEnumerable ? action.ReturnType.Generics.First().Type.ToTemplate() : returnType;
-                    ModelTransferObject returnModel = transferObjects.OfType<ModelTransferObject>().FirstOrDefault(x => x.Name == returnModelType.Name && x.Namespace == returnModelType.Namespace);
+                    TypeTransferObject returnModelTypeTemplate = isEnumerable ? action.ReturnType.Generics.First().Type : action.ReturnType;
+                    ModelTransferObject returnModel = returnModelTypeTemplate as ModelTransferObject
+                                                      ?? transferObjects.OfType<ModelTransferObject>().FirstOrDefault(x => x.Name == returnModelTypeTemplate.Name && x.Namespace == returnModelTypeTemplate.Namespace);
                     this.AddUsing(action.ReturnType, classTemplate, configuration, relativeModelPath);
                     MethodTemplate methodTemplate = classTemplate.AddMethod(action.Name, Code.Generic("Observable", returnType))
                                                                  .FormatName(configuration);

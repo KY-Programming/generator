@@ -7,7 +7,6 @@ using KY.Generator.Models;
 using KY.Generator.Reflection.Extensions;
 using KY.Generator.Reflection.Language;
 using KY.Generator.Transfer;
-using KY.Generator.Transfer.Extensions;
 
 namespace KY.Generator.Reflection.Readers
 {
@@ -15,7 +14,7 @@ namespace KY.Generator.Reflection.Readers
     {
         public ModelTransferObject Read(Type type, List<ITransferObject> transferObjects, IOptions caller = null)
         {
-            ReflectionOptions typeOptions = ReflectionOptions.Get(type, caller);
+            IReflectionOptions typeOptions = ReflectionOptions.Get(type, caller);
             ModelTransferObject model = new() { Language = ReflectionLanguage.Instance };
             model.Name = model.OriginalName = type.Name;
             model.Namespace = type.Namespace;
@@ -29,6 +28,11 @@ namespace KY.Generator.Reflection.Readers
             ModelTransferObject existingModel = transferObjects.OfType<ModelTransferObject>().FirstOrDefault(entry => entry.Equals(model));
             if (existingModel != null)
             {
+                if (model.IsGeneric)
+                {
+                    existingModel = new GenericModelTransferObject(existingModel);
+                    this.ReadGenericArguments(type, existingModel, transferObjects, typeOptions);
+                }
                 return existingModel;
             }
             if (typeOptions.Ignore)
@@ -63,10 +67,10 @@ namespace KY.Generator.Reflection.Readers
             {
                 model.IsNullable = true;
             }
-            Dictionary<string,string> replaceName = typeOptions.ReplaceName;
+            Dictionary<string, string> replaceName = typeOptions.ReplaceName;
             if (!model.FromSystem && replaceName != null)
             {
-                foreach (KeyValuePair<string,string> pair in replaceName)
+                foreach (KeyValuePair<string, string> pair in replaceName)
                 {
                     model.Name = model.Name.Replace(pair.Key, pair.Value);
                 }
@@ -118,33 +122,14 @@ namespace KY.Generator.Reflection.Readers
         private void ReadClass(Type type, ModelTransferObject model, List<ITransferObject> transferObjects, IOptions caller = null)
         {
             Logger.Trace($"Reflection read type {type.Name} ({type.Namespace})");
-            ReflectionOptions typeOptions = ReflectionOptions.Get(type, caller);
+            IReflectionOptions typeOptions = ReflectionOptions.Get(type, caller);
             if (type.BaseType != typeof(object) && type.BaseType != typeof(ValueType) && type.BaseType != null)
             {
                 model.BasedOn = this.Read(type.BaseType, transferObjects, typeOptions);
             }
             if (type.IsGenericType)
             {
-                Type genericType = type.GetGenericTypeDefinition();
-                model.Generics.Clear();
-                if (genericType is TypeInfo typeInfo)
-                {
-                    for (int index = 0; index < typeInfo.GenericTypeParameters.Length; index++)
-                    {
-                        Type alias = typeInfo.GenericTypeParameters[index];
-                        Type argument = type.GenericTypeArguments[index];
-                        model.Generics.Add(new GenericAliasTransferObject
-                                           {
-                                               Alias = this.Read(alias, transferObjects),
-                                               Type = this.Read(argument, transferObjects, typeOptions)
-                                           });
-                    }
-                    type = genericType;
-                }
-                else
-                {
-                    throw new InvalidOperationException("Internal Error l2sl3: Type is not a TypeInfo");
-                }
+                type = this.ReadGenericArguments(type, model, transferObjects, typeOptions);
             }
 
             model.IsInterface = type.IsInterface;
@@ -160,7 +145,7 @@ namespace KY.Generator.Reflection.Readers
             FieldInfo[] constants = type.GetFields(BindingFlags.Public | BindingFlags.Static);
             foreach (FieldInfo field in constants)
             {
-                ReflectionOptions fieldOptions = ReflectionOptions.Get(field);
+                IReflectionOptions fieldOptions = ReflectionOptions.Get(field);
                 if (fieldOptions.Ignore)
                 {
                     continue;
@@ -177,7 +162,7 @@ namespace KY.Generator.Reflection.Readers
             FieldInfo[] fields = type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
             foreach (FieldInfo field in fields)
             {
-                ReflectionOptions fieldOptions = ReflectionOptions.Get(field);
+                IReflectionOptions fieldOptions = ReflectionOptions.Get(field);
                 if (fieldOptions.Ignore)
                 {
                     continue;
@@ -192,7 +177,7 @@ namespace KY.Generator.Reflection.Readers
             PropertyInfo[] properties = type.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
             foreach (PropertyInfo property in properties)
             {
-                ReflectionOptions propertyOptions = ReflectionOptions.Get(property);
+                IReflectionOptions propertyOptions = ReflectionOptions.Get(property);
                 if (propertyOptions.Ignore)
                 {
                     continue;
@@ -205,6 +190,31 @@ namespace KY.Generator.Reflection.Readers
                                                                 };
                 model.Properties.Add(propertyTransferObject);
             }
+        }
+
+        private Type ReadGenericArguments(Type type, ModelTransferObject model, List<ITransferObject> transferObjects, IReflectionOptions typeOptions)
+        {
+            Type genericType = type.GetGenericTypeDefinition();
+            model.Generics.Clear();
+            if (genericType is TypeInfo typeInfo)
+            {
+                for (int index = 0; index < typeInfo.GenericTypeParameters.Length; index++)
+                {
+                    Type alias = typeInfo.GenericTypeParameters[index];
+                    Type argument = type.GenericTypeArguments[index];
+                    model.Generics.Add(new GenericAliasTransferObject
+                                       {
+                                           Alias = this.Read(alias, transferObjects),
+                                           Type = this.Read(argument, transferObjects, typeOptions)
+                                       });
+                }
+                type = genericType;
+            }
+            else
+            {
+                throw new InvalidOperationException("Internal Error l2sl3: Type is not a TypeInfo");
+            }
+            return type;
         }
     }
 }

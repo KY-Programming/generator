@@ -70,5 +70,11 @@ namespace WebApiController.Controllers
         {
             return new GenericResult<string>(new List<string> { value1, value2 });
         }
+
+        [HttpGet("[action]")]
+        public GenericResult<DateModel> GetGenericWithModel()
+        {
+            return new GenericResult<DateModel>(new List<DateModel> { new DateModel() });
+        }
     }
 }

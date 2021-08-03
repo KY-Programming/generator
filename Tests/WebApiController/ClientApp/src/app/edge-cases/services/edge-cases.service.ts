@@ -120,8 +120,28 @@ export class EdgeCasesService {
         return subject;
     }
 
+    public getGenericWithModel(httpOptions?: {}): Observable<GenericResult<DateModel>> {
+        let subject = new Subject<GenericResult<DateModel>>();
+        this.http.get<GenericResult<DateModel>>(this.serviceUrl + "/edgecases/getgenericwithmodel", httpOptions).subscribe((result) => {
+            if (result) {
+                if (result.rows) {
+                    result.rows.forEach((entry) => {
+                        entry.date = this.convertToDate(entry.date);
+                    });
+                }
+            }
+            subject.next(result);
+            subject.complete();
+        }, (error) => subject.error(error));
+        return subject;
+    }
+
     public convertAny(value: any): string {
         return value === null || value === undefined ? "" : value.toString();
+    }
+
+    public convertToDate(value: string | Date): Date {
+        return typeof(value) === "string" ? new Date(value) : value;
     }
 }
 
