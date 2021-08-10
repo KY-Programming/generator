@@ -37,13 +37,13 @@ namespace KY.Generator.Writers
                       .Add(template.HasSetter ? "set; " : string.Empty)
                       .Add("}");
             }
-            if (template.DefaultValue != null)
+            if (template.DefaultValue != null && !template.Class.IsInterface)
             {
                 output.Add(" = ")
                       .Add(template.DefaultValue)
                       .CloseLine();
             }
-            else if (template.Expression != null)
+            else if (template.Expression != null && !template.Class.IsInterface)
             {
                 output.Add(" => ")
                       .Add(template.Expression)

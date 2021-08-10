@@ -49,7 +49,14 @@ namespace KY.Generator.Fluent
             {
                 GeneratorFluentMain main = (GeneratorFluentMain)Activator.CreateInstance(objectType);
                 main.ResolverReference.Resolver = this.resolver;
-                main.Execute();
+                if (this.Parameters.IsBeforeBuild)
+                {
+                    main.ExecuteBeforeBuild();
+                }
+                else
+                {
+                    main.Execute();
+                }
                 foreach (List<IGeneratorCommand> commands in main.Syntaxes.Select(x => x.Commands).Where(x => x.Count > 0))
                 {
                     List<ITransferObject> transferObjects = this.TransferObjects.ToList();

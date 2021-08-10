@@ -8,16 +8,16 @@ namespace KY.Generator.Transfer
     [DebuggerDisplay("TypeTransferObject {Namespace,nq}.{Name,nq}")]
     public class TypeTransferObject : ITransferObject
     {
-        public string Name { get; set; }
-        public string OriginalName { get; set; }
-        public string Namespace { get; set; }
-        public bool FromSystem { get; set; }
-        public bool IsNullable { get; set; }
-        public List<GenericAliasTransferObject> Generics { get; }
-        public TypeTransferObject Original { get; set; }
-        public ICodeFragment Default { get; set; }
+        public virtual string Name { get; set; }
+        public virtual string OriginalName { get; set; }
+        public virtual string Namespace { get; set; }
+        public virtual bool FromSystem { get; set; }
+        public virtual bool IsNullable { get; set; }
+        public virtual List<GenericAliasTransferObject> Generics { get; }
+        public virtual TypeTransferObject Original { get; set; }
+        public virtual ICodeFragment Default { get; set; }
         public string FullName => $"{this.Namespace}.{this.Name}";
-        public bool HasUsing { get; set; } = true;
+        public virtual bool HasUsing { get; set; } = true;
 
         public TypeTransferObject()
         {

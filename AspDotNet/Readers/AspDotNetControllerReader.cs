@@ -146,6 +146,12 @@ namespace KY.Generator.AspDotNet.Readers
                         actionParameter.Inline = fullRoute.Contains($"{{{parameter.Name}}}");
                         actionParameter.InlineIndex = actionParameter.Inline && action.Route != null ? action.Route.IndexOf($"{{{parameter.Name}}}", StringComparison.Ordinal) : 0;
                         actionParameter.IsOptional = parameter.IsOptional;
+                        if (fullRoute.Contains($"{{{parameter.Name}?}}"))
+                        {
+                            actionParameter.Inline = true;
+                            actionParameter.IsOptional = true;
+                            action.Route = action.Route.Replace($"{{{parameter.Name}?}}", $"{{{parameter.Name}}}");
+                        }
                         action.Parameters.Add(actionParameter);
                         if (action.Type == HttpServiceActionTypeTransferObject.Get && actionParameter.Type.Name == "List" && !actionParameter.FromQuery)
                         {

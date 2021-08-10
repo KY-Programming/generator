@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using KY.Core.Dependency;
 using KY.Generator.Command;
 
@@ -17,6 +18,12 @@ namespace KY.Generator.Syntax
 
         public IWriteFluentSyntax Write()
         {
+            return this;
+        }
+
+        public IReadFluentSyntax SetType<T>(Action<ISetFluentSyntax> action)
+        {
+            action(new SetFluentSyntax(typeof(T)));
             return this;
         }
     }

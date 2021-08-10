@@ -27,9 +27,14 @@ namespace KY.Generator.Reflection.Readers
             ModelTransferObject existingModel = transferObjects.OfType<ModelTransferObject>().FirstOrDefault(entry => entry.Equals(model));
             if (existingModel != null)
             {
+                if (model.IsGeneric)
+                {
+                    existingModel = new GenericModelTransferObject(existingModel);
+                    this.ReadGenericArguments(type, existingModel, transferObjects);
+                }
                 return existingModel;
             }
-            if (type.GetCustomAttributes<GenerateIgnoreAttribute>().Any())
+            if (type.GetCustomAttributes<GenerateIgnoreAttribute>().Any() || IgnoreTypeHelper.IgnoredTypes.Contains(type))
             {
                 Logger.Trace($"{type.Name} ({type.Namespace}) ignored (decorated with {nameof(GenerateIgnoreAttribute)})");
                 return model;
@@ -119,36 +124,26 @@ namespace KY.Generator.Reflection.Readers
             Logger.Trace($"Reflection read type {type.Name} ({type.Namespace})");
             if (type.BaseType != typeof(object) && type.BaseType != typeof(ValueType) && type.BaseType != null)
             {
-                model.BasedOn = this.Read(type.BaseType, transferObjects);
+                GenerateIgnoreAttribute baseTypeAttribute = type.BaseType.GetCustomAttribute<GenerateIgnoreAttribute>();
+                if (baseTypeAttribute == null && !IgnoreTypeHelper.IgnoredTypes.Contains(type.BaseType))
+                {
+                    model.BasedOn = this.Read(type.BaseType, transferObjects);
+                }
             }
             if (type.IsGenericType)
             {
-                Type genericType = type.GetGenericTypeDefinition();
-                model.Generics.Clear();
-                if (genericType is TypeInfo typeInfo)
-                {
-                    for (int index = 0; index < typeInfo.GenericTypeParameters.Length; index++)
-                    {
-                        Type alias = typeInfo.GenericTypeParameters[index];
-                        Type argument = type.GenericTypeArguments[index];
-                        model.Generics.Add(new GenericAliasTransferObject
-                                           {
-                                               Alias = this.Read(alias,transferObjects),
-                                               Type = this.Read(argument, transferObjects)
-                                           });
-                    }
-                    type = genericType;
-                }
-                else
-                {
-                    throw new InvalidOperationException("Internal Error l2sl3: Type is not a TypeInfo");
-                }
+                type = this.ReadGenericArguments(type, model, transferObjects);
             }
 
             model.IsInterface = type.IsInterface;
             model.IsAbstract = type.IsAbstract;
             foreach (Type interFace in type.GetInterfaces(false))
             {
+                GenerateIgnoreAttribute ignoreAttribute = interFace.GetCustomAttribute<GenerateIgnoreAttribute>();
+                if (ignoreAttribute != null || IgnoreTypeHelper.IgnoredTypes.Contains(interFace))
+                {
+                    continue;
+                }
                 ModelTransferObject interfaceTransferObject = this.Read(interFace, transferObjects);
                 if (transferObjects.Contains(interfaceTransferObject))
                 {
@@ -203,6 +198,31 @@ namespace KY.Generator.Reflection.Readers
                                                                 };
                 model.Properties.Add(propertyTransferObject);
             }
+        }
+
+        private Type ReadGenericArguments(Type type, ModelTransferObject model, List<ITransferObject> transferObjects)
+        {
+            Type genericType = type.GetGenericTypeDefinition();
+            model.Generics.Clear();
+            if (genericType is TypeInfo typeInfo)
+            {
+                for (int index = 0; index < typeInfo.GenericTypeParameters.Length; index++)
+                {
+                    Type alias = typeInfo.GenericTypeParameters[index];
+                    Type argument = type.GenericTypeArguments[index];
+                    model.Generics.Add(new GenericAliasTransferObject
+                                       {
+                                           Alias = this.Read(alias, transferObjects),
+                                           Type = this.Read(argument, transferObjects)
+                                       });
+                }
+                type = genericType;
+            }
+            else
+            {
+                throw new InvalidOperationException("Internal Error l2sl3: Type is not a TypeInfo");
+            }
+            return type;
         }
     }
 }

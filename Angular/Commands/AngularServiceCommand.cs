@@ -34,6 +34,18 @@ namespace KY.Generator.Angular.Commands
             writeConfiguration.Service.EndlessTries = this.Parameters.EndlessTries;
             writeConfiguration.Service.Timeouts = this.Parameters.Timeouts;
             writeConfiguration.Model.RelativePath = this.Parameters.RelativeModelPath;
+            writeConfiguration.Service.HttpClient.Name = this.Parameters.HttpClient;
+            writeConfiguration.Service.HttpClient.Import = this.Parameters.HttpClientUsing;
+            writeConfiguration.Service.HttpClient.Get = this.Parameters.HttpClientGet;
+            writeConfiguration.Service.HttpClient.HasGetOptions = this.Parameters.HttpClientGetOptions;
+            writeConfiguration.Service.HttpClient.Post = this.Parameters.HttpClientPost;
+            writeConfiguration.Service.HttpClient.HasPostOptions = this.Parameters.HttpClientPostOptions;
+            writeConfiguration.Service.HttpClient.Patch = this.Parameters.HttpClientPatch;
+            writeConfiguration.Service.HttpClient.HasPatchOptions = this.Parameters.HttpClientPatchOptions;
+            writeConfiguration.Service.HttpClient.Put = this.Parameters.HttpClientPut;
+            writeConfiguration.Service.HttpClient.HasPutOptions = this.Parameters.HttpClientPutOptions;
+            writeConfiguration.Service.HttpClient.Delete = this.Parameters.HttpClientDelete;
+            writeConfiguration.Service.HttpClient.HasDeleteOptions = this.Parameters.HttpClientDeleteOptions;
 
             output.DeleteAllRelatedFiles(writeConfiguration.OutputId, this.Parameters.RelativePath);
 

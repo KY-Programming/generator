@@ -161,6 +161,13 @@ namespace KY.Generator.Transfer.Writers
             {
                 return;
             }
+            if (type is ModelTransferObject model)
+            {
+                foreach (GenericAliasTransferObject generic in model.Generics)
+                {
+                    this.AddUsing(generic.Type, classTemplate, configuration, relativeModelPath);
+                }
+            }
             if ((!type.FromSystem || type.FromSystem && configuration.Language.ImportFromSystem) && type.HasUsing && !string.IsNullOrEmpty(type.Namespace) && classTemplate.Namespace.Name != type.Namespace)
             {
                 string fileName = Formatter.FormatFile(type.Name, configuration, true);

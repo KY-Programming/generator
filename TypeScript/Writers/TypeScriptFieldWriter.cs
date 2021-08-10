@@ -18,7 +18,7 @@ namespace KY.Generator.TypeScript.Writers
                   .Add(": ")
                   .Add(template.Type)
                   .If(template.DefaultValue == null && template.Strict && template.Type.IsNullable).Add(" | undefined").EndIf()
-                  .If(template.DefaultValue != null).Add(" = ").Add(template.DefaultValue).EndIf()
+                  .If(template.DefaultValue != null && !template.Class.IsInterface).Add(" = ").Add(template.DefaultValue).EndIf()
                   .CloseLine();
         }
     }

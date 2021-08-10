@@ -57,5 +57,11 @@ namespace KY.Generator.Angular.Fluent
             this.command.Parameters.Strict = value;
             return this;
         }
+
+        public IAngularModelSyntax PreferInterfaces()
+        {
+            this.command.Parameters.PreferInterfaces = true;
+            return this;
+        }
     }
 }
