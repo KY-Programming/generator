@@ -1,7 +1,7 @@
 ﻿/* eslint-disable */
 // tslint:disable
 
-import { ConvertMeOptional } from "../models/convert-me-optional.interface";
+import { ConvertMeOptional } from "../models/convert-me-optional";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";

@@ -89,9 +89,4 @@ namespace Types
         protected string ProtectedField;
         private string PrivateField;
     }
-
-    public class SubType
-    {
-        public string Property { get; set; }
-    }
 }

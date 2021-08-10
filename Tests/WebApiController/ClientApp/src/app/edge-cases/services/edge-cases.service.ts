@@ -1,6 +1,7 @@
 ﻿/* eslint-disable */
 // tslint:disable
 
+import { ExclusiveGenericComplexResult } from "../models/exclusive-generic-complex-result";
 import { GenericResult } from "../models/generic-result";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
@@ -114,6 +115,15 @@ export class EdgeCasesService {
     public genericResult(value1: string, value2: string, httpOptions?: {}): Observable<GenericResult<string>> {
         let subject = new Subject<GenericResult<string>>();
         this.http.get<GenericResult<string>>(this.serviceUrl + "/edgecases/genericresult" + "?value1=" + this.convertAny(value1) + "&value2=" + this.convertAny(value2), httpOptions).subscribe((result) => {
+            subject.next(result);
+            subject.complete();
+        }, (error) => subject.error(error));
+        return subject;
+    }
+
+    public genericComplexResult(httpOptions?: {}): Observable<GenericResult<ExclusiveGenericComplexResult>> {
+        let subject = new Subject<GenericResult<ExclusiveGenericComplexResult>>();
+        this.http.get<GenericResult<ExclusiveGenericComplexResult>>(this.serviceUrl + "/edgecases/genericcomplexresult", httpOptions).subscribe((result) => {
             subject.next(result);
             subject.complete();
         }, (error) => subject.error(error));

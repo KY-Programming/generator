@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WithCustomHttpClient", "WithCustomHttpClient\Service\WithCustomHttpClient.csproj", "{6F5B680A-6083-41CB-87F6-99DCA32FE569}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Generator", "WithCustomHttpClient\Generator\Generator.csproj", "{01AB73C6-34DD-450E-B170-78CFD1E01DFD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6F5B680A-6083-41CB-87F6-99DCA32FE569}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F5B680A-6083-41CB-87F6-99DCA32FE569}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F5B680A-6083-41CB-87F6-99DCA32FE569}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F5B680A-6083-41CB-87F6-99DCA32FE569}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01AB73C6-34DD-450E-B170-78CFD1E01DFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01AB73C6-34DD-450E-B170-78CFD1E01DFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01AB73C6-34DD-450E-B170-78CFD1E01DFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01AB73C6-34DD-450E-B170-78CFD1E01DFD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
