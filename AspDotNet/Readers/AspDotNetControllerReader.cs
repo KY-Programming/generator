@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using KY.Core;
 using KY.Generator.AspDotNet.Configurations;
 using KY.Generator.Extensions;
@@ -122,10 +123,14 @@ namespace KY.Generator.AspDotNet.Readers
                 }
                 foreach (KeyValuePair<HttpServiceActionTypeTransferObject, string> actionType in actionTypes)
                 {
-                    HttpServiceActionTransferObject action = new HttpServiceActionTransferObject();
+                    HttpServiceActionTransferObject action = new();
                     action.Name = actionTypes.Count == 1 ? method.Name : $"{actionType.Key}{method.Name.FirstCharToUpper()}";
                     action.ReturnType = this.modelReader.Read(returnType, transferObjects, configuration.Controller);
                     action.Route = actionType.Value ?? fallbackRoute;
+                    if (action.Route?.Contains(":") ?? false)
+                    {
+                        action.Route = Regex.Replace(action.Route, "({[^:]*)(:[^}]+)(})", "$1$3") ;
+                    }
                     action.Type = actionType.Key;
                     action.Version = methodVersions.LastOrDefault();
                     action.FixCasingWithMapping = returnEntryType.GetCustomAttribute<GenerateFixCasingWithMappingAttribute>() != null || typeAttributes.Any(x => x is GenerateFixCasingWithMappingAttribute);
@@ -138,7 +143,7 @@ namespace KY.Generator.AspDotNet.Readers
                             continue;
                         }
                         string fullRoute = $"{controller.Route}/{action.Route}";
-                        HttpServiceActionParameterTransferObject actionParameter = new HttpServiceActionParameterTransferObject();
+                        HttpServiceActionParameterTransferObject actionParameter = new();
                         actionParameter.Name = parameter.Name;
                         actionParameter.Type = this.modelReader.Read(parameter.ParameterType, transferObjects, configuration.Controller);
                         actionParameter.FromBody = this.IsFromBodyParameter(parameter, action.Type);

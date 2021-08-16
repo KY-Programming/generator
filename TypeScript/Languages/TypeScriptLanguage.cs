@@ -31,6 +31,8 @@ namespace KY.Generator.TypeScript.Languages
             this.Formatting.MethodCase = Case.CamelCase;
             this.Formatting.ParameterCase = Case.CamelCase;
 
+            this.ReservedKeywords.Add("function", "func");
+
             this.HasStaticClasses = false;
             this.TemplateWriters[typeof(BaseTypeTemplate)] = new BaseTypeWriter();
             this.TemplateWriters[typeof(BaseTemplate)] = new BaseWriter();

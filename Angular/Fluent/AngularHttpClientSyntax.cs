@@ -35,12 +35,6 @@ namespace KY.Generator.Angular.Fluent
             return this;
         }
 
-        public IAngularHttpClientMethodSyntax UseParameters()
-        {
-            this.options.UseParameters = true;
-            return this;
-        }
-
         public IAngularHttpClientMethodSyntax ReturnsAny()
         {
             this.options.ReturnsAny = true;

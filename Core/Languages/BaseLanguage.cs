@@ -21,6 +21,7 @@ namespace KY.Generator.Languages
         public LanguageFormatting Formatting { get; }
         public abstract string Name { get; }
         public abstract bool ImportFromSystem { get; }
+        public Dictionary<string, string> ReservedKeywords { get; } = new();
         public virtual string NamespaceKeyword => "namespace";
         public virtual string ClassScope => "public";
         public virtual string PartialKeyword => "partial";
@@ -38,6 +39,8 @@ namespace KY.Generator.Languages
             this.Formatting.StartBlock = "{";
             this.Formatting.EndBlock = "}";
             this.Formatting.StartBlockInNewLine = true;
+
+            this.ReservedKeywords.Add("new", "newValue");
 
             this.progressedChainedCodeFragments = new List<ChainedCodeFragment>();
             this.lastFragments = new List<ICodeFragment>();

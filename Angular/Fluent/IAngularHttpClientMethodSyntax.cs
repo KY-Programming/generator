@@ -6,7 +6,6 @@
         IAngularHttpClientMethodSyntax NotGeneric();
         IAngularHttpClientMethodSyntax ReturnGeneric();
         IAngularHttpClientMethodSyntax ParameterGeneric();
-        IAngularHttpClientMethodSyntax UseParameters();
         IAngularHttpClientMethodSyntax ReturnsAny();
     }
 }
