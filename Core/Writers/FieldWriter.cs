@@ -30,7 +30,7 @@ namespace KY.Generator.Writers
                   .If(template.IsReadonly).Add("readonly ").EndIf()
                   .Add(template.Type).Add(" ")
                   .Add(template.Name)
-                  .If(template.DefaultValue != null).Add(" = ").Add(template.DefaultValue).EndIf()
+                  .If(template.DefaultValue != null && !template.Class.IsInterface).Add(" = ").Add(template.DefaultValue).EndIf()
                   .CloseLine();
         }
     }

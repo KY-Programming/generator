@@ -1,4 +1,5 @@
 ﻿using KY.Generator;
+using Types;
 
 namespace Fluent.Generator
 {
@@ -7,11 +8,20 @@ namespace Fluent.Generator
         public override void Execute()
         {
             this.Read()
+                .SetType<IgnoreMe>(options => options.Ignore())
+                .SetType<IgnoreMe<string>>(options => options.Ignore())
+                .SetType<IIgnoreMe>(options => options.Ignore())
+                .SetType<IIgnoreMe<string>>(options => options.Ignore())
                 .FromType<Types.Types>()
+                .FromType<TypeWithIgnoredBase>()
+                .FromType<TypeWithGenericIgnoredBase>()
+                .FromType<TypeWithIgnoreInterface>()
+                .FromType<TypeWithIgnoreGenericInterface>()
+                .FromType<TypeWithInterface>()
+                .FromType<TypeWithGenericInterface>()
+                .FromType<TypeWithGenericAndNotGenericInterface>()
                 .Write()
-                .Angular(angular => angular.Models(config => config.OutputPath("Output/Models").SkipHeader())
-                                           .Services(config => config.OutputPath("Output/Services").SkipHeader())
-                );
+                .Angular(angular => angular.Models(config => config.OutputPath("Output/Models").SkipHeader()));
         }
     }
 }

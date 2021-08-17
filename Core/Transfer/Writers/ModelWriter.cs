@@ -91,7 +91,7 @@ namespace KY.Generator.Transfer.Writers
 
             bool isInterface = model.IsInterface || modelOptions.PreferInterfaces;
             ClassTemplate classTemplate = files.AddFile(relativePath, modelOptions.AddHeader, modelOptions.OutputId)
-                                               .WithType(isInterface ? "interface" : null)
+                                               // .WithType(isInterface ? "interface" : null)
                                                .AddNamespace(modelOptions.SkipNamespace ? string.Empty : model.Namespace)
                                                .AddClass(model.Name, model.BasedOn?.ToTemplate())
                                                .FormatName(modelOptions);

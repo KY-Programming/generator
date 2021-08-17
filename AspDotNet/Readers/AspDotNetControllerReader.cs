@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using KY.Core;
 using KY.Generator.AspDotNet.Configurations;
 using KY.Generator.Extensions;
@@ -98,6 +99,10 @@ namespace KY.Generator.AspDotNet.Readers
                     action.Name = actionTypes.Count == 1 ? method.Name : $"{actionType.Key}{method.Name.FirstCharToUpper()}";
                     action.ReturnType = this.modelReader.Read(returnType, transferObjects, methodOptions);
                     action.Route = actionType.Value ?? methodAspOptions.Route;
+                    if (action.Route?.Contains(":") ?? false)
+                    {
+                        action.Route = Regex.Replace(action.Route, "({[^:]*)(:[^}]+)(})", "$1$3") ;
+                    }
                     action.Type = actionType.Key;
                     action.Version = methodAspOptions.ApiVersion?.OrderByDescending(x => x).FirstOrDefault();
                     action.FixCasingWithMapping = returnEntryTypeOptions.FixCasingWithMapping || methodAspOptions.FixCasingWithMapping;
@@ -119,6 +124,12 @@ namespace KY.Generator.AspDotNet.Readers
                         actionParameter.Inline = fullRoute.Contains($"{{{parameter.Name}}}");
                         actionParameter.InlineIndex = actionParameter.Inline && action.Route != null ? action.Route.IndexOf($"{{{parameter.Name}}}", StringComparison.Ordinal) : 0;
                         actionParameter.IsOptional = parameter.IsOptional;
+                        if (fullRoute.Contains($"{{{parameter.Name}?}}"))
+                        {
+                            actionParameter.Inline = true;
+                            actionParameter.IsOptional = true;
+                            action.Route = action.Route.Replace($"{{{parameter.Name}?}}", $"{{{parameter.Name}}}");
+                        }
                         action.Parameters.Add(actionParameter);
                         if (action.Type == HttpServiceActionTypeTransferObject.Get && actionParameter.Type.Name == "List" && !actionParameter.FromQuery)
                         {

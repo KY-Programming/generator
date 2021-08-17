@@ -51,5 +51,19 @@ namespace KY.Generator
         ///   .AngularServices().OutputPath("Output/Services");
         /// </example>
         public abstract void Execute();
+
+        /// <summary>
+        /// Runs before the assembly is build. Use the <see cref="Read"/> method to add generation actions like this:
+        /// <code>this.Read().FromType&lt;Types&gt;().Write().AngularModels().OutputPath("Output/Models").AngularServices().OutputPath("Output/Services");</code>
+        /// </summary>
+        /// <example>
+        /// this.Read()
+        ///   .FromType&lt;Types&gt;()
+        ///   .Write()
+        ///   .AngularModels().OutputPath("Output/Models")
+        ///   .AngularServices().OutputPath("Output/Services");
+        /// </example>
+        public virtual void ExecuteBeforeBuild()
+        { }
     }
 }

@@ -1,9 +1,10 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using KY.Generator.Angular.Commands;
 
 namespace KY.Generator.Angular.Fluent
 {
-    internal class AngularServiceSyntax : IAngularServiceSyntax
+    internal class AngularServiceSyntax : IAngularServiceSyntax, IAngularHttpClientSyntax
     {
         private readonly AngularWriteSyntax syntax;
         private readonly AngularServiceCommand command;
@@ -36,6 +37,48 @@ namespace KY.Generator.Angular.Fluent
         public IAngularServiceSyntax Name(string name)
         {
             this.command.Parameters.Name = name;
+            return this;
+        }
+
+        public IAngularHttpClientSyntax HttpClient(string type, string import)
+        {
+            this.command.Parameters.HttpClient = type;
+            this.command.Parameters.HttpClientUsing = import;
+            return this;
+        }
+
+        public IAngularHttpClientSyntax GetMethod(string name, Action<IAngularHttpClientMethodSyntax> optionsAction = null)
+        {
+            this.command.Parameters.HttpClientGet = name;
+            optionsAction?.Invoke(new AngularHttpClientSyntax(this.command.Parameters.HttpClientGetOptions));
+            return this;
+        }
+
+        public IAngularHttpClientSyntax PostMethod(string name, Action<IAngularHttpClientMethodSyntax> optionsAction = null)
+        {
+            this.command.Parameters.HttpClientPost = name;
+            optionsAction?.Invoke(new AngularHttpClientSyntax(this.command.Parameters.HttpClientPostOptions));
+            return this;
+        }
+
+        public IAngularHttpClientSyntax PutMethod(string name, Action<IAngularHttpClientMethodSyntax> optionsAction = null)
+        {
+            this.command.Parameters.HttpClientPut = name;
+            optionsAction?.Invoke(new AngularHttpClientSyntax(this.command.Parameters.HttpClientPutOptions));
+            return this;
+        }
+
+        public IAngularHttpClientSyntax PatchMethod(string name, Action<IAngularHttpClientMethodSyntax> optionsAction = null)
+        {
+            this.command.Parameters.HttpClientPatch = name;
+            optionsAction?.Invoke(new AngularHttpClientSyntax(this.command.Parameters.HttpClientPatchOptions));
+            return this;
+        }
+
+        public IAngularHttpClientSyntax DeleteMethod(string name, Action<IAngularHttpClientMethodSyntax> optionsAction = null)
+        {
+            this.command.Parameters.HttpClientDelete = name;
+            optionsAction?.Invoke(new AngularHttpClientSyntax(this.command.Parameters.HttpClientDeleteOptions));
             return this;
         }
     }

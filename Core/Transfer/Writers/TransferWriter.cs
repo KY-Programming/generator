@@ -175,8 +175,14 @@ namespace KY.Generator.Transfer.Writers
             {
                 return;
             }
-            if ((!type.FromSystem || type.FromSystem && options.Language.ImportFromSystem) && type.HasUsing && !string.IsNullOrEmpty(type.Namespace) && classTemplate.Namespace.Name != type.Namespace)
+            if (type is ModelTransferObject model)
             {
+                foreach (GenericAliasTransferObject generic in model.Generics)
+                {
+                    this.AddUsing(generic.Type, classTemplate, configuration, relativeModelPath);
+                }
+            }
+            if ((!type.FromSystem || type.FromSystem && options.Language.ImportFromSystem) && type.HasUsing && !string.IsNullOrEmpty(type.Namespace) && classTemplate.Namespace.Name != type.Namespace)            {
                 string fileName = Formatter.FormatFile(type.Name, options, true);
                 classTemplate.AddUsing(type.Namespace, type.Name, $"{relativeModelPath.Replace("\\", "/").TrimEnd('/')}/{fileName}");
             }

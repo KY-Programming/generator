@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using KY.Core;
 using KY.Core.DataAccess;
+using KY.Generator.Angular.Commands;
 using KY.Generator.Angular.Configurations;
 using KY.Generator.Extensions;
 using KY.Generator.Languages;
@@ -50,6 +51,22 @@ namespace KY.Generator.Angular.Writers
             }
             string httpClient = configuration.Service.HttpClient?.Name ?? "HttpClient";
             string httpClientImport = configuration.Service.HttpClient?.Import ?? "@angular/common/http";
+            Dictionary<HttpServiceActionTypeTransferObject, string> actionTypeMapping = new()
+                                                                                        {
+                                                                                            { HttpServiceActionTypeTransferObject.Get, configuration.Service?.HttpClient?.Get ?? "get" },
+                                                                                            { HttpServiceActionTypeTransferObject.Post, configuration.Service?.HttpClient?.Post ?? "post" },
+                                                                                            { HttpServiceActionTypeTransferObject.Put, configuration.Service?.HttpClient?.Put ?? "put" },
+                                                                                            { HttpServiceActionTypeTransferObject.Patch, configuration.Service?.HttpClient?.Patch ?? "patch" },
+                                                                                            { HttpServiceActionTypeTransferObject.Delete, configuration.Service?.HttpClient?.Delete ?? "delete" }
+                                                                                        };
+            Dictionary<HttpServiceActionTypeTransferObject, AngularHttpClientMethodOptions> actionTypeOptions = new()
+                                                                                                                {
+                                                                                                                    { HttpServiceActionTypeTransferObject.Get, configuration.Service?.HttpClient?.HasGetOptions },
+                                                                                                                    { HttpServiceActionTypeTransferObject.Post, configuration.Service?.HttpClient?.HasPostOptions },
+                                                                                                                    { HttpServiceActionTypeTransferObject.Put, configuration.Service?.HttpClient?.HasPutOptions },
+                                                                                                                    { HttpServiceActionTypeTransferObject.Patch, configuration.Service?.HttpClient?.HasPatchOptions },
+                                                                                                                    { HttpServiceActionTypeTransferObject.Delete, configuration.Service?.HttpClient?.HasDeleteOptions }
+                                                                                                                };
             foreach (HttpServiceTransferObject controller in transferObjects.OfType<HttpServiceTransferObject>())
             {
                 IOptions controllerOptions = this.Options.Get(controller);
@@ -93,9 +110,8 @@ namespace KY.Generator.Angular.Writers
                         this.MapType(controllerLanguage, outputLanguage, action.ReturnType);
                     }
                     TypeTemplate returnType = action.ReturnType.ToTemplate();
-                    TypeTransferObject returnModelTypeTemplate = isEnumerable ? action.ReturnType.Generics.First().Type : action.ReturnType;
-                    ModelTransferObject returnModel = returnModelTypeTemplate as ModelTransferObject
-                                                      ?? transferObjects.OfType<ModelTransferObject>().FirstOrDefault(x => x.Name == returnModelTypeTemplate.Name && x.Namespace == returnModelTypeTemplate.Namespace);
+                    TypeTransferObject returnModelType = isEnumerable ? action.ReturnType.Generics.First().Type : action.ReturnType;
+                    ModelTransferObject returnModel = returnModelType as ModelTransferObject ?? transferObjects.OfType<ModelTransferObject>().FirstOrDefault(x => x.Equals(returnModelType));
                     this.AddUsing(action.ReturnType, classTemplate, controllerOptions, relativeModelPath);
                     MethodTemplate methodTemplate = classTemplate.AddMethod(action.Name, Code.Generic("Observable", returnType))
                                                                  .FormatName(controllerOptions);
@@ -108,7 +124,8 @@ namespace KY.Generator.Angular.Writers
                             this.MapType(controllerLanguage, outputLanguage, parameter.Type);
                         }
                         this.AddUsing(parameter.Type, classTemplate, controllerOptions, relativeModelPath);
-                        ParameterTemplate parameterTemplate = methodTemplate.AddParameter(parameter.Type.ToTemplate(), parameter.Name).FormatName(controllerOptions);
+                        string parameterName = this.GetAllowedName(controllerOptions.Language, parameter.Name);
+                        ParameterTemplate parameterTemplate = methodTemplate.AddParameter(parameter.Type.ToTemplate(), parameterName).FormatName(controllerOptions);
                         if (parameter.IsOptional)
                         {
                             parameterTemplate.Optional();
@@ -126,10 +143,13 @@ namespace KY.Generator.Angular.Writers
                                                                                              )).Method("join", Code.String("&"))));
                         }
                     }
+                    if (actionTypeOptions[action.Type]?.HasHttpOptions ?? true)
+                    {
                     methodTemplate.AddParameter(Code.Type("{}"), "httpOptions").Optional();
                     if (isStringReturnType)
                     {
                         methodTemplate.WithCode(Code.TypeScript("httpOptions = { responseType: 'text', ...httpOptions}").Close());
+                    }
                     }
                     if (isDateReturnType && isDateArrayReturnType)
                     {
@@ -205,7 +225,7 @@ namespace KY.Generator.Angular.Writers
                     foreach (HttpServiceActionParameterTransferObject parameter in inlineParameters)
                     {
                         string[] chunks = uri.Split(new[] { $"{{{parameter.Name}}}" }, StringSplitOptions.RemoveEmptyEntries);
-                        parameterUrl = parameterUrl.Append(Code.String(chunks[0])).Append(Code.Local(parameter.Name));
+                        parameterUrl = parameterUrl.Append(Code.String(chunks[0])).Append(Code.Local(mapping[parameter]));
                         uri = chunks.Length == 1 ? string.Empty : chunks[1];
                     }
                     if (!string.IsNullOrEmpty(uri))
@@ -232,41 +252,61 @@ namespace KY.Generator.Angular.Writers
                     }
                     foreach (HttpServiceActionParameterTransferObject parameter in urlParameters)
                     {
-                        string name = mapping[parameter].Name;
                         parameterUrl = parameterUrl.Append(isFirst ? Code.String($"?{parameter.Name}=") : Code.String($"&{parameter.Name}="));
                         if (parameter.FromQuery && parameter.Type.Name == "Array")
                         {
                             appendConvertAnyMethod = true;
-                            parameterUrl = parameterUrl.Append(Code.This().Method("convertAny", Code.Local(name + "Join")));
+                            parameterUrl = parameterUrl.Append(Code.This().Method("convertAny", Code.Local(mapping[parameter].Name + "Join")));
                         }
                         else
                         {
                             if (parameter.Type.IgnoreNullable().Name == "Date")
                             {
                                 appendConvertFromDateMethod = true;
-                                parameterUrl = parameterUrl.Append(Code.This().Method("convertFromDate", Code.Local(name)));
+                                parameterUrl = parameterUrl.Append(Code.This().Method("convertFromDate", Code.Local(mapping[parameter])));
                             }
                             else
                             {
                                 appendConvertAnyMethod = true;
-                                parameterUrl = parameterUrl.Append(Code.This().Method("convertAny", Code.Local(name)));
+                                parameterUrl = parameterUrl.Append(Code.This().Method("convertAny", Code.Local(mapping[parameter])));
                             }
                         }
                         isFirst = false;
                     }
-
-                    methodTemplate.WithCode(
-                        Code.This()
-                            .Field(httpField)
-                            .GenericMethod(action.Type.ToString().ToLowerInvariant(),
-                                           returnType,
-                                           parameterUrl,
-                                           action.Parameters.Any(x => x.FromBody) ? Code.Local(action.Parameters.Single(x => x.FromBody).Name) : null,
-                                           Code.Local("httpOptions")
-                            )
-                            .Method("subscribe", Code.Lambda(hasReturnType ? "result" : null, code), errorCode).Close()
-                    );
-                    methodTemplate.WithCode(Code.Return(Code.Local(subjectName)));
+                    ChainedCodeFragment executeAction = Code.This().Field(httpField);
+                    List<ICodeFragment> parameters = new() { parameterUrl };
+                    if (action.Parameters.Any(x => x.FromBody))
+                    {
+                        parameters.Add(Code.Local(action.Parameters.Single(x => x.FromBody).Name));
+                }
+                    parameters.AddRange(inlineParameters.Concat(urlDirectParameters).Concat(urlParameters).Select(parameter => Code.Local(parameter.Name)));
+                    if (actionTypeOptions[action.Type]?.HasHttpOptions ?? false)
+                    {
+                        parameters.Add(Code.Local("httpOptions"));
+                    }
+                    if (actionTypeOptions[action.Type]?.NotGeneric ?? false)
+                    {
+                        executeAction = executeAction.Method(actionTypeMapping[action.Type], parameters);
+                    }
+                    else if (actionTypeOptions[action.Type]?.ParameterGeneric ?? false)
+                    {
+                        executeAction = executeAction.GenericMethod(actionTypeMapping[action.Type], Code.Type("unknown"), parameters.ToArray());
+                    }
+                    else
+                    {
+                        executeAction = executeAction.GenericMethod(actionTypeMapping[action.Type], returnType, parameters.ToArray());
+                    }
+                    LambdaTemplate lambda;
+                    if (actionTypeOptions[action.Type]?.ReturnsAny ?? false)
+                    {
+                        lambda = Code.Lambda(hasReturnType ? new ParameterTemplate(returnType, "result") : null, code);
+                    }
+                    else
+                    {
+                        lambda = Code.Lambda(hasReturnType ? "result" : null, code);
+                    }
+                    methodTemplate.WithCode(executeAction.Method("subscribe", lambda, errorCode).Close())
+                                  .WithCode(Code.Return(Code.Local(subjectName)));
                 }
 
                 if (appendConvertAnyMethod)
@@ -605,5 +645,10 @@ namespace KY.Generator.Angular.Writers
                                                )
                                    ));
         }
+
+        private string GetAllowedName(ILanguage language, string name)
+        {
+            return language.ReservedKeywords.ContainsKey(name) ? language.ReservedKeywords[name] : name;
+    }
     }
 }

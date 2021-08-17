@@ -134,8 +134,11 @@ namespace KY.Generator.Reflection.Readers
             Logger.Trace($"Reflection read type {type.Name} ({type.Namespace})");
             if (type.BaseType != typeof(object) && type.BaseType != typeof(ValueType) && type.BaseType != null)
             {
-                model.BasedOn = this.Read(type.BaseType, transferObjects, caller);
-            }
+                IOptions baseOptions = this.options.Get(type.BaseType);
+                if (!baseOptions.Ignore)
+                {
+                    model.BasedOn = this.Read(type.BaseType, transferObjects, caller);
+                }            }
             if (type.IsGenericType)
             {
                 type = this.ReadGenericArguments(type, model, transferObjects, caller);
@@ -145,6 +148,11 @@ namespace KY.Generator.Reflection.Readers
             model.IsAbstract = type.IsAbstract;
             foreach (Type interFace in type.GetInterfaces(false))
             {
+                IOptions interfaceOptions = this.options.Get(interFace);
+                if (interfaceOptions.Ignore)
+                {
+                  continue;
+                }
                 ModelTransferObject interfaceTransferObject = this.Read(interFace, transferObjects, caller);
                 if (transferObjects.Contains(interfaceTransferObject))
                 {

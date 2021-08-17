@@ -34,5 +34,11 @@
         /// <param name="value"></param>
         /// <returns></returns>
         IAngularModelSyntax FieldsToProperties(bool value = true);
+
+        /// <summary>
+        /// Tries to generate all models as interfaces
+        /// </summary>
+        /// <returns></returns>
+        IAngularModelSyntax PreferInterfaces();
     }
 }
