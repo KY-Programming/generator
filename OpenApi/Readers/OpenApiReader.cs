@@ -22,10 +22,9 @@ namespace KY.Generator.OpenApi.Readers
             this.documentReader = documentReader;
         }
 
-        public void Read(ConfigurationBase configurationBase, List<ITransferObject> transferObjects)
+        public void Read(OpenApiReadConfiguration configuration, List<ITransferObject> transferObjects)
         {
             Logger.Trace("Read OpenApi...");
-            OpenApiReadConfiguration configuration = (OpenApiReadConfiguration)configurationBase;
             if (configuration.File != null)
             {
                 this.fileReader.Read(configuration.File, transferObjects);

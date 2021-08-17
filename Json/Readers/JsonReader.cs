@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using KY.Core.DataAccess;
-using KY.Generator.Configurations;
 using KY.Generator.Json.Configurations;
 using KY.Generator.Json.Language;
 using KY.Generator.Json.Transfers;
@@ -17,9 +14,8 @@ namespace KY.Generator.Json.Readers
 {
     internal class JsonReader : ITransferReader
     {
-        public void Read(ConfigurationBase configurationBase, List<ITransferObject> transferObjects)
+        public void Read(JsonReadConfiguration configuration, List<ITransferObject> transferObjects)
         {
-            JsonReadConfiguration configuration = (JsonReadConfiguration)configurationBase;
             JObject source = JsonConvert.DeserializeObject<JObject>(FileSystem.ReadAllText(FileSystem.Combine(configuration.BasePath, configuration.Source)));
             string name = Regex.Replace(FileSystem.GetFileName(configuration.Source), @"\.json$", string.Empty, RegexOptions.CultureInvariant);
             this.ReadModel(name, source, transferObjects);

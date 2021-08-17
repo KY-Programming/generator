@@ -14,6 +14,13 @@ namespace KY.Generator.EntityFramework.Writers
 {
     public class EntityFrameworkDataContextWriter : Codeable
     {
+        private readonly Options options;
+
+        public EntityFrameworkDataContextWriter(Options options)
+        {
+            this.options = options;
+        }
+
         public virtual void Write(EntityFrameworkWriteConfiguration configuration, List<ITransferObject> transferObjects, List<FileTemplate> files)
         {
             this.WriteClass(configuration, transferObjects, files);
@@ -21,7 +28,7 @@ namespace KY.Generator.EntityFramework.Writers
 
         protected virtual ClassTemplate WriteClass(EntityFrameworkWriteConfiguration configuration, List<ITransferObject> transferObjects, List<FileTemplate> files)
         {
-            ClassTemplate dataContext = files.AddFile(configuration.RelativePath, configuration.AddHeader, configuration.OutputId)
+            ClassTemplate dataContext = files.AddFile(configuration.RelativePath, this.options.Current.AddHeader, this.options.Current.OutputId)
                                                .AddNamespace(configuration.Namespace)
                                                .AddClass("DataContext", Code.Type("DbContext"));
 
@@ -41,7 +48,7 @@ namespace KY.Generator.EntityFramework.Writers
             foreach (EntityTransferObject entity in transferObjects.OfType<EntityTransferObject>())
             {
                 dataContext.AddProperty(entity.Name, Code.Generic("DbSet", entity.Model.ToTemplate()))
-                           // .FormatName(configuration)
+                           .FormatName(this.options.Current)
                            .Virtual();
             }
 

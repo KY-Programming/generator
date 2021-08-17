@@ -7,11 +7,11 @@ namespace Fluent.Generator
     {
         public override void Execute()
         {
-            this.Read()
-                .SetType<IgnoreMe>(options => options.Ignore())
+            this.SetType<IgnoreMe>(options => options.Ignore())
                 .SetType<IgnoreMe<string>>(options => options.Ignore())
                 .SetType<IIgnoreMe>(options => options.Ignore())
                 .SetType<IIgnoreMe<string>>(options => options.Ignore())
+                .Read()
                 .FromType<Types.Types>()
                 .FromType<TypeWithIgnoredBase>()
                 .FromType<TypeWithGenericIgnoredBase>()

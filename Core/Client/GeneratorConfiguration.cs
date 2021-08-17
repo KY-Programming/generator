@@ -1,8 +1,6 @@
-﻿using KY.Generator.Configurations;
-
-namespace KY.Generator.Client
+﻿namespace KY.Generator.Client
 {
-    internal class GeneratorConfiguration : ConfigurationBase
+    internal class GeneratorConfiguration
     {
         public GeneratorClientConfiguration Client { get; set; }
     }

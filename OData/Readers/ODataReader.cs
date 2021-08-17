@@ -20,10 +20,8 @@ namespace KY.Generator.OData.Readers
     {
         private const string BindingParameterName = "bindingParameter";
 
-        public void Read(ConfigurationBase configurationBase, List<ITransferObject> transferObjects)
+        public void Read(ODataReadConfiguration configuration, List<ITransferObject> transferObjects)
         {
-            ODataReadConfiguration configuration = (ODataReadConfiguration)configurationBase;
-
             if (!string.IsNullOrEmpty(configuration.File))
             {
                 this.Parse(FileSystem.ReadAllText(configuration.File), transferObjects);

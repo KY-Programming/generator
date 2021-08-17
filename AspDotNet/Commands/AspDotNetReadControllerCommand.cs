@@ -2,6 +2,7 @@
 using KY.Generator.AspDotNet.Configurations;
 using KY.Generator.AspDotNet.Readers;
 using KY.Generator.Command;
+using KY.Generator.Command.Extensions;
 using KY.Generator.Output;
 
 namespace KY.Generator.AspDotNet.Commands
@@ -18,8 +19,11 @@ namespace KY.Generator.AspDotNet.Commands
 
         public override IGeneratorCommandResult Run(IOutput output)
         {
+            IOptions options = this.resolver.Get<Options>().Current;
+            options.SetFromParameter(this.Parameters);
+            options.SetOutputId(this.TransferObjects);
+
             AspDotNetReadConfiguration readConfiguration = new();
-            readConfiguration.AddHeader = !this.Parameters.SkipHeader;
             readConfiguration.Controller = new AspDotNetReadControllerConfiguration();
             readConfiguration.Controller.Namespace = this.Parameters.Namespace;
             readConfiguration.Controller.Name = this.Parameters.Name;

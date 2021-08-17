@@ -15,16 +15,17 @@ namespace KY.Generator.EntityFramework.Writers
     public class EntityFrameworkWriter : ITransferWriter
     {
         private readonly IDependencyResolver resolver;
+        private readonly Options options;
 
-        public EntityFrameworkWriter(IDependencyResolver resolver)
+        public EntityFrameworkWriter(IDependencyResolver resolver, Options options)
         {
             this.resolver = resolver;
+            this.options = options;
         }
 
-        public virtual void Write(ConfigurationBase configurationBase, List<ITransferObject> transferObjects, IOutput output)
+        public virtual void Write(EntityFrameworkWriteConfiguration configuration, List<ITransferObject> transferObjects, IOutput output)
         {
-            EntityFrameworkWriteConfiguration configuration = (EntityFrameworkWriteConfiguration)configurationBase;
-            if (!configuration.Language.IsCsharp())
+            if (!this.options.Current.Language.IsCsharp())
             {
                 throw new InvalidOperationException("EntityFramework support only Csharp");
             }
@@ -36,7 +37,7 @@ namespace KY.Generator.EntityFramework.Writers
                 this.resolver.Create<EntityFrameworkRepositoryWriter>().Write(configuration, transferObjects, files);
             }
             this.resolver.Create<EntityFrameworkDataContextWriter>().Write(configuration, transferObjects, files);
-            files.ForEach(file => configuration.Language.Write(file, output));
+            files.ForEach(file => this.options.Current.Language.Write(file, output));
         }
     }
 }

@@ -75,6 +75,7 @@ namespace WebApiController.Controllers
         public GenericResult<ExclusiveGenericComplexResult> GenericComplexResult()
         {
             return new GenericResult<ExclusiveGenericComplexResult>(new List<ExclusiveGenericComplexResult> { new ExclusiveGenericComplexResult() });
+        }
 
         [HttpGet("[action]")]
         public GenericResult<DateModel> GetGenericWithModel()

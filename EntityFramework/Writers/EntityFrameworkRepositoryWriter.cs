@@ -14,6 +14,13 @@ namespace KY.Generator.EntityFramework.Writers
 {
     public class EntityFrameworkRepositoryWriter : Codeable
     {
+        private readonly Options options;
+
+        public EntityFrameworkRepositoryWriter(Options options)
+        {
+            this.options = options;
+        }
+
         public virtual void Write(EntityFrameworkWriteConfiguration configuration, List<ITransferObject> transferObjects, List<FileTemplate> files)
         {
             foreach (EntityFrameworkWriteRepositoryConfiguration repositoryConfiguration in configuration.Repositories)
@@ -21,10 +28,10 @@ namespace KY.Generator.EntityFramework.Writers
                 EntityTransferObject entity = transferObjects.OfType<EntityTransferObject>().FirstOrDefault(x => x.Name == repositoryConfiguration.Entity)
                                                              .AssertIsNotNull(nameof(repositoryConfiguration.Entity), $"Entity {repositoryConfiguration.Entity} not found. Ensure it is read before.");
 
-                ClassTemplate repository = files.AddFile(configuration.RelativePath, configuration.AddHeader, configuration.OutputId)
+                ClassTemplate repository = files.AddFile(configuration.RelativePath, this.options.Current.AddHeader, this.options.Current.OutputId)
                                                 .AddNamespace(repositoryConfiguration.Namespace ?? configuration.Namespace)
                                                 .AddClass(repositoryConfiguration.Name ?? entity.Name + "Repository")
-                                                // .FormatName(configuration)
+                                                .FormatName(this.options.Current)
                                                 .WithUsing("System.Collections.Generic")
                                                 .WithUsing("System.Linq");
                 if (configuration.IsCore)

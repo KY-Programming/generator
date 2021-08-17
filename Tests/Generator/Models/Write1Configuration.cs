@@ -1,8 +1,6 @@
-﻿using KY.Generator.Configurations;
-
-namespace KY.Generator.Tests.Models
+﻿namespace KY.Generator.Tests.Models
 {
-    internal class Write1Configuration : ConfigurationBase
+    internal class Write1Configuration
     {
         public string Property1 { get; set; }
     }

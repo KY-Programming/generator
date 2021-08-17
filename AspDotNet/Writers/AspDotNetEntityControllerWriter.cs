@@ -14,22 +14,29 @@ namespace KY.Generator.AspDotNet.Writers
 {
     public class AspDotNetEntityControllerWriter : Codeable
     {
-        public virtual  void Write(AspDotNetWriteConfiguration configuration, List<ITransferObject> transferObjects, List<FileTemplate> files)
+        private readonly Options options;
+
+        public AspDotNetEntityControllerWriter(Options options)
         {
-            if (!configuration.Language.IsCsharp())
+            this.options = options;
+        }
+
+        public virtual void Write(AspDotNetWriteConfiguration configuration, List<ITransferObject> transferObjects, List<FileTemplate> files)
+        {
+            if (!this.options.Current.Language.IsCsharp())
             {
-                throw new InvalidOperationException($"Can not generate ASP.net Controller for language {configuration.Language?.Name ?? "Empty"}. Only Csharp is currently implemented");
+                throw new InvalidOperationException($"Can not generate ASP.net Controller for language {this.options.Current.Language?.Name ?? "Empty"}. Only Csharp is currently implemented");
             }
             foreach (AspDotNetWriteEntityControllerConfiguration controllerConfiguration in configuration.Controllers)
             {
                 EntityTransferObject entity = transferObjects.OfType<EntityTransferObject>().FirstOrDefault(x => x.Name == controllerConfiguration.Entity)
                                                              .AssertIsNotNull(nameof(controllerConfiguration.Entity), $"Entity {controllerConfiguration.Entity} not found. Ensure it is read before.");
-
+                IOptions entityOptions = this.options.Get(entity);
                 string nameSpace = (controllerConfiguration.Namespace ?? configuration.Namespace).AssertIsNotNull(nameof(configuration.Namespace), "asp writer requires a namespace");
-                ClassTemplate controller = files.AddFile(configuration.RelativePath, configuration.AddHeader, configuration.OutputId)
+                ClassTemplate controller = files.AddFile(configuration.RelativePath, entityOptions.AddHeader, entityOptions.OutputId)
                                                 .AddNamespace(nameSpace)
                                                 .AddClass(controllerConfiguration.Name ?? entity.Name + "Controller", Code.Type(configuration.Template.ControllerBase))
-                                                // .FormatName(configuration)
+                                                .FormatName(entityOptions)
                                                 .WithAttribute("Route", Code.String(controllerConfiguration.Route ?? "[controller]"));
 
                 controller.Usings.AddRange(configuration.Template.Usings);
@@ -54,7 +61,7 @@ namespace KY.Generator.AspDotNet.Writers
                     method.Code.AddLine(queryable);
                     foreach (PropertyTransferObject property in entity.Model.Properties)
                     {
-                        ParameterTemplate parameter = method.AddParameter(property.Type.ToTemplate(), property.Name, Code.Local("default"))/*.FormatName(configuration)*/;
+                        ParameterTemplate parameter = method.AddParameter(property.Type.ToTemplate(), property.Name, Code.Local("default")) /*.FormatName(configuration)*/;
                         method.Code.AddLine(Code.If(Code.Local(parameter).NotEquals().Local("default"), x => x.Code.AddLine(Code.Local(queryable).Assign(Code.Local(queryable).Method("Where", Code.Lambda("x", Code.Local("x").Property(property.Name).Equals().Local(parameter)))).Close())));
                     }
                     method.Code.AddLine(Code.Return(Code.Local(queryable)));
@@ -106,8 +113,9 @@ namespace KY.Generator.AspDotNet.Writers
                     foreach (EntityKeyTransferObject key in entity.Keys)
                     {
                         PropertyTransferObject property = entity.Model.Properties.First(x => x.Name.Equals(key.Name, StringComparison.InvariantCultureIgnoreCase));
+                        IOptions propertyOptions = this.options.Get(property);
                         parameters.Add(method.AddParameter(property.Type.ToTemplate(), property.Name)
-                                             /*.FormatName(configuration)*/);
+                            .FormatName(propertyOptions));
                     }
                     method.Code.AddLine(Code.This().Field(repositoryField).Method("Delete", parameters.Select(x => Code.Local(x))).Close());
                 }

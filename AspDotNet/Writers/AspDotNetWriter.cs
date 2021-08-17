@@ -13,15 +13,16 @@ namespace KY.Generator.AspDotNet.Writers
     public class AspDotNetWriter : ITransferWriter
     {
         private readonly IDependencyResolver resolver;
+        private readonly Options options;
 
-        public AspDotNetWriter(IDependencyResolver resolver)
+        public AspDotNetWriter(IDependencyResolver resolver, Options options)
         {
             this.resolver = resolver;
+            this.options = options;
         }
 
-        public virtual void Write(ConfigurationBase configurationBase, List<ITransferObject> transferObjects, IOutput output)
+        public virtual void Write(AspDotNetWriteConfiguration configuration, List<ITransferObject> transferObjects, IOutput output)
         {
-            AspDotNetWriteConfiguration configuration = (AspDotNetWriteConfiguration)configurationBase;
             List<FileTemplate> files = new List<FileTemplate>();
             if (configuration.GeneratorController != null)
             {
@@ -31,7 +32,7 @@ namespace KY.Generator.AspDotNet.Writers
             {
                 this.resolver.Create<AspDotNetEntityControllerWriter>().Write(configuration, transferObjects, files);
             }
-            files.ForEach(file => configuration.Language.Write(file, output));
+            files.ForEach(file => this.options.Current.Language.Write(file, output));
         }
     }
 }

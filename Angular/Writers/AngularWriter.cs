@@ -19,9 +19,8 @@ namespace KY.Generator.Angular.Writers
             this.resolver = resolver;
         }
 
-        public void Write(ConfigurationBase configurationBase, List<ITransferObject> transferObjects, IOutput output)
+        public void Write(AngularWriteConfiguration configuration, List<ITransferObject> transferObjects, IOutput output)
         {
-            AngularWriteConfiguration configuration = (AngularWriteConfiguration)configurationBase;
             if (configuration.Service != null)
             {
                 this.resolver.Create<AngularServiceWriter>().Write(transferObjects, configuration, output);

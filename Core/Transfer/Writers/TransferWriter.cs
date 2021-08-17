@@ -179,11 +179,14 @@ namespace KY.Generator.Transfer.Writers
             {
                 foreach (GenericAliasTransferObject generic in model.Generics)
                 {
-                    this.AddUsing(generic.Type, classTemplate, configuration, relativeModelPath);
+                    this.AddUsing(generic.Type, classTemplate, options, relativeModelPath);
                 }
             }
-            if ((!type.FromSystem || type.FromSystem && options.Language.ImportFromSystem) && type.HasUsing && !string.IsNullOrEmpty(type.Namespace) && classTemplate.Namespace.Name != type.Namespace)            {
-                string fileName = Formatter.FormatFile(type.Name, options, true);
+            if ((!type.FromSystem || type.FromSystem && options.Language.ImportFromSystem) && type.HasUsing && !string.IsNullOrEmpty(type.Namespace) && classTemplate.Namespace.Name != type.Namespace)
+            {
+                string fileName = options.Language is IFormattableLanguage formattableLanguage
+                                      ? formattableLanguage.FormatFileName(type.Name)
+                                      : Formatter.FormatFile(type.Name, options, true);
                 classTemplate.AddUsing(type.Namespace, type.Name, $"{relativeModelPath.Replace("\\", "/").TrimEnd('/')}/{fileName}");
             }
             type.Generics.Where(x => x.Alias == null).ForEach(generic => this.AddUsing(generic.Type, classTemplate, options, relativeModelPath));

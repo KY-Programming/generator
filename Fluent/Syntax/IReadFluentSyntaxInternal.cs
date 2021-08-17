@@ -1,6 +1,6 @@
 ﻿namespace KY.Generator.Syntax
 {
-    public interface IReadFluentSyntaxInternal : IReadFluentSyntax, IFluentSyntax, ISwitchToWriteSyntax, IReadFluentOrSwitchToWriteSyntax
+    public interface IReadFluentSyntaxInternal : IReadFluentSyntax, IFluentInternalSyntax, ISwitchToWriteSyntax, IReadFluentOrSwitchToWriteSyntax
     {
     }
 }

@@ -10,10 +10,9 @@ namespace KY.Generator.Client
 {
     internal class GeneratorGenerator : Codeable, ITransferWriter
     {
-        public void Write(ConfigurationBase configurationBase, List<ITransferObject> transferObjects, IOutput output)
+        public void Write(GeneratorConfiguration configuration, List<ITransferObject> transferObjects, IOutput output)
         {
             Logger.Trace("Generate generator...");
-            GeneratorConfiguration configuration = (GeneratorConfiguration)configurationBase;
         }
     }
 }

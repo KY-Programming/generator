@@ -1,30 +1,33 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using System.Reflection;
+using KY.Core;
 using KY.Core.Dependency;
-using KY.Generator.Helpers;
-using KY.Generator.Models;
 using KY.Generator.Syntax;
 
 namespace KY.Generator
 {
+    public interface IDoReadFluentSyntax : IFluentSyntax<IDoReadFluentSyntax>
+    {
+        IReadFluentSyntax Read();
+    }
+
     /// <summary>
     /// Entry point for fluent language generation.
     /// Override the <see cref="Execute"/> method to add some generation actions
     /// </summary>
-    public abstract class GeneratorFluentMain
+    public abstract class GeneratorFluentMain : IFluentSyntax<IDoReadFluentSyntax>
     {
         public IDependencyResolver Resolver { get; set; }
-        public List<IFluentSyntax> Syntaxes { get; } = new();
+        public List<IFluentInternalSyntax> Syntaxes { get; } = new();
 
         /// <summary>
         /// This method does not do anything. Use at least one extension method from one of the other generator packages e.g. <code>KY.Generator.Angular</code> or <code>KY.Generator.Reflection</code>
         /// </summary>
         protected IReadFluentSyntax Read()
         {
-            DependencyResolver resolver = new(this.Resolver);
-            Options.Bind(resolver);
-            FluentSyntax syntax = resolver.Create<FluentSyntax>();
-            this.Syntaxes.Add(syntax);
-            return syntax;
+            return this.Create();
         }
 
         /// <summary>
@@ -32,11 +35,7 @@ namespace KY.Generator
         /// </summary>
         protected IWriteFluentSyntax Write()
         {
-            DependencyResolver resolver = new(this.Resolver);
-            Options.Bind(resolver);
-            FluentSyntax syntax = resolver.Create<FluentSyntax>();
-            this.Syntaxes.Add(syntax);
-            return syntax;
+            return this.Create();
         }
 
         /// <summary>
@@ -65,5 +64,32 @@ namespace KY.Generator
         /// </example>
         public virtual void ExecuteBeforeBuild()
         { }
+
+        /// <inheritdoc />
+        public IDoReadFluentSyntax SetGlobal(Assembly assembly, Action<ISetFluentSyntax> action)
+        {
+            return this.Create().CastTo<IDoReadFluentSyntax>().SetGlobal(assembly, action);
+        }
+
+        /// <inheritdoc />
+        public IDoReadFluentSyntax SetType<T>(Action<ISetFluentSyntax> action)
+        {
+            return this.Create().CastTo<IDoReadFluentSyntax>().SetType<T>(action);
+        }
+
+        /// <inheritdoc />
+        public IDoReadFluentSyntax SetMember<T>(Expression<T> memberAction, Action<ISetFluentSyntax> action)
+        {
+            return this.Create().CastTo<IDoReadFluentSyntax>().SetMember(memberAction, action);
+        }
+
+        private FluentSyntax Create()
+        {
+            DependencyResolver resolver = new(this.Resolver);
+            Options.Bind(resolver);
+            FluentSyntax syntax = resolver.Create<FluentSyntax>();
+            this.Syntaxes.Add(syntax);
+            return syntax;
+        }
     }
 }

@@ -1,8 +1,6 @@
-﻿using KY.Generator.Configurations;
-
-namespace KY.Generator.Reflection.Configurations
+﻿namespace KY.Generator.Reflection.Configurations
 {
-    public class ReflectionReadConfiguration : ReadConfigurationBase
+    public class ReflectionReadConfiguration
     {
         public string Assembly { get; set; }
         public string Name { get; set; }

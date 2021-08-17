@@ -17,9 +17,8 @@ namespace KY.Generator.Reflection.Readers
             this.modelReader = modelReader;
         }
 
-        public void Read(ConfigurationBase configurationBase, List<ITransferObject> transferObjects, IOptions caller = null)
+        public void Read(ReflectionReadConfiguration configuration, List<ITransferObject> transferObjects, IOptions caller = null)
         {
-            ReflectionReadConfiguration configuration = (ReflectionReadConfiguration)configurationBase;
             Type type = GeneratorTypeLoader.Get(configuration.Assembly, configuration.Namespace, configuration.Name);
             if (type == null)
             {

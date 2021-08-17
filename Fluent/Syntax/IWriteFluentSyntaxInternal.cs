@@ -1,5 +1,5 @@
 ﻿namespace KY.Generator.Syntax
 {
-    public interface IWriteFluentSyntaxInternal : IWriteFluentSyntax, IFluentSyntax
+    public interface IWriteFluentSyntaxInternal : IWriteFluentSyntax, IFluentInternalSyntax
     { }
 }

@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
-using KY.Generator.Configurations;
 
 namespace KY.Generator.Tsql.Configurations
 {
-    public class TsqlReadConfiguration : ReadConfigurationBase
-    { 
+    public class TsqlReadConfiguration
+    {
         public string Connection { get; set; }
         public List<TsqlReadEntity> Entities { get; }
         public List<TsqlReadStoredProcedure> StoredProcedures { get; }

@@ -1,8 +1,6 @@
-﻿using KY.Generator.Configurations;
-
-namespace KY.Generator.Tests.Models
+﻿namespace KY.Generator.Tests.Models
 {
-    internal class Read2Configuration : ReadConfigurationBase
+    internal class Read2Configuration
     {
         public string Property2 { get; set; }
     }

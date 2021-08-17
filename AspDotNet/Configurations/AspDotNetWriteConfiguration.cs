@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using KY.Generator.AspDotNet.Templates;
-using KY.Generator.Configurations;
-using KY.Generator.Csharp.Languages;
 
 namespace KY.Generator.AspDotNet.Configurations
 {
-    public class AspDotNetWriteConfiguration : ConfigurationBase, IFormattableConfiguration
+    public class AspDotNetWriteConfiguration
     {
         public string Namespace { get; set; }
         public string RelativePath { get; set; }
-        public bool FormatNames { get; set; }
         public AspDotNetGeneratorControllerConfiguration GeneratorController { get; set; }
         public List<AspDotNetWriteEntityControllerConfiguration> Controllers { get; set; }
         public List<string> Usings { get; set; }
@@ -18,8 +14,7 @@ namespace KY.Generator.AspDotNet.Configurations
 
         public AspDotNetWriteConfiguration()
         {
-            this.Language = CsharpLanguage.Instance;
-            this.FormatNames = true;
+            // this.Language = CsharpLanguage.Instance;
             this.Controllers = new List<AspDotNetWriteEntityControllerConfiguration>();
             this.Usings = new List<string>();
             this.Template = new DotNetFrameworkTemplate();

@@ -28,8 +28,7 @@ namespace KY.Generator.Angular.Writers
 
         public AngularServiceWriter(ITypeMapping typeMapping, Options options)
             : base(typeMapping, options)
-        {
-        }
+        { }
 
         public virtual void Write(List<ITransferObject> transferObjects, AngularWriteConfiguration configuration, IOutput output)
         {
@@ -41,9 +40,9 @@ namespace KY.Generator.Angular.Writers
         public virtual void Write(List<ITransferObject> transferObjects, AngularWriteConfiguration configuration, List<FileTemplate> files)
         {
             Logger.Trace("Generate angular service for ASP.NET controller...");
-            if (!configuration.Language.IsTypeScript())
+            if (!this.Options.Current.Language.IsTypeScript())
             {
-                throw new InvalidOperationException($"Can not generate service for ASP.NET controller for language {configuration.Language?.Name ?? "Empty"}");
+                throw new InvalidOperationException($"Can not generate service for ASP.NET controller for language {this.Options.Current.Language?.Name ?? "Empty"}");
             }
             if (configuration.Model?.RelativePath == null && configuration.Service.RelativePath?.Count(x => x == '/' || x == '\\') > 1)
             {
@@ -145,11 +144,11 @@ namespace KY.Generator.Angular.Writers
                     }
                     if (actionTypeOptions[action.Type]?.HasHttpOptions ?? true)
                     {
-                    methodTemplate.AddParameter(Code.Type("{}"), "httpOptions").Optional();
-                    if (isStringReturnType)
-                    {
-                        methodTemplate.WithCode(Code.TypeScript("httpOptions = { responseType: 'text', ...httpOptions}").Close());
-                    }
+                        methodTemplate.AddParameter(Code.Type("{}"), "httpOptions").Optional();
+                        if (isStringReturnType)
+                        {
+                            methodTemplate.WithCode(Code.TypeScript("httpOptions = { responseType: 'text', ...httpOptions}").Close());
+                        }
                     }
                     if (isDateReturnType && isDateArrayReturnType)
                     {
@@ -278,8 +277,7 @@ namespace KY.Generator.Angular.Writers
                     if (action.Parameters.Any(x => x.FromBody))
                     {
                         parameters.Add(Code.Local(action.Parameters.Single(x => x.FromBody).Name));
-                }
-                    parameters.AddRange(inlineParameters.Concat(urlDirectParameters).Concat(urlParameters).Select(parameter => Code.Local(parameter.Name)));
+                    }
                     if (actionTypeOptions[action.Type]?.HasHttpOptions ?? false)
                     {
                         parameters.Add(Code.Local("httpOptions"));
@@ -327,7 +325,8 @@ namespace KY.Generator.Angular.Writers
             EnumTemplate connectionStatusEnum = null;
             if (hubs.Count > 0)
             {
-                connectionStatusFileTemplate = files.AddFile(configuration.Model.RelativePath, configuration.AddHeader, this.Options.Get(hubs.First()).OutputId);
+                IOptions anyOptions = this.Options.Get(hubs.First());
+                connectionStatusFileTemplate = files.AddFile(configuration.Model.RelativePath, anyOptions.AddHeader, anyOptions.OutputId);
                 connectionStatusEnum = connectionStatusFileTemplate
                                        .AddNamespace(string.Empty)
                                        .AddEnum("ConnectionStatus")
@@ -649,6 +648,6 @@ namespace KY.Generator.Angular.Writers
         private string GetAllowedName(ILanguage language, string name)
         {
             return language.ReservedKeywords.ContainsKey(name) ? language.ReservedKeywords[name] : name;
-    }
+        }
     }
 }

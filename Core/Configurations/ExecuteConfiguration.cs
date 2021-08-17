@@ -1,6 +1,6 @@
 ﻿namespace KY.Generator.Configurations
 {
-    public class ExecuteConfiguration : ReadConfigurationBase
+    public class ExecuteConfiguration
     {
         public string File { get; set; }
     }

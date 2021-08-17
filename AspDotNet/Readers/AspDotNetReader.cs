@@ -16,9 +16,8 @@ namespace KY.Generator.AspDotNet.Readers
             this.resolver = resolver;
         }
 
-        public virtual void Read(ConfigurationBase configurationBase, List<ITransferObject> transferObjects)
+        public virtual void Read(AspDotNetReadConfiguration configuration, List<ITransferObject> transferObjects)
         {
-            AspDotNetReadConfiguration configuration = (AspDotNetReadConfiguration)configurationBase;
             if (configuration.Controller != null)
             {
                 this.resolver.Create<AspDotNetControllerReader>().Read(configuration, transferObjects);

@@ -8,7 +8,7 @@ using KY.Generator.Watchdog.Commands;
 
 namespace KY.Generator
 {
-    public class WatchdogWaitSyntax : IWatchdogWaitSyntax, IFluentSyntax
+    public class WatchdogWaitSyntax : IWatchdogWaitSyntax, IFluentInternalSyntax
     {
         private readonly WatchdogCommand command;
 

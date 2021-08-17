@@ -16,12 +16,10 @@ namespace KY.Generator.Core.Tests.Models
         public List<string> Usings { get; }
         public Guid? OutputId { get; set; }
         public bool FormatNames { get; set; }
-        public ILanguage Language { get; set; }
         public ConfigurationFormatting Formatting { get; }
 
         public TestConfiguration()
         {
-            this.Language = new TestLanguage();
             this.Usings = new List<string>();
             this.Formatting = new ConfigurationFormatting();
         }

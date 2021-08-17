@@ -7,9 +7,8 @@ namespace KY.Generator.Transfer.Readers
 {
     public class CookieReader : ITransferReader
     {
-        public virtual void Read(ConfigurationBase configurationBase, List<ITransferObject> transferObjects)
+        public virtual void Read(CookieConfiguration configuration, List<ITransferObject> transferObjects)
         {
-            CookieConfiguration configuration = (CookieConfiguration)configurationBase;
             if (!string.IsNullOrEmpty(configuration.Url))
             {
                 this.ReadFromUrl(configuration, transferObjects);

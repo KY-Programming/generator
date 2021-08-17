@@ -66,7 +66,6 @@ namespace KY.Generator.Reflection.Commands
                             options.FormatNames = options.FormatNames || attribute.FormatNames.ToBool(this.Parameters.FormatNames);
 
                             ReflectionReadConfiguration readConfiguration = new();
-                            readConfiguration.Language = language;
                             readConfiguration.Name = objectType.Name;
                             readConfiguration.Namespace = objectType.Namespace;
                             readConfiguration.Assembly = objectType.Assembly.Location;

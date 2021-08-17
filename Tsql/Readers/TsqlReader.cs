@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using KY.Core;
-using KY.Generator.Configuration;
-using KY.Generator.Configurations;
 using KY.Generator.Transfer;
 using KY.Generator.Transfer.Readers;
 using KY.Generator.Tsql.Configurations;
@@ -15,9 +13,8 @@ namespace KY.Generator.Tsql.Readers
 {
     public class TsqlReader : ITransferReader
     {
-        public void Read(ConfigurationBase configurationBase, List<ITransferObject> transferObjects)
+        public void Read(TsqlReadConfiguration configuration, List<ITransferObject> transferObjects)
         {
-            TsqlReadConfiguration configuration = (TsqlReadConfiguration)configurationBase;
             this.Validate(configuration);
             TsqlTypeReader typeReader = new TsqlTypeReader(configuration.Connection);
             foreach (TsqlReadEntity readEntity in configuration.Entities)
@@ -100,7 +97,7 @@ namespace KY.Generator.Tsql.Readers
             {
                 string schema = readStoredProcedure.Schema ?? configuration.Schema;
                 //List<TsqlColumn> columns = typeReader.GetColumnsFromStoredProcedure(schema, readStoredProcedure.Name);
-                StoredProcedureTransferObject storedProcedure = new StoredProcedureTransferObject { Schema = schema, Name = readStoredProcedure.Name};
+                StoredProcedureTransferObject storedProcedure = new StoredProcedureTransferObject { Schema = schema, Name = readStoredProcedure.Name };
                 storedProcedure.ReturnType = new TypeTransferObject { Name = "void", FromSystem = true };
                 transferObjects.Add(storedProcedure);
             }
