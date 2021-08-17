@@ -2,7 +2,7 @@
 
 namespace KY.Generator.Reflection.Commands
 {
-    public class RunByAttributeCommandParameters : GeneratorCommandParameters
+    public class AnnotationCommandParameters : GeneratorCommandParameters
     {
 
     }

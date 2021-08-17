@@ -1,13 +1,12 @@
-﻿using KY.Generator.Configurations;
-using KY.Generator.TypeScript.Templates;
+﻿using KY.Generator.TypeScript.Templates;
 
 namespace KY.Generator.TypeScript.Extensions
 {
     public static class DeclareTypeTemplateExtension
     {
-        public static DeclareTypeTemplate FormatName(this DeclareTypeTemplate declareTypeTemplate, IConfiguration configuration, bool force = false)
+        public static DeclareTypeTemplate FormatName(this DeclareTypeTemplate declareTypeTemplate, IOptions options, bool force = false)
         {
-            declareTypeTemplate.Name = Formatter.FormatClass(declareTypeTemplate.Name, configuration, force);
+            declareTypeTemplate.Name = Formatter.FormatClass(declareTypeTemplate.Name, options, force);
             return declareTypeTemplate;
         }
 

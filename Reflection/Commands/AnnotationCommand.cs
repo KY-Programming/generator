@@ -10,7 +10,7 @@ using KY.Generator.Output;
 
 namespace KY.Generator.Reflection.Commands
 {
-    public class AnnotationCommand : GeneratorCommand<RunByAttributeCommandParameters>
+    public class AnnotationCommand : GeneratorCommand<AnnotationCommandParameters>
     {
         private readonly IDependencyResolver resolver;
 
@@ -42,16 +42,18 @@ namespace KY.Generator.Reflection.Commands
             {
                 return this.SwitchAsync();
             }
-            CommandRunner commandRunner = this.resolver.Get<CommandRunner>();
+            DependencyResolver commandResolver = new(this.resolver);
+            Options.Bind(commandResolver);
+            CommandRunner commandRunner = commandResolver.Get<CommandRunner>();
             foreach (Type objectType in TypeHelper.GetTypes(result.Assembly))
             {
                 List<Attribute> attributes = objectType.GetCustomAttributes().ToList();
-                List<RawCommand> commands = new List<RawCommand>();
+                List<RawCommand> commands = new();
                 foreach (IGeneratorCommandAttribute attribute in attributes.OfType<IGeneratorCommandAttribute>())
                 {
                     commands.AddRange(attribute.Commands.Select(x =>
                     {
-                        RawCommand command = new RawCommand(x.Command);
+                        RawCommand command = new(x.Command);
                         command.Parameters.AddRange(x.Parameters.Select(RawCommandParameter.Parse));
                         command.Parameters.Add(new RawCommandParameter("IsAsyncAssembly", isAssemblyAsync.ToString()));
                         foreach (RawCommandParameter parameter in command.Parameters)

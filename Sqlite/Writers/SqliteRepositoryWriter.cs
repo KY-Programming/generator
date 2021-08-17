@@ -35,8 +35,8 @@ namespace KY.Generator.Sqlite.Writers
                                                                            { "System.TimeSpan", "GetTimeSpan" }
                                                                        };
 
-        public SqliteRepositoryWriter(ITypeMapping typeMapping)
-            : base(typeMapping)
+        public SqliteRepositoryWriter(ITypeMapping typeMapping, Options options)
+            : base(typeMapping, options)
         { }
 
         public List<FileTemplate> Write(SqliteModelTransferObject model, SqliteWriteRepositoryCommandParameters parameters)

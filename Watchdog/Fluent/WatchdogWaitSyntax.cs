@@ -11,14 +11,14 @@ namespace KY.Generator
     public class WatchdogWaitSyntax : IWatchdogWaitSyntax, IFluentSyntax
     {
         private readonly WatchdogCommand command;
-        
+
         public IDependencyResolver Resolver { get; }
-        public List<IGeneratorCommand> Commands { get; } = new List<IGeneratorCommand>();
-        
-        public WatchdogWaitSyntax(string url, DependencyResolverReference resolverReference)
+        public List<IGeneratorCommand> Commands { get; } = new();
+
+        public WatchdogWaitSyntax(string url, IDependencyResolver resolver)
         {
-            this.Resolver = resolverReference;
-            this.command = new WatchdogCommand(this.Resolver);
+            this.Resolver = resolver;
+            this.command = this.Resolver.Create<WatchdogCommand>();
             this.Commands.Add(this.command);
             this.command.Parameters.Url = url;
         }
@@ -49,14 +49,14 @@ namespace KY.Generator
 
         public IReadFluentSyntax Read()
         {
-            FluentSyntax syntax = new FluentSyntax(this.Resolver);
+            FluentSyntax syntax = this.Resolver.Create<FluentSyntax>();
             syntax.Commands = this.command.Commands;
             return syntax;
         }
 
         public IWriteFluentSyntax Write()
         {
-            FluentSyntax syntax = new FluentSyntax(this.Resolver);
+            FluentSyntax syntax = this.Resolver.Create<FluentSyntax>();
             syntax.Commands = this.command.Commands;
             return syntax;
         }

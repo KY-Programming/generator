@@ -18,7 +18,7 @@ namespace KY.Generator.AspDotNet.Commands
 
         public override IGeneratorCommandResult Run(IOutput output)
         {
-            AspDotNetReadConfiguration readConfiguration = new AspDotNetReadConfiguration();
+            AspDotNetReadConfiguration readConfiguration = new();
             readConfiguration.AddHeader = !this.Parameters.SkipHeader;
             readConfiguration.Hub = new AspDotNetReadHubConfiguration();
             readConfiguration.Hub.Namespace = this.Parameters.Namespace;

@@ -15,7 +15,7 @@ namespace KY.Generator.Reflection.Tests
         [TestInitialize]
         public void Initialize()
         {
-            this.reader = new ReflectionModelReader();
+            this.reader = new ReflectionModelReader(new Options(new List<IGlobalOptionsReader>()));
         }
 
         [TestMethod]

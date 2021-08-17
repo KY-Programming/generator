@@ -11,7 +11,7 @@ namespace KY.Generator.Sqlite.Fluent
         public SqliteFromDatabaseSyntax(SqliteReadSyntax syntax, string connectionString)
         {
             this.syntax = syntax;
-            this.command = new(this.syntax.Resolver);
+            this.command = this.syntax.Resolver.Create<SqliteReadDatabaseCommand>();
             this.command.Parameters.ConnectionString = connectionString;
             this.syntax.Commands.Add(command);
         }

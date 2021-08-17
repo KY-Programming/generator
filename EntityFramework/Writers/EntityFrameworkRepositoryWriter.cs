@@ -24,7 +24,7 @@ namespace KY.Generator.EntityFramework.Writers
                 ClassTemplate repository = files.AddFile(configuration.RelativePath, configuration.AddHeader, configuration.OutputId)
                                                 .AddNamespace(repositoryConfiguration.Namespace ?? configuration.Namespace)
                                                 .AddClass(repositoryConfiguration.Name ?? entity.Name + "Repository")
-                                                .FormatName(configuration)
+                                                // .FormatName(configuration)
                                                 .WithUsing("System.Collections.Generic")
                                                 .WithUsing("System.Linq");
                 if (configuration.IsCore)

@@ -1,14 +1,14 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using KY.Core;
 using KY.Core.DataAccess;
 using KY.Generator.Angular.Configurations;
-using KY.Generator.Configurations;
 using KY.Generator.Extensions;
 using KY.Generator.Languages;
 using KY.Generator.Mappings;
+using KY.Generator.Models;
+using KY.Generator.Output;
 using KY.Generator.Templates;
 using KY.Generator.Templates.Extensions;
 using KY.Generator.Transfer;
@@ -25,11 +25,19 @@ namespace KY.Generator.Angular.Writers
     {
         private const string apiVersionKey = "{version:apiVersion}";
 
-        public AngularServiceWriter(ITypeMapping typeMapping)
-            : base(typeMapping)
-        { }
+        public AngularServiceWriter(ITypeMapping typeMapping, Options options)
+            : base(typeMapping, options)
+        {
+        }
 
-        public virtual void Write(AngularWriteConfiguration configuration, List<ITransferObject> transferObjects, List<FileTemplate> files)
+        public virtual void Write(List<ITransferObject> transferObjects, AngularWriteConfiguration configuration, IOutput output)
+        {
+            List<FileTemplate> files = new();
+            this.Write(transferObjects, configuration, files);
+            files.ForEach(file => this.Options.Current.Language.Write(file, output));
+        }
+
+        public virtual void Write(List<ITransferObject> transferObjects, AngularWriteConfiguration configuration, List<FileTemplate> files)
         {
             Logger.Trace("Generate angular service for ASP.NET controller...");
             if (!configuration.Language.IsTypeScript())
@@ -44,22 +52,23 @@ namespace KY.Generator.Angular.Writers
             string httpClientImport = configuration.Service.HttpClient?.Import ?? "@angular/common/http";
             foreach (HttpServiceTransferObject controller in transferObjects.OfType<HttpServiceTransferObject>())
             {
+                IOptions controllerOptions = this.Options.Get(controller);
                 IMappableLanguage controllerLanguage = controller.Language as IMappableLanguage;
-                IMappableLanguage configurationLanguage = configuration.Language as IMappableLanguage;
-                Dictionary<HttpServiceActionParameterTransferObject, ParameterTemplate> mapping = new Dictionary<HttpServiceActionParameterTransferObject, ParameterTemplate>();
+                IMappableLanguage outputLanguage = controllerOptions.Language as IMappableLanguage;
+                Dictionary<HttpServiceActionParameterTransferObject, ParameterTemplate> mapping = new();
                 string controllerName = controller.Name.TrimEnd("Controller");
-                FileTemplate file = files.AddFile(configuration.Service.RelativePath, configuration.AddHeader, configuration.OutputId)
+                FileTemplate file = files.AddFile(configuration.Service.RelativePath, controllerOptions.AddHeader, controllerOptions.OutputId)
                                          .WithType("service");
                 ClassTemplate classTemplate = file.AddNamespace(string.Empty)
                                                   .AddClass(configuration.Service.Name?.Replace("{0}", controllerName) ?? controllerName + "Service")
-                                                  .FormatName(configuration, true)
+                                                  .FormatName(controllerOptions, true)
                                                   .WithUsing(httpClient, httpClientImport)
                                                   .WithUsing("Injectable", "@angular/core")
                                                   .WithUsing("Observable", "rxjs")
                                                   .WithUsing("Subject", "rxjs")
                                                   .WithAttribute("Injectable", Code.AnonymousObject().WithProperty("providedIn", Code.String("root")));
-                FieldTemplate httpField = classTemplate.AddField("http", Code.Type(httpClient)).Readonly().FormatName(configuration);
-                FieldTemplate serviceUrlField = classTemplate.AddField("serviceUrlValue", Code.Type("string")).FormatName(configuration).Default(Code.String(string.Empty));
+                FieldTemplate httpField = classTemplate.AddField("http", Code.Type(httpClient)).Readonly().FormatName(controllerOptions);
+                FieldTemplate serviceUrlField = classTemplate.AddField("serviceUrlValue", Code.Type("string")).FormatName(controllerOptions).Default(Code.String(string.Empty));
                 PropertyTemplate serviceUrlProperty = classTemplate.AddProperty("serviceUrl", Code.Type("string"))
                                                                    .WithGetter(Code.Return(Code.This().Field(serviceUrlField)))
                                                                    .WithSetter(Code.This().Field(serviceUrlField).Assign(Code.Local("value").Method("replace", Code.TypeScript(@"/\/+$/"), Code.String(""))).Close());
@@ -79,27 +88,27 @@ namespace KY.Generator.Angular.Writers
                     bool isDateArrayReturnType = isEnumerable && action.ReturnType.Generics.Count == 1 && action.ReturnType.Generics.First().Type.Name.Equals(nameof(DateTime), StringComparison.CurrentCultureIgnoreCase);
                     bool isStringReturnType = action.ReturnType.Name.Equals(nameof(String), StringComparison.CurrentCultureIgnoreCase);
                     ICodeFragment errorCode = Code.Lambda("error", Code.Local(subjectName).Method("error", Code.Local("error")));
-                    if (controllerLanguage != null && configurationLanguage != null)
+                    if (controllerLanguage != null && outputLanguage != null)
                     {
-                        this.MapType(controllerLanguage, configurationLanguage, action.ReturnType);
+                        this.MapType(controllerLanguage, outputLanguage, action.ReturnType);
                     }
                     TypeTemplate returnType = action.ReturnType.ToTemplate();
                     TypeTransferObject returnModelTypeTemplate = isEnumerable ? action.ReturnType.Generics.First().Type : action.ReturnType;
                     ModelTransferObject returnModel = returnModelTypeTemplate as ModelTransferObject
                                                       ?? transferObjects.OfType<ModelTransferObject>().FirstOrDefault(x => x.Name == returnModelTypeTemplate.Name && x.Namespace == returnModelTypeTemplate.Namespace);
-                    this.AddUsing(action.ReturnType, classTemplate, configuration, relativeModelPath);
+                    this.AddUsing(action.ReturnType, classTemplate, controllerOptions, relativeModelPath);
                     MethodTemplate methodTemplate = classTemplate.AddMethod(action.Name, Code.Generic("Observable", returnType))
-                                                                 .FormatName(configuration);
+                                                                 .FormatName(controllerOptions);
                     TypeTemplate subjectType = Code.Generic("Subject", returnType);
                     methodTemplate.WithCode(Code.Declare(subjectType, subjectName, Code.New(subjectType)));
                     foreach (HttpServiceActionParameterTransferObject parameter in action.Parameters)
                     {
-                        if (controllerLanguage != null && configurationLanguage != null)
+                        if (controllerLanguage != null && outputLanguage != null)
                         {
-                            this.MapType(controllerLanguage, configurationLanguage, parameter.Type);
+                            this.MapType(controllerLanguage, outputLanguage, parameter.Type);
                         }
-                        this.AddUsing(parameter.Type, classTemplate, configuration, relativeModelPath);
-                        ParameterTemplate parameterTemplate = methodTemplate.AddParameter(parameter.Type.ToTemplate(), parameter.Name).FormatName(configuration);
+                        this.AddUsing(parameter.Type, classTemplate, controllerOptions, relativeModelPath);
+                        ParameterTemplate parameterTemplate = methodTemplate.AddParameter(parameter.Type.ToTemplate(), parameter.Name).FormatName(controllerOptions);
                         if (parameter.IsOptional)
                         {
                             parameterTemplate.Optional();
@@ -151,17 +160,17 @@ namespace KY.Generator.Angular.Writers
                             nextCode = localCode.Method("map", Code.Lambda("entry", Code.This().Method("convertToDate", Code.Local("entry"))));
                         }
                         nextMethod.WithParameter(nextCode);
-                        appendConvertToDateMethod = this.WriteDateFixes(returnModel, isEnumerable, code, new List<string> { "result" }, new List<TypeTransferObject> { returnModel }, transferObjects, configuration) || appendConvertToDateMethod;
+                        appendConvertToDateMethod = this.WriteDateFixes(returnModel, isEnumerable, code, new List<string> { "result" }, new List<TypeTransferObject> { returnModel }, transferObjects) || appendConvertToDateMethod;
                     }
                     if (action.FixCasingWithMapping)
                     {
                         IEnumerable<MemberTransferObject> members = (returnModel?.Fields ?? new List<FieldTransferObject>()).Concat<MemberTransferObject>(returnModel?.Properties ?? new List<PropertyTransferObject>());
                         if (isEnumerable)
                         {
-                            MultilineCodeFragment innerCode = new MultilineCodeFragment();
+                            MultilineCodeFragment innerCode = new();
                             foreach (MemberTransferObject member in members)
                             {
-                                string formattedName = member is PropertyTransferObject ? Formatter.FormatProperty(member.Name, configuration) : Formatter.FormatField(member.Name, configuration);
+                                string formattedName = member is PropertyTransferObject ? Formatter.FormatProperty(member.Name, controllerOptions) : Formatter.FormatField(member.Name, controllerOptions);
                                 if (formattedName != member.Name)
                                 {
                                     innerCode.AddLine(Code.Local("entry").Field(formattedName).Assign(Code.Local("entry").Field(formattedName).Or().Local("entry").Index(Code.String(member.Name))).Close())
@@ -174,7 +183,7 @@ namespace KY.Generator.Angular.Writers
                         {
                             foreach (MemberTransferObject member in members)
                             {
-                                string formattedName = member is PropertyTransferObject ? Formatter.FormatProperty(member.Name, configuration) : Formatter.FormatField(member.Name, configuration);
+                                string formattedName = member is PropertyTransferObject ? Formatter.FormatProperty(member.Name, controllerOptions) : Formatter.FormatField(member.Name, controllerOptions);
                                 if (formattedName != member.Name)
                                 {
                                     code.AddLine(Code.Local("result").Field(formattedName).Assign(Code.Local("result").Field(formattedName).Or().Local("result").Index(Code.String(member.Name))).Close())
@@ -278,11 +287,11 @@ namespace KY.Generator.Angular.Writers
             EnumTemplate connectionStatusEnum = null;
             if (hubs.Count > 0)
             {
-                connectionStatusFileTemplate = files.AddFile(configuration.Model.RelativePath, configuration.AddHeader, configuration.OutputId);
+                connectionStatusFileTemplate = files.AddFile(configuration.Model.RelativePath, configuration.AddHeader, this.Options.Get(hubs.First()).OutputId);
                 connectionStatusEnum = connectionStatusFileTemplate
                                        .AddNamespace(string.Empty)
                                        .AddEnum("ConnectionStatus")
-                                       .FormatName(configuration)
+                                       .FormatName(this.Options.Get(hubs.First()))
                                        .AddValue("connecting")
                                        .AddValue("connected")
                                        .AddValue("sleeping")
@@ -290,15 +299,16 @@ namespace KY.Generator.Angular.Writers
             }
             foreach (SignalRHubTransferObject hub in hubs)
             {
+                IOptions hubOptions = this.Options.Get(hub);
                 string relativeModelPath = FileSystem.RelativeTo(configuration.Model?.RelativePath ?? ".", configuration.Service.RelativePath);
                 IMappableLanguage hubLanguage = hub.Language as IMappableLanguage;
-                IMappableLanguage configurationLanguage = configuration.Language as IMappableLanguage;
-                FileTemplate file = files.AddFile(configuration.Service.RelativePath, configuration.AddHeader, configuration.OutputId)
+                IMappableLanguage outputLanguage = hubOptions.Language as IMappableLanguage;
+                FileTemplate file = files.AddFile(configuration.Service.RelativePath, hubOptions.AddHeader, hubOptions.OutputId)
                                          .WithType("service");
                 NamespaceTemplate namespaceTemplate = file.AddNamespace(string.Empty);
                 ClassTemplate classTemplate = namespaceTemplate
                                               .AddClass(configuration.Service.Name?.Replace("{0}", hub.Name) ?? hub.Name + "Service")
-                                              .FormatName(configuration, true)
+                                              .FormatName(hubOptions, true)
                                               .WithUsing("Injectable", "@angular/core")
                                               .WithUsing("Subject", "rxjs")
                                               .WithUsing("Observable", "rxjs")
@@ -311,12 +321,12 @@ namespace KY.Generator.Angular.Writers
                                               .WithUsing("HubConnection", "@microsoft/signalr")
                                               .WithUsing("IHttpConnectionOptions", "@microsoft/signalr")
                                               .WithUsing("LogLevel", "@microsoft/signalr")
-                                              .WithUsing(connectionStatusEnum.Name, FileSystem.Combine(relativeModelPath, Formatter.FormatFile(connectionStatusFileTemplate.Name, configuration, true)).Replace("\\", "/"))
+                                              .WithUsing(connectionStatusEnum.Name, FileSystem.Combine(relativeModelPath, Formatter.FormatFile(connectionStatusFileTemplate.Name, hubOptions, true)).Replace("\\", "/"))
                                               .WithAttribute("Injectable", Code.AnonymousObject().WithProperty("providedIn", Code.String("root")));
                 FieldTemplate isClosedField = classTemplate.AddField("isClosed", Code.Type("boolean"));
-                FieldTemplate serviceUrlField = classTemplate.AddField("serviceUrl", Code.Type("string")).Public().FormatName(configuration).Default(Code.String(string.Empty));
-                FieldTemplate optionsField = classTemplate.AddField("options", Code.Type("IHttpConnectionOptions")).Public().FormatName(configuration);
-                FieldTemplate logLevelField = classTemplate.AddField("logLevel", Code.Type("LogLevel")).Public().FormatName(configuration).Default(Code.Static(Code.Type("LogLevel")).Field("Error"));
+                FieldTemplate serviceUrlField = classTemplate.AddField("serviceUrl", Code.Type("string")).Public().FormatName(hubOptions).Default(Code.String(string.Empty));
+                FieldTemplate optionsField = classTemplate.AddField("options", Code.Type("IHttpConnectionOptions")).Public().FormatName(hubOptions);
+                FieldTemplate logLevelField = classTemplate.AddField("logLevel", Code.Type("LogLevel")).Public().FormatName(hubOptions).Default(Code.Static(Code.Type("LogLevel")).Field("Error"));
                 FieldTemplate connectionField = classTemplate.AddField("connection", Code.Generic("ReplaySubject", Code.Type("HubConnection")));
                 FieldTemplate timeoutsField = null;
                 if (configuration.Service.Timeouts?.Count > 0)
@@ -326,7 +336,7 @@ namespace KY.Generator.Angular.Writers
                 }
                 FieldTemplate statusSubjectField = classTemplate.AddField("statusSubject", Code.Generic("ReplaySubject", connectionStatusEnum.ToType())).Readonly()
                                                                 .Default(Code.New(Code.Generic("ReplaySubject", connectionStatusEnum.ToType()), Code.Number(1)));
-                classTemplate.AddField("status$", Code.Generic("Observable", connectionStatusEnum.ToType())).FormatName(configuration).Readonly().Public()
+                classTemplate.AddField("status$", Code.Generic("Observable", connectionStatusEnum.ToType())).FormatName(hubOptions).Readonly().Public()
                              .Default(Code.This().Local(statusSubjectField).Method("asObservable"));
                 MultilineCodeFragment createConnectionCode = Code.Multiline();
                 MultilineCodeFragment errorCode = Code.Multiline();
@@ -364,7 +374,7 @@ namespace KY.Generator.Angular.Writers
                              .AddLine(Code.Local("subject").Method("error", Code.Local("error")).Close());
                 }
 
-                MethodTemplate connectMethod = classTemplate.AddMethod("Connect", Code.Generic("Observable", Code.Void())).FormatName(configuration)
+                MethodTemplate connectMethod = classTemplate.AddMethod("Connect", Code.Generic("Observable", Code.Void())).FormatName(hubOptions)
                                                             .WithComment("Connects to the hub via given serviceUrl.\nAutomatically reconnects on connection loss. \nIf timeout is configured, goes to sleeping state and reconnects after the timeout")
                                                             .WithCode(Code.If(Code.Not().This().Local(serviceUrlField))
                                                                           .WithCode(Code.Throw(Code.Type("Error"), Code.String("serviceUrl can not be empty. Set it via service.serviceUrl."))))
@@ -416,16 +426,16 @@ namespace KY.Generator.Angular.Writers
                 foreach (HttpServiceActionTransferObject action in hub.Actions)
                 {
                     MethodTemplate methodTemplate = classTemplate.AddMethod(action.Name, Code.Generic("Observable", Code.Type("void")))
-                                                                 .FormatName(configuration)
+                                                                 .FormatName(hubOptions)
                                                                  .WithComment($"Send a \"{action.Name}\" message to the hub with the given parameters. Automatically connects to the hub.");
                     foreach (HttpServiceActionParameterTransferObject parameter in action.Parameters)
                     {
-                        if (hubLanguage != null && configurationLanguage != null)
+                        if (hubLanguage != null && outputLanguage != null)
                         {
-                            this.MapType(hubLanguage, configurationLanguage, parameter.Type);
+                            this.MapType(hubLanguage, outputLanguage, parameter.Type);
                         }
-                        this.AddUsing(parameter.Type, classTemplate, configuration, relativeModelPath);
-                        methodTemplate.AddParameter(parameter.Type.ToTemplate(), parameter.Name, parameter.IsOptional ? Code.Null() : null).FormatName(configuration);
+                        this.AddUsing(parameter.Type, classTemplate, hubOptions, relativeModelPath);
+                        methodTemplate.AddParameter(parameter.Type.ToTemplate(), parameter.Name, parameter.IsOptional ? Code.Null() : null).FormatName(hubOptions);
                     }
 
                     List<ICodeFragment> parameters = new List<ICodeFragment>();
@@ -450,11 +460,11 @@ namespace KY.Generator.Angular.Writers
                 {
                     foreach (HttpServiceActionParameterTransferObject parameter in action.Parameters)
                     {
-                        if (hubLanguage != null && configurationLanguage != null)
+                        if (hubLanguage != null && outputLanguage != null)
                         {
-                            this.MapType(hubLanguage, configurationLanguage, parameter.Type);
+                            this.MapType(hubLanguage, outputLanguage, parameter.Type);
                         }
-                        this.AddUsing(parameter.Type, classTemplate, configuration, relativeModelPath);
+                        this.AddUsing(parameter.Type, classTemplate, hubOptions, relativeModelPath);
                     }
                     TypeTemplate eventType;
                     List<ICodeFragment> eventResult = new List<ICodeFragment>();
@@ -470,14 +480,14 @@ namespace KY.Generator.Angular.Writers
                     else
                     {
                         AnonymousObjectTemplate anonymousObject = Code.AnonymousObject();
-                        action.Parameters.ForEach(parameter => anonymousObject.AddProperty(parameter.Name).FormatName(configuration));
-                        DeclareTypeTemplate declareTypeTemplate = namespaceTemplate.AddDeclareType(action.Name + "Event", anonymousObject).FormatName(configuration);
+                        action.Parameters.ForEach(parameter => anonymousObject.AddProperty(parameter.Name).FormatName(hubOptions));
+                        DeclareTypeTemplate declareTypeTemplate = namespaceTemplate.AddDeclareType(action.Name + "Event", anonymousObject).FormatName(hubOptions);
                         eventType = Code.Type(declareTypeTemplate.Name);
                         eventResult.Add(anonymousObject);
                     }
                     GenericTypeTemplate subjectType = Code.Generic("Subject", eventType);
-                    FieldTemplate eventPrivateField = classTemplate.AddField(action.Name + "Subject", subjectType).Readonly().FormatName(configuration).Default(Code.New(subjectType));
-                    FieldTemplate eventPublicField = classTemplate.AddField(action.Name + "$", Code.Generic("Observable", eventType)).Public().Readonly().FormatName(configuration)
+                    FieldTemplate eventPrivateField = classTemplate.AddField(action.Name + "Subject", subjectType).Readonly().FormatName(hubOptions).Default(Code.New(subjectType));
+                    FieldTemplate eventPublicField = classTemplate.AddField(action.Name + "$", Code.Generic("Observable", eventType)).Public().Readonly().FormatName(hubOptions)
                                                                   .Default(Code.This().Local(eventPrivateField).Method("asObservable"));
                     MultilineCodeFragment code = new MultilineCodeFragment();
                     code.AddLine(Code.This().Local(eventPrivateField).Method("next", eventResult.ToArray()).Close());
@@ -489,7 +499,7 @@ namespace KY.Generator.Angular.Writers
             }
         }
 
-        private bool WriteDateFixes(ModelTransferObject model, bool isModelEnumerable, MultilineCodeFragment code, IReadOnlyList<string> chain, IReadOnlyList<TypeTransferObject> typeChain, List<ITransferObject> transferObjects, IConfiguration configuration)
+        private bool WriteDateFixes(ModelTransferObject model, bool isModelEnumerable, MultilineCodeFragment code, IReadOnlyList<string> chain, IReadOnlyList<TypeTransferObject> typeChain, List<ITransferObject> transferObjects)
         {
             if (model == null)
             {
@@ -511,7 +521,8 @@ namespace KY.Generator.Angular.Writers
                 {
                     continue;
                 }
-                string propertyName = Formatter.FormatProperty(property.Name, configuration);
+                IOptions propertyOptions = this.Options.Get(property);
+                string propertyName = Formatter.FormatProperty(property.Name, propertyOptions);
                 if (type.Name == nameof(DateTime))
                 {
                     datePropertyFound = true;
@@ -534,11 +545,11 @@ namespace KY.Generator.Angular.Writers
                 nextTypeChain.Add(type);
                 if (propertyModel != null && propertyModel.IsEnumerable() && entryModel != null)
                 {
-                    datePropertyFound = this.WriteDateFixes(entryModel, true, innerCode, nextChain, nextTypeChain, transferObjects, configuration) || datePropertyFound;
+                    datePropertyFound = this.WriteDateFixes(entryModel, true, innerCode, nextChain, nextTypeChain, transferObjects) || datePropertyFound;
                 }
                 else if (propertyModel != null && propertyModel.Properties.Count > 0)
                 {
-                    datePropertyFound = this.WriteDateFixes(propertyModel, false, innerCode, nextChain, nextTypeChain, transferObjects, configuration) || datePropertyFound;
+                    datePropertyFound = this.WriteDateFixes(propertyModel, false, innerCode, nextChain, nextTypeChain, transferObjects) || datePropertyFound;
                 }
             }
             if (datePropertyFound)

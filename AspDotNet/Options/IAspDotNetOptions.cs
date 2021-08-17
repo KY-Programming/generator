@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using KY.Generator.Reflection;
 
-namespace KY.Generator.AspDotNet.Helpers
+namespace KY.Generator.AspDotNet
 {
-    public interface IAspDotNetOptions : IReflectionOptions
+    public interface IAspDotNetOptions
     {
         bool HttpGet { get; }
         string HttpGetRoute { get; }

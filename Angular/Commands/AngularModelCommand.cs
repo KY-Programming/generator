@@ -1,14 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using KY.Core.Dependency;
-using KY.Generator.Angular.Configurations;
+﻿using KY.Core.Dependency;
+using KY.Generator.Angular.Languages;
 using KY.Generator.Angular.Writers;
 using KY.Generator.Command;
+using KY.Generator.Command.Extensions;
+using KY.Generator.Languages.Extensions;
 using KY.Generator.Output;
-using KY.Generator.Templates;
-using KY.Generator.Transfer;
 using KY.Generator.TypeScript;
-using KY.Generator.TypeScript.Transfer;
 
 namespace KY.Generator.Angular.Commands
 {
@@ -25,32 +22,19 @@ namespace KY.Generator.Angular.Commands
 
         public override IGeneratorCommandResult Run(IOutput output)
         {
-            AngularWriteConfiguration writeConfiguration = new AngularWriteConfiguration();
-            writeConfiguration.AddHeader = !this.Parameters.SkipHeader;
-            writeConfiguration.FormatNames = this.Parameters.FormatNames;
-            writeConfiguration.OutputId = this.TransferObjects.OfType<OutputIdTransferObject>().FirstOrDefault()?.Value;
-            writeConfiguration.Model = new AngularWriteModelConfiguration();
-            writeConfiguration.Model.CopyBaseFrom(writeConfiguration);
-            writeConfiguration.Model.Namespace = this.Parameters.Namespace;
-            writeConfiguration.Model.RelativePath = this.Parameters.RelativePath;
-            writeConfiguration.Model.SkipNamespace = this.Parameters.SkipNamespace;
-            writeConfiguration.Model.PropertiesToFields = this.Parameters.PropertiesToFields;
-            writeConfiguration.Model.FieldsToProperties = this.Parameters.FieldsToProperties;
-            writeConfiguration.Model.PreferInterfaces = this.Parameters.PreferInterfaces;
-            writeConfiguration.Model.WithOptionalProperties = this.Parameters.WithOptionalProperties;
-            writeConfiguration.Model.FormatNames = this.Parameters.FormatNames;
+            IOptions options = this.resolver.Get<Options>().Current;
+            options.SetFromParameter(this.Parameters);
+            options.SetOutputId(this.TransferObjects);
+            options.SetStrict(this.Parameters.RelativePath, output, this.resolver, this.TransferObjects);
+            options.Language = new AngularTypeScriptLanguage();
+            options.Formatting.FromLanguage(options.Language);
+            options.Formatting.AllowedSpecialCharacters = "$";
+            options.SkipNamespace = true;
+            options.PropertiesToFields = true;
 
-            output.DeleteAllRelatedFiles(writeConfiguration.OutputId, this.Parameters.RelativePath);
+            output.DeleteAllRelatedFiles(options.OutputId, this.Parameters.RelativePath);
 
-            if (this.Parameters.Strict && !this.TransferObjects.OfType<TsConfig>().Any())
-            {
-                this.TransferObjects.Add(new TsConfig { CompilerOptions = { Strict = true } });
-            }
-            TypeScriptStrictHelper.Read(this.Parameters.RelativePath, output, this.resolver, this.TransferObjects);
-
-            List<FileTemplate> files = new List<FileTemplate>();
-            this.resolver.Create<AngularModelWriter>().Write(writeConfiguration, this.TransferObjects, files);
-            files.ForEach(file => writeConfiguration.Language.Write(file, output));
+            this.resolver.Create<AngularModelWriter>().Write(this.TransferObjects, this.Parameters.RelativePath, output);
 
             return this.Success();
         }

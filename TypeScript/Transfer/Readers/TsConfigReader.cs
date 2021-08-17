@@ -10,13 +10,14 @@ namespace KY.Generator.TypeScript.Transfer.Readers
 {
     public class TsConfigReader
     {
-        private static readonly Regex pathRegex = new Regex(@"(?<path>.*ClientApp[^\\\/]*)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static readonly Regex pathRegex = new(@"(?<path>.*ClientApp[^\\\/]*)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
-        public void Read(string fullPath, List<ITransferObject> transferObjects)
+        public TsConfig Read(string fullPath, List<ITransferObject> transferObjects)
         {
-            if (transferObjects.OfType<TsConfig>().Any())
+            TsConfig tsConfig = transferObjects.OfType<TsConfig>().FirstOrDefault();
+            if (tsConfig != null)
             {
-                return;
+                return tsConfig;
             }
             string path = FileSystem.Combine(fullPath, "tsconfig.json");
             Logger.Trace($"Try to read strict mode from {path}");
@@ -37,20 +38,19 @@ namespace KY.Generator.TypeScript.Transfer.Readers
             }
             if (FileSystem.FileExists(path))
             {
-                this.Parse(path, transferObjects);
+                return this.Parse(path, transferObjects);
             }
-            else
-            {
-                Logger.Trace("Could not find tsconfig.json");
-            }
+            Logger.Trace("Could not find tsconfig.json");
+            return null;
         }
 
-        private void Parse(string path, List<ITransferObject> transferObjects)
+        private TsConfig Parse(string path, List<ITransferObject> transferObjects)
         {
             string text = FileSystem.ReadAllText(path);
             TsConfig tsConfig = JsonConvert.DeserializeObject<TsConfig>(text);
             transferObjects.Add(tsConfig);
             Logger.Trace($"Activate TypeScript {(tsConfig?.CompilerOptions?.Strict == true ? "strict" : "regular")} mode");
+            return tsConfig;
         }
     }
 }

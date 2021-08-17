@@ -12,15 +12,25 @@ namespace KY.Generator.Reflection.Readers
 {
     public class ReflectionModelReader
     {
+        private readonly Options options;
+
+        public ReflectionModelReader(Options options)
+        {
+            this.options = options;
+        }
+
         public ModelTransferObject Read(Type type, List<ITransferObject> transferObjects, IOptions caller = null)
         {
-            IReflectionOptions typeOptions = ReflectionOptions.Get(type, caller);
             ModelTransferObject model = new() { Language = ReflectionLanguage.Instance };
             model.Name = model.OriginalName = type.Name;
             model.Namespace = type.Namespace;
             model.IsNullable = !type.IsValueType;
             model.IsGeneric = type.IsGenericType;
             model.FromSystem = type.Namespace != null && type.Namespace.StartsWith("System");
+
+            IOptions typeOptions = this.options.Get(type, caller);
+            this.options.Set(model, typeOptions);
+
             if (model.IsGeneric)
             {
                 model.Name = type.Name.Split('`').First();
@@ -119,24 +129,23 @@ namespace KY.Generator.Reflection.Readers
             }
         }
 
-        private void ReadClass(Type type, ModelTransferObject model, List<ITransferObject> transferObjects, IOptions caller = null)
+        private void ReadClass(Type type, ModelTransferObject model, List<ITransferObject> transferObjects, IOptions caller)
         {
             Logger.Trace($"Reflection read type {type.Name} ({type.Namespace})");
-            IReflectionOptions typeOptions = ReflectionOptions.Get(type, caller);
             if (type.BaseType != typeof(object) && type.BaseType != typeof(ValueType) && type.BaseType != null)
             {
-                model.BasedOn = this.Read(type.BaseType, transferObjects, typeOptions);
+                model.BasedOn = this.Read(type.BaseType, transferObjects, caller);
             }
             if (type.IsGenericType)
             {
-                type = this.ReadGenericArguments(type, model, transferObjects, typeOptions);
+                type = this.ReadGenericArguments(type, model, transferObjects, caller);
             }
 
             model.IsInterface = type.IsInterface;
             model.IsAbstract = type.IsAbstract;
             foreach (Type interFace in type.GetInterfaces(false))
             {
-                ModelTransferObject interfaceTransferObject = this.Read(interFace, transferObjects, typeOptions);
+                ModelTransferObject interfaceTransferObject = this.Read(interFace, transferObjects, caller);
                 if (transferObjects.Contains(interfaceTransferObject))
                 {
                     model.Interfaces.Add(interfaceTransferObject);
@@ -145,7 +154,7 @@ namespace KY.Generator.Reflection.Readers
             FieldInfo[] constants = type.GetFields(BindingFlags.Public | BindingFlags.Static);
             foreach (FieldInfo field in constants)
             {
-                IReflectionOptions fieldOptions = ReflectionOptions.Get(field);
+                IOptions fieldOptions = this.options.Get(field);
                 if (fieldOptions.Ignore)
                 {
                     continue;
@@ -154,15 +163,16 @@ namespace KY.Generator.Reflection.Readers
                                                           {
                                                               Name = field.Name,
                                                               Type = this.Read(field.FieldType, transferObjects),
-                                                              Default = field.GetValue(null)
+                                                              Default = field.GetValue(null),
                                                           };
                 model.Constants.Add(fieldTransferObject);
+                this.options.Set(fieldTransferObject, fieldOptions);
             }
 
             FieldInfo[] fields = type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
             foreach (FieldInfo field in fields)
             {
-                IReflectionOptions fieldOptions = ReflectionOptions.Get(field);
+                IOptions fieldOptions = this.options.Get(field);
                 if (fieldOptions.Ignore)
                 {
                     continue;
@@ -170,14 +180,15 @@ namespace KY.Generator.Reflection.Readers
                 FieldTransferObject fieldTransferObject = new()
                                                           {
                                                               Name = field.Name,
-                                                              Type = this.Read(field.FieldType, transferObjects)
+                                                              Type = this.Read(field.FieldType, transferObjects),
                                                           };
                 model.Fields.Add(fieldTransferObject);
+                this.options.Set(fieldTransferObject, fieldOptions);
             }
             PropertyInfo[] properties = type.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
             foreach (PropertyInfo property in properties)
             {
-                IReflectionOptions propertyOptions = ReflectionOptions.Get(property);
+                IOptions propertyOptions = this.options.Get(property);
                 if (propertyOptions.Ignore)
                 {
                     continue;
@@ -186,13 +197,14 @@ namespace KY.Generator.Reflection.Readers
                                                                 {
                                                                     Name = property.Name,
                                                                     Type = this.Read(property.PropertyType, transferObjects),
-                                                                    Attributes = property.GetCustomAttributes().ToTransferObjects().ToList()
+                                                                    Attributes = property.GetCustomAttributes().ToTransferObjects().ToList(),
                                                                 };
                 model.Properties.Add(propertyTransferObject);
+                this.options.Set(propertyTransferObject, propertyOptions);
             }
         }
 
-        private Type ReadGenericArguments(Type type, ModelTransferObject model, List<ITransferObject> transferObjects, IReflectionOptions typeOptions)
+        private Type ReadGenericArguments(Type type, ModelTransferObject model, List<ITransferObject> transferObjects, IOptions caller)
         {
             Type genericType = type.GetGenericTypeDefinition();
             model.Generics.Clear();
@@ -205,7 +217,7 @@ namespace KY.Generator.Reflection.Readers
                     model.Generics.Add(new GenericAliasTransferObject
                                        {
                                            Alias = this.Read(alias, transferObjects),
-                                           Type = this.Read(argument, transferObjects, typeOptions)
+                                           Type = this.Read(argument, transferObjects, caller)
                                        });
                 }
                 type = genericType;

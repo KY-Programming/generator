@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using KY.Generator.Configuration;
-using KY.Generator.Configurations;
-using KY.Generator.Languages;
+﻿using System.Linq;
 
 namespace KY.Generator.Templates.Extensions
 {
@@ -113,9 +109,9 @@ namespace KY.Generator.Templates.Extensions
             return classTemplate;
         }
 
-        public static ClassTemplate FormatName(this ClassTemplate classTemplate, IConfiguration configuration, bool force = false)
+        public static ClassTemplate FormatName(this ClassTemplate classTemplate, IOptions options, bool force = false)
         {
-            classTemplate.Name = Formatter.FormatClass(classTemplate.Name, configuration, force);
+            classTemplate.Name = Formatter.FormatClass(classTemplate.Name, options, force);
             return classTemplate;
         }
     }

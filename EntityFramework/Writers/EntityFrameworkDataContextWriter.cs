@@ -41,7 +41,7 @@ namespace KY.Generator.EntityFramework.Writers
             foreach (EntityTransferObject entity in transferObjects.OfType<EntityTransferObject>())
             {
                 dataContext.AddProperty(entity.Name, Code.Generic("DbSet", entity.Model.ToTemplate()))
-                           .FormatName(configuration)
+                           // .FormatName(configuration)
                            .Virtual();
             }
 

@@ -51,11 +51,5 @@ namespace KY.Generator.Angular.Fluent
             this.command.Parameters.FieldsToProperties = value;
             return this;
         }
-
-        public IAngularModelSyntax Strict(bool value = true)
-        {
-            this.command.Parameters.Strict = value;
-            return this;
-        }
     }
 }

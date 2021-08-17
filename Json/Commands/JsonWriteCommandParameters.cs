@@ -4,7 +4,6 @@ namespace KY.Generator.Json.Commands
 {
     public class JsonWriteCommandParameters : GeneratorCommandParameters
     {
-        public string ModelPath { get; set; }
         public string ModelName { get; set; }
         public string ModelNamespace { get; set; }
         public bool WithReader { get; set; }

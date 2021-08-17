@@ -15,8 +15,8 @@ namespace KY.Generator
 
         public IJsonWriteModelOrReaderSyntax Model(string relativePath, string name, string nameSpace)
         {
-            this.command = new JsonWriteCommand(this.syntax.Resolver);
-            this.command.Parameters.ModelPath = relativePath;
+            this.command = this.syntax.Resolver.Create<JsonWriteCommand>();
+            this.command.Parameters.RelativePath = relativePath;
             this.command.Parameters.ModelName = name;
             this.command.Parameters.ModelNamespace = nameSpace;
             this.syntax.Commands.Add(this.command);

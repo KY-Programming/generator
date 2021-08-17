@@ -1,8 +1,9 @@
 ﻿using KY.Core.Dependency;
 using KY.Generator.Command;
+using KY.Generator.Command.Extensions;
 using KY.Generator.Csharp.Languages;
-using KY.Generator.Json.Configurations;
 using KY.Generator.Json.Writers;
+using KY.Generator.Languages.Extensions;
 using KY.Generator.Output;
 
 namespace KY.Generator.Json.Commands
@@ -20,19 +21,13 @@ namespace KY.Generator.Json.Commands
 
         public override IGeneratorCommandResult Run(IOutput output)
         {
-            JsonWriteConfiguration configuration = new JsonWriteConfiguration();
-            configuration.Language = CsharpLanguage.Instance;
-            configuration.FormatNames = this.Parameters.FormatNames;
-            configuration.RelativePath = this.Parameters.ModelPath;
-            configuration.FormatNames = this.Parameters.FormatNames;
-            configuration.FieldsToProperties = this.Parameters.FieldsToProperties;
-            configuration.Name = this.Parameters.ModelName;
-            configuration.Namespace = this.Parameters.ModelNamespace;
-            configuration.PropertiesToFields = this.Parameters.PropertiesToFields;
-            configuration.SkipNamespace = this.Parameters.SkipNamespace;
-            configuration.WithReader = this.Parameters.WithReader;
+            IOptions options = this.resolver.Get<Options>().Current;
+            options.SetFromParameter(this.Parameters);
+            options.SetOutputId(this.TransferObjects);
+            options.Language = CsharpLanguage.Instance;
+            options.Formatting.FromLanguage(options.Language);
 
-            this.resolver.Create<JsonWriter>().Write(configuration, this.TransferObjects, output);
+            this.resolver.Create<JsonWriter>().Write(this.TransferObjects, this.Parameters.RelativePath, output, this.Parameters.WithReader);
 
             return this.Success();
         }

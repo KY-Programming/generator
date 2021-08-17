@@ -1,14 +1,9 @@
 ﻿using System.Runtime.CompilerServices;
 using KY.Core.Dependency;
 using KY.Core.Module;
-using KY.Generator.Client;
 using KY.Generator.Command;
 using KY.Generator.Commands;
-using KY.Generator.Configuration;
-using KY.Generator.Configurations;
 using KY.Generator.Languages;
-using KY.Generator.Transfer.Readers;
-using KY.Generator.Transfer.Writers;
 
 [assembly: InternalsVisibleTo("KY.Generator.Tests")]
 [assembly: InternalsVisibleTo("KY.Generator.Core.Tests")]
@@ -32,14 +27,6 @@ namespace KY.Generator
             this.DependencyResolver.Bind<IGeneratorCommand>().To<VersionCommand>();
             this.DependencyResolver.Bind<IGeneratorCommand>().To<ReadIdCommand>();
             this.DependencyResolver.Bind<ILanguage>().To<EmptyLanguage>();
-        }
-
-        public override void Initialize()
-        {
-            this.DependencyResolver.Get<ConfigurationMapping>()
-                .Map<CookieConfiguration, CookieReader>("cookie")
-                .Map<GeneratorConfiguration, GeneratorGenerator>("generator")
-                .Map<ModelWriteConfiguration, ModelWriter>("model");
         }
     }
 }

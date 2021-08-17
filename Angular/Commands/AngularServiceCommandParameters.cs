@@ -9,6 +9,5 @@ namespace KY.Generator.Angular.Commands
         public string RelativeModelPath { get; set; }
         public bool EndlessTries { get; set; }
         public List<int> Timeouts { get; set; }
-        public bool Strict { get; set; }
     }
 }

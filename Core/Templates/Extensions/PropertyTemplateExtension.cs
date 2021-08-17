@@ -81,9 +81,9 @@ namespace KY.Generator.Templates.Extensions
             return property;
         }
 
-        public static PropertyTemplate FormatName(this PropertyTemplate propertyTemplate, IConfiguration configuration, bool force = false)
+        public static PropertyTemplate FormatName(this PropertyTemplate propertyTemplate, IOptions options, bool force = false)
         {
-            propertyTemplate.Name = Formatter.FormatProperty(propertyTemplate.Name, configuration, force);
+            propertyTemplate.Name = Formatter.FormatProperty(propertyTemplate.Name, options, force);
             return propertyTemplate;
         }
     }

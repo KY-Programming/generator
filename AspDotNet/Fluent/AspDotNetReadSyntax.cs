@@ -16,7 +16,7 @@ namespace KY.Generator.AspDotNet.Fluent
         public IAspDotNetControllerOrReadSyntax FromController<T>()
         {
             Type type = typeof(T);
-            AspDotNetReadControllerCommand command = new AspDotNetReadControllerCommand(this.syntax.Resolver);
+            AspDotNetReadControllerCommand command = this.syntax.Resolver.Create<AspDotNetReadControllerCommand>();
             command.Parameters.Assembly = type.Assembly.Location;
             command.Parameters.Namespace = type.Namespace;
             command.Parameters.Name = type.Name;
@@ -27,7 +27,7 @@ namespace KY.Generator.AspDotNet.Fluent
         public IAspDotNetHubOrReadSyntax FromHub<T>()
         {
             Type type = typeof(T);
-            AspDotNetReadHubCommand command = new AspDotNetReadHubCommand(this.syntax.Resolver);
+            AspDotNetReadHubCommand command = this.syntax.Resolver.Create<AspDotNetReadHubCommand>();
             command.Parameters.Assembly = type.Assembly.Location;
             command.Parameters.Namespace = type.Namespace;
             command.Parameters.Name = type.Name;

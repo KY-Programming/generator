@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using KY.Core.Dependency;
 using KY.Generator.Helpers;
+using KY.Generator.Models;
 using KY.Generator.Syntax;
 
 namespace KY.Generator
@@ -10,15 +12,17 @@ namespace KY.Generator
     /// </summary>
     public abstract class GeneratorFluentMain
     {
-        public DependencyResolverReference ResolverReference { get; } = new DependencyResolverReference();
-        public List<IFluentSyntax> Syntaxes { get; } = new List<IFluentSyntax>();
+        public IDependencyResolver Resolver { get; set; }
+        public List<IFluentSyntax> Syntaxes { get; } = new();
 
         /// <summary>
         /// This method does not do anything. Use at least one extension method from one of the other generator packages e.g. <code>KY.Generator.Angular</code> or <code>KY.Generator.Reflection</code>
         /// </summary>
         protected IReadFluentSyntax Read()
         {
-            FluentSyntax syntax = new FluentSyntax(this.ResolverReference);
+            DependencyResolver resolver = new(this.Resolver);
+            Options.Bind(resolver);
+            FluentSyntax syntax = resolver.Create<FluentSyntax>();
             this.Syntaxes.Add(syntax);
             return syntax;
         }
@@ -28,7 +32,9 @@ namespace KY.Generator
         /// </summary>
         protected IWriteFluentSyntax Write()
         {
-            FluentSyntax syntax = new FluentSyntax(this.ResolverReference);
+            DependencyResolver resolver = new(this.Resolver);
+            Options.Bind(resolver);
+            FluentSyntax syntax = resolver.Create<FluentSyntax>();
             this.Syntaxes.Add(syntax);
             return syntax;
         }

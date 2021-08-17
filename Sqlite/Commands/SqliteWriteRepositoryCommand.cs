@@ -17,14 +17,12 @@ namespace KY.Generator.Sqlite.Commands
     public class SqliteWriteRepositoryCommand : GeneratorCommand<SqliteWriteRepositoryCommandParameters>
     {
         private readonly IDependencyResolver resolver;
-        private readonly SqliteModelReader modelReader;
 
         public override string[] Names { get; } = { "sqlite-repository" };
 
-        public SqliteWriteRepositoryCommand(IDependencyResolver resolver, SqliteModelReader modelReader)
+        public SqliteWriteRepositoryCommand(IDependencyResolver resolver)
         {
             this.resolver = resolver;
-            this.modelReader = modelReader;
         }
 
         public override IGeneratorCommandResult Run(IOutput output)
@@ -36,7 +34,7 @@ namespace KY.Generator.Sqlite.Commands
                 return this.Error();
             }
             this.Parameters.OutputId = this.TransferObjects.OfType<OutputIdTransferObject>().FirstOrDefault()?.Value;
-            SqliteModelTransferObject model = this.modelReader.Read(type, this.TransferObjects);
+            SqliteModelTransferObject model = this.resolver.Create<SqliteModelReader>().Read(type, this.TransferObjects);
             List<FileTemplate> files = this.resolver.Create<SqliteRepositoryWriter>().Write(model, this.Parameters);
             files.ForEach(file => CsharpLanguage.Instance.Write(file, output));
             return this.Success();

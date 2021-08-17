@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using KY.Core;
-using KY.Generator.Configurations;
 using KY.Generator.Languages;
 using KY.Generator.Mappings;
+using KY.Generator.Models;
 using KY.Generator.Output;
 using KY.Generator.Templates;
 using KY.Generator.Templates.Extensions;
@@ -14,46 +14,36 @@ namespace KY.Generator.Transfer.Writers
 {
     public class ModelWriter : TransferWriter, ITransferWriter
     {
-        public ModelWriter(ITypeMapping typeMapping)
-            : base(typeMapping)
-        { }
-
-        public virtual void Write(ConfigurationBase configurationBase, List<ITransferObject> transferObjects, IOutput output)
+        public ModelWriter(ITypeMapping typeMapping, Options options)
+            : base(typeMapping, options)
         {
-            IModelConfiguration configuration = (IModelConfiguration)configurationBase;
-            this.Write(configuration, transferObjects).ForEach(file => configuration.Language.Write(file, output));
         }
 
-        public virtual List<FileTemplate> Write(IModelConfiguration configuration, IEnumerable<ITransferObject> transferObjects)
+        public virtual void Write(IEnumerable<ITransferObject> transferObjects, string relativePath, IOutput output)
         {
-            if (configuration.Language == null)
+            List<ModelTransferObject> models = transferObjects.OfType<ModelTransferObject>().ToList();
+            foreach (ModelTransferObject model in models)
+            {
+                model.Name = Formatter.FormatClass(model.Name, this.Options.Get(model));
+            }
+            List<FileTemplate> files = new();
+            foreach (ModelTransferObject model in models)
+            {
+                this.WriteModel(model, relativePath, files);
+            }
+            files.ForEach(file => this.Options.Current.Language.Write(file, output));
+        }
+
+        protected virtual void WriteModel(ModelTransferObject model, string relativePath, List<FileTemplate> files)
+        {
+            IOptions modelOptions = this.Options.Get(model);
+            if (modelOptions.Language == null)
             {
                 throw new InvalidOperationException("Can not write model without language");
             }
-            List<FileTemplate> files = new List<FileTemplate>();
-            List<ModelTransferObject> models = transferObjects.OfType<ModelTransferObject>().ToList();
-            if (!string.IsNullOrEmpty(configuration.Name))
+            if (model.Language is IMappableLanguage modelLanguage && modelOptions.Language is IMappableLanguage outputLanguage)
             {
-                models.Where(x => x.Name == "Unknown").ForEach(x => x.Name = configuration.Name);
-            }
-            models.ForEach(model => model.Name = Formatter.FormatClass(model.Name, configuration));
-            foreach (ModelTransferObject model in models)
-            {
-                string nameSpace = configuration.SkipNamespace ? string.Empty : configuration.Namespace ?? model.Namespace;
-                this.WriteModel(configuration, model, nameSpace, files);
-            }
-            return files;
-        }
-
-        protected virtual void WriteModel(IModelConfiguration configuration, ModelTransferObject model, string nameSpace, List<FileTemplate> files)
-        {
-            if (model == null)
-            {
-                return;
-            }
-            if (model.Language is IMappableLanguage modelLanguage && configuration.Language is IMappableLanguage configurationLanguage)
-            {
-                this.MapType(modelLanguage, configurationLanguage, model);
+                this.MapType(modelLanguage, outputLanguage, model);
             }
             if (model.FromSystem)
             {
@@ -61,55 +51,55 @@ namespace KY.Generator.Transfer.Writers
             }
             if (model.IsEnum)
             {
-                this.WriteEnum(configuration, model, nameSpace, files);
+                this.WriteEnum(model, relativePath, files);
             }
             else
             {
-                this.WriteClass(configuration, model, nameSpace, files);
+                this.WriteClass(model, relativePath, files);
             }
         }
 
-        protected virtual EnumTemplate WriteEnum(IModelConfiguration configuration, ModelTransferObject model, string nameSpace, List<FileTemplate> files)
+        protected virtual EnumTemplate WriteEnum(ModelTransferObject model, string relativePath, List<FileTemplate> files)
         {
             if (model.EnumValues == null)
             {
                 throw new InvalidOperationException("Can not write enum without values");
             }
-
-            EnumTemplate enumTemplate = files.AddFile(configuration.RelativePath, configuration.AddHeader, configuration.OutputId)
-                                             .AddNamespace(nameSpace)
+            IOptions modelOptions = this.Options.Get(model);
+            EnumTemplate enumTemplate = files.AddFile(relativePath, modelOptions.AddHeader, modelOptions.OutputId)
+                                             .AddNamespace(modelOptions.SkipNamespace ? string.Empty : model.Namespace)
                                              .AddEnum(model.Name);
 
             foreach (KeyValuePair<string, int> pair in model.EnumValues)
             {
-                string formattedName = Formatter.FormatProperty(pair.Key, configuration);
+                string formattedName = Formatter.FormatProperty(pair.Key, modelOptions);
                 enumTemplate.Values.Add(new EnumValueTemplate(pair.Key, Code.Number(pair.Value), formattedName));
             }
             return enumTemplate;
         }
 
-        protected virtual ClassTemplate WriteClass(IModelConfiguration configuration, ModelTransferObject model, string nameSpace, List<FileTemplate> files)
+        protected virtual ClassTemplate WriteClass(ModelTransferObject model, string relativePath, List<FileTemplate> files)
         {
+            IOptions modelOptions = this.Options.Get(model);
             IMappableLanguage modelLanguage = model.Language as IMappableLanguage;
-            IMappableLanguage configurationLanguage = configuration.Language as IMappableLanguage;
+            IMappableLanguage outputLanguage = modelOptions.Language as IMappableLanguage;
 
-            if (model.BasedOn != null && modelLanguage != null && configurationLanguage != null)
+            if (model.BasedOn != null && modelLanguage != null && outputLanguage != null)
             {
-                this.MapType(modelLanguage, configurationLanguage, model.BasedOn);
+                this.MapType(modelLanguage, outputLanguage, model.BasedOn);
             }
 
-            bool isInterface = model.IsInterface || configuration.Formatting.PreferInterfaces;
-            ClassTemplate classTemplate = files.AddFile(configuration.RelativePath, configuration.AddHeader, configuration.OutputId)
+            bool isInterface = model.IsInterface || modelOptions.PreferInterfaces;
+            ClassTemplate classTemplate = files.AddFile(relativePath, modelOptions.AddHeader, modelOptions.OutputId)
                                                .WithType(isInterface ? "interface" : null)
-                                               .AddNamespace(nameSpace)
+                                               .AddNamespace(modelOptions.SkipNamespace ? string.Empty : model.Namespace)
                                                .AddClass(model.Name, model.BasedOn?.ToTemplate())
-                                               .FormatName(configuration);
+                                               .FormatName(modelOptions);
 
             if (model.BasedOn != null)
             {
-                this.AddUsing(model.BasedOn, classTemplate, configuration);
+                this.AddUsing(model.BasedOn, classTemplate, modelOptions);
             }
-            configuration.Usings?.ForEach(x => classTemplate.AddUsing(x, null, null));
 
             classTemplate.IsInterface = isInterface;
             classTemplate.IsAbstract = model.IsAbstract;
@@ -119,16 +109,16 @@ namespace KY.Generator.Transfer.Writers
             }
             foreach (TypeTransferObject interFace in model.Interfaces)
             {
-                if (modelLanguage != null && configurationLanguage != null)
+                if (modelLanguage != null && outputLanguage != null)
                 {
-                    this.MapType(modelLanguage, configurationLanguage, interFace);
+                    this.MapType(modelLanguage, outputLanguage, interFace);
                 }
                 classTemplate.BasedOn.Add(new BaseTypeTemplate(classTemplate, Code.Interface(interFace.Name, interFace.Namespace)));
-                this.AddUsing(interFace, classTemplate, configuration);
+                this.AddUsing(interFace, classTemplate, modelOptions);
             }
-            this.AddConstants(model, classTemplate, configuration);
-            this.AddFields(model, classTemplate, configuration);
-            this.AddProperties(model, classTemplate, configuration);
+            this.AddConstants(model, classTemplate);
+            this.AddFields(model, classTemplate);
+            this.AddProperties(model, classTemplate);
             return classTemplate;
         }
     }

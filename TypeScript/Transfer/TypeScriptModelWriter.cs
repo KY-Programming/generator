@@ -2,6 +2,7 @@
 using System.Linq;
 using KY.Generator.Configurations;
 using KY.Generator.Mappings;
+using KY.Generator.Models;
 using KY.Generator.Templates;
 using KY.Generator.Templates.Extensions;
 using KY.Generator.Transfer;
@@ -14,24 +15,16 @@ namespace KY.Generator.TypeScript.Transfer
 {
     public class TypeScriptModelWriter : ModelWriter
     {
-        public bool Strict { get; set; }
-
-        public TypeScriptModelWriter(ITypeMapping typeMapping)
-            : base(typeMapping)
-        { }
-
-        public override List<FileTemplate> Write(IModelConfiguration configuration, IEnumerable<ITransferObject> transferObjects)
+        public TypeScriptModelWriter(ITypeMapping typeMapping, Options options)
+            : base(typeMapping, options)
         {
-            List<ITransferObject> list = transferObjects.ToList();
-            TsConfig tsConfig = list.OfType<TsConfig>().FirstOrDefault();
-            this.Strict = tsConfig?.CompilerOptions?.Strict ?? false;
-            return base.Write(configuration, list);
         }
 
-        protected override ClassTemplate WriteClass(IModelConfiguration configuration, ModelTransferObject model, string nameSpace, List<FileTemplate> files)
+        protected override ClassTemplate WriteClass(ModelTransferObject model, string relativePath, List<FileTemplate> files)
         {
-            ClassTemplate classTemplate = base.WriteClass(configuration, model, nameSpace, files);
-            if (!model.IsAbstract && !classTemplate.IsInterface && configuration.Language.IsTypeScript())
+            IOptions modelOptions = this.Options.Get(model);
+            ClassTemplate classTemplate = base.WriteClass(model, relativePath, files);
+            if (!model.IsAbstract && !classTemplate.IsInterface && modelOptions.Language.IsTypeScript())
             {
                 ConstructorTemplate constructor = classTemplate.AddConstructor();
                 constructor.AddParameter(Code.Generic("Partial", classTemplate.ToType()), "init").Optional();
@@ -45,30 +38,26 @@ namespace KY.Generator.TypeScript.Transfer
             return classTemplate;
         }
 
-        protected override FieldTemplate AddField(ModelTransferObject model, string name, TypeTransferObject type, ClassTemplate classTemplate, IConfiguration configuration)
+        protected override FieldTemplate AddField(ModelTransferObject model, MemberTransferObject member, ClassTemplate classTemplate)
         {
-            FieldTemplate fieldTemplate = base.AddField(model, name, type, classTemplate, configuration);
-            fieldTemplate.Strict = this.Strict;
-            if (fieldTemplate.DefaultValue == null && this.Strict && !fieldTemplate.Type.IsNullable)
+            IOptions fieldOptions = this.Options.Get(member);
+            FieldTemplate fieldTemplate = base.AddField(model, member, classTemplate);
+            fieldTemplate.Strict = fieldOptions.Strict;
+            if (fieldTemplate.DefaultValue == null && fieldOptions.Strict && !fieldTemplate.Type.IsNullable)
             {
-                fieldTemplate.DefaultValue = type.Default;
+                fieldTemplate.DefaultValue = member.Type.Default;
             }
             return fieldTemplate;
         }
 
-        protected override PropertyTemplate AddProperty(ModelTransferObject model, string name, TypeTransferObject type, ClassTemplate classTemplate, IConfiguration configuration, bool canRead = true, bool canWrite = true)
+        protected override PropertyTemplate AddProperty(ModelTransferObject model, MemberTransferObject member, ClassTemplate classTemplate)
         {
-            PropertyTemplate propertyTemplate = base.AddProperty(model, name, type, classTemplate, configuration, canRead, canWrite);
-            if (propertyTemplate.DefaultValue == null && this.Strict)
+            IOptions propertyOptions = this.Options.Get(member);
+            PropertyTemplate propertyTemplate = base.AddProperty(model, member, classTemplate);
+            propertyTemplate.Strict = propertyOptions.Strict;
+            if (propertyTemplate.DefaultValue == null && propertyOptions.Strict && !propertyTemplate.Type.IsNullable)
             {
-                if (propertyTemplate.Type.IsNullable)
-                {
-                    propertyTemplate.Type.Name += " | undefined";
-                }
-                else
-                {
-                    propertyTemplate.DefaultValue = type.Default;
-                }
+                propertyTemplate.DefaultValue = member.Type.Default;
             }
             return propertyTemplate;
         }

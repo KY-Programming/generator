@@ -14,7 +14,7 @@ namespace KY.Generator
 
         public ISwitchToWriteSyntax FromFile(string relativePath)
         {
-            JsonReadCommand command = new JsonReadCommand(this.syntax.Resolver);
+            JsonReadCommand command = this.syntax.Resolver.Create<JsonReadCommand>();
             command.Parameters.RelativePath = relativePath;
             this.syntax.Commands.Add(command);
             return this;

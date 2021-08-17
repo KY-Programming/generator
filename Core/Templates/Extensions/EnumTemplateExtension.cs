@@ -1,12 +1,10 @@
-﻿using KY.Generator.Configurations;
-
-namespace KY.Generator.Templates.Extensions
+﻿namespace KY.Generator.Templates.Extensions
 {
     public static class EnumTemplateExtension
     {
-        public static EnumTemplate FormatName(this EnumTemplate enumTemplate, IConfiguration configuration, bool force = false)
+        public static EnumTemplate FormatName(this EnumTemplate enumTemplate, IOptions options, bool force = false)
         {
-            enumTemplate.Name = Formatter.FormatClass(enumTemplate.Name, configuration, force);
+            enumTemplate.Name = Formatter.FormatClass(enumTemplate.Name, options, force);
             return enumTemplate;
         }
 

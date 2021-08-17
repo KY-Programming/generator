@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using KY.Generator.Languages;
+using KY.Generator.Models;
 using KY.Generator.Templates;
 
 namespace KY.Generator.Transfer

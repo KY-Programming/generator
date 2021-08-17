@@ -1,13 +1,10 @@
-﻿using KY.Generator.Configuration;
-using KY.Generator.Configurations;
-
-namespace KY.Generator.Templates.Extensions
+﻿namespace KY.Generator.Templates.Extensions
 {
     public static class ParameterTemplateExtension
     {
-        public static ParameterTemplate FormatName(this ParameterTemplate parameter, IConfiguration configuration, bool force = false)
+        public static ParameterTemplate FormatName(this ParameterTemplate parameter, IOptions options, bool force = false)
         {
-            parameter.Name = Formatter.FormatParameter(parameter.Name, configuration, force);
+            parameter.Name = Formatter.FormatParameter(parameter.Name, options, force);
             return parameter;
         }
     }

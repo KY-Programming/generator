@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using KY.Generator.Configurations;
 using KY.Generator.Csharp.Extensions;
-using KY.Generator.Json.Configurations;
 using KY.Generator.Json.Transfers;
 using KY.Generator.Mappings;
+using KY.Generator.Output;
 using KY.Generator.Templates;
 using KY.Generator.Templates.Extensions;
 using KY.Generator.Transfer;
@@ -14,39 +13,21 @@ namespace KY.Generator.Json.Writers
 {
     internal class ObjectWriter : ModelWriter
     {
-        private JsonWriteConfiguration jsonConfiguration;
+        private bool WithReader { get; set; }
 
-        public ObjectWriter(ITypeMapping typeMapping)
-            : base(typeMapping)
+        public ObjectWriter(ITypeMapping typeMapping, Options options)
+            : base(typeMapping, options)
         { }
 
-        protected override ClassTemplate WriteClass(IModelConfiguration configuration, ModelTransferObject model, string nameSpace, List<FileTemplate> files)
+        public void Write(IEnumerable<ITransferObject> transferObjects, string relativePath, IOutput output, bool withReader)
         {
-            ClassTemplate classTemplate = base.WriteClass(configuration, model, nameSpace, files);
-            if (model is JsonModelTransferObject && this.jsonConfiguration.WithReader)
-            {
-                this.WriteReader(classTemplate, model, configuration.FormatNames);
-            }
-            return classTemplate;
+            this.WithReader = withReader;
+            base.Write(transferObjects, relativePath, output);
         }
 
-        public IEnumerable<FileTemplate> Write(JsonWriteConfiguration configuration, List<ITransferObject> transferObjects)
+        private void WriteReader(ClassTemplate classTemplate, ModelTransferObject model)
         {
-            this.jsonConfiguration = configuration;
-            ModelWriteConfiguration modelWriteConfiguration = new ModelWriteConfiguration();
-            modelWriteConfiguration.CopyBaseFrom(configuration);
-            modelWriteConfiguration.Name = configuration.Name;
-            modelWriteConfiguration.Namespace = configuration.Namespace;
-            modelWriteConfiguration.SkipNamespace = configuration.SkipNamespace;
-            modelWriteConfiguration.RelativePath = configuration.RelativePath;
-            modelWriteConfiguration.FieldsToProperties = configuration.FieldsToProperties;
-            modelWriteConfiguration.PropertiesToFields = configuration.PropertiesToFields;
-            modelWriteConfiguration.FormatNames = configuration.FormatNames;
-            return this.Write(modelWriteConfiguration, transferObjects);
-        }
-
-        private void WriteReader(ClassTemplate classTemplate, ModelTransferObject model, bool formatNames)
-        {
+            IOptions modelOptions = this.Options.Get(model);
             TypeTemplate objectType = Code.Type(model.Name, model.Namespace);
             if (model.Namespace != classTemplate.Namespace.Name && model.Namespace != null)
             {
@@ -57,35 +38,45 @@ namespace KY.Generator.Json.Writers
                          .WithUsing("System.IO");
 
             classTemplate.AddMethod("Load", objectType)
-                         .FormatName(model.Language, formatNames)
+                         .FormatName(modelOptions)
                          .WithParameter(Code.Type("string"), "fileName")
                          .Static()
                          .Code.AddLine(Code.Return(Code.Method("Parse", Code.Local("File").Method("ReadAllText", Code.Local("fileName")))));
 
             classTemplate.AddMethod("Parse", objectType)
-                         .FormatName(model.Language, formatNames)
+                         .FormatName(modelOptions)
                          .WithParameter(Code.Type("string"), "json")
                          .Static()
                          .Code.AddLine(Code.Return(Code.Local("JsonConvert").GenericMethod("DeserializeObject", objectType, Code.Local("json"))));
         }
 
-        protected override FieldTemplate AddField(ModelTransferObject model, string name, TypeTransferObject type, ClassTemplate classTemplate, IConfiguration configuration)
+        protected override ClassTemplate WriteClass(ModelTransferObject model, string relativePath, List<FileTemplate> files)
         {
-            FieldTemplate fieldTemplate = base.AddField(model, name, type, classTemplate, configuration);
-            if (!fieldTemplate.Name.Equals(name, StringComparison.CurrentCultureIgnoreCase))
+            ClassTemplate classTemplate = base.WriteClass(model, relativePath, files);
+            if (model is JsonModelTransferObject && this.WithReader)
             {
-                fieldTemplate.WithAttribute("JsonProperty", Code.String(name));
+                this.WriteReader(classTemplate, model);
+            }
+            return classTemplate;
+        }
+
+        protected override FieldTemplate AddField(ModelTransferObject model, MemberTransferObject member, ClassTemplate classTemplate)
+        {
+            FieldTemplate fieldTemplate = base.AddField(model, member, classTemplate);
+            if (!fieldTemplate.Name.Equals(member.Name, StringComparison.CurrentCultureIgnoreCase))
+            {
+                fieldTemplate.WithAttribute("JsonProperty", Code.String(member.Name));
                 classTemplate.AddUsing("Newtonsoft.Json");
             }
             return fieldTemplate;
         }
 
-        protected override PropertyTemplate AddProperty(ModelTransferObject model, string name, TypeTransferObject type, ClassTemplate classTemplate, IConfiguration configuration, bool canRead = true, bool canWrite = true)
+        protected override PropertyTemplate AddProperty(ModelTransferObject model, MemberTransferObject member, ClassTemplate classTemplate)
         {
-            PropertyTemplate propertyTemplate = base.AddProperty(model, name, type, classTemplate, configuration, canRead, canWrite);
-            if (!propertyTemplate.Name.Equals(name, StringComparison.CurrentCultureIgnoreCase))
+            PropertyTemplate propertyTemplate = base.AddProperty(model, member, classTemplate);
+            if (!propertyTemplate.Name.Equals(member.Name, StringComparison.CurrentCultureIgnoreCase))
             {
-                propertyTemplate.WithAttribute("JsonProperty", Code.String(name));
+                propertyTemplate.WithAttribute("JsonProperty", Code.String(member.Name));
                 classTemplate.AddUsing("Newtonsoft.Json");
             }
             return propertyTemplate;

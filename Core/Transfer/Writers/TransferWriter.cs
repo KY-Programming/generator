@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 using KY.Core;
-using KY.Generator.Configurations;
 using KY.Generator.Languages;
 using KY.Generator.Mappings;
+using KY.Generator.Models;
 using KY.Generator.Templates;
 using KY.Generator.Templates.Extensions;
 using KY.Generator.Transfer.Extensions;
@@ -13,17 +13,19 @@ namespace KY.Generator.Transfer.Writers
     public abstract class TransferWriter : Codeable
     {
         protected ITypeMapping TypeMapping { get; }
+        protected Options Options { get; }
 
-        public TransferWriter(ITypeMapping typeMapping)
+        protected TransferWriter(ITypeMapping typeMapping, Options options)
         {
             this.TypeMapping = typeMapping;
+            this.Options = options;
         }
 
-        protected virtual void AddConstants(ModelTransferObject model, ClassTemplate classTemplate, IConfiguration configuration)
+        protected virtual void AddConstants(ModelTransferObject model, ClassTemplate classTemplate)
         {
             foreach (FieldTransferObject constant in model.Constants)
             {
-                FieldTemplate fieldTemplate = this.AddField(model, constant.Name, constant.Type, classTemplate, configuration).Constant();
+                FieldTemplate fieldTemplate = this.AddField(model, constant, classTemplate).Constant();
                 if (constant.Default != null)
                 {
                     Type type = constant.Default.GetType();
@@ -75,32 +77,34 @@ namespace KY.Generator.Transfer.Writers
             }
         }
 
-        protected virtual void AddFields(ModelTransferObject model, ClassTemplate classTemplate, IConfiguration configuration)
+        protected virtual void AddFields(ModelTransferObject model, ClassTemplate classTemplate)
         {
             foreach (FieldTransferObject field in model.Fields)
             {
-                if (configuration.Formatting.FieldsToProperties)
+                IOptions fieldOptions = this.Options.Get(field);
+                if (fieldOptions.FieldsToProperties)
                 {
-                    this.AddProperty(model, field.Name, field.Type, classTemplate, configuration);
+                    this.AddProperty(model, field, classTemplate);
                 }
                 else
                 {
-                    this.AddField(model, field.Name, field.Type, classTemplate, configuration);
+                    this.AddField(model, field, classTemplate);
                 }
             }
         }
 
-        protected virtual void AddProperties(ModelTransferObject model, ClassTemplate classTemplate, IConfiguration configuration)
+        protected virtual void AddProperties(ModelTransferObject model, ClassTemplate classTemplate)
         {
             foreach (PropertyTransferObject property in model.Properties)
             {
-                if (configuration.Formatting.PropertiesToFields)
+                IOptions propertyOptions = this.Options.Get(property);
+                if (propertyOptions.PropertiesToFields)
                 {
-                    this.AddField(model, property.Name, property.Type, classTemplate, configuration);
+                    this.AddField(model, property, classTemplate);
                 }
                 else
                 {
-                    this.AddProperty(model, property.Name, property.Type, classTemplate, configuration, property.CanRead, property.CanWrite);
+                    this.AddProperty(model, property, classTemplate);
                 }
             }
         }
@@ -123,50 +127,60 @@ namespace KY.Generator.Transfer.Writers
             type.Generics.ForEach(x => this.MapType(fromLanguage, toLanguage, x.Type));
         }
 
-        protected virtual FieldTemplate AddField(ModelTransferObject model, string name, TypeTransferObject type, ClassTemplate classTemplate, IConfiguration configuration)
+        protected virtual FieldTemplate AddField(ModelTransferObject model, MemberTransferObject member, ClassTemplate classTemplate)
         {
-            if (model.Language is IMappableLanguage modelLanguage && configuration.Language is IMappableLanguage configurationLanguage)
+            IOptions fieldOptions = this.Options.Get(member);
+            if (model.Language is IMappableLanguage modelLanguage && fieldOptions.Language is IMappableLanguage configurationLanguage)
             {
-                this.MapType(modelLanguage, configurationLanguage, type);
+                this.MapType(modelLanguage, configurationLanguage, member.Type);
             }
-            this.AddUsing(type, classTemplate, configuration);
-            FieldTemplate fieldTemplate = classTemplate.AddField(name, type.ToTemplate()).Public().FormatName(configuration);
-            if (configuration.Formatting.WithOptionalProperties)
+            this.AddUsing(member.Type, classTemplate, fieldOptions);
+            FieldTemplate fieldTemplate = classTemplate.AddField(member.Name, member.Type.ToTemplate()).Public().FormatName(fieldOptions)
+                                                       .WithComment(member.Comment);
+            if (fieldOptions.WithOptionalProperties)
             {
                 fieldTemplate.Optional();
             }
             return fieldTemplate;
         }
 
-        protected virtual PropertyTemplate AddProperty(ModelTransferObject model, string name, TypeTransferObject type, ClassTemplate classTemplate, IConfiguration configuration, bool canRead = true, bool canWrite = true)
+        protected virtual PropertyTemplate AddProperty(ModelTransferObject model, MemberTransferObject member, ClassTemplate classTemplate)
         {
-            if (model.Language is IMappableLanguage modelLanguage && configuration.Language is IMappableLanguage configurationLanguage)
+            bool canRead = true;
+            bool canWrite = true;
+            if (member is PropertyTransferObject property)
             {
-                this.MapType(modelLanguage, configurationLanguage, type);
+                canRead = property.CanRead;
+                canWrite = property.CanWrite;
             }
-            PropertyTemplate propertyTemplate = classTemplate.AddProperty(name, type.ToTemplate()).FormatName(configuration);
+            IOptions propertyOptions = this.Options.Get(member);
+            if (model.Language is IMappableLanguage modelLanguage && propertyOptions.Language is IMappableLanguage configurationLanguage)
+            {
+                this.MapType(modelLanguage, configurationLanguage, member.Type);
+            }
+            PropertyTemplate propertyTemplate = classTemplate.AddProperty(member.Name, member.Type.ToTemplate()).FormatName(propertyOptions);
             propertyTemplate.HasGetter = canRead;
             propertyTemplate.HasSetter = canWrite;
-            if (configuration.Formatting.WithOptionalProperties)
+            if (propertyOptions.WithOptionalProperties)
             {
                 propertyTemplate.Optional();
             }
-            this.AddUsing(type, classTemplate, configuration);
+            this.AddUsing(member.Type, classTemplate, propertyOptions);
             return propertyTemplate;
         }
 
-        protected virtual void AddUsing(TypeTransferObject type, ClassTemplate classTemplate, IConfiguration configuration, string relativeModelPath = "./")
+        protected virtual void AddUsing(TypeTransferObject type, ClassTemplate classTemplate, IOptions options, string relativeModelPath = "./")
         {
             if (type.Name == classTemplate.Name)
             {
                 return;
             }
-            if ((!type.FromSystem || type.FromSystem && configuration.Language.ImportFromSystem) && type.HasUsing && !string.IsNullOrEmpty(type.Namespace) && classTemplate.Namespace.Name != type.Namespace)
+            if ((!type.FromSystem || type.FromSystem && options.Language.ImportFromSystem) && type.HasUsing && !string.IsNullOrEmpty(type.Namespace) && classTemplate.Namespace.Name != type.Namespace)
             {
-                string fileName = Formatter.FormatFile(type.Name, configuration, true);
+                string fileName = Formatter.FormatFile(type.Name, options, true);
                 classTemplate.AddUsing(type.Namespace, type.Name, $"{relativeModelPath.Replace("\\", "/").TrimEnd('/')}/{fileName}");
             }
-            type.Generics.Where(x => x.Alias == null).ForEach(generic => this.AddUsing(generic.Type, classTemplate, configuration, relativeModelPath));
+            type.Generics.Where(x => x.Alias == null).ForEach(generic => this.AddUsing(generic.Type, classTemplate, options, relativeModelPath));
         }
     }
 }

@@ -34,7 +34,7 @@ namespace KY.Generator
 
         public ITsqlReadTableOrSwitchToWriteSyntax FromTable(string schema, string table)
         {
-            TsqlReadCommand command = new TsqlReadCommand(this.syntax.Resolver);
+            TsqlReadCommand command = this.syntax.Resolver.Create<TsqlReadCommand>();
             command.Parameters.ConnectionString = this.connectionString;
             command.Parameters.Schema = schema;
             command.Parameters.Table = table;

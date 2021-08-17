@@ -75,15 +75,9 @@ namespace KY.Generator.Templates.Extensions
             return methodTemplate;
         }
 
-        public static MethodTemplate FormatName(this MethodTemplate methodTemplate, IConfiguration configuration, bool force = false)
+        public static MethodTemplate FormatName(this MethodTemplate methodTemplate, IOptions options, bool force = false)
         {
-            methodTemplate.Name = Formatter.FormatMethod(methodTemplate.Name, configuration, force);
-            return methodTemplate;
-        }
-
-        public static MethodTemplate FormatName(this MethodTemplate methodTemplate, ILanguage language, bool formatNames)
-        {
-            methodTemplate.Name = Formatter.FormatMethod(methodTemplate.Name, language, formatNames);
+            methodTemplate.Name = Formatter.FormatMethod(methodTemplate.Name, options, force);
             return methodTemplate;
         }
     }

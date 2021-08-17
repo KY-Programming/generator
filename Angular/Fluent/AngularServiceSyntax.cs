@@ -33,12 +33,6 @@ namespace KY.Generator.Angular.Fluent
             return this;
         }
 
-        public IAngularServiceSyntax Strict(bool value = true)
-        {
-            this.command.Parameters.Strict = value;
-            return this;
-        }
-
         public IAngularServiceSyntax Name(string name)
         {
             this.command.Parameters.Name = name;

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Reflection;
 using KY.Core;
 using KY.Generator.AspDotNet.Configurations;
-using KY.Generator.AspDotNet.Helpers;
 using KY.Generator.Extensions;
 using KY.Generator.Reflection.Language;
 using KY.Generator.Reflection.Readers;
@@ -15,10 +14,14 @@ namespace KY.Generator.AspDotNet.Readers
     public class AspDotNetControllerReader
     {
         private readonly ReflectionModelReader modelReader;
+        private readonly AspDotNetOptions aspOptions;
+        private readonly Options options;
 
-        public AspDotNetControllerReader(ReflectionModelReader modelReader)
+        public AspDotNetControllerReader(ReflectionModelReader modelReader, AspDotNetOptions aspOptions, Options options)
         {
             this.modelReader = modelReader;
+            this.aspOptions = aspOptions;
+            this.options = options;
         }
 
         public virtual void Read(AspDotNetReadConfiguration configuration, List<ITransferObject> transferObjects)
@@ -33,11 +36,12 @@ namespace KY.Generator.AspDotNet.Readers
                 return;
             }
 
-            HttpServiceTransferObject controller = new HttpServiceTransferObject();
+            HttpServiceTransferObject controller = new();
             controller.Name = type.Name;
             controller.Language = ReflectionLanguage.Instance;
 
-            IAspDotNetOptions typeOptions = AspDotNetOptions.Get(type);
+            IAspDotNetOptions typeOptions = this.aspOptions.Get(type);
+            this.aspOptions.Set(controller, typeOptions);
             controller.Route = typeOptions.Route;
             controller.Version = typeOptions.ApiVersion?.LastOrDefault();
 
@@ -45,7 +49,7 @@ namespace KY.Generator.AspDotNet.Readers
             Type currentTyp = type;
             while (currentTyp?.Namespace != null && !currentTyp.Namespace.StartsWith("Microsoft") && !currentTyp.Namespace.StartsWith("System"))
             {
-                IAspDotNetOptions currentOptions = AspDotNetOptions.Get(currentTyp);
+                IOptions currentOptions = this.options.Get(currentTyp);
                 if (currentOptions.Ignore)
                 {
                     break;
@@ -58,19 +62,20 @@ namespace KY.Generator.AspDotNet.Readers
             }
             foreach (MethodInfo method in methods)
             {
-                IAspDotNetOptions methodOptions = AspDotNetOptions.Get(method);
-                if (methodOptions.Ignore || methodOptions.IsNonAction)
+                IOptions methodOptions = this.options.Get(method);
+                IAspDotNetOptions methodAspOptions = this.aspOptions.Get(method);
+                if (methodOptions.Ignore || methodAspOptions.IsNonAction)
                 {
                     continue;
                 }
 
-                Dictionary<HttpServiceActionTypeTransferObject, string> actionTypes = this.GetActionTypes(methodOptions);
+                Dictionary<HttpServiceActionTypeTransferObject, string> actionTypes = this.GetActionTypes(methodAspOptions);
                 if (actionTypes.Count == 0)
                 {
                     Logger.Error($"{type.FullName}.{method.Name} has to be decorated with at least one of [HttpGet], [HttpPost], [HttpPut], [HttpPatch], [HttpDelete], [NonAction] or with [GenerateIgnore].");
                     continue;
                 }
-                Type returnType = (methodOptions.Produces ?? method.ReturnType)
+                Type returnType = (methodAspOptions.Produces ?? method.ReturnType)
                                   .IgnoreGeneric("System.Threading.Tasks", "Task")
                                   .IgnoreGeneric("Microsoft.AspNetCore.Mvc", "IActionResult")
                                   .IgnoreGeneric("Microsoft.AspNetCore.Mvc", "ActionResult")
@@ -83,28 +88,28 @@ namespace KY.Generator.AspDotNet.Readers
                                   .IgnoreGeneric("System.Web.Mvc", "FileStreamResult")
                                   .IgnoreGeneric("System.Web.Mvc", "JsonResult")
                                   .IgnoreGeneric(typeOptions.IgnoreGenerics)
-                                  .IgnoreGeneric(methodOptions.IgnoreGenerics);
+                                  .IgnoreGeneric(methodAspOptions.IgnoreGenerics);
 
                 Type returnEntryType = returnType.IgnoreGeneric(typeof(IEnumerable<>)).IgnoreGeneric(typeof(List<>)).IgnoreGeneric(typeof(IList<>));
-                IAspDotNetOptions returnEntryTypeOptions = AspDotNetOptions.Get(returnEntryType, methodOptions);
+                IAspDotNetOptions returnEntryTypeOptions = this.aspOptions.Get(returnEntryType, methodAspOptions);
                 foreach (KeyValuePair<HttpServiceActionTypeTransferObject, string> actionType in actionTypes)
                 {
                     HttpServiceActionTransferObject action = new();
                     action.Name = actionTypes.Count == 1 ? method.Name : $"{actionType.Key}{method.Name.FirstCharToUpper()}";
                     action.ReturnType = this.modelReader.Read(returnType, transferObjects, methodOptions);
-                    action.Route = actionType.Value ?? methodOptions.Route;
+                    action.Route = actionType.Value ?? methodAspOptions.Route;
                     action.Type = actionType.Key;
-                    action.Version = methodOptions.ApiVersion?.OrderByDescending(x => x).FirstOrDefault();
-                    action.FixCasingWithMapping = returnEntryTypeOptions.FixCasingWithMapping || methodOptions.FixCasingWithMapping;
+                    action.Version = methodAspOptions.ApiVersion?.OrderByDescending(x => x).FirstOrDefault();
+                    action.FixCasingWithMapping = returnEntryTypeOptions.FixCasingWithMapping || methodAspOptions.FixCasingWithMapping;
                     action.RequireBodyParameter = action.Type.IsBodyParameterRequired();
                     List<ParameterInfo> parameters = method.GetParameters().Where(
-                        parameter => !AspDotNetOptions.Get(parameter, methodOptions).IsFromHeader
-                                     && !AspDotNetOptions.Get(parameter, methodOptions).IsFromServices
+                        parameter => !this.aspOptions.Get(parameter, methodAspOptions).IsFromHeader
+                                     && !this.aspOptions.Get(parameter, methodAspOptions).IsFromServices
                                      && parameter.ParameterType.FullName != "System.Threading.CancellationToken"
                     ).ToList();
                     foreach (ParameterInfo parameter in parameters)
                     {
-                        IAspDotNetOptions parameterOptions = AspDotNetOptions.Get(parameter, methodOptions);
+                        IAspDotNetOptions parameterOptions = this.aspOptions.Get(parameter, methodAspOptions);
                         string fullRoute = $"{controller.Route}/{action.Route}";
                         HttpServiceActionParameterTransferObject actionParameter = new();
                         actionParameter.Name = parameter.Name;

@@ -1,6 +1,3 @@
-using KY.Generator.Configuration;
-using KY.Generator.Configurations;
-using KY.Generator.Languages;
 using KY.Generator.Models;
 
 namespace KY.Generator.Templates.Extensions
@@ -49,15 +46,15 @@ namespace KY.Generator.Templates.Extensions
             return field;
         }
 
-        public static FieldTemplate FormatName(this FieldTemplate field, IConfiguration configuration, bool force = false)
+        public static FieldTemplate FormatName(this FieldTemplate field, IOptions options, bool force = false)
         {
-            field.Name = Formatter.FormatField(field.Name, configuration, force);
+            field.Name = Formatter.FormatField(field.Name, options, force);
             return field;
         }
 
-        public static FieldTemplate FormatName(this FieldTemplate field, ILanguage language, bool formatNames)
+        public static FieldTemplate WithComment(this FieldTemplate field, string description)
         {
-            field.Name = Formatter.FormatField(field.Name, language, formatNames);
+            field.Comment = new CommentTemplate(description, CommentType.Summary);
             return field;
         }
     }

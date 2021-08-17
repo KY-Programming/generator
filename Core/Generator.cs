@@ -50,7 +50,6 @@ namespace KY.Generator
             this.resolver.Bind<ITypeMapping>().ToSingleton<TypeMapping>();
             this.resolver.Bind<CommandRunner>().ToSelf();
             this.resolver.Bind<ModuleFinder>().ToSingleton();
-            this.resolver.Bind<ConfigurationMapping>().ToSingleton();
             this.resolver.Bind<ModelWriter>().ToSelf();
 
             ModuleFinder moduleFinder = this.resolver.Get<ModuleFinder>();
@@ -95,22 +94,6 @@ namespace KY.Generator
         public Generator RegisterCommand(IGeneratorCommand generator)
         {
             this.resolver.Bind<IGeneratorCommand>().To(generator);
-            return this;
-        }
-
-        public Generator RegisterReader<TConfiguration, TReader>(string name)
-            where TConfiguration : ConfigurationBase
-            where TReader : ITransferReader
-        {
-            this.resolver.Get<ConfigurationMapping>().Map<TConfiguration, TReader>(name);
-            return this;
-        }
-
-        public Generator RegisterWriter<TConfiguration, TWriter>(string name)
-            where TConfiguration : ConfigurationBase
-            where TWriter : ITransferWriter
-        {
-            this.resolver.Get<ConfigurationMapping>().Map<TConfiguration, TWriter>(name);
             return this;
         }
 

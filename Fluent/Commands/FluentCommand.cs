@@ -47,8 +47,8 @@ namespace KY.Generator.Fluent
             IEnumerable<Type> types = TypeHelper.GetTypes(result.Assembly).Where(type => typeof(GeneratorFluentMain).IsAssignableFrom(type));
             foreach (Type objectType in types)
             {
-                GeneratorFluentMain main = (GeneratorFluentMain)Activator.CreateInstance(objectType);
-                main.ResolverReference.Resolver = this.resolver;
+                GeneratorFluentMain main = (GeneratorFluentMain)this.resolver.Create(objectType);
+                main.Resolver = this.resolver;
                 main.Execute();
                 foreach (List<IGeneratorCommand> commands in main.Syntaxes.Select(x => x.Commands).Where(x => x.Count > 0))
                 {

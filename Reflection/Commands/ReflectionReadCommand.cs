@@ -18,7 +18,7 @@ namespace KY.Generator.Reflection.Commands
 
         public override IGeneratorCommandResult Run(IOutput output)
         {
-            ReflectionReadConfiguration readConfiguration = new ReflectionReadConfiguration();
+            ReflectionReadConfiguration readConfiguration = new();
             readConfiguration.Assembly = this.Parameters.Assembly;
             readConfiguration.Namespace = this.Parameters.Namespace;
             readConfiguration.Name = this.Parameters.Name;

@@ -16,7 +16,7 @@ namespace KY.Generator.Reflection.Fluent
         public IReflectionFromTypeOrReflectionReadSyntax FromType<T>()
         {
             Type type = typeof(T);
-            ReflectionReadCommand command = new ReflectionReadCommand(this.syntax.Resolver);
+            ReflectionReadCommand command = this.syntax.Resolver.Create<ReflectionReadCommand>();
             command.Parameters.Assembly = type.Assembly.Location;
             command.Parameters.Namespace = type.Namespace;
             command.Parameters.Name = type.Name;

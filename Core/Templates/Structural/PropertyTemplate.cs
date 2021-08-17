@@ -20,6 +20,7 @@ namespace KY.Generator.Templates
         public CommentTemplate Comment { get; set; }
         public ICodeFragment Setter { get; set; }
         public ICodeFragment Getter { get; set; }
+        public bool Strict { get; set; }
 
         public PropertyTemplate(ClassTemplate classTemplate, string name, TypeTemplate type)
         {

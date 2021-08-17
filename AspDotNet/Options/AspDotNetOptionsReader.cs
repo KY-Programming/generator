@@ -2,79 +2,81 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using KY.Core;
-using KY.Generator.Models;
 
-namespace KY.Generator.AspDotNet.Helpers
+namespace KY.Generator.AspDotNet
 {
-    public static class AspDotNetOptionsReader
+    public class AspDotNetOptionsReader
     {
-        public static AspDotNetOptionsPart Read(Options entry)
+        public void Read(object key, AspDotNetOptionsSet entry)
         {
-            AspDotNetOptionsPart options = new();
-            foreach (object attribute in entry.Target.GetCustomAttributes(true))
+            if (key is not ICustomAttributeProvider attributeProvider)
+            {
+                return;
+            }
+            foreach (object attribute in attributeProvider.GetCustomAttributes(true))
             {
                 switch (attribute.GetType().Name)
                 {
                     case "HttpGetAttribute":
-                        options.HttpGet = true;
-                        options.HttpGetRoute = GetRoute(attribute);
+                        entry.Part.HttpGet = true;
+                        entry.Part.HttpGetRoute = GetRoute(attribute);
                         break;
                     case "HttpPostAttribute":
-                        options.HttpPost = true;
-                        options.HttpPostRoute = GetRoute(attribute);
+                        entry.Part.HttpPost = true;
+                        entry.Part.HttpPostRoute = GetRoute(attribute);
                         break;
                     case "HttpPatchAttribute":
-                        options.HttpPatch = true;
-                        options.HttpPatchRoute = GetRoute(attribute);
+                        entry.Part.HttpPatch = true;
+                        entry.Part.HttpPatchRoute = GetRoute(attribute);
                         break;
                     case "HttpPutAttribute":
-                        options.HttpPut = true;
-                        options.HttpPutRoute = GetRoute(attribute);
+                        entry.Part.HttpPut = true;
+                        entry.Part.HttpPutRoute = GetRoute(attribute);
                         break;
                     case "HttpDeleteAttribute":
-                        options.HttpDelete = true;
-                        options.HttpDeleteRoute = GetRoute(attribute);
+                        entry.Part.HttpDelete = true;
+                        entry.Part.HttpDeleteRoute = GetRoute(attribute);
                         break;
                     case "NonActionAttribute":
-                        options.IsNonAction = true;
+                        entry.Part.IsNonAction = true;
                         break;
                     case "FromServicesAttribute":
-                        options.IsFromServices = true;
+                        entry.Part.IsFromServices = true;
                         break;
                     case "FromHeaderAttribute":
-                        options.IsFromHeader = true;
+                        entry.Part.IsFromHeader = true;
                         break;
                     case "FromBodyAttribute":
-                        options.IsFromBody = true;
+                        entry.Part.IsFromBody = true;
                         break;
                     case "FromQueryAttribute":
-                        options.IsFromQuery = true;
+                        entry.Part.IsFromQuery = true;
                         break;
                     case "ApiVersionAttribute":
-                        options.ApiVersion = attribute.GetType().GetProperty("Versions")?
+                        entry.Part.ApiVersion = attribute.GetType().GetProperty("Versions")?
                                                            .GetValue(attribute)?.CastSafeTo<IEnumerable>().OfType<object>()
                                                            .Select(x => x.ToString()).OrderBy(x => x).ToList();
                         break;
                     case "RouteAttribute":
-                        options.Route = GetRoute(attribute);
+                        entry.Part.Route = GetRoute(attribute);
                         break;
                     case "ProducesResponseTypeAttribute":
                     case "ProducesAttribute":
-                        options.Produces = GetProduces(attribute) ?? options.Produces;
+                        entry.Part.Produces = GetProduces(attribute) ?? entry.Part.Produces;
                         break;
                 }
                 switch (attribute)
                 {
                     case GenerateIgnoreGenericAttribute ignoreGenericAttribute:
-                        (options.IgnoreGenerics ??= new List<Type>()).Add(ignoreGenericAttribute.Type);
+                        (entry.Part.IgnoreGenerics ??= new List<Type>()).Add(ignoreGenericAttribute.Type);
                         break;
                     case GenerateFixCasingWithMappingAttribute:
-                        options.FixCasingWithMapping = true;
+                        entry.Part.FixCasingWithMapping = true;
                         break;
                 }
             }
-            return options;
         }
 
         private static string GetRoute(object attribute)

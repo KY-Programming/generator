@@ -11,7 +11,8 @@ namespace KY.Generator.TypeScript.Writers
         public virtual void Write(ICodeFragment fragment, IOutputCache output)
         {
             PropertyTemplate template = (PropertyTemplate)fragment;
-            FieldTemplate fieldTemplate = new FieldTemplate(template.Class, template.Name, template.Type).FormatName(output.Language, true);
+            FieldTemplate fieldTemplate = new(template.Class, template.Name, template.Type);
+            fieldTemplate.Strict = template.Strict;
             if (template.Getter == null && template.HasGetter || template.Setter == null && template.HasSetter)
             {
                 if (fieldTemplate.Name == template.Name)
@@ -27,6 +28,7 @@ namespace KY.Generator.TypeScript.Writers
                       .If(template.IsStatic).Add("static ").EndIf()
                       .Add($"get {template.Name}(): ")
                       .Add(template.Type)
+                      .If(template.Strict && template.Type.IsNullable).Add(" | undefined").EndIf()
                       .StartBlock()
                       .Add(template.Getter ?? Code.Return(Code.This().Field(fieldTemplate.Name)))
                       .EndBlock();
@@ -37,6 +39,7 @@ namespace KY.Generator.TypeScript.Writers
                       .If(template.IsStatic).Add("static ").EndIf()
                       .Add($"set {template.Name}(value: ")
                       .Add(template.Type)
+                      .If(template.Strict && template.Type.IsNullable).Add(" | undefined").EndIf()
                       .Add(")")
                       .StartBlock()
                       .Add(template.Setter ?? Code.This().Field(fieldTemplate.Name).Assign(Code.Local("value")).Close())

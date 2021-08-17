@@ -17,7 +17,7 @@ namespace KY.Generator.Reflection.Readers
             this.modelReader = modelReader;
         }
 
-        public void Read(ConfigurationBase configurationBase, List<ITransferObject> transferObjects)
+        public void Read(ConfigurationBase configurationBase, List<ITransferObject> transferObjects, IOptions caller = null)
         {
             ReflectionReadConfiguration configuration = (ReflectionReadConfiguration)configurationBase;
             Type type = GeneratorTypeLoader.Get(configuration.Assembly, configuration.Namespace, configuration.Name);
@@ -26,7 +26,7 @@ namespace KY.Generator.Reflection.Readers
                 Logger.Trace($"Class {configuration.Namespace}.{configuration.Name} not found");
                 return;
             }
-            ModelTransferObject selfModel = this.modelReader.Read(type, transferObjects);
+            ModelTransferObject selfModel = this.modelReader.Read(type, transferObjects, caller);
             if (configuration.SkipSelf)
             {
                 transferObjects.Remove(selfModel);

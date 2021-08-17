@@ -1,12 +1,9 @@
-﻿using System.Linq;
-using KY.Core.Dependency;
+﻿using KY.Core.Dependency;
 using KY.Generator.Command;
-using KY.Generator.Configurations;
+using KY.Generator.Command.Extensions;
 using KY.Generator.Csharp.Languages;
 using KY.Generator.Output;
-using KY.Generator.Reflection.Configurations;
 using KY.Generator.Reflection.Writers;
-using KY.Generator.Transfer;
 
 namespace KY.Generator.Reflection.Commands
 {
@@ -23,18 +20,12 @@ namespace KY.Generator.Reflection.Commands
 
         public override IGeneratorCommandResult Run(IOutput output)
         {
-            ReflectionWriteConfiguration configuration = new ReflectionWriteConfiguration();
-            configuration.FormatNames = this.Parameters.FormatNames;
-            configuration.FieldsToProperties = this.Parameters.FieldsToProperties;
-            configuration.PropertiesToFields = this.Parameters.PropertiesToFields;
-            configuration.Namespace = this.Parameters.Namespace;
-            configuration.Name = this.Parameters.Name;
-            configuration.RelativePath = this.Parameters.RelativePath;
-            configuration.OutputId = this.TransferObjects.OfType<OutputIdTransferObject>().FirstOrDefault()?.Value;
-            configuration.SkipNamespace = this.Parameters.SkipNamespace;
-            configuration.Language = CsharpLanguage.Instance;
+            IOptions options = this.resolver.Get<Options>().Current;
+            options.SetFromParameter(this.Parameters);
+            options.SetOutputId(this.TransferObjects);
+            options.Language = CsharpLanguage.Instance;
 
-            this.resolver.Create<ReflectionWriter>().Write(configuration, this.TransferObjects, output);
+            this.resolver.Create<ReflectionWriter>().Write(this.TransferObjects, this.Parameters.RelativePath, output);
 
             return this.Success();
         }

@@ -22,16 +22,14 @@ namespace KY.Generator.Angular.Writers
         public void Write(ConfigurationBase configurationBase, List<ITransferObject> transferObjects, IOutput output)
         {
             AngularWriteConfiguration configuration = (AngularWriteConfiguration)configurationBase;
-            List<FileTemplate> files = new List<FileTemplate>();
             if (configuration.Service != null)
             {
-                this.resolver.Create<AngularServiceWriter>().Write(configuration, transferObjects, files);
+                this.resolver.Create<AngularServiceWriter>().Write(transferObjects, configuration, output);
             }
             if (configuration.WriteModels)
             {
-                this.resolver.Create<AngularModelWriter>().Write(configuration, transferObjects, files);
+                this.resolver.Create<AngularModelWriter>().Write(transferObjects, configuration.Model.RelativePath, output);
             }
-            files.ForEach(file => configuration.Language.Write(file, output));
         }
     }
 }

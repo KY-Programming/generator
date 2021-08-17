@@ -15,7 +15,7 @@ namespace KY.Generator.Reflection.Fluent
 
         public IReflectionWriteSyntax Models(string relativePath)
         {
-            this.command = new ReflectionWriteCommand(this.syntax.Resolver);
+            this.command = this.syntax.Resolver.Create<ReflectionWriteCommand>();
             this.command.Parameters.RelativePath = relativePath;
             this.syntax.Commands.Add(this.command);
             return this;

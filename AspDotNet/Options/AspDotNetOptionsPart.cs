@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace KY.Generator.AspDotNet.Helpers
+namespace KY.Generator.AspDotNet
 {
     public class AspDotNetOptionsPart
     {

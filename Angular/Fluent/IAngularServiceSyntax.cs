@@ -11,9 +11,6 @@
         /// <inheritdoc cref="IAngularModelSyntax.OutputPath"/>
         IAngularServiceSyntax OutputPath(string path);
 
-        /// <inheritdoc cref="IAngularModelSyntax.Strict"/>
-        IAngularServiceSyntax Strict(bool value = true);
-
         /// <summary>
         /// Renames the controller. Use {0} to inject the controller name without "Controller"
         /// </summary>
