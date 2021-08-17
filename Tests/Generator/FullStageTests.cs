@@ -21,7 +21,6 @@ namespace KY.Generator.Tests
         {
             this.resolver = new DependencyResolver();
             this.resolver.Bind<ITypeMapping>().ToSingleton<TypeMapping>();
-            this.resolver.Bind<ConfigurationMapping>().ToSingleton();
             this.resolver.Create<CoreModule>().Initialize();
             this.resolver.Create<CsharpModule>().Initialize();
             //this.resolver.Create<TsqlModule>().Initialize();
