@@ -25,7 +25,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KY.Generator.Angular", "Ang
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KY.Generator.AspDotNet", "AspDotNet\KY.Generator.AspDotNet.csproj", "{5915BD99-7A27-4A49-B31D-0CB8A3E07795}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KY.Generator.Core", "Core\KY.Generator.Core.csproj", "{8C35562D-FBCE-4588-AB3B-FCC6DEADEBAE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KY.Generator.Common", "Common\KY.Generator.Common.csproj", "{8C35562D-FBCE-4588-AB3B-FCC6DEADEBAE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KY.Generator.Watchdog", "Watchdog\KY.Generator.Watchdog.csproj", "{3DE08FD4-D3C7-496F-A013-E543ACC67429}"
 EndProject
@@ -33,7 +33,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KY.Generator.Reflection.Tes
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KY.Generator.OpenApi", "OpenApi\KY.Generator.OpenApi.csproj", "{F05EFD34-C3B0-4334-9739-925F67DAEB99}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KY.Generator.Core.Tests", "Core.Tests\KY.Generator.Core.Tests.csproj", "{1CFB1E50-F250-448C-8ED5-144544D72638}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KY.Generator.Common.Tests", "Common.Tests\KY.Generator.Common.Tests.csproj", "{1CFB1E50-F250-448C-8ED5-144544D72638}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KY.Generator.Json.Tests", "Json.Tests\KY.Generator.Json.Tests.csproj", "{FE25DBA7-CF52-437D-A3D3-1A1F4E42FB5B}"
 EndProject
