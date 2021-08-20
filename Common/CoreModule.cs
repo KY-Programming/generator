@@ -6,7 +6,7 @@ using KY.Generator.Commands;
 using KY.Generator.Languages;
 
 [assembly: InternalsVisibleTo("KY.Generator.Tests")]
-[assembly: InternalsVisibleTo("KY.Generator.Core.Tests")]
+[assembly: InternalsVisibleTo("KY.Generator.Common.Tests")]
 [assembly: InternalsVisibleTo("KY.Generator.Reflection.Tests")]
 [assembly: InternalsVisibleTo("KY.Generator.Csharp.Tests")]
 [assembly: InternalsVisibleTo("KY.Generator.Json.Tests")]

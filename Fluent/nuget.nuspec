@@ -18,7 +18,7 @@
     <tags>KY-Generator KY Generator Fluent Language</tags>
     <dependencies>
       <dependency id="KY.Generator" version="8.0.0-preview.0"></dependency>
-      <dependency id="KY.Generator.Core" version="8.0.0-preview.0"></dependency>
+      <dependency id="KY.Generator.Common" version="8.0.0-preview.0"></dependency>
     </dependencies>
   </metadata>
   <files>

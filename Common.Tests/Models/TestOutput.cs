@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using KY.Generator.Output;
 
-namespace KY.Generator.Core.Tests.Models
+namespace KY.Generator.Common.Tests.Models
 {
     public class TestOutput : IOutput
     {

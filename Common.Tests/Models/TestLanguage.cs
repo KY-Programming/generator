@@ -2,7 +2,7 @@
 using KY.Generator.Languages;
 using KY.Generator.Templates;
 
-namespace KY.Generator.Core.Tests.Models
+namespace KY.Generator.Common.Tests.Models
 {
     public class TestLanguage : BaseLanguage
     {

@@ -17,7 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AspDotNet\KY.Generator.AspDotNet.csproj" />
-    <ProjectReference Include="..\Core\KY.Generator.Core.csproj" />
+    <ProjectReference Include="..\Common\KY.Generator.Common.csproj" />
     <ProjectReference Include="..\CSharp\KY.Generator.Csharp.csproj" />
   </ItemGroup>
 

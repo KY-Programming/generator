@@ -75,9 +75,9 @@
       <Project>{5915BD99-7A27-4A49-B31D-0CB8A3E07795}</Project>
       <Name>KY.Generator.AspDotNet</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Core\KY.Generator.Core.csproj">
+    <ProjectReference Include="..\Common\KY.Generator.Common.csproj">
       <Project>{8c35562d-fbce-4588-ab3b-fcc6deadebae}</Project>
-      <Name>KY.Generator.Core</Name>
+      <Name>KY.Generator.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\CSharp\KY.Generator.Csharp.csproj">
       <Project>{D23DC658-3C95-4A73-BBC7-22A94E81AEE8}</Project>

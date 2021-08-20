@@ -28,7 +28,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Core\KY.Generator.Core.csproj" />
+    <ProjectReference Include="..\Common\KY.Generator.Common.csproj" />
   </ItemGroup>
 
 </Project>

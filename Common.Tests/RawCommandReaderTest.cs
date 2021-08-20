@@ -2,7 +2,7 @@
 using KY.Generator.Command;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace KY.Generator.Core.Tests
+namespace KY.Generator.Common.Tests
 {
     [TestClass]
     public class RawCommandReaderTest

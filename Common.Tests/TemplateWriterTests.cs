@@ -1,6 +1,6 @@
 using KY.Core;
 using KY.Core.Dependency;
-using KY.Generator.Core.Tests.Models;
+using KY.Generator.Common.Tests.Models;
 using KY.Generator.Languages;
 using KY.Generator.Output;
 using KY.Generator.Templates;
@@ -8,7 +8,7 @@ using KY.Generator.Templates.Extensions;
 using KY.Generator.Writers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace KY.Generator.Core.Tests
+namespace KY.Generator.Common.Tests
 {
     [TestClass]
     public class TemplateWriterTests : Codeable

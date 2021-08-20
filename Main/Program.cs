@@ -13,7 +13,7 @@ namespace KY.Generator
         private static void Main(string[] args)
         {
             bool success = LoadShared("KY.Core.Common")
-                           && LoadShared("KY.Generator.Core")
+                           && LoadShared("KY.Generator.Common")
                            && Run(args);
             if (!success)
             {
@@ -42,7 +42,7 @@ namespace KY.Generator
 
         private static bool Run(string[] args)
         {
-            Assembly core = AppDomain.CurrentDomain.GetAssemblies().Single(x => x.FullName.StartsWith("KY.Generator.Core,"));
+            Assembly core = AppDomain.CurrentDomain.GetAssemblies().Single(x => x.FullName.StartsWith("KY.Generator.Common,"));
             Type type = core.GetType("KY.Generator.Main");
             if (type == null)
             {

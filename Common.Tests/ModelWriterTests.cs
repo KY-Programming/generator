@@ -1,13 +1,12 @@
 using System.Collections.Generic;
 using KY.Core.Dependency;
-using KY.Generator.Core.Tests.Models;
+using KY.Generator.Common.Tests.Models;
 using KY.Generator.Mappings;
-using KY.Generator.Templates;
 using KY.Generator.Transfer;
 using KY.Generator.Transfer.Writers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace KY.Generator.Core.Tests
+namespace KY.Generator.Common.Tests
 {
     [TestClass]
     public class ModelWriterTests
