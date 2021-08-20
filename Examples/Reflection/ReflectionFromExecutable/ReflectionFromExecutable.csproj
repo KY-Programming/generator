@@ -35,8 +35,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="KY.Generator.Annotations, Version=7.5.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\packages\KY.Generator.Annotations.7.5.0\lib\netstandard2.0\KY.Generator.Annotations.dll</HintPath>
+    <Reference Include="KY.Generator.Annotations, Version=8.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\KY.Generator.Annotations.8.0.0-preview.0\lib\netstandard2.0\KY.Generator.Annotations.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -69,11 +69,11 @@
     <PostBuildEvent>
     </PostBuildEvent>
   </PropertyGroup>
-  <Import Project="..\packages\KY.Generator.7.5.0\build\KY.Generator.targets" Condition="Exists('..\packages\KY.Generator.7.5.0\build\KY.Generator.targets')" />
+  <Import Project="..\packages\KY.Generator.8.0.0-preview.0\build\KY.Generator.targets" Condition="Exists('..\packages\KY.Generator.8.0.0-preview.0\build\KY.Generator.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105.The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\KY.Generator.7.5.0\build\KY.Generator.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\KY.Generator.7.5.0\build\KY.Generator.targets'))" />
+    <Error Condition="!Exists('..\packages\KY.Generator.8.0.0-preview.0\build\KY.Generator.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\KY.Generator.8.0.0-preview.0\build\KY.Generator.targets'))" />
   </Target>
 </Project>
