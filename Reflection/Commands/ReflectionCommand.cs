@@ -60,10 +60,6 @@ namespace KY.Generator.Reflection.Commands
                             options.SetOutputId(this.TransferObjects);
                             options.Language = language;
                             options.Formatting.FromLanguage(options.Language);
-                            options.SkipNamespace = options.SkipNamespace || attribute.SkipNamespace.ToBool(this.Parameters.SkipNamespace);
-                            options.PropertiesToFields = options.PropertiesToFields || attribute.PropertiesToFields.ToBool(this.Parameters.PropertiesToFields);
-                            options.FieldsToProperties = options.FieldsToProperties || attribute.FieldsToProperties.ToBool(this.Parameters.FieldsToProperties);
-                            options.FormatNames = options.FormatNames || attribute.FormatNames.ToBool(this.Parameters.FormatNames);
 
                             ReflectionReadConfiguration readConfiguration = new();
                             readConfiguration.Name = objectType.Name;

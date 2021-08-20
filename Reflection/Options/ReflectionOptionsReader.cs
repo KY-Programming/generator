@@ -20,11 +20,22 @@ namespace KY.Generator.Reflection
                     case GeneratePreferInterfacesAttribute:
                         entry.Part.PreferInterfaces = true;
                         break;
-                    case GenerateStrictAttribute:
-                        entry.Part.Strict = true;
+                    case GenerateStrictAttribute strictAttribute:
+                        entry.Part.Strict = strictAttribute.Strict;
                         break;
                     case GenerateRenameAttribute renameAttribute:
                         entry.Part.ReplaceName[renameAttribute.Replace] = renameAttribute.With;
+                        break;
+                    case GeneratePropertiesAsFieldsAttribute:
+                        entry.Part.FieldsToProperties = false;
+                        entry.Part.PropertiesToFields = true;
+                        break;
+                    case GenerateFieldsAsPropertiesAttribute:
+                        entry.Part.FieldsToProperties = true;
+                        entry.Part.PropertiesToFields = false;
+                        break;
+                    case GenerateFormatNamesAttribute formatNamesAttribute:
+                        entry.Part.FormatNames = formatNamesAttribute.FormatNames;
                         break;
                 }
             }

@@ -3,7 +3,7 @@
 
 import { IGenericInterface } from "./generic-interface.interface";
 
-export class TypeWithGenericInterface implements IGenericInterface {
+export class TypeWithGenericInterface implements IGenericInterface<string> {
     public property: string;
 
     public constructor(init?: Partial<TypeWithGenericInterface>) {
