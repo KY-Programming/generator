@@ -9,9 +9,7 @@ namespace KY.Generator.Transfer
     public class ModelTransferObject : TypeTransferObject
     {
         public virtual bool IsEnum { get; set; }
-        public virtual bool IsInterface { get; set; }
         public virtual bool IsAbstract { get; set; }
-        public virtual bool IsGeneric { get; set; }
         public virtual Dictionary<string, int> EnumValues { get; set; }
         public virtual ModelTransferObject BasedOn { get; set; }
         public virtual ILanguage Language { get; set; }

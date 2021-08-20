@@ -16,6 +16,7 @@ namespace KY.Generator.Csharp.Languages
 
         public override string Name => "Csharp";
         public override bool ImportFromSystem => true;
+        public override bool IsGenericTypeWithSameNameAllowed => true;
 
         protected CsharpLanguage()
         {

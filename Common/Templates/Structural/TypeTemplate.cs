@@ -6,11 +6,14 @@ namespace KY.Generator.Templates
     [DebuggerDisplay("TypeTemplate: {Name}")]
     public class TypeTemplate : ICodeFragment
     {
-        public string Name { get; set; }
-        public string Namespace { get; }
-        public bool IsInterface { get; }
-        public bool IsNullable { get; }
-        public bool FromSystem { get; }
+        public virtual string Name { get; }
+        public virtual string Namespace { get; }
+        public virtual bool IsInterface { get; }
+        public virtual bool IsNullable { get; }
+        public virtual bool FromSystem { get; }
+
+        protected TypeTemplate()
+        { }
 
         public TypeTemplate(string name, string nameSpace = null, bool isInterface = false, bool isNullable = false, bool fromSystem = false)
         {

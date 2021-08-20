@@ -19,6 +19,7 @@ namespace KY.Generator.TypeScript.Languages
         public override string PartialKeyword => string.Empty;
         public override string Name => "TypeScript";
         public override bool ImportFromSystem => false;
+        public override bool IsGenericTypeWithSameNameAllowed => false;
 
         protected TypeScriptLanguage()
         {

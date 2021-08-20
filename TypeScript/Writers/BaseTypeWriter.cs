@@ -17,9 +17,10 @@ namespace KY.Generator.TypeScript.Writers
             {
                 return;
             }
-            
+
             TypeTemplate type = template.ToType();
-            if (output.LastFragments.Skip(2).FirstOrDefault() is BaseTypeTemplate baseType && baseType.ToType().IsInterface == type.IsInterface)
+            BaseTypeTemplate previousBaseTypeTemplate = output.LastFragments.TakeWhile(x => !Equals(x, template.Parent)).OfType<BaseTypeTemplate>().FirstOrDefault(x => x != template);
+            if (previousBaseTypeTemplate?.ToType().IsInterface == type.IsInterface)
             {
                 output.Add(", ");
             }

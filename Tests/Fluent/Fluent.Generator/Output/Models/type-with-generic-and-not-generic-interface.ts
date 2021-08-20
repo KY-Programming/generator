@@ -1,9 +1,10 @@
 ﻿/* eslint-disable */
 // tslint:disable
 
+import { IInterfaceGeneric } from "./interface-generic.interface";
 import { IInterface } from "./interface.interface";
 
-export class TypeWithGenericAndNotGenericInterface implements IInterface {
+export class TypeWithGenericAndNotGenericInterface implements IInterfaceGeneric<string>, IInterface {
     public property: string;
 
     public constructor(init?: Partial<TypeWithGenericAndNotGenericInterface>) {

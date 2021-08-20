@@ -5,9 +5,9 @@ namespace KY.Generator.Templates
     [DebuggerDisplay("Using {Namespace}")]
     public class UsingTemplate : ICodeFragment
     {
-        public string Namespace { get; }
-        public string Type { get; }
-        public string Path { get; }
+        public virtual string Namespace { get; }
+        public virtual string Type { get; }
+        public virtual string Path { get; }
 
         public UsingTemplate(string nameSpace, string type, string path)
         {
@@ -15,5 +15,8 @@ namespace KY.Generator.Templates
             this.Type = type;
             this.Path = path;
         }
+
+        protected UsingTemplate()
+        { }
     }
 }

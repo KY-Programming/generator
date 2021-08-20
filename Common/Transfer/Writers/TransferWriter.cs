@@ -184,10 +184,14 @@ namespace KY.Generator.Transfer.Writers
             }
             if ((!type.FromSystem || type.FromSystem && options.Language.ImportFromSystem) && type.HasUsing && !string.IsNullOrEmpty(type.Namespace) && classTemplate.Namespace.Name != type.Namespace)
             {
-                string fileName = options.Language is IFormattableLanguage formattableLanguage
-                                      ? formattableLanguage.FormatFileName(type.Name)
-                                      : Formatter.FormatFile(type.Name, options, true);
-                classTemplate.AddUsing(type.Namespace, type.Name, $"{relativeModelPath.Replace("\\", "/").TrimEnd('/')}/{fileName}");
+                Func<string> action = () =>
+                {
+                    string fileName = options.Language is IFormattableLanguage formattableLanguage
+                                          ? formattableLanguage.FormatFileName(type.Name)
+                                          : Formatter.FormatFile(type.Name, options, true);
+                    return $"{relativeModelPath.Replace("\\", "/").TrimEnd('/')}/{fileName}";
+                };
+                classTemplate.AddUsing(type, action);
             }
             type.Generics.Where(x => x.Alias == null).ForEach(generic => this.AddUsing(generic.Type, classTemplate, options, relativeModelPath));
         }

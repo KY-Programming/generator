@@ -9,6 +9,7 @@ namespace KY.Generator.Languages
         string Name { get; }
         bool ImportFromSystem { get; }
         Dictionary<string, string> ReservedKeywords { get; }
+        bool IsGenericTypeWithSameNameAllowed { get; }
 
         void Write(FileTemplate file, IOutput output);
         void Write(ICodeFragment code, IOutputCache output);

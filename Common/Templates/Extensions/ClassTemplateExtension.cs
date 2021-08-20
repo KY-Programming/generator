@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using KY.Generator.Transfer;
 
 namespace KY.Generator.Templates.Extensions
 {
@@ -7,6 +9,11 @@ namespace KY.Generator.Templates.Extensions
         public static UsingTemplate AddUsing(this ClassTemplate classTemplate, string nameSpace, string type, string path)
         {
             return classTemplate.AddUsing(new UsingTemplate(nameSpace, type, path));
+        }
+
+        public static UsingTemplate AddUsing(this ClassTemplate classTemplate, TypeTransferObject type, Func<string> fileNameAction)
+        {
+            return classTemplate.AddUsing(new LinkedUsingTemplate(type, fileNameAction));
         }
 
         public static UsingTemplate AddUsing(this ClassTemplate classTemplate, UsingTemplate usingTemplate)

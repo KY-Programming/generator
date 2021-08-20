@@ -8,6 +8,7 @@ namespace KY.Generator.Common.Tests.Models
     {
         public override string Name => "Test";
         public override bool ImportFromSystem => true;
+        public override bool IsGenericTypeWithSameNameAllowed { get; }
 
         protected override IEnumerable<UsingTemplate> GetUsings(FileTemplate fileTemplate)
         {

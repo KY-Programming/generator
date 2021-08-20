@@ -22,6 +22,7 @@ namespace KY.Generator.Languages
         public abstract string Name { get; }
         public abstract bool ImportFromSystem { get; }
         public Dictionary<string, string> ReservedKeywords { get; } = new();
+        public abstract bool IsGenericTypeWithSameNameAllowed { get; }
         public virtual string NamespaceKeyword => "namespace";
         public virtual string ClassScope => "public";
         public virtual string PartialKeyword => "partial";
@@ -122,6 +123,10 @@ namespace KY.Generator.Languages
             if (this.TemplateWriters.ContainsKey(key))
             {
                 this.TemplateWriters[key].Write(fragment, output);
+            }
+            else if (key.BaseType != null && this.TemplateWriters.ContainsKey(key.BaseType))
+            {
+                this.TemplateWriters[key.BaseType].Write(fragment, output);
             }
             else
             {

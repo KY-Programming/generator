@@ -15,9 +15,9 @@ namespace KY.Generator.Transfer.Extensions
             }
             if (type.Generics.Count == 0)
             {
-                return new TypeTemplate(type.Name, type.Namespace, fromSystem: type.FromSystem, isNullable: type.IsNullable);
+                return new LinkedTypeTemplate(type);
             }
-            GenericTypeTemplate genericTypeTemplate = new GenericTypeTemplate(type.Name, type.Namespace, fromSystem: type.FromSystem, isNullable: type.IsNullable);
+            LinkedGenericTypeTemplate genericTypeTemplate = new(type);
             type.Generics.Where(x => x.Type != null).ForEach(g => genericTypeTemplate.Types.Add(g.Type.ToTemplate()));
             return genericTypeTemplate;
         }

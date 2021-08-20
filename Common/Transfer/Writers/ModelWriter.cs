@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using KY.Core;
 using KY.Generator.Languages;
 using KY.Generator.Mappings;
-using KY.Generator.Models;
 using KY.Generator.Output;
 using KY.Generator.Templates;
 using KY.Generator.Templates.Extensions;
@@ -16,8 +14,7 @@ namespace KY.Generator.Transfer.Writers
     {
         public ModelWriter(ITypeMapping typeMapping, Options options)
             : base(typeMapping, options)
-        {
-        }
+        { }
 
         public virtual void Write(IEnumerable<ITransferObject> transferObjects, string relativePath, IOutput output)
         {
@@ -90,11 +87,30 @@ namespace KY.Generator.Transfer.Writers
             }
 
             bool isInterface = model.IsInterface || modelOptions.PreferInterfaces;
-            ClassTemplate classTemplate = files.AddFile(relativePath, modelOptions.AddHeader, modelOptions.OutputId)
-                                               // .WithType(isInterface ? "interface" : null)
-                                               .AddNamespace(modelOptions.SkipNamespace ? string.Empty : model.Namespace)
-                                               .AddClass(model.Name, model.BasedOn?.ToTemplate())
-                                               .FormatName(modelOptions);
+            string modelNamespace = modelOptions.SkipNamespace ? string.Empty : model.Namespace;
+            ClassTemplate otherClassTemplate = files.SelectMany(file => file.Namespaces)
+                                                    .SelectMany(ns => ns.Children).OfType<ClassTemplate>()
+                                                    .FirstOrDefault(x => x.Namespace.Name == modelNamespace && x.Name == model.Name);
+            NamespaceTemplate namespaceTemplate = modelOptions.Language.IsGenericTypeWithSameNameAllowed ? otherClassTemplate?.Namespace : null;
+            namespaceTemplate ??= files.AddFile(relativePath, modelOptions.AddHeader, modelOptions.OutputId)
+                                       // .WithType(isInterface ? "interface" : null)
+                                       .AddNamespace(modelNamespace);
+
+            ClassTemplate classTemplate = namespaceTemplate.AddClass(model.Name, model.BasedOn?.ToTemplate()).FormatName(modelOptions);
+
+            if (!modelOptions.Language.IsGenericTypeWithSameNameAllowed && otherClassTemplate != null)
+            {
+                if (model.IsGeneric)
+                {
+                    model.Name += "Generic";
+                    classTemplate.Name += "Generic";
+                }
+                else
+                {
+                    model.Name += "NonGeneric";
+                    classTemplate.Name += "NonGeneric";
+                }
+            }
 
             if (model.BasedOn != null)
             {
@@ -113,7 +129,7 @@ namespace KY.Generator.Transfer.Writers
                 {
                     this.MapType(modelLanguage, outputLanguage, interFace);
                 }
-                classTemplate.BasedOn.Add(new BaseTypeTemplate(classTemplate, Code.Interface(interFace.Name, interFace.Namespace)));
+                classTemplate.BasedOn.Add(new BaseTypeTemplate(classTemplate, interFace.ToTemplate()));
                 this.AddUsing(interFace, classTemplate, modelOptions);
             }
             this.AddConstants(model, classTemplate);

@@ -10,6 +10,7 @@ namespace KY.Generator.Languages
         public virtual string Name => "Empty";
         public bool ImportFromSystem => true;
         public Dictionary<string, string> ReservedKeywords { get; } = new();
+        public bool IsGenericTypeWithSameNameAllowed { get; }
         public object Key { get; } = new object();
 
         public virtual void Write(FileTemplate file, IOutput output)
