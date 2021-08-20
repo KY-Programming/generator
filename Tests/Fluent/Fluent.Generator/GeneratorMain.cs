@@ -20,6 +20,9 @@ namespace Fluent.Generator
                 .FromType<TypeWithInterface>()
                 .FromType<TypeWithGenericInterface>()
                 .FromType<TypeWithGenericAndNotGenericInterface>()
+                .FromType<TypeWithGenericAndNotGenericBaseInterface>()
+                .FromType<EdgeCase1>()
+                .FromType<SelfReferencingType>()
                 .Write()
                 .Angular(angular => angular.Models(config => config.OutputPath("Output/Models").SkipHeader()));
         }

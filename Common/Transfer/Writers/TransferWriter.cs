@@ -171,10 +171,6 @@ namespace KY.Generator.Transfer.Writers
 
         protected virtual void AddUsing(TypeTransferObject type, ClassTemplate classTemplate, IOptions options, string relativeModelPath = "./")
         {
-            if (type.Name == classTemplate.Name)
-            {
-                return;
-            }
             if (type is ModelTransferObject model)
             {
                 foreach (GenericAliasTransferObject generic in model.Generics)
