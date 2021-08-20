@@ -6,10 +6,6 @@ namespace KY.Generator.Reflection.Commands
 {
     public class ReflectionCommandParameters : GeneratorCommandParameters
     {
-        [GeneratorParameter("fromAttribute")]
-        [GeneratorParameter("fromAttributes")]
-        public bool FromAttributes { get; set; }
-
         public string Name { get; set; }
         public string Namespace { get; set; }
         public bool SkipSelf { get; set; }

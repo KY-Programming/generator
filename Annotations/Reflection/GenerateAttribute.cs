@@ -44,6 +44,7 @@ namespace KY.Generator
         {
             this.Language = language;
             this.RelativePath = relativePath;
+            this.SkipSelf = skipSelf;
         }
     }
 }

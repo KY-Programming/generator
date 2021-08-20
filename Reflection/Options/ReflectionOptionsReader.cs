@@ -37,6 +37,9 @@ namespace KY.Generator.Reflection
                     case GenerateFormatNamesAttribute formatNamesAttribute:
                         entry.Part.FormatNames = formatNamesAttribute.FormatNames;
                         break;
+                    case GenerateWithoutHeaderAttribute:
+                        entry.Part.AddHeader = false;
+                        break;
                 }
             }
         }
