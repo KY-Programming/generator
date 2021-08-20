@@ -1,7 +1,7 @@
 ﻿/* eslint-disable */
 // tslint:disable
 
-import { CasingModel } from "../models/casing-model";
+import { KeepCasingModel } from "../models/keep-casing-model";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
@@ -25,16 +25,16 @@ export class KeepCasingService {
         this.http = http;
     }
 
-    public get(httpOptions?: {}): Observable<CasingModel> {
-        let subject = new Subject<CasingModel>();
-        this.http.get<CasingModel>(this.serviceUrl + "/keepcasing", httpOptions).subscribe((result) => {
+    public get(httpOptions?: {}): Observable<KeepCasingModel> {
+        let subject = new Subject<KeepCasingModel>();
+        this.http.get<KeepCasingModel>(this.serviceUrl + "/keepcasing", httpOptions).subscribe((result) => {
             subject.next(result);
             subject.complete();
         }, (error) => subject.error(error));
         return subject;
     }
 
-    public post(model: CasingModel, httpOptions?: {}): Observable<void> {
+    public post(model: KeepCasingModel, httpOptions?: {}): Observable<void> {
         let subject = new Subject<void>();
         this.http.post<void>(this.serviceUrl + "/keepcasing", model, httpOptions).subscribe(() => {
             subject.next();

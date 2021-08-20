@@ -41,10 +41,12 @@ namespace KY.Generator.AspDotNet.Readers
             controller.Name = type.Name;
             controller.Language = ReflectionLanguage.Instance;
 
-            IAspDotNetOptions typeOptions = this.aspOptions.Get(type);
-            this.aspOptions.Set(controller, typeOptions);
-            controller.Route = typeOptions.Route;
-            controller.Version = typeOptions.ApiVersion?.LastOrDefault();
+            IOptions typeOptions = this.options.Get(type);
+            this.options.Set(controller, typeOptions);
+            IAspDotNetOptions typeAspOptions = this.aspOptions.Get(type);
+            this.aspOptions.Set(controller, typeAspOptions);
+            controller.Route = typeAspOptions.Route;
+            controller.Version = typeAspOptions.ApiVersion?.LastOrDefault();
 
             List<MethodInfo> methods = new();
             Type currentTyp = type;
@@ -88,7 +90,7 @@ namespace KY.Generator.AspDotNet.Readers
                                   .IgnoreGeneric("System.Web.Mvc", "FileResult")
                                   .IgnoreGeneric("System.Web.Mvc", "FileStreamResult")
                                   .IgnoreGeneric("System.Web.Mvc", "JsonResult")
-                                  .IgnoreGeneric(typeOptions.IgnoreGenerics)
+                                  .IgnoreGeneric(typeAspOptions.IgnoreGenerics)
                                   .IgnoreGeneric(methodAspOptions.IgnoreGenerics);
 
                 Type returnEntryType = returnType.IgnoreGeneric(typeof(IEnumerable<>)).IgnoreGeneric(typeof(List<>)).IgnoreGeneric(typeof(IList<>));

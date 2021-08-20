@@ -1,7 +1,7 @@
 ﻿/* eslint-disable */
 // tslint:disable
 
-export class CasingModel {
+export class KeepCasingModel {
     public alllower: string;
     public ALLUPPER: string;
     public PascalCase: string;
@@ -9,7 +9,7 @@ export class CasingModel {
     public snake_case: string;
     public UPPER_SNAKE_CASE: string;
 
-    public constructor(init?: Partial<CasingModel>) {
+    public constructor(init?: Partial<KeepCasingModel>) {
         Object.assign(this, init);
     }
 }

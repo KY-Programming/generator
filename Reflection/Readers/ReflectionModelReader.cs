@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using KY.Core;
-using KY.Generator.Models;
 using KY.Generator.Reflection.Extensions;
 using KY.Generator.Reflection.Language;
 using KY.Generator.Transfer;
@@ -138,7 +137,8 @@ namespace KY.Generator.Reflection.Readers
                 if (!baseOptions.Ignore)
                 {
                     model.BasedOn = this.Read(type.BaseType, transferObjects, caller);
-                }            }
+                }
+            }
             if (type.IsGenericType)
             {
                 type = this.ReadGenericArguments(type, model, transferObjects, caller);
@@ -151,7 +151,7 @@ namespace KY.Generator.Reflection.Readers
                 IOptions interfaceOptions = this.options.Get(interFace);
                 if (interfaceOptions.Ignore)
                 {
-                  continue;
+                    continue;
                 }
                 ModelTransferObject interfaceTransferObject = this.Read(interFace, transferObjects, caller);
                 if (transferObjects.Contains(interfaceTransferObject))
@@ -170,8 +170,8 @@ namespace KY.Generator.Reflection.Readers
                 FieldTransferObject fieldTransferObject = new()
                                                           {
                                                               Name = field.Name,
-                                                              Type = this.Read(field.FieldType, transferObjects),
-                                                              Default = field.GetValue(null),
+                                                              Type = this.Read(field.FieldType, transferObjects, fieldOptions),
+                                                              Default = field.GetValue(null)
                                                           };
                 model.Constants.Add(fieldTransferObject);
                 this.options.Set(fieldTransferObject, fieldOptions);
@@ -188,7 +188,7 @@ namespace KY.Generator.Reflection.Readers
                 FieldTransferObject fieldTransferObject = new()
                                                           {
                                                               Name = field.Name,
-                                                              Type = this.Read(field.FieldType, transferObjects),
+                                                              Type = this.Read(field.FieldType, transferObjects, fieldOptions)
                                                           };
                 model.Fields.Add(fieldTransferObject);
                 this.options.Set(fieldTransferObject, fieldOptions);
@@ -204,8 +204,8 @@ namespace KY.Generator.Reflection.Readers
                 PropertyTransferObject propertyTransferObject = new()
                                                                 {
                                                                     Name = property.Name,
-                                                                    Type = this.Read(property.PropertyType, transferObjects),
-                                                                    Attributes = property.GetCustomAttributes().ToTransferObjects().ToList(),
+                                                                    Type = this.Read(property.PropertyType, transferObjects, propertyOptions),
+                                                                    Attributes = property.GetCustomAttributes().ToTransferObjects().ToList()
                                                                 };
                 model.Properties.Add(propertyTransferObject);
                 this.options.Set(propertyTransferObject, propertyOptions);

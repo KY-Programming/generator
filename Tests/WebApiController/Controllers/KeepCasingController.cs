@@ -7,17 +7,16 @@ namespace WebApiController.Controllers
     [ApiController]
     [Route("[controller]")]
     [GenerateAngularService("ClientApp/src/app/keep-casing/services", "ClientApp/src/app/keep-casing/models")]
-    [GenerateFormatNames(false)]
     public class KeepCasingController : ControllerBase
     {
         [HttpGet]
-        public CasingModel Get()
+        public KeepCasingModel Get()
         {
-            return new CasingModel();
+            return new KeepCasingModel();
         }
 
         [HttpPost]
-        public void Post(CasingModel model)
+        public void Post(KeepCasingModel model)
         {
         }
     }
