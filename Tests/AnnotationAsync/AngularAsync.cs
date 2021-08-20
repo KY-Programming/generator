@@ -3,7 +3,6 @@
 namespace AnnotationAsync
 {
     [GenerateAngularModel("Output")]
-    [GenerateOption(GenerateOption.SkipHeader)]
     [GenerateAsync]
     public class AngularAsync
     {

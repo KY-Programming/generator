@@ -12,7 +12,6 @@ namespace UrlVersionedWebApiController.Controllers
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
     [GenerateAngularService("ClientApp/src/app/services", "ClientApp/src/app/models")]
-    [GenerateOption(GenerateOption.SkipHeader)]
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]

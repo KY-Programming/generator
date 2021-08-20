@@ -7,7 +7,6 @@ namespace WebApiController.Controllers
     [ApiController]
     [Route("[controller]")]
     [GenerateAngularService("ClientApp/src/app/rename/services", "ClientApp/src/app/rename/models")]
-    [GenerateOption(GenerateOption.SkipHeader)]
     [GenerateRename("Dto", "Model")]
     [GenerateRename("Dummy")]
     public class RenameController : ControllerBase

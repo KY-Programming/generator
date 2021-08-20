@@ -5,7 +5,6 @@ using KY.Generator;
 namespace Types
 {
     [Generate(OutputLanguage.TypeScript, "Output")]
-    [GenerateOption(GenerateOption.SkipHeader)]
     public class Types
     {
         // Fields

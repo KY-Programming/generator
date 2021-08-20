@@ -3,7 +3,7 @@
 namespace AnnotationsWithMultipleOutputs
 {
     [GenerateAngularModel("Output\\First")]
-    [GenerateOption(GenerateOption.SkipHeader)]
+    [GenerateWithoutHeader]
     public class FirstType
     {
         public string StringProperty { get; set; }

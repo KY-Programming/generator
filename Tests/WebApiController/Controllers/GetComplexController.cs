@@ -7,7 +7,6 @@ namespace WebApiController.Controllers
     [ApiController]
     [Route("[controller]")]
     [GenerateAngularService("ClientApp/src/app/get-complex/services", "ClientApp/src/app/get-complex/models")]
-    [GenerateOption(GenerateOption.SkipHeader)]
     public class GetComplexController
     {
         [HttpGet("[action]")]

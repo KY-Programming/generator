@@ -9,7 +9,6 @@ namespace WebApiController.Controllers
     [ApiController]
     [Route("api/[controller]")]
     [GenerateAngularService("ClientApp/src/app/date/services", "ClientApp/src/app/date/models")]
-    [GenerateOption(GenerateOption.SkipHeader)]
     public class DateController : ControllerBase
     {
         [HttpGet("[action]")]

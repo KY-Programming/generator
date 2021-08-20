@@ -7,7 +7,6 @@ namespace WebApiController.Controllers
     [ApiController]
     [Route("[controller]")]
     [GenerateAngularService("ClientApp/src/app/post/services", "ClientApp/src/app/post/models")]
-    [GenerateOption(GenerateOption.SkipHeader)]
     public class PostController : ControllerBase
     {
         [HttpPost("[action]")]

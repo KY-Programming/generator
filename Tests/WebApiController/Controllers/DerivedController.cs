@@ -6,7 +6,6 @@ namespace WebApiController.Controllers
     [ApiController]
     [Route("[controller]")]
     [GenerateAngularService("ClientApp/src/app/derived/services", "ClientApp/src/app/derived/models")]
-    [GenerateOption(GenerateOption.SkipHeader)]
     public class DerivedController : DerivableController
     {
         [HttpGet("[action]")]

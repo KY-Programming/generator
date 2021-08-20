@@ -10,7 +10,6 @@ namespace WebApiController.Controllers
     [ApiController]
     [Route("[controller]")]
     [GenerateAngularService("ClientApp/src/app/routed/services", "ClientApp/src/app/routed/models")]
-    [GenerateOption(GenerateOption.SkipHeader)]
     [GenerateIgnoreGeneric(typeof(IgnoreMe2<>))]
     public class RoutedController : ControllerBase
     {
@@ -18,7 +17,7 @@ namespace WebApiController.Controllers
                                                      {
                                                          "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
                                                      };
-        
+
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {

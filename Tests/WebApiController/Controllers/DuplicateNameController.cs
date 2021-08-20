@@ -6,7 +6,6 @@ namespace WebApiController.Controllers
     [ApiController]
     [Route("[controller]")]
     [GenerateAngularService("ClientApp/src/app/duplicate-name/services", "ClientApp/src/app/duplicate-name/models")]
-    [GenerateOption(GenerateOption.SkipHeader)]
     public class DuplicateNameController : ControllerBase
     {
         [HttpGet("{id}")]

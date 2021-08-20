@@ -5,7 +5,6 @@ using KY.Generator;
 namespace AnnotationAsync
 {
     [Generate(OutputLanguage.TypeScript, "Output")]
-    [GenerateOption(GenerateOption.SkipHeader)]
     [GenerateAsync]
     public class AsyncTypes
     {

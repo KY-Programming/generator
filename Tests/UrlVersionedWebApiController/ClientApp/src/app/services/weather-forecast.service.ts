@@ -25,7 +25,7 @@ export class WeatherForecastService {
         this.http = http;
     }
 
-    public get(httpOptions: {} = undefined): Observable<WeatherForecast[]> {
+    public get(httpOptions?: {}): Observable<WeatherForecast[]> {
         let subject = new Subject<WeatherForecast[]>();
         this.http.get<WeatherForecast[]>(this.serviceUrl + "/api/v1.0/weatherforecast", httpOptions).subscribe((result) => {
             if (result) {

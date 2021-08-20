@@ -7,7 +7,6 @@ namespace WebApiController.Controllers
     [ApiController]
     [Route("[controller]")]
     [GenerateAngularService("ClientApp/src/app/convert-to-interface/services", "ClientApp/src/app/convert-to-interface/models")]
-    [GenerateOption(GenerateOption.SkipHeader)]
     [GeneratePreferInterfaces]
     public class ConvertToInterfaceController : ControllerBase
     {
@@ -21,7 +20,6 @@ namespace WebApiController.Controllers
     [ApiController]
     [Route("[controller]")]
     [GenerateAngularService("ClientApp/src/app/convert-to-interface/services", "ClientApp/src/app/convert-to-interface/models")]
-    [GenerateOption(GenerateOption.SkipHeader)]
     [GeneratePreferInterfaces]
     [GenerateWithOptionalProperties]
     public class ConvertToInterfaceOptionalController : ControllerBase

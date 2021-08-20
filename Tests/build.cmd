@@ -46,6 +46,19 @@ dotnet build --no-incremental
 cd ..
 
 REM ==========================================
+REM ||    UrlVersionedWebApiController      ||
+REM ==========================================
+REM 
+cd UrlVersionedWebApiController
+rmdir /S/Q bin
+rmdir /S/Q ClientApp\src\app\models
+rmdir /S/Q ClientApp\src\app\services
+dotnet add package KY.Generator --prerelease
+dotnet add package KY.Generator.Annotations --prerelease
+dotnet build --no-incremental
+cd ..
+
+REM ==========================================
 REM ||       AnnotationInNestedClass        ||
 REM ==========================================
 REM 

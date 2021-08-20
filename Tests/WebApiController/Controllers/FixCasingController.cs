@@ -19,7 +19,6 @@ namespace WebApiController.Controllers
     [ApiController]
     [Route("[controller]")]
     [GenerateAngularService("ClientApp/src/app/fix-casing/services", "ClientApp/src/app/fix-casing/models")]
-    [GenerateOption(GenerateOption.SkipHeader)]
     [FixCasingController]
     public class FixCasingController : ControllerBase
     {

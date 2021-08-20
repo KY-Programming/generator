@@ -7,7 +7,7 @@ export class WeatherForecast {
     public temperatureF: number;
     public summary: string;
 
-    public constructor(init: Partial<WeatherForecast> = undefined) {
+    public constructor(init?: Partial<WeatherForecast>) {
         Object.assign(this, init);
     }
 }
