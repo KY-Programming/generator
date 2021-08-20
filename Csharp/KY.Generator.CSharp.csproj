@@ -5,7 +5,7 @@
     <Authors>KY-Programming</Authors>
     <Company>KY-Programming</Company>
     <Product>KY.Generator</Product>
-    <Version>7.6.0-preview.0</Version>
+    <Version>8.0.0-preview.0</Version>
     <Description>C# Module for KY-Generator
 Download KY.Generator to use this module</Description>
     <Copyright>2021 - KY-Programming</Copyright>
@@ -24,10 +24,6 @@ Download KY.Generator to use this module</Description>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <OutputPath>..\bin\Release</OutputPath>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="KY.Core.Common" Version="4.20.1" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Core\KY.Generator.Core.csproj" />

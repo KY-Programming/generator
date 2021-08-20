@@ -14,6 +14,7 @@ Download KY.Generator to use this module</Description>
     <PackageIconUrl>https://ky-programming.de/images/logos/128.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/KY-Programming/generator</RepositoryUrl>
     <PackageTags>KY-Generator KY Generator EntityFramework EF</PackageTags>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -23,10 +24,6 @@ Download KY.Generator to use this module</Description>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <OutputPath>..\bin\Release</OutputPath>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="KY.Core.Common" Version="4.20.1" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Core\KY.Generator.Core.csproj" />

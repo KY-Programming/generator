@@ -15,6 +15,7 @@ Download KY.Generator to use this module</Description>
     <RepositoryType></RepositoryType>
     <RepositoryUrl>https://github.com/KY-Programming/generator</RepositoryUrl>
     <PackageTags>KY-Generator KY Generator OpenApi</PackageTags>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -26,7 +27,6 @@ Download KY.Generator to use this module</Description>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="KY.Core.Common" Version="4.20.1" />
     <PackageReference Include="Microsoft.OpenApi.Readers" Version="1.1.4" />
   </ItemGroup>
 
