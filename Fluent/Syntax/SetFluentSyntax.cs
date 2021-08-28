@@ -79,9 +79,9 @@ namespace KY.Generator.Syntax
             return this;
         }
 
-        public ISetFluentSyntax SkipSelf()
+        public ISetFluentSyntax OnlySubTypes()
         {
-            this.optionsSet.SkipSelf = true;
+            this.optionsSet.OnlySubTypes = true;
             return this;
         }
     }

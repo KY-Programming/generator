@@ -29,9 +29,9 @@ namespace KY.Generator.Reflection.Readers
             }
             ModelTransferObject selfModel = this.modelReader.Read(type, caller);
             IOptions modelOptions = this.options.Get(selfModel);
-            if (configuration.SkipSelf || modelOptions.SkipSelf)
+            if (configuration.OnlySubTypes || modelOptions.OnlySubTypes)
             {
-                modelOptions.SkipSelf = true;
+                modelOptions.OnlySubTypes = true;
             }
         }
     }

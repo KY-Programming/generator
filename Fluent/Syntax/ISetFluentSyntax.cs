@@ -12,6 +12,6 @@ namespace KY.Generator.Syntax
         ISetFluentSyntax OptionalProperties();
         ISetFluentSyntax Ignore();
         ISetFluentSyntax ReplaceName(string replace, string with);
-        ISetFluentSyntax SkipSelf();
+        ISetFluentSyntax OnlySubTypes();
     }
 }

@@ -76,10 +76,10 @@ namespace KY.Generator
             set => this.Part.SkipNamespace = value;
         }
 
-        bool IOptions.SkipSelf
+        bool IOptions.OnlySubTypes
         {
-            get => this.Part.SkipSelf ?? this.Global?.Part.SkipSelf ?? false;
-            set => this.Part.SkipSelf = value;
+            get => this.Part.OnlySubTypes ?? this.Global?.Part.OnlySubTypes ?? false;
+            set => this.Part.OnlySubTypes = value;
         }
 
         Dictionary<string, string> IOptions.ReplaceName => this.GetMerged(part => part?.ReplaceName);

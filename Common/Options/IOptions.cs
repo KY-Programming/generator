@@ -21,6 +21,6 @@ namespace KY.Generator
         ILanguage Language { get; set; }
         bool AddHeader { get; set; }
         bool SkipNamespace { get; set; }
-        bool SkipSelf { get; set; }
+        bool OnlySubTypes { get; set; }
     }
 }

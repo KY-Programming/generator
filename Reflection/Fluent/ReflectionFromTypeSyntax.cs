@@ -14,9 +14,9 @@ namespace KY.Generator.Reflection.Fluent
             this.command = command;
         }
 
-        public IReflectionReadSyntax SkipSelf()
+        public IReflectionReadSyntax OnlySubTypes()
         {
-            this.command.Parameters.SkipSelf = true;
+            this.command.Parameters.OnlySubTypes = true;
             return this.syntax;
         }
 

@@ -7,7 +7,7 @@ namespace KY.Generator.Reflection.Commands
     {
         public string Name { get; set; }
         public string Namespace { get; set; }
-        public bool SkipSelf { get; set; }
+        public bool OnlySubTypes { get; set; }
         public ILanguage Language { get; set; }
     }
 }

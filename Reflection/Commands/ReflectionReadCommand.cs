@@ -22,7 +22,7 @@ namespace KY.Generator.Reflection.Commands
             readConfiguration.Assembly = this.Parameters.Assembly;
             readConfiguration.Namespace = this.Parameters.Namespace;
             readConfiguration.Name = this.Parameters.Name;
-            readConfiguration.SkipSelf = this.Parameters.SkipSelf;
+            readConfiguration.OnlySubTypes = this.Parameters.OnlySubTypes;
 
             this.resolver.Create<ReflectionReader>().Read(readConfiguration);
             return this.Success();

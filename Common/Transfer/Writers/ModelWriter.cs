@@ -61,7 +61,7 @@ namespace KY.Generator.Transfer.Writers
                 return;
             }
             IOptions modelOptions = this.Options.Get(model);
-            if (modelOptions.SkipSelf)
+            if (modelOptions.OnlySubTypes)
             {
                 Logger.Trace($"{model.Name} ({model.Namespace}) skipped through configuration");
                 return;

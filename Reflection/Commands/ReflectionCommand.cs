@@ -38,7 +38,7 @@ namespace KY.Generator.Reflection.Commands
             readConfiguration.Name = this.Parameters.Name;
             readConfiguration.Namespace = this.Parameters.Namespace;
             readConfiguration.Assembly = this.Parameters.Assembly;
-            readConfiguration.SkipSelf = this.Parameters.SkipSelf;
+            readConfiguration.OnlySubTypes = this.Parameters.OnlySubTypes;
 
             attributeResolver.Create<ReflectionReader>().Read(readConfiguration, attributeOptions);
             attributeResolver.Get<IOutput>().DeleteAllRelatedFiles(this.Parameters.RelativePath);

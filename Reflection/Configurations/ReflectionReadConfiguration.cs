@@ -5,6 +5,6 @@
         public string Assembly { get; set; }
         public string Name { get; set; }
         public string Namespace { get; set; }
-        public bool SkipSelf { get; set; }
+        public bool OnlySubTypes { get; set; }
     }
 }

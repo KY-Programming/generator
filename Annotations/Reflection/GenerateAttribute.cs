@@ -28,9 +28,9 @@ namespace KY.Generator
                 {
                     parameter.Add($"-relativePath={this.RelativePath}");
                 }
-                if (this.SkipSelf)
+                if (this.OnlySubTypes)
                 {
-                    parameter.Add("-skipSelf");
+                    parameter.Add("-onlySubTypes");
                 }
                 return parameter;
             }
@@ -38,13 +38,13 @@ namespace KY.Generator
 
         public OutputLanguage Language { get; }
         public string RelativePath { get; }
-        public bool SkipSelf { get; }
+        public bool OnlySubTypes { get; }
 
-        public GenerateAttribute(OutputLanguage language = OutputLanguage.Inherit, string relativePath = null, bool skipSelf = false)
+        public GenerateAttribute(OutputLanguage language = OutputLanguage.Inherit, string relativePath = null, bool onlySubTypes = false)
         {
             this.Language = language;
             this.RelativePath = relativePath;
-            this.SkipSelf = skipSelf;
+            this.OnlySubTypes = onlySubTypes;
         }
     }
 }

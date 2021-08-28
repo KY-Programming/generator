@@ -6,6 +6,6 @@ namespace KY.Generator.Reflection.Commands
     {
         public string Namespace { get; set; }
         public string Name { get; set; }
-        public bool SkipSelf { get; set; }
+        public bool OnlySubTypes { get; set; }
     }
 }

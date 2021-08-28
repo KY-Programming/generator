@@ -41,7 +41,7 @@ namespace KY.Generator.Reflection
                         entry.Part.AddHeader = false;
                         break;
                     case GenerateOnlySubTypesAttribute:
-                        entry.Part.SkipSelf = true;
+                        entry.Part.OnlySubTypes = true;
                         break;
                 }
             }
