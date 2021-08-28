@@ -9,17 +9,8 @@
 /* eslint-disable */
 // tslint:disable
 
-import { EnumToIgnore } from "./";
-import { TypeToIgnore } from "./";
-import { GenerateOnlySubTypes } from "./generate-only-sub-types";
-
-export class TypeToRead {
-    public typeToIgnoreField: TypeToIgnore;
-    public stringProperty: string;
-    public numberProperty: number;
-    public typeToIgnoreProperty: TypeToIgnore;
-    public enumToIgnoreProperty: EnumToIgnore;
-    public generateOnlySubTypes: GenerateOnlySubTypes;
+export class GenerateOnlySubTypesSubType {
+    public property: string;
 }
 
 // outputid:0069e9c6-1a9c-4b27-ac11-56d1413e4d18

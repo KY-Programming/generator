@@ -10,13 +10,13 @@ namespace ReflectionIgnoreAttribute
         /// </summary>
         [GenerateIgnore]
         public string StringFieldToIgnore;
-        
+
         /// <summary>
         /// This field will be ignored
         /// </summary>
         [GenerateIgnore]
         public FieldTypeToIgnore FieldTypeFieldToIgnore;
-        
+
         /// <summary>
         /// This field is written to output but the class not
         /// </summary>
@@ -24,7 +24,7 @@ namespace ReflectionIgnoreAttribute
 
         public string StringProperty { get; set; }
         public int NumberProperty { get; set; }
-        
+
         /// <summary>
         /// This property will be ignored
         /// </summary>
@@ -46,19 +46,11 @@ namespace ReflectionIgnoreAttribute
         /// This property is written to output but the class not
         /// </summary>
         public EnumToIgnore EnumToIgnoreProperty { get; set; }
-    }
 
-    [GenerateIgnore]
-    public class TypeToIgnore
-    {
-        public string StringProperty { get; set; }
-    }
-
-    [GenerateIgnore]
-    public enum EnumToIgnore
-    {
-        None,
-        Any
+        /// <summary>
+        /// This property is generated, but the type itself will not be generated (e.g. to keep modifications). All used types will be generated
+        /// </summary>
+        public GenerateOnlySubTypes GenerateOnlySubTypes { get; set; }
     }
 
     public class FieldTypeToIgnore
