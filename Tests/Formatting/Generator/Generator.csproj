@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+      <ProjectGuid>{95ca21b8-f1ff-4cc7-b96e-63d5a90970c3}</ProjectGuid>
+  </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Formatting\Formatting.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="KY.Generator.Angular" Version="8.0.0-preview.0"/>
+        <PackageReference Include="KY.Generator.Fluent" Version="8.0.0-preview.0"/>
+        <PackageReference Include="KY.Generator.Reflection" Version="8.0.0-preview.0"/>
+    </ItemGroup>
+
+</Project>

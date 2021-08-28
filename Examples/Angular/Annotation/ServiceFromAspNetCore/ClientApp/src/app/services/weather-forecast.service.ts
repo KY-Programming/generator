@@ -35,7 +35,8 @@ export class WeatherForecastService {
 
     public get(httpOptions?: {}): Observable<WeatherForecast[]> {
         let subject = new Subject<WeatherForecast[]>();
-        this.http.get<WeatherForecast[]>(this.serviceUrl + "/weatherforecast", httpOptions).subscribe((result) => {
+        let url: string = this.serviceUrl + "/weatherforecast";
+        this.http.get<WeatherForecast[]>(url, httpOptions).subscribe((result) => {
             if (result) {
                 result.forEach((entry) => {
                     entry.date = this.convertToDate(entry.date);

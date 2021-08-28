@@ -30,12 +30,30 @@ REM ==========================================
 REM 
 cd WebApiController
 rmdir /S/Q bin
+rmdir /S/Q ClientApp\src\app\convert-to-interface\models
+rmdir /S/Q ClientApp\src\app\convert-to-interface\services
+rmdir /S/Q ClientApp\src\app\date\models
+rmdir /S/Q ClientApp\src\app\date\services
+rmdir /S/Q ClientApp\src\app\derived\models
+rmdir /S/Q ClientApp\src\app\derived\services
+rmdir /S/Q ClientApp\src\app\duplicate-name\models
+rmdir /S/Q ClientApp\src\app\duplicate-name\services
+rmdir /S/Q ClientApp\src\app\edge-cases\models
+rmdir /S/Q ClientApp\src\app\edge-cases\services
 rmdir /S/Q ClientApp\src\app\fix-casing\models
 rmdir /S/Q ClientApp\src\app\fix-casing\services
+rmdir /S/Q ClientApp\src\app\get-complex\models
+rmdir /S/Q ClientApp\src\app\get-complex\services
 rmdir /S/Q ClientApp\src\app\keep-casing\models
 rmdir /S/Q ClientApp\src\app\keep-casing\services
+rmdir /S/Q ClientApp\src\app\parameter-on-controller\models
+rmdir /S/Q ClientApp\src\app\parameter-on-controller\services
+rmdir /S/Q ClientApp\src\app\post\models
+rmdir /S/Q ClientApp\src\app\post\services
 rmdir /S/Q ClientApp\src\app\produces\models
 rmdir /S/Q ClientApp\src\app\produces\services
+rmdir /S/Q ClientApp\src\app\rename\models
+rmdir /S/Q ClientApp\src\app\rename\services
 rmdir /S/Q ClientApp\src\app\routed\models
 rmdir /S/Q ClientApp\src\app\routed\services
 rmdir /S/Q ClientApp\src\app\versioned-api\models
@@ -132,4 +150,15 @@ dotnet add package KY.Generator.Annotations --prerelease
 dotnet build --no-incremental
 cd ..
 
-PAUSE
+REM ==========================================
+REM ||             Formatting                ||
+REM ==========================================
+REM 
+cd Formatting\Generator
+rmdir /S/Q bin
+rmdir /S/Q Output
+dotnet add package KY.Generator.Fluent --prerelease
+dotnet add package KY.Generator.Angular --prerelease
+dotnet add package KY.Generator.Reflection --prerelease
+dotnet build --no-incremental
+cd ..\..

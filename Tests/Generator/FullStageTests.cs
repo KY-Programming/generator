@@ -1,7 +1,6 @@
 using System;
 using KY.Core.Dependency;
 using KY.Generator.AspDotNet;
-using KY.Generator.Configuration;
 using KY.Generator.Csharp;
 using KY.Generator.Mappings;
 using KY.Generator.Output;
