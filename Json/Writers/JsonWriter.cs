@@ -15,6 +15,11 @@ namespace KY.Generator.Json.Writers
             this.resolver = resolver;
         }
 
+        public void FormatNames()
+        {
+            this.resolver.Create<ObjectWriter>().FormatNames();
+        }
+
         public void Write(string relativePath, bool withReader)
         {
             this.resolver.Create<ObjectWriter>().Write(relativePath, withReader);

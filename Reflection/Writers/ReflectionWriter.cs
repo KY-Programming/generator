@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using KY.Generator.Output;
-using KY.Generator.Transfer;
-using KY.Generator.Transfer.Writers;
+﻿using KY.Generator.Transfer.Writers;
 
 namespace KY.Generator.Reflection.Writers
 {
@@ -12,6 +9,11 @@ namespace KY.Generator.Reflection.Writers
         public ReflectionWriter(ModelWriter modelWriter)
         {
             this.modelWriter = modelWriter;
+        }
+
+        public void FormatNames()
+        {
+            this.modelWriter.FormatNames();
         }
 
         public void Write(string relativePath)

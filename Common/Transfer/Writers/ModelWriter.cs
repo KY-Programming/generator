@@ -116,7 +116,8 @@ namespace KY.Generator.Transfer.Writers
 
             bool isInterface = model.IsInterface || modelOptions.PreferInterfaces;
             string modelNamespace = modelOptions.SkipNamespace ? string.Empty : model.Namespace;
-            ClassTemplate otherClassTemplate = this.files.Where(file => file.RelativePath == relativePath)
+            ClassTemplate otherClassTemplate = this.files.Where(file => file.RelativePath == relativePath
+                                                                        && file.Options.Language == modelOptions.Language)
                                                    .SelectMany(file => file.Namespaces)
                                                    .SelectMany(ns => ns.Children).OfType<ClassTemplate>()
                                                    .FirstOrDefault(x => x.Namespace.Name == modelNamespace && x.Name == model.Name);

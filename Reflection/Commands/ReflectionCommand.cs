@@ -42,7 +42,9 @@ namespace KY.Generator.Reflection.Commands
 
             attributeResolver.Create<ReflectionReader>().Read(readConfiguration, attributeOptions);
             attributeResolver.Get<IOutput>().DeleteAllRelatedFiles(this.Parameters.RelativePath);
-            attributeResolver.Create<ReflectionWriter>().Write(this.Parameters.RelativePath);
+            ReflectionWriter writer = attributeResolver.Create<ReflectionWriter>();
+            writer.FormatNames();
+            writer.Write(this.Parameters.RelativePath);
 
             this.resolver.Get<Models.Environment>().TransferObjects.AddIfNotExists(attributeResolver.Get<List<ITransferObject>>());
 
