@@ -18,7 +18,7 @@ namespace KY.Generator.Writers
             bool hasNamespace = !string.IsNullOrEmpty(template.Name);
             if (hasNamespace)
             {
-                output.Add($"${this.NamespaceKeyword} {template.Name}")
+                output.Add($"{this.NamespaceKeyword} {template.Name}")
                       .StartBlock();
             }
             output.Add(template.Children);

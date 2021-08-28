@@ -18,11 +18,10 @@ namespace KY.Generator.Csharp.Writers
         public override void Write(ICodeFragment fragment, IOutputCache output)
         {
             VerbatimStringTemplate template = (VerbatimStringTemplate)fragment;
-            output.Add(this.options.Formatting.Quote)
+            output.Add("@")
+                  .Add(this.options.Formatting.Quote)
                   .Add(template.Value, true)
                   .Add(this.options.Formatting.Quote);
-            output.Add($"@\"{template.Value}\"", true);
-            // base.Write(fragment, output);
         }
     }
 }

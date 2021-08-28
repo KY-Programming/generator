@@ -1,5 +1,4 @@
-﻿using KY.Core;
-using KY.Core.Dependency;
+﻿using KY.Core.Dependency;
 using KY.Generator.Command;
 using KY.Generator.Output;
 using KY.Generator.Sqlite.Readers;

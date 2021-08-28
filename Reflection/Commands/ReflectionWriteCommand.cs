@@ -1,12 +1,9 @@
-﻿using System.Collections.Generic;
-using KY.Core.Dependency;
+﻿using KY.Core.Dependency;
 using KY.Generator.Command;
 using KY.Generator.Command.Extensions;
 using KY.Generator.Csharp.Languages;
-using KY.Generator.Models;
 using KY.Generator.Output;
 using KY.Generator.Reflection.Writers;
-using KY.Generator.Transfer;
 
 namespace KY.Generator.Reflection.Commands
 {
@@ -26,8 +23,10 @@ namespace KY.Generator.Reflection.Commands
             IOptions options = this.resolver.Get<Options>().Current;
             options.SetFromParameter(this.Parameters);
             options.Language = this.resolver.Get<CsharpLanguage>();
-
-            this.resolver.Create<ReflectionWriter>().Write(this.Parameters.RelativePath);
+            ReflectionWriter writer = this.resolver.Create<ReflectionWriter>();
+            writer.FormatNames();
+            this.resolver.Get<IOutput>().DeleteAllRelatedFiles(this.Parameters.RelativePath);
+            writer.Write(this.Parameters.RelativePath);
 
             return this.Success();
         }

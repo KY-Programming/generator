@@ -3,6 +3,7 @@ using KY.Core;
 using KY.Core.Dependency;
 using KY.Generator.Command;
 using KY.Generator.Csharp.Languages;
+using KY.Generator.Output;
 using KY.Generator.Sqlite.Transfer;
 using KY.Generator.Sqlite.Transfer.Readers;
 using KY.Generator.Sqlite.Writers;
@@ -31,6 +32,7 @@ namespace KY.Generator.Sqlite.Commands
             IOptions options = this.resolver.Get<Options>().Current;
             options.Language = this.resolver.Get<CsharpLanguage>();
             SqliteModelTransferObject model = this.resolver.Create<SqliteModelReader>().Read(type);
+            this.resolver.Get<IOutput>().DeleteAllRelatedFiles(this.Parameters.RelativePath);
             this.resolver.Create<SqliteRepositoryWriter>().Write(model, this.Parameters);
             return this.Success();
         }
