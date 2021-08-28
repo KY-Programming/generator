@@ -1,13 +1,10 @@
 ﻿/* eslint-disable */
 // tslint:disable
 
-import { EdgeCase1SubTypeNonGeneric } from "./edge-case-1-sub-type-non-generic";
+export class EdgeCase1SubType {
+    public property: string;
 
-export class EdgeCase1SubType<T> extends EdgeCase1SubTypeNonGeneric {
-    public genericProperty: T;
-
-    public constructor(init?: Partial<EdgeCase1SubType<T>>) {
-        super();
+    public constructor(init?: Partial<EdgeCase1SubType>) {
         Object.assign(this, init);
     }
 }

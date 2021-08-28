@@ -1,9 +1,9 @@
 ﻿/* eslint-disable */
 // tslint:disable
 
-import { EdgeCase1SubType } from "./edge-case-1-sub-type";
+import { EdgeCase1SubTypeGeneric } from "./edge-case-1-sub-type-generic";
 
-export class EdgeCase1 extends EdgeCase1SubType<string> {
+export class EdgeCase1 extends EdgeCase1SubTypeGeneric<string> {
     public constructor(init?: Partial<EdgeCase1>) {
         super();
         Object.assign(this, init);
