@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using KY.Generator.Output;
-using KY.Generator.Transfer;
-using KY.Generator.TypeScript.Transfer;
+﻿using KY.Generator.TypeScript.Transfer;
 
 namespace KY.Generator.Angular.Writers
 {
@@ -14,9 +11,14 @@ namespace KY.Generator.Angular.Writers
             this.modelWriter = modelWriter;
         }
 
-        public void Write(List<ITransferObject> transferObjects, string relativePath, IOutput output)
+        public void FormatNames()
         {
-            this.modelWriter.Write(transferObjects, relativePath, output);
+            this.modelWriter.FormatNames();
+        }
+
+        public void Write(string relativePath)
+        {
+            this.modelWriter.Write(relativePath);
         }
     }
 }

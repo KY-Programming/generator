@@ -23,7 +23,7 @@ namespace KY.Generator.EntityFramework.Writers
             this.options = options;
         }
 
-        public virtual void Write(EntityFrameworkWriteConfiguration configuration, List<ITransferObject> transferObjects, IOutput output)
+        public virtual void Write(EntityFrameworkWriteConfiguration configuration)
         {
             if (!this.options.Current.Language.IsCsharp())
             {
@@ -34,10 +34,9 @@ namespace KY.Generator.EntityFramework.Writers
             List<FileTemplate> files = new List<FileTemplate>();
             if (configuration.Repositories.Count > 0)
             {
-                this.resolver.Create<EntityFrameworkRepositoryWriter>().Write(configuration, transferObjects, files);
+                this.resolver.Create<EntityFrameworkRepositoryWriter>().Write(configuration);
             }
-            this.resolver.Create<EntityFrameworkDataContextWriter>().Write(configuration, transferObjects, files);
-            files.ForEach(file => this.options.Current.Language.Write(file, output));
+            this.resolver.Create<EntityFrameworkDataContextWriter>().Write(configuration);
         }
     }
 }

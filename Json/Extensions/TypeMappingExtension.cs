@@ -11,7 +11,7 @@ namespace KY.Generator.Json.Extensions
     {
         public static ITypeMapping Initialize(this ITypeMapping typeMapping)
         {
-            typeMapping.Map(JsonLanguage.Instance).To(CsharpLanguage.Instance)
+            typeMapping.Map<JsonLanguage>().To<CsharpLanguage>()
                        .From(JTokenType.Array.ToString()).To("List").Nullable().Namespace("System.Collections.Generic").FromSystem()
                        .From(JTokenType.Boolean.ToString()).To("bool").FromSystem()
                        .From(JTokenType.Bytes.ToString()).To("byte").FromSystem()
@@ -24,7 +24,7 @@ namespace KY.Generator.Json.Extensions
                        .From(JTokenType.TimeSpan.ToString()).To("TimeSpan").Namespace("System").FromSystem()
                        .From(JTokenType.Object.ToString()).To("object").Nullable().FromSystem();
 
-            typeMapping.Map(JsonLanguage.Instance).To(TypeScriptLanguage.Instance)
+            typeMapping.Map<JsonLanguage>().To<TypeScriptLanguage>()
                        .From(JTokenType.Array.ToString()).To("Array").Nullable().Namespace("System.Collections.Generic").FromSystem()
                        .From(JTokenType.Boolean.ToString()).To("boolean").Nullable().FromSystem()
                        .From(JTokenType.Bytes.ToString()).To("number").Nullable().FromSystem()
@@ -40,7 +40,7 @@ namespace KY.Generator.Json.Extensions
             return typeMapping;
         }
 
-        public static TypeMappingEntry Get(this ITypeMapping typeMapping, JTokenType type, IMappableLanguage to)
+        public static TypeMappingEntry Get(this ITypeMapping typeMapping, JTokenType type, ILanguage to)
         {
             return typeMapping.Get(JsonLanguage.Instance, type.ToString(), to);
         }

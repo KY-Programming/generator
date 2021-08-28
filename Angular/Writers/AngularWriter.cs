@@ -1,11 +1,5 @@
-﻿using System.Collections.Generic;
-using KY.Core.Dependency;
+﻿using KY.Core.Dependency;
 using KY.Generator.Angular.Configurations;
-using KY.Generator.Configuration;
-using KY.Generator.Configurations;
-using KY.Generator.Output;
-using KY.Generator.Templates;
-using KY.Generator.Transfer;
 using KY.Generator.Transfer.Writers;
 
 namespace KY.Generator.Angular.Writers
@@ -19,15 +13,15 @@ namespace KY.Generator.Angular.Writers
             this.resolver = resolver;
         }
 
-        public void Write(AngularWriteConfiguration configuration, List<ITransferObject> transferObjects, IOutput output)
+        public void Write(AngularWriteConfiguration configuration)
         {
             if (configuration.Service != null)
             {
-                this.resolver.Create<AngularServiceWriter>().Write(transferObjects, configuration, output);
+                this.resolver.Create<AngularServiceWriter>().Write(configuration);
             }
             if (configuration.WriteModels)
             {
-                this.resolver.Create<AngularModelWriter>().Write(transferObjects, configuration.Model.RelativePath, output);
+                this.resolver.Create<AngularModelWriter>().Write(configuration.Model.RelativePath);
             }
         }
     }

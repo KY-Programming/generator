@@ -15,15 +15,15 @@ namespace KY.Generator.TypeScript.Transfer
 {
     public class TypeScriptModelWriter : ModelWriter
     {
-        public TypeScriptModelWriter(ITypeMapping typeMapping, Options options)
-            : base(typeMapping, options)
+        public TypeScriptModelWriter(ITypeMapping typeMapping, Options options, IEnumerable<ITransferObject> transferObjects, IList<FileTemplate> files)
+            : base(typeMapping, options, transferObjects, files)
         {
         }
 
-        protected override ClassTemplate WriteClass(ModelTransferObject model, string relativePath, List<FileTemplate> files)
+        protected override ClassTemplate WriteClass(ModelTransferObject model, string relativePath)
         {
             IOptions modelOptions = this.Options.Get(model);
-            ClassTemplate classTemplate = base.WriteClass(model, relativePath, files);
+            ClassTemplate classTemplate = base.WriteClass(model, relativePath);
             if (!model.IsAbstract && !classTemplate.IsInterface && modelOptions.Language.IsTypeScript())
             {
                 ConstructorTemplate constructor = classTemplate.AddConstructor();

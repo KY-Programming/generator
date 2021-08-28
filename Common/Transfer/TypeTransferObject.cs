@@ -10,6 +10,7 @@ namespace KY.Generator.Transfer
     public class TypeTransferObject : ITransferObject
     {
         public virtual string Name { get; set; }
+        public virtual string FileName { get; set; }
         public virtual string OriginalName { get; set; }
         public virtual string Namespace { get; set; }
         public virtual bool FromSystem { get; set; }

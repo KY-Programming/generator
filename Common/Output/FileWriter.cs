@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using KY.Core;
+using KY.Generator.Extensions;
 using KY.Generator.Languages;
 using KY.Generator.Templates;
 
@@ -10,25 +11,16 @@ namespace KY.Generator.Output
 {
     internal class FileWriter : IOutputCache
     {
+        private readonly IOptions options;
         private int indent;
-        private readonly StringBuilder cache;
-        private bool isLineClosed;
+        private readonly StringBuilder cache = new();
+        private bool isLineClosed = true;
 
-        public IFormattableLanguage Language { get; }
+        public IEnumerable<ICodeFragment> LastFragments => this.options.Language.CastSafeTo<BaseLanguage>()?.LastFragments;
 
-        public IEnumerable<ICodeFragment> LastFragments => this.Language.CastSafeTo<BaseLanguage>()?.LastFragments;
-
-        private FileWriter()
+        public FileWriter(IOptions options)
         {
-            this.cache = new StringBuilder();
-            this.indent = 0;
-            this.isLineClosed = true;
-        }
-
-        public FileWriter(IFormattableLanguage language)
-            : this()
-        {
-            this.Language = language;
+            this.options = options;
         }
 
         public IOutputCache Add(string code, bool keepIndent = false)
@@ -64,7 +56,7 @@ namespace KY.Generator.Output
         private void WriteIndent()
         {
             this.isLineClosed = false;
-            this.cache.Append("".PadLeft(this.indent * this.Language.Formatting.IdentCount, this.Language.Formatting.IndentChar));
+            this.cache.Append("".PadLeft(this.indent * this.options.Formatting.IndentCount, this.options.Formatting.IndentChar));
         }
 
         public IOutputCache ExtraIndent(int indents = 1)
@@ -73,7 +65,7 @@ namespace KY.Generator.Output
             {
                 this.WriteIndent();
             }
-            this.cache.Append("".PadLeft(indents * this.Language.Formatting.IdentCount, this.Language.Formatting.IndentChar));
+            this.cache.Append("".PadLeft(indents * this.options.Formatting.IndentCount, this.options.Formatting.IndentChar));
             return this;
         }
 
@@ -86,7 +78,7 @@ namespace KY.Generator.Output
         {
             foreach (ICodeFragment fragment in fragments.Where(x => x != null))
             {
-                this.Language.Write(fragment, this);
+                this.options.Language.Write(fragment, this);
             }
             return this;
         }
@@ -100,7 +92,7 @@ namespace KY.Generator.Output
                 {
                     this.Add(separator);
                 }
-                this.Language.Write(fragment, this);
+                this.options.Language.Write(fragment, this);
                 first = false;
             }
             return this;
@@ -108,7 +100,7 @@ namespace KY.Generator.Output
 
         public IOutputCache CloseLine()
         {
-            this.cache.AppendLine(this.Language.Formatting.LineClosing);
+            this.cache.AppendLine(this.options.Formatting.LineClosing);
             this.isLineClosed = true;
             return this;
         }
@@ -148,7 +140,7 @@ namespace KY.Generator.Output
         {
             if (this.cache.Length > 0 && !this.isLineClosed)
             {
-                if (this.Language.Formatting.StartBlockInNewLine)
+                if (this.options.Formatting.StartBlockInNewLine)
                 {
                     this.BreakLine();
                 }
@@ -157,12 +149,12 @@ namespace KY.Generator.Output
                     this.Add(" ");
                 }
             }
-            return this.Add(this.Language.Formatting.StartBlock).Indent();
+            return this.Add(this.options.Formatting.StartBlock).Indent();
         }
 
         public IOutputCache EndBlock(bool breakLine = true)
         {
-            return this.UnIndent().Add(this.Language.Formatting.EndBlock)
+            return this.UnIndent().Add(this.options.Formatting.EndBlock)
                        .If(breakLine).BreakLine().EndIf();
         }
 
@@ -178,7 +170,7 @@ namespace KY.Generator.Output
 
         public override string ToString()
         {
-            if (this.Language.Formatting.EndFileWithNewLine)
+            if (this.options.Formatting.EndFileWithNewLine)
             {
                 this.BreakLine();
             }

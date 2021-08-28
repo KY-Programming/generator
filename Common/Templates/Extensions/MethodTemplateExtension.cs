@@ -1,7 +1,4 @@
 using System.Collections.Generic;
-using KY.Generator.Configuration;
-using KY.Generator.Configurations;
-using KY.Generator.Languages;
 using KY.Generator.Models;
 
 namespace KY.Generator.Templates.Extensions

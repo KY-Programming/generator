@@ -15,14 +15,14 @@ namespace KY.Generator.Json.Writers
     {
         private bool WithReader { get; set; }
 
-        public ObjectWriter(ITypeMapping typeMapping, Options options)
-            : base(typeMapping, options)
+        public ObjectWriter(ITypeMapping typeMapping, Options options, IEnumerable<ITransferObject> transferObjects, IList<FileTemplate> files)
+            : base(typeMapping, options, transferObjects, files)
         { }
 
-        public void Write(IEnumerable<ITransferObject> transferObjects, string relativePath, IOutput output, bool withReader)
+        public void Write(string relativePath, bool withReader)
         {
             this.WithReader = withReader;
-            base.Write(transferObjects, relativePath, output);
+            base.Write(relativePath);
         }
 
         private void WriteReader(ClassTemplate classTemplate, ModelTransferObject model)
@@ -50,9 +50,9 @@ namespace KY.Generator.Json.Writers
                          .Code.AddLine(Code.Return(Code.Local("JsonConvert").GenericMethod("DeserializeObject", objectType, Code.Local("json"))));
         }
 
-        protected override ClassTemplate WriteClass(ModelTransferObject model, string relativePath, List<FileTemplate> files)
+        protected override ClassTemplate WriteClass(ModelTransferObject model, string relativePath)
         {
-            ClassTemplate classTemplate = base.WriteClass(model, relativePath, files);
+            ClassTemplate classTemplate = base.WriteClass(model, relativePath);
             if (model is JsonModelTransferObject && this.WithReader)
             {
                 this.WriteReader(classTemplate, model);

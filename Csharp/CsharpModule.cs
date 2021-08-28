@@ -10,7 +10,7 @@ namespace KY.Generator.Csharp
         public CsharpModule(IDependencyResolver dependencyResolver)
             : base(dependencyResolver)
         {
-            this.DependencyResolver.Bind<ILanguage>().To(CsharpLanguage.Instance);
+            this.DependencyResolver.Bind<ILanguage>().To<CsharpLanguage>();
         }
     }
 }

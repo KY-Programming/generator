@@ -8,13 +8,6 @@ namespace KY.Generator.TypeScript.Writers
 {
     public class AttributeWriter : ITemplateWriter
     {
-        protected BaseLanguage Language { get; }
-
-        public AttributeWriter(BaseLanguage language)
-        {
-            this.Language = language;
-        }
-
         public virtual void Write(ICodeFragment fragment, IOutputCache output)
         {
             AttributeTemplate template = (AttributeTemplate)fragment;
@@ -29,9 +22,9 @@ namespace KY.Generator.TypeScript.Writers
                 }
                 if (template.Properties.Count > 0)
                 {
-                    foreach (KeyValuePair<string, object> pair in template.Properties)
+                    foreach (KeyValuePair<string, ICodeFragment> pair in template.Properties)
                     {
-                        output.Add($"{pair.Key} = {this.Language.ConvertValue(pair.Value)}");
+                        output.Add($"{pair.Key} = ").Add(pair.Value);
                     }
                 }
                 output.Add(")")

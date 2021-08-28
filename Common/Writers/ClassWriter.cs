@@ -9,9 +9,16 @@ namespace KY.Generator.Writers
 {
     public class ClassWriter : ITemplateWriter
     {
+        private readonly IOptions options;
+
+        public ClassWriter(IOptions options)
+        {
+            this.options = options;
+        }
+
         public virtual void Write(ICodeFragment fragment, IOutputCache output)
         {
-            BaseLanguage language = output.Language.CastTo<BaseLanguage>();
+            BaseLanguage language = this.options.Language.CastTo<BaseLanguage>();
             ClassTemplate template = (ClassTemplate)fragment;
             output.Add(template.Comment);
             output.Add(template.Attributes);

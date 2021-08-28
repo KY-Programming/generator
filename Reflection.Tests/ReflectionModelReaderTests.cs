@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using KY.Generator.Models;
 using KY.Generator.Reflection.Readers;
 using KY.Generator.Transfer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -11,11 +12,15 @@ namespace KY.Generator.Reflection.Tests
     public class ReflectionModelReaderTests
     {
         private ReflectionModelReader reader;
+        private List<ITransferObject> transferObjects;
+        private IEnvironment environment;
 
         [TestInitialize]
         public void Initialize()
         {
-            this.reader = new ReflectionModelReader(new Options(new List<IGlobalOptionsReader>()));
+            this.environment = new Models.Environment();
+            this.transferObjects = new List<ITransferObject>();
+            this.reader = new ReflectionModelReader(new Options(new List<IGlobalOptionsReader>()), this.transferObjects, this.environment);
         }
 
         [TestMethod]
@@ -153,8 +158,7 @@ namespace KY.Generator.Reflection.Tests
 
         private List<ModelTransferObject> Read(Type type)
         {
-            List<ITransferObject> transferObjects = new List<ITransferObject>();
-            this.reader.Read(type, transferObjects);
+            this.reader.Read(type);
             return transferObjects.OfType<ModelTransferObject>().ToList();
         }
     }

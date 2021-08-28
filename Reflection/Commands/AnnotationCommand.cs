@@ -7,6 +7,9 @@ using KY.Core.Dependency;
 using KY.Generator.Command;
 using KY.Generator.Extensions;
 using KY.Generator.Output;
+using KY.Generator.Templates;
+using KY.Generator.Transfer;
+using Environment = KY.Generator.Models.Environment;
 
 namespace KY.Generator.Reflection.Commands
 {
@@ -21,7 +24,7 @@ namespace KY.Generator.Reflection.Commands
             this.resolver = resolver;
         }
 
-        public override IGeneratorCommandResult Run(IOutput output)
+        public override IGeneratorCommandResult Run()
         {
             if (string.IsNullOrEmpty(this.Parameters.Assembly))
             {
@@ -42,11 +45,10 @@ namespace KY.Generator.Reflection.Commands
             {
                 return this.SwitchAsync();
             }
-            DependencyResolver commandResolver = new(this.resolver);
-            Options.Bind(commandResolver);
-            CommandRunner commandRunner = commandResolver.Get<CommandRunner>();
             foreach (Type objectType in TypeHelper.GetTypes(result.Assembly))
             {
+                IDependencyResolver commandResolver = this.resolver.CloneForCommands();
+                CommandRunner commandRunner = commandResolver.Get<CommandRunner>();
                 List<Attribute> attributes = objectType.GetCustomAttributes().ToList();
                 List<RawCommand> commands = new();
                 foreach (IGeneratorCommandAttribute attribute in attributes.OfType<IGeneratorCommandAttribute>())
@@ -74,11 +76,16 @@ namespace KY.Generator.Reflection.Commands
                             }
                         }
                     }
-                    if (commands.Count > 0)
+                    foreach (RawCommand command in commands)
                     {
-                        commandRunner.Run(commands, output, this.TransferObjects.ToList());
+                        IGeneratorCommandResult commandResult = commandRunner.Run(command);
+                        if (!commandResult.Success)
+                        {
+                            return commandResult;
+                        }
                     }
                 }
+                this.resolver.Get<Environment>().TransferObjects.AddIfNotExists(commandResolver.Get<List<ITransferObject>>());
             }
             return this.Success();
         }

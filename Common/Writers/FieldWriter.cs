@@ -8,13 +8,6 @@ namespace KY.Generator.Writers
 {
     public class FieldWriter : ITemplateWriter
     {
-        protected BaseLanguage Language { get; }
-
-        public FieldWriter(BaseLanguage language)
-        {
-            this.Language = language;
-        }
-
         public virtual void Write(ICodeFragment fragment, IOutputCache output)
         {
             FieldTemplate template = (FieldTemplate)fragment;

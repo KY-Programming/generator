@@ -13,7 +13,14 @@ namespace KY.Generator.Tsql.Readers
 {
     public class TsqlReader : ITransferReader
     {
-        public void Read(TsqlReadConfiguration configuration, List<ITransferObject> transferObjects)
+        private readonly List<ITransferObject> transferObjects;
+
+        public TsqlReader(List<ITransferObject> transferObjects)
+        {
+            this.transferObjects = transferObjects;
+        }
+
+        public void Read(TsqlReadConfiguration configuration)
         {
             this.Validate(configuration);
             TsqlTypeReader typeReader = new TsqlTypeReader(configuration.Connection);

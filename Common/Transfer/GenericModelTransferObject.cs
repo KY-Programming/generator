@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using KY.Generator.Languages;
-using KY.Generator.Models;
 using KY.Generator.Templates;
 
 namespace KY.Generator.Transfer
@@ -13,6 +12,12 @@ namespace KY.Generator.Transfer
         public override string Name
         {
             get => this.target.Name;
+            set => throw new InvalidOperationException();
+        }
+
+        public override string FileName
+        {
+            get => this.target.FileName;
             set => throw new InvalidOperationException();
         }
 

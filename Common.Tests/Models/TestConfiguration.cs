@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using KY.Generator.Configuration;
 using KY.Generator.Configurations;
 
 namespace KY.Generator.Common.Tests.Models
@@ -15,12 +14,10 @@ namespace KY.Generator.Common.Tests.Models
         public List<string> Usings { get; }
         public Guid? OutputId { get; set; }
         public bool FormatNames { get; set; }
-        public ConfigurationFormatting Formatting { get; }
 
         public TestConfiguration()
         {
             this.Usings = new List<string>();
-            this.Formatting = new ConfigurationFormatting();
         }
     }
 }

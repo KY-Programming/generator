@@ -7,6 +7,13 @@ namespace KY.Generator.TypeScript.Writers
 {
     public class ThrowWriter : ITemplateWriter
     {
+        private readonly IOptions options;
+
+        public ThrowWriter(IOptions options)
+        {
+            this.options = options;
+        }
+
         public virtual void Write(ICodeFragment fragment, IOutputCache output)
         {
             ThrowTemplate template = (ThrowTemplate)fragment;
@@ -14,7 +21,11 @@ namespace KY.Generator.TypeScript.Writers
             {
                 output.Add("throw new Error(")
                       .Add(template.Parameters[2])
-                      .Add(" + \" Actual value: \" + ")
+                      .Add(" + ")
+                      .Add(this.options.Formatting.Quote)
+                      .Add(" Actual value: ")
+                      .Add(this.options.Formatting.Quote)
+                      .Add(" + ")
                       .Add(template.Parameters[1])
                       .Add(")");
             }

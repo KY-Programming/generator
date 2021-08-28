@@ -8,6 +8,10 @@ namespace KY.Generator.Csharp.Writers
 {
     public class CsharpClassWriter : ClassWriter
     {
+        public CsharpClassWriter(IOptions options)
+            : base(options)
+        { }
+
         public override void Write(ICodeFragment fragment, IOutputCache output)
         {
             AssemblyName assemblyName = (Assembly.GetEntryAssembly() ?? Assembly.GetCallingAssembly()).GetName();

@@ -14,9 +14,9 @@ namespace KY.Generator.Reflection.Writers
             this.modelWriter = modelWriter;
         }
 
-        public void Write(IEnumerable<ITransferObject> transferObjects, string relativePath, IOutput output)
+        public void Write(string relativePath)
         {
-            this.modelWriter.Write(transferObjects, relativePath, output);
+            this.modelWriter.Write(relativePath);
         }
     }
 }

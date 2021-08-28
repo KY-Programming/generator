@@ -17,15 +17,17 @@ namespace KY.Generator.AspDotNet.Readers
         private readonly ReflectionModelReader modelReader;
         private readonly AspDotNetOptions aspOptions;
         private readonly Options options;
+        private readonly List<ITransferObject> transferObjects;
 
-        public AspDotNetControllerReader(ReflectionModelReader modelReader, AspDotNetOptions aspOptions, Options options)
+        public AspDotNetControllerReader(ReflectionModelReader modelReader, AspDotNetOptions aspOptions, Options options, List<ITransferObject> transferObjects)
         {
             this.modelReader = modelReader;
             this.aspOptions = aspOptions;
             this.options = options;
+            this.transferObjects = transferObjects;
         }
 
-        public virtual void Read(AspDotNetReadConfiguration configuration, List<ITransferObject> transferObjects)
+        public virtual void Read(AspDotNetReadConfiguration configuration)
         {
             configuration.Controller.AssertIsNotNull($"ASP: {nameof(configuration.Controller)}");
             configuration.Controller.Name.AssertIsNotNull($"ASP: {nameof(configuration.Controller)}.{nameof(configuration.Controller.Name)}");
@@ -99,7 +101,7 @@ namespace KY.Generator.AspDotNet.Readers
                 {
                     HttpServiceActionTransferObject action = new();
                     action.Name = actionTypes.Count == 1 ? method.Name : $"{actionType.Key}{method.Name.FirstCharToUpper()}";
-                    action.ReturnType = this.modelReader.Read(returnType, transferObjects, methodOptions);
+                    action.ReturnType = this.modelReader.Read(returnType, methodOptions);
                     action.Route = actionType.Value ?? methodAspOptions.Route;
                     if (action.Route?.Contains(":") ?? false)
                     {
@@ -120,16 +122,17 @@ namespace KY.Generator.AspDotNet.Readers
                         string fullRoute = $"{controller.Route}/{action.Route}";
                         HttpServiceActionParameterTransferObject actionParameter = new();
                         actionParameter.Name = parameter.Name;
-                        actionParameter.Type = this.modelReader.Read(parameter.ParameterType, transferObjects, methodOptions);
+                        actionParameter.Type = this.modelReader.Read(parameter.ParameterType, methodOptions);
                         actionParameter.FromBody = parameterOptions.IsFromBody || action.Type != HttpServiceActionTypeTransferObject.Get && !parameter.ParameterType.IsValueType && parameter.ParameterType != typeof(string);
                         actionParameter.FromQuery = parameterOptions.IsFromQuery;
                         actionParameter.Inline = fullRoute.Contains($"{{{parameter.Name}}}");
-                        actionParameter.InlineIndex = actionParameter.Inline && action.Route != null ? action.Route.IndexOf($"{{{parameter.Name}}}", StringComparison.Ordinal) : 0;
+                        actionParameter.InlineIndex = actionParameter.Inline && action.Route != null ? action.Route.IndexOf($"{{{parameter.Name}}}") : 0;
                         actionParameter.IsOptional = parameter.IsOptional;
                         if (fullRoute.Contains($"{{{parameter.Name}?}}"))
                         {
                             actionParameter.Inline = true;
                             actionParameter.IsOptional = true;
+                            actionParameter.InlineIndex = fullRoute.IndexOf($"{{{parameter.Name}?}}");
                             action.Route = action.Route.Replace($"{{{parameter.Name}?}}", $"{{{parameter.Name}}}");
                         }
                         action.Parameters.Add(actionParameter);

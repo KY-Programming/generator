@@ -6,6 +6,7 @@ using KY.Generator.TypeScript.Extensions;
 using KY.Generator.TypeScript.Languages;
 using KY.Generator.Writers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using FileWriter = KY.Generator.Output.FileWriter;
 
 namespace KY.Generator.TypeScript.Tests
 {
@@ -14,12 +15,15 @@ namespace KY.Generator.TypeScript.Tests
     {
         private IDependencyResolver resolver;
         private IOutputCache output;
+        private IOptions options;
 
         [TestInitialize]
         public void Initialize()
         {
             this.resolver = new DependencyResolver();
-            this.output = new FileWriter(TypeScriptLanguage.Instance);
+            this.options = new OptionsSet(null, null);
+            this.options.Language = new TypeScriptLanguage(this.resolver);
+            this.output = new FileWriter(this.options);
         }
 
 
@@ -29,7 +33,7 @@ namespace KY.Generator.TypeScript.Tests
             ClassTemplate template = new ClassTemplate((NamespaceTemplate)null, "test");
             template.AddField("field1", Code.Type("string"));
             template.AddConstructor();
-            ClassWriter writer = new ClassWriter();
+            ClassWriter writer = new ClassWriter(this.options);
             writer.Write(template, this.output);
             Assert.AreEqual("export class test {\r\n    private field1: string;\r\n\r\n    public constructor() {\r\n    }\r\n}", this.output.ToString());
         }

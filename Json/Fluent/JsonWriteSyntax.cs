@@ -1,12 +1,16 @@
-﻿using KY.Generator.Json.Commands;
+﻿using System.Collections.Generic;
+using KY.Generator.Command;
+using KY.Generator.Json.Commands;
 using KY.Generator.Syntax;
 
 namespace KY.Generator
 {
-    public class JsonWriteSyntax : IJsonWriteSyntax, IJsonWriteModelSyntax, IJsonWriteModelOrReaderSyntax
+    public class JsonWriteSyntax : IJsonWriteSyntax, IJsonWriteModelSyntax, IJsonWriteModelOrReaderSyntax, IExecutableSyntax
     {
         private JsonWriteCommand command;
         private readonly IWriteFluentSyntaxInternal syntax;
+
+        public List<IGeneratorCommand> Commands { get; } = new();
 
         public JsonWriteSyntax(IWriteFluentSyntaxInternal syntax)
         {
@@ -19,7 +23,7 @@ namespace KY.Generator
             this.command.Parameters.RelativePath = relativePath;
             this.command.Parameters.ModelName = name;
             this.command.Parameters.ModelNamespace = nameSpace;
-            this.syntax.Commands.Add(this.command);
+            this.Commands.Add(this.command);
             return this;
         }
 

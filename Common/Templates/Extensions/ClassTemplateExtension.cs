@@ -11,9 +11,9 @@ namespace KY.Generator.Templates.Extensions
             return classTemplate.AddUsing(new UsingTemplate(nameSpace, type, path));
         }
 
-        public static UsingTemplate AddUsing(this ClassTemplate classTemplate, TypeTransferObject type, Func<string> fileNameAction)
+        public static UsingTemplate AddUsing(this ClassTemplate classTemplate, TypeTransferObject type, string path)
         {
-            return classTemplate.AddUsing(new LinkedUsingTemplate(type, fileNameAction));
+            return classTemplate.AddUsing(new LinkedUsingTemplate(type, path));
         }
 
         public static UsingTemplate AddUsing(this ClassTemplate classTemplate, UsingTemplate usingTemplate)

@@ -40,6 +40,9 @@ namespace KY.Generator.Reflection
                     case GenerateWithoutHeaderAttribute:
                         entry.Part.AddHeader = false;
                         break;
+                    case GenerateOnlySubTypesAttribute:
+                        entry.Part.SkipSelf = true;
+                        break;
                 }
             }
         }

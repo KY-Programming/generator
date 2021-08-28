@@ -1,17 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using KY.Core.Dependency;
 using KY.Generator.Command;
 using KY.Generator.Syntax;
 
 namespace KY.Generator.Sqlite.Fluent
 {
-    public class SqliteReadSyntax : ISqliteReadSyntax
+    public class SqliteReadSyntax : ISqliteReadSyntax, IExecutableSyntax
     {
         private readonly IReadFluentSyntaxInternal syntax;
 
         public IDependencyResolver Resolver => this.syntax.Resolver;
-        public IList<IGeneratorCommand> Commands => this.syntax.Commands;
+
+        public List<IGeneratorCommand> Commands { get; } = new();
 
         public SqliteReadSyntax(IReadFluentSyntaxInternal syntax)
         {

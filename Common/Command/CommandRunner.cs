@@ -5,20 +5,21 @@ using KY.Core;
 using KY.Core.Dependency;
 using KY.Generator.Extensions;
 using KY.Generator.Output;
-using KY.Generator.Transfer;
 
 namespace KY.Generator.Command
 {
     public class CommandRunner
     {
         private readonly IDependencyResolver resolver;
+        private readonly IOutput output;
 
-        public CommandRunner(IDependencyResolver resolver)
+        public CommandRunner(IDependencyResolver resolver, IOutput output)
         {
             this.resolver = resolver;
+            this.output = output;
         }
 
-        public List<IGeneratorCommand> Convert(IEnumerable<RawCommand> commands, List<ITransferObject> transferObjects = null)
+        public List<IGeneratorCommand> Convert(IEnumerable<RawCommand> commands)
         {
             bool allCommandsFound = true;
             List<IGeneratorCommand> foundCommands = new List<IGeneratorCommand>();
@@ -33,7 +34,6 @@ namespace KY.Generator.Command
                 else
                 {
                     command.Parse(rawCommand.Parameters);
-                    command.TransferObjects = transferObjects;
                     foundCommands.Add(command);
                 }
             }
@@ -43,29 +43,30 @@ namespace KY.Generator.Command
             }
             return foundCommands;
         }
-        
 
         public IGeneratorCommand FindCommand(string command)
         {
             return this.resolver.Get<List<IGeneratorCommand>>().SingleOrDefault(x => x.Names.Any(name => name.Equals(command, StringComparison.InvariantCultureIgnoreCase)));
         }
 
-        public IGeneratorCommandResult Run(IEnumerable<RawCommand> commands, IOutput output, List<ITransferObject> transferObjects)
+        public IGeneratorCommandResult Run(IEnumerable<RawCommand> commands)
         {
-            return this.Run(this.Convert(commands, transferObjects), output);
+            return this.Run(this.Convert(commands));
         }
 
-        public IGeneratorCommandResult Run(RawCommand command, IOutput output, List<ITransferObject> transferObjects)
+        public IGeneratorCommandResult Run(RawCommand command)
         {
-            return this.Run(command.Yield(), output, transferObjects);
+            return this.Run(command.Yield());
         }
 
-        public IGeneratorCommandResult Run(IEnumerable<IGeneratorCommand> commands, IOutput output)
+        public IGeneratorCommandResult Run(IEnumerable<IGeneratorCommand> commands)
         {
+            List<IGeneratorCommand> list = commands.ToList();
             IGeneratorCommandResult result = null;
-            foreach (IGeneratorCommand command in commands)
+            list.ForEach(command => command.Prepare());
+            foreach (IGeneratorCommand command in list)
             {
-                result = command.Run(output);
+                result = command.Run();
                 if (!result.Success)
                 {
                     return result;
@@ -74,11 +75,11 @@ namespace KY.Generator.Command
             return result ?? new SuccessResult();
         }
 
-        public IGeneratorCommandResult Run(IGeneratorCommand command, IOutput output)
+        public IGeneratorCommandResult Run(IGeneratorCommand command)
         {
             if (!string.IsNullOrEmpty(command.Parameters.Output))
             {
-                output.Move(command.Parameters.Output);
+                this.output.Move(command.Parameters.Output);
             }
             if (!command.Parameters.SkipAsyncCheck)
             {
@@ -111,7 +112,7 @@ namespace KY.Generator.Command
                     }
                 }
             }
-            return command.Run(output);
+            return command.Run();
         }
     }
 }

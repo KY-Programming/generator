@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using KY.Core;
+using KY.Generator.Extensions;
+using KY.Generator.Models;
 using KY.Generator.Reflection.Extensions;
 using KY.Generator.Reflection.Language;
 using KY.Generator.Transfer;
@@ -12,13 +14,17 @@ namespace KY.Generator.Reflection.Readers
     public class ReflectionModelReader
     {
         private readonly Options options;
+        private readonly List<ITransferObject> transferObjects;
+        private readonly IEnvironment environment;
 
-        public ReflectionModelReader(Options options)
+        public ReflectionModelReader(Options options, List<ITransferObject> transferObjects, IEnvironment environment)
         {
             this.options = options;
+            this.transferObjects = transferObjects;
+            this.environment = environment;
         }
 
-        public ModelTransferObject Read(Type type, List<ITransferObject> transferObjects, IOptions caller = null)
+        public ModelTransferObject Read(Type type, IOptions caller = null)
         {
             ModelTransferObject model = new() { Language = ReflectionLanguage.Instance };
             model.Name = model.OriginalName = type.Name;
@@ -28,22 +34,29 @@ namespace KY.Generator.Reflection.Readers
             model.FromSystem = type.Namespace != null && type.Namespace.StartsWith("System");
 
             IOptions typeOptions = this.options.Get(type, caller);
-            this.options.Set(model, typeOptions);
 
             if (model.IsGeneric)
             {
                 model.Name = type.Name.Split('`').First();
             }
-            ModelTransferObject existingModel = transferObjects.OfType<ModelTransferObject>().FirstOrDefault(entry => entry.Equals(model));
+            ModelTransferObject existingModel = this.transferObjects.Concat(this.environment.TransferObjects)
+                                                    .OfType<ModelTransferObject>()
+                                                    .FirstOrDefault(entry => entry.Equals(model));
             if (existingModel != null)
             {
+                this.transferObjects.AddIfNotExists(existingModel);
                 if (model.IsGeneric)
                 {
                     existingModel = new GenericModelTransferObject(existingModel);
-                    this.ReadGenericArguments(type, existingModel, transferObjects, typeOptions);
+                    this.ReadGenericArguments(type, existingModel, typeOptions);
+                }
+                if (!this.options.Contains(existingModel))
+                {
+                    this.options.Set(existingModel, typeOptions);
                 }
                 return existingModel;
             }
+            this.options.Set(model, typeOptions);
             if (typeOptions.Ignore)
             {
                 Logger.Trace($"{type.Name} ({type.Namespace}) ignored (decorated with {nameof(GenerateIgnoreAttribute)})");
@@ -51,15 +64,15 @@ namespace KY.Generator.Reflection.Readers
             }
             if (type.IsArray)
             {
-                this.ReadArray(type, model, transferObjects);
+                this.ReadArray(type, model);
             }
             else if (type.IsGenericType && model.FromSystem)
             {
-                this.ReadGenericFromSystem(type, model, transferObjects);
+                this.ReadGenericFromSystem(type, model);
             }
             else if (type.IsEnum)
             {
-                transferObjects.Add(model);
+                this.transferObjects.Add(model);
                 this.ReadEnum(type, model);
             }
             else if (type.ContainsGenericParameters)
@@ -69,8 +82,8 @@ namespace KY.Generator.Reflection.Readers
             }
             else if (!model.FromSystem)
             {
-                transferObjects.Add(model);
-                this.ReadClass(type, model, transferObjects, caller);
+                this.transferObjects.Add(model);
+                this.ReadClass(type, model, caller);
             }
             if (model.Name == nameof(Nullable))
             {
@@ -87,21 +100,21 @@ namespace KY.Generator.Reflection.Readers
             return model;
         }
 
-        private void ReadArray(Type type, ModelTransferObject model, List<ITransferObject> transferObjects)
+        private void ReadArray(Type type, ModelTransferObject model)
         {
             Logger.Trace($"Reflection read array {type.Name} ({type.Namespace})");
             model.Name = "Array";
             model.IsGeneric = true;
             model.HasUsing = false;
-            model.Generics.Add(new GenericAliasTransferObject { Type = this.Read(type.GetElementType(), transferObjects) });
+            model.Generics.Add(new GenericAliasTransferObject { Type = this.Read(type.GetElementType()) });
         }
 
-        private void ReadGenericFromSystem(Type type, ModelTransferObject model, List<ITransferObject> transferObjects)
+        private void ReadGenericFromSystem(Type type, ModelTransferObject model)
         {
             Logger.Trace($"Reflection read generic system type {type.Name}<{string.Join(",", type.GetGenericArguments().Select(x => x.Name))}> ({type.Namespace})");
             foreach (Type argument in type.GenericTypeArguments)
             {
-                model.Generics.Add(new GenericAliasTransferObject { Type = this.Read(argument, transferObjects) });
+                model.Generics.Add(new GenericAliasTransferObject { Type = this.Read(argument) });
             }
         }
 
@@ -128,7 +141,7 @@ namespace KY.Generator.Reflection.Readers
             }
         }
 
-        private void ReadClass(Type type, ModelTransferObject model, List<ITransferObject> transferObjects, IOptions caller)
+        private void ReadClass(Type type, ModelTransferObject model, IOptions caller)
         {
             Logger.Trace($"Reflection read type {type.Name} ({type.Namespace})");
             if (type.BaseType != typeof(object) && type.BaseType != typeof(ValueType) && type.BaseType != null)
@@ -136,12 +149,12 @@ namespace KY.Generator.Reflection.Readers
                 IOptions baseOptions = this.options.Get(type.BaseType);
                 if (!baseOptions.Ignore)
                 {
-                    model.BasedOn = this.Read(type.BaseType, transferObjects, caller);
+                    model.BasedOn = this.Read(type.BaseType, caller);
                 }
             }
             if (type.IsGenericType)
             {
-                type = this.ReadGenericArguments(type, model, transferObjects, caller);
+                type = this.ReadGenericArguments(type, model, caller);
             }
 
             model.IsInterface = type.IsInterface;
@@ -153,8 +166,8 @@ namespace KY.Generator.Reflection.Readers
                 {
                     continue;
                 }
-                ModelTransferObject interfaceTransferObject = this.Read(interFace, transferObjects, caller);
-                if (transferObjects.Contains(interfaceTransferObject))
+                ModelTransferObject interfaceTransferObject = this.Read(interFace, caller);
+                if (this.transferObjects.Contains(interfaceTransferObject))
                 {
                     model.Interfaces.Add(interfaceTransferObject);
                 }
@@ -170,7 +183,7 @@ namespace KY.Generator.Reflection.Readers
                 FieldTransferObject fieldTransferObject = new()
                                                           {
                                                               Name = field.Name,
-                                                              Type = this.Read(field.FieldType, transferObjects, fieldOptions),
+                                                              Type = this.Read(field.FieldType, fieldOptions),
                                                               Default = field.GetValue(null)
                                                           };
                 model.Constants.Add(fieldTransferObject);
@@ -188,7 +201,7 @@ namespace KY.Generator.Reflection.Readers
                 FieldTransferObject fieldTransferObject = new()
                                                           {
                                                               Name = field.Name,
-                                                              Type = this.Read(field.FieldType, transferObjects, fieldOptions)
+                                                              Type = this.Read(field.FieldType, fieldOptions)
                                                           };
                 model.Fields.Add(fieldTransferObject);
                 this.options.Set(fieldTransferObject, fieldOptions);
@@ -204,7 +217,7 @@ namespace KY.Generator.Reflection.Readers
                 PropertyTransferObject propertyTransferObject = new()
                                                                 {
                                                                     Name = property.Name,
-                                                                    Type = this.Read(property.PropertyType, transferObjects, propertyOptions),
+                                                                    Type = this.Read(property.PropertyType, propertyOptions),
                                                                     Attributes = property.GetCustomAttributes().ToTransferObjects().ToList()
                                                                 };
                 model.Properties.Add(propertyTransferObject);
@@ -212,7 +225,7 @@ namespace KY.Generator.Reflection.Readers
             }
         }
 
-        private Type ReadGenericArguments(Type type, ModelTransferObject model, List<ITransferObject> transferObjects, IOptions caller)
+        private Type ReadGenericArguments(Type type, ModelTransferObject model, IOptions caller)
         {
             Type genericType = type.GetGenericTypeDefinition();
             model.Generics.Clear();
@@ -224,8 +237,8 @@ namespace KY.Generator.Reflection.Readers
                     Type argument = type.GenericTypeArguments[index];
                     model.Generics.Add(new GenericAliasTransferObject
                                        {
-                                           Alias = this.Read(alias, transferObjects),
-                                           Type = this.Read(argument, transferObjects, caller)
+                                           Alias = this.Read(alias),
+                                           Type = this.Read(argument, caller)
                                        });
                 }
                 type = genericType;

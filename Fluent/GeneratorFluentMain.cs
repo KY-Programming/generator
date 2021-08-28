@@ -4,6 +4,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using KY.Core;
 using KY.Core.Dependency;
+using KY.Generator.Extensions;
 using KY.Generator.Syntax;
 
 namespace KY.Generator
@@ -78,15 +79,26 @@ namespace KY.Generator
         }
 
         /// <inheritdoc />
-        public IDoReadFluentSyntax SetMember<T>(Expression<T> memberAction, Action<ISetFluentSyntax> action)
+        public IDoReadFluentSyntax SetMember<T>(Expression<Func<T, object>> memberExpression, Action<ISetFluentSyntax> action)
         {
-            return this.Create().CastTo<IDoReadFluentSyntax>().SetMember(memberAction, action);
+            return this.Create().CastTo<IDoReadFluentSyntax>().SetMember(memberExpression, action);
+        }
+
+        /// <inheritdoc />
+        public IDoReadFluentSyntax SetMember<T>(Expression<Action<T>> memberExpression, Action<ISetFluentSyntax> action)
+        {
+            return this.Create().CastTo<IDoReadFluentSyntax>().SetMember(memberExpression, action);
+        }
+
+        /// <inheritdoc />
+        public IDoReadFluentSyntax SetMember<T>(string name, Action<ISetFluentSyntax> action)
+        {
+            return this.Create().CastTo<IDoReadFluentSyntax>().SetMember<T>(name, action);
         }
 
         private FluentSyntax Create()
         {
-            DependencyResolver resolver = new(this.Resolver);
-            Options.Bind(resolver);
+            IDependencyResolver resolver = this.Resolver.CloneForCommands();
             FluentSyntax syntax = resolver.Create<FluentSyntax>();
             this.Syntaxes.Add(syntax);
             return syntax;

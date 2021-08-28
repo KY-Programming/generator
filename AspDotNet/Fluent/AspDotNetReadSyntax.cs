@@ -1,12 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 using KY.Generator.AspDotNet.Commands;
+using KY.Generator.Command;
 using KY.Generator.Syntax;
 
 namespace KY.Generator.AspDotNet.Fluent
 {
-    internal class AspDotNetReadSyntax : IAspDotNetReadSyntax
+    internal class AspDotNetReadSyntax : IAspDotNetReadSyntax, IExecutableSyntax
     {
         private readonly IReadFluentSyntaxInternal syntax;
+
+        public List<IGeneratorCommand> Commands { get; } = new();
 
         public AspDotNetReadSyntax(IReadFluentSyntaxInternal syntax)
         {
@@ -20,7 +24,7 @@ namespace KY.Generator.AspDotNet.Fluent
             command.Parameters.Assembly = type.Assembly.Location;
             command.Parameters.Namespace = type.Namespace;
             command.Parameters.Name = type.Name;
-            this.syntax.Commands.Add(command);
+            this.Commands.Add(command);
             return new AspDotNetControllerSyntax(this, command);
         }
 
@@ -31,7 +35,7 @@ namespace KY.Generator.AspDotNet.Fluent
             command.Parameters.Assembly = type.Assembly.Location;
             command.Parameters.Namespace = type.Namespace;
             command.Parameters.Name = type.Name;
-            this.syntax.Commands.Add(command);
+            this.Commands.Add(command);
             return new AspDotNetHubSyntax(this, command);
         }
 

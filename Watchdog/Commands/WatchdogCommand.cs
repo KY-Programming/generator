@@ -23,7 +23,7 @@ namespace KY.Generator.Watchdog.Commands
             this.resolver = resolver;
         }
 
-        public override IGeneratorCommandResult Run(IOutput output)
+        public override IGeneratorCommandResult Run()
         {
             Logger.Trace("Execute watchdog command...");
             if (this.Parameters.IsAsync)

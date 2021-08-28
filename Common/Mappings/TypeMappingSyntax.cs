@@ -1,4 +1,4 @@
-﻿using KY.Generator.Languages;
+﻿using System;
 using KY.Generator.Templates;
 
 namespace KY.Generator.Mappings
@@ -6,20 +6,20 @@ namespace KY.Generator.Mappings
     internal class TypeMappingSyntax : ITypeMappingMapSyntax, ITypeMappingFromSyntax, ITypeMappingTypeOrToDetailsSyntax
     {
         private readonly TypeMapping mapping;
-        private readonly IMappableLanguage fromLanguage;
-        private IMappableLanguage toLanguage;
+        private readonly Type fromLanguage;
+        private Type toLanguage;
         private string fromType;
         private TypeMappingEntry entry;
 
-        public TypeMappingSyntax(TypeMapping mapping, IMappableLanguage fromLanguage)
+        public TypeMappingSyntax(TypeMapping mapping, Type fromLanguage)
         {
             this.mapping = mapping;
             this.fromLanguage = fromLanguage;
         }
 
-        ITypeMappingTypeSyntax ITypeMappingMapSyntax.To(IMappableLanguage language)
+        ITypeMappingTypeSyntax ITypeMappingMapSyntax.To<T>()
         {
-            this.toLanguage = language;
+            this.toLanguage = typeof(T);
             return this;
         }
 

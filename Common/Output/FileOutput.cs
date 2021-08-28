@@ -4,25 +4,28 @@ using System.IO;
 using System.Linq;
 using KY.Core;
 using KY.Core.DataAccess;
+using KY.Generator.Models;
+using Environment = System.Environment;
 
 namespace KY.Generator.Output
 {
     public class FileOutput : IOutput
     {
-        private readonly List<IOutputAction> actions;
+        private readonly IEnvironment environment;
+        private readonly List<IOutputAction> actions = new();
         public string BasePath { get; private set; }
 
-        public FileOutput(string basePath)
+        public FileOutput(IEnvironment environment, string basePath)
         {
-            this.actions = new List<IOutputAction>();
+            this.environment = environment;
             this.BasePath = basePath;
         }
 
-        public void Write(string fileName, string content, Guid? outputId)
+        public void Write(string fileName, string content)
         {
             string filePath = this.ToFilePath(fileName);
             this.RemovePreviousActions(filePath);
-            this.actions.Add(new OutputWriteAction(filePath, content, outputId));
+            this.actions.Add(new OutputWriteAction(filePath, content, this.environment.OutputId));
         }
 
         public void Delete(string fileName)
@@ -32,10 +35,10 @@ namespace KY.Generator.Output
             this.actions.Add(new OutputDeleteAction(filePath));
         }
 
-        public void RemoveOutputId(string filePath, Guid outputId, string fileContent = null)
+        public void RemoveOutputId(string filePath, string fileContent = null)
         {
             this.RemovePreviousActions(filePath);
-            this.actions.Add(new OutputRemoveIdAction(filePath, outputId, fileContent));
+            this.actions.Add(new OutputRemoveIdAction(filePath, this.environment.OutputId, fileContent));
         }
 
         public void Execute()
@@ -43,9 +46,9 @@ namespace KY.Generator.Output
             this.actions.ForEach(action => action.Execute());
         }
 
-        public void DeleteAllRelatedFiles(Guid? outputId, string relativePath = null)
+        public void DeleteAllRelatedFiles(string relativePath = null)
         {
-            if (outputId == null)
+            if (this.environment.OutputId == Guid.Empty)
             {
                 return;
             }
@@ -62,7 +65,7 @@ namespace KY.Generator.Output
                 {
                     string content = FileSystem.ReadAllText(file);
                     List<Guid> outputIds = OutputFileHelper.GetOutputIds(content).ToList();
-                    if (!outputIds.Contains(outputId.Value))
+                    if (!outputIds.Contains(this.environment.OutputId))
                     {
                         continue;
                     }
@@ -72,7 +75,7 @@ namespace KY.Generator.Output
                     }
                     else
                     {
-                        this.RemoveOutputId(file, outputId.Value, content);
+                        this.RemoveOutputId(file, content);
                     }
                 }
             }

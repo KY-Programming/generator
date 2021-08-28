@@ -9,8 +9,6 @@ namespace KY.Generator.Output
         private readonly IOutputCache output;
         private readonly bool condition;
 
-        public IFormattableLanguage Language => this.output.Language;
-
         public IEnumerable<ICodeFragment> LastFragments => this.output.LastFragments;
 
         public FileWriterCondition(IOutputCache output, bool condition)

@@ -13,12 +13,15 @@ namespace KY.Generator.Common.Tests
     {
         private IDependencyResolver resolver;
         private ModelWriter writer;
+        private List<ITransferObject> transferObjects;
 
         [TestInitialize]
         public void Initialize()
         {
+            this.transferObjects = new ();
             this.resolver = new DependencyResolver();
             this.resolver.Bind<ITypeMapping>().ToSingleton<TypeMapping>();
+            this.resolver.Bind<List<ITransferObject>>().To(this.transferObjects);
             this.writer = this.resolver.Create<ModelWriter>();
         }
 
@@ -26,14 +29,13 @@ namespace KY.Generator.Common.Tests
         public void File()
         {
             TestOutput output = new();
-            List<ModelTransferObject> transferObjects = new();
             ModelTransferObject model = new()
                                         {
                                             Name = "Test1",
-                                            Language = new TestLanguage()
+                                            Language = new TestLanguage(this.resolver)
                                         };
             transferObjects.Add(model);
-            this.writer.Write(transferObjects, string.Empty, output);
+            this.writer.Write(string.Empty);
             Assert.AreEqual(1, output.Files.Count, "Unexpected number of files");
             Assert.AreEqual("Test1", output.Files[0].Name, "Unexpected file name");
         }

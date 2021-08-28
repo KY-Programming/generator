@@ -9,7 +9,7 @@ namespace KY.Generator.Common.Tests.Models
     {
         public List<TestFile> Files { get; } = new();
 
-        public void Write(string fileName, string content, Guid? outputId)
+        public void Write(string fileName, string content)
         {
             this.Files.Add(new TestFile(fileName, content));
         }
@@ -19,7 +19,7 @@ namespace KY.Generator.Common.Tests.Models
             this.Files.Remove(this.Files.FirstOrDefault(x => x.Name == fileName));
         }
 
-        public void DeleteAllRelatedFiles(Guid? outputId, string relativePath = null)
+        public void DeleteAllRelatedFiles(string relativePath = null)
         { }
 
         public void Execute()

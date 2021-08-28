@@ -10,7 +10,7 @@ namespace KY.Generator.Commands
     {
         public override string[] Names { get; } = { "version", "v" };
 
-        public override IGeneratorCommandResult Run(IOutput output)
+        public override IGeneratorCommandResult Run()
         {
             Logger.Trace("Execute version command...");
             Logger.Trace("Loaded assemblies:");

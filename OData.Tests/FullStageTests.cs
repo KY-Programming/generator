@@ -4,7 +4,6 @@ using KY.Core;
 using KY.Core.Dependency;
 using KY.Generator.Angular;
 using KY.Generator.Angular.Configurations;
-using KY.Generator.Configuration;
 using KY.Generator.Mappings;
 using KY.Generator.OData.Tests.Properties;
 using KY.Generator.Output;

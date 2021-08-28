@@ -1,11 +1,7 @@
 ﻿using System.Collections.Generic;
 using KY.Core.Dependency;
 using KY.Generator.AspDotNet.Configurations;
-using KY.Generator.Configuration;
-using KY.Generator.Configurations;
-using KY.Generator.Output;
 using KY.Generator.Templates;
-using KY.Generator.Transfer;
 using KY.Generator.Transfer.Writers;
 
 namespace KY.Generator.AspDotNet.Writers
@@ -21,7 +17,7 @@ namespace KY.Generator.AspDotNet.Writers
             this.options = options;
         }
 
-        public virtual void Write(AspDotNetWriteConfiguration configuration, List<ITransferObject> transferObjects, IOutput output)
+        public virtual void Write(AspDotNetWriteConfiguration configuration)
         {
             List<FileTemplate> files = new List<FileTemplate>();
             if (configuration.GeneratorController != null)
@@ -30,9 +26,8 @@ namespace KY.Generator.AspDotNet.Writers
             }
             if (configuration.Controllers.Count > 0)
             {
-                this.resolver.Create<AspDotNetEntityControllerWriter>().Write(configuration, transferObjects, files);
+                this.resolver.Create<AspDotNetEntityControllerWriter>().Write(configuration);
             }
-            files.ForEach(file => this.options.Current.Language.Write(file, output));
         }
     }
 }

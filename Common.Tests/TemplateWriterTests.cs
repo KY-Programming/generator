@@ -1,12 +1,12 @@
 using KY.Core;
 using KY.Core.Dependency;
 using KY.Generator.Common.Tests.Models;
-using KY.Generator.Languages;
 using KY.Generator.Output;
 using KY.Generator.Templates;
 using KY.Generator.Templates.Extensions;
 using KY.Generator.Writers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using FileWriter = KY.Generator.Output.FileWriter;
 
 namespace KY.Generator.Common.Tests
 {
@@ -15,12 +15,15 @@ namespace KY.Generator.Common.Tests
     {
         private IDependencyResolver resolver;
         private IOutputCache output;
+        private IOptions options;
 
         [TestInitialize]
         public void Initialize()
         {
             this.resolver = new DependencyResolver();
-            this.output = new FileWriter(new TestLanguage());
+            this.output = new FileWriter(this.options);
+            this.options.Language = new TestLanguage(this.resolver);
+            this.options = new OptionsSet(null, null);
         }
 
         [TestMethod]
@@ -85,7 +88,7 @@ namespace KY.Generator.Common.Tests
         [TestMethod]
         public void ClassWriter()
         {
-            ClassWriter writer = new ClassWriter();
+            ClassWriter writer = new ClassWriter(this.options);
             writer.Write(new ClassTemplate((NamespaceTemplate)null, "test"), this.output);
             Assert.AreEqual("public partial class test\r\n{\r\n}", this.output.ToString());
         }
@@ -95,7 +98,7 @@ namespace KY.Generator.Common.Tests
         {
             ClassTemplate template = new ClassTemplate((NamespaceTemplate)null, "test");
             template.AddProperty("Prop1", Code.Type("string"));
-            ClassWriter writer = new ClassWriter();
+            ClassWriter writer = new ClassWriter(this.options);
             writer.Write(template, this.output);
             Assert.AreEqual("public partial class test\r\n{\r\n    public string Prop1 { get; set; }\r\n}", this.output.ToString());
         }
@@ -106,7 +109,7 @@ namespace KY.Generator.Common.Tests
             ClassTemplate template = new ClassTemplate((NamespaceTemplate)null, "test");
             template.AddProperty("Prop1", Code.Type("string"));
             template.AddMethod("Meth1", Code.Type("string"));
-            ClassWriter writer = new ClassWriter();
+            ClassWriter writer = new ClassWriter(this.options);
             writer.Write(template, this.output);
             Assert.AreEqual("public partial class test\r\n{\r\n    public string Prop1 { get; set; }\r\n\r\n    public string Meth1()\r\n    {\r\n    }\r\n}", this.output.ToString());
         }
@@ -116,7 +119,7 @@ namespace KY.Generator.Common.Tests
         {
             ClassTemplate template = new ClassTemplate((NamespaceTemplate)null, "test");
             template.Comment = Code.Comment("test comment");
-            ClassWriter writer = new ClassWriter();
+            ClassWriter writer = new ClassWriter(this.options);
             writer.Write(template, this.output);
             Assert.AreEqual("// test comment\r\npublic partial class test\r\n{\r\n}", this.output.ToString());
         }
@@ -162,7 +165,7 @@ namespace KY.Generator.Common.Tests
         {
             EnumTemplate template = new EnumTemplate((NamespaceTemplate)null, "test");
             template.Values.Add(new EnumValueTemplate("value", Code.Number(0)));
-            EnumWriter writer = new EnumWriter();
+            EnumWriter writer = new EnumWriter(this.options);
             writer.Write(template, this.output);
             Assert.AreEqual("public enum test\r\n{\r\n    value = 0\r\n}", this.output.ToString());
         }
@@ -202,7 +205,7 @@ namespace KY.Generator.Common.Tests
         [TestMethod]
         public void FieldWriter()
         {
-            FieldWriter writer = new FieldWriter(this.output.Language.CastTo<BaseLanguage>());
+            FieldWriter writer = new();
             writer.Write(new FieldTemplate(null, "test", Code.Type("type")), this.output);
             Assert.AreEqual("private type test;", this.output.ToString());
         }
@@ -212,7 +215,7 @@ namespace KY.Generator.Common.Tests
         {
             FieldTemplate template = new FieldTemplate(null, "test", Code.Type("type"));
             template.DefaultValue = Code.String("default");
-            FieldWriter writer = new FieldWriter(this.output.Language.CastTo<BaseLanguage>());
+            FieldWriter writer = new();
             writer.Write(template, this.output);
             Assert.AreEqual("private type test = \"default\";", this.output.ToString());
         }
@@ -241,7 +244,7 @@ namespace KY.Generator.Common.Tests
         public void LambdaWriter()
         {
             LambdaTemplate template = new LambdaTemplate("parameter".Yield(), Code.Local("parameter").Method("test"));
-            LambdaWriter writer = new LambdaWriter();
+            LambdaWriter writer = new LambdaWriter(this.options);
             writer.Write(template, this.output);
             Assert.AreEqual("parameter => parameter.test()", this.output.ToString());
         }
@@ -250,7 +253,7 @@ namespace KY.Generator.Common.Tests
         public void LambdaMultiline()
         {
             LambdaTemplate template = new LambdaTemplate("parameter".Yield(), Code.Multiline().AddLine(Code.Local("parameter").Method("test").Close()));
-            LambdaWriter writer = new LambdaWriter();
+            LambdaWriter writer = new LambdaWriter(this.options);
             writer.Write(template, this.output);
             Assert.AreEqual("parameter =>\r\n{\r\n    parameter.test();\r\n}", this.output.ToString());
         }
@@ -318,7 +321,7 @@ namespace KY.Generator.Common.Tests
         {
             PropertyTemplate template = new PropertyTemplate(null, "Property", Code.Type("string"))
                 .WithComment("");
-            this.output.Language.Write(template, this.output);
+            this.output.Add(template);
             Assert.AreEqual("public string Property { get; set; }", this.output.ToString());
         }
 
@@ -327,7 +330,7 @@ namespace KY.Generator.Common.Tests
         {
             NamespaceTemplate template = new NamespaceTemplate(null, "test");
             template.AddClass("testClass");
-            NamespaceWriter writer = new NamespaceWriter(this.output.Language.CastTo<BaseLanguage>());
+            NamespaceWriter writer = new();
             writer.Write(template, this.output);
             Assert.AreEqual("namespace test\r\n{\r\n    public partial class testClass\r\n    {\r\n    }\r\n}", this.output.ToString());
         }
@@ -409,7 +412,7 @@ namespace KY.Generator.Common.Tests
         [TestMethod]
         public void StringWriter()
         {
-            StringWriter writer = new StringWriter();
+            StringWriter writer = new StringWriter(this.options);
             writer.Write(new StringTemplate("string"), this.output);
             Assert.AreEqual("\"string\"", this.output.ToString());
         }

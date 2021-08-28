@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using KY.Core.Dependency;
 using KY.Generator.Csharp.Templates;
 using KY.Generator.Csharp.Writers;
 using KY.Generator.Extensions;
@@ -12,63 +13,36 @@ namespace KY.Generator.Csharp.Languages
 {
     public class CsharpLanguage : BaseLanguage
     {
-        public static CsharpLanguage Instance { get; } = new CsharpLanguage();
-
         public override string Name => "Csharp";
         public override bool ImportFromSystem => true;
         public override bool IsGenericTypeWithSameNameAllowed => true;
 
-        protected CsharpLanguage()
+        public CsharpLanguage(IDependencyResolver resolver)
+            : base(resolver)
         {
-            this.Formatting.FileCase = Case.PascalCase;
-            this.Formatting.ClassCase = Case.PascalCase;
-            this.Formatting.FieldCase = Case.CamelCase;
-            this.Formatting.PropertyCase = Case.PascalCase;
-            this.Formatting.MethodCase = Case.PascalCase;
-            this.Formatting.ParameterCase = Case.CamelCase;
-
-            this.TemplateWriters[typeof(AttributeTemplate)] = new AttributeWriter(this);
-            this.TemplateWriters[typeof(BaseTypeTemplate)] = new BaseTypeWriter();
-            this.TemplateWriters[typeof(BaseTemplate)] = new BaseWriter();
-            this.TemplateWriters[typeof(CastTemplate)] = new CastWriter();
-            this.TemplateWriters[typeof(CommentTemplate)] = new CommentWriter();
-            this.TemplateWriters[typeof(ConstructorTemplate)] = new ConstructorWriter();
-            this.TemplateWriters[typeof(ConstraintTemplate)] = new ConstraintWriter();
-            this.TemplateWriters[typeof(CsharpTemplate)] = new CsharpWriter();
-            this.TemplateWriters[typeof(DeclareTemplate)] = new DeclareWriter();
-            this.TemplateWriters[typeof(GenericTypeTemplate)] = new CsharpGenericTypeWriter();
-            this.TemplateWriters[typeof(ParameterTemplate)] = new ParameterWriter();
-            this.TemplateWriters[typeof(ThrowTemplate)] = new ThrowWriter();
-            this.TemplateWriters[typeof(UsingTemplate)] = new UsingWriter();
-            this.TemplateWriters[typeof(UsingDeclarationTemplate)] = new UsingDeclarationWriter();
-            this.TemplateWriters[typeof(VerbatimStringTemplate)] = new VerbatimStringWriter();
-            this.TemplateWriters[typeof(ClassTemplate)] = new CsharpClassWriter();
-            this.TemplateWriters[typeof(YieldReturnTemplate)] = new YieldReturnWriter();
+            this.AddWriter<AttributeTemplate, AttributeWriter>();
+            this.AddWriter<BaseTypeTemplate, BaseTypeWriter>();
+            this.AddWriter<BaseTemplate, BaseWriter>();
+            this.AddWriter<CastTemplate, CastWriter>();
+            this.AddWriter<CommentTemplate, CommentWriter>();
+            this.AddWriter<ConstructorTemplate, ConstructorWriter>();
+            this.AddWriter<ConstraintTemplate, ConstraintWriter>();
+            this.AddWriter<CsharpTemplate, CsharpWriter>();
+            this.AddWriter<DeclareTemplate, DeclareWriter>();
+            this.AddWriter<GenericTypeTemplate, CsharpGenericTypeWriter>();
+            this.AddWriter<ParameterTemplate, ParameterWriter>();
+            this.AddWriter<ThrowTemplate, ThrowWriter>();
+            this.AddWriter<UsingTemplate, UsingWriter>();
+            this.AddWriter<UsingDeclarationTemplate, UsingDeclarationWriter>();
+            this.AddWriter<VerbatimStringTemplate, VerbatimStringWriter>();
+            this.AddWriter<ClassTemplate, CsharpClassWriter>();
+            this.AddWriter<YieldReturnTemplate, YieldReturnWriter>();
+            this.AddWriter<FileTemplate, CsharpFileWriter>();
         }
 
-        protected override void WriteHeader(FileTemplate fileTemplate, IOutputCache output)
+        public override string FormatFile(string name, IOptions options, string type = null, bool force = false)
         {
-            fileTemplate.Header.Description += Environment.NewLine + "ReSharper disable All";
-            base.WriteHeader(fileTemplate, output);
-        }
-
-        public override void Write(FileTemplate fileTemplate, IOutput output)
-        {
-            INamespaceChildren children = fileTemplate.Namespaces.FirstOrDefault()?.Children.FirstOrDefault();
-            UsingTemplate usingTemplate = new UsingTemplate("System.CodeDom.Compiler", null, null);
-            children?.Usings.Add(usingTemplate);
-            base.Write(fileTemplate, output);
-            children?.Usings.Remove(usingTemplate);
-        }
-
-        public override string FormatFileName(string fileName, string fileType = null)
-        {
-            return fileName.ToPascalCase() + ".cs";
-        }
-
-        protected override IEnumerable<UsingTemplate> GetUsings(FileTemplate fileTemplate)
-        {
-            return fileTemplate.GetUsingsByNamespace();
+            return base.FormatFile(name, options, type, force) + ".cs";
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using KY.Generator.Models;
 using KY.Generator.Transfer;
 
 namespace KY.Generator.Command.Extensions
@@ -15,11 +16,6 @@ namespace KY.Generator.Command.Extensions
             options.SkipNamespace = parameters.SkipNamespace;
             options.PreferInterfaces = parameters.PreferInterfaces;
             options.WithOptionalProperties = parameters.WithOptionalProperties;
-        }
-
-        public static void SetOutputId(this IOptions options, IEnumerable<ITransferObject> transferObjects)
-        {
-            options.OutputId = transferObjects.OfType<OutputIdTransferObject>().FirstOrDefault()?.Value;
         }
     }
 }

@@ -1,12 +1,10 @@
 ﻿using System.Collections.Generic;
-using KY.Generator.Languages;
 using KY.Generator.Templates;
 
 namespace KY.Generator.Output
 {
     public interface IOutputCacheBase
     {
-        IFormattableLanguage Language { get; }
         IEnumerable<ICodeFragment> LastFragments { get; }
 
         IOutputCache Add(string code, bool keepIndent = false);

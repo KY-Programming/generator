@@ -3,8 +3,6 @@ using KY.Generator.Command;
 using KY.Generator.Command.Extensions;
 using KY.Generator.Csharp.Languages;
 using KY.Generator.Json.Writers;
-using KY.Generator.Languages.Extensions;
-using KY.Generator.Output;
 
 namespace KY.Generator.Json.Commands
 {
@@ -19,15 +17,13 @@ namespace KY.Generator.Json.Commands
             this.resolver = resolver;
         }
 
-        public override IGeneratorCommandResult Run(IOutput output)
+        public override IGeneratorCommandResult Run()
         {
             IOptions options = this.resolver.Get<Options>().Current;
             options.SetFromParameter(this.Parameters);
-            options.SetOutputId(this.TransferObjects);
-            options.Language = CsharpLanguage.Instance;
-            options.Formatting.FromLanguage(options.Language);
+            options.Language = this.resolver.Get<CsharpLanguage>();
 
-            this.resolver.Create<JsonWriter>().Write(this.TransferObjects, this.Parameters.RelativePath, output, this.Parameters.WithReader);
+            this.resolver.Create<JsonWriter>().Write(this.Parameters.RelativePath, this.Parameters.WithReader);
 
             return this.Success();
         }

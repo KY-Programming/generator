@@ -8,7 +8,7 @@ namespace KY.Generator.OData.Extensions
     {
         public static ITypeMapping Initialize(this ITypeMapping typeMapping)
         {
-            typeMapping.Map(ODataLanguage.Instance).To(TypeScriptLanguage.Instance)
+            typeMapping.Map<ODataLanguage>().To<TypeScriptLanguage>()
                        .From("Edm.Binary").To("string", "String")
                        .From("Edm.Boolean").To("boolean", "Boolean")
                        .From("Edm.Byte").To("number", "Number")

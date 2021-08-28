@@ -1,4 +1,3 @@
-using System;
 using KY.Generator.Transfer;
 
 namespace KY.Generator.Templates
@@ -6,16 +5,16 @@ namespace KY.Generator.Templates
     public class LinkedUsingTemplate : UsingTemplate
     {
         private readonly TypeTransferObject type;
-        private readonly Func<string> fileNameAction;
+        private readonly string path;
 
         public override string Namespace => this.type.Namespace;
         public override string Type => this.type.Name;
-        public override string Path => this.fileNameAction();
+        public override string Path => $"{this.path}/{this.type.FileName}";
 
-        public LinkedUsingTemplate(TypeTransferObject type, Func<string> fileNameAction)
+        public LinkedUsingTemplate(TypeTransferObject type, string path)
         {
             this.type = type;
-            this.fileNameAction = fileNameAction;
+            this.path = path;
         }
     }
 }

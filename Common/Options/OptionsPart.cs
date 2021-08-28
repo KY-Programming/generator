@@ -17,8 +17,8 @@ namespace KY.Generator
         public bool? WithOptionalProperties { get; set; }
         public bool? AddHeader { get; set; }
         public bool? SkipNamespace { get; set; }
+        public bool? SkipSelf { get; set; }
         public Dictionary<string, string> ReplaceName { get; } = new();
         public ILanguage Language { get; set; }
-        public Guid? OutputId { get; set; }
     }
 }

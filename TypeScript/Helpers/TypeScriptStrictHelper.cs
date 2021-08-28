@@ -9,20 +9,20 @@ namespace KY.Generator.TypeScript
 {
     public static class TypeScriptStrictHelper
     {
-        public static void SetStrict(this IOptions options, string relativePath, IOutput output, IDependencyResolver resolver, List<ITransferObject> transferObjects)
+        public static void SetStrict(this IOptions options, string relativePath, IDependencyResolver resolver)
         {
             if (options.IsStrictSet)
             {
                 return;
             }
-            options.Strict = Read(relativePath, output, resolver, transferObjects);
+            options.Strict = Read(relativePath, resolver);
         }
 
-        public static bool Read(string relativePath, IOutput output, IDependencyResolver resolver, List<ITransferObject> transferObjects)
+        public static bool Read(string relativePath, IDependencyResolver resolver)
         {
-            if (output is FileOutput fileOutput)
+            if (resolver.Get<IOutput>() is FileOutput fileOutput)
             {
-                return resolver.Create<TsConfigReader>().Read(FileSystem.Combine(fileOutput.BasePath, relativePath), transferObjects)?.CompilerOptions?.Strict ?? false;
+                return resolver.Create<TsConfigReader>().Read(FileSystem.Combine(fileOutput.BasePath, relativePath))?.CompilerOptions?.Strict ?? false;
             }
             return false;
         }

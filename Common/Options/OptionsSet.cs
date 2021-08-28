@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using KY.Core;
 using KY.Generator.Languages;
 
 namespace KY.Generator
@@ -76,6 +76,12 @@ namespace KY.Generator
             set => this.Part.SkipNamespace = value;
         }
 
+        bool IOptions.SkipSelf
+        {
+            get => this.Part.SkipSelf ?? this.Global?.Part.SkipSelf ?? false;
+            set => this.Part.SkipSelf = value;
+        }
+
         Dictionary<string, string> IOptions.ReplaceName => this.GetMerged(part => part?.ReplaceName);
         public FormattingOptions Formatting { get; }
 
@@ -85,16 +91,15 @@ namespace KY.Generator
             set => this.Part.Language = value;
         }
 
-        Guid? IOptions.OutputId
-        {
-            get => this.GetPrimitive(part => part?.OutputId);
-            set => this.Part.OutputId = value;
-        }
-
         public OptionsSet(OptionsSet parent, OptionsSet global, OptionsSet caller = null, object target = null)
             : base(parent, global, caller, target)
         {
-            this.Formatting = new FormattingOptions(caller?.Formatting, global?.Formatting, parent?.Formatting);
+            this.Formatting = new FormattingOptions(
+                () => caller?.Formatting,
+                () => global?.Formatting,
+                () => parent?.Formatting,
+                () => this.CastTo<IOptions>().Language?.Formatting
+            );
         }
     }
 }

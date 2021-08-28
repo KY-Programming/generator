@@ -14,9 +14,15 @@ namespace KY.Generator.Sqlite.Readers
 {
     public class SqliteTableReader
     {
+        private readonly List<ITransferObject> transferObjects;
         private static readonly Regex connectionStringRegex = new Regex(@".*Data\sSource=(?<file>[^;]*).*");
 
-        public void Read(SqliteReadDatabaseCommandParameters parameters, List<ITransferObject> transferObjects, string outputPath)
+        public SqliteTableReader(List<ITransferObject> transferObjects)
+        {
+            this.transferObjects = transferObjects;
+        }
+
+        public void Read(SqliteReadDatabaseCommandParameters parameters, string outputPath)
         {
             Match match = connectionStringRegex.Match(parameters.ConnectionString);
             match.Success.AssertIs(true, "ConnectionString", "is not in valid format. Has to be like 'Data Source=my.db'");

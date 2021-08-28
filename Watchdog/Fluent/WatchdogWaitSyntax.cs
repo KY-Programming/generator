@@ -2,18 +2,18 @@
 using System.Collections.Generic;
 using KY.Core.Dependency;
 using KY.Generator.Command;
-using KY.Generator.Helpers;
 using KY.Generator.Syntax;
 using KY.Generator.Watchdog.Commands;
 
 namespace KY.Generator
 {
-    public class WatchdogWaitSyntax : IWatchdogWaitSyntax, IFluentInternalSyntax
+    public class WatchdogWaitSyntax : IWatchdogWaitSyntax, IFluentInternalSyntax, IExecutableSyntax
     {
         private readonly WatchdogCommand command;
 
         public IDependencyResolver Resolver { get; }
         public List<IGeneratorCommand> Commands { get; } = new();
+        public List<IExecutableSyntax> Syntaxes { get; } = new();
 
         public WatchdogWaitSyntax(string url, IDependencyResolver resolver)
         {
@@ -50,15 +50,20 @@ namespace KY.Generator
         public IReadFluentSyntax Read()
         {
             FluentSyntax syntax = this.Resolver.Create<FluentSyntax>();
-            syntax.Commands = this.command.Commands;
+            syntax.Syntaxes.Add(this);
             return syntax;
         }
 
         public IWriteFluentSyntax Write()
         {
             FluentSyntax syntax = this.Resolver.Create<FluentSyntax>();
-            syntax.Commands = this.command.Commands;
+            syntax.Syntaxes.Add(this);
             return syntax;
+        }
+
+        public IGeneratorCommandResult Run()
+        {
+            return new SuccessResult();
         }
     }
 }

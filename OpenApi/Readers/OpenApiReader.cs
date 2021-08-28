@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using KY.Core;
-using KY.Generator.Configuration;
-using KY.Generator.Configurations;
 using KY.Generator.OpenApi.Configurations;
 using KY.Generator.OpenApi.DataAccess;
 using KY.Generator.Transfer;
@@ -22,18 +20,18 @@ namespace KY.Generator.OpenApi.Readers
             this.documentReader = documentReader;
         }
 
-        public void Read(OpenApiReadConfiguration configuration, List<ITransferObject> transferObjects)
+        public void Read(OpenApiReadConfiguration configuration)
         {
             Logger.Trace("Read OpenApi...");
             if (configuration.File != null)
             {
-                this.fileReader.Read(configuration.File, transferObjects);
+                this.fileReader.Read(configuration.File);
             }
             if (configuration.Url != null)
             {
-                this.urlReader.Read(configuration.File, transferObjects);
+                this.urlReader.Read(configuration.File);
             }
-            this.documentReader.Read(configuration, transferObjects);
+            this.documentReader.Read(configuration);
         }
     }
 }

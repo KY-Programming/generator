@@ -15,22 +15,28 @@ namespace KY.Generator.EntityFramework.Writers
     public class EntityFrameworkRepositoryWriter : Codeable
     {
         private readonly Options options;
+        private readonly List<ITransferObject> transferObjects;
+        private readonly List<FileTemplate> files;
 
-        public EntityFrameworkRepositoryWriter(Options options)
+        public EntityFrameworkRepositoryWriter(Options options, List<ITransferObject> transferObjects, List<FileTemplate> files)
         {
             this.options = options;
+            this.transferObjects = transferObjects;
+            this.files = files;
         }
 
-        public virtual void Write(EntityFrameworkWriteConfiguration configuration, List<ITransferObject> transferObjects, List<FileTemplate> files)
+        public virtual void Write(EntityFrameworkWriteConfiguration configuration)
         {
             foreach (EntityFrameworkWriteRepositoryConfiguration repositoryConfiguration in configuration.Repositories)
             {
                 EntityTransferObject entity = transferObjects.OfType<EntityTransferObject>().FirstOrDefault(x => x.Name == repositoryConfiguration.Entity)
                                                              .AssertIsNotNull(nameof(repositoryConfiguration.Entity), $"Entity {repositoryConfiguration.Entity} not found. Ensure it is read before.");
 
-                ClassTemplate repository = files.AddFile(configuration.RelativePath, this.options.Current.AddHeader, this.options.Current.OutputId)
+                string className = repositoryConfiguration.Name ?? entity.Name + "Repository";
+                ClassTemplate repository = files.AddFile(configuration.RelativePath, this.options.Current)
+                                                .WithName(Formatter.FormatFile(className, this.options.Current))
                                                 .AddNamespace(repositoryConfiguration.Namespace ?? configuration.Namespace)
-                                                .AddClass(repositoryConfiguration.Name ?? entity.Name + "Repository")
+                                                .AddClass(className)
                                                 .FormatName(this.options.Current)
                                                 .WithUsing("System.Collections.Generic")
                                                 .WithUsing("System.Linq");

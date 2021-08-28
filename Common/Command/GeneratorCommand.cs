@@ -5,8 +5,6 @@ using System.Linq;
 using System.Reflection;
 using KY.Core;
 using KY.Generator.Models;
-using KY.Generator.Output;
-using KY.Generator.Transfer;
 
 namespace KY.Generator.Command
 {
@@ -14,10 +12,9 @@ namespace KY.Generator.Command
         where T : GeneratorCommandParameters, new()
     {
         public abstract string[] Names { get; }
-        public T Parameters { get; } = new T();
+        public T Parameters { get; } = new();
         GeneratorCommandParameters IGeneratorCommand.Parameters => this.Parameters;
         public List<RawCommandParameter> OriginalParameters { get; private set; }
-        public List<ITransferObject> TransferObjects { get; set; }
 
         public bool Parse(params RawCommandParameter[] parameters)
         {
@@ -103,7 +100,10 @@ namespace KY.Generator.Command
             return true;
         }
 
-        public abstract IGeneratorCommandResult Run(IOutput output);
+        public virtual void Prepare()
+        { }
+
+        public abstract IGeneratorCommandResult Run();
 
         protected SuccessResult Success()
         {

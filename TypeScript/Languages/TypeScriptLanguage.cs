@@ -1,30 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
 using KY.Core;
+using KY.Core.Dependency;
 using KY.Generator.Languages;
-using KY.Generator.Output;
 using KY.Generator.Templates;
 using KY.Generator.TypeScript.Templates;
 using KY.Generator.TypeScript.Writers;
-using KY.Generator.Writers;
 
 namespace KY.Generator.TypeScript.Languages
 {
     public class TypeScriptLanguage : BaseLanguage
     {
-        public static TypeScriptLanguage Instance { get; } = new TypeScriptLanguage();
-
-        public override string NamespaceKeyword => "export namespace";
         public override string ClassScope => "export";
         public override string PartialKeyword => string.Empty;
         public override string Name => "TypeScript";
         public override bool ImportFromSystem => false;
         public override bool IsGenericTypeWithSameNameAllowed => false;
 
-        protected TypeScriptLanguage()
+        public TypeScriptLanguage(IDependencyResolver resolver)
+            : base(resolver)
         {
             this.Formatting.StartBlockInNewLine = false;
-            this.Formatting.EndFileWithNewLine = true;
             this.Formatting.FileCase = Case.KebabCase;
             this.Formatting.ClassCase = Case.PascalCase;
             this.Formatting.FieldCase = Case.CamelCase;
@@ -33,55 +28,46 @@ namespace KY.Generator.TypeScript.Languages
             this.Formatting.ParameterCase = Case.CamelCase;
 
             this.ReservedKeywords.Add("function", "func");
-
             this.HasStaticClasses = false;
-            this.TemplateWriters[typeof(BaseTypeTemplate)] = new BaseTypeWriter();
-            this.TemplateWriters[typeof(BaseTemplate)] = new BaseWriter();
-            this.TemplateWriters[typeof(CastTemplate)] = new CastWriter();
-            this.TemplateWriters[typeof(ConstructorTemplate)] = new TypeScriptMethodWriter();
-            this.TemplateWriters[typeof(DeclareTemplate)] = new DeclareWriter();
-            this.TemplateWriters[typeof(FieldTemplate)] = new TypeScriptFieldWriter();
-            this.TemplateWriters[typeof(GenericTypeTemplate)] = new TypeScriptGenericTypeWriter();
-            this.TemplateWriters[typeof(MethodTemplate)] = new TypeScriptMethodWriter();
-            this.TemplateWriters[typeof(ExtensionMethodTemplate)] = new TypeScriptMethodWriter();
-            this.TemplateWriters[typeof(NullValueTemplate)] = new UndefinedValueWriter();
-            this.TemplateWriters[typeof(ForceNullValueTemplate)] = new UndefinedValueWriter();
-            this.TemplateWriters[typeof(NullTemplate)] = new UndefinedWriter();
-            this.TemplateWriters[typeof(ForceNullTemplate)] = new UndefinedWriter();
-            this.TemplateWriters[typeof(ParameterTemplate)] = new TypeScriptParameterWriter();
-            this.TemplateWriters[typeof(PropertyTemplate)] = new TypeScriptPropertyWriter();
-            this.TemplateWriters[typeof(ThrowTemplate)] = new ThrowWriter();
-            this.TemplateWriters[typeof(EnumTemplate)] = new TypeScriptEnumWriter();
-            this.TemplateWriters[typeof(OperatorTemplate)] = new TypeScriptOperatorWriter();
-            this.TemplateWriters[typeof(TypeScriptTemplate)] = new TypeScriptWriter();
-            this.TemplateWriters[typeof(UsingTemplate)] = new UsingWriter();
-            this.TemplateWriters[typeof(AttributeTemplate)] = new AttributeWriter(this);
-            this.TemplateWriters[typeof(AnonymousObjectTemplate)] = new AnonymousObjectWriter();
-            this.TemplateWriters[typeof(TypeTemplate)] = new TypeScriptTypeWriter();
-            this.TemplateWriters[typeof(DateTimeTemplate)] = new TypeScriptDateTimeWriter();
-            this.TemplateWriters[typeof(NumberTemplate)] = new TypeScriptNumberWriter();
-            this.TemplateWriters[typeof(DeclareTypeTemplate)] = new DeclareTypeWriter();
+
+            this.AddWriter<BaseTypeTemplate, BaseTypeWriter>();
+            this.AddWriter<BaseTemplate, BaseWriter>();
+            this.AddWriter<CastTemplate, CastWriter>();
+            this.AddWriter<ConstructorTemplate, TypeScriptMethodWriter>();
+            this.AddWriter<DeclareTemplate, DeclareWriter>();
+            this.AddWriter<FieldTemplate, TypeScriptFieldWriter>();
+            this.AddWriter<GenericTypeTemplate, TypeScriptGenericTypeWriter>();
+            this.AddWriter<MethodTemplate, TypeScriptMethodWriter>();
+            this.AddWriter<ExtensionMethodTemplate, TypeScriptMethodWriter>();
+            this.AddWriter<NullValueTemplate, UndefinedValueWriter>();
+            this.AddWriter<ForceNullValueTemplate, UndefinedValueWriter>();
+            this.AddWriter<NullTemplate, UndefinedWriter>();
+            this.AddWriter<ForceNullTemplate, UndefinedWriter>();
+            this.AddWriter<ParameterTemplate, TypeScriptParameterWriter>();
+            this.AddWriter<PropertyTemplate, TypeScriptPropertyWriter>();
+            this.AddWriter<ThrowTemplate, ThrowWriter>();
+            this.AddWriter<EnumTemplate, TypeScriptEnumWriter>();
+            this.AddWriter<OperatorTemplate, TypeScriptOperatorWriter>();
+            this.AddWriter<TypeScriptTemplate, TypeScriptWriter>();
+            this.AddWriter<UsingTemplate, UsingWriter>();
+            this.AddWriter<AttributeTemplate, AttributeWriter>();
+            this.AddWriter<AnonymousObjectTemplate, AnonymousObjectWriter>();
+            this.AddWriter<TypeTemplate, TypeScriptTypeWriter>();
+            this.AddWriter<DateTimeTemplate, TypeScriptDateTimeWriter>();
+            this.AddWriter<NumberTemplate, TypeScriptNumberWriter>();
+            this.AddWriter<DeclareTypeTemplate, DeclareTypeWriter>();
+            this.AddWriter<NamespaceTemplate, TypeScriptNamespaceWriter>();
+            this.AddWriter<FileTemplate, TypeScriptFileWriter>();
         }
 
-        protected override void WriteHeader(FileTemplate fileTemplate, IOutputCache output)
+        public override string FormatFile(string name, IOptions options, string type = null, bool force = false)
         {
-            fileTemplate.Header.Description += Environment.NewLine + "/* eslint-disable */" + Environment.NewLine + "tslint:disable";
-            base.WriteHeader(fileTemplate, output);
-        }
-
-        public override string FormatFileName(string fileName, string fileType = null)
-        {
-            fileName = Formatter.Format(fileName, this.Formatting.FileCase, this.Formatting.AllowedSpecialCharacters);
-            if (fileName.StartsWith("i-") || "interface".Equals(fileType, StringComparison.CurrentCultureIgnoreCase))
+            string fileName = base.FormatFile(name, options, type, force);
+            if (fileName.StartsWith("i-") /*|| "interface".Equals(fileType, StringComparison.CurrentCultureIgnoreCase)*/)
             {
                 fileName = fileName.TrimStart("i-") + ".interface";
             }
             return fileName + ".ts";
-        }
-
-        protected override IEnumerable<UsingTemplate> GetUsings(FileTemplate fileTemplate)
-        {
-            return fileTemplate.GetUsingsByTypeAndPath();
         }
     }
 }

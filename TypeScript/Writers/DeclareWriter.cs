@@ -11,7 +11,7 @@ namespace KY.Generator.TypeScript.Writers
             DeclareTemplate template = (DeclareTemplate)fragment;
             output.Add(template.IsConstant ? "const " : "let ")
                   .Add(template.Name)
-                  .If(template.Type != null && !(template.Code is NewTemplate)).Add(": ").Add(template.Type).EndIf()
+                  .If(template.Type != null && template.Code is not NewTemplate).Add(": ").Add(template.Type).EndIf()
                   .Add(" = ")
                   .Add(template.Code)
                   .CloseLine();

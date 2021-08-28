@@ -9,7 +9,14 @@ namespace KY.Generator.OpenApi.DataAccess
 {
     public class OpenApiFileReader
     {
-        public void Read(string filename, List<ITransferObject> transferObjects)
+        private readonly List<ITransferObject> transferObjects;
+
+        public OpenApiFileReader(List<ITransferObject> transferObjects)
+        {
+            this.transferObjects = transferObjects;
+        }
+
+        public void Read(string filename)
         {
             if (!FileSystem.FileExists(filename))
             {
@@ -19,7 +26,7 @@ namespace KY.Generator.OpenApi.DataAccess
             OpenApiStringReader reader = new OpenApiStringReader();
             OpenApiDocument document = reader.Read(json, out OpenApiDiagnostic diagnostic);
             diagnostic.Errors?.ForEach(error => Logger.Error(error.Message));
-            transferObjects.Add(TransferObject.Create(document));
+            this.transferObjects.Add(TransferObject.Create(document));
         }
     }
 }

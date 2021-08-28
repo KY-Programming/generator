@@ -4,15 +4,15 @@ namespace KY.Generator.Templates.Extensions
 {
     public static class FileTemplateExtension
     {
-        public static FileTemplate WithHeader(this FileTemplate file, string header)
+        public static FileTemplate WithName(this FileTemplate file, string name)
         {
-            file.Header.Description = header;
+            file.Name = name;
             return file;
         }
 
-        public static FileTemplate WithType(this FileTemplate file, string type)
+        public static FileTemplate WithHeader(this FileTemplate file, string header)
         {
-            file.Type = type;
+            file.Header.Description = header;
             return file;
         }
 

@@ -9,7 +9,10 @@ namespace KY.Generator
         /// <inheritdoc cref="IReflectionReadSyntax.FromType{T}"/>
         public static IReflectionFromTypeOrReflectionReadSyntax FromType<T>(this IReadFluentSyntax syntax)
         {
-            return new ReflectionReadSyntax((IReadFluentSyntaxInternal)syntax).FromType<T>();
+            IReadFluentSyntaxInternal internalSyntax = (IReadFluentSyntaxInternal)syntax;
+            ReflectionReadSyntax readSyntax = new(internalSyntax);
+            internalSyntax.Syntaxes.Add(readSyntax);
+            return readSyntax.FromType<T>();
         }
     }
 }

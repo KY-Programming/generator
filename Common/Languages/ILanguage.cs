@@ -10,9 +10,10 @@ namespace KY.Generator.Languages
         bool ImportFromSystem { get; }
         Dictionary<string, string> ReservedKeywords { get; }
         bool IsGenericTypeWithSameNameAllowed { get; }
+        FormattingOptions Formatting { get; }
 
-        void Write(FileTemplate file, IOutput output);
         void Write(ICodeFragment code, IOutputCache output);
-        void Write<T>(IEnumerable<T> code, IOutputCache output) where T : ICodeFragment;
+        void Write(IEnumerable<ICodeFragment> code, IOutputCache output);
+        string FormatFile(string name, IOptions options, string type = null, bool force = false);
     }
 }

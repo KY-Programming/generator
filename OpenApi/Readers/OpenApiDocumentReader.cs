@@ -11,19 +11,26 @@ namespace KY.Generator.OpenApi.Readers
 {
     public class OpenApiDocumentReader
     {
-        public void Read(OpenApiReadConfiguration configuration, List<ITransferObject> transferObjects)
+        private readonly List<ITransferObject> transferObjects;
+
+        public OpenApiDocumentReader(List<ITransferObject> transferObjects)
+        {
+            this.transferObjects = transferObjects;
+        }
+
+        public void Read(OpenApiReadConfiguration configuration)
         {
             foreach (OpenApiDocument document in transferObjects.OfType<TransferObject<OpenApiDocument>>().Select(x => x.Value).Where(x => x.Components != null).ToList())
             {
                 foreach (OpenApiSchema type in document.Components.Schemas.Values)
                 {
-                    this.Read(configuration, type, transferObjects);
+                    this.Read(configuration, type);
                 }
-                this.Read(configuration, document, transferObjects);
+                this.Read(configuration, document);
             }
         }
 
-        private void Read(OpenApiReadConfiguration configuration, OpenApiDocument document, List<ITransferObject> transferObjects)
+        private void Read(OpenApiReadConfiguration configuration, OpenApiDocument document)
         {
             HttpServiceTransferObject service = new HttpServiceTransferObject
                                                 {
@@ -46,7 +53,7 @@ namespace KY.Generator.OpenApi.Readers
                         action.Parameters.Add(new HttpServiceActionParameterTransferObject
                                               {
                                                   Name = parameter.Name,
-                                                  Type = this.Read(configuration, parameter.Schema, transferObjects)
+                                                  Type = this.Read(configuration, parameter.Schema)
                                               });
                     }
                     OpenApiMediaType content = operationPair.Value.RequestBody.Content.Single().Value;
@@ -55,7 +62,7 @@ namespace KY.Generator.OpenApi.Readers
                         action.Parameters.Add(new HttpServiceActionParameterTransferObject
                                               {
                                                   Name = "request",
-                                                  Type = this.Read(configuration, content.Schema, transferObjects),
+                                                  Type = this.Read(configuration, content.Schema),
                                                   FromBody = true
                                               });
                     }
@@ -66,7 +73,7 @@ namespace KY.Generator.OpenApi.Readers
                             action.Parameters.Add(new HttpServiceActionParameterTransferObject
                                                   {
                                                       Name = propertyPair.Key,
-                                                      Type = this.Read(configuration, propertyPair.Value, transferObjects)
+                                                      Type = this.Read(configuration, propertyPair.Value)
                                                   });
                         }
                     }
@@ -77,14 +84,14 @@ namespace KY.Generator.OpenApi.Readers
                     }
                     else
                     {
-                        action.ReturnType = this.Read(configuration, response.Content.Single().Value.Schema, transferObjects);
+                        action.ReturnType = this.Read(configuration, response.Content.Single().Value.Schema);
                     }
                     service.Actions.Add(action);
                 }
             }
         }
 
-        private TypeTransferObject Read(OpenApiReadConfiguration configuration, OpenApiSchema schema, List<ITransferObject> transferObjects)
+        private TypeTransferObject Read(OpenApiReadConfiguration configuration, OpenApiSchema schema)
         {
             if (schema.Reference == null)
             {
@@ -107,7 +114,7 @@ namespace KY.Generator.OpenApi.Readers
                            Name = schema.Type,
                            Generics =
                            {
-                               new GenericAliasTransferObject { Type = this.Read(configuration, schema.Items, transferObjects) }
+                               new GenericAliasTransferObject { Type = this.Read(configuration, schema.Items) }
                            }
                        };
             }
@@ -124,7 +131,7 @@ namespace KY.Generator.OpenApi.Readers
                     PropertyTransferObject property = new PropertyTransferObject
                                                       {
                                                           Name = propertyPair.Key,
-                                                          Type = this.Read(configuration, propertyPair.Value, transferObjects)
+                                                          Type = this.Read(configuration, propertyPair.Value)
                                                       };
 
                     if (configuration.DataAnnotations && propertyPair.Value.MaxLength.HasValue)

@@ -8,9 +8,16 @@ namespace KY.Generator.Writers
 {
     public class EnumWriter : Codeable, ITemplateWriter
     {
+        private readonly IOptions options;
+
+        public EnumWriter(IOptions options)
+        {
+            this.options = options;
+        }
+
         public virtual void Write(ICodeFragment fragment, IOutputCache output)
         {
-            BaseLanguage language = output.Language.CastTo<BaseLanguage>();
+            BaseLanguage language = this.options.Language.CastTo<BaseLanguage>();
             EnumTemplate template = (EnumTemplate)fragment;
             output.Add(template.Attributes)
                   .Add(language.ClassScope)

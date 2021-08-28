@@ -12,7 +12,7 @@ namespace KY.Generator.TypeScript.Writers
         {
             TypeTemplate keyType = template.Types.First();
             TypeTemplate valueType = template.Types.Second();
-            if (keyType.Name == "string" || keyType.Name == "number")
+            if (keyType.Name is "string" or "number")
             {
                 output.Add($"{{ [key: {keyType.Name}]: {valueType.Name}; }}");
             }

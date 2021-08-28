@@ -16,7 +16,7 @@ namespace KY.Generator.Tsql.Commands
             this.resolver = resolver;
         }
 
-        public override IGeneratorCommandResult Run(IOutput output)
+        public override IGeneratorCommandResult Run()
         {
             TsqlReadConfiguration configuration = new TsqlReadConfiguration();
             configuration.Connection = this.Parameters.ConnectionString;
@@ -39,7 +39,7 @@ namespace KY.Generator.Tsql.Commands
                                                    });
             }
 
-            this.resolver.Create<TsqlReader>().Read(configuration, this.TransferObjects);
+            this.resolver.Create<TsqlReader>().Read(configuration);
 
             return this.Success();
         }

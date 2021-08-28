@@ -15,22 +15,28 @@ namespace KY.Generator.EntityFramework.Writers
     public class EntityFrameworkDataContextWriter : Codeable
     {
         private readonly Options options;
+        private readonly List<ITransferObject> transferObjects;
+        private readonly List<FileTemplate> files;
 
-        public EntityFrameworkDataContextWriter(Options options)
+        public EntityFrameworkDataContextWriter(Options options, List<ITransferObject> transferObjects, List<FileTemplate> files)
         {
             this.options = options;
+            this.transferObjects = transferObjects;
+            this.files = files;
         }
 
-        public virtual void Write(EntityFrameworkWriteConfiguration configuration, List<ITransferObject> transferObjects, List<FileTemplate> files)
+        public virtual void Write(EntityFrameworkWriteConfiguration configuration)
         {
-            this.WriteClass(configuration, transferObjects, files);
+            this.WriteClass(configuration);
         }
 
-        protected virtual ClassTemplate WriteClass(EntityFrameworkWriteConfiguration configuration, List<ITransferObject> transferObjects, List<FileTemplate> files)
+        protected virtual ClassTemplate WriteClass(EntityFrameworkWriteConfiguration configuration)
         {
-            ClassTemplate dataContext = files.AddFile(configuration.RelativePath, this.options.Current.AddHeader, this.options.Current.OutputId)
-                                               .AddNamespace(configuration.Namespace)
-                                               .AddClass("DataContext", Code.Type("DbContext"));
+            string className = "DataContext";
+            ClassTemplate dataContext = this.files.AddFile(configuration.RelativePath, this.options.Current)
+                                            .WithName(Formatter.FormatFile(className, this.options.Current))
+                                            .AddNamespace(configuration.Namespace)
+                                            .AddClass(className, Code.Type("DbContext"));
 
             if (configuration.IsCore)
             {
@@ -60,12 +66,12 @@ namespace KY.Generator.EntityFramework.Writers
             if (configuration.IsCore)
             {
                 constructor.WithBaseConstructor(Code.Static(Code.Type("SqlServerDbContextOptionsExtensions")).Method("UseSqlServer", Code.New(Code.Type("DbContextOptionsBuilder")), Code.Local(connectionString).NullCoalescing().Local(defaultConnectionProperty)).Property("Options"))
-                .Code.AddLine(Code.This().Property("Database").Method("SetCommandTimeout", Code.Number(configuration.DataContext.CommandTimeout)).Close());
+                           .Code.AddLine(Code.This().Property("Database").Method("SetCommandTimeout", Code.Number(configuration.DataContext.CommandTimeout)).Close());
             }
             else
             {
                 constructor.WithBaseConstructor(Code.Local("connectionString").NullCoalescing().Local(defaultConnectionProperty))
-                .Code.AddLine(Code.This().Property("Database").Property("CommandTimeout").Assign(Code.Number(configuration.DataContext.CommandTimeout)).Close());
+                           .Code.AddLine(Code.This().Property("Database").Property("CommandTimeout").Assign(Code.Number(configuration.DataContext.CommandTimeout)).Close());
             }
 
             MethodTemplate createMethod = dataContext.AddMethod("OnModelCreating", Code.Void()).Protected().Override();
@@ -79,7 +85,7 @@ namespace KY.Generator.EntityFramework.Writers
             {
                 createMethod.Code.AddLine(Code.Local(modelBuilder).GenericMethod("Entity", entity.Model.ToTemplate()).BreakLine()
                                               .Method("ToTable", Code.String(entity.Table), Code.String(entity.Schema)).BreakLine()
-                                              .Method("HasKey", Code.Lambda("x", Code.Csharp("new { " + string.Join(", ", entity.Keys.Select(key => $"x.{key.Name}")) + " }" ))).Close());
+                                              .Method("HasKey", Code.Lambda("x", Code.Csharp("new { " + string.Join(", ", entity.Keys.Select(key => $"x.{key.Name}")) + " }"))).Close());
             }
             foreach (StoredProcedureTransferObject storedProcedure in transferObjects.OfType<StoredProcedureTransferObject>())
             {

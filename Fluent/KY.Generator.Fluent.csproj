@@ -15,6 +15,7 @@
     <RepositoryType></RepositoryType>
     <PackageTags>KY-Generator KY Generator Fluent Language</PackageTags>
     <LangVersion>latest</LangVersion>
+    <RootNamespace>KY.Generator</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

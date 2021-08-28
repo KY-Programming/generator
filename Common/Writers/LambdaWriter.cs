@@ -5,6 +5,13 @@ namespace KY.Generator.Writers
 {
     public class LambdaWriter : ITemplateWriter
     {
+        private readonly IOptions options;
+
+        public LambdaWriter(IOptions options)
+        {
+            this.options = options;
+        }
+
         public virtual void Write(ICodeFragment fragment, IOutputCache output)
         {
             LambdaTemplate template = (LambdaTemplate)fragment;
@@ -34,7 +41,7 @@ namespace KY.Generator.Writers
             output.Add(template.Code);
             if (template.Code is MultilineCodeFragment)
             {
-                output.EndBlock(output.Language.Formatting.StartBlockInNewLine);
+                output.EndBlock(this.options.Formatting.StartBlockInNewLine);
             }
         }
     }

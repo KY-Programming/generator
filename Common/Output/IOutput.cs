@@ -1,12 +1,10 @@
-﻿using System;
-
-namespace KY.Generator.Output
+﻿namespace KY.Generator.Output
 {
     public interface IOutput
     {
-        void Write(string fileName, string content, Guid? outputId);
+        void Write(string fileName, string content);
         void Delete(string fileName);
-        void DeleteAllRelatedFiles(Guid? outputId, string relativePath = null);
+        void DeleteAllRelatedFiles(string relativePath = null);
         void Execute();
         void Move(string relativePath);
     }

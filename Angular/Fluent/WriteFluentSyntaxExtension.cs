@@ -1,4 +1,5 @@
 ﻿using System;
+using KY.Core;
 using KY.Generator.Angular.Fluent;
 using KY.Generator.Syntax;
 
@@ -9,7 +10,10 @@ namespace KY.Generator
     {
         public static IWriteFluentSyntax Angular(this IWriteFluentSyntax syntax, Action<IAngularWriteSyntax> action)
         {
-            action(new AngularWriteSyntax((IWriteFluentSyntaxInternal)syntax));
+            IFluentInternalSyntax internalSyntax = syntax.CastTo<IFluentInternalSyntax>();
+            AngularWriteSyntax writeSyntax = internalSyntax.Resolver.Create<AngularWriteSyntax>();
+            internalSyntax.Syntaxes.Add(writeSyntax);
+            action(writeSyntax);
             return syntax;
         }
     }

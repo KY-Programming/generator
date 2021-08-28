@@ -17,6 +17,11 @@ namespace KY.Generator
         public TInterface Get(Assembly assembly, TInterface caller = null) => this.GetInternal(assembly, caller as TSet);
         public TInterface Get(object key) => this.GetCache().ContainsKey(key) ? this.GetCache()[key] : this.CurrentSet;
 
+        public bool Contains(object key)
+        {
+            return this.GetCache().ContainsKey(key);
+        }
+
         public void Set(object key, TInterface options)
         {
             this.GetCache().Add(key, options as TSet);

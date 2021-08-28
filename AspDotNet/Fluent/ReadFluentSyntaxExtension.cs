@@ -1,4 +1,5 @@
 ﻿using System;
+using KY.Core;
 using KY.Generator.AspDotNet.Fluent;
 using KY.Generator.Syntax;
 
@@ -9,7 +10,10 @@ namespace KY.Generator
     {
         public static IReadFluentOrSwitchToWriteSyntax AspDotNet(this IReadFluentSyntax syntax, Action<IAspDotNetReadSyntax> action)
         {
-            action(new AspDotNetReadSyntax((IReadFluentSyntaxInternal)syntax));
+            IReadFluentSyntaxInternal internalSyntax = (IReadFluentSyntaxInternal)syntax;
+            AspDotNetReadSyntax readSyntax = new(internalSyntax);
+            internalSyntax.Syntaxes.Add(readSyntax);
+            action(readSyntax);
             return (IReadFluentSyntaxInternal)syntax;
         }
     }

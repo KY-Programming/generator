@@ -18,13 +18,19 @@ namespace KY.Generator.OData.Readers
 {
     internal class ODataReader : ITransferReader
     {
+        private readonly List<ITransferObject> transferObjects;
         private const string BindingParameterName = "bindingParameter";
 
-        public void Read(ODataReadConfiguration configuration, List<ITransferObject> transferObjects)
+        public ODataReader(List<ITransferObject> transferObjects)
+        {
+            this.transferObjects = transferObjects;
+        }
+
+        public void Read(ODataReadConfiguration configuration)
         {
             if (!string.IsNullOrEmpty(configuration.File))
             {
-                this.Parse(FileSystem.ReadAllText(configuration.File), transferObjects);
+                this.Parse(FileSystem.ReadAllText(configuration.File));
             }
             if (!string.IsNullOrEmpty(configuration.Connection))
             {
@@ -38,20 +44,20 @@ namespace KY.Generator.OData.Readers
                 using (StreamReader reader = new StreamReader(responseStream))
                 {
                     string responseString = reader.ReadToEnd();
-                    this.Parse(responseString, transferObjects);
+                    this.Parse(responseString);
                 }
             }
         }
 
-        private void Parse(string xml, List<ITransferObject> list)
+        private void Parse(string xml)
         {
             try
             {
-                list.Add(new ODataResultTransferObject(xml));
+                this.transferObjects.Add(new ODataResultTransferObject(xml));
                 using (StringReader stringReader = new StringReader(xml))
                 using (XmlReader xmlReader = XmlReader.Create(stringReader))
                 {
-                    this.Parse(xmlReader, list);
+                    this.Parse(xmlReader);
                 }
             }
             catch
@@ -61,14 +67,14 @@ namespace KY.Generator.OData.Readers
             }
         }
 
-        private void Parse(XmlReader xmlReader, List<ITransferObject> list)
+        private void Parse(XmlReader xmlReader)
         {
             IEdmModel model = CsdlReader.Parse(xmlReader);
-            Dictionary<IEdmType, TypeTransferObject> mapping = this.ReadModels(model, list);
-            this.ReadServices(model, mapping, list);
+            Dictionary<IEdmType, TypeTransferObject> mapping = this.ReadModels(model);
+            this.ReadServices(model, mapping);
         }
 
-        private Dictionary<IEdmType, TypeTransferObject> ReadModels(IEdmModel edmModel, List<ITransferObject> list)
+        private Dictionary<IEdmType, TypeTransferObject> ReadModels(IEdmModel edmModel)
         {
             Dictionary<IEdmType, TypeTransferObject> modelMapping = new Dictionary<IEdmType, TypeTransferObject>();
             Dictionary<IEdmType, EntityTransferObject> entityMapping = new Dictionary<IEdmType, EntityTransferObject>();
@@ -111,8 +117,8 @@ namespace KY.Generator.OData.Readers
                         }
                     }
                     // TODO: Add Navigation Properties
-                    list.Add(model);
-                    list.Add(entity);
+                    this.transferObjects.Add(model);
+                    this.transferObjects.Add(entity);
                 }
             }
             foreach (IEdmAction action in edmModel.SchemaElements.OfType<IEdmAction>())
@@ -140,7 +146,7 @@ namespace KY.Generator.OData.Readers
             return modelMapping;
         }
 
-        private void ReadServices(IEdmModel model, Dictionary<IEdmType, TypeTransferObject> mapping, List<ITransferObject> list)
+        private void ReadServices(IEdmModel model, Dictionary<IEdmType, TypeTransferObject> mapping)
         {
             foreach (IEdmEntitySet entitySet in model.EntityContainer.Elements.OfType<IEdmEntitySet>())
             {
@@ -158,8 +164,8 @@ namespace KY.Generator.OData.Readers
                     service.Actions.Add(this.ReadAction(HttpServiceActionTypeTransferObject.Patch, mapping, navigationSource));
                     service.Actions.Add(this.ReadAction(HttpServiceActionTypeTransferObject.Delete, mapping, navigationSource));
                 }
-                service.Entity = list.OfType<EntityTransferObject>().First(x => x.Name == mapping[entitySet.Type.AsElementType()].Name);
-                list.Add(service);
+                service.Entity = this.transferObjects.OfType<EntityTransferObject>().First(x => x.Name == mapping[entitySet.Type.AsElementType()].Name);
+                this.transferObjects.Add(service);
             }
         }
 

@@ -6,11 +6,11 @@ namespace KY.Generator.Mappings
 {
     public interface ITypeMapping
     {
-        ITypeMappingMapSyntax Map(IMappableLanguage language);
-        TypeMappingEntry Add(IMappableLanguage fromLanguage, string fromType, IMappableLanguage toLanguage, string toType, bool nullable = false, string nameSpace = null, bool fromSystem = false, string constructor = null);
-        TypeMappingEntry Get(IMappableLanguage fromLanguage, string fromType, IMappableLanguage toLanguage);
-        TypeMappingEntry TryGet(IMappableLanguage fromLanguage, string fromType, IMappableLanguage toLanguage);
-        TypeMappingEntry TryGet(IMappableLanguage fromLanguage, Type fromType, IMappableLanguage toLanguage);
-        void Get(IMappableLanguage fromLanguage, IMappableLanguage toLanguage, TypeTransferObject type);
+        ITypeMappingMapSyntax Map<T>() where T : ILanguage;
+        TypeMappingEntry Add(Type fromLanguage, string fromType, Type toLanguage, string toType, bool nullable = false, string nameSpace = null, bool fromSystem = false, string constructor = null);
+        TypeMappingEntry Get(ILanguage fromLanguage, string fromType, ILanguage toLanguage);
+        TypeMappingEntry TryGet(ILanguage fromLanguage, string fromType, ILanguage toLanguage);
+        TypeMappingEntry TryGet(ILanguage fromLanguage, Type fromType, ILanguage toLanguage);
+        void Get(ILanguage fromLanguage, ILanguage toLanguage, TypeTransferObject type);
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using KY.Generator.Languages;
 using KY.Generator.Templates;
 
@@ -5,9 +6,9 @@ namespace KY.Generator.Mappings
 {
     public class TypeMappingEntry
     {
-        public IMappableLanguage FromLanguage { get; }
+        public Type FromLanguage { get; }
         public string FromType { get; }
-        public IMappableLanguage ToLanguage { get; }
+        public Type ToLanguage { get; }
         public string ToType { get; }
         public bool Nullable { get; set; }
         public string Namespace { get; set; }
@@ -15,7 +16,7 @@ namespace KY.Generator.Mappings
         public string Constructor { get; }
         public ICodeFragment Default { get; set; }
 
-        public TypeMappingEntry(IMappableLanguage fromLanguage, string fromType, IMappableLanguage toLanguage, string toType, bool nullable, string nameSpace, bool fromSystem, string constructor = null)
+        public TypeMappingEntry(Type fromLanguage, string fromType, Type toLanguage, string toType, bool nullable, string nameSpace, bool fromSystem, string constructor = null)
         {
             this.FromLanguage = fromLanguage;
             this.FromType = fromType;

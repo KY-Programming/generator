@@ -16,15 +16,17 @@ namespace KY.Generator.AspDotNet.Readers
         private readonly ReflectionModelReader modelReader;
         private readonly AspDotNetOptions aspOptions;
         private readonly Options options;
+        private readonly List<ITransferObject> transferObjects;
 
-        public AspDotNetHubReader(ReflectionModelReader modelReader, AspDotNetOptions aspOptions, Options options)
+        public AspDotNetHubReader(ReflectionModelReader modelReader, AspDotNetOptions aspOptions, Options options, List<ITransferObject> transferObjects)
         {
             this.modelReader = modelReader;
             this.aspOptions = aspOptions;
             this.options = options;
+            this.transferObjects = transferObjects;
         }
 
-        public void Read(AspDotNetReadConfiguration configuration, List<ITransferObject> transferObjects)
+        public void Read(AspDotNetReadConfiguration configuration)
         {
             configuration.Hub.AssertIsNotNull($"SignalR: {nameof(configuration.Hub)}");
             configuration.Hub.Name.AssertIsNotNull($"SignalR: {nameof(configuration.Hub)}.{nameof(configuration.Hub.Name)}");
@@ -66,7 +68,7 @@ namespace KY.Generator.AspDotNet.Readers
                     action.Parameters.Add(new HttpServiceActionParameterTransferObject
                                           {
                                               Name = parameter.Name,
-                                              Type = this.modelReader.Read(parameter.ParameterType, transferObjects, methodOptions)
+                                              Type = this.modelReader.Read(parameter.ParameterType, methodOptions)
                                           });
                 }
                 hub.Actions.Add(action);
@@ -84,7 +86,7 @@ namespace KY.Generator.AspDotNet.Readers
                     action.Parameters.Add(new HttpServiceActionParameterTransferObject
                                           {
                                               Name = parameter.Name,
-                                              Type = this.modelReader.Read(parameter.ParameterType, transferObjects, methodOptions)
+                                              Type = this.modelReader.Read(parameter.ParameterType, methodOptions)
                                           });
                 }
                 hub.Events.Add(action);

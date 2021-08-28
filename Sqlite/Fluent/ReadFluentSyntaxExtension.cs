@@ -9,8 +9,11 @@ namespace KY.Generator
     {
         public static IReadFluentOrSwitchToWriteSyntax Sqlite(this IReadFluentSyntax syntax, Action<ISqliteReadSyntax> action)
         {
-            action(new SqliteReadSyntax((IReadFluentSyntaxInternal)syntax));
-            return (IReadFluentSyntaxInternal)syntax;
+            IReadFluentSyntaxInternal internalSyntax = (IReadFluentSyntaxInternal)syntax;
+            SqliteReadSyntax readSyntax = new(internalSyntax);
+            internalSyntax.Syntaxes.Add(readSyntax);
+            action(readSyntax);
+            return internalSyntax;
         }
     }
 }

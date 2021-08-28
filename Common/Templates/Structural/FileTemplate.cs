@@ -9,6 +9,7 @@ namespace KY.Generator.Templates
     [DebuggerDisplay("File {Name ?? \"No namespace\"}")]
     public class FileTemplate : ICodeFragment
     {
+        public IOptions Options { get; }
         private string name;
 
         public string Name
@@ -17,18 +18,17 @@ namespace KY.Generator.Templates
             set => this.name = value;
         }
 
+        public string FullPath { get; set; }
         public string RelativePath { get; }
-        public string Type { get; set; }
         public List<NamespaceTemplate> Namespaces { get; }
         public CommentTemplate Header { get; }
-        public Guid? OutputId { get; }
 
-        public FileTemplate(string relativePath = null, bool addHeader = true, Guid? outputId = null)
+        public FileTemplate(string relativePath, IOptions options)
         {
             this.RelativePath = relativePath ?? string.Empty;
-            this.OutputId = outputId;
+            this.Options = options;
             this.Namespaces = new List<NamespaceTemplate>();
-            this.Header = new CommentTemplate(addHeader ? Resources.Header : null);
+            this.Header = new CommentTemplate(options.AddHeader ? Resources.Header : null);
         }
 
         public IEnumerable<UsingTemplate> GetUsingsByNamespace()

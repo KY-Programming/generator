@@ -17,13 +17,13 @@ namespace KY.Generator.Json.Commands
             this.resolver = resolver;
         }
 
-        public override IGeneratorCommandResult Run(IOutput output)
+        public override IGeneratorCommandResult Run()
         {
             JsonReadConfiguration configuration = new JsonReadConfiguration();
             configuration.Source = this.Parameters.RelativePath;
-            configuration.BasePath = (output as FileOutput)?.BasePath;
+            configuration.BasePath = (this.resolver.Get<IOutput>() as FileOutput)?.BasePath;
 
-            this.resolver.Create<JsonReader>().Read(configuration, this.TransferObjects);
+            this.resolver.Create<JsonReader>().Read(configuration);
 
             return this.Success();
         }

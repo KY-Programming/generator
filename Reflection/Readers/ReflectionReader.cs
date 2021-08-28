@@ -11,13 +11,15 @@ namespace KY.Generator.Reflection.Readers
     internal class ReflectionReader : ITransferReader
     {
         private readonly ReflectionModelReader modelReader;
+        private readonly Options options;
 
-        public ReflectionReader(ReflectionModelReader modelReader)
+        public ReflectionReader(ReflectionModelReader modelReader, Options options)
         {
             this.modelReader = modelReader;
+            this.options = options;
         }
 
-        public void Read(ReflectionReadConfiguration configuration, List<ITransferObject> transferObjects, IOptions caller = null)
+        public void Read(ReflectionReadConfiguration configuration, IOptions caller = null)
         {
             Type type = GeneratorTypeLoader.Get(configuration.Assembly, configuration.Namespace, configuration.Name);
             if (type == null)
@@ -25,11 +27,11 @@ namespace KY.Generator.Reflection.Readers
                 Logger.Trace($"Class {configuration.Namespace}.{configuration.Name} not found");
                 return;
             }
-            ModelTransferObject selfModel = this.modelReader.Read(type, transferObjects, caller);
-            if (configuration.SkipSelf)
+            ModelTransferObject selfModel = this.modelReader.Read(type, caller);
+            IOptions modelOptions = this.options.Get(selfModel);
+            if (configuration.SkipSelf || modelOptions.SkipSelf)
             {
-                transferObjects.Remove(selfModel);
-                Logger.Trace($"{selfModel.Name} ({selfModel.Namespace}) skipped through configuration");
+                modelOptions.SkipSelf = true;
             }
         }
     }

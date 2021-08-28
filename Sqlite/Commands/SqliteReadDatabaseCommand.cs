@@ -16,10 +16,10 @@ namespace KY.Generator.Sqlite.Commands
             this.resolver = resolver;
         }
 
-        public override IGeneratorCommandResult Run(IOutput output)
+        public override IGeneratorCommandResult Run()
         {
-            string outputPath = output is FileOutput fileOutput ? fileOutput.BasePath : string.Empty;
-            this.resolver.Create<SqliteTableReader>().Read(this.Parameters, this.TransferObjects, outputPath);
+            string outputPath = this.resolver.Get<IOutput>() is FileOutput fileOutput ? fileOutput.BasePath : string.Empty;
+            this.resolver.Create<SqliteTableReader>().Read(this.Parameters, outputPath);
             return this.Success();
         }
     }

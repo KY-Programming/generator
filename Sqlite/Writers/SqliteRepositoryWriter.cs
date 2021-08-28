@@ -18,6 +18,8 @@ namespace KY.Generator.Sqlite.Writers
 {
     public class SqliteRepositoryWriter : TransferWriter
     {
+        private readonly List<FileTemplate> files;
+
         private readonly Dictionary<string, string> getMethodMapping = new()
                                                                        {
                                                                            { "System.Boolean", "GetBoolean" },
@@ -35,15 +37,17 @@ namespace KY.Generator.Sqlite.Writers
                                                                            { "System.TimeSpan", "GetTimeSpan" }
                                                                        };
 
-        public SqliteRepositoryWriter(ITypeMapping typeMapping, Options options)
+        public SqliteRepositoryWriter(ITypeMapping typeMapping, Options options, List<FileTemplate> files)
             : base(typeMapping, options)
-        { }
-
-        public List<FileTemplate> Write(SqliteModelTransferObject model, SqliteWriteRepositoryCommandParameters parameters)
         {
-            List<FileTemplate> files = new();
+            this.files = files;
+        }
+
+        public void Write(SqliteModelTransferObject model, SqliteWriteRepositoryCommandParameters parameters)
+        {
             string repositoryName = parameters.ClassName ?? $"{model.Name}Repository";
-            ClassTemplate classTemplate = files.AddFile(parameters.RelativePath, !parameters.SkipHeader, parameters.OutputId)
+            ClassTemplate classTemplate = files.AddFile(parameters.RelativePath, this.Options.Current)
+                                               .WithName(Formatter.FormatFile(repositoryName, this.Options.Current))
                                                .AddNamespace(parameters.Namespace)
                                                .AddClass(repositoryName)
                                                .WithUsing("Microsoft.Data.Sqlite");
@@ -61,7 +65,6 @@ namespace KY.Generator.Sqlite.Writers
             this.WriteInsert(classTemplate, connectionField, model, parameters);
             this.WriteUpdate(classTemplate, connectionField, model, parameters);
             this.WriteDelete(classTemplate, connectionField, model, parameters);
-            return files;
         }
 
         private void WriteCreateTable(ClassTemplate classTemplate, FieldTemplate connectionField, SqliteModelTransferObject model, SqliteWriteRepositoryCommandParameters parameters)

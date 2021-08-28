@@ -1,23 +1,27 @@
 ﻿using System;
+using KY.Core.Dependency;
+using KY.Generator.Angular.Writers;
+using KY.Generator.Templates;
 using KY.Generator.TypeScript.Languages;
 
 namespace KY.Generator.Angular.Languages
 {
     internal class AngularTypeScriptLanguage : TypeScriptLanguage
     {
-        public AngularTypeScriptLanguage()
+        public AngularTypeScriptLanguage(IDependencyResolver resolver)
+            : base(resolver)
         {
-            this.Key = TypeScriptLanguage.Instance.Key;
+            this.AddWriter<FileTemplate, AngularFileWriter>();
         }
 
-        public override string FormatFileName(string fileName, string fileType = null)
+        public override string FormatFile(string name, IOptions options, string type = null, bool force = false)
         {
-            string formattedFileName = base.FormatFileName(fileName, fileType);
-            if ("service".Equals(fileType, StringComparison.CurrentCultureIgnoreCase))
+            string fileName = base.FormatFile(name, options, type, force);
+            if ("service".Equals(type, StringComparison.CurrentCultureIgnoreCase))
             {
-                formattedFileName = formattedFileName.Replace("-service.ts", ".service.ts");
+                fileName = fileName.Replace("-service.ts", ".service.ts");
             }
-            return formattedFileName;
+            return fileName;
         }
     }
 }

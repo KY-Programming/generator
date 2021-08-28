@@ -9,6 +9,5 @@ namespace KY.Generator.Sqlite.Commands
         public string Name { get; set; }
         public string Table { get; set; }
         public string ClassName { get; set; }
-        public Guid? OutputId { get; set; }
     }
 }

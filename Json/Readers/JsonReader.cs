@@ -14,23 +14,30 @@ namespace KY.Generator.Json.Readers
 {
     internal class JsonReader : ITransferReader
     {
-        public void Read(JsonReadConfiguration configuration, List<ITransferObject> transferObjects)
+        private readonly List<ITransferObject> transferObjects;
+
+        public JsonReader(List<ITransferObject> transferObjects)
+        {
+            this.transferObjects = transferObjects;
+        }
+
+        public void Read(JsonReadConfiguration configuration)
         {
             JObject source = JsonConvert.DeserializeObject<JObject>(FileSystem.ReadAllText(FileSystem.Combine(configuration.BasePath, configuration.Source)));
             string name = Regex.Replace(FileSystem.GetFileName(configuration.Source), @"\.json$", string.Empty, RegexOptions.CultureInvariant);
-            this.ReadModel(name, source, transferObjects);
+            this.ReadModel(name, source);
         }
 
-        private ModelTransferObject ReadModel(string name, JObject source, List<ITransferObject> list)
+        private ModelTransferObject ReadModel(string name, JObject source)
         {
             ModelTransferObject model = new JsonModelTransferObject { Name = name, Language = JsonLanguage.Instance };
-            list.Add(model);
+            this.transferObjects.Add(model);
 
             foreach (JProperty property in source.Properties())
             {
                 if (property.Value.Type == JTokenType.Object)
                 {
-                    ModelTransferObject propertyModel = this.ReadModel(property.Name, (JObject)property.Value, list);
+                    ModelTransferObject propertyModel = this.ReadModel(property.Name, (JObject)property.Value);
                     model.Properties.Add(new PropertyTransferObject { Name = propertyModel.Name, Type = propertyModel });
                 }
                 else if (property.Value.Type == JTokenType.Array)
@@ -45,7 +52,7 @@ namespace KY.Generator.Json.Readers
                     }
                     else if (children.First().Type == JTokenType.Object)
                     {
-                        ModelTransferObject entryModel = this.ReadModel(property.Name, (JObject)children.First(), list);
+                        ModelTransferObject entryModel = this.ReadModel(property.Name, (JObject)children.First());
                         listType.Generics.Add(new GenericAliasTransferObject { Type = entryModel });
                     }
                     else

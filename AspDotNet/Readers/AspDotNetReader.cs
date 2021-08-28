@@ -16,15 +16,15 @@ namespace KY.Generator.AspDotNet.Readers
             this.resolver = resolver;
         }
 
-        public virtual void Read(AspDotNetReadConfiguration configuration, List<ITransferObject> transferObjects)
+        public virtual void Read(AspDotNetReadConfiguration configuration)
         {
             if (configuration.Controller != null)
             {
-                this.resolver.Create<AspDotNetControllerReader>().Read(configuration, transferObjects);
+                this.resolver.Create<AspDotNetControllerReader>().Read(configuration);
             }
             if (configuration.Hub != null)
             {
-                this.resolver.Create<AspDotNetHubReader>().Read(configuration, transferObjects);
+                this.resolver.Create<AspDotNetHubReader>().Read(configuration);
             }
         }
     }

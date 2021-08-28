@@ -13,8 +13,8 @@ namespace KY.Generator
                 return new[]
                        {
                            new AttributeCommandConfiguration("asp-read-hub", "-namespace=$NAMESPACE$", "-name=$NAME$"),
-                           new AttributeCommandConfiguration("angular-service", this.ServiceParameters),
-                           new AttributeCommandConfiguration("angular-model", this.ModelParameters)
+                           new AttributeCommandConfiguration("angular-model", this.ModelParameters),
+                           new AttributeCommandConfiguration("angular-service", this.ServiceParameters)
                        };
             }
         }

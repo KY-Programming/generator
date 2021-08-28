@@ -16,7 +16,7 @@ namespace KY.Generator.Reflection.Commands
             this.resolver = resolver;
         }
 
-        public override IGeneratorCommandResult Run(IOutput output)
+        public override IGeneratorCommandResult Run()
         {
             ReflectionReadConfiguration readConfiguration = new();
             readConfiguration.Assembly = this.Parameters.Assembly;
@@ -24,7 +24,7 @@ namespace KY.Generator.Reflection.Commands
             readConfiguration.Name = this.Parameters.Name;
             readConfiguration.SkipSelf = this.Parameters.SkipSelf;
 
-            this.resolver.Create<ReflectionReader>().Read(readConfiguration, this.TransferObjects);
+            this.resolver.Create<ReflectionReader>().Read(readConfiguration);
             return this.Success();
         }
     }

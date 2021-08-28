@@ -13,78 +13,20 @@ namespace KY.Generator.Output
             this.output = output;
         }
 
-        public IFormattableLanguage Language => this.output.Language;
-
         public IEnumerable<ICodeFragment> LastFragments => this.output.LastFragments;
-
-        public IOutputCache Add(string code, bool keepIndent = false)
-        {
-            return this.output.Add(code, keepIndent);
-        }
-
-        public IOutputCache Add(params ICodeFragment[] fragments)
-        {
-            return this.output.Add(fragments);
-        }
-
-        public IOutputCache Add(IEnumerable<ICodeFragment> fragments)
-        {
-            return this.output.Add(fragments);
-        }
-
-        public IOutputCache Add(IEnumerable<ICodeFragment> fragments, string separator)
-        {
-            return this.output.Add(fragments, separator);
-        }
-
-        public IOutputCache CloseLine()
-        {
-            return this.output.CloseLine();
-        }
-
-        public IOutputCache BreakLine()
-        {
-            return this.output.BreakLine();
-        }
-
-        public IOutputCache BreakLineIfNotEmpty()
-        {
-            return this.output.BreakLineIfNotEmpty();
-        }
-
-        public IOutputCache Indent()
-        {
-            return this.output.Indent();
-        }
-
-        public IOutputCache UnIndent()
-        {
-            return this.output.UnIndent();
-        }
-
-        public IOutputCache StartBlock()
-        {
-            return this.output.StartBlock();
-        }
-
-        public IOutputCache EndBlock(bool breakLine = true)
-        {
-            return this.output.EndBlock(breakLine);
-        }
-
-        public IOutputCache If(bool condition)
-        {
-            return this.output.If(condition);
-        }
-
-        public IOutputCache EndIf()
-        {
-            return this.output;
-        }
-
-        public IOutputCache ExtraIndent(int indents = 1)
-        {
-            return this.output.ExtraIndent(indents);
-        }
+        public IOutputCache Add(string code, bool keepIndent = false) => this.output.Add(code, keepIndent);
+        public IOutputCache Add(params ICodeFragment[] fragments) => this.output.Add(fragments);
+        public IOutputCache Add(IEnumerable<ICodeFragment> fragments) => this.output.Add(fragments);
+        public IOutputCache Add(IEnumerable<ICodeFragment> fragments, string separator) => this.output.Add(fragments, separator);
+        public IOutputCache CloseLine() => this.output.CloseLine();
+        public IOutputCache BreakLine() => this.output.BreakLine();
+        public IOutputCache BreakLineIfNotEmpty() => this.output.BreakLineIfNotEmpty();
+        public IOutputCache Indent() => this.output.Indent();
+        public IOutputCache UnIndent() => this.output.UnIndent();
+        public IOutputCache StartBlock() => this.output.StartBlock();
+        public IOutputCache EndBlock(bool breakLine = true) => this.output.EndBlock(breakLine);
+        public IOutputCache If(bool condition) => this.output.If(condition);
+        public IOutputCache ExtraIndent(int indents = 1) => this.output.ExtraIndent(indents);
+        public IOutputCache EndIf() => this.output;
     }
 }

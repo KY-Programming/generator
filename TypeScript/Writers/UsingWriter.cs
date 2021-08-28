@@ -7,6 +7,13 @@ namespace KY.Generator.TypeScript.Writers
 {
     public class UsingWriter : ITemplateWriter
     {
+        private readonly IOptions options;
+
+        public UsingWriter(IOptions options)
+        {
+            this.options = options;
+        }
+
         public virtual void Write(ICodeFragment fragment, IOutputCache output)
         {
             UsingTemplate template = (UsingTemplate)fragment;
@@ -15,7 +22,11 @@ namespace KY.Generator.TypeScript.Writers
             {
                 typeName = $"{{ {typeName} }}";
             }
-            output.Add($"import {typeName} from \"{template.Path.TrimEnd(".ts")}\"").CloseLine();
+            output.Add($"import {typeName} from ")
+                  .Add(this.options.Formatting.Quote)
+                  .Add(template.Path.TrimEnd(".ts"))
+                  .Add(this.options.Formatting.Quote)
+                  .CloseLine();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using KY.Core;
 
@@ -7,6 +8,38 @@ namespace KY.Generator.Extensions
 {
     public static class StringExtensions
     {
+        // TODO: Move to KY.Core.Common
+        public static string PadLeft(this string value, int totalWidth, string text = " ", bool exact = false)
+        {
+            if (value == null || text == null || value.Length >= totalWidth)
+            {
+                return value;
+            }
+            StringBuilder builder = new();
+            while (builder.Length + value.Length < totalWidth)
+            {
+                builder.Append(text);
+            }
+            builder.Append(value);
+            return exact ? builder.ToString().Substring(0, totalWidth) : builder.ToString();
+        }
+
+        // TODO: Move to KY.Core.Common
+        public static string PadRight(this string value, int totalWidth, string text = " ", bool exact = false)
+        {
+            if (value == null || text == null || value.Length >= totalWidth)
+            {
+                return value;
+            }
+            StringBuilder builder = new();
+            builder.Append(value);
+            while (builder.Length < totalWidth)
+            {
+                builder.Append(text);
+            }
+            return exact ? builder.ToString().Substring(0, totalWidth) : builder.ToString();
+        }
+
         public static string ToPascalCase(this string value, string allowedCharacters = "")
         {
             return string.Join("", Split(value, allowedCharacters).Select(x => x.FirstCharToUpper()));

@@ -15,9 +15,9 @@ namespace KY.Generator.Json.Writers
             this.resolver = resolver;
         }
 
-        public void Write(IEnumerable<ITransferObject> transferObjects, string relativePath, IOutput output, bool withReader)
+        public void Write(string relativePath, bool withReader)
         {
-            this.resolver.Create<ObjectWriter>().Write(transferObjects, relativePath, output, withReader);
+            this.resolver.Create<ObjectWriter>().Write(relativePath, withReader);
         }
     }
 }

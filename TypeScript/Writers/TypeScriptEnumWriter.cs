@@ -7,6 +7,10 @@ namespace KY.Generator.TypeScript.Writers
 {
     public class TypeScriptEnumWriter : EnumWriter
     {
+        public TypeScriptEnumWriter(IOptions options)
+            : base(options)
+        { }
+
         public override void Write(ICodeFragment fragment, IOutputCache output)
         {
             EnumTemplate template = (EnumTemplate)fragment;

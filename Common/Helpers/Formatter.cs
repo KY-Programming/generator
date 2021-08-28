@@ -1,15 +1,14 @@
 ﻿using System;
 using KY.Core;
 using KY.Generator.Extensions;
-using KY.Generator.Languages;
 
 namespace KY.Generator
 {
     public static class Formatter
     {
-        public static string FormatFile(string name, IOptions options, bool force = false)
+        public static string FormatFile(string name, IOptions options, string type = null, bool force = true)
         {
-            return Format(name, options.Formatting.FileCase, options, force);
+            return options.Language?.FormatFile(name, options, type, force) ?? Format(name, options.Formatting.FileCase, options, force);
         }
 
         public static string FormatClass(string name, IOptions options, bool force = false)

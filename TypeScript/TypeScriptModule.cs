@@ -11,7 +11,7 @@ namespace KY.Generator.TypeScript
         public TypeScriptModule(IDependencyResolver dependencyResolver)
             : base(dependencyResolver)
         {
-            this.DependencyResolver.Bind<ILanguage>().To(TypeScriptLanguage.Instance);
+            this.DependencyResolver.Bind<ILanguage>().To<TypeScriptLanguage>();
             this.DependencyResolver.Bind<TypeScriptModelWriter>().ToSelf();
         }
     }

@@ -20,7 +20,8 @@ namespace KY.Generator.Reflection.Tests
                                       .PreloadModule<CsharpModule>()
                                       .PreloadModule<TypeScriptModule>()
                                       .PreloadModule<ReflectionModule>()
-                                      .SetOutput(this.output);
+                                      // .SetOutput(this.output)
+                                      ;
         }
 
         [TestMethod]

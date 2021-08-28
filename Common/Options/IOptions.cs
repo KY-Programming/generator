@@ -20,7 +20,7 @@ namespace KY.Generator
         FormattingOptions Formatting { get; }
         ILanguage Language { get; set; }
         bool AddHeader { get; set; }
-        Guid? OutputId { get; set; }
         bool SkipNamespace { get; set; }
+        bool SkipSelf { get; set; }
     }
 }

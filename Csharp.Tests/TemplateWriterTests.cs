@@ -12,6 +12,7 @@ using KY.Generator.Templates.Extensions;
 using KY.Generator.Writers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using CommentWriter = KY.Generator.Csharp.Writers.CommentWriter;
+using FileWriter = KY.Generator.Output.FileWriter;
 
 namespace KY.Generator.Csharp.Tests
 {
@@ -20,18 +21,21 @@ namespace KY.Generator.Csharp.Tests
     {
         private IDependencyResolver resolver;
         private IOutputCache output;
+        private IOptions options;
 
         [TestInitialize]
         public void Initialize()
         {
             this.resolver = new DependencyResolver();
-            this.output = new FileWriter(CsharpLanguage.Instance);
+            this.options = new OptionsSet(null, null);
+            this.options.Language = new CsharpLanguage(this.resolver);
+            this.output = new FileWriter(this.options);
         }
 
         [TestMethod]
         public void AttributeWriter()
         {
-            AttributeWriter writer = new AttributeWriter(this.output.Language.CastTo<BaseLanguage>());
+            AttributeWriter writer = new AttributeWriter();
             writer.Write(new AttributeTemplate("test"), this.output);
             Assert.AreEqual("[test]", this.output.ToString());
         }
@@ -39,7 +43,7 @@ namespace KY.Generator.Csharp.Tests
         [TestMethod]
         public void AttributeWithStringValue()
         {
-            AttributeWriter writer = new AttributeWriter(this.output.Language.CastTo<BaseLanguage>());
+            AttributeWriter writer = new AttributeWriter();
             writer.Write(new AttributeTemplate("test", Code.String("value")), this.output);
             Assert.AreEqual("[test(\"value\")]", this.output.ToString());
         }
@@ -48,8 +52,8 @@ namespace KY.Generator.Csharp.Tests
         public void AttributeWithProperty()
         {
             AttributeTemplate template = new AttributeTemplate("test");
-            template.Properties.Add("key", "value");
-            AttributeWriter writer = new AttributeWriter(this.output.Language.CastTo<BaseLanguage>());
+            template.Properties.Add("key", Code.String("value"));
+            AttributeWriter writer = new AttributeWriter();
             writer.Write(template, this.output);
             Assert.AreEqual("[test(key = \"value\")]", this.output.ToString());
         }
@@ -59,7 +63,7 @@ namespace KY.Generator.Csharp.Tests
         {
             PropertyTemplate template = new PropertyTemplate(null, "Property", Code.Type("string"))
                 .WithAttribute("Attribute", Code.String("value"));
-            this.output.Language.Write(template, this.output);
+            this.output.Add(template);
             Assert.AreEqual("[Attribute(\"value\")]\r\npublic string Property { get; set; }", this.output.ToString());
         }
 
@@ -71,7 +75,7 @@ namespace KY.Generator.Csharp.Tests
                     .WithAttribute("Attribute", Code.String("value"));
             template.AddProperty("Property2", Code.Type("string"))
                     .WithAttribute("Attribute", Code.String("value"));
-            this.output.Language.Write(template, this.output);
+            this.output.Add(template);
             Assert.AreEqual("public partial class MyClass\r\n{\r\n    [Attribute(\"value\")]\r\n    public string Property1 { get; set; }\r\n\r\n    [Attribute(\"value\")]\r\n    public string Property2 { get; set; }\r\n}", this.output.ToString());
         }
 
@@ -140,7 +144,7 @@ namespace KY.Generator.Csharp.Tests
             ClassTemplate template = new ClassTemplate((NamespaceTemplate)null, "test");
             template.AddProperty("Prop1", Code.Type("string"));
             template.AddConstructor();
-            ClassWriter writer = new ClassWriter();
+            ClassWriter writer = new ClassWriter(this.options);
             writer.Write(template, this.output);
             Assert.AreEqual("public partial class test\r\n{\r\n    public string Prop1 { get; set; }\r\n\r\n    public test()\r\n    {\r\n    }\r\n}", this.output.ToString());
         }
@@ -151,7 +155,7 @@ namespace KY.Generator.Csharp.Tests
             ClassTemplate template = new ClassTemplate((NamespaceTemplate)null, "test");
             template.AddProperty("Prop1", Code.Type("string"));
             template.AddProperty("Prop2", Code.Type("string")).WithAttribute("attr");
-            ClassWriter writer = new ClassWriter();
+            ClassWriter writer = new ClassWriter(this.options);
             writer.Write(template, this.output);
             Assert.AreEqual("public partial class test\r\n{\r\n    public string Prop1 { get; set; }\r\n\r\n    [attr]\r\n    public string Prop2 { get; set; }\r\n}", this.output.ToString());
         }
@@ -162,7 +166,7 @@ namespace KY.Generator.Csharp.Tests
             ClassTemplate template = new ClassTemplate((NamespaceTemplate)null, "test");
             template.AddProperty("Prop1", Code.Type("string")).WithAttribute("attr");
             template.AddProperty("Prop2", Code.Type("string"));
-            ClassWriter writer = new ClassWriter();
+            ClassWriter writer = new ClassWriter(this.options);
             writer.Write(template, this.output);
             Assert.AreEqual("public partial class test\r\n{\r\n    [attr]\r\n    public string Prop1 { get; set; }\r\n\r\n    public string Prop2 { get; set; }\r\n}", this.output.ToString());
         }

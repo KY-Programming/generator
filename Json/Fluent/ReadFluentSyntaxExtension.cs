@@ -8,8 +8,11 @@ namespace KY.Generator
     {
         public static IReadFluentOrSwitchToWriteSyntax Json(this IReadFluentSyntax syntax, Action<IJsonReadSyntax> action)
         {
-            action(new JsonReadSyntax((IReadFluentSyntaxInternal)syntax));
-            return (IReadFluentSyntaxInternal)syntax;
+            IReadFluentSyntaxInternal internalSyntax = (IReadFluentSyntaxInternal)syntax;
+            JsonReadSyntax readSyntax = new(internalSyntax);
+            internalSyntax.Syntaxes.Add(readSyntax);
+            action(readSyntax);
+            return internalSyntax;
         }
     }
 }

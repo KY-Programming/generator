@@ -12,26 +12,24 @@ using KY.Core.Dependency;
 using KY.Core.Extension;
 using KY.Core.Module;
 using KY.Generator.Command;
-using KY.Generator.Configuration;
-using KY.Generator.Configurations;
 using KY.Generator.Extensions;
 using KY.Generator.Languages;
 using KY.Generator.Mappings;
 using KY.Generator.Models;
 using KY.Generator.Output;
 using KY.Generator.Syntax;
-using KY.Generator.Transfer;
-using KY.Generator.Transfer.Readers;
+using KY.Generator.Templates;
 using KY.Generator.Transfer.Writers;
+using Environment = KY.Generator.Models.Environment;
+using SystemEnvironment = System.Environment;
 
 namespace KY.Generator
 {
     public class Generator : IGeneratorRunSyntax
     {
-        private IOutput output;
+        private readonly IOutput output;
         private readonly DependencyResolver resolver;
         private readonly List<IGeneratorCommand> commands = new List<IGeneratorCommand>();
-        private readonly List<ITransferObject> transferObjects = new List<ITransferObject>();
 
         public Generator()
         {
@@ -39,18 +37,21 @@ namespace KY.Generator
             Assembly callingAssembly = Assembly.GetEntryAssembly() ?? Assembly.GetCallingAssembly();
             FrameworkName framework = callingAssembly.GetTargetFramework();
             Logger.Trace($"KY-Generator v{callingAssembly.GetName().Version} ({framework.Identifier.Replace("App", string.Empty)} {framework.Version.Major}.{framework.Version.Minor})");
-            Logger.Trace("Current Directory: " + Environment.CurrentDirectory);
+            Logger.Trace("Current Directory: " + SystemEnvironment.CurrentDirectory);
             Logger.Trace("Log Directory: " + Logger.File.Path);
 
             NugetPackageDependencyLoader.Activate();
             NugetPackageDependencyLoader.ResolveDependencies(this.GetType().Assembly);
 
-            this.output = new FileOutput(Environment.CurrentDirectory);
             this.resolver = new DependencyResolver();
             this.resolver.Bind<ITypeMapping>().ToSingleton<TypeMapping>();
             this.resolver.Bind<CommandRunner>().ToSelf();
             this.resolver.Bind<ModuleFinder>().ToSingleton();
             this.resolver.Bind<ModelWriter>().ToSelf();
+            this.resolver.Bind<IEnvironment>().ToSingleton<Environment>();
+            this.output = new FileOutput(this.resolver.Get<IEnvironment>(), SystemEnvironment.CurrentDirectory);
+            this.resolver.Bind<IOutput>().To(this.output);
+            this.resolver.Bind<List<FileTemplate>>().To(new List<FileTemplate>());
 
             ModuleFinder moduleFinder = this.resolver.Get<ModuleFinder>();
             this.InitializeModules(moduleFinder.Modules);
@@ -74,15 +75,10 @@ namespace KY.Generator
             return this;
         }
 
-        public Generator SetOutput(IOutput newOutput)
-        {
-            this.output = newOutput;
-            return this;
-        }
-
         public Generator SetOutput(string path)
         {
-            return this.SetOutput(new FileOutput(path));
+            this.output.Move(path);
+            return this;
         }
 
         public Generator RegisterCommand<T>() where T : IGeneratorCommand
@@ -105,7 +101,6 @@ namespace KY.Generator
                 new RawCommandParameter("assembly", assemblyName),
                 new RawCommandParameter("SkipAsyncCheck", bool.TrueString)
             );
-            command.TransferObjects = this.transferObjects;
             this.commands.Add(command);
             return this;
         }
@@ -121,7 +116,7 @@ namespace KY.Generator
             Logger.Trace("Parameters: " + string.Join(" ", parameters));
 
             List<RawCommand> rawCommands = RawCommandReader.Read(parameters);
-            this.commands.AddRange(this.resolver.Get<CommandRunner>().Convert(rawCommands, this.transferObjects));
+            this.commands.AddRange(this.resolver.Get<CommandRunner>().Convert(rawCommands));
             return this;
         }
 
@@ -136,13 +131,14 @@ namespace KY.Generator
                 List<IGeneratorCommand> asyncCommands = new List<IGeneratorCommand>();
                 IGeneratorCommandResult switchContext = null;
                 bool switchAsync = false;
+                this.commands.ForEach(command => command.Prepare());
                 foreach (IGeneratorCommand command in this.commands)
                 {
-                    IGeneratorCommandResult result = runner.Run(command, this.output);
+                    IGeneratorCommandResult result = runner.Run(command);
                     success &= result.Success;
                     if (result.SwitchContext)
                     {
-                        switchContext = switchContext ?? result;
+                        switchContext ??= result;
                         asyncCommands.Add(command);
                     }
                     if (result.SwitchToAsync)
@@ -155,6 +151,7 @@ namespace KY.Generator
                         asyncCommands.Add(command);
                     }
                 }
+                this.resolver.Get<List<FileTemplate>>().Write(this.resolver.Get<IOutput>());
                 if (switchAsync)
                 {
                     return this.SwitchToAsync(asyncCommands);

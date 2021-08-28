@@ -1,8 +1,6 @@
 using System;
-using System.Collections.Generic;
 using KY.Core.Dependency;
 using KY.Generator.AspDotNet.Tests.Properties;
-using KY.Generator.Configuration;
 using KY.Generator.Csharp;
 using KY.Generator.Mappings;
 using KY.Generator.Output;

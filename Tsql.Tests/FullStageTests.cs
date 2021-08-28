@@ -1,8 +1,4 @@
-using System.Collections.Generic;
 using KY.Core.Dependency;
-using KY.Generator.Configuration;
-using KY.Generator.Csharp;
-using KY.Generator.Mappings;
 using KY.Generator.Output;
 using KY.Generator.Tsql.Tests.Properties;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -13,6 +9,7 @@ namespace KY.Generator.Tsql.Tests
     public class FullStageTests
     {
         private IDependencyResolver resolver;
+
         //private ConfigurationsReader reader;
         //private ConfigurationRunner runner;
         private MemoryOutput output;

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace KY.Generator.Output
 {
@@ -12,7 +11,7 @@ namespace KY.Generator.Output
             this.Files = new Dictionary<string, string>();
         }
 
-        public void Write(string fileName, string content, Guid? outputId)
+        public void Write(string fileName, string content)
         {
             this.Files.Add(fileName, content);
         }
@@ -22,7 +21,7 @@ namespace KY.Generator.Output
             this.Files.Remove(fileName);
         }
 
-        public void DeleteAllRelatedFiles(Guid? outputId, string relativePath = null)
+        public void DeleteAllRelatedFiles(string relativePath = null)
         { }
 
         public void Execute()

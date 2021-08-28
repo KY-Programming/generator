@@ -1,28 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using KY.Core;
 using KY.Core.Dependency;
 using KY.Generator.Command;
 using KY.Generator.Extensions;
 using KY.Generator.Helpers;
 using KY.Generator.Output;
+using KY.Generator.Syntax;
+using KY.Generator.Templates;
 using KY.Generator.Transfer;
+using Environment = KY.Generator.Models.Environment;
 
 namespace KY.Generator.Fluent
 {
     internal class FluentCommand : GeneratorCommand<FluentCommandParameters>
     {
         private readonly IDependencyResolver resolver;
-        public override string[] Names { get; }= { "fluent" };
+        public override string[] Names { get; } = { "fluent" };
 
         public FluentCommand(IDependencyResolver resolver)
         {
             this.resolver = resolver;
         }
 
-        public override IGeneratorCommandResult Run(IOutput output)
+        public override IGeneratorCommandResult Run()
         {
             if (string.IsNullOrEmpty(this.Parameters.Assembly))
             {
@@ -43,7 +45,6 @@ namespace KY.Generator.Fluent
             {
                 return this.SwitchAsync();
             }
-            CommandRunner commandRunner = this.resolver.Get<CommandRunner>();
             IEnumerable<Type> types = TypeHelper.GetTypes(result.Assembly).Where(type => typeof(GeneratorFluentMain).IsAssignableFrom(type));
             foreach (Type objectType in types)
             {
@@ -55,13 +56,17 @@ namespace KY.Generator.Fluent
                 }
                 else
                 {
-                main.Execute();
+                    main.Execute();
                 }
-                foreach (List<IGeneratorCommand> commands in main.Syntaxes.Select(x => x.Commands).Where(x => x.Count > 0))
+                List<ITransferObject> transferObjects = this.resolver.Get<Environment>().TransferObjects;
+                foreach (IFluentInternalSyntax syntax in main.Syntaxes)
                 {
-                    List<ITransferObject> transferObjects = this.TransferObjects.ToList();
-                    commands.ForEach(x => x.TransferObjects = transferObjects);
-                    commandRunner.Run(commands, output);
+                    IGeneratorCommandResult commandResult = syntax.Run();
+                    if (!commandResult.Success)
+                    {
+                        return commandResult;
+                    }
+                    transferObjects.AddIfNotExists(syntax.Resolver.Get<List<ITransferObject>>());
                 }
             }
             return this.Success();

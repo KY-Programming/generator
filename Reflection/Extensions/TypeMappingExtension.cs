@@ -10,7 +10,7 @@ namespace KY.Generator.Reflection.Extensions
     {
         public static ITypeMapping Initialize(this ITypeMapping typeMapping)
         {
-            typeMapping.Map(ReflectionLanguage.Instance).To(CsharpLanguage.Instance)
+            typeMapping.Map<ReflectionLanguage>().To<CsharpLanguage>()
                        .From("System.Array").To("Array").Namespace("System").FromSystem()
                        .From("System.Boolean").To("bool").FromSystem()
                        .From("System.Byte").To("byte").FromSystem()
@@ -38,7 +38,7 @@ namespace KY.Generator.Reflection.Extensions
                        .From("System.Collections.Generic.IDictionary").To("IDictionary").Namespace("System.Collections.Generic").FromSystem()
                        .From("System.Nullable").To("Nullable").Nullable().FromSystem();
 
-            typeMapping.Map(ReflectionLanguage.Instance).To(TypeScriptLanguage.Instance)
+            typeMapping.Map<ReflectionLanguage>().To<TypeScriptLanguage>()
                        .From("System.Array").To("Array").Nullable().FromSystem().Default(Code.Instance.TypeScript("[]"))
                        .From("System.Boolean").To("boolean").Nullable().FromSystem().Default(Code.Instance.Boolean(false))
                        .From("System.Byte").To("number").Nullable().FromSystem().Default(Code.Instance.Number(0))

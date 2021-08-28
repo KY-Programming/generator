@@ -153,5 +153,10 @@ namespace KY.Generator
         {
             return new WhileTemplate(condition, code);
         }
+
+        public static ParenthesisTemplate Parenthesis(this Code _, ICodeFragment code)
+        {
+            return new ParenthesisTemplate(code);
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using KY.Core.Dependency;
 using KY.Generator.Angular.Commands;
 using KY.Generator.Command;
 using KY.Generator.Syntax;
@@ -8,27 +9,27 @@ namespace KY.Generator.Angular.Fluent
 {
     internal class AngularWriteSyntax : IAngularWriteSyntax
     {
-        private readonly IWriteFluentSyntaxInternal syntax;
+        private readonly IDependencyResolver resolver;
 
-        public List<IGeneratorCommand> Commands => this.syntax.Commands;
+        public List<IGeneratorCommand> Commands { get; } = new();
 
-        public AngularWriteSyntax(IWriteFluentSyntaxInternal syntax)
+        public AngularWriteSyntax(IDependencyResolver resolver)
         {
-            this.syntax = syntax;
+            this.resolver = resolver;
         }
 
         public IAngularWriteSyntax Models(Action<IAngularModelSyntax> action = null)
         {
-            AngularModelCommand command = this.syntax.Resolver.Create<AngularModelCommand>();
-            this.syntax.Commands.Add(command);
+            AngularModelCommand command = this.resolver.Create<AngularModelCommand>();
+            this.Commands.Add(command);
             action?.Invoke(new AngularModelSyntax(this, command));
             return this;
         }
 
         public IAngularWriteSyntax Services(Action<IAngularServiceSyntax> action = null)
         {
-            AngularServiceCommand command = this.syntax.Resolver.Create<AngularServiceCommand>();
-            this.syntax.Commands.Add(command);
+            AngularServiceCommand command = this.resolver.Create<AngularServiceCommand>();
+            this.Commands.Add(command);
             action?.Invoke(new AngularServiceSyntax(this, command));
             return this;
         }

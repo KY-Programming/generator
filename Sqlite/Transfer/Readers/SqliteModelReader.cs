@@ -14,9 +14,9 @@ namespace KY.Generator.Sqlite.Transfer.Readers
             this.modelReader = modelReader;
         }
 
-        public SqliteModelTransferObject Read(Type type, List<ITransferObject> transferObjects)
+        public SqliteModelTransferObject Read(Type type)
         {
-            ModelTransferObject model = this.modelReader.Read(type, transferObjects);
+            ModelTransferObject model = this.modelReader.Read(type);
             return new(model);
         }
     }

@@ -78,5 +78,11 @@ namespace KY.Generator.Syntax
             this.optionsSet.ReplaceName[replace] = with;
             return this;
         }
+
+        public ISetFluentSyntax SkipSelf()
+        {
+            this.optionsSet.SkipSelf = true;
+            return this;
+        }
     }
 }

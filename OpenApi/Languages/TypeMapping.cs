@@ -8,17 +8,19 @@ namespace KY.Generator.OpenApi.Languages
     {
         public static ITypeMapping Initialize(this ITypeMapping typeMapping)
         {
-            typeMapping.Add(OpenApiLanguage.Instance, "array", CsharpLanguage.Instance, "List", nameSpace: "System.Collections.Generic", fromSystem: true);
-            typeMapping.Add(OpenApiLanguage.Instance, "string", CsharpLanguage.Instance, "string", true, fromSystem: true);
-            typeMapping.Add(OpenApiLanguage.Instance, "boolean", CsharpLanguage.Instance, "bool", true, fromSystem: true);
-            typeMapping.Add(OpenApiLanguage.Instance, "integer", CsharpLanguage.Instance, "int", true, fromSystem: true);
-            typeMapping.Add(OpenApiLanguage.Instance, "number", CsharpLanguage.Instance, "double", true, fromSystem: true);
-            
-            typeMapping.Add(OpenApiLanguage.Instance, "array", TypeScriptLanguage.Instance, "Array", fromSystem: true);
-            typeMapping.Add(OpenApiLanguage.Instance, "string", TypeScriptLanguage.Instance, "string", true, fromSystem: true);
-            typeMapping.Add(OpenApiLanguage.Instance, "boolean", TypeScriptLanguage.Instance, "boolean", true, fromSystem: true);
-            typeMapping.Add(OpenApiLanguage.Instance, "integer", TypeScriptLanguage.Instance, "number", true, fromSystem: true);
-            typeMapping.Add(OpenApiLanguage.Instance, "number", TypeScriptLanguage.Instance, "number", true, fromSystem: true);
+            typeMapping.Map<OpenApiLanguage>().To<CsharpLanguage>()
+                       .From("array").To("List").Namespace("System.Collections.Generic").FromSystem()
+                       .From("string").To("string").Nullable().FromSystem()
+                       .From("boolean").To("bool").Nullable().FromSystem()
+                       .From("integer").To("int").Nullable().FromSystem()
+                       .From("number").To("double").Nullable().FromSystem();
+
+            typeMapping.Map<OpenApiLanguage>().To<TypeScriptLanguage>()
+                       .From("array").To("Array").FromSystem()
+                       .From("string").To("string").Nullable().FromSystem()
+                       .From("boolean").To("boolean").Nullable().FromSystem()
+                       .From("integer").To("number").Nullable().FromSystem()
+                       .From("number").To("number").Nullable().FromSystem();
 
             return typeMapping;
         }
