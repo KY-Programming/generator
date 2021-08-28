@@ -12,11 +12,12 @@ namespace KY.Generator.Output
     internal class FileWriter : IOutputCache
     {
         private readonly IOptions options;
+        private readonly List<ICodeFragment> lastFragments = new();
         private int indent;
         private readonly StringBuilder cache = new();
         private bool isLineClosed = true;
 
-        public IEnumerable<ICodeFragment> LastFragments => this.options.Language.CastSafeTo<BaseLanguage>()?.LastFragments;
+        public IEnumerable<ICodeFragment> LastFragments => this.lastFragments;
 
         public FileWriter(IOptions options)
         {
@@ -78,7 +79,7 @@ namespace KY.Generator.Output
         {
             foreach (ICodeFragment fragment in fragments.Where(x => x != null))
             {
-                this.options.Language.Write(fragment, this);
+                this.Add(fragment);
             }
             return this;
         }
@@ -92,10 +93,20 @@ namespace KY.Generator.Output
                 {
                     this.Add(separator);
                 }
-                this.options.Language.Write(fragment, this);
+                this.Add(fragment);
                 first = false;
             }
             return this;
+        }
+
+        private void Add(ICodeFragment fragment)
+        {
+            this.lastFragments.Insert(0, fragment);
+            while (this.lastFragments.Count > 10)
+            {
+                this.lastFragments.RemoveAt(this.lastFragments.Count - 1);
+            }
+            this.options.Language.Write(fragment, this);
         }
 
         public IOutputCache CloseLine()

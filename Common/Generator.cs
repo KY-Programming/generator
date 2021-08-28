@@ -151,7 +151,9 @@ namespace KY.Generator
                         asyncCommands.Add(command);
                     }
                 }
+                Logger.Trace("Generate code...");
                 this.resolver.Get<List<FileTemplate>>().Write(this.resolver.Get<IOutput>());
+                Logger.Trace("All code generated");
                 if (switchAsync)
                 {
                     return this.SwitchToAsync(asyncCommands);

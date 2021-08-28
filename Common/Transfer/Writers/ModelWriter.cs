@@ -33,7 +33,9 @@ namespace KY.Generator.Transfer.Writers
                     ModelTransferObject otherModel = models.FirstOrDefault(m => m != model && (m.OriginalName == model.OriginalName || m.Name == model.OriginalName) && m.Namespace == model.Namespace);
                     if (otherModel != null && otherModel.IsGeneric)
                     {
-                        otherModel.Name = Formatter.FormatClass(otherModel.Name + "Generic", this.Options.Get(otherModel));
+                        IOptions otherModelOptions = this.Options.Get(otherModel);
+                        otherModel.Name = Formatter.FormatClass(otherModel.Name + "Generic", otherModelOptions);
+                        otherModel.FileName = Formatter.FormatFile(otherModel.Name, otherModelOptions);
                     }
                     else if (otherModel != null && model.IsGeneric)
                     {

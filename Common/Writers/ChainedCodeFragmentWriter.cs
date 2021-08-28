@@ -27,8 +27,7 @@ namespace KY.Generator.Writers
                     output.Add(codeFragment.Separator);
                 }
                 isFirst = false;
-                this.options.Language.Write(codeFragment, output);
-                //output.Add(codeFragment, this);
+                output.Add(codeFragment);
                 if (codeFragment.NewLineAfter)
                 {
                     output.BreakLine();

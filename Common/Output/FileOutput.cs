@@ -25,25 +25,37 @@ namespace KY.Generator.Output
         {
             string filePath = this.ToFilePath(fileName);
             this.RemovePreviousActions(filePath);
-            this.actions.Add(new OutputWriteAction(filePath, content, this.environment.OutputId));
+            lock (this.actions)
+            {
+                this.actions.Add(new OutputWriteAction(filePath, content, this.environment.OutputId));
+            }
         }
 
         public void Delete(string fileName)
         {
             string filePath = this.ToFilePath(fileName);
             this.RemovePreviousActions(filePath);
-            this.actions.Add(new OutputDeleteAction(filePath));
+            lock (this.actions)
+            {
+                this.actions.Add(new OutputDeleteAction(filePath));
+            }
         }
 
         public void RemoveOutputId(string filePath, string fileContent = null)
         {
             this.RemovePreviousActions(filePath);
-            this.actions.Add(new OutputRemoveIdAction(filePath, this.environment.OutputId, fileContent));
+            lock (this.actions)
+            {
+                this.actions.Add(new OutputRemoveIdAction(filePath, this.environment.OutputId, fileContent));
+            }
         }
 
         public void Execute()
         {
-            this.actions.ForEach(action => action.Execute());
+            lock (this.actions)
+            {
+                this.actions.ForEach(action => action.Execute());
+            }
         }
 
         public void DeleteAllRelatedFiles(string relativePath = null)
@@ -59,8 +71,13 @@ namespace KY.Generator.Output
                 {
                     return;
                 }
+                List<IOutputAction> currentActions;
+                lock (this.actions)
+                {
+                    currentActions = this.actions.ToList();
+                }
                 IEnumerable<string> filesToCheck = FileSystem.GetFiles(path, null, SearchOption.AllDirectories)
-                                                             .Where(file => this.actions.All(action => !action.FilePath.Equals(file, StringComparison.CurrentCultureIgnoreCase)));
+                                                             .Where(file => currentActions.All(action => !action.FilePath.Equals(file, StringComparison.CurrentCultureIgnoreCase)));
                 foreach (string file in filesToCheck)
                 {
                     string content = FileSystem.ReadAllText(file);
@@ -92,7 +109,10 @@ namespace KY.Generator.Output
 
         private void RemovePreviousActions(string fileName)
         {
-            this.actions.RemoveAll(action => action.FilePath.Equals(fileName, StringComparison.InvariantCultureIgnoreCase));
+            lock (this.actions)
+            {
+                this.actions.RemoveAll(action => action.FilePath.Equals(fileName, StringComparison.InvariantCultureIgnoreCase));
+            }
         }
 
         private string ToFilePath(string fileName)

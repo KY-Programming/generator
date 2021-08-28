@@ -13,8 +13,6 @@ namespace KY.Generator.Languages
     public abstract class BaseLanguage : Codeable, ILanguage, ITemplateWriter
     {
         private readonly IDependencyResolver resolver;
-        private readonly List<ICodeFragment> lastFragments = new();
-
         private Dictionary<Type, Type> TemplateWriters { get; } = new();
         private Dictionary<Type, ITemplateWriter> TemplateWritersSingletons { get; } = new();
 
@@ -27,7 +25,6 @@ namespace KY.Generator.Languages
         public virtual string PartialKeyword => "partial";
         public bool HasAbstractClasses { get; set; } = true;
         public bool HasStaticClasses { get; set; } = true;
-        public IEnumerable<ICodeFragment> LastFragments => this.lastFragments;
 
         protected BaseLanguage(IDependencyResolver resolver)
         {
@@ -144,11 +141,6 @@ namespace KY.Generator.Languages
             if (fragment == null)
             {
                 return;
-            }
-            this.lastFragments.Insert(0, fragment);
-            while (this.lastFragments.Count > 10)
-            {
-                this.lastFragments.RemoveAt(this.lastFragments.Count - 1);
             }
             ChainedCodeFragmentWriter chainedCodeFragmentWriter = this.GetWriter<ChainedCodeFragment>().CastTo<ChainedCodeFragmentWriter>();
             if (fragment is ChainedCodeFragment chainedCodeFragment && !chainedCodeFragmentWriter.IsProcessed(chainedCodeFragment))
