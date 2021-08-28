@@ -372,7 +372,7 @@ namespace KY.Generator.Angular.Writers
                                               .WithUsing("HubConnection", "@microsoft/signalr")
                                               .WithUsing("IHttpConnectionOptions", "@microsoft/signalr")
                                               .WithUsing("LogLevel", "@microsoft/signalr")
-                                              .WithUsing(connectionStatusEnum.Name, FileSystem.Combine(relativeModelPath, Formatter.FormatFile(connectionStatusFileTemplate.Name, hubOptions)).Replace("\\", "/"))
+                                              .WithUsing(connectionStatusEnum.Name, FileSystem.Combine(relativeModelPath, connectionStatusFileTemplate.Name).Replace("\\", "/"))
                                               .WithAttribute("Injectable", Code.AnonymousObject().WithProperty("providedIn", Code.String("root")));
                 FieldTemplate isClosedField = classTemplate.AddField("isClosed", Code.Type("boolean"));
                 FieldTemplate serviceUrlField = classTemplate.AddField("serviceUrl", Code.Type("string")).Public().FormatName(hubOptions).Default(Code.String(string.Empty));
