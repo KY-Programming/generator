@@ -27,7 +27,9 @@ export class ConvertToInterfaceOptionalService {
 
     public get(subject: string, httpOptions?: {}): Observable<ConvertMeOptional> {
         let rxjsSubject = new Subject<ConvertMeOptional>();
-        this.http.get<ConvertMeOptional>(this.serviceUrl + "/converttointerfaceoptional/get" + "?subject=" + this.convertAny(subject), httpOptions).subscribe((result) => {
+        let url: string = this.serviceUrl + "/converttointerfaceoptional/get";
+        url = this.append(url, subject, "subject");
+        this.http.get<ConvertMeOptional>(url, httpOptions).subscribe((result) => {
             if (result) {
                 result.dateTimeProperty = this.convertToDate(result.dateTimeProperty);
             }
@@ -37,8 +39,14 @@ export class ConvertToInterfaceOptionalService {
         return rxjsSubject;
     }
 
-    public convertAny(value: any): string {
-        return value === null || value === undefined ? "" : value.toString();
+    public append(url: string, value: {toString(): string} | undefined | null, parameterName: string = "", separator: string = ""): string {
+        if (! parameterName) {
+            return url + separator + (value === null || value === undefined ? "" : value.toString());
+        }
+        if (value !== null && value !== undefined) {
+            return url + (url.indexOf("?") === -1 ? "?" : "&") + parameterName + "=" + value.toString();
+        }
+        return url;
     }
 
     public convertToDate(value: string | Date): Date {

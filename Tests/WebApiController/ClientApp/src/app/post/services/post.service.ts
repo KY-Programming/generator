@@ -27,7 +27,8 @@ export class PostService {
 
     public postWithoutParameter(httpOptions?: {}): Observable<void> {
         let subject = new Subject<void>();
-        this.http.post<void>(this.serviceUrl + "/post/postwithoutparameter", httpOptions).subscribe(() => {
+        let url: string = this.serviceUrl + "/post/postwithoutparameter";
+        this.http.post<void>(url, httpOptions).subscribe(() => {
             subject.next();
             subject.complete();
         }, (error) => subject.error(error));
@@ -36,7 +37,9 @@ export class PostService {
 
     public postWithOneParameter(test: string, httpOptions?: {}): Observable<void> {
         let subject = new Subject<void>();
-        this.http.post<void>(this.serviceUrl + "/post/postwithoneparameter" + "?test=" + this.convertAny(test), httpOptions).subscribe(() => {
+        let url: string = this.serviceUrl + "/post/postwithoneparameter";
+        url = this.append(url, test, "test");
+        this.http.post<void>(url, httpOptions).subscribe(() => {
             subject.next();
             subject.complete();
         }, (error) => subject.error(error));
@@ -45,7 +48,10 @@ export class PostService {
 
     public postWithTwoParameter(text: string, count: number, httpOptions?: {}): Observable<void> {
         let subject = new Subject<void>();
-        this.http.post<void>(this.serviceUrl + "/post/postwithtwoparameter" + "?text=" + this.convertAny(text) + "&count=" + this.convertAny(count), httpOptions).subscribe(() => {
+        let url: string = this.serviceUrl + "/post/postwithtwoparameter";
+        url = this.append(url, text, "text");
+        url = this.append(url, count, "count");
+        this.http.post<void>(url, httpOptions).subscribe(() => {
             subject.next();
             subject.complete();
         }, (error) => subject.error(error));
@@ -54,7 +60,8 @@ export class PostService {
 
     public postWithBodyParameter(model: PostModel, httpOptions?: {}): Observable<void> {
         let subject = new Subject<void>();
-        this.http.post<void>(this.serviceUrl + "/post/postwithbodyparameter", model, httpOptions).subscribe(() => {
+        let url: string = this.serviceUrl + "/post/postwithbodyparameter";
+        this.http.post<void>(url, model, httpOptions).subscribe(() => {
             subject.next();
             subject.complete();
         }, (error) => subject.error(error));
@@ -63,7 +70,9 @@ export class PostService {
 
     public postWithValueAndBodyParameter(id: number, model: PostModel, httpOptions?: {}): Observable<void> {
         let subject = new Subject<void>();
-        this.http.post<void>(this.serviceUrl + "/post/postwithvalueandbodyparameter" + "?id=" + this.convertAny(id), model, httpOptions).subscribe(() => {
+        let url: string = this.serviceUrl + "/post/postwithvalueandbodyparameter";
+        url = this.append(url, id, "id");
+        this.http.post<void>(url, model, httpOptions).subscribe(() => {
             subject.next();
             subject.complete();
         }, (error) => subject.error(error));
@@ -72,15 +81,23 @@ export class PostService {
 
     public postWithValueAndBodyParameterFlipped(model: PostModel, id: number, httpOptions?: {}): Observable<void> {
         let subject = new Subject<void>();
-        this.http.post<void>(this.serviceUrl + "/post/postwithvalueandbodyparameterflipped" + "?id=" + this.convertAny(id), model, httpOptions).subscribe(() => {
+        let url: string = this.serviceUrl + "/post/postwithvalueandbodyparameterflipped";
+        url = this.append(url, id, "id");
+        this.http.post<void>(url, model, httpOptions).subscribe(() => {
             subject.next();
             subject.complete();
         }, (error) => subject.error(error));
         return subject;
     }
 
-    public convertAny(value: any): string {
-        return value === null || value === undefined ? "" : value.toString();
+    public append(url: string, value: {toString(): string} | undefined | null, parameterName: string = "", separator: string = ""): string {
+        if (! parameterName) {
+            return url + separator + (value === null || value === undefined ? "" : value.toString());
+        }
+        if (value !== null && value !== undefined) {
+            return url + (url.indexOf("?") === -1 ? "?" : "&") + parameterName + "=" + value.toString();
+        }
+        return url;
     }
 }
 

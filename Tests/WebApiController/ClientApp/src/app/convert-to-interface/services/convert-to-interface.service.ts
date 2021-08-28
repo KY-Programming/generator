@@ -27,15 +27,23 @@ export class ConvertToInterfaceService {
 
     public get(subject: string, httpOptions?: {}): Observable<ConvertMe> {
         let rxjsSubject = new Subject<ConvertMe>();
-        this.http.get<ConvertMe>(this.serviceUrl + "/converttointerface/get" + "?subject=" + this.convertAny(subject), httpOptions).subscribe((result) => {
+        let url: string = this.serviceUrl + "/converttointerface/get";
+        url = this.append(url, subject, "subject");
+        this.http.get<ConvertMe>(url, httpOptions).subscribe((result) => {
             rxjsSubject.next(result);
             rxjsSubject.complete();
         }, (error) => rxjsSubject.error(error));
         return rxjsSubject;
     }
 
-    public convertAny(value: any): string {
-        return value === null || value === undefined ? "" : value.toString();
+    public append(url: string, value: {toString(): string} | undefined | null, parameterName: string = "", separator: string = ""): string {
+        if (! parameterName) {
+            return url + separator + (value === null || value === undefined ? "" : value.toString());
+        }
+        if (value !== null && value !== undefined) {
+            return url + (url.indexOf("?") === -1 ? "?" : "&") + parameterName + "=" + value.toString();
+        }
+        return url;
     }
 }
 

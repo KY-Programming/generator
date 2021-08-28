@@ -27,7 +27,9 @@ export class VersionedApiService {
 
     public get(httpOptions?: {}): Observable<WeatherForecast[]> {
         let subject = new Subject<WeatherForecast[]>();
-        this.http.get<WeatherForecast[]>(this.serviceUrl + "/versionedapi" + "?api-version=1.0", httpOptions).subscribe((result) => {
+        let url: string = this.serviceUrl + "/versionedapi";
+        url += "?api-version=1.0";
+        this.http.get<WeatherForecast[]>(url, httpOptions).subscribe((result) => {
             if (result) {
                 result.forEach((entry) => {
                     entry.date = this.convertToDate(entry.date);
@@ -41,7 +43,11 @@ export class VersionedApiService {
 
     public getNext(days: number, httpOptions?: {}): Observable<WeatherForecast[]> {
         let subject = new Subject<WeatherForecast[]>();
-        this.http.get<WeatherForecast[]>(this.serviceUrl + "/versionedapi/next/" + days + "/days" + "?api-version=1.0", httpOptions).subscribe((result) => {
+        let url: string = this.serviceUrl + "/versionedapi/next";
+        url = this.append(url, days, undefined, "/");
+        url += "/days";
+        url += "?api-version=1.0";
+        this.http.get<WeatherForecast[]>(url, httpOptions).subscribe((result) => {
             if (result) {
                 result.forEach((entry) => {
                     entry.date = this.convertToDate(entry.date);
@@ -55,7 +61,10 @@ export class VersionedApiService {
 
     public getNext2(days: number, httpOptions?: {}): Observable<WeatherForecast[]> {
         let subject = new Subject<WeatherForecast[]>();
-        this.http.get<WeatherForecast[]>(this.serviceUrl + "/versionedapi/next-days" + "?api-version=2.0" + "&days=" + this.convertAny(days), httpOptions).subscribe((result) => {
+        let url: string = this.serviceUrl + "/versionedapi/next-days";
+        url += "?api-version=2.0";
+        url = this.append(url, days, "days");
+        this.http.get<WeatherForecast[]>(url, httpOptions).subscribe((result) => {
             if (result) {
                 result.forEach((entry) => {
                     entry.date = this.convertToDate(entry.date);
@@ -67,8 +76,14 @@ export class VersionedApiService {
         return subject;
     }
 
-    public convertAny(value: any): string {
-        return value === null || value === undefined ? "" : value.toString();
+    public append(url: string, value: {toString(): string} | undefined | null, parameterName: string = "", separator: string = ""): string {
+        if (! parameterName) {
+            return url + separator + (value === null || value === undefined ? "" : value.toString());
+        }
+        if (value !== null && value !== undefined) {
+            return url + (url.indexOf("?") === -1 ? "?" : "&") + parameterName + "=" + value.toString();
+        }
+        return url;
     }
 
     public convertToDate(value: string | Date): Date {

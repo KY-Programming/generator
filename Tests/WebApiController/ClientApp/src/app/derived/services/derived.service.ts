@@ -26,7 +26,8 @@ export class DerivedService {
 
     public get(httpOptions?: {}): Observable<void> {
         let subject = new Subject<void>();
-        this.http.get<void>(this.serviceUrl + "/derived/get", httpOptions).subscribe(() => {
+        let url: string = this.serviceUrl + "/derived/get";
+        this.http.get<void>(url, httpOptions).subscribe(() => {
             subject.next();
             subject.complete();
         }, (error) => subject.error(error));
@@ -35,7 +36,8 @@ export class DerivedService {
 
     public overwritten(httpOptions?: {}): Observable<void> {
         let subject = new Subject<void>();
-        this.http.get<void>(this.serviceUrl + "/derived/overwritten", httpOptions).subscribe(() => {
+        let url: string = this.serviceUrl + "/derived/overwritten";
+        this.http.get<void>(url, httpOptions).subscribe(() => {
             subject.next();
             subject.complete();
         }, (error) => subject.error(error));
@@ -44,7 +46,8 @@ export class DerivedService {
 
     public getBase(httpOptions?: {}): Observable<void> {
         let subject = new Subject<void>();
-        this.http.get<void>(this.serviceUrl + "/derived/getbase", httpOptions).subscribe(() => {
+        let url: string = this.serviceUrl + "/derived/getbase";
+        this.http.get<void>(url, httpOptions).subscribe(() => {
             subject.next();
             subject.complete();
         }, (error) => subject.error(error));
@@ -53,7 +56,8 @@ export class DerivedService {
 
     public notOverwritten(httpOptions?: {}): Observable<void> {
         let subject = new Subject<void>();
-        this.http.get<void>(this.serviceUrl + "/derived/notoverwritten", httpOptions).subscribe(() => {
+        let url: string = this.serviceUrl + "/derived/notoverwritten";
+        this.http.get<void>(url, httpOptions).subscribe(() => {
             subject.next();
             subject.complete();
         }, (error) => subject.error(error));

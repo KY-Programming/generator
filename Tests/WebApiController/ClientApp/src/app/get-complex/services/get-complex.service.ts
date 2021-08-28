@@ -27,7 +27,8 @@ export class GetComplexService {
 
     public get(httpOptions?: {}): Observable<GetComplexModel> {
         let subject = new Subject<GetComplexModel>();
-        this.http.get<GetComplexModel>(this.serviceUrl + "/getcomplex/get", httpOptions).subscribe((result) => {
+        let url: string = this.serviceUrl + "/getcomplex/get";
+        this.http.get<GetComplexModel>(url, httpOptions).subscribe((result) => {
             subject.next(result);
             subject.complete();
         }, (error) => subject.error(error));

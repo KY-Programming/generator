@@ -26,15 +26,25 @@ export class ParameterOnService {
 
     public get(test: string, id: string, httpOptions?: {}): Observable<void> {
         let subject = new Subject<void>();
-        this.http.get<void>(this.serviceUrl + "/parameteron/" + id + "/get" + "?test=" + this.convertAny(test), httpOptions).subscribe(() => {
+        let url: string = this.serviceUrl + "/parameteron";
+        url = this.append(url, id, undefined, "/");
+        url += "/get";
+        url = this.append(url, test, "test");
+        this.http.get<void>(url, httpOptions).subscribe(() => {
             subject.next();
             subject.complete();
         }, (error) => subject.error(error));
         return subject;
     }
 
-    public convertAny(value: any): string {
-        return value === null || value === undefined ? "" : value.toString();
+    public append(url: string, value: {toString(): string} | undefined | null, parameterName: string = "", separator: string = ""): string {
+        if (! parameterName) {
+            return url + separator + (value === null || value === undefined ? "" : value.toString());
+        }
+        if (value !== null && value !== undefined) {
+            return url + (url.indexOf("?") === -1 ? "?" : "&") + parameterName + "=" + value.toString();
+        }
+        return url;
     }
 }
 

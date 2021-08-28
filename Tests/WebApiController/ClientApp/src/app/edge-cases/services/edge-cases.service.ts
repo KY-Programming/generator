@@ -29,7 +29,9 @@ export class EdgeCasesService {
 
     public get(subject: string, httpOptions?: {}): Observable<void> {
         let rxjsSubject = new Subject<void>();
-        this.http.get<void>(this.serviceUrl + "/edgecases/get" + "?subject=" + this.convertAny(subject), httpOptions).subscribe(() => {
+        let url: string = this.serviceUrl + "/edgecases/get";
+        url = this.append(url, subject, "subject");
+        this.http.get<void>(url, httpOptions).subscribe(() => {
             rxjsSubject.next();
             rxjsSubject.complete();
         }, (error) => rxjsSubject.error(error));
@@ -38,7 +40,9 @@ export class EdgeCasesService {
 
     public post(subject: string, httpOptions?: {}): Observable<void> {
         let rxjsSubject = new Subject<void>();
-        this.http.post<void>(this.serviceUrl + "/edgecases/post" + "?subject=" + this.convertAny(subject), httpOptions).subscribe(() => {
+        let url: string = this.serviceUrl + "/edgecases/post";
+        url = this.append(url, subject, "subject");
+        this.http.post<void>(url, httpOptions).subscribe(() => {
             rxjsSubject.next();
             rxjsSubject.complete();
         }, (error) => rxjsSubject.error(error));
@@ -47,7 +51,9 @@ export class EdgeCasesService {
 
     public cancelable(subject: string, httpOptions?: {}): Observable<string[]> {
         let rxjsSubject = new Subject<string[]>();
-        this.http.get<string[]>(this.serviceUrl + "/edgecases/cancelable" + "?subject=" + this.convertAny(subject), httpOptions).subscribe((result) => {
+        let url: string = this.serviceUrl + "/edgecases/cancelable";
+        url = this.append(url, subject, "subject");
+        this.http.get<string[]>(url, httpOptions).subscribe((result) => {
             rxjsSubject.next(result);
             rxjsSubject.complete();
         }, (error) => rxjsSubject.error(error));
@@ -57,7 +63,8 @@ export class EdgeCasesService {
     public string(httpOptions?: {}): Observable<string> {
         let subject = new Subject<string>();
         httpOptions = { responseType: 'text', ...httpOptions};
-        this.http.get<string>(this.serviceUrl + "/edgecases/string", httpOptions).subscribe((result) => {
+        let url: string = this.serviceUrl + "/edgecases/string";
+        this.http.get<string>(url, httpOptions).subscribe((result) => {
             subject.next(result);
             subject.complete();
         }, (error) => subject.error(error));
@@ -66,7 +73,8 @@ export class EdgeCasesService {
 
     public getGuid(httpOptions?: {}): Observable<string> {
         let subject = new Subject<string>();
-        this.http.get<string>(this.serviceUrl + "/edgecases/getguid", httpOptions).subscribe((result) => {
+        let url: string = this.serviceUrl + "/edgecases/getguid";
+        this.http.get<string>(url, httpOptions).subscribe((result) => {
             subject.next(result.replace(/(^"|"$)/g, ""));
             subject.complete();
         }, (error) => subject.error(error));
@@ -75,7 +83,9 @@ export class EdgeCasesService {
 
     public withDI(value: number, httpOptions?: {}): Observable<boolean> {
         let subject = new Subject<boolean>();
-        this.http.get<boolean>(this.serviceUrl + "/edgecases/withdi" + "?value=" + this.convertAny(value), httpOptions).subscribe((result) => {
+        let url: string = this.serviceUrl + "/edgecases/withdi";
+        url = this.append(url, value, "value");
+        this.http.get<boolean>(url, httpOptions).subscribe((result) => {
             subject.next(result);
             subject.complete();
         }, (error) => subject.error(error));
@@ -85,7 +95,9 @@ export class EdgeCasesService {
     public fromHeader(value?: number, httpOptions?: {}): Observable<string> {
         let subject = new Subject<string>();
         httpOptions = { responseType: 'text', ...httpOptions};
-        this.http.get<string>(this.serviceUrl + "/edgecases/fromheader" + "?value=" + this.convertAny(value), httpOptions).subscribe((result) => {
+        let url: string = this.serviceUrl + "/edgecases/fromheader";
+        url = this.append(url, value, "value");
+        this.http.get<string>(url, httpOptions).subscribe((result) => {
             subject.next(result);
             subject.complete();
         }, (error) => subject.error(error));
@@ -95,7 +107,10 @@ export class EdgeCasesService {
     public fromQuery(queryValue?: string, value?: number, httpOptions?: {}): Observable<string> {
         let subject = new Subject<string>();
         httpOptions = { responseType: 'text', ...httpOptions};
-        this.http.get<string>(this.serviceUrl + "/edgecases/fromquery" + "?queryValue=" + this.convertAny(queryValue) + "&value=" + this.convertAny(value), httpOptions).subscribe((result) => {
+        let url: string = this.serviceUrl + "/edgecases/fromquery";
+        url = this.append(url, queryValue, "queryValue");
+        url = this.append(url, value, "value");
+        this.http.get<string>(url, httpOptions).subscribe((result) => {
             subject.next(result);
             subject.complete();
         }, (error) => subject.error(error));
@@ -104,9 +119,10 @@ export class EdgeCasesService {
 
     public fromQueryArray(queryArray: string[], httpOptions?: {}): Observable<string> {
         let subject = new Subject<string>();
-        let queryArrayJoin: string = queryArray.map((x, index) => index ? "queryArray=" + this.convertAny(x) : this.convertAny(x)).join("&");
         httpOptions = { responseType: 'text', ...httpOptions};
-        this.http.get<string>(this.serviceUrl + "/edgecases/fromqueryarray" + "?queryArray=" + this.convertAny(queryArrayJoin), httpOptions).subscribe((result) => {
+        let url: string = this.serviceUrl + "/edgecases/fromqueryarray";
+        queryArray.forEach((entry) => url = this.append(url, entry, "queryArray"));
+        this.http.get<string>(url, httpOptions).subscribe((result) => {
             subject.next(result);
             subject.complete();
         }, (error) => subject.error(error));
@@ -115,7 +131,10 @@ export class EdgeCasesService {
 
     public genericResult(value1: string, value2: string, httpOptions?: {}): Observable<GenericResult<string>> {
         let subject = new Subject<GenericResult<string>>();
-        this.http.get<GenericResult<string>>(this.serviceUrl + "/edgecases/genericresult" + "?value1=" + this.convertAny(value1) + "&value2=" + this.convertAny(value2), httpOptions).subscribe((result) => {
+        let url: string = this.serviceUrl + "/edgecases/genericresult";
+        url = this.append(url, value1, "value1");
+        url = this.append(url, value2, "value2");
+        this.http.get<GenericResult<string>>(url, httpOptions).subscribe((result) => {
             subject.next(result);
             subject.complete();
         }, (error) => subject.error(error));
@@ -124,7 +143,8 @@ export class EdgeCasesService {
 
     public genericComplexResult(httpOptions?: {}): Observable<GenericResult<ExclusiveGenericComplexResult>> {
         let subject = new Subject<GenericResult<ExclusiveGenericComplexResult>>();
-        this.http.get<GenericResult<ExclusiveGenericComplexResult>>(this.serviceUrl + "/edgecases/genericcomplexresult", httpOptions).subscribe((result) => {
+        let url: string = this.serviceUrl + "/edgecases/genericcomplexresult";
+        this.http.get<GenericResult<ExclusiveGenericComplexResult>>(url, httpOptions).subscribe((result) => {
             subject.next(result);
             subject.complete();
         }, (error) => subject.error(error));
@@ -133,7 +153,8 @@ export class EdgeCasesService {
 
     public getGenericWithModel(httpOptions?: {}): Observable<GenericResult<DateModel>> {
         let subject = new Subject<GenericResult<DateModel>>();
-        this.http.get<GenericResult<DateModel>>(this.serviceUrl + "/edgecases/getgenericwithmodel", httpOptions).subscribe((result) => {
+        let url: string = this.serviceUrl + "/edgecases/getgenericwithmodel";
+        this.http.get<GenericResult<DateModel>>(url, httpOptions).subscribe((result) => {
             if (result) {
                 if (result.rows) {
                     result.rows.forEach((entry) => {
@@ -147,8 +168,40 @@ export class EdgeCasesService {
         return subject;
     }
 
-    public convertAny(value: any): string {
-        return value === null || value === undefined ? "" : value.toString();
+    public getWithOptional(required: number, optional?: string, httpOptions?: {}): Observable<string> {
+        let subject = new Subject<string>();
+        httpOptions = { responseType: 'text', ...httpOptions};
+        let url: string = this.serviceUrl + "/edgecases/getwithoptional";
+        url = this.append(url, required, "required");
+        url = this.append(url, optional, "optional");
+        this.http.get<string>(url, httpOptions).subscribe((result) => {
+            subject.next(result);
+            subject.complete();
+        }, (error) => subject.error(error));
+        return subject;
+    }
+
+    public getInlineWithOptional(required: number, optional?: string, httpOptions?: {}): Observable<string> {
+        let subject = new Subject<string>();
+        httpOptions = { responseType: 'text', ...httpOptions};
+        let url: string = this.serviceUrl + "/edgecases/getinlinewithoptional";
+        url = this.append(url, required, undefined, "/");
+        url = this.append(url, optional, undefined, "/");
+        this.http.get<string>(url, httpOptions).subscribe((result) => {
+            subject.next(result);
+            subject.complete();
+        }, (error) => subject.error(error));
+        return subject;
+    }
+
+    public append(url: string, value: {toString(): string} | undefined | null, parameterName: string = "", separator: string = ""): string {
+        if (! parameterName) {
+            return url + separator + (value === null || value === undefined ? "" : value.toString());
+        }
+        if (value !== null && value !== undefined) {
+            return url + (url.indexOf("?") === -1 ? "?" : "&") + parameterName + "=" + value.toString();
+        }
+        return url;
     }
 
     public convertToDate(value: string | Date): Date {

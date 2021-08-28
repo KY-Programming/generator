@@ -28,7 +28,8 @@ export class FixCasingService {
 
     public get(httpOptions?: {}): Observable<CasingModel> {
         let subject = new Subject<CasingModel>();
-        this.http.get<CasingModel>(this.serviceUrl + "/fixcasing/get", httpOptions).subscribe((result) => {
+        let url: string = this.serviceUrl + "/fixcasing/get";
+        this.http.get<CasingModel>(url, httpOptions).subscribe((result) => {
             subject.next(result);
             subject.complete();
         }, (error) => subject.error(error));
@@ -37,7 +38,8 @@ export class FixCasingService {
 
     public post(model: CasingModel, httpOptions?: {}): Observable<void> {
         let subject = new Subject<void>();
-        this.http.post<void>(this.serviceUrl + "/fixcasing/post", model, httpOptions).subscribe(() => {
+        let url: string = this.serviceUrl + "/fixcasing/post";
+        this.http.post<void>(url, model, httpOptions).subscribe(() => {
             subject.next();
             subject.complete();
         }, (error) => subject.error(error));
@@ -46,7 +48,8 @@ export class FixCasingService {
 
     public getWithMapping(httpOptions?: {}): Observable<CasingWithMappingModel> {
         let subject = new Subject<CasingWithMappingModel>();
-        this.http.get<CasingWithMappingModel>(this.serviceUrl + "/fixcasing/getwithmapping", httpOptions).subscribe((result) => {
+        let url: string = this.serviceUrl + "/fixcasing/getwithmapping";
+        this.http.get<CasingWithMappingModel>(url, httpOptions).subscribe((result) => {
             result.allupper = result.allupper || result["ALLUPPER"];
             delete result['ALLUPPER'];
             result.pascalCase = result.pascalCase || result["PascalCase"];
@@ -63,7 +66,8 @@ export class FixCasingService {
 
     public getArrayWithMapping(httpOptions?: {}): Observable<CasingWithMappingModel[]> {
         let subject = new Subject<CasingWithMappingModel[]>();
-        this.http.get<CasingWithMappingModel[]>(this.serviceUrl + "/fixcasing/getarraywithmapping", httpOptions).subscribe((result) => {
+        let url: string = this.serviceUrl + "/fixcasing/getarraywithmapping";
+        this.http.get<CasingWithMappingModel[]>(url, httpOptions).subscribe((result) => {
             if (result) {
                 result.forEach((entry) => {
                     entry.allupper = entry.allupper || entry["ALLUPPER"];
@@ -84,7 +88,8 @@ export class FixCasingService {
 
     public postWithMapping(model: CasingWithMappingModel, httpOptions?: {}): Observable<void> {
         let subject = new Subject<void>();
-        this.http.post<void>(this.serviceUrl + "/fixcasing/postwithmapping", model, httpOptions).subscribe(() => {
+        let url: string = this.serviceUrl + "/fixcasing/postwithmapping";
+        this.http.post<void>(url, model, httpOptions).subscribe(() => {
             subject.next();
             subject.complete();
         }, (error) => subject.error(error));

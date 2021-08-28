@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CasingModel } from './models/casing-model';
+import { KeepCasingModel } from './models/keep-casing-model';
 import { KeepCasingService } from './services/keep-casing.service';
 
 @Component({
@@ -8,7 +8,7 @@ import { KeepCasingService } from './services/keep-casing.service';
   styleUrls: ['./keep-casing.component.css']
 })
 export class KeepCasingComponent implements OnInit {
-  public model: CasingModel;
+  public model: KeepCasingModel;
 
   constructor(
     private readonly service: KeepCasingService

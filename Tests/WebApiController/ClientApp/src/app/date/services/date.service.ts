@@ -33,7 +33,8 @@ export class DateService {
 
     public get(httpOptions?: {}): Observable<Date> {
         let subject = new Subject<Date>();
-        this.http.get<Date>(this.serviceUrl + "/api/date/get", httpOptions).subscribe((result) => {
+        let url: string = this.serviceUrl + "/api/date/get";
+        this.http.get<Date>(url, httpOptions).subscribe((result) => {
             subject.next(this.convertToDate(result));
             subject.complete();
         }, (error) => subject.error(error));
@@ -42,7 +43,8 @@ export class DateService {
 
     public getArray(httpOptions?: {}): Observable<Date[]> {
         let subject = new Subject<Date[]>();
-        this.http.get<Date[]>(this.serviceUrl + "/api/date/getarray", httpOptions).subscribe((result) => {
+        let url: string = this.serviceUrl + "/api/date/getarray";
+        this.http.get<Date[]>(url, httpOptions).subscribe((result) => {
             subject.next(result.map((entry) => this.convertToDate(entry)));
             subject.complete();
         }, (error) => subject.error(error));
@@ -51,7 +53,8 @@ export class DateService {
 
     public getList(httpOptions?: {}): Observable<Date[]> {
         let subject = new Subject<Date[]>();
-        this.http.get<Date[]>(this.serviceUrl + "/api/date/getlist", httpOptions).subscribe((result) => {
+        let url: string = this.serviceUrl + "/api/date/getlist";
+        this.http.get<Date[]>(url, httpOptions).subscribe((result) => {
             subject.next(result.map((entry) => this.convertToDate(entry)));
             subject.complete();
         }, (error) => subject.error(error));
@@ -60,7 +63,8 @@ export class DateService {
 
     public getEnumerable(httpOptions?: {}): Observable<Date[]> {
         let subject = new Subject<Date[]>();
-        this.http.get<Date[]>(this.serviceUrl + "/api/date/getenumerable", httpOptions).subscribe((result) => {
+        let url: string = this.serviceUrl + "/api/date/getenumerable";
+        this.http.get<Date[]>(url, httpOptions).subscribe((result) => {
             subject.next(result.map((entry) => this.convertToDate(entry)));
             subject.complete();
         }, (error) => subject.error(error));
@@ -69,7 +73,8 @@ export class DateService {
 
     public getComplex(httpOptions?: {}): Observable<DateModel> {
         let subject = new Subject<DateModel>();
-        this.http.get<DateModel>(this.serviceUrl + "/api/date/getcomplex", httpOptions).subscribe((result) => {
+        let url: string = this.serviceUrl + "/api/date/getcomplex";
+        this.http.get<DateModel>(url, httpOptions).subscribe((result) => {
             if (result) {
                 result.date = this.convertToDate(result.date);
             }
@@ -81,7 +86,8 @@ export class DateService {
 
     public getComplexArray(httpOptions?: {}): Observable<DateModel[]> {
         let subject = new Subject<DateModel[]>();
-        this.http.get<DateModel[]>(this.serviceUrl + "/api/date/getcomplexarray", httpOptions).subscribe((result) => {
+        let url: string = this.serviceUrl + "/api/date/getcomplexarray";
+        this.http.get<DateModel[]>(url, httpOptions).subscribe((result) => {
             if (result) {
                 result.forEach((entry) => {
                     entry.date = this.convertToDate(entry.date);
@@ -95,7 +101,8 @@ export class DateService {
 
     public getComplexList(httpOptions?: {}): Observable<DateModel[]> {
         let subject = new Subject<DateModel[]>();
-        this.http.get<DateModel[]>(this.serviceUrl + "/api/date/getcomplexlist", httpOptions).subscribe((result) => {
+        let url: string = this.serviceUrl + "/api/date/getcomplexlist";
+        this.http.get<DateModel[]>(url, httpOptions).subscribe((result) => {
             if (result) {
                 result.forEach((entry) => {
                     entry.date = this.convertToDate(entry.date);
@@ -109,7 +116,8 @@ export class DateService {
 
     public getComplexEnumerable(httpOptions?: {}): Observable<DateModel[]> {
         let subject = new Subject<DateModel[]>();
-        this.http.get<DateModel[]>(this.serviceUrl + "/api/date/getcomplexenumerable", httpOptions).subscribe((result) => {
+        let url: string = this.serviceUrl + "/api/date/getcomplexenumerable";
+        this.http.get<DateModel[]>(url, httpOptions).subscribe((result) => {
             if (result) {
                 result.forEach((entry) => {
                     entry.date = this.convertToDate(entry.date);
@@ -123,7 +131,8 @@ export class DateService {
 
     public getWrappedArray(httpOptions?: {}): Observable<DateArrayWrapper> {
         let subject = new Subject<DateArrayWrapper>();
-        this.http.get<DateArrayWrapper>(this.serviceUrl + "/api/date/getwrappedarray", httpOptions).subscribe((result) => {
+        let url: string = this.serviceUrl + "/api/date/getwrappedarray";
+        this.http.get<DateArrayWrapper>(url, httpOptions).subscribe((result) => {
             subject.next(result);
             subject.complete();
         }, (error) => subject.error(error));
@@ -132,7 +141,8 @@ export class DateService {
 
     public getWrappedModel(httpOptions?: {}): Observable<DateModelWrapper> {
         let subject = new Subject<DateModelWrapper>();
-        this.http.get<DateModelWrapper>(this.serviceUrl + "/api/date/getwrappedmodel", httpOptions).subscribe((result) => {
+        let url: string = this.serviceUrl + "/api/date/getwrappedmodel";
+        this.http.get<DateModelWrapper>(url, httpOptions).subscribe((result) => {
             if (result) {
                 if (result.model) {
                     result.model.date = this.convertToDate(result.model.date);
@@ -146,7 +156,8 @@ export class DateService {
 
     public getWrappedModelList(httpOptions?: {}): Observable<DateModelWrapper[]> {
         let subject = new Subject<DateModelWrapper[]>();
-        this.http.get<DateModelWrapper[]>(this.serviceUrl + "/api/date/getwrappedmodellist", httpOptions).subscribe((result) => {
+        let url: string = this.serviceUrl + "/api/date/getwrappedmodellist";
+        this.http.get<DateModelWrapper[]>(url, httpOptions).subscribe((result) => {
             if (result) {
                 result.forEach((entry) => {
                     if (entry.model) {
@@ -162,7 +173,8 @@ export class DateService {
 
     public getWrappedModelListWrapper(httpOptions?: {}): Observable<DateModelWrapperListWrapper> {
         let subject = new Subject<DateModelWrapperListWrapper>();
-        this.http.get<DateModelWrapperListWrapper>(this.serviceUrl + "/api/date/getwrappedmodellistwrapper", httpOptions).subscribe((result) => {
+        let url: string = this.serviceUrl + "/api/date/getwrappedmodellistwrapper";
+        this.http.get<DateModelWrapperListWrapper>(url, httpOptions).subscribe((result) => {
             if (result) {
                 if (result.list) {
                     result.list.forEach((entry) => {
@@ -180,7 +192,8 @@ export class DateService {
 
     public getWrappedModelListWrapperList(httpOptions?: {}): Observable<DateModelWrapperListWrapper[]> {
         let subject = new Subject<DateModelWrapperListWrapper[]>();
-        this.http.get<DateModelWrapperListWrapper[]>(this.serviceUrl + "/api/date/getwrappedmodellistwrapperlist", httpOptions).subscribe((result) => {
+        let url: string = this.serviceUrl + "/api/date/getwrappedmodellistwrapperlist";
+        this.http.get<DateModelWrapperListWrapper[]>(url, httpOptions).subscribe((result) => {
             if (result) {
                 result.forEach((entry) => {
                     if (entry.list) {
@@ -200,7 +213,8 @@ export class DateService {
 
     public getWrappedModelWithDate(httpOptions?: {}): Observable<DateModelWrapperWithDate> {
         let subject = new Subject<DateModelWrapperWithDate>();
-        this.http.get<DateModelWrapperWithDate>(this.serviceUrl + "/api/date/getwrappedmodelwithdate", httpOptions).subscribe((result) => {
+        let url: string = this.serviceUrl + "/api/date/getwrappedmodelwithdate";
+        this.http.get<DateModelWrapperWithDate>(url, httpOptions).subscribe((result) => {
             if (result) {
                 result.date = this.convertToDate(result.date);
                 if (result.model) {
@@ -215,7 +229,8 @@ export class DateService {
 
     public getWrappedModelArray(httpOptions?: {}): Observable<DateModelArrayWrapper> {
         let subject = new Subject<DateModelArrayWrapper>();
-        this.http.get<DateModelArrayWrapper>(this.serviceUrl + "/api/date/getwrappedmodelarray", httpOptions).subscribe((result) => {
+        let url: string = this.serviceUrl + "/api/date/getwrappedmodelarray";
+        this.http.get<DateModelArrayWrapper>(url, httpOptions).subscribe((result) => {
             if (result) {
                 if (result.models) {
                     result.models.forEach((entry) => {
@@ -231,7 +246,8 @@ export class DateService {
 
     public getGenericWithModel(httpOptions?: {}): Observable<GenericResult<DateModel>> {
         let subject = new Subject<GenericResult<DateModel>>();
-        this.http.get<GenericResult<DateModel>>(this.serviceUrl + "/api/date/getgenericwithmodel", httpOptions).subscribe((result) => {
+        let url: string = this.serviceUrl + "/api/date/getgenericwithmodel";
+        this.http.get<GenericResult<DateModel>>(url, httpOptions).subscribe((result) => {
             if (result) {
                 if (result.rows) {
                     result.rows.forEach((entry) => {
@@ -247,15 +263,27 @@ export class DateService {
 
     public post(date: Date, httpOptions?: {}): Observable<void> {
         let subject = new Subject<void>();
-        this.http.post<void>(this.serviceUrl + "/api/date/post" + "?date=" + this.convertFromDate(date), httpOptions).subscribe(() => {
+        let url: string = this.serviceUrl + "/api/date/post";
+        url = this.appendDate(url, date, "date");
+        this.http.post<void>(url, httpOptions).subscribe(() => {
             subject.next();
             subject.complete();
         }, (error) => subject.error(error));
         return subject;
     }
 
-    public convertFromDate(date: Date): string {
-        return date === null || date === undefined ? "" : typeof(date) === "string" ? date : date.toISOString();
+    public append(url: string, value: {toString(): string} | undefined | null, parameterName: string = "", separator: string = ""): string {
+        if (! parameterName) {
+            return url + separator + (value === null || value === undefined ? "" : value.toString());
+        }
+        if (value !== null && value !== undefined) {
+            return url + (url.indexOf("?") === -1 ? "?" : "&") + parameterName + "=" + value.toString();
+        }
+        return url;
+    }
+
+    public appendDate(url: string, date: Date, parameterName: string = "", separator: string = ""): string {
+        return this.append(url, date === null || date === undefined ? "" : typeof(date) === "string" ? date : date.toISOString(), parameterName, separator);
     }
 
     public convertToDate(value: string | Date): Date {

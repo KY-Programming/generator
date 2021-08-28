@@ -27,7 +27,9 @@ export class ProducesService {
 
     public get(days: number, httpOptions?: {}): Observable<WeatherForecast[]> {
         let subject = new Subject<WeatherForecast[]>();
-        this.http.get<WeatherForecast[]>(this.serviceUrl + "/produces" + "?days=" + this.convertAny(days), httpOptions).subscribe((result) => {
+        let url: string = this.serviceUrl + "/produces";
+        url = this.append(url, days, "days");
+        this.http.get<WeatherForecast[]>(url, httpOptions).subscribe((result) => {
             if (result) {
                 result.forEach((entry) => {
                     entry.date = this.convertToDate(entry.date);
@@ -41,7 +43,9 @@ export class ProducesService {
 
     public get2(days: number, httpOptions?: {}): Observable<WeatherForecast[]> {
         let subject = new Subject<WeatherForecast[]>();
-        this.http.get<WeatherForecast[]>(this.serviceUrl + "/produces/get2" + "?days=" + this.convertAny(days), httpOptions).subscribe((result) => {
+        let url: string = this.serviceUrl + "/produces/get2";
+        url = this.append(url, days, "days");
+        this.http.get<WeatherForecast[]>(url, httpOptions).subscribe((result) => {
             if (result) {
                 result.forEach((entry) => {
                     entry.date = this.convertToDate(entry.date);
@@ -53,8 +57,14 @@ export class ProducesService {
         return subject;
     }
 
-    public convertAny(value: any): string {
-        return value === null || value === undefined ? "" : value.toString();
+    public append(url: string, value: {toString(): string} | undefined | null, parameterName: string = "", separator: string = ""): string {
+        if (! parameterName) {
+            return url + separator + (value === null || value === undefined ? "" : value.toString());
+        }
+        if (value !== null && value !== undefined) {
+            return url + (url.indexOf("?") === -1 ? "?" : "&") + parameterName + "=" + value.toString();
+        }
+        return url;
     }
 
     public convertToDate(value: string | Date): Date {

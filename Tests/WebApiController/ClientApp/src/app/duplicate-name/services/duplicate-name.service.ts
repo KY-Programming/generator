@@ -26,7 +26,9 @@ export class DuplicateNameService {
 
     public testA(id: number, httpOptions?: {}): Observable<void> {
         let subject = new Subject<void>();
-        this.http.get<void>(this.serviceUrl + "/duplicatename/" + id, httpOptions).subscribe(() => {
+        let url: string = this.serviceUrl + "/duplicatename";
+        url = this.append(url, id, undefined, "/");
+        this.http.get<void>(url, httpOptions).subscribe(() => {
             subject.next();
             subject.complete();
         }, (error) => subject.error(error));
@@ -35,7 +37,10 @@ export class DuplicateNameService {
 
     public testAById(id: number, variantA: string, httpOptions?: {}): Observable<void> {
         let subject = new Subject<void>();
-        this.http.get<void>(this.serviceUrl + "/duplicatename/" + id + "/" + variantA, httpOptions).subscribe(() => {
+        let url: string = this.serviceUrl + "/duplicatename";
+        url = this.append(url, id, undefined, "/");
+        url = this.append(url, variantA, undefined, "/");
+        this.http.get<void>(url, httpOptions).subscribe(() => {
             subject.next();
             subject.complete();
         }, (error) => subject.error(error));
@@ -44,7 +49,11 @@ export class DuplicateNameService {
 
     public testAByIdAndVariantA(id: number, variantA: string, variantB: string, httpOptions?: {}): Observable<void> {
         let subject = new Subject<void>();
-        this.http.get<void>(this.serviceUrl + "/duplicatename/" + id + "/" + variantA + "/" + variantB, httpOptions).subscribe(() => {
+        let url: string = this.serviceUrl + "/duplicatename";
+        url = this.append(url, id, undefined, "/");
+        url = this.append(url, variantA, undefined, "/");
+        url = this.append(url, variantB, undefined, "/");
+        this.http.get<void>(url, httpOptions).subscribe(() => {
             subject.next();
             subject.complete();
         }, (error) => subject.error(error));
@@ -54,7 +63,9 @@ export class DuplicateNameService {
     public testB(id: number, httpOptions?: {}): Observable<string> {
         let subject = new Subject<string>();
         httpOptions = { responseType: 'text', ...httpOptions};
-        this.http.get<string>(this.serviceUrl + "/duplicatename/testb" + "?id=" + this.convertAny(id), httpOptions).subscribe((result) => {
+        let url: string = this.serviceUrl + "/duplicatename/testb";
+        url = this.append(url, id, "id");
+        this.http.get<string>(url, httpOptions).subscribe((result) => {
             subject.next(result);
             subject.complete();
         }, (error) => subject.error(error));
@@ -64,15 +75,23 @@ export class DuplicateNameService {
     public testBById(id: string, httpOptions?: {}): Observable<string> {
         let subject = new Subject<string>();
         httpOptions = { responseType: 'text', ...httpOptions};
-        this.http.get<string>(this.serviceUrl + "/duplicatename" + "?id=" + this.convertAny(id), httpOptions).subscribe((result) => {
+        let url: string = this.serviceUrl + "/duplicatename";
+        url = this.append(url, id, "id");
+        this.http.get<string>(url, httpOptions).subscribe((result) => {
             subject.next(result);
             subject.complete();
         }, (error) => subject.error(error));
         return subject;
     }
 
-    public convertAny(value: any): string {
-        return value === null || value === undefined ? "" : value.toString();
+    public append(url: string, value: {toString(): string} | undefined | null, parameterName: string = "", separator: string = ""): string {
+        if (! parameterName) {
+            return url + separator + (value === null || value === undefined ? "" : value.toString());
+        }
+        if (value !== null && value !== undefined) {
+            return url + (url.indexOf("?") === -1 ? "?" : "&") + parameterName + "=" + value.toString();
+        }
+        return url;
     }
 }
 

@@ -81,6 +81,18 @@ namespace WebApiController.Controllers
         {
             return new GenericResult<DateModel>(new List<DateModel> { new DateModel() });
         }
+
+        [HttpGet("[action]")]
+        public string GetWithOptional(int required, string optional = null)
+        {
+            return required + " " + (optional ?? "null");
+        }
+
+        [HttpGet("[action]/{required}/{optional?}")]
+        public string GetInlineWithOptional(int required, string optional = null)
+        {
+            return required + " " + (optional ?? "null");
+        }
     }
 
     public class ExclusiveGenericComplexResult
