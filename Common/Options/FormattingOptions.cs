@@ -22,6 +22,8 @@ namespace KY.Generator
         private string endBlock;
         private bool? startBlockInNewLine;
         private bool? endFileWithNewLine;
+        private bool? collapseEmptyClasses;
+        private string collapsedClassesSpacer;
 
         public string FileCase
         {
@@ -111,6 +113,18 @@ namespace KY.Generator
         {
             get => this.Get(x => x?.endFileWithNewLine) ?? true;
             set => this.endFileWithNewLine = value;
+        }
+
+        public bool CollapseEmptyClasses
+        {
+            get => this.Get(x => x?.collapseEmptyClasses) ?? false;
+            set => this.collapseEmptyClasses = value;
+        }
+
+        public string CollapsedClassesSpacer
+        {
+            get => this.Get(x => x?.collapsedClassesSpacer) ?? " ";
+            set => this.collapsedClassesSpacer = value;
         }
 
         public FormattingOptions(params Func<FormattingOptions>[] others)

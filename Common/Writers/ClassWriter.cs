@@ -93,6 +93,11 @@ namespace KY.Generator.Writers
                     }
                 }
             }
+            if (this.options.Formatting.CollapseEmptyClasses && output.LastFragments.First().Equals(template))
+            {
+                output.UnBreakLine();
+                output.Add(this.options.Formatting.CollapsedClassesSpacer, true);
+            }
             output.EndBlock();
         }
     }

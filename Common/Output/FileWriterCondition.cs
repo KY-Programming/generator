@@ -80,6 +80,15 @@ namespace KY.Generator.Output
             return this;
         }
 
+        public IOutputCache UnBreakLine()
+        {
+            if (this.condition)
+            {
+                this.output.UnBreakLine();
+            }
+            return this;
+        }
+
         public IOutputCache Indent()
         {
             if (this.condition)

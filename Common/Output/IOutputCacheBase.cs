@@ -14,6 +14,7 @@ namespace KY.Generator.Output
         IOutputCache CloseLine();
         IOutputCache BreakLine();
         IOutputCache BreakLineIfNotEmpty();
+        IOutputCache UnBreakLine();
         IOutputCache Indent();
         IOutputCache UnIndent();
         IOutputCache StartBlock();

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using KY.Core;
 using KY.Generator.Extensions;
 using KY.Generator.Templates;
 
@@ -128,6 +129,13 @@ namespace KY.Generator.Output
                 this.cache.AppendLine();
                 this.isLineClosed = true;
             }
+            return this;
+        }
+
+        public IOutputCache UnBreakLine()
+        {
+            string value = this.cache.ToString().TrimEnd('\r', '\n');
+            this.cache.Clear().Append(value);
             return this;
         }
 

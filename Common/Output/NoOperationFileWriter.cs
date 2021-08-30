@@ -21,6 +21,7 @@ namespace KY.Generator.Output
         public IOutputCache CloseLine() => this.output.CloseLine();
         public IOutputCache BreakLine() => this.output.BreakLine();
         public IOutputCache BreakLineIfNotEmpty() => this.output.BreakLineIfNotEmpty();
+        public IOutputCache UnBreakLine() => this.output.UnBreakLine();
         public IOutputCache Indent() => this.output.Indent();
         public IOutputCache UnIndent() => this.output.UnIndent();
         public IOutputCache StartBlock() => this.output.StartBlock();
