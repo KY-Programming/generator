@@ -13,12 +13,14 @@ namespace KY.Generator.Output
         public string FilePath { get; }
         public string Content { get; }
         public Guid? OutputId { get; }
+        public bool ForceOverwrite { get; }
 
-        public OutputWriteAction(string filePath, string content, Guid? outputId)
+        public OutputWriteAction(string filePath, string content, Guid? outputId, bool forceOverwrite = false)
         {
             this.FilePath = filePath;
             this.Content = content;
             this.OutputId = outputId;
+            this.ForceOverwrite = forceOverwrite;
         }
 
         public void Execute()
@@ -58,6 +60,7 @@ namespace KY.Generator.Output
                 }
             }
             else if (contentRead.Length == 0
+                     || this.ForceOverwrite
                      || contentReadIsGenerated && (this.OutputId == null || readOutputIds.Count == 0 || readOutputIds.Contains(this.OutputId.Value))
                      || !contentReadIsGenerated && this.OutputId != null && readOutputIds.Contains(this.OutputId.Value)
             )
@@ -67,7 +70,7 @@ namespace KY.Generator.Output
             }
             else if (!contentReadIsGenerated)
             {
-                Logger.Error($"Can not overwrite file {this.FilePath}. File to overwrite is not a generated. Please delete file manually!");
+                Logger.Error($"Can not overwrite file {this.FilePath}. File to overwrite is not generated. Please delete file manually!");
             }
             else
             {

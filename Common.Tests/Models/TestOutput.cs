@@ -9,7 +9,7 @@ namespace KY.Generator.Common.Tests.Models
     {
         public List<TestFile> Files { get; } = new();
 
-        public void Write(string fileName, string content)
+        public void Write(string fileName, string content, bool ignoreOutputId = false, bool forceOverwrite = false)
         {
             this.Files.Add(new TestFile(fileName, content));
         }

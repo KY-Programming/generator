@@ -19,15 +19,16 @@ namespace KY.Generator.Output
         {
             this.environment = environment;
             this.BasePath = basePath;
+            this.environment.OutputPath = basePath;
         }
 
-        public void Write(string fileName, string content)
+        public void Write(string fileName, string content, bool ignoreOutputId = false, bool forceOverwrite = false)
         {
             string filePath = this.ToFilePath(fileName);
             this.RemovePreviousActions(filePath);
             lock (this.actions)
             {
-                this.actions.Add(new OutputWriteAction(filePath, content, this.environment.OutputId));
+                this.actions.Add(new OutputWriteAction(filePath, content, ignoreOutputId ? null : this.environment.OutputId, forceOverwrite));
             }
         }
 
@@ -105,6 +106,7 @@ namespace KY.Generator.Output
         public void Move(string path)
         {
             this.BasePath = FileSystem.IsAbsolute(path) ? path : FileSystem.Combine(this.BasePath, path);
+            this.environment.OutputPath = path;
         }
 
         private void RemovePreviousActions(string fileName)

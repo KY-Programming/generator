@@ -7,6 +7,7 @@ namespace KY.Generator.Models
     public class Environment : IEnvironment
     {
         public Guid OutputId { get; set; }
+        public string OutputPath { get; set; }
         public List<ITransferObject> TransferObjects { get; } = new();
     }
 }

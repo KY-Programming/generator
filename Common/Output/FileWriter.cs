@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using KY.Core;
 using KY.Generator.Extensions;
-using KY.Generator.Languages;
 using KY.Generator.Templates;
 
 namespace KY.Generator.Output

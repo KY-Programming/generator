@@ -6,6 +6,7 @@ using KY.Generator.Command;
 using KY.Generator.Command.Extensions;
 using KY.Generator.Output;
 using KY.Generator.TypeScript;
+using KY.Generator.TypeScript.Transfer;
 
 namespace KY.Generator.Angular.Commands
 {
@@ -52,6 +53,7 @@ namespace KY.Generator.Angular.Commands
             this.resolver.Get<IOutput>().DeleteAllRelatedFiles(this.Parameters.RelativePath);
 
             this.resolver.Create<AngularServiceWriter>().Write(writeConfiguration);
+            this.resolver.Create<TypeScriptIndexHelper>().Execute(this.Parameters.RelativePath);
 
             return this.Success();
         }

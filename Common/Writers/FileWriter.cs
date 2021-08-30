@@ -10,13 +10,6 @@ namespace KY.Generator.Writers
 {
     public class FileWriter : ITemplateWriter
     {
-        private readonly IOptions options;
-
-        public FileWriter(IOptions options)
-        {
-            this.options = options;
-        }
-
         public virtual void Write(ICodeFragment fragment, IOutputCache output)
         {
             FileTemplate template = (FileTemplate)fragment;

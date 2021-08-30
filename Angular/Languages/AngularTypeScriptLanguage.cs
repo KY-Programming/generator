@@ -3,6 +3,7 @@ using KY.Core.Dependency;
 using KY.Generator.Angular.Writers;
 using KY.Generator.Templates;
 using KY.Generator.TypeScript.Languages;
+using KY.Generator.TypeScript.Writers;
 
 namespace KY.Generator.Angular.Languages
 {
@@ -11,7 +12,6 @@ namespace KY.Generator.Angular.Languages
         public AngularTypeScriptLanguage(IDependencyResolver resolver)
             : base(resolver)
         {
-            this.AddWriter<FileTemplate, AngularFileWriter>();
         }
 
         public override string FormatFile(string name, IOptions options, string type = null, bool force = false)

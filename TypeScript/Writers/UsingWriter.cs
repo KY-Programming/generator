@@ -1,6 +1,7 @@
 ﻿using KY.Core;
 using KY.Generator.Output;
 using KY.Generator.Templates;
+using KY.Generator.TypeScript.Templates;
 using KY.Generator.Writers;
 
 namespace KY.Generator.TypeScript.Writers
@@ -17,12 +18,18 @@ namespace KY.Generator.TypeScript.Writers
         public virtual void Write(ICodeFragment fragment, IOutputCache output)
         {
             UsingTemplate template = (UsingTemplate)fragment;
+            if (template is UnknownExportTemplate unknownUsing)
+            {
+                output.Add(unknownUsing.Code).BreakLine();
+                return;
+            }
+            string action = template is ExportTemplate ? "export" : "import";
             string typeName = template.Type;
             if (!typeName.StartsWith("*"))
             {
                 typeName = $"{{ {typeName} }}";
             }
-            output.Add($"import {typeName} from ")
+            output.Add($"{action} {typeName} from ")
                   .Add(this.options.Formatting.Quote)
                   .Add(template.Path.TrimEnd(".ts"))
                   .Add(this.options.Formatting.Quote)

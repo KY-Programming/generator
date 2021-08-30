@@ -8,10 +8,6 @@ namespace KY.Generator.Csharp.Writers
 {
     public class CsharpFileWriter : FileWriter
     {
-        public CsharpFileWriter(IOptions options)
-            : base(options)
-        { }
-
         public override void Write(ICodeFragment fragment, IOutputCache output)
         {
             FileTemplate template = (FileTemplate)fragment;

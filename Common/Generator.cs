@@ -29,7 +29,7 @@ namespace KY.Generator
     {
         private readonly IOutput output;
         private readonly DependencyResolver resolver;
-        private readonly List<IGeneratorCommand> commands = new List<IGeneratorCommand>();
+        private readonly List<IGeneratorCommand> commands = new();
 
         public Generator()
         {

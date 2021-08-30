@@ -20,20 +20,23 @@ namespace KY.Generator.Templates
 
         public string FullPath { get; set; }
         public string RelativePath { get; }
-        public List<NamespaceTemplate> Namespaces { get; }
+        public List<NamespaceTemplate> Namespaces { get; } = new();
         public CommentTemplate Header { get; }
+        public List<UsingTemplate> Usings { get; } = new();
+        public bool WriteOutputId { get; set; } = true;
+        public bool ForceOverwrite { get; set; }
+        public Dictionary<string, bool> Linters { get; set; }
 
         public FileTemplate(string relativePath, IOptions options)
         {
             this.RelativePath = relativePath ?? string.Empty;
             this.Options = options;
-            this.Namespaces = new List<NamespaceTemplate>();
             this.Header = new CommentTemplate(options.AddHeader ? Resources.Header : null);
         }
 
         public IEnumerable<UsingTemplate> GetUsingsByNamespace()
         {
-            List<UsingTemplate> usings = new List<UsingTemplate>();
+            List<UsingTemplate> usings = this.Usings.ToList();
             foreach (NamespaceTemplate namespaceTemplate in this.Namespaces)
             {
                 foreach (INamespaceChildren namespaceChildren in namespaceTemplate.Children)
@@ -52,7 +55,7 @@ namespace KY.Generator.Templates
 
         public IEnumerable<UsingTemplate> GetUsingsByTypeAndPath()
         {
-            List<UsingTemplate> usings = new List<UsingTemplate>();
+            List<UsingTemplate> usings = this.Usings.ToList();
             foreach (NamespaceTemplate namespaceTemplate in this.Namespaces)
             {
                 foreach (INamespaceChildren namespaceChildren in namespaceTemplate.Children)
@@ -75,6 +78,10 @@ namespace KY.Generator.Templates
 
         private IEnumerable<UsingTemplate> GetUsings(INamespaceChildren namespaceChildren)
         {
+            foreach (UsingTemplate usingTemplate in this.Usings)
+            {
+                yield return usingTemplate;
+            }
             foreach (UsingTemplate usingTemplate in namespaceChildren.Usings)
             {
                 yield return usingTemplate;
