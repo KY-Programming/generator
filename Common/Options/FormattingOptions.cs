@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using KY.Core;
+using KY.Generator.Extensions;
+using KY.Generator.Models;
 
 namespace KY.Generator
 {
@@ -24,6 +27,9 @@ namespace KY.Generator
         private bool? endFileWithNewLine;
         private bool? collapseEmptyClasses;
         private string collapsedClassesSpacer;
+        private string interfacePrefix;
+        private string classPrefix;
+        private readonly List<FileNameReplacer> fileNameReplacer = new();
 
         public string FileCase
         {
@@ -127,9 +133,29 @@ namespace KY.Generator
             set => this.collapsedClassesSpacer = value;
         }
 
+        public string InterfacePrefix
+        {
+            get => this.Get(x => x?.interfacePrefix) ?? "";
+            set => this.interfacePrefix = value;
+        }
+
+        public string ClassPrefix
+        {
+            get => this.Get(x => x?.classPrefix) ?? "";
+            set => this.classPrefix = value;
+        }
+
+        public IReadOnlyList<FileNameReplacer> FileNameReplacer => this.GetMerged(x => x?.fileNameReplacer);
+
         public FormattingOptions(params Func<FormattingOptions>[] others)
         {
             this.others = others.ToList();
+        }
+
+        public FormattingOptions Add(FileNameReplacer replacer)
+        {
+            this.fileNameReplacer.AddIfNotExists(replacer);
+            return this;
         }
 
         private T Get<T>(Func<FormattingOptions, T> action)
@@ -142,6 +168,16 @@ namespace KY.Generator
             where T : struct
         {
             return action(this) ?? this.others.Select(x => x()?.Get(action)).FirstOrDefault(x => x != null);
+        }
+
+        protected List<T> GetMerged<T>(Func<FormattingOptions, List<T>> getAction)
+        {
+            List<T> merged = new();
+            foreach (List<T> list in this.Yield().Concat(this.others.Select(x => x())).Select(getAction).Where(x => x != null))
+            {
+                list.Where(item => !merged.Contains(item)).ForEach(item => merged.Add(item));
+            }
+            return merged;
         }
     }
 }

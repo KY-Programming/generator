@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using KY.Core.Dependency;
+﻿using KY.Core.Dependency;
 using KY.Generator.Csharp.Templates;
 using KY.Generator.Csharp.Writers;
-using KY.Generator.Extensions;
 using KY.Generator.Languages;
-using KY.Generator.Output;
 using KY.Generator.Templates;
 
 namespace KY.Generator.Csharp.Languages
@@ -20,6 +15,8 @@ namespace KY.Generator.Csharp.Languages
         public CsharpLanguage(IDependencyResolver resolver)
             : base(resolver)
         {
+            this.Formatting.InterfacePrefix = "I";
+
             this.AddWriter<AttributeTemplate, AttributeWriter>();
             this.AddWriter<BaseTypeTemplate, BaseTypeWriter>();
             this.AddWriter<BaseTemplate, BaseWriter>();

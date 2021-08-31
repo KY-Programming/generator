@@ -13,8 +13,8 @@ namespace KY.Generator
         {
             List<SearchLocation> list = locations.ToList();
             // TODO: Check if alternative is required
-            //list.Add(new SearchLocation(configuration.Environment.ConfigurationFilePath));
-            //list.Add(new SearchLocation(configuration.Environment.OutputPath));
+            //list.Add(new SearchLocation(configuration.GeneratorEnvironment.ConfigurationFilePath));
+            //list.Add(new SearchLocation(configuration.GeneratorEnvironment.OutputPath));
             Version defaultVersion = typeof(CoreModule).Assembly.GetName().Version;
             return NugetPackageTypeLoader.Get(assemblyName, nameSpace, typeName, defaultVersion, list.ToArray());
         }

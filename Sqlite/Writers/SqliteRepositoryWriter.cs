@@ -50,6 +50,8 @@ namespace KY.Generator.Sqlite.Writers
                                                .WithName(Formatter.FormatFile(repositoryName, this.Options.Current))
                                                .AddNamespace(parameters.Namespace)
                                                .AddClass(repositoryName)
+                                               .FormatName(this.Options.Current)
+                                               .FormatPrefix(this.Options.Current)
                                                .WithUsing("Microsoft.Data.Sqlite");
 
             FieldTemplate connectionField = classTemplate.AddField("connection", Code.Type("SqliteConnection"));

@@ -43,6 +43,7 @@ namespace KY.Generator.AspDotNet.Writers
                                                .AddNamespace(nameSpace)
                                                .AddClass(className, Code.Type(configuration.Template.ControllerBase))
                                                .FormatName(entityOptions)
+                                               .FormatPrefix(entityOptions)
                                                .WithAttribute("Route", Code.String(controllerConfiguration.Route ?? "[controller]"));
 
                 controller.Usings.AddRange(configuration.Template.Usings);

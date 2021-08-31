@@ -103,6 +103,26 @@ namespace KY.Generator.Extensions
             return regex.Match(value).Index;
         }
 
+        public static string Prefix(this string value, string prefix)
+        {
+            if (string.IsNullOrEmpty(value) || string.IsNullOrEmpty(prefix))
+            {
+                return value;
+            }
+            if (!value.StartsWith(prefix))
+            {
+                return prefix + value;
+            }
+            CaseType firstCharCase = GetCaseType(value[0]);
+            CaseType secondCharCase = GetCaseType(value[1]);
+            CaseType prefixCase = GetCaseType(prefix[0]);
+            if (firstCharCase != prefixCase || firstCharCase != secondCharCase)
+            {
+                return prefix + value;
+            }
+            return value;
+        }
+
         private static CaseType GetCaseType(char value)
         {
             string input = value.ToString();

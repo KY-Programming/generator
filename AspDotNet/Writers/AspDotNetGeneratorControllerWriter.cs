@@ -32,6 +32,8 @@ namespace KY.Generator.AspDotNet.Writers
                                                .WithName(Formatter.FormatFile(className, this.options.Current))
                                                .AddNamespace(nameSpace)
                                                .AddClass(className, Code.Type(configuration.Template.ControllerBase))
+                                               .FormatName(this.options.Current)
+                                               .FormatPrefix(this.options.Current)
                                                .WithUsing("System")
                                                .WithUsing("System.Linq")
                                                .WithUsing("KY.Generator")
@@ -114,7 +116,7 @@ namespace KY.Generator.AspDotNet.Writers
                           .AddLine(Code.Declare(Code.Type("MemoryOutput"), "output", getFromCacheForFilesFragment.Index(Code.Local("id")).As(Code.Type("MemoryOutput"))))
                           .AddLine(Code.Return(Code.InlineIf(Code.Local("output").Equals().Null(),
                                                              Code.Null(),
-                                                             Code.Local("string").Method("Join", Code.Local("Environment").Property("NewLine"),
+                                                             Code.Local("string").Method("Join", Code.Local("GeneratorEnvironment").Property("NewLine"),
                                                                                          Code.Local("output").Property("Files").Method("Select", Code.Lambda("x", Code.Local("x").Property("Key")))))));
 
             ChainedCodeFragment getFromCacheForFileFragment = configuration.Template.UseOwnCache

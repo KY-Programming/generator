@@ -6,13 +6,11 @@ using KY.Core.Dependency;
 using KY.Generator.Command;
 using KY.Generator.Extensions;
 using KY.Generator.Helpers;
-using KY.Generator.Output;
+using KY.Generator.Models;
 using KY.Generator.Syntax;
-using KY.Generator.Templates;
 using KY.Generator.Transfer;
-using Environment = KY.Generator.Models.Environment;
 
-namespace KY.Generator.Fluent
+namespace KY.Generator.Commands
 {
     internal class FluentCommand : GeneratorCommand<FluentCommandParameters>
     {
@@ -58,7 +56,7 @@ namespace KY.Generator.Fluent
                 {
                     main.Execute();
                 }
-                List<ITransferObject> transferObjects = this.resolver.Get<Environment>().TransferObjects;
+                List<ITransferObject> transferObjects = this.resolver.Get<IEnvironment>().TransferObjects;
                 foreach (IFluentInternalSyntax syntax in main.Syntaxes)
                 {
                     IGeneratorCommandResult commandResult = syntax.Run();

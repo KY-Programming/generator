@@ -1,7 +1,7 @@
 ﻿using KY.Core.Dependency;
 using KY.Core.Module;
 using KY.Generator.Command;
-using KY.Generator.Fluent;
+using KY.Generator.Commands;
 
 namespace KY.Generator
 {

@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenerateInterfacesInsteadClasses", "GenerateInterfacesInsteadClasses\Assembly\GenerateInterfacesInsteadClasses.csproj", "{6F2BA950-BCF2-41FC-8AE1-39811A012E43}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Generator", "GenerateInterfacesInsteadClasses\Generator\Generator.csproj", "{068986B5-C7FE-4280-9442-8601B87F9114}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6F2BA950-BCF2-41FC-8AE1-39811A012E43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F2BA950-BCF2-41FC-8AE1-39811A012E43}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F2BA950-BCF2-41FC-8AE1-39811A012E43}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F2BA950-BCF2-41FC-8AE1-39811A012E43}.Release|Any CPU.Build.0 = Release|Any CPU
+		{068986B5-C7FE-4280-9442-8601B87F9114}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{068986B5-C7FE-4280-9442-8601B87F9114}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{068986B5-C7FE-4280-9442-8601B87F9114}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{068986B5-C7FE-4280-9442-8601B87F9114}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

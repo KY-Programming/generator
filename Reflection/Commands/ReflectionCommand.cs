@@ -5,6 +5,7 @@ using KY.Generator.Command;
 using KY.Generator.Command.Extensions;
 using KY.Generator.Csharp.Languages;
 using KY.Generator.Extensions;
+using KY.Generator.Models;
 using KY.Generator.Output;
 using KY.Generator.Reflection.Configurations;
 using KY.Generator.Reflection.Readers;
@@ -46,7 +47,7 @@ namespace KY.Generator.Reflection.Commands
             writer.FormatNames();
             writer.Write(this.Parameters.RelativePath);
 
-            this.resolver.Get<Models.Environment>().TransferObjects.AddIfNotExists(attributeResolver.Get<List<ITransferObject>>());
+            this.resolver.Get<IEnvironment>().TransferObjects.AddIfNotExists(attributeResolver.Get<List<ITransferObject>>());
 
             return this.Success();
         }

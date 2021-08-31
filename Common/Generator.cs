@@ -20,8 +20,6 @@ using KY.Generator.Output;
 using KY.Generator.Syntax;
 using KY.Generator.Templates;
 using KY.Generator.Transfer.Writers;
-using Environment = KY.Generator.Models.Environment;
-using SystemEnvironment = System.Environment;
 
 namespace KY.Generator
 {
@@ -37,7 +35,7 @@ namespace KY.Generator
             Assembly callingAssembly = Assembly.GetEntryAssembly() ?? Assembly.GetCallingAssembly();
             FrameworkName framework = callingAssembly.GetTargetFramework();
             Logger.Trace($"KY-Generator v{callingAssembly.GetName().Version} ({framework.Identifier.Replace("App", string.Empty)} {framework.Version.Major}.{framework.Version.Minor})");
-            Logger.Trace("Current Directory: " + SystemEnvironment.CurrentDirectory);
+            Logger.Trace("Current Directory: " + Environment.CurrentDirectory);
             Logger.Trace("Log Directory: " + Logger.File.Path);
 
             NugetPackageDependencyLoader.Activate();
@@ -48,8 +46,8 @@ namespace KY.Generator
             this.resolver.Bind<CommandRunner>().ToSelf();
             this.resolver.Bind<ModuleFinder>().ToSingleton();
             this.resolver.Bind<ModelWriter>().ToSelf();
-            this.resolver.Bind<IEnvironment>().ToSingleton<Environment>();
-            this.output = new FileOutput(this.resolver.Get<IEnvironment>(), SystemEnvironment.CurrentDirectory);
+            this.resolver.Bind<IEnvironment>().ToSingleton<GeneratorEnvironment>();
+            this.output = new FileOutput(this.resolver.Get<IEnvironment>(), Environment.CurrentDirectory);
             this.resolver.Bind<IOutput>().To(this.output);
             this.resolver.Bind<List<FileTemplate>>().To(new List<FileTemplate>());
 

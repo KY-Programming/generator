@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using KY.Generator.Extensions;
 using KY.Generator.Transfer;
 
 namespace KY.Generator.Templates.Extensions
@@ -119,6 +120,12 @@ namespace KY.Generator.Templates.Extensions
         public static ClassTemplate FormatName(this ClassTemplate classTemplate, IOptions options, bool force = false)
         {
             classTemplate.Name = Formatter.FormatClass(classTemplate.Name, options, force);
+            return classTemplate;
+        }
+
+        public static ClassTemplate FormatPrefix(this ClassTemplate classTemplate, IOptions options, bool isInterface = false)
+        {
+            classTemplate.Name = classTemplate.Name.Prefix(isInterface ? options.Formatting.InterfacePrefix : options.Formatting.ClassPrefix);
             return classTemplate;
         }
     }

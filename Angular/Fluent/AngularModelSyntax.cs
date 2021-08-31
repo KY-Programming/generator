@@ -15,9 +15,9 @@ namespace KY.Generator.Angular.Fluent
             this.command = command;
         }
 
-        public IAngularModelSyntax SkipHeader()
+        public IAngularModelSyntax NoHeader()
         {
-            this.command.Parameters.SkipHeader = true;
+            this.command.Parameters.NoHeader = true;
             return this;
         }
 

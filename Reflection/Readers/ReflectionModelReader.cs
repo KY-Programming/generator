@@ -44,7 +44,11 @@ namespace KY.Generator.Reflection.Readers
                                                     .FirstOrDefault(entry => entry.Equals(model));
             if (existingModel != null)
             {
-                this.transferObjects.AddIfNotExists(existingModel);
+                if (!this.transferObjects.Contains(existingModel))
+                {
+                    existingModel = existingModel.Clone();
+                    this.transferObjects.Add(existingModel);
+                }
                 if (model.IsGeneric)
                 {
                     existingModel = new GenericModelTransferObject(existingModel);
@@ -75,11 +79,6 @@ namespace KY.Generator.Reflection.Readers
                 this.transferObjects.Add(model);
                 this.ReadEnum(type, model);
             }
-            else if (type.ContainsGenericParameters)
-            {
-                model.HasUsing = false;
-                model.Namespace = null;
-            }
             else if (!model.FromSystem)
             {
                 this.transferObjects.Add(model);
@@ -105,7 +104,7 @@ namespace KY.Generator.Reflection.Readers
             Logger.Trace($"Reflection read array {type.Name} ({type.Namespace})");
             model.Name = "Array";
             model.IsGeneric = true;
-            model.HasUsing = false;
+            model.FromSystem = true;
             model.Generics.Add(new GenericAliasTransferObject { Type = this.Read(type.GetElementType()) });
         }
 

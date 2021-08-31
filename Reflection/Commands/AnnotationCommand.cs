@@ -6,10 +6,10 @@ using KY.Core;
 using KY.Core.Dependency;
 using KY.Generator.Command;
 using KY.Generator.Extensions;
+using KY.Generator.Models;
 using KY.Generator.Output;
 using KY.Generator.Templates;
 using KY.Generator.Transfer;
-using Environment = KY.Generator.Models.Environment;
 
 namespace KY.Generator.Reflection.Commands
 {
@@ -85,7 +85,7 @@ namespace KY.Generator.Reflection.Commands
                         }
                     }
                 }
-                this.resolver.Get<Environment>().TransferObjects.AddIfNotExists(commandResolver.Get<List<ITransferObject>>());
+                this.resolver.Get<IEnvironment>().TransferObjects.AddIfNotExists(commandResolver.Get<List<ITransferObject>>());
             }
             return this.Success();
         }

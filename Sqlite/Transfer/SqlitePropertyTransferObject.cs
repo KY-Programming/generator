@@ -16,10 +16,5 @@ namespace KY.Generator.Sqlite.Transfer
             this.IsPrimaryKey = this.Attributes.IsPrimaryKey();
             this.IsAutoIncrement = this.Attributes.IsAutoIncrement();
         }
-
-        public SqlitePropertyTransferObject Clone()
-        {
-            return new(this);
-        }
     }
 }

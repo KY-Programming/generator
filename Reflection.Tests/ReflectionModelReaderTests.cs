@@ -18,7 +18,7 @@ namespace KY.Generator.Reflection.Tests
         [TestInitialize]
         public void Initialize()
         {
-            this.environment = new Models.Environment();
+            this.environment = new GeneratorEnvironment();
             this.transferObjects = new List<ITransferObject>();
             this.reader = new ReflectionModelReader(new Options(new List<IGlobalOptionsReader>()), this.transferObjects, this.environment);
         }

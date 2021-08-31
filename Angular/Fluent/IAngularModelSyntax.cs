@@ -5,7 +5,7 @@
         /// <summary>
         /// Skips the <code>&lt;auto-generated&gt;</code> header. DO NOT USE THIS IN PRODUCTION. This is only meant unit testing
         /// </summary>
-        IAngularModelSyntax SkipHeader();
+        IAngularModelSyntax NoHeader();
 
         /// <summary>
         /// If set to false, stops formatting the language specific naming like from C# property <code>MyProperty</code> to TypeScript property <code>myProperty</code>

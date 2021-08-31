@@ -59,12 +59,6 @@ namespace KY.Generator.Transfer
             set => throw new InvalidOperationException();
         }
 
-        public override bool HasUsing
-        {
-            get => this.target.HasUsing;
-            set => throw new InvalidOperationException();
-        }
-
         public override bool IsEnum
         {
             get => this.target.IsEnum;

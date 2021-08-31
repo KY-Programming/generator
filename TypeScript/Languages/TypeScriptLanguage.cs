@@ -1,6 +1,6 @@
-﻿using System;
-using KY.Core;
+﻿using KY.Core;
 using KY.Core.Dependency;
+using KY.Generator.Extensions;
 using KY.Generator.Languages;
 using KY.Generator.Templates;
 using KY.Generator.TypeScript.Templates;
@@ -26,6 +26,7 @@ namespace KY.Generator.TypeScript.Languages
             this.Formatting.PropertyCase = Case.CamelCase;
             this.Formatting.MethodCase = Case.CamelCase;
             this.Formatting.ParameterCase = Case.CamelCase;
+            this.Formatting.FileNameReplacer.Get("interface-prefix").SetReplacement("$1.interface");
 
             this.ReservedKeywords.Add("function", "func");
             this.HasStaticClasses = false;
@@ -63,10 +64,10 @@ namespace KY.Generator.TypeScript.Languages
         public override string FormatFile(string name, IOptions options, string type = null, bool force = false)
         {
             string fileName = base.FormatFile(name, options, type, force);
-            if (fileName.StartsWith("i-") /*|| "interface".Equals(fileType, StringComparison.CurrentCultureIgnoreCase)*/)
-            {
-                fileName = fileName.TrimStart("i-") + ".interface";
-            }
+            // if ("interface".Equals(type, StringComparison.CurrentCultureIgnoreCase))
+            // {
+            //     fileName += ".interface";
+            // }
             return fileName + ".ts";
         }
     }

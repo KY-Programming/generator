@@ -94,5 +94,17 @@ namespace KY.Generator.Syntax
             this.options.CollapsedClassesSpacer = spacer;
             return this;
         }
+
+        public IFormattingFluentSyntax ClassPrefix(string prefix)
+        {
+            this.options.ClassPrefix = prefix;
+            return this;
+        }
+
+        public IFormattingFluentSyntax InterfacePrefix(string prefix)
+        {
+            this.options.InterfacePrefix = prefix;
+            return this;
+        }
     }
 }

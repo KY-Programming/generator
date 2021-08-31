@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using KY.Generator.Languages;
 
@@ -6,8 +5,6 @@ namespace KY.Generator
 {
     public interface IOptions
     {
-        bool Strict { get; set; }
-        bool IsStrictSet { get; }
         bool PropertiesToFields { get; set; }
         bool FieldsToProperties { get; set; }
         bool PreferInterfaces { get; set; }
@@ -22,5 +19,11 @@ namespace KY.Generator
         bool AddHeader { get; set; }
         bool SkipNamespace { get; set; }
         bool OnlySubTypes { get; set; }
+
+        // TODO: Should be moved to ITypeScriptOptions
+        bool Strict { get; set; }
+        bool IsStrictSet { get; }
+        bool NoIndex { get; set; }
+        // TODO-END
     }
 }

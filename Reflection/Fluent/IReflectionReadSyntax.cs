@@ -13,8 +13,8 @@ namespace KY.Generator.Reflection.Fluent
         /// this.Read()
         ///  .FromType&lt;MyClass&gt;()
         ///  .Write()
-        ///  .AngularModels().OutputPath("Output/Models").SkipHeader()
-        ///  .AngularServices().OutputPath("Output/Services").SkipHeader();
+        ///  .AngularModels().OutputPath("Output/Models").NoHeader()
+        ///  .AngularServices().OutputPath("Output/Services").NoHeader();
         /// </code>
         /// </example>
         /// <typeparam name="T">Type which should be generated</typeparam>

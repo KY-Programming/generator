@@ -1,9 +1,6 @@
-﻿using System;
-using KY.Core.Dependency;
-using KY.Generator.Angular.Writers;
-using KY.Generator.Templates;
+﻿using KY.Core.Dependency;
+using KY.Generator.Models;
 using KY.Generator.TypeScript.Languages;
-using KY.Generator.TypeScript.Writers;
 
 namespace KY.Generator.Angular.Languages
 {
@@ -12,16 +9,7 @@ namespace KY.Generator.Angular.Languages
         public AngularTypeScriptLanguage(IDependencyResolver resolver)
             : base(resolver)
         {
-        }
-
-        public override string FormatFile(string name, IOptions options, string type = null, bool force = false)
-        {
-            string fileName = base.FormatFile(name, options, type, force);
-            if ("service".Equals(type, StringComparison.CurrentCultureIgnoreCase))
-            {
-                fileName = fileName.Replace("-service.ts", ".service.ts");
-            }
-            return fileName;
+            this.Formatting.Add(new FileNameReplacer("angular-service", "^(.*)-service.ts$", "$1.service.ts", "service"));
         }
     }
 }

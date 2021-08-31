@@ -73,6 +73,7 @@ namespace KY.Generator.Angular.Writers
                 ClassTemplate classTemplate = file.AddNamespace(string.Empty)
                                                   .AddClass(className)
                                                   .FormatName(controllerOptions, true)
+                                                  .FormatPrefix(controllerOptions)
                                                   .WithUsing(httpClient, httpClientImport)
                                                   .WithUsing("Injectable", "@angular/core")
                                                   .WithUsing("Observable", "rxjs")
@@ -360,6 +361,7 @@ namespace KY.Generator.Angular.Writers
                 ClassTemplate classTemplate = namespaceTemplate
                                               .AddClass(className)
                                               .FormatName(hubOptions, true)
+                                              .FormatPrefix(hubOptions)
                                               .WithUsing("Injectable", "@angular/core")
                                               .WithUsing("Subject", "rxjs")
                                               .WithUsing("Observable", "rxjs")

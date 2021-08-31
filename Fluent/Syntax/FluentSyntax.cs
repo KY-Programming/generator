@@ -98,5 +98,17 @@ namespace KY.Generator.Syntax
             action(new FormattingFluentSyntax(this.options.Current.Formatting));
             return this;
         }
+
+        public IWriteFluentSyntax NoHeader()
+        {
+            this.options.Current.AddHeader = false;
+            return this;
+        }
+
+        public IWriteFluentSyntax FileName(Action<IFileNameFluentSyntax> action)
+        {
+            action(new FileNameFluentSyntax(this.options.Current));
+            return this;
+        }
     }
 }

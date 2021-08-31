@@ -2,8 +2,8 @@
 {
     public interface IAngularServiceSyntax
     {
-        /// <inheritdoc cref="IAngularModelSyntax.SkipHeader"/>
-        IAngularServiceSyntax SkipHeader();
+        /// <inheritdoc cref="IAngularModelSyntax.NoHeader"/>
+        IAngularServiceSyntax NoHeader();
 
         /// <inheritdoc cref="IAngularModelSyntax.FormatNames"/>
         IAngularServiceSyntax FormatNames(bool value = true);

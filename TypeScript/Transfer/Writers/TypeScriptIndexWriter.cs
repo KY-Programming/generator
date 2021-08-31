@@ -44,7 +44,7 @@ namespace KY.Generator.TypeScript.Transfer.Writers
                                             .WithName(Formatter.FormatFile("index", this.Options.Current))
                                             .IgnoreOutputId()
                                             .ForceOverwrite()
-                                            .SkipHeader();
+                                            .NoHeader();
             fileTemplate.Linters = new Dictionary<string, bool>();
             foreach (IIndexLine line in file.Lines)
             {

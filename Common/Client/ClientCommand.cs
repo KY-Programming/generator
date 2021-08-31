@@ -66,7 +66,7 @@ namespace KY.Generator.Client
     //            Logger.Error($"Connection to generator failed: {getFilesResponse.StatusCode}");
     //            return false;
     //        }
-    //        string[] filePaths = getFilesResponse.Content.ReadAsStringAsync().Result.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+    //        string[] filePaths = getFilesResponse.Content.ReadAsStringAsync().Result.Split(new[] { GeneratorEnvironment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
     //        if (filePaths.Length == 0)
     //        {
     //            Logger.Warning("No files generated");

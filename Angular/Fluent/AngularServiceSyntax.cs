@@ -16,9 +16,9 @@ namespace KY.Generator.Angular.Fluent
             this.command.Parameters.RelativeModelPath = this.syntax.Commands.OfType<AngularModelCommand>().FirstOrDefault()?.Parameters.RelativePath;
         }
 
-        public IAngularServiceSyntax SkipHeader()
+        public IAngularServiceSyntax NoHeader()
         {
-            this.command.Parameters.SkipHeader = true;
+            this.command.Parameters.NoHeader = true;
             return this;
         }
 

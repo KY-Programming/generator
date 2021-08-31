@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 using KY.Core;
 using KY.Core.Dependency;
+using KY.Generator.Models;
 using KY.Generator.Output;
 using KY.Generator.Templates;
 using KY.Generator.Writers;
@@ -31,6 +34,8 @@ namespace KY.Generator.Languages
             this.resolver = resolver;
 
             this.ReservedKeywords.Add("new", "newValue");
+
+            this.Formatting.Add(new FileNameReplacer("interface-prefix", "^i-(.*)$", "$1"));
 
             this.AddWriter<AccessIndexTemplate, AccessIndexWriter>();
             this.AddWriter<AsTemplate, AsWriter>();
@@ -133,7 +138,12 @@ namespace KY.Generator.Languages
 
         public virtual string FormatFile(string name, IOptions options, string type = null, bool force = false)
         {
-            return Formatter.Format(name, options.Formatting.FileCase, options, force);
+            name = Formatter.Format(name, options.Formatting.FileCase, options, force);
+            foreach (FileNameReplacer replacer in options.Formatting.FileNameReplacer.Where(x => x.MatchingType == null || x.MatchingType == type))
+            {
+                name = Regex.Replace(name, replacer.Pattern, replacer.Replacement);
+            }
+            return name;
         }
 
         public virtual void Write(ICodeFragment fragment, IOutputCache output)

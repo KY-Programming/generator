@@ -9,7 +9,7 @@ namespace KY.Generator.TypeScript.Tests
     [TestClass]
     public class TypeScriptIndexReaderTests
     {
-        private IEnvironment environment = new Environment();
+        private IEnvironment environment = new GeneratorEnvironment();
 
         [TestMethod]
         public void Test()

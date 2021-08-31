@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using KY.Core;
+using KY.Generator.Extensions;
 using KY.Generator.Mappings;
 using KY.Generator.Templates;
 using KY.Generator.Templates.Extensions;
@@ -27,7 +28,8 @@ namespace KY.Generator.Transfer.Writers
             foreach (ModelTransferObject model in models)
             {
                 IOptions modelOptions = this.Options.Get(model);
-                model.Name = Formatter.FormatClass(model.Name, modelOptions);
+                model.Name = Formatter.FormatClass(model.OriginalName, modelOptions)
+                                      .Prefix(model.IsInterface || modelOptions.PreferInterfaces ? modelOptions.Formatting.InterfacePrefix : modelOptions.Formatting.ClassPrefix);
                 if (!modelOptions.Language.IsGenericTypeWithSameNameAllowed)
                 {
                     ModelTransferObject otherModel = models.FirstOrDefault(m => m != model && (m.OriginalName == model.OriginalName || m.Name == model.OriginalName) && m.Namespace == model.Namespace);
@@ -128,7 +130,8 @@ namespace KY.Generator.Transfer.Writers
                                                                                        // .WithType(isInterface ? "interface" : null)
                                                                                        .AddNamespace(modelNamespace);
 
-            ClassTemplate classTemplate = namespaceTemplate.AddClass(model.Name, model.BasedOn?.ToTemplate()).FormatName(modelOptions);
+            ClassTemplate classTemplate = namespaceTemplate.AddClass(model.Name, model.BasedOn?.ToTemplate())
+                                                           .FormatName(modelOptions);
             if (model.BasedOn != null)
             {
                 this.AddUsing(model.BasedOn, classTemplate, modelOptions);

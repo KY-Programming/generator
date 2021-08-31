@@ -1,4 +1,6 @@
-﻿namespace KY.Generator.Transfer
+﻿using KY.Core;
+
+namespace KY.Generator.Transfer
 {
     public class FieldTransferObject : MemberTransferObject
     {

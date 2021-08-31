@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using KY.Core;
 using KY.Core.DataAccess;
 using KY.Generator.Templates;
 using KY.Generator.TypeScript.Transfer.Readers;
@@ -14,16 +12,23 @@ namespace KY.Generator.TypeScript.Transfer
         private readonly TypeScriptIndexReader reader;
         private readonly TypeScriptIndexWriter writer;
         private readonly List<FileTemplate> files;
+        private readonly IOptions options;
 
-        public TypeScriptIndexHelper(TypeScriptIndexReader reader, TypeScriptIndexWriter writer, List<FileTemplate> files)
+        public TypeScriptIndexHelper(TypeScriptIndexReader reader, TypeScriptIndexWriter writer, List<FileTemplate> files, IOptions options)
         {
             this.reader = reader;
             this.writer = writer;
             this.files = files;
+            this.options = options;
         }
 
         public void Execute(string relativePath)
         {
+            if (this.options.NoIndex)
+            {
+                return;
+            }
+
             TypeScriptIndexFile indexFile = this.reader.Read(relativePath);
 
             List<FileTemplate> fileTemplates = this.files.Where(file => file.RelativePath == relativePath && file.Name != "index.ts").ToList();

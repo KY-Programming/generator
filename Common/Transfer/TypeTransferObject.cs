@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using KY.Generator.Templates;
@@ -21,7 +20,6 @@ namespace KY.Generator.Transfer
         public virtual TypeTransferObject Original { get; set; }
         public virtual ICodeFragment Default { get; set; }
         public string FullName => $"{this.Namespace}.{this.Name}";
-        public virtual bool HasUsing { get; set; } = true;
 
         public TypeTransferObject()
         {
@@ -36,17 +34,11 @@ namespace KY.Generator.Transfer
             this.IsNullable = type.IsNullable;
             this.IsGeneric = type.IsGeneric;
             this.Generics = type.Generics.ToList();
-            this.HasUsing = type.HasUsing;
         }
 
         public bool Equals(TypeTransferObject type)
         {
             return (this.Name == type.Name || this.OriginalName == type.Name || this.Name == type.OriginalName) && this.Namespace == type.Namespace && this.IsGeneric == type.IsGeneric;
-        }
-
-        public TypeTransferObject Clone()
-        {
-            return (TypeTransferObject)this.MemberwiseClone();
         }
     }
 }

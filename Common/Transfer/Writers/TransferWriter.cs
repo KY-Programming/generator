@@ -176,7 +176,7 @@ namespace KY.Generator.Transfer.Writers
                     this.AddUsing(generic.Type, classTemplate, options, relativeModelPath);
                 }
             }
-            if ((!type.FromSystem || type.FromSystem && options.Language.ImportFromSystem) && type.HasUsing && !string.IsNullOrEmpty(type.Namespace) && classTemplate.Namespace.Name != type.Namespace)
+            if ((!type.FromSystem || type.FromSystem && options.Language.ImportFromSystem) && !string.IsNullOrEmpty(type.Namespace) && classTemplate.Namespace.Name != type.Namespace)
             {
                 classTemplate.AddUsing(type, relativeModelPath.Replace("\\", "/").TrimEnd('/'));
             }

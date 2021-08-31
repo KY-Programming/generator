@@ -82,6 +82,12 @@ namespace KY.Generator
             set => this.Part.OnlySubTypes = value;
         }
 
+        bool IOptions.NoIndex
+        {
+            get => this.Part.NoIndex ?? this.Global?.Part.NoIndex ?? false;
+            set => this.Part.NoIndex = value;
+        }
+
         Dictionary<string, string> IOptions.ReplaceName => this.GetMerged(part => part?.ReplaceName);
         public FormattingOptions Formatting { get; }
 

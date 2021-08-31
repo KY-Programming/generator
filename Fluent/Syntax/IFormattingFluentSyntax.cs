@@ -96,5 +96,19 @@ namespace KY.Generator.Syntax
         /// <param name="spacer"></param>
         /// <returns></returns>
         IFormattingFluentSyntax CollapsedClassesSpacer(string spacer);
+
+        /// <summary>
+        /// Prefix to add to class name. E.g if you set "C" as prefix <code>MyClass</code> => <code>CMyClass</code>
+        /// </summary>
+        /// <param name="prefix"></param>
+        /// <returns></returns>
+        IFormattingFluentSyntax ClassPrefix(string prefix);
+
+        /// <summary>
+        /// Prefix to add to interface name. E.g if you set "I" as prefix <code>MyInterface</code> => <code>IMyInterface</code>
+        /// </summary>
+        /// <param name="prefix"></param>
+        /// <returns></returns>
+        IFormattingFluentSyntax InterfacePrefix(string prefix);
     }
 }

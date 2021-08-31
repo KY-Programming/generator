@@ -69,7 +69,7 @@ namespace KY.Generator.Templates.Extensions
             return fileTemplate;
         }
 
-        public static FileTemplate SkipHeader(this FileTemplate fileTemplate)
+        public static FileTemplate NoHeader(this FileTemplate fileTemplate)
         {
             fileTemplate.Header.Description = null;
             return fileTemplate;

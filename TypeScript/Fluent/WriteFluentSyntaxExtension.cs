@@ -18,5 +18,11 @@ namespace KY.Generator
             return syntax;
         }
 
+        public static IWriteFluentSyntax NoIndex(this IWriteFluentSyntax syntax)
+        {
+            IOptions options = ((IWriteFluentSyntaxInternal)syntax).Resolver.Get<Options>().Current;
+            options.NoIndex = true;
+            return syntax;
+        }
     }
 }
