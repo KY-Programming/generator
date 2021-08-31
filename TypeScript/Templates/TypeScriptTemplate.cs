@@ -1,8 +1,10 @@
+using System;
+using KY.Core;
 using KY.Generator.Templates;
 
 namespace KY.Generator.TypeScript.Templates
 {
-    public class TypeScriptTemplate : ICodeFragment
+    public class TypeScriptTemplate : ICodeFragment, ICloneable
     {
         public string Code { get; }
         public bool BreakAfter { get; set; }
@@ -15,6 +17,13 @@ namespace KY.Generator.TypeScript.Templates
         public TypeScriptTemplate(string code)
         {
             this.Code = code;
+        }
+
+        object ICloneable.Clone()
+        {
+            TypeScriptTemplate clone = new(this.Code);
+            clone.SetFrom(this);
+            return clone;
         }
     }
 }

@@ -1,3 +1,4 @@
-﻿import * from "./casing-model";
-import * from "./casing-with-mapping-model";
+﻿
+export * from "./casing-model";
+export * from "./casing-with-mapping-model";
 

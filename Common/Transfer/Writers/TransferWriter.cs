@@ -171,12 +171,15 @@ namespace KY.Generator.Transfer.Writers
         {
             if (type is ModelTransferObject model)
             {
-                foreach (GenericAliasTransferObject generic in model.Generics)
+                foreach (GenericAliasTransferObject generic in model.Generics.Where(x => x.Type != null))
                 {
                     this.AddUsing(generic.Type, classTemplate, options, relativeModelPath);
                 }
             }
-            if ((!type.FromSystem || type.FromSystem && options.Language.ImportFromSystem) && !string.IsNullOrEmpty(type.Namespace) && classTemplate.Namespace.Name != type.Namespace)
+            if ((!type.FromSystem || type.FromSystem && options.Language.ImportFromSystem)
+                && !string.IsNullOrEmpty(type.Namespace)
+                && classTemplate.Namespace.Name != type.Namespace
+                && !type.IsGenericParameter)
             {
                 classTemplate.AddUsing(type, relativeModelPath.Replace("\\", "/").TrimEnd('/'));
             }

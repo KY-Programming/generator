@@ -15,6 +15,7 @@ namespace KY.Generator.Transfer
         public virtual bool FromSystem { get; set; }
         public virtual bool IsNullable { get; set; }
         public virtual bool IsGeneric { get; set; }
+        public virtual bool IsGenericParameter { get; set; }
         public virtual bool IsInterface { get; set; }
         public virtual List<GenericAliasTransferObject> Generics { get; }
         public virtual TypeTransferObject Original { get; set; }
@@ -33,6 +34,7 @@ namespace KY.Generator.Transfer
             this.FromSystem = type.FromSystem;
             this.IsNullable = type.IsNullable;
             this.IsGeneric = type.IsGeneric;
+            this.IsGenericParameter = type.IsGenericParameter;
             this.Generics = type.Generics.ToList();
         }
 

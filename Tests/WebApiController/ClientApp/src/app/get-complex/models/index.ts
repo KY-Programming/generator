@@ -1,3 +1,4 @@
-﻿import * from "./get-complex-model";
-import * from "./get-complex-model-service";
+﻿
+export * from "./get-complex-model";
+export * from "./get-complex-model-service";
 

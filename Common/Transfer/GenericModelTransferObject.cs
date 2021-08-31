@@ -5,118 +5,125 @@ using KY.Generator.Templates;
 
 namespace KY.Generator.Transfer
 {
-    public class GenericModelTransferObject : ModelTransferObject
+    public class GenericModelTransferObject : ModelTransferObject, ICloneable
     {
-        private readonly ModelTransferObject target;
+        public ModelTransferObject Template { get; }
 
         public override string Name
         {
-            get => this.target.Name;
-            set => throw new InvalidOperationException();
+            get => this.Template.Name;
+            set => this.Template.Name = value;
         }
 
         public override string FileName
         {
-            get => this.target.FileName;
-            set => throw new InvalidOperationException();
+            get => this.Template.FileName;
+            set => this.Template.FileName = value;
         }
 
         public override string OriginalName
         {
-            get => this.target.OriginalName;
-            set => throw new InvalidOperationException();
+            get => this.Template.OriginalName;
+            set => this.Template.OriginalName = value;
         }
 
         public override string Namespace
         {
-            get => this.target.Namespace;
-            set => throw new InvalidOperationException();
+            get => this.Template.Namespace;
+            set => this.Template.Namespace = value;
         }
 
         public override bool FromSystem
         {
-            get => this.target.FromSystem;
-            set => throw new InvalidOperationException();
+            get => this.Template.FromSystem;
+            set => this.Template.FromSystem = value;
         }
 
         public override bool IsNullable
         {
-            get => this.target.IsNullable;
-            set => throw new InvalidOperationException();
+            get => this.Template.IsNullable;
+            set => this.Template.IsNullable = value;
         }
-
-        public override List<GenericAliasTransferObject> Generics { get; } = new();
 
         public override TypeTransferObject Original
         {
-            get => this.target.Original;
-            set => throw new InvalidOperationException();
+            get => this.Template.Original;
+            set => this.Template.Original = value;
         }
 
         public override ICodeFragment Default
         {
-            get => this.target.Default;
-            set => throw new InvalidOperationException();
+            get => this.Template.Default;
+            set => this.Template.Default = value;
         }
 
         public override bool IsEnum
         {
-            get => this.target.IsEnum;
-            set => throw new InvalidOperationException();
+            get => this.Template.IsEnum;
+            set => this.Template.IsEnum = value;
         }
 
         public override bool IsInterface
         {
-            get => this.target.IsInterface;
-            set => throw new InvalidOperationException();
+            get => this.Template.IsInterface;
+            set => this.Template.IsInterface = value;
         }
 
         public override bool IsAbstract
         {
-            get => this.target.IsAbstract;
-            set => throw new InvalidOperationException();
+            get => this.Template.IsAbstract;
+            set => this.Template.IsAbstract = value;
         }
 
         public override bool IsGeneric
         {
-            get => this.target.IsGeneric;
-            set => throw new InvalidOperationException();
+            get => this.Template.IsGeneric;
+            set => this.Template.IsGeneric = value;
+        }
+
+        public override bool IsGenericParameter
+        {
+            get => this.Template.IsGenericParameter;
+            set => this.Template.IsGenericParameter = value;
         }
 
         public override Dictionary<string, int> EnumValues
         {
-            get => this.target.EnumValues;
-            set => throw new InvalidOperationException();
+            get => this.Template.EnumValues;
+            set => this.Template.EnumValues = value;
         }
 
         public override ModelTransferObject BasedOn
         {
-            get => this.target.BasedOn;
-            set => throw new InvalidOperationException();
+            get => this.Template.BasedOn;
+            set => this.Template.BasedOn = value;
         }
 
         public override ILanguage Language
         {
-            get => this.target.Language;
-            set => throw new InvalidOperationException();
+            get => this.Template.Language;
+            set => this.Template.Language = value;
         }
 
-        public override List<TypeTransferObject> Interfaces => this.target.Interfaces;
-        public override List<FieldTransferObject> Constants => this.target.Constants;
-        public override List<FieldTransferObject> Fields => this.target.Fields;
-        public override List<PropertyTransferObject> Properties => this.target.Properties;
-        public override List<MethodTransferObject> Methods => this.target.Methods;
-        public override List<string> Usings => this.target.Usings;
+        public override List<TypeTransferObject> Interfaces => this.Template.Interfaces;
+
+        public override List<MethodTransferObject> Methods => this.Template.Methods;
+        public override List<string> Usings => this.Template.Usings;
 
         public override string Comment
         {
-            get => this.target.Comment;
-            set => throw new InvalidOperationException();
+            get => this.Template.Comment;
+            set => this.Template.Comment = value;
         }
 
-        public GenericModelTransferObject(ModelTransferObject target)
+        public GenericModelTransferObject(ModelTransferObject template)
         {
-            this.target = target;
+            this.Template = template is GenericModelTransferObject genericTemplate ? genericTemplate.Template : template;
+        }
+
+        object ICloneable.Clone()
+        {
+            return new GenericModelTransferObject(this.Template);
         }
     }
 }

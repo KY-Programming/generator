@@ -9,7 +9,7 @@ namespace KY.Generator.Angular.Languages
         public AngularTypeScriptLanguage(IDependencyResolver resolver)
             : base(resolver)
         {
-            this.Formatting.Add(new FileNameReplacer("angular-service", "^(.*)-service.ts$", "$1.service.ts", "service"));
+            this.Formatting.Add(new FileNameReplacer("angular-service", "^(.*)-service$", "$1.service", "service"));
         }
     }
 }

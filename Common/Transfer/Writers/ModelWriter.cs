@@ -29,19 +29,26 @@ namespace KY.Generator.Transfer.Writers
             {
                 IOptions modelOptions = this.Options.Get(model);
                 model.Name = Formatter.FormatClass(model.OriginalName, modelOptions)
+                                      .Replace(modelOptions.ReplaceName)
                                       .Prefix(model.IsInterface || modelOptions.PreferInterfaces ? modelOptions.Formatting.InterfacePrefix : modelOptions.Formatting.ClassPrefix);
                 if (!modelOptions.Language.IsGenericTypeWithSameNameAllowed)
                 {
-                    ModelTransferObject otherModel = models.FirstOrDefault(m => m != model && (m.OriginalName == model.OriginalName || m.Name == model.OriginalName) && m.Namespace == model.Namespace);
-                    if (otherModel != null && otherModel.IsGeneric)
+                    ModelTransferObject otherModel = models.FirstOrDefault(m => m != model
+                                                                                && (m.OriginalName == model.OriginalName || m.Name == model.OriginalName)
+                                                                                && m.Namespace == model.Namespace
+                                                                                && (m as GenericModelTransferObject)?.Template != (model as GenericModelTransferObject)?.Template
+                    );
+                    if (otherModel != null && otherModel.IsGeneric && !otherModel.FromSystem)
                     {
                         IOptions otherModelOptions = this.Options.Get(otherModel);
-                        otherModel.Name = Formatter.FormatClass(otherModel.Name + "Generic", otherModelOptions);
+                        otherModel.Name = Formatter.FormatClass(otherModel.Name + "Generic", otherModelOptions)
+                                                   .Replace(modelOptions.ReplaceName);
                         otherModel.FileName = Formatter.FormatFile(otherModel.Name, otherModelOptions);
                     }
-                    else if (otherModel != null && model.IsGeneric)
+                    else if (otherModel != null && model.IsGeneric && !otherModel.FromSystem)
                     {
-                        model.Name = Formatter.FormatClass(model.Name + "Generic", modelOptions);
+                        model.Name = Formatter.FormatClass(model.Name + "Generic", modelOptions)
+                                              .Replace(modelOptions.ReplaceName);
                     }
                 }
                 model.FileName = Formatter.FormatFile(model.Name, modelOptions);
@@ -139,9 +146,9 @@ namespace KY.Generator.Transfer.Writers
 
             classTemplate.IsInterface = isInterface;
             classTemplate.IsAbstract = model.IsAbstract;
-            if (model.IsGeneric)
+            if (model is GenericModelTransferObject generic)
             {
-                classTemplate.Generics.AddRange(model.Generics.Where(x => x.Alias != null).Select(x => new ClassGenericTemplate(x.Alias.Name)));
+                generic.Template.Generics.Select(x => new ClassGenericTemplate(x.Alias.Name)).ForEach(classTemplate.Generics.Add);
             }
             foreach (TypeTransferObject interFace in model.Interfaces)
             {
@@ -152,9 +159,18 @@ namespace KY.Generator.Transfer.Writers
                 classTemplate.BasedOn.Add(new BaseTypeTemplate(classTemplate, interFace.ToTemplate()));
                 this.AddUsing(interFace, classTemplate, modelOptions);
             }
-            this.AddConstants(model, classTemplate);
-            this.AddFields(model, classTemplate);
-            this.AddProperties(model, classTemplate);
+            if (model is GenericModelTransferObject genericModel)
+            {
+                this.AddConstants(genericModel.Template, classTemplate);
+                this.AddFields(genericModel.Template, classTemplate);
+                this.AddProperties(genericModel.Template, classTemplate);
+            }
+            else
+            {
+                this.AddConstants(model, classTemplate);
+                this.AddFields(model, classTemplate);
+                this.AddProperties(model, classTemplate);
+            }
             return classTemplate;
         }
     }

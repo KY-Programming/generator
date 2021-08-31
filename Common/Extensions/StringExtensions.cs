@@ -123,6 +123,11 @@ namespace KY.Generator.Extensions
             return value;
         }
 
+        public static string Replace(this string value, Dictionary<string, string> replaceName)
+        {
+            return replaceName == null ? value : replaceName.Aggregate(value, (current, pair) => current.Replace(pair.Key, pair.Value));
+        }
+
         private static CaseType GetCaseType(char value)
         {
             string input = value.ToString();

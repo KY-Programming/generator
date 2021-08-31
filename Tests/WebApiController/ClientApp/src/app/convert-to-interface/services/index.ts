@@ -1,3 +1,6 @@
-﻿import * from "./convert-to-interface.service";
-import * from "./convert-to-interface-optional.service";
+﻿
+export * from "./convert-to-interface.service";
+export * from "./convert-to-interface-optional.service";
+export * from "./convert-to-interface-optional-service";
+export * from "./convert-to-interface-service";
 
