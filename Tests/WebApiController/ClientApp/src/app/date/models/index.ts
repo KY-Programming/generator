@@ -6,6 +6,4 @@ export * from "./date-model-wrapper";
 export * from "./date-model-wrapper-list-wrapper";
 export * from "./date-model-wrapper-with-date";
 export * from "./generic-result";
-export * from "./generic-result-1";
-export * from "./t";
 

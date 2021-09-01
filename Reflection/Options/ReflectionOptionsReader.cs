@@ -37,7 +37,7 @@ namespace KY.Generator.Reflection
                     case GenerateFormatNamesAttribute formatNamesAttribute:
                         entry.Part.FormatNames = formatNamesAttribute.FormatNames;
                         break;
-                    case GenerateWithoutHeaderAttribute:
+                    case GenerateNoHeaderAttribute:
                         entry.Part.AddHeader = false;
                         break;
                     case GenerateOnlySubTypesAttribute:

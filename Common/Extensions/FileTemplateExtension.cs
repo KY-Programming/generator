@@ -12,7 +12,7 @@ namespace KY.Generator
 #if DEBUG
             files.ForEach(file => file.Write(output));
 #else
-            Parallel.ForEach(files, file => file.Write(output));
+            System.Threading.Tasks.Parallel.ForEach(files, file => file.Write(output));
 #endif
         }
 

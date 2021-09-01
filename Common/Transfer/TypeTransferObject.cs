@@ -8,9 +8,17 @@ namespace KY.Generator.Transfer
     [DebuggerDisplay("TypeTransferObject {Namespace,nq}.{Name,nq}")]
     public class TypeTransferObject : ITransferObject
     {
+        private string originalName;
+
         public virtual string Name { get; set; }
         public virtual string FileName { get; set; }
-        public virtual string OriginalName { get; set; }
+
+        public virtual string OriginalName
+        {
+            get => this.originalName ?? this.Name;
+            set => this.originalName = value;
+        }
+
         public virtual string Namespace { get; set; }
         public virtual bool FromSystem { get; set; }
         public virtual bool IsNullable { get; set; }

@@ -36,12 +36,12 @@ namespace KY.Generator.Writers
             }
         }
 
-        protected virtual void WriteHeader(FileTemplate fileTemplate, IOutputCache output)
+        protected virtual void WriteHeader(FileTemplate fileTemplate, IOutputCache output, bool appendBlankLine = true)
         {
             if (fileTemplate.Header?.Description != null)
             {
                 output.Add(fileTemplate.Header)
-                      .BreakLine();
+                      .If(appendBlankLine).BreakLine().EndIf();
             }
         }
 

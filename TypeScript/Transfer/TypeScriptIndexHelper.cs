@@ -2,6 +2,7 @@
 using System.Linq;
 using KY.Core.DataAccess;
 using KY.Generator.Templates;
+using KY.Generator.TypeScript.Languages;
 using KY.Generator.TypeScript.Transfer.Readers;
 using KY.Generator.TypeScript.Transfer.Writers;
 
@@ -31,7 +32,10 @@ namespace KY.Generator.TypeScript.Transfer
 
             TypeScriptIndexFile indexFile = this.reader.Read(relativePath);
 
-            List<FileTemplate> fileTemplates = this.files.Where(file => file.RelativePath == relativePath && file.Name != "index.ts").ToList();
+            List<FileTemplate> fileTemplates = this.files.Where(file => file.RelativePath == relativePath
+                                                                        && file.Name != "index.ts"
+                                                                        && file.Options.Language.IsTypeScript()
+            ).ToList();
             if (fileTemplates.Count > 1 && indexFile == null)
             {
                 indexFile = new TypeScriptIndexFile();

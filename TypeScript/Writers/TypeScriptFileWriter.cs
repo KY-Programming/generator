@@ -7,9 +7,9 @@ namespace KY.Generator.TypeScript.Writers
 {
     public class TypeScriptFileWriter : FileWriter
     {
-        protected override void WriteHeader(FileTemplate fileTemplate, IOutputCache output)
+        protected override void WriteHeader(FileTemplate fileTemplate, IOutputCache output, bool appendBlankLine = true)
         {
-            base.WriteHeader(fileTemplate, output);
+            base.WriteHeader(fileTemplate, output, false);
             Dictionary<string, bool> linters = fileTemplate.Linters ?? new Dictionary<string, bool> { { "eslint", false }, { "tslint", false } };
             foreach (KeyValuePair<string, bool> linter in linters)
             {

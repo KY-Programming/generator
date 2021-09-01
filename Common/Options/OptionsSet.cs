@@ -54,7 +54,7 @@ namespace KY.Generator
 
         bool IOptions.FormatNames
         {
-            get => this.GetPrimitive(x => x?.FormatNames);
+            get => this.GetPrimitive(x => x?.FormatNames, true);
             set => this.Part.FormatNames = value;
         }
 
@@ -66,7 +66,7 @@ namespace KY.Generator
 
         bool IOptions.AddHeader
         {
-            get => this.GetPrimitive(x => x?.AddHeader);
+            get => this.GetPrimitive(x => x?.AddHeader, true);
             set => this.Part.AddHeader = value;
         }
 
@@ -100,6 +100,7 @@ namespace KY.Generator
         public OptionsSet(OptionsSet parent, OptionsSet global, OptionsSet caller = null, object target = null)
             : base(parent, global, caller, target)
         {
+            OptionsSetDebugger.Add(this);
             this.Formatting = new FormattingOptions(
                 () => caller?.Formatting,
                 () => global?.Formatting,

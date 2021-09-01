@@ -19,7 +19,7 @@ namespace KY.Generator.Json.Commands
 
         public override IGeneratorCommandResult Run()
         {
-            JsonReadConfiguration configuration = new JsonReadConfiguration();
+            JsonReadConfiguration configuration = new();
             configuration.Source = this.Parameters.RelativePath;
             configuration.BasePath = (this.resolver.Get<IOutput>() as FileOutput)?.BasePath;
 

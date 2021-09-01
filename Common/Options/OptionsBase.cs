@@ -8,14 +8,19 @@ namespace KY.Generator
         where TSet : class, TInterface
         where TInterface : class
     {
-        private TSet currentSet;
-        protected TSet CurrentSet => this.currentSet ??= this.CreateSet(null, null, null, null);
-
         public TInterface Get(MemberInfo member, TInterface caller = null) => this.GetInternal(member, caller as TSet);
         public TInterface Get(ParameterInfo parameter, TInterface caller = null) => this.GetInternal(parameter, caller as TSet);
         public TInterface Get(Type type, TInterface caller = null) => this.GetInternal(type, caller as TSet);
         public TInterface Get(Assembly assembly, TInterface caller = null) => this.GetInternal(assembly, caller as TSet);
-        public TInterface Get(object key) => this.GetCache().ContainsKey(key) ? this.GetCache()[key] : this.CurrentSet;
+
+        public TInterface Get(object key)
+        {
+            if (this.GetCache().ContainsKey(key))
+            {
+                return this.GetCache()[key];
+            }
+            return this.GetCurrentInstance();
+        }
 
         public bool Contains(object key)
         {
@@ -59,12 +64,12 @@ namespace KY.Generator
 
         private TSet GetGlobal(Assembly assembly, TSet caller = null)
         {
-            return this.GetOrCreateGlobal(assembly, this.GetGlobalInstance(), caller);
+            return this.GetOrCreateGlobal(assembly, null, caller);
         }
 
         private TSet GetInternal(Assembly assembly, TSet caller = null)
         {
-            return this.GetOrCreate(assembly, this.GetGlobalInstance(), this.GetGlobal(assembly), caller);
+            return this.GetOrCreate(assembly, this.GetCurrentInstance(), this.GetGlobal(assembly), caller);
         }
 
         private TSet GetOrCreateGlobal(object key, TSet parent, TSet caller = null)
@@ -104,7 +109,7 @@ namespace KY.Generator
             return !(target is Assembly assembly && assembly.FullName.StartsWith("System") || target is Type type && (type.Namespace?.StartsWith("System") ?? true));
         }
 
-        protected abstract TSet GetGlobalInstance();
+        protected abstract TSet GetCurrentInstance();
         protected abstract Dictionary<object, TSet> GetCache();
         protected abstract Dictionary<object, TSet> GetGlobalCache();
         protected abstract TSet CreateSet(object key, TSet parent, TSet global, TSet caller);

@@ -2,7 +2,7 @@
 
 namespace ModelFromAssembly
 {
-    [GenerateAngularIndex("Output")]
+    [GenerateAngularModel("Output"), GenerateOnlySubTypes]
     internal class Index
     {
         public TypeToRead type1;

@@ -23,6 +23,11 @@ namespace KY.Generator.TypeScript.Writers
                 output.Add(unknownUsing.Code).BreakLine();
                 return;
             }
+            if (template.Path == null || template.Type == null)
+            {
+                Logger.Error("Invalid TypeScript import/export (path or type is missing)");
+                return;
+            }
             string action = template is ExportTemplate ? "export" : "import";
             string typeName = template.Type;
             if (!typeName.StartsWith("*"))

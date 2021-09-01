@@ -25,7 +25,9 @@ namespace Fluent.Generator
                 .FromType<EdgeCase2>()
                 .FromType<SelfReferencingType>()
                 .Write()
-                .Angular(angular => angular.Models(config => config.OutputPath("Output/Models").SkipHeader()));
+                .NoHeader()
+                .NoIndex()
+                .Angular(angular => angular.Models(config => config.OutputPath("Output/Models")));
         }
     }
 }

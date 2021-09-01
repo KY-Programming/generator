@@ -18,10 +18,10 @@ namespace KY.Generator.Csharp.Writers
             children?.Usings.Remove(usingTemplate);
         }
 
-        protected override void WriteHeader(FileTemplate fileTemplate, IOutputCache output)
+        protected override void WriteHeader(FileTemplate fileTemplate, IOutputCache output, bool appendBlankLine = true)
         {
             fileTemplate.Header.Description += Environment.NewLine + "ReSharper disable All";
-            base.WriteHeader(fileTemplate, output);
+            base.WriteHeader(fileTemplate, output, appendBlankLine);
         }
     }
 }

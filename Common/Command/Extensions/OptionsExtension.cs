@@ -9,7 +9,10 @@ namespace KY.Generator.Command.Extensions
     {
         public static void SetFromParameter(this IOptions options, GeneratorCommandParameters parameters)
         {
-            options.AddHeader = !parameters.NoHeader;
+            if (parameters.NoHeader.HasValue)
+            {
+                options.AddHeader = parameters.NoHeader.Value;
+            }
             options.FormatNames = parameters.FormatNames;
             options.FieldsToProperties = parameters.FieldsToProperties;
             options.PropertiesToFields = parameters.PropertiesToFields;

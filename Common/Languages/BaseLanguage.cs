@@ -138,6 +138,7 @@ namespace KY.Generator.Languages
 
         public virtual string FormatFile(string name, IOptions options, string type = null, bool force = false)
         {
+            name.AssertIsNotNull(nameof(name));
             name = Formatter.Format(name, options.Formatting.FileCase, options, force);
             foreach (FileNameReplacer replacer in options.Formatting.FileNameReplacer.Where(x => x.MatchingType == null || x.MatchingType == type))
             {

@@ -20,7 +20,7 @@
         public bool? IsAsyncAssembly { get; set; }
 
         [GeneratorGlobalParameter]
-        public bool NoHeader { get; set; }
+        public bool? NoHeader { get; set; }
 
         [GeneratorGlobalParameter]
         public bool VerifySsl { get; set; }

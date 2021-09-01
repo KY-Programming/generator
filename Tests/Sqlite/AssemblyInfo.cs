@@ -1,3 +1,3 @@
 ﻿using KY.Generator;
 
-[assembly:GenerateWithoutHeader]
+[assembly:GenerateNoHeader]

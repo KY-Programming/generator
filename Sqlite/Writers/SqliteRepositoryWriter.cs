@@ -46,13 +46,14 @@ namespace KY.Generator.Sqlite.Writers
         public void Write(SqliteModelTransferObject model, SqliteWriteRepositoryCommandParameters parameters)
         {
             string repositoryName = parameters.ClassName ?? $"{model.Name}Repository";
-            ClassTemplate classTemplate = files.AddFile(parameters.RelativePath, this.Options.Current)
-                                               .WithName(Formatter.FormatFile(repositoryName, this.Options.Current))
-                                               .AddNamespace(parameters.Namespace)
-                                               .AddClass(repositoryName)
-                                               .FormatName(this.Options.Current)
-                                               .FormatPrefix(this.Options.Current)
-                                               .WithUsing("Microsoft.Data.Sqlite");
+            IOptions modelOptions = this.Options.Get(model);
+            ClassTemplate classTemplate = this.files.AddFile(parameters.RelativePath, modelOptions)
+                                              .WithName(Formatter.FormatFile(repositoryName, modelOptions))
+                                              .AddNamespace(parameters.Namespace)
+                                              .AddClass(repositoryName)
+                                              .FormatName(modelOptions)
+                                              .FormatPrefix(modelOptions)
+                                              .WithUsing("Microsoft.Data.Sqlite");
 
             FieldTemplate connectionField = classTemplate.AddField("connection", Code.Type("SqliteConnection"));
             classTemplate.AddConstructor()

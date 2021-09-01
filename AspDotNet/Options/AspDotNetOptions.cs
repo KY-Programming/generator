@@ -14,12 +14,12 @@ namespace KY.Generator.AspDotNet
             this.reader = reader;
         }
 
-        protected override AspDotNetOptionsSet GetGlobalInstance() => AspDotNetOptionsSet.GlobalInstance;
+        protected override AspDotNetOptionsSet GetCurrentInstance() => AspDotNetOptionsSet.GlobalInstance;
         protected override Dictionary<object, AspDotNetOptionsSet> GetCache() => this.Cache;
         protected override Dictionary<object, AspDotNetOptionsSet> GetGlobalCache() => GlobalCache;
         protected override AspDotNetOptionsSet CreateSet(object key, AspDotNetOptionsSet parent, AspDotNetOptionsSet global, AspDotNetOptionsSet caller)
         {
-            return new(parent, global, caller ?? (key is Type ? this.CurrentSet : null), key);
+            return new(parent, global, caller, key);
         }
 
         protected override AspDotNetOptionsSet CreateSetGlobal(object key, AspDotNetOptionsSet parent, AspDotNetOptionsSet caller)

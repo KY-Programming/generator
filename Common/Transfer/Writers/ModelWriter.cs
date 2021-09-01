@@ -34,7 +34,7 @@ namespace KY.Generator.Transfer.Writers
                 if (!modelOptions.Language.IsGenericTypeWithSameNameAllowed)
                 {
                     ModelTransferObject otherModel = models.FirstOrDefault(m => m != model
-                                                                                && (m.OriginalName == model.OriginalName || m.Name == model.OriginalName)
+                                                                                && m.Name == model.Name
                                                                                 && m.Namespace == model.Namespace
                                                                                 && (m as GenericModelTransferObject)?.Template != (model as GenericModelTransferObject)?.Template
                     );
