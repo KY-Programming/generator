@@ -15,7 +15,7 @@ namespace Generator
                                                                      .GetMethod("MyGet", options => options.NoHttpOptions())
                                                                      .PostMethod("myPost")
                                                                      .PutMethod("myPut", options => options.ParameterGeneric())
-                                                                     .DeleteMethod("myDelete", options => options.NoHttpOptions().UseParameters().NotGeneric()))
+                                                                     .DeleteMethod("myDelete", options => options.NoHttpOptions().NotGeneric()))
                                            .Models(config => config.OutputPath("../Service/ClientApp/src/app/models"))
                 );
         }

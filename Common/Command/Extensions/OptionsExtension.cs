@@ -1,24 +1,37 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using KY.Generator.Models;
-using KY.Generator.Transfer;
-
-namespace KY.Generator.Command.Extensions
+﻿namespace KY.Generator.Command.Extensions
 {
     public static class OptionsExtension
     {
         public static void SetFromParameter(this IOptions options, GeneratorCommandParameters parameters)
         {
-            if (parameters.NoHeader.HasValue)
+            if (parameters.NoHeader != null)
             {
                 options.AddHeader = parameters.NoHeader.Value;
             }
-            options.FormatNames = parameters.FormatNames;
-            options.FieldsToProperties = parameters.FieldsToProperties;
-            options.PropertiesToFields = parameters.PropertiesToFields;
-            options.SkipNamespace = parameters.SkipNamespace;
-            options.PreferInterfaces = parameters.PreferInterfaces;
-            options.WithOptionalProperties = parameters.WithOptionalProperties;
+            if (parameters.FormatNames != null)
+            {
+                options.FormatNames = parameters.FormatNames.Value;
+            }
+            if (parameters.FieldsToProperties != null)
+            {
+               options.FieldsToProperties = parameters.FieldsToProperties.Value;
+            }
+            if (parameters.PropertiesToFields != null)
+            {
+                options.PropertiesToFields = parameters.PropertiesToFields.Value;
+            }
+            if (parameters.SkipNamespace != null)
+            {
+                options.SkipNamespace = parameters.SkipNamespace.Value;
+            }
+            if (parameters.PreferInterfaces != null)
+            {
+                options.PreferInterfaces = parameters.PreferInterfaces.Value;
+            }
+            if (parameters.WithOptionalProperties != null)
+            {
+                options.WithOptionalProperties = parameters.WithOptionalProperties.Value;
+            }
         }
     }
 }

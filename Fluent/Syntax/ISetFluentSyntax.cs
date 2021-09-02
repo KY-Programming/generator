@@ -1,5 +1,3 @@
-using System;
-
 namespace KY.Generator.Syntax
 {
     public interface ISetFluentSyntax
