@@ -87,15 +87,9 @@ namespace KY.Generator.Syntax
         /// <summary>
         /// Collapses a class if no properties or values exists. E.g. <code>class Dummy { }</code>
         /// </summary>
+        /// <param name="spacer">The string between the braces of a empty class. E.g. space, empty string or tab</param>
         /// <returns></returns>
-        IFormattingFluentSyntax CollapseEmptyClasses();
-
-        /// <summary>
-        /// The string between the braces of a empty class. E.g. space, empty string or tab
-        /// </summary>
-        /// <param name="spacer"></param>
-        /// <returns></returns>
-        IFormattingFluentSyntax CollapsedClassesSpacer(string spacer);
+        IFormattingFluentSyntax CollapseEmptyClasses(string spacer = " ");
 
         /// <summary>
         /// Prefix to add to class name. E.g if you set "C" as prefix <code>MyClass</code> => <code>CMyClass</code>

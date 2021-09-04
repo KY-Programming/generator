@@ -1,3 +1,5 @@
+using System;
+
 namespace KY.Generator.Syntax
 {
     public class FormattingFluentSyntax : IFormattingFluentSyntax
@@ -83,14 +85,9 @@ namespace KY.Generator.Syntax
             return this;
         }
 
-        public IFormattingFluentSyntax CollapseEmptyClasses()
+        public IFormattingFluentSyntax CollapseEmptyClasses(string spacer = " ")
         {
             this.options.CollapseEmptyClasses = true;
-            return this;
-        }
-
-        public IFormattingFluentSyntax CollapsedClassesSpacer(string spacer)
-        {
             this.options.CollapsedClassesSpacer = spacer;
             return this;
         }
