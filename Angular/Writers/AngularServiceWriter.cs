@@ -139,7 +139,9 @@ namespace KY.Generator.Angular.Writers
                     {
                         appendConvertToDateMethod = true;
                     }
-                    string uri = ("/" + (controller.Route?.Replace("[controller]", controllerName.ToLower()).TrimEnd('/') ?? controllerName.ToLower()) + "/" + action.Route?.Replace("[action]", action.Name.ToLower())).TrimEnd('/');
+                    string controllerRoute = controller.Route?.Trim('/').Replace("[controller]", controllerName.ToLower()) ?? controllerName.ToLower();
+                    string actionRoute = action.Route?.TrimEnd('/').Replace("[action]", action.Name.ToLower()).Replace("[controller]", controllerName.ToLower());
+                    string uri = actionRoute == null ? $"/{controllerRoute}" : actionRoute.StartsWith("/") ? actionRoute : $"/{controllerRoute}/{actionRoute}";
 
                     List<HttpServiceActionParameterTransferObject> inlineParameters = action.Parameters.Where(x => !x.FromBody && x.Inline).OrderBy(x => x.InlineIndex).ToList();
                     List<HttpServiceActionParameterTransferObject> urlParameters = action.Parameters.Where(x => !x.FromBody && !x.Inline && x.AppendName).ToList();

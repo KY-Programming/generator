@@ -76,6 +76,17 @@ export class VersionedApiService {
         return subject;
     }
 
+    public getWithAbsoluteRoute(httpOptions?: {}): Observable<string> {
+        let subject = new Subject<string>();
+        httpOptions = { responseType: 'text', ...httpOptions};
+        let url: string = this.serviceUrl + "/api/v1.0/test/versionedapi/getwithabsoluteroute";
+        this.http.get<string>(url, httpOptions).subscribe((result) => {
+            subject.next(result);
+            subject.complete();
+        }, (error) => subject.error(error));
+        return subject;
+    }
+
     public append(url: string, value: {toString(): string} | undefined | null, parameterName: string = "", separator: string = ""): string {
         if (! parameterName) {
             return url + separator + (value === null || value === undefined ? "" : value.toString());

@@ -34,6 +34,12 @@ namespace WebApiController.Controllers
             return this.Random(days);
         }
 
+        [HttpGet("/api/v{version:apiVersion}/test/[controller]/[action]")]
+        public string GetWithAbsoluteRoute()
+        {
+            return "works";
+        }
+
         private IEnumerable<WeatherForecast> Random(int days)
         {
             var rng = new Random();

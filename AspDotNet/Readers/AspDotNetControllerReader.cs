@@ -105,7 +105,7 @@ namespace KY.Generator.AspDotNet.Readers
                     action.Route = actionType.Value ?? methodAspOptions.Route;
                     if (action.Route?.Contains(":") ?? false)
                     {
-                        action.Route = Regex.Replace(action.Route, "({[^:]*)(:[^}]+)(})", "$1$3") ;
+                        action.Route = Regex.Replace(action.Route, "({[^:]*)((:apiVersion)|:[^}?]+)(\\??})", "$1$3$4");
                     }
                     action.Type = actionType.Key;
                     action.Version = methodAspOptions.ApiVersion?.OrderByDescending(x => x).FirstOrDefault();

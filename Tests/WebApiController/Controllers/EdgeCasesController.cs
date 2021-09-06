@@ -9,7 +9,7 @@ using WebApiController.Services;
 namespace WebApiController.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("/api/[controller]")]
     [GenerateAngularService("ClientApp/src/app/edge-cases/services", "ClientApp/src/app/edge-cases/models")]
     public class EdgeCasesController : ControllerBase
     {
@@ -92,6 +92,18 @@ namespace WebApiController.Controllers
         public string GetInlineWithOptional(int required, string optional = null)
         {
             return required + " " + (optional ?? "null");
+        }
+
+        [HttpGet("/api/test/[controller]/[action]")]
+        public string GetWithAbsoluteRoute()
+        {
+            return "works";
+        }
+
+        [HttpGet("/api/test/{id}/[action]/[controller]")]
+        public string GetWithAbsoluteRouteAndParameter(int id)
+        {
+            return "works " + id;
         }
     }
 
