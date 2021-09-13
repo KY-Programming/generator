@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using KY.Core.DataAccess;
 using KY.Generator.Transfer;
 
 namespace KY.Generator.Models
@@ -9,5 +10,6 @@ namespace KY.Generator.Models
         public Guid OutputId { get; set; }
         public string OutputPath { get; set; }
         public List<ITransferObject> TransferObjects { get; } = new();
+        public string ApplicationData { get; } = FileSystem.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "KY-Programming", "KY-Generator");
     }
 }

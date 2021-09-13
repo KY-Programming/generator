@@ -1,10 +1,23 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace KY.Generator.Output
 {
     public class MemoryOutput : IOutput
     {
         public Dictionary<string, string> Files { get; }
+
+        public long Lines
+        {
+            get
+            {
+                lock (this.Files)
+                {
+                    return this.Files.Values.Sum(x => Regex.Matches(x, "\n").Count);
+                }
+            }
+        }
 
         public MemoryOutput()
         {

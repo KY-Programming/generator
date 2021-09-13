@@ -28,7 +28,7 @@ Download KY.Generator to use this module</Description>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="KY.Core.Common" Version="4.23.1" />
+    <PackageReference Include="KY.Core.Common" Version="4.24.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="System.Reflection.MetadataLoadContext" Version="4.7.2" />
   </ItemGroup>

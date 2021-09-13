@@ -12,7 +12,10 @@ namespace KY.Generator
         public static bool Run(string[] args)
         {
 #if DEBUG
-            System.Diagnostics.Debugger.Launch();
+            if (args[0] != "statistics")
+            {
+                System.Diagnostics.Debugger.Launch();
+            }
 #endif
             Generator.InitializeLogger(args);
             NugetPackageDependencyLoader.Activate();

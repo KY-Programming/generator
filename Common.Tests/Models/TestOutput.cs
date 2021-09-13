@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using KY.Generator.Output;
 
@@ -8,6 +7,8 @@ namespace KY.Generator.Common.Tests.Models
     public class TestOutput : IOutput
     {
         public List<TestFile> Files { get; } = new();
+
+        public long Lines { get; }
 
         public void Write(string fileName, string content, bool ignoreOutputId = false, bool forceOverwrite = false)
         {

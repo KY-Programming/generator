@@ -28,7 +28,7 @@ Download KY.Generator to use this module</Description>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="KY.Core.Common" Version="4.23.1" />
+    <PackageReference Include="KY.Core.Common" Version="4.24.0" />
   </ItemGroup>
 
   <ItemGroup>

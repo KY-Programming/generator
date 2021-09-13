@@ -9,5 +9,6 @@ namespace KY.Generator.Models
         Guid OutputId { get; set; }
         List<ITransferObject> TransferObjects { get; }
         string OutputPath { get; set; }
+        string ApplicationData { get; }
     }
 }

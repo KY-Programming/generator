@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using KY.Core;
 using KY.Core.DataAccess;
 using KY.Generator.Models;
@@ -14,6 +15,17 @@ namespace KY.Generator.Output
         private readonly IEnvironment environment;
         private readonly List<IOutputAction> actions = new();
         public string BasePath { get; private set; }
+
+        public long Lines
+        {
+            get
+            {
+                lock (this.actions)
+                {
+                    return this.actions.OfType<OutputWriteAction>().Sum(x => Regex.Matches(x.Content, "\n").Count);
+                }
+            }
+        }
 
         public FileOutput(IEnvironment environment, string basePath)
         {

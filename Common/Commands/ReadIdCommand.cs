@@ -1,20 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using KY.Core;
 using KY.Core.DataAccess;
 using KY.Core.Dependency;
 using KY.Generator.Command;
 using KY.Generator.Models;
-using KY.Generator.Output;
-using KY.Generator.Transfer;
 
 namespace KY.Generator.Commands
 {
     internal class ReadIdCommand : GeneratorCommand<ReadIdCommandParameters>
     {
         private readonly IDependencyResolver resolver;
-        public override string[] Names { get; }= { "readid" };
+        public override string[] Names { get; } = { "readid" };
 
         public ReadIdCommand(IDependencyResolver resolver)
         {
@@ -24,7 +21,7 @@ namespace KY.Generator.Commands
         public override IGeneratorCommandResult Run()
         {
             string projectFileName = FileSystem.GetFileName(this.Parameters.Project);
-            VisualStudioParser parser = new VisualStudioParser();
+            VisualStudioParser parser = new();
             VisualStudioSolutionProject project = parser.ParseProject(this.Parameters.Project);
             if (project == null || project.Id == Guid.Empty)
             {

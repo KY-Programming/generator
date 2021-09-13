@@ -30,11 +30,11 @@
 
         public string Assembly { get; set; }
         public string RelativePath { get; set; }
-        public bool? SkipNamespace { get; set; } = true;
-        public bool? PropertiesToFields { get; set; } = true;
+        public bool? SkipNamespace { get; set; }
+        public bool? PropertiesToFields { get; set; }
         public bool? FieldsToProperties { get; set; }
         public bool? PreferInterfaces { get; set; }
         public bool? WithOptionalProperties { get; set; }
-        public bool? FormatNames { get; set; } = true;
+        public bool? FormatNames { get; set; }
     }
 }

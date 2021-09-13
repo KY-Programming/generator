@@ -26,6 +26,9 @@ namespace KY.Generator
             //this.DependencyResolver.Bind<IGeneratorCommand>().To<ClientCommand>();
             this.DependencyResolver.Bind<IGeneratorCommand>().To<VersionCommand>();
             this.DependencyResolver.Bind<IGeneratorCommand>().To<ReadIdCommand>();
+            this.DependencyResolver.Bind<IGeneratorCommand>().To<StatisticsCommand>();
+            this.DependencyResolver.Bind<IGeneratorCommand>().To<OptionsCommand>();
+            this.DependencyResolver.Bind<IGeneratorCommand>().To<CleanupCommand>();
             this.DependencyResolver.Bind<ILanguage>().To<EmptyLanguage>();
         }
     }

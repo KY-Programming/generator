@@ -3,43 +3,12 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using KY.Core;
+using KY.Core.Extension;
 
 namespace KY.Generator.Extensions
 {
     public static class StringExtensions
     {
-        // TODO: Move to KY.Core.Common
-        public static string PadLeft(this string value, int totalWidth, string text = " ", bool exact = false)
-        {
-            if (value == null || text == null || value.Length >= totalWidth)
-            {
-                return value;
-            }
-            StringBuilder builder = new();
-            while (builder.Length + value.Length < totalWidth)
-            {
-                builder.Append(text);
-            }
-            builder.Append(value);
-            return exact ? builder.ToString().Substring(0, totalWidth) : builder.ToString();
-        }
-
-        // TODO: Move to KY.Core.Common
-        public static string PadRight(this string value, int totalWidth, string text = " ", bool exact = false)
-        {
-            if (value == null || text == null || value.Length >= totalWidth)
-            {
-                return value;
-            }
-            StringBuilder builder = new();
-            builder.Append(value);
-            while (builder.Length < totalWidth)
-            {
-                builder.Append(text);
-            }
-            return exact ? builder.ToString().Substring(0, totalWidth) : builder.ToString();
-        }
-
         public static string ToPascalCase(this string value, string allowedCharacters = "")
         {
             return string.Join("", Split(value, allowedCharacters).Select(x => x.FirstCharToUpper()));
@@ -113,9 +82,9 @@ namespace KY.Generator.Extensions
             {
                 return prefix + value;
             }
-            CaseType firstCharCase = GetCaseType(value[0]);
-            CaseType secondCharCase = GetCaseType(value[1]);
-            CaseType prefixCase = GetCaseType(prefix[0]);
+            CaseType firstCharCase = value[0].GetCaseType();
+            CaseType secondCharCase = value[1].GetCaseType();
+            CaseType prefixCase = prefix[0].GetCaseType();
             if (firstCharCase != prefixCase || firstCharCase != secondCharCase)
             {
                 return prefix + value;
@@ -126,32 +95,6 @@ namespace KY.Generator.Extensions
         public static string Replace(this string value, Dictionary<string, string> replaceName)
         {
             return replaceName == null ? value : replaceName.Aggregate(value, (current, pair) => current.Replace(pair.Key, pair.Value));
-        }
-
-        private static CaseType GetCaseType(char value)
-        {
-            string input = value.ToString();
-            if (Regex.IsMatch(input, "[a-z]"))
-            {
-                return CaseType.Lower;
-            }
-            if (Regex.IsMatch(input, "[A-Z]"))
-            {
-                return CaseType.Upper;
-            }
-            if (Regex.IsMatch(input, "[0-9]"))
-            {
-                return CaseType.Number;
-            }
-            return CaseType.Special;
-        }
-
-        private enum CaseType
-        {
-            Lower,
-            Upper,
-            Number,
-            Special
         }
     }
 }

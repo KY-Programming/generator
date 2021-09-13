@@ -5,6 +5,7 @@ using KY.Core;
 using KY.Core.Dependency;
 using KY.Generator.Extensions;
 using KY.Generator.Output;
+using KY.Generator.Statistics;
 
 namespace KY.Generator.Command
 {
@@ -12,17 +13,19 @@ namespace KY.Generator.Command
     {
         private readonly IDependencyResolver resolver;
         private readonly IOutput output;
+        private readonly StatisticsService statisticsService;
 
-        public CommandRunner(IDependencyResolver resolver, IOutput output)
+        public CommandRunner(IDependencyResolver resolver, IOutput output, StatisticsService statisticsService)
         {
             this.resolver = resolver;
             this.output = output;
+            this.statisticsService = statisticsService;
         }
 
         public List<IGeneratorCommand> Convert(IEnumerable<RawCommand> commands)
         {
             bool allCommandsFound = true;
-            List<IGeneratorCommand> foundCommands = new List<IGeneratorCommand>();
+            List<IGeneratorCommand> foundCommands = new();
             foreach (RawCommand rawCommand in commands)
             {
                 IGeneratorCommand command = this.FindCommand(rawCommand.Name);
@@ -66,7 +69,7 @@ namespace KY.Generator.Command
             list.ForEach(command => command.Prepare());
             foreach (IGeneratorCommand command in list)
             {
-                result = command.Run();
+                result = this.Run(command);
                 if (!result.Success)
                 {
                     return result;
@@ -112,7 +115,15 @@ namespace KY.Generator.Command
                     }
                 }
             }
-            return command.Run();
+            Measurement measurement = this.statisticsService.StartMeasurement();
+            try
+            {
+                return command.Run();
+            }
+            finally
+            {
+                this.statisticsService.Measure(measurement, command);
+            }
         }
     }
 }

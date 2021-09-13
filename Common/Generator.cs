@@ -12,11 +12,13 @@ using KY.Core.Dependency;
 using KY.Core.Extension;
 using KY.Core.Module;
 using KY.Generator.Command;
+using KY.Generator.Commands;
 using KY.Generator.Extensions;
 using KY.Generator.Languages;
 using KY.Generator.Mappings;
 using KY.Generator.Models;
 using KY.Generator.Output;
+using KY.Generator.Statistics;
 using KY.Generator.Syntax;
 using KY.Generator.Templates;
 using KY.Generator.Transfer.Writers;
@@ -28,10 +30,14 @@ namespace KY.Generator
         private readonly IOutput output;
         private readonly DependencyResolver resolver;
         private readonly List<IGeneratorCommand> commands = new();
+        private readonly GeneratorEnvironment environment = new();
+        private readonly StatisticsService statisticsService;
 
         public Generator()
         {
             Logger.CatchAll();
+            this.statisticsService = new StatisticsService(this.environment);
+            this.statisticsService.ProgramStart();
             Assembly callingAssembly = Assembly.GetEntryAssembly() ?? Assembly.GetCallingAssembly();
             FrameworkName framework = callingAssembly.GetTargetFramework();
             Logger.Trace($"KY-Generator v{callingAssembly.GetName().Version} ({framework.Identifier.Replace("App", string.Empty)} {framework.Version.Major}.{framework.Version.Minor})");
@@ -46,10 +52,13 @@ namespace KY.Generator
             this.resolver.Bind<CommandRunner>().ToSelf();
             this.resolver.Bind<ModuleFinder>().ToSingleton();
             this.resolver.Bind<ModelWriter>().ToSelf();
-            this.resolver.Bind<IEnvironment>().ToSingleton<GeneratorEnvironment>();
+            this.resolver.Bind<IEnvironment>().To(this.environment);
             this.output = new FileOutput(this.resolver.Get<IEnvironment>(), Environment.CurrentDirectory);
             this.resolver.Bind<IOutput>().To(this.output);
             this.resolver.Bind<List<FileTemplate>>().To(new List<FileTemplate>());
+            this.resolver.Bind<StatisticsService>().To(this.statisticsService);
+            this.resolver.Bind<GlobalStatisticsService>().ToSingleton();
+            this.resolver.Bind<IGlobalOptions>().ToSingleton<GlobalOptions>();
 
             ModuleFinder moduleFinder = this.resolver.Get<ModuleFinder>();
             this.InitializeModules(moduleFinder.Modules);
@@ -120,13 +129,14 @@ namespace KY.Generator
 
         public bool Run()
         {
+            this.statisticsService.InitializationEnd();
             bool success = true;
             try
             {
                 List<ILanguage> languages = this.resolver.Get<List<ILanguage>>();
                 GeneratorCommand.AddParser(value => languages.FirstOrDefault(x => x.Name.Equals(value, StringComparison.CurrentCultureIgnoreCase)));
                 CommandRunner runner = this.resolver.Get<CommandRunner>();
-                List<IGeneratorCommand> asyncCommands = new List<IGeneratorCommand>();
+                List<IGeneratorCommand> asyncCommands = new();
                 IGeneratorCommandResult switchContext = null;
                 bool switchAsync = false;
                 this.commands.ForEach(command => command.Prepare());
@@ -149,9 +159,19 @@ namespace KY.Generator
                         asyncCommands.Add(command);
                     }
                 }
-                Logger.Trace("Generate code...");
-                this.resolver.Get<List<FileTemplate>>().Write(this.resolver.Get<IOutput>());
-                Logger.Trace("All code generated");
+                this.statisticsService.RunEnd(this.environment.OutputId);
+                List<FileTemplate> files = this.resolver.Get<List<FileTemplate>>();
+                if (files.Count > 0)
+                {
+                    Logger.Trace("Generate code...");
+                    files.Write(this.output);
+                    this.statisticsService.GenerateEnd(this.output.Lines);
+                    files.ForEach(file => this.statisticsService.Count(file));
+                }
+                if (success)
+                {
+                    this.output.Execute();
+                }
                 if (switchAsync)
                 {
                     return this.SwitchToAsync(asyncCommands);
@@ -160,9 +180,11 @@ namespace KY.Generator
                 {
                     return this.SwitchContext(switchContext, asyncCommands);
                 }
-                if (success)
+                this.statisticsService.ProgramEnd(files.Count);
+                if (!this.commands.OfType<StatisticsCommand>().Any() && this.resolver.Get<GlobalOptions>().StatisticsEnabled)
                 {
-                    this.output.Execute();
+                    string fileName = this.statisticsService.Write();
+                    this.resolver.Get<GlobalStatisticsService>().StartCalculation(fileName);
                 }
             }
             catch (Exception exception)
@@ -198,7 +220,7 @@ namespace KY.Generator
                 Logger.Trace($"Different assembly framework found. Switching to {result.SwitchToFramework}...");
             }
             string location = Assembly.GetEntryAssembly()?.Location ?? throw new InvalidOperationException("No location found");
-            Regex regex = new Regex(@"(?<separator>[\\/])(?<framework>net[^\\/]+)[\\/]");
+            Regex regex = new(@"(?<separator>[\\/])(?<framework>net[^\\/]+)[\\/]");
             Match match = regex.Match(location);
             if (!match.Success)
             {
@@ -212,33 +234,17 @@ namespace KY.Generator
             string locationExe = location.Replace(".dll", ".exe");
             if (FileSystem.FileExists(location) || FileSystem.FileExists(locationExe))
             {
-                ProcessStartInfo startInfo = new ProcessStartInfo();
-                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && FileSystem.FileExists(locationExe))
-                {
-                    // Always use the .exe on Windows to fix the dotnet.exe x86 problem
-                    startInfo.FileName = locationExe;
-                }
-                else
-                {
-                    startInfo.FileName = "dotnet";
-                    startInfo.Arguments = location;
-                }
-                startInfo.Arguments += string.Join(" ", commandsToRun);
+                string arguments = string.Empty;
                 if (result.SwitchToArchitecture != null)
                 {
-                    startInfo.Arguments += $" --switchedFromArchitecture=\"{result.SwitchToArchitecture}\"";
+                    arguments += $" --switchedFromArchitecture=\"{result.SwitchToArchitecture}\"";
                 }
                 if (result.SwitchToFramework != SwitchableFramework.None)
                 {
-                    startInfo.Arguments += $" --switchedFromFramework=\"{result.SwitchToFramework}\"";
+                    arguments += $" --switchedFromFramework=\"{result.SwitchToFramework}\"";
                 }
-                //startInfo.UseShellExecute = false;
-                //startInfo.RedirectStandardOutput = true;
-                //startInfo.RedirectStandardError = true;
                 Logger.Trace("===============================");
-                Process process = Process.Start(startInfo);
-                process.OutputDataReceived += (sender, args) => Logger.Trace(">> " + args.Data);
-                process.ErrorDataReceived += (sender, args) => Logger.Error(">> " + args.Data);
+                Process process = GeneratorProcess.Start(location, commandsToRun, arguments);
                 process.WaitForExit();
                 Logger.Trace($"{result.SwitchToArchitecture?.ToString() ?? result.SwitchToFramework.ToString()} process exited with code {process.ExitCode}");
                 return process.ExitCode == 0;
@@ -250,22 +256,7 @@ namespace KY.Generator
         private bool SwitchToAsync(IEnumerable<IGeneratorCommand> commandsToRun)
         {
             Logger.Trace($"The generation is continued in a separate asynchronous process. You can find the output log here: {Logger.File.Path}");
-            string location = Assembly.GetEntryAssembly()?.Location ?? throw new InvalidOperationException("No location found");
-            ProcessStartInfo startInfo = new ProcessStartInfo();
-            startInfo.UseShellExecute = true;
-            startInfo.WindowStyle = ProcessWindowStyle.Hidden;
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && location.EndsWith(".exe"))
-            {
-                startInfo.FileName = location;
-            }
-            else
-            {
-                startInfo.FileName = "dotnet";
-                startInfo.Arguments = location;
-            }
-            startInfo.Arguments += " " + string.Join(" ", commandsToRun);
-            startInfo.Arguments += " -*only-async";
-            Process.Start(startInfo);
+            GeneratorProcess.StartHidden(commandsToRun, " -*only-async");
             return true;
         }
 
@@ -275,7 +266,7 @@ namespace KY.Generator
             Logger.AllTargets.Add(Logger.VisualStudioOutput);
             if (parameters.Any(parameter => parameter.ToLowerInvariant().Contains("forwardlogging")))
             {
-                ForwardConsoleTarget target = new ForwardConsoleTarget();
+                ForwardConsoleTarget target = new();
                 Logger.AllTargets.Clear();
                 Logger.AllTargets.Add(target);
                 Logger.TraceTargets.Clear();
@@ -296,6 +287,7 @@ namespace KY.Generator
         private void InitializeModules(IEnumerable<ModuleBase> modules)
         {
             List<ModuleBase> list = modules.ToList();
+            this.statisticsService.Data.InitializedModules = list.Count;
             list.ForEach(module => this.resolver.Bind<ModuleBase>().To(module));
             list.ForEach(module => module.Initialize());
             list.ForEach(module => Logger.Trace($"{module.GetType().Name.Replace("Module", "")}-{module.GetType().Assembly.GetName().Version} module loaded"));

@@ -7,5 +7,6 @@
         void DeleteAllRelatedFiles(string relativePath = null);
         void Execute();
         void Move(string relativePath);
+        long Lines { get; }
     }
 }

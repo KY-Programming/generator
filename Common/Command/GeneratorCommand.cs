@@ -132,7 +132,19 @@ namespace KY.Generator.Command
 
         public override string ToString()
         {
-            return $" {this.Names.First()} {string.Join(" ", this.OriginalParameters)}";
+            return $" {this.Names.First()} {(this.OriginalParameters == null ? string.Join(" ", this.ParametersToString()) : string.Join(" ", this.OriginalParameters))}";
+        }
+
+        private IEnumerable<string> ParametersToString()
+        {
+            foreach (PropertyInfo property in this.Parameters.GetType().GetProperties().Where(x => x.CanRead))
+            {
+                object value = property.GetMethod.Invoke(this.Parameters, null);
+                if (value != null)
+                {
+                    yield return new RawCommandParameter(property.Name, value.ToString()).ToString();
+                }
+            }
         }
     }
 
