@@ -28,21 +28,15 @@ namespace KY.Generator.Command
             Dictionary<string, PropertyInfo> mapping = new Dictionary<string, PropertyInfo>();
             foreach (PropertyInfo property in type.GetProperties())
             {
-                bool isMapped = false;
                 foreach (GeneratorParameterAttribute attribute in property.GetCustomAttributes<GeneratorParameterAttribute>())
                 {
-                    isMapped = true;
                     mapping.AddIfNotExists(RawCommandParameter.FormatName(attribute.ParameterName), property);
                 }
                 foreach (GeneratorGlobalParameterAttribute attribute in property.GetCustomAttributes<GeneratorGlobalParameterAttribute>().Where(x => !string.IsNullOrEmpty(x.ParameterName)))
                 {
-                    isMapped = true;
                     mapping.AddIfNotExists(RawCommandParameter.FormatName(attribute.ParameterName), property);
                 }
-                if (!isMapped)
-                {
-                    mapping.AddIfNotExists(RawCommandParameter.FormatName(property.Name), property);
-                }
+                mapping.AddIfNotExists(RawCommandParameter.FormatName(property.Name), property);
             }
             foreach (RawCommandParameter parameter in this.OriginalParameters)
             {

@@ -20,8 +20,10 @@ namespace KY.Generator
             this.Caller = caller;
             this.Global = global;
             this.Parent = parent;
-            this.Target = target;
+            this.Target = target + " " + index++;
         }
+
+        private static int index;
 
         protected TValue GetPrimitive<TValue>(Func<TPart, TValue?> getAction, TValue defaultValue = default)
             where TValue : struct

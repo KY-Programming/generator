@@ -45,6 +45,13 @@ namespace KY.Generator.Reflection.Commands
             {
                 return this.SwitchAsync();
             }
+            List<RawCommandParameter> globalParameters = this.Parameters.GetType().GetProperties()
+                                                             .Where(x => x.GetCustomAttribute<GeneratorGlobalParameterAttribute>() != null)
+                                                             .Select(x =>
+                                                                         new RawCommandParameter(x.Name, x.GetMethod.Invoke(this.Parameters, null)?.ToString())
+                                                             )
+                                                             .Where(x => !string.IsNullOrEmpty(x.Value))
+                                                             .ToList();
             foreach (Type objectType in TypeHelper.GetTypes(result.Assembly))
             {
                 IDependencyResolver commandResolver = this.resolver.CloneForCommands();
@@ -57,7 +64,8 @@ namespace KY.Generator.Reflection.Commands
                     {
                         RawCommand command = new(x.Command);
                         command.Parameters.AddRange(x.Parameters.Select(RawCommandParameter.Parse));
-                        command.Parameters.Add(new RawCommandParameter("IsAsyncAssembly", isAssemblyAsync.ToString()));
+                        command.Parameters.Add(new RawCommandParameter(nameof(GeneratorCommandParameters.IsAsyncAssembly), isAssemblyAsync.ToString()));
+                        command.Parameters.AddRange(globalParameters);
                         foreach (RawCommandParameter parameter in command.Parameters)
                         {
                             parameter.Value = parameter.Value.Replace("$ASSEMBLY$", this.Parameters.Assembly)

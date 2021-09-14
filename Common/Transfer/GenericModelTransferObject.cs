@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using KY.Core;
 using KY.Generator.Languages;
 using KY.Generator.Templates;
 
@@ -106,7 +108,6 @@ namespace KY.Generator.Transfer
         }
 
         public override List<TypeTransferObject> Interfaces => this.Template.Interfaces;
-
         public override List<MethodTransferObject> Methods => this.Template.Methods;
         public override List<string> Usings => this.Template.Usings;
 
@@ -123,7 +124,9 @@ namespace KY.Generator.Transfer
 
         object ICloneable.Clone()
         {
-            return new GenericModelTransferObject(this.Template);
+            GenericModelTransferObject clone = new(this.Template);
+            this.Generics.Select(x => new GenericAliasTransferObject { Alias = x.Alias.Clone(), Type = x.Type }).ForEach(clone.Generics.Add);
+            return clone;
         }
     }
 }

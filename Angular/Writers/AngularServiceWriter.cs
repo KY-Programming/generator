@@ -222,7 +222,7 @@ namespace KY.Generator.Angular.Writers
                             }
                             else
                             {
-                                methodTemplate.WithCode(Code.Local(urlTemplate).Append(Code.String(chunks[0])).Close());
+                                methodTemplate.WithCode(Code.Local(urlTemplate).AppendAssign(Code.String(chunks[0])).Close());
                             }
                         }
                         propertyTemplate = null;

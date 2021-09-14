@@ -1,4 +1,7 @@
 using System;
+using System.Linq;
+using KY.Generator.Extensions;
+using KY.Generator.Models;
 
 namespace KY.Generator.Syntax
 {
@@ -101,6 +104,41 @@ namespace KY.Generator.Syntax
         public IFormattingFluentSyntax InterfacePrefix(string prefix)
         {
             this.options.InterfacePrefix = prefix;
+            return this;
+        }
+
+        public IFormattingFluentSyntax AddFileNameReplacer(string key, string pattern, string replacement, string matchingType = null)
+        {
+            if (this.options.FileNameReplacer.Any(x => x.Key == key))
+            {
+                throw new InvalidOperationException($"FileNameReplace {key} already exists. Use {nameof(this.SetFileNameReplacer)} instead");
+            }
+            this.options.AddFileNameReplace(new FileNameReplacer(key, pattern, replacement, matchingType));
+            return this;
+        }
+
+        public IFormattingFluentSyntax SetFileNameReplacer(string key, string replacement)
+        {
+            FileNameReplacer found = this.options.FileNameReplacer.FirstOrDefault(x => x.Key == key);
+            if (found == null)
+            {
+                throw new InvalidOperationException($"FileNameReplace {key} does not exists. Use {nameof(this.AddFileNameReplacer)} first");
+            }
+            found.SetReplacement(replacement);
+            return this;
+        }
+
+        public IFormattingFluentSyntax AddOrSetFileNameReplacer(string key, string pattern, string replacement, string matchingType = null)
+        {
+            FileNameReplacer found = this.options.FileNameReplacer.FirstOrDefault(x => x.Key == key);
+            if (found == null)
+            {
+                this.options.AddFileNameReplace(new FileNameReplacer(key, pattern, replacement, matchingType));
+            }
+            else
+            {
+                found.SetPattern(pattern).SetReplacement(replacement).SetMatchingType(matchingType);
+            }
             return this;
         }
     }

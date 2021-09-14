@@ -194,6 +194,20 @@ export class EdgeCasesService {
         return subject;
     }
 
+    public getNamedInlineWithOptional(required: number, optional?: string, httpOptions?: {}): Observable<string> {
+        let subject = new Subject<string>();
+        httpOptions = { responseType: 'text', ...httpOptions};
+        let url: string = this.serviceUrl + "/api/edgecases/getnamedinlinewithoptional/required";
+        url = this.append(url, required, undefined, "/");
+        url += "/optional";
+        url = this.append(url, optional, undefined, "/");
+        this.http.get<string>(url, httpOptions).subscribe((result) => {
+            subject.next(result);
+            subject.complete();
+        }, (error) => subject.error(error));
+        return subject;
+    }
+
     public getWithAbsoluteRoute(httpOptions?: {}): Observable<string> {
         let subject = new Subject<string>();
         httpOptions = { responseType: 'text', ...httpOptions};

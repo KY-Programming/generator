@@ -101,8 +101,10 @@ namespace Types
         public string WriteonlyProperty { set {} }
         protected string ProtectedProperty { get; set; }
         private string PrivateProperty { get; set; }
+        internal string InternalProperty { get; set; }
         protected string ProtectedField;
         private string PrivateField;
+        internal string InternalField;
     }
 
     public class SubType

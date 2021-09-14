@@ -144,17 +144,12 @@ namespace KY.Generator
                 {
                     IGeneratorCommandResult result = runner.Run(command);
                     success &= result.Success;
+                    switchAsync = switchAsync || result.SwitchToAsync;
                     if (result.SwitchContext)
                     {
                         switchContext ??= result;
-                        asyncCommands.Add(command);
                     }
-                    if (result.SwitchToAsync)
-                    {
-                        switchAsync = true;
-                        asyncCommands.Add(command);
-                    }
-                    if (result.RerunOnAsync)
+                    if (result.SwitchContext || result.SwitchToAsync || result.RerunOnAsync)
                     {
                         asyncCommands.Add(command);
                     }

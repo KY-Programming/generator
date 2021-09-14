@@ -94,6 +94,12 @@ namespace WebApiController.Controllers
             return required + " " + (optional ?? "null");
         }
 
+        [HttpGet("[action]/required/{required}/optional/{optional?}")]
+        public string GetNamedInlineWithOptional(int required, string optional = null)
+        {
+            return required + " " + (optional ?? "null");
+        }
+
         [HttpGet("/api/test/[controller]/[action]")]
         public string GetWithAbsoluteRoute()
         {

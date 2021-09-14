@@ -104,5 +104,9 @@ namespace KY.Generator.Syntax
         /// <param name="prefix"></param>
         /// <returns></returns>
         IFormattingFluentSyntax InterfacePrefix(string prefix);
+
+        IFormattingFluentSyntax AddFileNameReplacer(string key, string pattern, string replacement, string matchingType = null);
+        IFormattingFluentSyntax SetFileNameReplacer(string key, string replacement);
+        IFormattingFluentSyntax AddOrSetFileNameReplacer(string key, string pattern, string replacement, string matchingType = null);
     }
 }

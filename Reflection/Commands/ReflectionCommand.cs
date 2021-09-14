@@ -30,10 +30,15 @@ namespace KY.Generator.Reflection.Commands
             IDependencyResolver attributeResolver = this.resolver.CloneForCommands();
             Options options = attributeResolver.Get<Options>();
             IOptions attributeOptions = options.Current;
-            attributeOptions.SetFromParameter(this.Parameters);
             attributeOptions.Language = this.Parameters.Language?.Name?.Equals(nameof(OutputLanguage.Csharp), StringComparison.CurrentCultureIgnoreCase) ?? false
                                             ? this.resolver.Get<CsharpLanguage>()
                                             : this.resolver.Get<TypeScriptLanguage>();
+            if (attributeOptions.Language.IsTypeScript())
+            {
+                attributeOptions.SkipNamespace = true;
+                attributeOptions.PropertiesToFields = true;
+            }
+            attributeOptions.SetFromParameter(this.Parameters);
 
             ReflectionReadConfiguration readConfiguration = new();
             readConfiguration.Name = this.Parameters.Name;

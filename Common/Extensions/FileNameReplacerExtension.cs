@@ -22,5 +22,11 @@ namespace KY.Generator.Extensions
             replacer.Replacement = replacement;
             return replacer;
         }
+
+        public static FileNameReplacer SetMatchingType(this FileNameReplacer replacer, string matchingType)
+        {
+            replacer.MatchingType = matchingType;
+            return replacer;
+        }
     }
 }

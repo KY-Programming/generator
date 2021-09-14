@@ -25,15 +25,13 @@ namespace KY.Generator.Transfer
         public virtual bool IsGeneric { get; set; }
         public virtual bool IsGenericParameter { get; set; }
         public virtual bool IsInterface { get; set; }
-        public virtual List<GenericAliasTransferObject> Generics { get; }
+        public virtual List<GenericAliasTransferObject> Generics { get; } = new();
         public virtual TypeTransferObject Original { get; set; }
         public virtual ICodeFragment Default { get; set; }
         public string FullName => $"{this.Namespace}.{this.Name}";
 
         public TypeTransferObject()
-        {
-            this.Generics = new List<GenericAliasTransferObject>();
-        }
+        { }
 
         public TypeTransferObject(TypeTransferObject type)
         {

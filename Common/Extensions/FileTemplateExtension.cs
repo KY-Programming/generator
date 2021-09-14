@@ -9,11 +9,7 @@ namespace KY.Generator
     {
         public static void Write(this IEnumerable<FileTemplate> files, IOutput output)
         {
-#if DEBUG
             files.ForEach(file => file.Write(output));
-#else
-            System.Threading.Tasks.Parallel.ForEach(files, file => file.Write(output));
-#endif
         }
 
         public static void Write(this FileTemplate file, IOutput output)

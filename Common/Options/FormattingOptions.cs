@@ -179,5 +179,10 @@ namespace KY.Generator
             }
             return merged;
         }
+
+        public void AddFileNameReplace(FileNameReplacer newFileNameReplacer)
+        {
+            this.fileNameReplacer.Add(newFileNameReplacer);
+        }
     }
 }

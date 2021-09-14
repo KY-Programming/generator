@@ -91,7 +91,7 @@ export class RoutedService {
         let subject = new Subject<void>();
         let url: string = this.serviceUrl + "/routed/next";
         url = this.append(url, days, undefined, "/");
-        url + "/days";
+        url += "/days";
         url = this.append(url, test, undefined, "/");
         this.http.get<void>(url, httpOptions).subscribe(() => {
             subject.next();
