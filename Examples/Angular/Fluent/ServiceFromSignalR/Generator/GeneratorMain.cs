@@ -7,12 +7,12 @@ namespace Generator
     {
         public override void Execute()
         {
-            this.Read()
-                .AspDotNet(x => x.FromHub<WeatherForecastHub>())
-                .Write()
-                .Angular(x => x.Services(config => config.OutputPath("../Service/ClientApp/src/app/services"))
-                               .Models(config => config.OutputPath("../Service/ClientApp/src/app/models"))
-                );
+            this.Read(read => read
+                          .AspDotNet(x => x.FromHub<WeatherForecastHub>()))
+                .Write(write => write
+                           .Angular(x => x.Services(config => config.OutputPath("../Service/ClientApp/src/app/services"))
+                                          .Models(config => config.OutputPath("../Service/ClientApp/src/app/models"))
+                           ));
         }
     }
 }

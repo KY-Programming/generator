@@ -3,9 +3,9 @@ using KY.Generator.Command;
 using KY.Generator.Syntax;
 using KY.Generator.Tsql.Commands;
 
-namespace KY.Generator
+namespace KY.Generator.Tsql.Fluent
 {
-    public class TsqlReadSyntax : ITsqlReadTableSyntax, ITsqlReadTableOrSwitchToWriteSyntax, IExecutableSyntax
+    public class TsqlReadSyntax : ITsqlReadSyntax, IExecutableSyntax
     {
         private readonly IReadFluentSyntaxInternal syntax;
         private readonly string connectionString;
@@ -18,7 +18,7 @@ namespace KY.Generator
             this.connectionString = connectionString;
         }
 
-        public ITsqlReadTableOrSwitchToWriteSyntax FromTable(string schema, string table)
+        public ITsqlReadSyntax FromTable(string schema, string table)
         {
             TsqlReadCommand command = this.syntax.Resolver.Create<TsqlReadCommand>();
             command.Parameters.ConnectionString = this.connectionString;
@@ -26,11 +26,6 @@ namespace KY.Generator
             command.Parameters.Table = table;
             this.Commands.Add(command);
             return this;
-        }
-
-        public IWriteFluentSyntax Write()
-        {
-            return this.syntax.Write();
         }
     }
 }

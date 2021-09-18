@@ -1,8 +1,8 @@
-﻿using KY.Generator.Syntax;
+﻿using System;
 
 namespace KY.Generator.Reflection.Fluent
 {
-    public interface IReflectionReadSyntax : ISwitchToWriteSyntax
+    public interface IReflectionReadSyntax
     {
         /// <summary>
         /// Read all metadata from this type and provide it to the following write actions.
@@ -18,6 +18,6 @@ namespace KY.Generator.Reflection.Fluent
         /// </code>
         /// </example>
         /// <typeparam name="T">Type which should be generated</typeparam>
-        IReflectionFromTypeOrReflectionReadSyntax FromType<T>();
+        IReflectionReadSyntax FromType<T>(Action<IReflectionFromTypeSyntax> options = null);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using KY.Core;
 using KY.Generator.Sqlite.Fluent;
 using KY.Generator.Syntax;
 
@@ -7,12 +8,16 @@ namespace KY.Generator
 {
     public static class ReadFluentSyntaxExtension
     {
-        public static IReadFluentOrSwitchToWriteSyntax Sqlite(this IReadFluentSyntax syntax, Action<ISqliteReadSyntax> action)
+        /// <summary>
+        /// Executes the Sqlite read commands. Use at least one command!
+        /// </summary>
+        public static IReadFluentSyntax Sqlite(this IReadFluentSyntax syntax, Action<ISqliteReadSyntax> action)
         {
             IReadFluentSyntaxInternal internalSyntax = (IReadFluentSyntaxInternal)syntax;
             SqliteReadSyntax readSyntax = new(internalSyntax);
             internalSyntax.Syntaxes.Add(readSyntax);
             action(readSyntax);
+            readSyntax.Commands.Count.AssertIsPositive(message: $"The {nameof(Sqlite)} action requires at least one command. E.g. '.{nameof(Sqlite)}(read => read.{nameof(ISqliteReadSyntax.UseConnectionString)}(...))'");
             return internalSyntax;
         }
     }

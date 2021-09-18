@@ -1,8 +1,6 @@
-﻿using KY.Generator.Syntax;
-
-namespace KY.Generator.AspDotNet.Fluent
+﻿namespace KY.Generator.AspDotNet.Fluent
 {
-    public interface IAspDotNetReadSyntax : ISwitchToWriteSyntax
+    public interface IAspDotNetReadSyntax
     {
         /// <summary>
         /// Read all metadata from this controller and provide it to the following write actions.
@@ -18,7 +16,7 @@ namespace KY.Generator.AspDotNet.Fluent
         /// </code>
         /// </example>
         /// <typeparam name="T">Type which should be generated</typeparam>
-        IAspDotNetControllerOrReadSyntax FromController<T>();
+        IAspDotNetReadSyntax FromController<T>();
 
         /// <summary>
         /// Read all metadata from this SignalR hub and provide it to the following write actions.
@@ -34,6 +32,6 @@ namespace KY.Generator.AspDotNet.Fluent
         /// </code>
         /// </example>
         /// <typeparam name="T">Type which should be generated</typeparam>
-        IAspDotNetHubOrReadSyntax FromHub<T>();
+        IAspDotNetReadSyntax FromHub<T>();
     }
 }

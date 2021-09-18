@@ -1,19 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using KY.Generator;
+﻿using KY.Generator;
 
 namespace Tsql
 {
-    class Generator : GeneratorFluentMain
+    internal class Generator : GeneratorFluentMain
     {
         public override void Execute()
         {
-            this.Read()
-                .Tsql("Server=ky-database;Database=test;User Id=fi49sd;Password=fi49sd")
-                .FromTable("test", "User")
-                .Write()
-                .ReflectionModels("Output");
+            this.Read(read => read
+                   .Tsql("Server=ky-database;Database=test;User Id=fi49sd;Password=fi49sd", tsql => tsql
+                       .FromTable("test", "User")))
+               .Write(write => write
+                   .Reflection(reflection => reflection.Models("Output")));
         }
     }
 }

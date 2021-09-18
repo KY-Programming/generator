@@ -17,7 +17,7 @@ namespace KY.Generator.Reflection.Fluent
             this.syntax = syntax;
         }
 
-        public IReflectionFromTypeOrReflectionReadSyntax FromType<T>()
+        public IReflectionReadSyntax FromType<T>(Action<IReflectionFromTypeSyntax> action = null)
         {
             Type type = typeof(T);
             ReflectionReadCommand command = this.syntax.Resolver.Create<ReflectionReadCommand>();
@@ -25,12 +25,8 @@ namespace KY.Generator.Reflection.Fluent
             command.Parameters.Namespace = type.Namespace;
             command.Parameters.Name = type.Name;
             this.Commands.Add(command);
-            return new ReflectionFromTypeSyntax(this, command);
-        }
-
-        public IWriteFluentSyntax Write()
-        {
-            return this.syntax.Write();
+            action?.Invoke(new ReflectionFromTypeSyntax(command));
+            return this;
         }
     }
 }

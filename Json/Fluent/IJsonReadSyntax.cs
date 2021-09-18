@@ -1,9 +1,7 @@
-﻿using KY.Generator.Syntax;
-
-namespace KY.Generator
+﻿namespace KY.Generator
 {
     public interface IJsonReadSyntax
     {
-        ISwitchToWriteSyntax FromFile(string relativePath);
+        IJsonReadSyntax FromFile(string relativePath);
     }
 }

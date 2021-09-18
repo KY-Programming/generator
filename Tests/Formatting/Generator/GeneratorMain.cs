@@ -8,39 +8,43 @@ namespace Generator
     {
         public override void Execute()
         {
-            this.Read()
-                .FromType<TwoWhitespaceTest>()
-                .Write()
-                .SetTestDefaults()
-                .Formatting(config => config.UseWhitespaces(2))
-                .Angular(angular => angular.Models(config => config.OutputPath("Output")));
+            this.Read(read => read
+                   .Reflection(reflection => reflection
+                       .FromType<TwoWhitespaceTest>()))
+               .Write(write => write
+                   .SetTestDefaults()
+                   .Formatting(config => config.UseWhitespaces(2))
+                   .Angular(angular => angular.Models(config => config.OutputPath("Output"))));
 
-            this.Read()
-                .FromType<TabTest>()
-                .Write()
-                .SetTestDefaults()
-                .Formatting(config => config.UseTab())
-                .Angular(angular => angular.Models(config => config.OutputPath("Output")));
+            this.Read(read => read
+                   .Reflection(reflection => reflection
+                       .FromType<TabTest>()))
+               .Write(write => write
+                   .SetTestDefaults()
+                   .Formatting(config => config.UseTab())
+                   .Angular(angular => angular.Models(config => config.OutputPath("Output"))));
 
-            this.Read()
-                .FromType<IInterface>()
-                .FromType<Interface>()
-                .FromType<MyClassWithInterface>()
-                .FromType<MyClassWithIInterface>()
-                .Write()
-                .SetTestDefaults()
-                .Formatting(config => config.InterfacePrefix("I").ClassPrefix("C"))
-                .FileName(config => config.Replace("^c-(.*)$", "$1"))
-                .Angular(angular => angular.Models(config => config.OutputPath("Output/WithPrefix")));
+            this.Read(read => read
+                   .Reflection(reflection => reflection
+                       .FromType<IInterface>()
+                       .FromType<Interface>()
+                       .FromType<MyClassWithInterface>()
+                       .FromType<MyClassWithIInterface>()))
+               .Write(write => write
+                   .SetTestDefaults()
+                   .Formatting(config => config.InterfacePrefix("I").ClassPrefix("C"))
+                   .FileName(config => config.Replace("^c-(.*)$", "$1"))
+                   .Angular(angular => angular.Models(config => config.OutputPath("Output/WithPrefix"))));
 
-            this.Read()
-                .FromType<IInterface>()
-                .FromType<Interface>()
-                .FromType<MyClassWithInterface>()
-                .FromType<MyClassWithIInterface>()
-                .Write()
-                .SetTestDefaults()
-                .Angular(angular => angular.Models(config => config.OutputPath("Output/WithoutPrefix")));
+            this.Read(read => read
+                   .Reflection(reflection => reflection
+                       .FromType<IInterface>()
+                       .FromType<Interface>()
+                       .FromType<MyClassWithInterface>()
+                       .FromType<MyClassWithIInterface>()))
+               .Write(write => write
+                   .SetTestDefaults()
+                   .Angular(angular => angular.Models(config => config.OutputPath("Output/WithoutPrefix"))));
         }
     }
 

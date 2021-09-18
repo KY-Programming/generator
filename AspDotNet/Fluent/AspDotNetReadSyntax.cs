@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using KY.Core.Dependency;
 using KY.Generator.AspDotNet.Commands;
 using KY.Generator.Command;
 using KY.Generator.Syntax;
@@ -8,40 +9,35 @@ namespace KY.Generator.AspDotNet.Fluent
 {
     internal class AspDotNetReadSyntax : IAspDotNetReadSyntax, IExecutableSyntax
     {
-        private readonly IReadFluentSyntaxInternal syntax;
+        private readonly IDependencyResolver resolver;
 
         public List<IGeneratorCommand> Commands { get; } = new();
 
-        public AspDotNetReadSyntax(IReadFluentSyntaxInternal syntax)
+        public AspDotNetReadSyntax(IDependencyResolver resolver)
         {
-            this.syntax = syntax;
+            this.resolver = resolver;
         }
 
-        public IAspDotNetControllerOrReadSyntax FromController<T>()
+        public IAspDotNetReadSyntax FromController<T>()
         {
             Type type = typeof(T);
-            AspDotNetReadControllerCommand command = this.syntax.Resolver.Create<AspDotNetReadControllerCommand>();
+            AspDotNetReadControllerCommand command = this.resolver.Create<AspDotNetReadControllerCommand>();
             command.Parameters.Assembly = type.Assembly.Location;
             command.Parameters.Namespace = type.Namespace;
             command.Parameters.Name = type.Name;
             this.Commands.Add(command);
-            return new AspDotNetControllerSyntax(this, command);
+            return this;
         }
 
-        public IAspDotNetHubOrReadSyntax FromHub<T>()
+        public IAspDotNetReadSyntax FromHub<T>()
         {
             Type type = typeof(T);
-            AspDotNetReadHubCommand command = this.syntax.Resolver.Create<AspDotNetReadHubCommand>();
+            AspDotNetReadHubCommand command = this.resolver.Create<AspDotNetReadHubCommand>();
             command.Parameters.Assembly = type.Assembly.Location;
             command.Parameters.Namespace = type.Namespace;
             command.Parameters.Name = type.Name;
             this.Commands.Add(command);
-            return new AspDotNetHubSyntax(this, command);
-        }
-
-        public IWriteFluentSyntax Write()
-        {
-            return this.syntax.Write();
+            return this;
         }
     }
 }

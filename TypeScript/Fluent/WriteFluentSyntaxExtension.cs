@@ -6,11 +6,8 @@ namespace KY.Generator
     public static class WriteFluentSyntaxExtension
     {
         /// <summary>
-        /// Generates code, valid for strict mode
+        /// Generates code, valid for TypeScripts strict mode
         /// </summary>
-        /// <param name="syntax"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
         public static IWriteFluentSyntax Strict(this IWriteFluentSyntax syntax, bool value = true)
         {
             IOptions options = ((IWriteFluentSyntaxInternal)syntax).Resolver.Get<Options>().Current;
@@ -18,6 +15,9 @@ namespace KY.Generator
             return syntax;
         }
 
+        /// <summary>
+        /// Does not generate index.ts files anymore
+        /// </summary>
         public static IWriteFluentSyntax NoIndex(this IWriteFluentSyntax syntax)
         {
             IOptions options = ((IWriteFluentSyntaxInternal)syntax).Resolver.Get<Options>().Current;

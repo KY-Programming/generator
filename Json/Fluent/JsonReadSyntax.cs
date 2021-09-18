@@ -5,7 +5,7 @@ using KY.Generator.Syntax;
 
 namespace KY.Generator
 {
-    public class JsonReadSyntax : IJsonReadSyntax, ISwitchToWriteSyntax, IExecutableSyntax
+    public class JsonReadSyntax : IJsonReadSyntax, IExecutableSyntax
     {
         private readonly IReadFluentSyntaxInternal syntax;
 
@@ -16,17 +16,12 @@ namespace KY.Generator
             this.syntax = syntax;
         }
 
-        public ISwitchToWriteSyntax FromFile(string relativePath)
+        public IJsonReadSyntax FromFile(string relativePath)
         {
             JsonReadCommand command = this.syntax.Resolver.Create<JsonReadCommand>();
             command.Parameters.RelativePath = relativePath;
             this.Commands.Add(command);
             return this;
-        }
-
-        public IWriteFluentSyntax Write()
-        {
-            return this.syntax.Write();
         }
     }
 }

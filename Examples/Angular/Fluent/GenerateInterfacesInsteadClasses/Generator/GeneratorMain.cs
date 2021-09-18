@@ -7,11 +7,11 @@ namespace Generator
     {
         public override void Execute()
         {
-            this.Read()
-                .FromType<TestModel>()
-                .Write()
-                .NoHeader()
-                .Angular(angular => angular.Models(config => config.OutputPath("Output").PreferInterfaces()));
+            this.Read(read => read
+                          .Reflection(reflection => reflection.FromType<TestModel>()))
+                .Write(write => write
+                                .NoHeader()
+                                .Angular(angular => angular.Models(config => config.OutputPath("Output").PreferInterfaces())));
         }
     }
 }

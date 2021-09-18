@@ -9,34 +9,19 @@ using KY.Generator.Syntax;
 
 namespace KY.Generator
 {
-    public interface IDoReadFluentSyntax : IFluentSyntax<IDoReadFluentSyntax>
-    {
-        IReadFluentSyntax Read();
-    }
-
     /// <summary>
     /// Entry point for fluent language generation.
     /// Override the <see cref="Execute"/> method to add some generation actions
     /// </summary>
-    public abstract class GeneratorFluentMain : IFluentSyntax<IDoReadFluentSyntax>
+    public abstract class GeneratorFluentMain : ISwitchToReadFluentSyntax
     {
         public IDependencyResolver Resolver { get; set; }
         public List<IFluentInternalSyntax> Syntaxes { get; } = new();
 
-        /// <summary>
-        /// This method does not do anything. Use at least one extension method from one of the other generator packages e.g. <code>KY.Generator.Angular</code> or <code>KY.Generator.Reflection</code>
-        /// </summary>
-        protected IReadFluentSyntax Read()
+        /// <inheritdoc cref="ISwitchToReadFluentSyntax.Read"/>
+        public ISwitchToWriteFluentSyntax Read(Action<IReadFluentSyntax> action)
         {
-            return this.Create();
-        }
-
-        /// <summary>
-        /// This method does not do anything. Use at least one extension method from one of the other generator packages e.g. <code>KY.Generator.Angular</code> or <code>KY.Generator.Reflection</code>
-        /// </summary>
-        protected IWriteFluentSyntax Write()
-        {
-            return this.Create();
+            return this.Create().Read(action);
         }
 
         /// <summary>
@@ -66,35 +51,25 @@ namespace KY.Generator
         public virtual void ExecuteBeforeBuild()
         { }
 
-        /// <inheritdoc />
-        public IDoReadFluentSyntax SetGlobal(Assembly assembly, Action<ISetFluentSyntax> action)
-        {
-            return this.Create().CastTo<IDoReadFluentSyntax>().SetGlobal(assembly, action);
-        }
+        /// <inheritdoc cref="IFluentSyntax{TSyntax}.SetGlobal"/>
+        public ISwitchToReadFluentSyntax SetGlobal(Assembly assembly, Action<ISetFluentSyntax> action)
+            => this.Create().CastTo<ISwitchToReadFluentSyntax>().SetGlobal(assembly, action);
 
-        /// <inheritdoc />
-        public IDoReadFluentSyntax SetType<T>(Action<ISetFluentSyntax> action)
-        {
-            return this.Create().CastTo<IDoReadFluentSyntax>().SetType<T>(action);
-        }
+        /// <inheritdoc cref="IFluentSyntax{TSyntax}.SetType{T}"/>
+        public ISwitchToReadFluentSyntax SetType<T>(Action<ISetFluentSyntax> action)
+         => this.Create().CastTo<ISwitchToReadFluentSyntax>().SetType<T>(action);
 
-        /// <inheritdoc />
-        public IDoReadFluentSyntax SetMember<T>(Expression<Func<T, object>> memberExpression, Action<ISetFluentSyntax> action)
-        {
-            return this.Create().CastTo<IDoReadFluentSyntax>().SetMember(memberExpression, action);
-        }
+        /// <inheritdoc cref="IFluentSyntax{TSyntax}.SetMember{T}(System.Linq.Expressions.Expression{System.Func{T,object}},System.Action{KY.Generator.Syntax.ISetFluentSyntax})"/>
+        public ISwitchToReadFluentSyntax SetMember<T>(Expression<Func<T, object>> memberExpression, Action<ISetFluentSyntax> action)
+         => this.Create().CastTo<ISwitchToReadFluentSyntax>().SetMember(memberExpression, action);
 
-        /// <inheritdoc />
-        public IDoReadFluentSyntax SetMember<T>(Expression<Action<T>> memberExpression, Action<ISetFluentSyntax> action)
-        {
-            return this.Create().CastTo<IDoReadFluentSyntax>().SetMember(memberExpression, action);
-        }
+        /// <inheritdoc cref="IFluentSyntax{TSyntax}.SetMember{T}(System.Linq.Expressions.Expression{System.Func{T,object}},System.Action{KY.Generator.Syntax.ISetFluentSyntax})"/>
+        public ISwitchToReadFluentSyntax SetMember<T>(Expression<Action<T>> memberExpression, Action<ISetFluentSyntax> action)
+         => this.Create().CastTo<ISwitchToReadFluentSyntax>().SetMember(memberExpression, action);
 
-        /// <inheritdoc />
-        public IDoReadFluentSyntax SetMember<T>(string name, Action<ISetFluentSyntax> action)
-        {
-            return this.Create().CastTo<IDoReadFluentSyntax>().SetMember<T>(name, action);
-        }
+        /// <inheritdoc cref="IFluentSyntax{TSyntax}.SetMember{T}(string,System.Action{KY.Generator.Syntax.ISetFluentSyntax})"/>
+        public ISwitchToReadFluentSyntax SetMember<T>(string name, Action<ISetFluentSyntax> action)
+         => this.Create().CastTo<ISwitchToReadFluentSyntax>().SetMember<T>(name, action);
 
         private FluentSyntax Create()
         {

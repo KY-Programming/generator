@@ -6,9 +6,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Fluent\KY.Generator.Fluent.csproj" />
-    <ProjectReference Include="..\..\..\Reflection\KY.Generator.Reflection.csproj" />
-    <ProjectReference Include="..\..\..\Tsql\KY.Generator.Tsql.csproj" />
+    <PackageReference Include="KY.Generator.Fluent" Version="8.0.0-preview.0" />
+    <PackageReference Include="KY.Generator.Reflection" Version="8.0.0-preview.0" />
+    <PackageReference Include="KY.Generator.Tsql" Version="8.0.0-preview.0" />
   </ItemGroup>
 
 </Project>

@@ -9,7 +9,7 @@ using KY.Generator.Command;
 
 namespace KY.Generator.Syntax
 {
-    public class FluentSyntax : IReadFluentSyntaxInternal, IWriteFluentSyntaxInternal, IDoReadFluentSyntax
+    public class FluentSyntax : IReadFluentSyntaxInternal, IWriteFluentSyntaxInternal, ISwitchToReadFluentSyntax
     {
         private readonly Options options;
         public IDependencyResolver Resolver { get; }
@@ -22,14 +22,15 @@ namespace KY.Generator.Syntax
             this.Resolver = resolver;
         }
 
-        public IReadFluentSyntax Read()
+        public ISwitchToWriteFluentSyntax Read(Action<IReadFluentSyntax> action)
         {
+            action(this);
             return this;
         }
 
-        public IWriteFluentSyntax Write()
+        public void Write(Action<IWriteFluentSyntax> action)
         {
-            return this;
+            action(this);
         }
 
         public IGeneratorCommandResult Run()
@@ -46,21 +47,17 @@ namespace KY.Generator.Syntax
             return new SuccessResult();
         }
 
-        IDoReadFluentSyntax IFluentSyntax<IDoReadFluentSyntax>.SetGlobal(Assembly assembly, Action<ISetFluentSyntax> action) => this.SetGlobal(assembly, action);
-        IDoReadFluentSyntax IFluentSyntax<IDoReadFluentSyntax>.SetType<T>(Action<ISetFluentSyntax> action) => this.SetType<T>(action);
-        IDoReadFluentSyntax IFluentSyntax<IDoReadFluentSyntax>.SetMember<T>(Expression<Func<T, object>> memberExpression, Action<ISetFluentSyntax> action) => this.SetMember(memberExpression, action);
-        IDoReadFluentSyntax IFluentSyntax<IDoReadFluentSyntax>.SetMember<T>(Expression<Action<T>> memberExpression, Action<ISetFluentSyntax> action) => this.SetMember(memberExpression, action);
-        IDoReadFluentSyntax IFluentSyntax<IDoReadFluentSyntax>.SetMember<T>(string name, Action<ISetFluentSyntax> action) => this.SetMember<T>(name, action);
-        IReadFluentSyntax IFluentSyntax<IReadFluentSyntax>.SetGlobal(Assembly assembly, Action<ISetFluentSyntax> action) => this.SetGlobal(assembly, action);
-        IReadFluentSyntax IFluentSyntax<IReadFluentSyntax>.SetType<T>(Action<ISetFluentSyntax> action) => this.SetType<T>(action);
-        IReadFluentSyntax IFluentSyntax<IReadFluentSyntax>.SetMember<T>(Expression<Func<T, object>> memberExpression, Action<ISetFluentSyntax> action) => this.SetMember(memberExpression, action);
-        IReadFluentSyntax IFluentSyntax<IReadFluentSyntax>.SetMember<T>(Expression<Action<T>> memberExpression, Action<ISetFluentSyntax> action) => this.SetMember(memberExpression, action);
-        IReadFluentSyntax IFluentSyntax<IReadFluentSyntax>.SetMember<T>(string name, Action<ISetFluentSyntax> action) => this.SetMember<T>(name, action);
-        IWriteFluentSyntax IFluentSyntax<IWriteFluentSyntax>.SetGlobal(Assembly assembly, Action<ISetFluentSyntax> action) => this.SetGlobal(assembly, action);
-        IWriteFluentSyntax IFluentSyntax<IWriteFluentSyntax>.SetType<T>(Action<ISetFluentSyntax> action) => this.SetType<T>(action);
-        IWriteFluentSyntax IFluentSyntax<IWriteFluentSyntax>.SetMember<T>(Expression<Func<T, object>> memberExpression, Action<ISetFluentSyntax> action) => this.SetMember(memberExpression, action);
-        IWriteFluentSyntax IFluentSyntax<IWriteFluentSyntax>.SetMember<T>(Expression<Action<T>> memberExpression, Action<ISetFluentSyntax> action) => this.SetMember(memberExpression, action);
-        IWriteFluentSyntax IFluentSyntax<IWriteFluentSyntax>.SetMember<T>(string name, Action<ISetFluentSyntax> action) => this.SetMember<T>(name, action);
+        ISwitchToReadFluentSyntax IFluentSyntax<ISwitchToReadFluentSyntax>.SetGlobal(Assembly assembly, Action<ISetFluentSyntax> action) => this.SetGlobal(assembly, action);
+        ISwitchToReadFluentSyntax IFluentSyntax<ISwitchToReadFluentSyntax>.SetType<T>(Action<ISetFluentSyntax> action) => this.SetType<T>(action);
+        ISwitchToReadFluentSyntax IFluentSyntax<ISwitchToReadFluentSyntax>.SetMember<T>(Expression<Func<T, object>> memberExpression, Action<ISetFluentSyntax> action) => this.SetMember(memberExpression, action);
+        ISwitchToReadFluentSyntax IFluentSyntax<ISwitchToReadFluentSyntax>.SetMember<T>(Expression<Action<T>> memberExpression, Action<ISetFluentSyntax> action) => this.SetMember(memberExpression, action);
+        ISwitchToReadFluentSyntax IFluentSyntax<ISwitchToReadFluentSyntax>.SetMember<T>(string name, Action<ISetFluentSyntax> action) => this.SetMember<T>(name, action);
+        ISwitchToWriteFluentSyntax IFluentSyntax<ISwitchToWriteFluentSyntax>.SetGlobal(Assembly assembly, Action<ISetFluentSyntax> action) => this.SetGlobal(assembly, action);
+        ISwitchToWriteFluentSyntax IFluentSyntax<ISwitchToWriteFluentSyntax>.SetType<T>(Action<ISetFluentSyntax> action) => this.SetType<T>(action);
+        ISwitchToWriteFluentSyntax IFluentSyntax<ISwitchToWriteFluentSyntax>.SetMember<T>(Expression<Func<T, object>> memberExpression, Action<ISetFluentSyntax> action) => this.SetMember(memberExpression, action);
+        ISwitchToWriteFluentSyntax IFluentSyntax<ISwitchToWriteFluentSyntax>.SetMember<T>(Expression<Action<T>> memberExpression, Action<ISetFluentSyntax> action) => this.SetMember(memberExpression, action);
+        ISwitchToWriteFluentSyntax IFluentSyntax<ISwitchToWriteFluentSyntax>.SetMember<T>(string name, Action<ISetFluentSyntax> action) => this.SetMember<T>(name, action);
+
 
         private FluentSyntax SetGlobal(Assembly assembly, Action<ISetFluentSyntax> action)
         {

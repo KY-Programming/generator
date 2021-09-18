@@ -4,5 +4,6 @@
     {
         IReflectionWriteSyntax PropertiesToFields();
         IReflectionWriteSyntax FieldsToProperties();
+        IReflectionWriteSyntax Models(string relativePath);
     }
 }
