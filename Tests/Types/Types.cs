@@ -118,5 +118,6 @@ namespace Types
         public string Single2 { get; }
         public IEnumerable<TOne> Enumerable { get; set; }
         public List<TTwo> List { get; set; }
+        public List<string> StringList { get; set; }
     }
 }

@@ -202,14 +202,22 @@ namespace KY.Generator.Reflection.Readers
 
         private void ApplyGenericTemplate(TypeTransferObject target, string alias, TypeTransferObject type)
         {
-            if (target is GenericModelTransferObject genericModel)
+            if (target is GenericModelTransferObject genericModel && genericModel.Generics.Count == 0)
             {
                 genericModel.Template.Generics.Clone().ForEach(genericModel.Generics.Add);
                 genericModel.Template.Constants.Clone().ForEach(genericModel.Constants.Add);
                 genericModel.Template.Fields.Clone().ForEach(genericModel.Fields.Add);
                 genericModel.Template.Properties.Clone().ForEach(genericModel.Properties.Add);
             }
-            target.Generics.Where(x => x.Alias.Name == alias).ForEach(x => x.Type = type);
+            GenericAliasTransferObject aliasedGeneric = target.Generics.SingleOrDefault(x => x.Alias?.Name == alias);
+            if (aliasedGeneric?.Type != null)
+            {
+                return;
+            }
+            if (aliasedGeneric != null)
+            {
+                aliasedGeneric.Type = type;
+            }
             if (target is ModelTransferObject model)
             {
                 model.Constants.ForEach(x => this.ApplyGenericTemplate(x, alias, type));
