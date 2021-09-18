@@ -1,7 +1,9 @@
+using System.Diagnostics;
 using KY.Generator.Transfer;
 
 namespace KY.Generator.Templates
 {
+    [DebuggerDisplay("Using {Type} (linked)")]
     public class LinkedUsingTemplate : UsingTemplate
     {
         private readonly TypeTransferObject type;

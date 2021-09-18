@@ -126,10 +126,7 @@ namespace KY.Generator.Transfer.Writers
             {
                 this.MapType(model.Language, fieldOptions.Language, member.Type);
             }
-            if (member.Type != model)
-            {
-                this.AddUsing(member.Type, classTemplate, fieldOptions);
-            }
+            this.AddUsing(member.Type, classTemplate, fieldOptions);
             FieldTemplate fieldTemplate = classTemplate.AddField(member.Name, member.Type.ToTemplate()).Public().FormatName(fieldOptions)
                                                        .WithComment(member.Comment);
             if (fieldOptions.WithOptionalProperties)

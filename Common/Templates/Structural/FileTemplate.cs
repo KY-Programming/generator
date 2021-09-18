@@ -62,7 +62,7 @@ namespace KY.Generator.Templates
                 {
                     foreach (UsingTemplate usingTemplate in this.GetUsings(namespaceChildren))
                     {
-                        if (this.Name == usingTemplate.Type)
+                        if (namespaceTemplate.Children.Any(x => x.Name == usingTemplate.Type))
                         {
                             continue;
                         }
