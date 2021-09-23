@@ -1,9 +1,9 @@
 ﻿/* eslint-disable */
 // tslint:disable
 
-import { IInterface } from "./interface.interface";
+import { Interface } from "./interface";
 
-export class MyClassWithInterface implements IInterface {
+export class MyClassWithInterface implements Interface {
     public constructor(init?: Partial<MyClassWithInterface>) {
         Object.assign(this, init);
     }

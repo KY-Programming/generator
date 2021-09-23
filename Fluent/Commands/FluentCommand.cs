@@ -56,7 +56,7 @@ namespace KY.Generator.Commands
                 {
                     main.Execute();
                 }
-                List<ITransferObject> transferObjects = this.resolver.Get<IEnvironment>().TransferObjects;
+                IEnvironment environment = this.resolver.Get<IEnvironment>();
                 foreach (IFluentInternalSyntax syntax in main.Syntaxes)
                 {
                     IGeneratorCommandResult commandResult = syntax.Run();
@@ -64,7 +64,7 @@ namespace KY.Generator.Commands
                     {
                         return commandResult;
                     }
-                    transferObjects.AddIfNotExists(syntax.Resolver.Get<List<ITransferObject>>());
+                    environment.TransferObjects.AddIfNotExists(syntax.Resolver.Get<List<ITransferObject>>());
                 }
             }
             return this.Success();

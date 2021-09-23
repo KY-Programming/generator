@@ -25,7 +25,7 @@ namespace KY.Generator.Reflection.Readers
 
         public ModelTransferObject Read(Type type, IOptions caller = null)
         {
-            ModelTransferObject model = new() { Language = ReflectionLanguage.Instance };
+            ModelTransferObject model = new() { Language = ReflectionLanguage.Instance, Type = type };
             model.Name = model.OriginalName = type.Name;
             model.Namespace = type.Namespace;
             model.IsNullable = !type.IsValueType;
@@ -34,17 +34,15 @@ namespace KY.Generator.Reflection.Readers
             model.FromSystem = type.Namespace != null && type.Namespace.StartsWith("System");
 
             IOptions typeOptions = this.options.Get(type, caller);
-
             if (model.IsGeneric)
             {
                 model.Name = model.OriginalName = type.Name.Split('`').First();
                 model = new GenericModelTransferObject(model);
             }
-            ModelTransferObject existingModel = this.transferObjects.Concat(this.environment.TransferObjects)
-                                                    .OfType<ModelTransferObject>()
-                                                    .FirstOrDefault(entry => entry.Equals(model));
+            ModelTransferObject existingModel = this.transferObjects.OfType<ModelTransferObject>().FirstOrDefault(entry => entry.Equals(model));
             if (existingModel != null)
             {
+                // TODO: Replace complete if with cached model reading after cloning of TransferModels is fixed
                 if (model.IsGeneric)
                 {
                     GenericModelTransferObject genericModel = new(existingModel);
@@ -53,20 +51,14 @@ namespace KY.Generator.Reflection.Readers
                     this.ApplyGenericTemplate(type, genericModel);
                     this.transferObjects.Add(existingModel);
                 }
-                else
-                {
-                    if (!this.transferObjects.Contains(existingModel))
-                    {
-                        existingModel = existingModel.Clone();
-                        this.transferObjects.Add(existingModel);
-                    }
-                    if (!this.options.Contains(existingModel))
-                    {
-                        this.options.Set(existingModel, typeOptions);
-                    }
-                }
                 return existingModel;
             }
+            // TODO: Uncomment cached model reading after cloning of TransferModels is fixed
+            // existingModel = this.environment.TransferObjects.OfType<ModelTransferObject>().FirstOrDefault(entry => entry.Equals(model));
+            // if (existingModel != null)
+            // {
+            //     return this.ReadExisting(existingModel, caller);
+            // }
             this.options.Set(model, typeOptions);
             if (typeOptions.Ignore)
             {
@@ -100,6 +92,41 @@ namespace KY.Generator.Reflection.Readers
                 model.IsNullable = true;
             }
             return model;
+        }
+
+        private ModelTransferObject ReadExisting(ModelTransferObject model, IOptions caller)
+        {
+            IOptions typeOptions = this.options.Get(model.Type, caller);
+            if (model.IsGeneric)
+            {
+                GenericModelTransferObject genericModel = new(model);
+                model = genericModel;
+                if (model.Type != null)
+                {
+                    this.ApplyGenericTemplate(model.Type, genericModel);
+                }
+            }
+            else
+            {
+                model = model.Clone();
+            }
+            if (!this.options.Contains(model))
+            {
+                this.options.Set(model, typeOptions);
+            }
+            this.transferObjects.Add(model);
+            this.ReadExistingMembers(model, typeOptions);
+            return model;
+        }
+
+        private void ReadExistingMembers(ModelTransferObject model, IOptions caller)
+        {
+            model.Interfaces.OfType<ModelTransferObject>()
+                 .Concat(model.Generics.Select(x => x.Type))
+                 .Concat(model.Constants.Select(x => x.Type))
+                 .Concat(model.Fields.Select(x => x.Type))
+                 .Concat(model.Properties.Select(x => x.Type))
+                 .OfType<ModelTransferObject>().ForEach(x => this.ReadExisting(x, caller));
         }
 
         private void ReadArray(Type type, ModelTransferObject model)

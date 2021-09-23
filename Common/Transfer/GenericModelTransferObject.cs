@@ -117,6 +117,12 @@ namespace KY.Generator.Transfer
             set => this.Template.Comment = value;
         }
 
+        public override Type Type
+        {
+            get => this.Template.Type;
+            set => this.Template.Type = value;
+        }
+
         public GenericModelTransferObject(ModelTransferObject template)
         {
             this.Template = template is GenericModelTransferObject genericTemplate ? genericTemplate.Template : template;

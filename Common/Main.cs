@@ -12,7 +12,7 @@ namespace KY.Generator
         public static bool Run(string[] args)
         {
 #if DEBUG
-            if (args[0] != "statistics")
+            if (args.Length > 0 && args[0] != "statistics")
             {
                 System.Diagnostics.Debugger.Launch();
             }
