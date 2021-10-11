@@ -1,5 +1,7 @@
 @title KY-Generator Tests
 
+
+
 REM ==========================================
 REM ||    AnnotationsWithMultipleOutputs    ||
 REM ==========================================
@@ -11,6 +13,20 @@ dotnet add package KY.Generator --prerelease
 dotnet add package KY.Generator.Annotations --prerelease
 dotnet build --no-incremental
 cd ..
+
+REM ==========================================
+REM ||              Caseing                 ||
+REM ==========================================
+REM 
+cd Caseing.Generator
+rmdir /S/Q bin
+rmdir /S/Q Output
+dotnet add package KY.Generator.Fluent --prerelease
+dotnet add package KY.Generator.Angular --prerelease
+dotnet add package KY.Generator.Reflection --prerelease
+dotnet build --no-incremental
+cd ..
+
 
 REM ==========================================
 REM ||               Types                 ||
@@ -162,3 +178,17 @@ dotnet add package KY.Generator.Angular --prerelease
 dotnet add package KY.Generator.Reflection --prerelease
 dotnet build --no-incremental
 cd ..\..
+
+REM ==========================================
+REM ||           WebApiFluent               ||
+REM ==========================================
+REM 
+rmdir /S/Q WebApiFluent.Generator\bin
+rmdir /S/Q WebApiFluent\ClientApp\src\app\models
+rmdir /S/Q WebApiFluent\ClientApp\src\app\services
+cd WebApiFluent.Generator
+dotnet add package KY.Generator.Fluent --prerelease
+dotnet add package KY.Generator.Angular --prerelease
+dotnet add package KY.Generator.AspDotNet --prerelease
+dotnet build --no-incremental
+cd ..

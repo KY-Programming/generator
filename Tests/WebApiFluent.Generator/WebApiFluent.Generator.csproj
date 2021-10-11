@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+      <ProjectGuid>{7d7037b1-21de-4798-a761-dcb57d990403}</ProjectGuid>
+  </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="KY.Generator.Angular" Version="8.0.0-preview.0" />
+      <PackageReference Include="KY.Generator.AspDotNet" Version="8.0.0-preview.0" />
+      <PackageReference Include="KY.Generator.Fluent" Version="8.0.0-preview.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\WebApiFluent\WebApiFluent.csproj" />
+    </ItemGroup>
+
+</Project>

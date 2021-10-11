@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Caseing", "Caseing\Caseing.csproj", "{A3ACF52A-B118-4FE2-B503-23F3ED5E30A4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Caseing.Generator", "Caseing.Generator\Caseing.Generator.csproj", "{F867D241-0FDC-4F38-A79F-668B01198865}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A3ACF52A-B118-4FE2-B503-23F3ED5E30A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3ACF52A-B118-4FE2-B503-23F3ED5E30A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3ACF52A-B118-4FE2-B503-23F3ED5E30A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3ACF52A-B118-4FE2-B503-23F3ED5E30A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F867D241-0FDC-4F38-A79F-668B01198865}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F867D241-0FDC-4F38-A79F-668B01198865}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F867D241-0FDC-4F38-A79F-668B01198865}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F867D241-0FDC-4F38-A79F-668B01198865}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

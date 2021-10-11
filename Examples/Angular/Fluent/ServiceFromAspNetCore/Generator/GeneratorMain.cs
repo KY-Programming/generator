@@ -8,13 +8,14 @@ namespace Generator
         public override void Execute()
         {
             this.Read(read => read
-                          .AspDotNet(asp => asp.FromController<WeatherForecastController>())
+                .AspDotNet(asp => asp.FromController<WeatherForecastController>())
+            )
+            .Write(write => write
+                .Angular(angular => angular
+                    .Services(config => config.OutputPath("../Service/ClientApp/src/app/services"))
+                    .Models(config => config.OutputPath("../Service/ClientApp/src/app/models"))
                 )
-                .Write(write => write
-                           .Angular(angular => angular.Services(config => config.OutputPath("../Service/ClientApp/src/app/services"))
-                                                      .Models(config => config.OutputPath("../Service/ClientApp/src/app/models"))
-                           )
-                );
+            );
         }
     }
 }
