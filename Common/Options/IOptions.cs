@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using KY.Generator.Languages;
+using KY.Generator.Transfer;
 
 namespace KY.Generator
 {
@@ -19,6 +20,10 @@ namespace KY.Generator
         bool AddHeader { get; set; }
         bool SkipNamespace { get; set; }
         bool OnlySubTypes { get; set; }
+        string Rename { get; set; }
+        TypeTransferObject ReturnType { get; set; }
+        string Formatter { get; set; }
+        bool ForceOverwrite { get; set; }
 
         // TODO: Should be moved to ITypeScriptOptions
         bool Strict { get; set; }

@@ -24,7 +24,7 @@ namespace KY.Generator.Output
             this.Files = new Dictionary<string, string>();
         }
 
-        public void Write(string fileName, string content, bool ignoreOutputId = false, bool forceOverwrite = false)
+        public void Write(string fileName, string content, IOptions options, bool ignoreOutputId = false, bool forceOverwrite = false)
         {
             this.Files.Add(fileName, content);
         }

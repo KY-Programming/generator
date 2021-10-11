@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using KY.Core;
 using KY.Generator.Languages;
+using KY.Generator.Transfer;
 
 namespace KY.Generator
 {
@@ -82,6 +83,24 @@ namespace KY.Generator
             set => this.Part.OnlySubTypes = value;
         }
 
+        string IOptions.Rename
+        {
+            get => this.Part.Rename;
+            set => this.Part.Rename = value;
+        }
+
+        TypeTransferObject IOptions.ReturnType
+        {
+            get => this.Part.ReturnType;
+            set => this.Part.ReturnType = value;
+        }
+
+        string IOptions.Formatter
+        {
+            get => this.GetValue(x => x?.Formatter);
+            set => this.Part.Formatter = value;
+        }
+
         bool IOptions.NoIndex
         {
             get => this.Part.NoIndex ?? this.Global?.Part.NoIndex ?? false;
@@ -95,6 +114,12 @@ namespace KY.Generator
         {
             get => this.GetValue(part => part?.Language);
             set => this.Part.Language = value;
+        }
+
+        bool IOptions.ForceOverwrite
+        {
+            get => this.GetPrimitive(x => x?.ForceOverwrite);
+            set => this.Part.ForceOverwrite = value;
         }
 
         public OptionsSet(OptionsSet parent, OptionsSet global, OptionsSet caller = null, object target = null)

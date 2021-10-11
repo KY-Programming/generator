@@ -2,7 +2,7 @@
 {
     public interface IOutput
     {
-        void Write(string fileName, string content, bool ignoreOutputId = false, bool forceOverwrite = false);
+        void Write(string fileName, string content, IOptions options, bool ignoreOutputId = false, bool forceOverwrite = false);
         void Delete(string fileName);
         void DeleteAllRelatedFiles(string relativePath = null);
         void Execute();

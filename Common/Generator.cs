@@ -15,9 +15,11 @@ using KY.Generator.Command;
 using KY.Generator.Commands;
 using KY.Generator.Extensions;
 using KY.Generator.Languages;
+using KY.Generator.Licensing;
 using KY.Generator.Mappings;
 using KY.Generator.Models;
 using KY.Generator.Output;
+using KY.Generator.Settings;
 using KY.Generator.Statistics;
 using KY.Generator.Syntax;
 using KY.Generator.Templates;
@@ -35,9 +37,8 @@ namespace KY.Generator
 
         public Generator()
         {
+            DateTime start = DateTime.Now;
             Logger.CatchAll();
-            this.statisticsService = new StatisticsService(this.environment);
-            this.statisticsService.ProgramStart();
             Assembly callingAssembly = Assembly.GetEntryAssembly() ?? Assembly.GetCallingAssembly();
             FrameworkName framework = callingAssembly.GetTargetFramework();
             Logger.Trace($"KY-Generator v{callingAssembly.GetName().Version} ({framework.Identifier.Replace("App", string.Empty)} {framework.Version.Major}.{framework.Version.Minor})");
@@ -56,9 +57,14 @@ namespace KY.Generator
             this.output = new FileOutput(this.resolver.Get<IEnvironment>(), Environment.CurrentDirectory);
             this.resolver.Bind<IOutput>().To(this.output);
             this.resolver.Bind<List<FileTemplate>>().To(new List<FileTemplate>());
-            this.resolver.Bind<StatisticsService>().To(this.statisticsService);
+            this.resolver.Bind<StatisticsService>().ToSingleton();
             this.resolver.Bind<GlobalStatisticsService>().ToSingleton();
-            this.resolver.Bind<IGlobalOptions>().ToSingleton<GlobalOptions>();
+            this.resolver.Bind<GlobalSettingsService>().ToSingleton();
+            this.resolver.Bind<LicenseService>().ToSingleton();
+            this.resolver.Get<LicenseService>().Check();
+
+            this.statisticsService = this.resolver.Get<StatisticsService>();
+            this.statisticsService.ProgramStart(start);
 
             ModuleFinder moduleFinder = this.resolver.Get<ModuleFinder>();
             this.InitializeModules(moduleFinder.Modules);
@@ -140,6 +146,10 @@ namespace KY.Generator
                 IGeneratorCommandResult switchContext = null;
                 bool switchAsync = false;
                 this.commands.ForEach(command => command.Prepare());
+                if (!this.resolver.Get<LicenseService>().Wait(TimeSpan.FromMilliseconds(250)))
+                {
+                    Logger.Warning($"Can not check license. Some modules may be deactivated.");
+                }
                 foreach (IGeneratorCommand command in this.commands)
                 {
                     IGeneratorCommandResult result = runner.Run(command);
@@ -176,7 +186,7 @@ namespace KY.Generator
                     return this.SwitchContext(switchContext, asyncCommands);
                 }
                 this.statisticsService.ProgramEnd(files.Count);
-                if (!this.commands.OfType<StatisticsCommand>().Any() && this.resolver.Get<GlobalOptions>().StatisticsEnabled)
+                if (!this.commands.OfType<StatisticsCommand>().Any() && this.resolver.Get<GlobalSettingsService>().Read().StatisticsEnabled)
                 {
                     string fileName = this.statisticsService.Write();
                     this.resolver.Get<GlobalStatisticsService>().StartCalculation(fileName);

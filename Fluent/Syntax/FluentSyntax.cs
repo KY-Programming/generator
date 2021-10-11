@@ -49,14 +49,14 @@ namespace KY.Generator.Syntax
 
         ISwitchToReadFluentSyntax IFluentSyntax<ISwitchToReadFluentSyntax>.SetGlobal(Assembly assembly, Action<ISetFluentSyntax> action) => this.SetGlobal(assembly, action);
         ISwitchToReadFluentSyntax IFluentSyntax<ISwitchToReadFluentSyntax>.SetType<T>(Action<ISetFluentSyntax> action) => this.SetType<T>(action);
-        ISwitchToReadFluentSyntax IFluentSyntax<ISwitchToReadFluentSyntax>.SetMember<T>(Expression<Func<T, object>> memberExpression, Action<ISetFluentSyntax> action) => this.SetMember(memberExpression, action);
-        ISwitchToReadFluentSyntax IFluentSyntax<ISwitchToReadFluentSyntax>.SetMember<T>(Expression<Action<T>> memberExpression, Action<ISetFluentSyntax> action) => this.SetMember(memberExpression, action);
-        ISwitchToReadFluentSyntax IFluentSyntax<ISwitchToReadFluentSyntax>.SetMember<T>(string name, Action<ISetFluentSyntax> action) => this.SetMember<T>(name, action);
+        ISwitchToReadFluentSyntax IFluentSyntax<ISwitchToReadFluentSyntax>.SetMember<T>(Expression<Func<T, object>> memberExpression, Action<ISetMemberFluentSyntax> action) => this.SetMember(memberExpression, action);
+        ISwitchToReadFluentSyntax IFluentSyntax<ISwitchToReadFluentSyntax>.SetMember<T>(Expression<Action<T>> memberExpression, Action<ISetMemberFluentSyntax> action) => this.SetMember(memberExpression, action);
+        ISwitchToReadFluentSyntax IFluentSyntax<ISwitchToReadFluentSyntax>.SetMember<T>(string name, Action<ISetMemberFluentSyntax> action) => this.SetMember<T>(name, action);
         ISwitchToWriteFluentSyntax IFluentSyntax<ISwitchToWriteFluentSyntax>.SetGlobal(Assembly assembly, Action<ISetFluentSyntax> action) => this.SetGlobal(assembly, action);
         ISwitchToWriteFluentSyntax IFluentSyntax<ISwitchToWriteFluentSyntax>.SetType<T>(Action<ISetFluentSyntax> action) => this.SetType<T>(action);
-        ISwitchToWriteFluentSyntax IFluentSyntax<ISwitchToWriteFluentSyntax>.SetMember<T>(Expression<Func<T, object>> memberExpression, Action<ISetFluentSyntax> action) => this.SetMember(memberExpression, action);
-        ISwitchToWriteFluentSyntax IFluentSyntax<ISwitchToWriteFluentSyntax>.SetMember<T>(Expression<Action<T>> memberExpression, Action<ISetFluentSyntax> action) => this.SetMember(memberExpression, action);
-        ISwitchToWriteFluentSyntax IFluentSyntax<ISwitchToWriteFluentSyntax>.SetMember<T>(string name, Action<ISetFluentSyntax> action) => this.SetMember<T>(name, action);
+        ISwitchToWriteFluentSyntax IFluentSyntax<ISwitchToWriteFluentSyntax>.SetMember<T>(Expression<Func<T, object>> memberExpression, Action<ISetMemberFluentSyntax> action) => this.SetMember(memberExpression, action);
+        ISwitchToWriteFluentSyntax IFluentSyntax<ISwitchToWriteFluentSyntax>.SetMember<T>(Expression<Action<T>> memberExpression, Action<ISetMemberFluentSyntax> action) => this.SetMember(memberExpression, action);
+        ISwitchToWriteFluentSyntax IFluentSyntax<ISwitchToWriteFluentSyntax>.SetMember<T>(string name, Action<ISetMemberFluentSyntax> action) => this.SetMember<T>(name, action);
 
 
         private FluentSyntax SetGlobal(Assembly assembly, Action<ISetFluentSyntax> action)
@@ -71,22 +71,22 @@ namespace KY.Generator.Syntax
             return this;
         }
 
-        private FluentSyntax SetMember<T>(Expression<Func<T, object>> memberAction, Action<ISetFluentSyntax> action)
+        private FluentSyntax SetMember<T>(Expression<Func<T, object>> memberAction, Action<ISetMemberFluentSyntax> action)
         {
-            action(new SetFluentSyntax(memberAction.ExtractMember(), this.options));
+            action(new SetFluentMemberSyntax(memberAction.ExtractMember(), this.options));
             return this;
         }
 
-        private FluentSyntax SetMember<T>(Expression<Action<T>> memberAction, Action<ISetFluentSyntax> action)
+        private FluentSyntax SetMember<T>(Expression<Action<T>> memberAction, Action<ISetMemberFluentSyntax> action)
         {
-            action(new SetFluentSyntax(memberAction.ExtractMember(), this.options));
+            action(new SetFluentMemberSyntax(memberAction.ExtractMember(), this.options));
             return this;
         }
 
-        private FluentSyntax SetMember<T>(string name, Action<ISetFluentSyntax> action)
+        private FluentSyntax SetMember<T>(string name, Action<ISetMemberFluentSyntax> action)
         {
             Type type = typeof(T);
-            type.GetMembers().Where(x => x.Name == name).ForEach(member => action(new SetFluentSyntax(member, this.options)));
+            type.GetMembers().Where(x => x.Name == name).ForEach(member => action(new SetFluentMemberSyntax(member, this.options)));
             return this;
         }
 
@@ -102,9 +102,21 @@ namespace KY.Generator.Syntax
             return this;
         }
 
+        public IWriteFluentSyntax ForceOverwrite()
+        {
+            this.options.Current.ForceOverwrite = true;
+            return this;
+        }
+
         public IWriteFluentSyntax FileName(Action<IFileNameFluentSyntax> action)
         {
             action(new FileNameFluentSyntax(this.options.Current));
+            return this;
+        }
+
+        public IWriteFluentSyntax Formatter(string command)
+        {
+            this.options.Current.Formatter = command;
             return this;
         }
     }

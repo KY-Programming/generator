@@ -10,6 +10,7 @@ using KY.Core.DataAccess;
 using KY.Generator.Command;
 using KY.Generator.Extensions;
 using KY.Generator.Models;
+using KY.Generator.Settings;
 using KY.Generator.Templates;
 using Newtonsoft.Json;
 
@@ -18,11 +19,13 @@ namespace KY.Generator.Statistics
     public class StatisticsService
     {
         private readonly IEnvironment environment;
+        private readonly GlobalSettingsService globalSettingsService;
         public Statistic Data { get; }
 
-        public StatisticsService(IEnvironment environment)
+        public StatisticsService(IEnvironment environment, GlobalSettingsService globalSettingsService)
         {
             this.environment = environment;
+            this.globalSettingsService = globalSettingsService;
             Assembly callingAssembly = Assembly.GetEntryAssembly() ?? Assembly.GetCallingAssembly();
             this.Data = new Statistic { Version = callingAssembly.GetName().Version.ToString() };
             Logger.Added += this.OnLoggerAdded;
@@ -36,9 +39,9 @@ namespace KY.Generator.Statistics
             }
         }
 
-        public void ProgramStart()
+        public void ProgramStart(DateTime? start = null)
         {
-            this.Data.Start = DateTime.Now;
+            this.Data.Start = start ?? DateTime.Now;
         }
 
         public void InitializationEnd()
@@ -50,6 +53,7 @@ namespace KY.Generator.Statistics
         public void RunEnd(Guid outputId)
         {
             this.Data.Id = outputId;
+            this.Data.License = this.globalSettingsService.Read().License;
             this.Data.RunEnd = DateTime.Now;
             Logger.Trace($"Executed {this.Data.RanCommands.Count} commands in {this.Data.RunDuration.Format()}");
             CommandStatistic slowestCommand = this.Data.RanCommands.OrderByDescending(x => x.Duration).FirstOrDefault();
@@ -119,17 +123,26 @@ namespace KY.Generator.Statistics
 
         public void Submit(Statistic statistic)
         {
-            // statistic.RanCommands.Clear();
-            this.SendCommand("", statistic);
+            try
+            {
+                // statistic.RanCommands.Clear();
+                this.SendCommand("", statistic);
+            }
+            catch (Exception exception)
+            {
+                Logger.Warning(exception.Message + Environment.NewLine + exception.StackTrace);
+            }
         }
 
         public void Enable(List<Guid> ids)
         {
+            this.globalSettingsService.ReadAndWrite(settings => settings.StatisticsEnabled = true);
             this.SendCommand("enable", ids);
         }
 
         public void Disable(List<Guid> ids)
         {
+            this.globalSettingsService.ReadAndWrite(settings => settings.StatisticsEnabled = false);
             this.SendCommand("disable", ids);
         }
 

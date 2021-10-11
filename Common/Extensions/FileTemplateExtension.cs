@@ -17,7 +17,7 @@ namespace KY.Generator
             // Logger.Trace($"Start generate file {file.Name}");
             FileWriter writer = new(file.Options);
             writer.Add(file);
-            output.Write(file.FullPath, writer.ToString(), !file.WriteOutputId, file.ForceOverwrite);
+            output.Write(file.FullPath, writer.ToString(), file.Options, !file.WriteOutputId, file.ForceOverwrite);
             // Logger.Trace($"Finish generate file {file.Name}");
         }
     }

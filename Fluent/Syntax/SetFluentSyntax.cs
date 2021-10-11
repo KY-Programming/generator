@@ -3,86 +3,115 @@ using System.Reflection;
 
 namespace KY.Generator.Syntax
 {
-    public class SetFluentSyntax : ISetFluentSyntax
+    public class SetFluentSyntax : SetFluentSyntax<ISetFluentSyntax>, ISetFluentSyntax
     {
-        private readonly Options options;
-        private readonly IOptions optionsSet;
+        public SetFluentSyntax(Assembly assembly, Options options)
+            : base(assembly, options)
+        { }
+
+        public SetFluentSyntax(Type type, Options options)
+            : base(type, options)
+        { }
+
+        public SetFluentSyntax(MemberInfo member, Options options)
+            : base(member, options)
+        { }
+
+        protected override ISetFluentSyntax GetReturn()
+        {
+            return this;
+        }
+    }
+
+    public abstract class SetFluentSyntax<T> : ISetFluentSyntax<T>
+        where T : ISetFluentSyntax<T>
+    {
+        protected Options Options { get; }
+        protected IOptions OptionsSet { get; }
 
         private SetFluentSyntax(Options options)
         {
-            this.options = options;
+            this.Options = options;
         }
 
-        public SetFluentSyntax(Assembly assembly, Options options)
+        protected SetFluentSyntax(Assembly assembly, Options options)
             : this(options)
         {
-            this.optionsSet = this.options.Get(assembly);
+            this.OptionsSet = this.Options.Get(assembly);
         }
 
-        public SetFluentSyntax(Type type, Options options)
+        protected SetFluentSyntax(Type type, Options options)
             : this(options)
         {
-            this.optionsSet = this.options.Get(type);
+            this.OptionsSet = this.Options.Get(type);
         }
 
-        public SetFluentSyntax(MemberInfo member, Options options)
+        protected SetFluentSyntax(MemberInfo member, Options options)
             : this(options)
         {
-            this.optionsSet = this.options.Get(member);
+            this.OptionsSet = this.Options.Get(member);
         }
 
-        public ISetFluentSyntax Strict()
+        protected abstract T GetReturn();
+
+        public T Strict()
         {
-            this.optionsSet.Strict = true;
-            return this;
+            this.OptionsSet.Strict = true;
+            return this.GetReturn();
         }
 
-        public ISetFluentSyntax PropertiesToFields()
+        public T PropertiesToFields()
         {
-            this.optionsSet.PropertiesToFields = true;
-            return this;
+            this.OptionsSet.PropertiesToFields = true;
+            return this.GetReturn();
         }
 
-        public ISetFluentSyntax FieldsToProperties()
+        public T FieldsToProperties()
         {
-            this.optionsSet.FieldsToProperties = true;
-            return this;
+            this.OptionsSet.FieldsToProperties = true;
+            return this.GetReturn();
         }
 
-        public ISetFluentSyntax PreferInterfaces()
+        public T PreferInterfaces()
         {
-            this.optionsSet.PreferInterfaces = true;
-            return this;
+            this.OptionsSet.PreferInterfaces = true;
+            return this.GetReturn();
         }
 
-        public ISetFluentSyntax OptionalFields()
+        public T OptionalFields()
         {
-            this.optionsSet.OptionalFields = true;
-            return this;
+            this.OptionsSet.OptionalFields = true;
+            return this.GetReturn();
         }
 
-        public ISetFluentSyntax OptionalProperties()
+        public T OptionalProperties()
         {
-            this.optionsSet.OptionalProperties = true;
-            return this;
+            this.OptionsSet.OptionalProperties = true;
+            return this.GetReturn();
         }
 
-        public ISetFluentSyntax Ignore()
+        public T Ignore()
         {
-            this.optionsSet.Ignore = true;
-            return this;
+            this.OptionsSet.Ignore = true;
+            return this.GetReturn();
         }
 
-        public ISetFluentSyntax ReplaceName(string replace, string with)
+        public T ReplaceName(string replace, string with)
         {
-            this.optionsSet.ReplaceName[replace] = with;
-            return this;
+            this.OptionsSet.ReplaceName[replace] = with;
+            return this.GetReturn();
         }
 
-        public ISetFluentSyntax OnlySubTypes()
+        public T OnlySubTypes()
         {
-            this.optionsSet.OnlySubTypes = true;
-            return this;
+            this.OptionsSet.OnlySubTypes = true;
+            return this.GetReturn();
+        }
+
+        public T FormatNames(bool value = true)
+        {
+            this.OptionsSet.FormatNames = value;
+            return this.GetReturn();
         }
     }
 }

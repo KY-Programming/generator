@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using KY.Generator.Languages;
+using KY.Generator.Transfer;
 
 namespace KY.Generator
 {
@@ -21,5 +21,9 @@ namespace KY.Generator
         public bool? NoIndex { get; set; }
         public Dictionary<string, string> ReplaceName { get; } = new();
         public ILanguage Language { get; set; }
+        public string Rename { get; set; }
+        public TypeTransferObject ReturnType { get; set; }
+        public string Formatter { get; set; }
+        public bool? ForceOverwrite { get; set; }
     }
 }

@@ -10,7 +10,7 @@ namespace KY.Generator.Common.Tests.Models
 
         public long Lines { get; }
 
-        public void Write(string fileName, string content, bool ignoreOutputId = false, bool forceOverwrite = false)
+        public void Write(string fileName, string content, IOptions options, bool ignoreOutputId = false, bool forceOverwrite = false)
         {
             this.Files.Add(new TestFile(fileName, content));
         }

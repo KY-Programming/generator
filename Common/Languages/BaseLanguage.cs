@@ -9,7 +9,6 @@ using KY.Generator.Output;
 using KY.Generator.Templates;
 using KY.Generator.Writers;
 using FileWriter = KY.Generator.Writers.FileWriter;
-using OutputFileWriter = KY.Generator.Output.FileWriter;
 
 namespace KY.Generator.Languages
 {

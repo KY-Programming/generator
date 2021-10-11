@@ -34,13 +34,14 @@ namespace KY.Generator.Output
             this.environment.OutputPath = basePath;
         }
 
-        public void Write(string fileName, string content, bool ignoreOutputId = false, bool forceOverwrite = false)
+        public void Write(string fileName, string content, IOptions options, bool ignoreOutputId = false, bool forceOverwrite = false)
         {
             string filePath = this.ToFilePath(fileName);
             this.RemovePreviousActions(filePath);
             lock (this.actions)
             {
-                this.actions.Add(new OutputWriteAction(filePath, content, ignoreOutputId ? null : this.environment.OutputId, forceOverwrite));
+                Guid? outputId = ignoreOutputId ? null : this.environment.OutputId;
+                this.actions.Add(new OutputWriteAction(filePath, content, options, this.environment, outputId, forceOverwrite));
             }
         }
 

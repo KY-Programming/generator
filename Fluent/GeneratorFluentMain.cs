@@ -35,6 +35,7 @@ namespace KY.Generator
         ///   .AngularModels().OutputPath("Output/Models")
         ///   .AngularServices().OutputPath("Output/Services");
         /// </example>
+        /// <footer>see <a href="https://generator.ky-programming.de/core/documentation/fluent-api#Execute">`.Execute()` on generator.ky-programming.de</a></footer>
         public abstract void Execute();
 
         /// <summary>
@@ -48,6 +49,7 @@ namespace KY.Generator
         ///   .AngularModels().OutputPath("Output/Models")
         ///   .AngularServices().OutputPath("Output/Services");
         /// </example>
+        /// <footer>see <a href="https://generator.ky-programming.de/core/documentation/fluent-api#ExecuteBeforeBuild">`.ExecuteBeforeBuild()` on generator.ky-programming.de</a></footer>
         public virtual void ExecuteBeforeBuild()
         { }
 
@@ -57,19 +59,19 @@ namespace KY.Generator
 
         /// <inheritdoc cref="IFluentSyntax{TSyntax}.SetType{T}"/>
         public ISwitchToReadFluentSyntax SetType<T>(Action<ISetFluentSyntax> action)
-         => this.Create().CastTo<ISwitchToReadFluentSyntax>().SetType<T>(action);
+            => this.Create().CastTo<ISwitchToReadFluentSyntax>().SetType<T>(action);
 
-        /// <inheritdoc cref="IFluentSyntax{TSyntax}.SetMember{T}(System.Linq.Expressions.Expression{System.Func{T,object}},System.Action{KY.Generator.Syntax.ISetFluentSyntax})"/>
-        public ISwitchToReadFluentSyntax SetMember<T>(Expression<Func<T, object>> memberExpression, Action<ISetFluentSyntax> action)
-         => this.Create().CastTo<ISwitchToReadFluentSyntax>().SetMember(memberExpression, action);
+        /// <inheritdoc cref="IFluentSyntax{TSyntax}.SetMember{T}(System.Linq.Expressions.Expression{System.Func{T,object}},System.Action{KY.Generator.Syntax.ISetMemberFluentSyntax})"/>
+        public ISwitchToReadFluentSyntax SetMember<T>(Expression<Func<T, object>> memberExpression, Action<ISetMemberFluentSyntax> action)
+            => this.Create().CastTo<ISwitchToReadFluentSyntax>().SetMember(memberExpression, action);
 
-        /// <inheritdoc cref="IFluentSyntax{TSyntax}.SetMember{T}(System.Linq.Expressions.Expression{System.Func{T,object}},System.Action{KY.Generator.Syntax.ISetFluentSyntax})"/>
-        public ISwitchToReadFluentSyntax SetMember<T>(Expression<Action<T>> memberExpression, Action<ISetFluentSyntax> action)
-         => this.Create().CastTo<ISwitchToReadFluentSyntax>().SetMember(memberExpression, action);
+        /// <inheritdoc cref="IFluentSyntax{TSyntax}.SetMember{T}(System.Linq.Expressions.Expression{System.Func{T,object}},System.Action{KY.Generator.Syntax.ISetMemberFluentSyntax})"/>
+        public ISwitchToReadFluentSyntax SetMember<T>(Expression<Action<T>> memberExpression, Action<ISetMemberFluentSyntax> action)
+            => this.Create().CastTo<ISwitchToReadFluentSyntax>().SetMember(memberExpression, action);
 
-        /// <inheritdoc cref="IFluentSyntax{TSyntax}.SetMember{T}(string,System.Action{KY.Generator.Syntax.ISetFluentSyntax})"/>
-        public ISwitchToReadFluentSyntax SetMember<T>(string name, Action<ISetFluentSyntax> action)
-         => this.Create().CastTo<ISwitchToReadFluentSyntax>().SetMember<T>(name, action);
+        /// <inheritdoc cref="IFluentSyntax{TSyntax}.SetMember{T}(string,System.Action{KY.Generator.Syntax.ISetMemberFluentSyntax})"/>
+        public ISwitchToReadFluentSyntax SetMember<T>(string name, Action<ISetMemberFluentSyntax> action)
+            => this.Create().CastTo<ISwitchToReadFluentSyntax>().SetMember<T>(name, action);
 
         private FluentSyntax Create()
         {
