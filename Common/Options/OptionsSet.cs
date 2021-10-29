@@ -107,6 +107,12 @@ namespace KY.Generator
             set => this.Part.NoIndex = value;
         }
 
+        bool IOptions.ForceIndex
+        {
+            get => this.Part.ForceIndex ?? this.Global?.Part.ForceIndex ?? false;
+            set => this.Part.ForceIndex = value;
+        }
+
         Dictionary<string, string> IOptions.ReplaceName => this.GetMerged(part => part?.ReplaceName);
         public FormattingOptions Formatting { get; }
 

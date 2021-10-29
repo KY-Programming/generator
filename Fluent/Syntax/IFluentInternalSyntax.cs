@@ -8,6 +8,7 @@ namespace KY.Generator.Syntax
     {
         IDependencyResolver Resolver { get; }
         IGeneratorCommandResult Run();
+        void FollowUp();
         List<IExecutableSyntax> Syntaxes { get; }
     }
 }

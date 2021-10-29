@@ -19,6 +19,7 @@ namespace KY.Generator
         public bool? SkipNamespace { get; set; }
         public bool? OnlySubTypes { get; set; }
         public bool? NoIndex { get; set; }
+        public bool? ForceIndex { get; set; }
         public Dictionary<string, string> ReplaceName { get; } = new();
         public ILanguage Language { get; set; }
         public string Rename { get; set; }

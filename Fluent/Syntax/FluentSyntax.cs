@@ -47,6 +47,11 @@ namespace KY.Generator.Syntax
             return new SuccessResult();
         }
 
+        public void FollowUp()
+        {
+            this.Syntaxes.ForEach(syntax => syntax.Commands.ForEach(command => command.FollowUp()));
+        }
+
         ISwitchToReadFluentSyntax IFluentSyntax<ISwitchToReadFluentSyntax>.SetGlobal(Assembly assembly, Action<ISetFluentSyntax> action) => this.SetGlobal(assembly, action);
         ISwitchToReadFluentSyntax IFluentSyntax<ISwitchToReadFluentSyntax>.SetType<T>(Action<ISetFluentSyntax> action) => this.SetType<T>(action);
         ISwitchToReadFluentSyntax IFluentSyntax<ISwitchToReadFluentSyntax>.SetMember<T>(Expression<Func<T, object>> memberExpression, Action<ISetMemberFluentSyntax> action) => this.SetMember(memberExpression, action);

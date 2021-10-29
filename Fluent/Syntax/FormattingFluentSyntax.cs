@@ -50,6 +50,12 @@ namespace KY.Generator.Syntax
             return this;
         }
 
+        public IFormattingFluentSyntax CaseMode(CaseMode mode)
+        {
+            this.options.CaseMode = mode;
+            return this;
+        }
+
         public IFormattingFluentSyntax AllowedSpecialCharacters(string specialCharacters)
         {
             this.options.AllowedSpecialCharacters = specialCharacters;

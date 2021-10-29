@@ -1,6 +1,7 @@
 ﻿using System;
 using KY.Core;
 using KY.Generator.Extensions;
+using KY.Generator.Models;
 
 namespace KY.Generator
 {
@@ -18,12 +19,12 @@ namespace KY.Generator
 
         public static string FormatField(string name, IOptions options, bool force = false)
         {
-            return Format(name, options.Formatting.FieldCase, options, force);
+            return Format(name, options.Formatting.FieldCase, options, force, options.Formatting.CaseMode);
         }
 
         public static string FormatProperty(string name, IOptions options, bool force = false)
         {
-            return Format(name, options.Formatting.PropertyCase, options, force);
+            return Format(name, options.Formatting.PropertyCase, options, force, options.Formatting.CaseMode);
         }
 
         public static string FormatMethod(string name, IOptions options, bool force = false)
@@ -36,18 +37,22 @@ namespace KY.Generator
             return Format(name, options.Formatting.ParameterCase, options, force);
         }
 
-        public static string Format(string name, string casing, IOptions options, bool force)
+        public static string Format(string name, string casing, IOptions options, bool force = false, CaseMode mode = CaseMode.Fix)
         {
             if (options.FormatNames || force)
             {
-                return Format(name, casing, options.Formatting.AllowedSpecialCharacters);
+                return Format(name, casing, options.Formatting.AllowedSpecialCharacters, mode);
             }
             return name;
         }
 
-        public static string Format(string name, string casing, string allowChars)
+        public static string Format(string name, string casing, string allowChars, CaseMode mode)
         {
             casing.AssertIsNotNullOrEmpty(nameof(casing));
+            if (mode == CaseMode.AspDotNetCompatible)
+            {
+                return name?.ToAspDotNetCompatibleFirstLowerCase();
+            }
             if (casing.Equals(Case.CamelCase, StringComparison.CurrentCultureIgnoreCase))
             {
                 return name?.ToCamelCase(allowChars);

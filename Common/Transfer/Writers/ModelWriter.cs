@@ -156,6 +156,10 @@ namespace KY.Generator.Transfer.Writers
                 {
                     this.MapType(model.Language, modelOptions.Language, interFace);
                 }
+                if (interFace.Name == model.Name)
+                {
+                    continue;
+                }
                 classTemplate.BasedOn.Add(new BaseTypeTemplate(classTemplate, interFace.ToTemplate()));
                 this.AddUsing(interFace, classTemplate, modelOptions);
             }

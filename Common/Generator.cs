@@ -176,6 +176,7 @@ namespace KY.Generator
                 if (success)
                 {
                     this.output.Execute();
+                    this.commands.ForEach(command => command.FollowUp());
                 }
                 if (switchAsync)
                 {

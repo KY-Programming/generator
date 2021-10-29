@@ -44,6 +44,16 @@ namespace KY.Generator
 
         private static Process Start(string location, IEnumerable<IGeneratorCommand> commands, string arguments, bool hidden)
         {
+            string allArguments = string.Join(" ", commands);
+            if (arguments != null)
+            {
+                allArguments += arguments;
+            }
+            return Start(location, allArguments, hidden);
+        }
+
+        private static Process Start(string location, string arguments, bool hidden)
+        {
             location ??= Assembly.GetEntryAssembly()?.Location ?? throw new InvalidOperationException("No location found");
             string locationExe = location.Replace(".dll", ".exe");
             ProcessStartInfo startInfo = new();
@@ -66,7 +76,6 @@ namespace KY.Generator
                 startInfo.FileName = "dotnet";
                 startInfo.Arguments = location + " ";
             }
-            startInfo.Arguments +=  string.Join(" ", commands);
             if (arguments != null)
             {
                 startInfo.Arguments += arguments;

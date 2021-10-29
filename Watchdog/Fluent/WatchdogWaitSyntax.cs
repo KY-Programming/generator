@@ -13,6 +13,7 @@ namespace KY.Generator
 
         public IDependencyResolver Resolver { get; }
         public List<IGeneratorCommand> Commands { get; } = new();
+
         public List<IExecutableSyntax> Syntaxes { get; } = new();
 
         public WatchdogWaitSyntax(string url, IDependencyResolver resolver)
@@ -64,6 +65,10 @@ namespace KY.Generator
         public IGeneratorCommandResult Run()
         {
             return new SuccessResult();
+        }
+
+        public void FollowUp()
+        {
         }
     }
 }

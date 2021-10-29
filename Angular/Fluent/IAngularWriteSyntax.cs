@@ -1,18 +1,12 @@
 ﻿using System;
-using KY.Generator.Syntax;
 
 namespace KY.Generator.Angular.Fluent
 {
-    public interface IAngularWriteSyntax : IExecutableSyntax
+    public interface IAngularWriteSyntax : IAngularWriteBaseSyntax<IAngularWriteSyntax>
     {
         /// <summary>
-        /// Writes all models (POCOs) from all previous read actions to the output, with some angular specific modifications
+        /// Creates the code for a npm package
         /// </summary>
-        IAngularWriteSyntax Models(Action<IAngularModelSyntax> action = null);
-
-        /// <summary>
-        /// Writes all services from all previous read actions to the output
-        /// </summary>
-        IAngularWriteSyntax Services(Action<IAngularServiceSyntax> action = null);
+        IAngularWriteSyntax Package(Action<IAngularPackageSyntax> action);
     }
 }

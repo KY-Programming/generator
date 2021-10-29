@@ -97,6 +97,9 @@ namespace KY.Generator.Command
         public virtual void Prepare()
         { }
 
+        public virtual void FollowUp()
+        { }
+
         public abstract IGeneratorCommandResult Run();
 
         protected SuccessResult Success()

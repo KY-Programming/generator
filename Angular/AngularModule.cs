@@ -14,6 +14,7 @@ namespace KY.Generator.Angular
         {
             this.DependencyResolver.Bind<IGeneratorCommand>().To<AngularServiceCommand>();
             this.DependencyResolver.Bind<IGeneratorCommand>().To<AngularModelCommand>();
+            this.DependencyResolver.Bind<IGeneratorCommand>().To<AngularPackageCommand>();
             this.DependencyResolver.Bind<ILanguage>().To<AngularTypeScriptLanguage>();
         }
     }

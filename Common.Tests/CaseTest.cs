@@ -1,4 +1,5 @@
 ﻿using KY.Generator.Extensions;
+using KY.Generator.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace KY.Generator.Common.Tests
@@ -15,11 +16,13 @@ namespace KY.Generator.Common.Tests
         {
             Assert.AreEqual("Alllower", "alllower".ToPascalCase());
         }
+
         [TestMethod]
         public void TestPascalAllLowerNumber()
         {
             Assert.AreEqual("Alllower1", "alllower1".ToPascalCase());
         }
+
         [TestMethod]
         public void TestPascalAllLowerNumbers()
         {
@@ -155,11 +158,13 @@ namespace KY.Generator.Common.Tests
         {
             Assert.AreEqual("alllower", "alllower".ToCamelCase());
         }
+
         [TestMethod]
         public void TestCamelAllLowerNumber()
         {
             Assert.AreEqual("alllower1", "alllower1".ToCamelCase());
         }
+
         [TestMethod]
         public void TestCamelAllLowerNumbers()
         {
@@ -284,6 +289,82 @@ namespace KY.Generator.Common.Tests
         public void TestCamelKebabCaseAllowedSpecial()
         {
             Assert.AreEqual("kebabCase$", "kebab-case$".ToCamelCase("$"));
+        }
+
+        /***************
+         *  AspDotNet  *
+         ***************/
+
+        [TestMethod]
+        public void TestAspDotNetUpperSnakeCase()
+        {
+            Assert.AreEqual("uppeR_SNAKE_CASE", "UPPER_SNAKE_CASE".ToAspDotNetCompatibleFirstLowerCase());
+        }
+
+        [TestMethod]
+        public void TestAspDotNetUnderscoredUpperSnakeCase()
+        {
+            Assert.AreEqual("_UPPER_SNAKE_CASE", "_UPPER_SNAKE_CASE".ToAspDotNetCompatibleFirstLowerCase());
+        }
+
+        [TestMethod]
+        public void TestAspDotNetUpperSnakeCaseShort()
+        {
+            Assert.AreEqual("s_UPPER_SNAKE_CASE", "S_UPPER_SNAKE_CASE".ToAspDotNetCompatibleFirstLowerCase());
+        }
+
+        [TestMethod]
+        public void TestAspDotNetUpperSnakeCaseShortFirstLower()
+        {
+            Assert.AreEqual("s_UPPER_SNAKE_CASE", "s_UPPER_SNAKE_CASE".ToAspDotNetCompatibleFirstLowerCase());
+        }
+
+        [TestMethod]
+        public void TestAspDotNetUpperSnakeCaseShortFirstLower2()
+        {
+            Assert.AreEqual("sUPPER_SNAKE_CASE", "sUPPER_SNAKE_CASE".ToAspDotNetCompatibleFirstLowerCase());
+        }
+
+        [TestMethod]
+        public void TestAspDotNetAllUpper()
+        {
+            Assert.AreEqual("allupper", "ALLUPPER".ToAspDotNetCompatibleFirstLowerCase());
+        }
+
+        [TestMethod]
+        public void TestAspDotNetAllLower()
+        {
+            Assert.AreEqual("alllower", "alllower".ToAspDotNetCompatibleFirstLowerCase());
+        }
+
+        [TestMethod]
+        public void TestAspDotNetPascalCase()
+        {
+            Assert.AreEqual("pascalCase", "PascalCase".ToAspDotNetCompatibleFirstLowerCase());
+        }
+
+        [TestMethod]
+        public void TestAspDotNetSnakeCase()
+        {
+            Assert.AreEqual("snake_case", "snake_case".ToAspDotNetCompatibleFirstLowerCase());
+        }
+
+        [TestMethod]
+        public void TestAspDotNetCamelCase()
+        {
+            Assert.AreEqual("camelCase", "camelCase".ToAspDotNetCompatibleFirstLowerCase());
+        }
+
+        [TestMethod]
+        public void TestAspDotNetDarwinCase()
+        {
+            Assert.AreEqual("darwin_Case", "Darwin_Case".ToAspDotNetCompatibleFirstLowerCase());
+        }
+
+        [TestMethod]
+        public void TestAspDotNetSpecial1()
+        {
+            Assert.AreEqual("myTest", "MYTest".ToAspDotNetCompatibleFirstLowerCase());
         }
     }
 }

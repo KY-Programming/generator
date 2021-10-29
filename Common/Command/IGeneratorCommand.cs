@@ -10,6 +10,7 @@ namespace KY.Generator.Command
         bool Parse(IEnumerable<RawCommandParameter> parameters);
         bool Parse(params RawCommandParameter[] parameters);
         void Prepare();
+        void FollowUp();
         IGeneratorCommandResult Run();
     }
 }

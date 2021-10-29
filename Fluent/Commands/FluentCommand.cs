@@ -15,6 +15,8 @@ namespace KY.Generator.Commands
     internal class FluentCommand : GeneratorCommand<FluentCommandParameters>
     {
         private readonly IDependencyResolver resolver;
+        private readonly List<GeneratorFluentMain> mains = new();
+
         public override string[] Names { get; } = { "fluent" };
 
         public FluentCommand(IDependencyResolver resolver)
@@ -47,6 +49,7 @@ namespace KY.Generator.Commands
             foreach (Type objectType in types)
             {
                 GeneratorFluentMain main = (GeneratorFluentMain)this.resolver.Create(objectType);
+                this.mains.Add(main);
                 main.Resolver = this.resolver;
                 if (this.Parameters.IsBeforeBuild)
                 {
@@ -68,6 +71,12 @@ namespace KY.Generator.Commands
                 }
             }
             return this.Success();
+        }
+
+        public override void FollowUp()
+        {
+            base.FollowUp();
+            this.mains.ForEach(main => main.Syntaxes.ForEach(syntax => syntax.FollowUp()));
         }
     }
 }

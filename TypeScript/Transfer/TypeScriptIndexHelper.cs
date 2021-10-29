@@ -25,7 +25,7 @@ namespace KY.Generator.TypeScript.Transfer
 
         public void Execute(string relativePath)
         {
-            if (this.options.NoIndex)
+            if (this.options.NoIndex && !this.options.ForceIndex)
             {
                 return;
             }
@@ -36,7 +36,7 @@ namespace KY.Generator.TypeScript.Transfer
                                                                         && file.Name != "index.ts"
                                                                         && file.Options.Language.IsTypeScript()
             ).ToList();
-            if (fileTemplates.Count > 1 && indexFile == null)
+            if ((fileTemplates.Count > 1 || this.options.ForceIndex) && indexFile == null)
             {
                 indexFile = new TypeScriptIndexFile();
             }

@@ -30,6 +30,7 @@ namespace KY.Generator
         private string interfacePrefix;
         private string classPrefix;
         private readonly List<FileNameReplacer> fileNameReplacer = new();
+        private CaseMode? caseMode;
 
         public string FileCase
         {
@@ -146,6 +147,12 @@ namespace KY.Generator
         }
 
         public IReadOnlyList<FileNameReplacer> FileNameReplacer => this.GetMerged(x => x?.fileNameReplacer);
+
+        public CaseMode CaseMode
+        {
+            get => this.Get(x => x?.caseMode) ?? CaseMode.Fix;
+            set => this.caseMode = value;
+        }
 
         public FormattingOptions(params Func<FormattingOptions>[] others)
         {

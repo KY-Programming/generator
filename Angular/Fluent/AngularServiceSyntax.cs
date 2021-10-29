@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Linq;
 using KY.Generator.Angular.Commands;
+using KY.Generator.Syntax;
 
 namespace KY.Generator.Angular.Fluent
 {
     internal class AngularServiceSyntax : IAngularServiceSyntax, IAngularHttpClientSyntax
     {
-        private readonly AngularWriteSyntax syntax;
+        private readonly IExecutableSyntax syntax;
         private readonly AngularServiceCommand command;
 
-        public AngularServiceSyntax(AngularWriteSyntax syntax, AngularServiceCommand command)
+        public AngularServiceSyntax(IExecutableSyntax syntax, AngularServiceCommand command)
         {
             this.syntax = syntax;
             this.command = command;

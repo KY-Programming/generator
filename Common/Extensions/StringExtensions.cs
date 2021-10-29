@@ -34,6 +34,24 @@ namespace KY.Generator.Extensions
             return string.Join("_", Split(value, allowedCharacters).Select(x => x.ToLowerInvariant().FirstCharToUpper()));
         }
 
+        public static string ToAspDotNetCompatibleFirstLowerCase(this string value)
+        {
+            Match match = new Regex(@"^(?<upper>[A-Z]*)(?<special>[A-Z])(?<else>.*)$").Match(value);
+            if (!match.Success)
+            {
+                return value;
+            }
+            if (match.Groups["else"].Length == 0)
+            {
+                return value.ToLowerInvariant();
+            }
+            if (match.Groups["upper"].Length == 0)
+            {
+                return match.Groups["special"].Value.ToLowerInvariant() + match.Groups["else"].Value;
+            }
+            return match.Groups["upper"].Value.ToLowerInvariant() + match.Groups["special"].Value + match.Groups["else"].Value;
+        }
+
         private static IEnumerable<string> Split(string value, string allowedCharacters)
         {
             if (value.ToUpperInvariant() == value)

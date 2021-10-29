@@ -29,6 +29,7 @@ namespace KY.Generator
         bool Strict { get; set; }
         bool IsStrictSet { get; }
         bool NoIndex { get; set; }
+        bool ForceIndex { get; set; }
         // TODO-END
     }
 }
