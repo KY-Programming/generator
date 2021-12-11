@@ -8,7 +8,7 @@ using WebApiController.Models;
 namespace WebApiController.Controllers
 {
     [ApiController]
-    [ApiVersion("1.0")]
+    // [ApiVersion("1.0")]
     [Route("[controller]")]
     [GenerateAngularService("ClientApp/src/app/versioned-api/services", "ClientApp/src/app/versioned-api/models")]
     public class VersionedApiController : ControllerBase
@@ -27,14 +27,15 @@ namespace WebApiController.Controllers
             return this.Random(days);
         }
 
-        [ApiVersion("2.0")]
+        // [ApiVersion("2.0")]
         [HttpGet("next-days")]
         public IEnumerable<WeatherForecast> GetNext2(int days)
         {
             return this.Random(days);
         }
 
-        [HttpGet("/api/v{version:apiVersion}/test/[controller]/[action]")]
+        // [HttpGet("/api/v{version:apiVersion}/test/[controller]/[action]")]
+        [HttpGet("/api/test/[controller]/[action]")]
         public string GetWithAbsoluteRoute()
         {
             return "works";

@@ -50,11 +50,11 @@ namespace KY.Generator.Licensing
 
         private async Task<T> SendCommand<T>(string command, string query = "")
         {
-#if DEBUG
-            string baseUri = "http://localhost:8087/api/v1/license";
-#else
+// #if DEBUG
+//             string baseUri = "http://localhost:8087/api/v1/license";
+// #else
             string baseUri = "https://generator.ky-programming.de/api/v1/license";
-#endif
+// #endif
             HttpWebRequest request = WebRequest.CreateHttp($"{baseUri}/{command}?{query}");
             request.Method = WebRequestMethods.Http.Get;
             WebResponse response = request.GetResponse();
