@@ -130,6 +130,15 @@ export class EdgeCasesService {
         return subject;
     }
 
+    public unknownResult<TDefault = unknown>(value: string, httpOptions?: {}): Observable<TDefault> {
+        let subject = new Subject<TDefault>();
+        this.http.get<TDefault>(this.serviceUrl + "/edgecases/unknownresult" + "?value=" + this.convertAny(value), httpOptions).subscribe((result) => {
+            subject.next(result);
+            subject.complete();
+        }, (error) => subject.error(error));
+        return subject;
+    }
+
     public convertAny(value: any): string {
         return value === null || value === undefined ? "" : value.toString();
     }

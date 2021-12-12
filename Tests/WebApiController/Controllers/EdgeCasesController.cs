@@ -76,8 +76,24 @@ namespace WebApiController.Controllers
         {
             return new GenericResult<ExclusiveGenericComplexResult>(new List<ExclusiveGenericComplexResult> { new ExclusiveGenericComplexResult() });
         }
+
+        [HttpGet("[action]")]
+        public object UnknownResult(string value)
+        {
+            return new UnknownResult(value);
+        }
     }
 
     public class ExclusiveGenericComplexResult
     { }
+
+    class UnknownResult
+    {
+        public string Value { get; }
+
+        public UnknownResult(string value)
+        {
+            this.Value = value;
+        }
+    }
 }

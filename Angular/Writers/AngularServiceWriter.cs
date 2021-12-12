@@ -103,8 +103,18 @@ namespace KY.Generator.Angular.Writers
                     TypeTransferObject returnModelType = isEnumerable ? action.ReturnType.Generics.First().Type : action.ReturnType;
                     ModelTransferObject returnModel = returnModelType as ModelTransferObject ?? transferObjects.OfType<ModelTransferObject>().FirstOrDefault(x => x.Equals(returnModelType));
                     this.AddUsing(action.ReturnType, classTemplate, configuration, relativeModelPath);
+                    TypeTemplate aliasType = null;
+                    if (returnType.Name == "unknown")
+                    {
+                        aliasType = Code.Type("TDefault");
+                        returnType = aliasType;
+                    }
                     MethodTemplate methodTemplate = classTemplate.AddMethod(action.Name, Code.Generic("Observable", returnType))
                                                                  .FormatName(configuration);
+                    if (aliasType != null)
+                    {
+                        methodTemplate.WithGeneric(aliasType.Name, Code.Type("unknown"));
+                    }
                     TypeTemplate subjectType = Code.Generic("Subject", returnType);
                     methodTemplate.WithCode(Code.Declare(subjectType, subjectName, Code.New(subjectType)));
                     foreach (HttpServiceActionParameterTransferObject parameter in action.Parameters)
@@ -269,7 +279,6 @@ namespace KY.Generator.Angular.Writers
                     {
                         parameters.Add(Code.Local(action.Parameters.Single(x => x.FromBody).Name));
                     }
-                    parameters.AddRange(inlineParameters.Concat(urlDirectParameters).Concat(urlParameters).Select(parameter => Code.Local(parameter.Name)));
                     if (actionTypeOptions[action.Type]?.HasHttpOptions ?? false)
                     {
                         parameters.Add(Code.Local("httpOptions"));

@@ -16,6 +16,7 @@ namespace KY.Generator.Templates
         public MultilineCodeFragment Code { get; }
         public ClassTemplate Class { get; }
         public CommentTemplate Comment { get; set; }
+        public List<MethodGenericTemplate> Generics { get; set; }
 
         public MethodTemplate(ClassTemplate classTemplate, string name, TypeTemplate type)
         {
@@ -25,6 +26,7 @@ namespace KY.Generator.Templates
             this.Visibility = Visibility.Public;
             this.Parameters = new List<ParameterTemplate>();
             this.Code = new MultilineCodeFragment();
+            this.Generics = new List<MethodGenericTemplate>();
         }
     }
 }

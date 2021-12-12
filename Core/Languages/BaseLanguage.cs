@@ -70,6 +70,7 @@ namespace KY.Generator.Languages
             this.TemplateWriters.Add(typeof(LocalVariableTemplate), new LocalVariableWriter());
             this.TemplateWriters.Add(typeof(MethodTemplate), new MethodWriter());
             this.TemplateWriters.Add(typeof(ExtensionMethodTemplate), new MethodWriter());
+            this.TemplateWriters.Add(typeof(MethodGenericTemplate), new MethodGenericWriter());
             this.TemplateWriters.Add(typeof(MultilineCodeFragment), new MultilineCodeFragmentWriter(this));
             this.TemplateWriters.Add(typeof(NamespaceTemplate), new NamespaceWriter(this));
             this.TemplateWriters.Add(typeof(NewTemplate), new NewWriter());
