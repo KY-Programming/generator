@@ -17,6 +17,7 @@ namespace KY.Generator.TypeScript.Writers
                   .If(template.IsStatic).Add("static ").EndIf()
                   .If(template.IsOverride).Add("override ").EndIf()
                   .Add(template.Name)
+                  .If(template.Generics != null && template.Generics.Count > 0).Add("<").Add(template.Generics, ", ").Add(">").EndIf()
                   .Add("(")
                   .Add(template.Parameters.OrderBy(x => x.DefaultValue == null ? 0 : 1), ", ")
                   .Add(")")

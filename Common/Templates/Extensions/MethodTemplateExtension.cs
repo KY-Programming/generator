@@ -35,6 +35,12 @@ namespace KY.Generator.Templates.Extensions
             return methodTemplate;
         }
 
+        public static MethodTemplate WithGeneric(this MethodTemplate methodTemplate, string alias, TypeTemplate defaultType = null)
+        {
+            methodTemplate.Generics.Add(new MethodGenericTemplate(alias, defaultType));
+            return methodTemplate;
+        }
+
         public static ParameterTemplate AddParameter(this MethodTemplate methodTemplate, TypeTemplate type, string name, ICodeFragment defaultValue = null)
         {
             var parameter = new ParameterTemplate(type, name, defaultValue);

@@ -111,8 +111,24 @@ namespace WebApiController.Controllers
         {
             return "works " + id;
         }
+
+        [HttpGet("[action]")]
+        public object UnknownResult(string value)
+        {
+            return new UnknownResult(value);
+        }
     }
 
     public class ExclusiveGenericComplexResult
     { }
+
+    class UnknownResult
+    {
+        public string Value { get; }
+
+        public UnknownResult(string value)
+        {
+            this.Value = value;
+        }
+    }
 }

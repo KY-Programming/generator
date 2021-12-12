@@ -11,6 +11,8 @@ export class EdgeCasesComponent implements OnInit {
   public guid: string;
   public headerValue: string;
   public headerResult: string;
+  public unknownValue: string;
+  public unknownResult: unknown;
 
   constructor(
     private readonly service: EdgeCasesService
@@ -34,5 +36,10 @@ export class EdgeCasesComponent implements OnInit {
     const value = Math.round(Math.random() * 10);
     const httpOptions = { headers: { 'headerValue': this.headerValue || '' } };
     this.service.fromHeader(value, httpOptions).subscribe(result => this.headerResult = result, error => this.headerResult = error.message);
+  }
+
+  public getUnknown(): void {
+    this.unknownResult = 'Loading...';
+    this.service.unknownResult(this.unknownValue).subscribe(result => this.unknownResult = (result as {value: string}).value);
   }
 }
