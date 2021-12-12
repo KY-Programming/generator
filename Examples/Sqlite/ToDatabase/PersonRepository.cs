@@ -7,7 +7,7 @@ using Microsoft.Data.Sqlite;
 
 namespace ToDatabase
 {
-    [GeneratedCode("KY.Generator", "8.0.0.0")]
+    [GeneratedCode("KY.Generator", "8.1.0.0")]
     public partial class PersonRepository
     {
         private SqliteConnection connection;
