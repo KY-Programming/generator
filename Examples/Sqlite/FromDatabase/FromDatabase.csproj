@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="KY.Generator.Fluent" Version="7.5.0" />
-    <PackageReference Include="KY.Generator.Sqlite" Version="7.5.0" />
+    <PackageReference Include="KY.Generator.Fluent" Version="7.6.0" />
+    <PackageReference Include="KY.Generator.Sqlite" Version="7.6.0" />
     <PackageReference Include="Microsoft.Data.Sqlite" Version="5.0.7" />
   </ItemGroup>
 
