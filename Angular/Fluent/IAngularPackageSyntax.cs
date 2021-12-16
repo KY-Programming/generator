@@ -13,6 +13,31 @@
         IAngularPackageSyntax Version(string version);
 
         /// <summary>
+        /// Reads the latest version from npm
+        /// </summary>
+        IAngularPackageSyntax VersionFromNpm();
+
+        /// <summary>
+        /// Increments the major (<b>1</b>.0.0) version of the package when changes are found
+        /// </summary>
+        IAngularPackageSyntax IncrementMajorVersion();
+
+        /// <summary>
+        /// Increments the minor (0.<b>1</b>.0) version of the package when changes are found
+        /// </summary>
+        IAngularPackageSyntax IncrementMinorVersion();
+
+        /// <summary>
+        /// Increments the patch/bugfix/revision (0.0.<b>1</b>) version of the package when changes are found
+        /// </summary>
+        IAngularPackageSyntax IncrementPatchVersion();
+
+        /// <summary>
+        /// Set the version of the angular cli (semver is allowed)
+        /// </summary>
+        IAngularPackageSyntax CliVersion(string version);
+
+        /// <summary>
         /// Adds a peer dependency to the package. Version is required and can look like: ^1.2.3
         /// </summary>
         IAngularPackageSyntax DependsOn(string packageName, string version);

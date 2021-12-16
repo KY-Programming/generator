@@ -11,6 +11,8 @@ namespace NpmPackage.Generator
                 .Write(write => write.Angular(angular => angular.Package(package =>
                     package.Name("@ky/test")
                            .Version("11.0.0-preview.0")
+                           .IncrementPatchVersion()
+                           .VersionFromNpm()
                            .DependsOn("rxjs", "^6.6.0")
                            .OutputPath("../NpmPackage")
                            .Models(model => model.OutputPath("./models"))

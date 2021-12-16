@@ -49,12 +49,14 @@ namespace KY.Generator.Angular.Commands
             options.PropertiesToFields = true;
             options.ForceIndex = true;
 
+            string servicePath = this.Commands.OfType<AngularServiceCommand>().FirstOrDefault()?.Parameters.RelativePath;
+            string modelPath = this.Commands.OfType<AngularModelCommand>().FirstOrDefault()?.Parameters.RelativePath;
             string libPath = FileSystem.Combine(this.relativePackagePath, "src", "lib");
             this.Commands.ForEach(command => command.Parameters.RelativePath = FileSystem.Combine(libPath, command.Parameters.RelativePath));
             this.Commands.OfType<AngularServiceCommand>().ForEach(command => command.Parameters.RelativeModelPath = FileSystem.Combine(libPath, command.Parameters.RelativeModelPath));
 
             AngularPackageWriter writer = this.resolver.Create<AngularPackageWriter>();
-            writer.Write(this.nameWithoutScope, this.Parameters.Name, this.Parameters.Version, this.packagePath, this.Parameters.DependsOn);
+            writer.Write(this.nameWithoutScope, this.Parameters.Name, this.Parameters.Version, this.packagePath, this.Parameters.DependsOn, this.Parameters.CliVersion, servicePath, modelPath, this.Parameters.IncrementVersion, this.Parameters.VersionFromNpm);
             this.Commands.ForEach(command => command.Run());
             return this.Success();
         }

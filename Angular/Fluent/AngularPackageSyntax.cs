@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using KY.Core.Dependency;
 using KY.Generator.Angular.Commands;
+using KY.Generator.Angular.Models;
 using KY.Generator.Command;
 using KY.Generator.Syntax;
 
@@ -29,6 +30,36 @@ namespace KY.Generator.Angular.Fluent
         public IAngularPackageSyntax Version(string version)
         {
             this.command.Parameters.Version = version;
+            return this;
+        }
+
+        public IAngularPackageSyntax VersionFromNpm()
+        {
+            this.command.Parameters.VersionFromNpm = true;
+            return this;
+        }
+
+        public IAngularPackageSyntax IncrementMajorVersion()
+        {
+            this.command.Parameters.IncrementVersion = IncrementVersion.Major;
+            return this;
+        }
+
+        public IAngularPackageSyntax IncrementMinorVersion()
+        {
+            this.command.Parameters.IncrementVersion = IncrementVersion.Minor;
+            return this;
+        }
+
+        public IAngularPackageSyntax IncrementPatchVersion()
+        {
+            this.command.Parameters.IncrementVersion = IncrementVersion.Patch;
+            return this;
+        }
+
+        public IAngularPackageSyntax CliVersion(string version)
+        {
+            this.command.Parameters.CliVersion = version;
             return this;
         }
 
