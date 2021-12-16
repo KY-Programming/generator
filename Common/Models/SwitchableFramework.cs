@@ -14,6 +14,9 @@
         NetCore3,
 
         [FrameworkName("net5.0")]
-        Net5
+        Net5,
+
+        [FrameworkName("net6.0")]
+        Net6
     }
 }

@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="KY.Generator" Version="8.2.0-preview.0" />
+      <PackageReference Include="KY.Generator.Reflection" Version="8.2.0-preview.0" />
+    </ItemGroup>
+
+</Project>
