@@ -66,7 +66,7 @@ namespace KY.Generator
                    ?? defaultValue;
         }
 
-        protected TValue GetGlobalValue<TValue>(Func<TPart, TValue?> getAction, TValue defaultValue = default)
+        protected TValue GetGlobalValue<TValue>(Func<TPart, TValue> getAction, TValue defaultValue = default)
             where TValue : class
         {
             return getAction(this.Part)

@@ -13,7 +13,7 @@ Download KY.Generator to use this module</Description>
     <PackageProjectUrl>https://generator.ky-programming.de</PackageProjectUrl>
     <PackageIconUrl>https://ky-programming.de/images/logos/128.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/KY-Programming/generator</RepositoryUrl>
-    <RepositoryType></RepositoryType>
+    <RepositoryType>git</RepositoryType>
     <PackageTags>KY-Generator KY Generator JSON</PackageTags>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
@@ -27,7 +27,7 @@ Download KY.Generator to use this module</Description>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
   <ItemGroup>

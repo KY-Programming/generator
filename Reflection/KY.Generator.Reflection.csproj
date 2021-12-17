@@ -13,7 +13,7 @@ Download KY.Generator to use this module</Description>
     <PackageProjectUrl>https://generator.ky-programming.de</PackageProjectUrl>
     <PackageIconUrl>https://ky-programming.de/images/logos/128.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/KY-Programming/generator</RepositoryUrl>
-    <RepositoryType></RepositoryType>
+    <RepositoryType>git</RepositoryType>
     <PackageTags>KY-Generator KY Generator Reflection</PackageTags>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>

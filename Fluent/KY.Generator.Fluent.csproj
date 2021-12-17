@@ -12,7 +12,7 @@
     <PackageProjectUrl>https://generator.ky-programming.de</PackageProjectUrl>
     <PackageIconUrl>https://ky-programming.de/images/logos/128.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/KY-Programming/generator</RepositoryUrl>
-    <RepositoryType></RepositoryType>
+    <RepositoryType>git</RepositoryType>
     <PackageTags>KY-Generator KY Generator Fluent Language</PackageTags>
     <LangVersion>latest</LangVersion>
     <RootNamespace>KY.Generator</RootNamespace>
