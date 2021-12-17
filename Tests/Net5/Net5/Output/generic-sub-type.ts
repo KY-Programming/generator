@@ -9,15 +9,12 @@
 /* eslint-disable */
 // tslint:disable
 
-export class WeatherForecast {
-    public date: Date;
-    public temperatureC: number;
-    public temperatureF: number;
-    public summary: string;
-
-    public constructor(init?: Partial<WeatherForecast>) {
-        Object.assign(this, init);
-    }
+export class GenericSubType<TOne, TTwo> {
+    public single: TOne;
+    public single2: string;
+    public enumerable: TOne[];
+    public list: TTwo[];
+    public stringList: string[];
 }
 
-// outputid:c2cd74cf-53e6-4c11-86de-4f23690f7cf8
+// outputid:4a93e299-87f2-431e-bbf7-82c818ad7cd6

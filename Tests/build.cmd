@@ -191,4 +191,25 @@ dotnet add package KY.Generator.Fluent --prerelease
 dotnet add package KY.Generator.Angular --prerelease
 dotnet add package KY.Generator.AspDotNet --prerelease
 dotnet build --no-incremental
+
+REM ==========================================
+REM ||                Net5                  ||
+REM ==========================================
+REM 
+cd Net5
+rmdir /S/Q Output
+dotnet add package KY.Generator --prerelease
+dotnet add package KY.Generator.Annotations --prerelease
+dotnet build --no-incremental
+cd ..
+
+REM ==========================================
+REM ||                Net6                  ||
+REM ==========================================
+REM 
+cd Net6
+rmdir /S/Q Output
+dotnet add package KY.Generator --prerelease
+dotnet add package KY.Generator.Annotations --prerelease
+dotnet build --no-incremental
 cd ..
