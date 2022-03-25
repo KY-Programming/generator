@@ -691,11 +691,13 @@ namespace KY.Generator.Angular.Writers
         {
             classTemplate.AddMethod("convertToDate", Code.Type("Date | undefined"))
                          .WithParameter(Code.Type("string | Date | undefined"), "value")
-                         .WithCode(Code.Return(Code.InlineIf(Code.TypeScript("typeof(value) === \"string\""),
+                         .WithCode(Code.Return(Code.InlineIf(Code.Local("value").Equals().String("0001-01-01T00:00:00"),
+                             Code.New(Code.Type("Date"), Code.String("0001-01-01T00:00:00Z")),
+                             Code.InlineIf(Code.TypeScript("typeof(value) === \"string\""),
                                  Code.New(Code.Type("Date"), Code.Local("value")),
                                  Code.Local("value")
                              )
-                         ));
+                         )));
         }
 
         private void AppendFixUndefined(ClassTemplate classTemplate)
