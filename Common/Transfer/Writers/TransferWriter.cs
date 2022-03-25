@@ -25,55 +25,9 @@ namespace KY.Generator.Transfer.Writers
         {
             foreach (FieldTransferObject constant in model.Constants)
             {
+                IOptions fieldOptions = this.Options.Get(constant);
                 FieldTemplate fieldTemplate = this.AddField(model, constant, classTemplate).Constant();
-                if (constant.Default != null)
-                {
-                    Type type = constant.Default.GetType();
-                    if (type == typeof(int))
-                    {
-                        fieldTemplate.DefaultValue = Code.Number((int)constant.Default);
-                    }
-                    else if (type == typeof(long))
-                    {
-                        fieldTemplate.DefaultValue = Code.Number((long)constant.Default);
-                    }
-                    else if (type == typeof(short))
-                    {
-                        fieldTemplate.DefaultValue = Code.Number((short)constant.Default);
-                    }
-                    else if (type == typeof(uint))
-                    {
-                        fieldTemplate.DefaultValue = Code.Number((uint)constant.Default);
-                    }
-                    else if (type == typeof(ulong))
-                    {
-                        fieldTemplate.DefaultValue = Code.Number((ulong)constant.Default);
-                    }
-                    else if (type == typeof(ushort))
-                    {
-                        fieldTemplate.DefaultValue = Code.Number((ushort)constant.Default);
-                    }
-                    else if (type == typeof(float))
-                    {
-                        fieldTemplate.DefaultValue = Code.Number((float)constant.Default);
-                    }
-                    else if (type == typeof(double))
-                    {
-                        fieldTemplate.DefaultValue = Code.Number((double)constant.Default);
-                    }
-                    else if (type == typeof(DateTime))
-                    {
-                        fieldTemplate.DefaultValue = Code.DateTime((DateTime)constant.Default);
-                    }
-                    else if (type == typeof(bool))
-                    {
-                        fieldTemplate.DefaultValue = Code.Boolean((bool)constant.Default);
-                    }
-                    else
-                    {
-                        fieldTemplate.DefaultValue = Code.String(constant.Default.ToString());
-                    }
-                }
+                fieldTemplate.DefaultValue = this.ValueToTemplate(constant.Default, model, fieldOptions);
             }
         }
 
@@ -129,6 +83,8 @@ namespace KY.Generator.Transfer.Writers
             this.AddUsing(member.Type, classTemplate, fieldOptions);
             FieldTemplate fieldTemplate = classTemplate.AddField(member.Name, member.Type.ToTemplate()).Public().FormatName(fieldOptions)
                                                        .WithComment(member.Comment);
+            fieldTemplate.IsOptional = member.IsOptional;
+            fieldTemplate.DefaultValue = this.ValueToTemplate(member.Default, model, fieldOptions);
             if (fieldOptions.WithOptionalProperties)
             {
                 fieldTemplate.Optional();
@@ -153,6 +109,8 @@ namespace KY.Generator.Transfer.Writers
             PropertyTemplate propertyTemplate = classTemplate.AddProperty(member.Name, member.Type.ToTemplate()).FormatName(propertyOptions);
             propertyTemplate.HasGetter = canRead;
             propertyTemplate.HasSetter = canWrite;
+            propertyTemplate.IsOptional = member.IsOptional;
+            propertyTemplate.DefaultValue = this.ValueToTemplate(member.Default, model, propertyOptions);
             if (propertyOptions.WithOptionalProperties)
             {
                 propertyTemplate.Optional();
@@ -181,6 +139,48 @@ namespace KY.Generator.Transfer.Writers
                 classTemplate.AddUsing(type, relativeModelPath.Replace("\\", "/").TrimEnd('/'));
             }
             type.Generics.Where(x => x.Alias == null).ForEach(generic => this.AddUsing(generic.Type, classTemplate, options, relativeModelPath));
+        }
+
+        protected virtual ICodeFragment ValueToTemplate<T>(T value, ModelTransferObject model, IOptions memberOptions)
+        {
+            if (value == null)
+            {
+                return null;
+            }
+            if (value is TypeTransferObject typeTransferObject)
+            {
+                this.MapType(model.Language, memberOptions.Language, typeTransferObject);
+                if (typeTransferObject.Name == "Array")
+                {
+                    return Code.Local("[]");
+                }
+                return Code.New(typeTransferObject.ToTemplate());
+            }
+            switch (value)
+            {
+                case int intValue:
+                    return Code.Number(intValue);
+                case long longValue:
+                    return Code.Number(longValue);
+                case short shortValue:
+                    return Code.Number(shortValue);
+                case uint uintValue:
+                    return Code.Number(uintValue);
+                case ulong ulongValue:
+                    return Code.Number(ulongValue);
+                case ushort ushortValue:
+                    return Code.Number(ushortValue);
+                case float floatValue:
+                    return Code.Number(floatValue);
+                case double doubleValue:
+                    return Code.Number(doubleValue);
+                case DateTime dateTimeValue:
+                    return Code.DateTime(dateTimeValue);
+                case bool boolValue:
+                    return Code.Boolean(boolValue);
+                default:
+                    return Code.String(value?.ToString());
+            }
         }
     }
 }

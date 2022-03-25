@@ -26,5 +26,6 @@ namespace KY.Generator
         public TypeTransferObject ReturnType { get; set; }
         public string Formatter { get; set; }
         public bool? ForceOverwrite { get; set; }
+        public bool? NoOptional { get; set; }
     }
 }

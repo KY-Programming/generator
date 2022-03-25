@@ -1,10 +1,11 @@
-﻿using KY.Core;
+﻿using System.Collections.Generic;
+using KY.Core;
 
 namespace KY.Generator.Transfer
 {
     public class FieldTransferObject : MemberTransferObject
     {
-        public object Default { get; set; }
+        public List<AttributeTransferObject> Attributes { get; set; } = new();
 
         public FieldTransferObject()
         { }

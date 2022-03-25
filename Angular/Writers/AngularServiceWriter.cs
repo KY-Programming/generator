@@ -175,7 +175,7 @@ namespace KY.Generator.Angular.Writers
                         {
                             nextCode = localCode.Method("map", Code.Lambda("entry", Code.This().Method("convertToDate", Code.Local("entry"))));
                         }
-                        nextMethod.WithParameter(nextCode);
+                        nextMethod.WithParameter(Code.This().Method("fixUndefined", nextCode));
                         appendConvertToDateMethod = this.WriteDateFixes(returnModel, isEnumerable, code, new List<string> { "result" }, new List<TypeTransferObject> { returnModel }) || appendConvertToDateMethod;
                     }
                     if (action.FixCasingWithMapping)
@@ -260,9 +260,9 @@ namespace KY.Generator.Angular.Writers
                     {
                         addAppendMethod = true;
                         methodTemplate.WithCode(Code.Local(urlTemplate).Assign(Code.This().Method("append",
-                                                                                                  Code.Local(urlTemplate),
-                                                                                                  Code.Local(mapping[parameter]),
-                                                                                                  Code.String(parameter.Name))).Close());
+                            Code.Local(urlTemplate),
+                            Code.Local(mapping[parameter]),
+                            Code.String(parameter.Name))).Close());
                     }
                     foreach (HttpServiceActionParameterTransferObject parameter in urlParameters)
                     {
@@ -270,11 +270,11 @@ namespace KY.Generator.Angular.Writers
                         {
                             addAppendMethod = true;
                             LambdaTemplate forEachLambda = Code.Lambda("entry", Code.Local(urlTemplate).Assign(
-                                                                           Code.This().Method("append",
-                                                                                              Code.Local(urlTemplate),
-                                                                                              Code.Local("entry"),
-                                                                                              Code.String(parameter.Name)
-                                                                           )));
+                                Code.This().Method("append",
+                                    Code.Local(urlTemplate),
+                                    Code.Local("entry"),
+                                    Code.String(parameter.Name)
+                                )));
                             methodTemplate.WithCode(Code.Local(mapping[parameter]).Method("forEach", forEachLambda).Close());
                         }
                         else
@@ -291,9 +291,9 @@ namespace KY.Generator.Angular.Writers
                             }
 
                             methodTemplate.WithCode(Code.Local(urlTemplate).Assign(Code.This().Method(appendMethodName,
-                                                                                                      Code.Local(urlTemplate),
-                                                                                                      Code.Local(mapping[parameter]),
-                                                                                                      Code.String(parameter.Name))).Close());
+                                Code.Local(urlTemplate),
+                                Code.Local(mapping[parameter]),
+                                Code.String(parameter.Name))).Close());
                         }
                     }
                     ChainedCodeFragment executeAction = Code.This().Field(httpField);
@@ -343,6 +343,7 @@ namespace KY.Generator.Angular.Writers
                 {
                     this.AppendConvertToDateMethod(classTemplate);
                 }
+                this.AppendFixUndefined(classTemplate);
             }
             List<SignalRHubTransferObject> hubs = this.transferObjects.OfType<SignalRHubTransferObject>().ToList();
             FileTemplate connectionStatusFileTemplate = null;
@@ -422,16 +423,16 @@ namespace KY.Generator.Angular.Writers
                                               .WithCode(Code.Local("subject").Method("error", Code.Local("error")).Close()).WithCode(Code.Return()));
                     }
                     errorCode.AddLine(Code.Method("setTimeout",
-                                                  Code.Lambda(Code.Multiline()
-                                                                  .AddLine(Code.If(Code.This().Field(isClosedField)).WithCode(Code.Return()))
-                                                                  .AddLine(Code.Method("startConnection").Method("subscribe",
-                                                                                                                 Code.Lambda(Code.Multiline()
-                                                                                                                                 .AddLine(Code.Local("subject").Method("next").Close())
-                                                                                                                                 .AddLine(Code.Local("subject").Method("complete").Close())),
-                                                                                                                 Code.Lambda("innerError", Code.Local("subject").Method("error", Code.Local("innerError")))
-                                                                           ))),
-                                                  Code.Local("timeout")
-                                      ).Close());
+                        Code.Lambda(Code.Multiline()
+                                        .AddLine(Code.If(Code.This().Field(isClosedField)).WithCode(Code.Return()))
+                                        .AddLine(Code.Method("startConnection").Method("subscribe",
+                                            Code.Lambda(Code.Multiline()
+                                                            .AddLine(Code.Local("subject").Method("next").Close())
+                                                            .AddLine(Code.Local("subject").Method("complete").Close())),
+                                            Code.Lambda("innerError", Code.Local("subject").Method("error", Code.Local("innerError")))
+                                        ))),
+                        Code.Local("timeout")
+                    ).Close());
                 }
                 else
                 {
@@ -445,10 +446,10 @@ namespace KY.Generator.Angular.Writers
                                                                           .WithCode(Code.Throw(Code.Type("Error"), Code.String("serviceUrl can not be empty. Set it via service.serviceUrl."))))
                                                             .WithCode(Code.If(Code.This().Field(connectionField).And().Not().This().Field(isClosedField))
                                                                           .WithCode(Code.Return(Code.This().Local("status$").Method("pipe",
-                                                                                                                                    Code.Method("filter", Code.Lambda("status", Code.Local("status").Equals().Local("ConnectionStatus").Field("connected"))),
-                                                                                                                                    Code.Method("take", Code.Number(1)),
-                                                                                                                                    Code.Method("map", Code.Lambda(Code.AnonymousObject()))
-                                                                                                ))))
+                                                                              Code.Method("filter", Code.Lambda("status", Code.Local("status").Equals().Local("ConnectionStatus").Field("connected"))),
+                                                                              Code.Method("take", Code.Number(1)),
+                                                                              Code.Method("map", Code.Lambda(Code.AnonymousObject()))
+                                                                          ))))
                                                             .WithCode(Code.This().Field(isClosedField).Assign(Code.Boolean(false)).Close())
                                                             .WithCode(Code.This().Field(connectionField).Assign(Code.InlineIf(Code.This().Field(connectionField), Code.This().Field(connectionField), Code.New(connectionField.Type, Code.Number(1)))).Close())
                                                             .WithCode(Code.Declare(Code.Type("HubConnection"), "hubConnection", Code.New(Code.Type("HubConnectionBuilder"))
@@ -456,22 +457,22 @@ namespace KY.Generator.Angular.Writers
                                                                                                                                     .Method("configureLogging", Code.This().Field(logLevelField))
                                                                                                                                     .Method("build")))
                                                             .WithCode(Code.Declare(Code.Type("() => Observable<void>"), "startConnection", Code.Lambda(
-                                                                                       Code.Multiline()
-                                                                                           .AddLine(Code.This().Field(statusSubjectField).Method("next", Code.Local(connectionStatusEnum.Name).Local("connecting")).Close())
-                                                                                           .AddLine(Code.Declare(Code.Generic("Subject", Code.Void()), "subject", Code.New(Code.Generic("Subject", Code.Void()))))
-                                                                                           .AddLine(Code.Local("hubConnection").Method("start")
-                                                                                                        .Method("then", Code.Lambda(Code.Multiline()
-                                                                                                                                        .AddLine(Code.Local("subject").Method("next").Close())
-                                                                                                                                        .AddLine(Code.Local("subject").Method("complete").Close())
-                                                                                                                                        .AddLine(Code.This().Field(statusSubjectField).Method("next", Code.Local(connectionStatusEnum.Name).Field("connected")).Close())))
-                                                                                                        .Method("catch", Code.Lambda("error", errorCode)).Close())
-                                                                                           .AddLine(Code.Return(Code.Local("subject")))
-                                                                                   )))
+                                                                Code.Multiline()
+                                                                    .AddLine(Code.This().Field(statusSubjectField).Method("next", Code.Local(connectionStatusEnum.Name).Local("connecting")).Close())
+                                                                    .AddLine(Code.Declare(Code.Generic("Subject", Code.Void()), "subject", Code.New(Code.Generic("Subject", Code.Void()))))
+                                                                    .AddLine(Code.Local("hubConnection").Method("start")
+                                                                                 .Method("then", Code.Lambda(Code.Multiline()
+                                                                                                                 .AddLine(Code.Local("subject").Method("next").Close())
+                                                                                                                 .AddLine(Code.Local("subject").Method("complete").Close())
+                                                                                                                 .AddLine(Code.This().Field(statusSubjectField).Method("next", Code.Local(connectionStatusEnum.Name).Field("connected")).Close())))
+                                                                                 .Method("catch", Code.Lambda("error", errorCode)).Close())
+                                                                    .AddLine(Code.Return(Code.Local("subject")))
+                                                            )))
                                                             .WithCode(createConnectionCode)
                                                             .WithCode(Code.Local("hubConnection").Method("onclose", Code.Lambda(Code.Multiline()
                                                                                                                                     .AddLine(Code.If(Code.Not().This().Field(isClosedField))
                                                                                                                                                  .WithCode(Code.Method("startConnection").Close())))
-                                                                      ).Close())
+                                                            ).Close())
                                                             .WithCode(Code.This().Field(connectionField).Method("next", Code.Local("hubConnection")).Close())
                                                             .WithCode(Code.Return(Code.Method("startConnection")));
 
@@ -481,7 +482,7 @@ namespace KY.Generator.Angular.Writers
                              .WithCode(Code.This().Field(connectionField).NullConditional().Method("pipe", Code.Method("take", Code.Number(1)))
                                            .Method("subscribe", Code.Lambda("hubConnection", Code.Multiline()
                                                                                                  .AddLine(Code.Local("hubConnection").Method("stop").Method("then", Code.Lambda(Code.Multiline().AddLine(Code.This().Field(statusSubjectField).Method("next", Code.Local("ConnectionStatus").Field("disconnected")).Close()))).Close())
-                                                   )).Close());
+                                           )).Close());
 
                 if (timeoutsField != null)
                 {
@@ -511,14 +512,14 @@ namespace KY.Generator.Angular.Writers
                     methodTemplate.WithCode(Code.Declare(Code.Generic("Subject", Code.Void()), subjectName, Code.New(Code.Generic("Subject", Code.Void()))))
                                   .WithCode(
                                       Code.This().Method(connectMethod).Method("pipe",
-                                                                               Code.Method("mergeMap", Code.Lambda(Code.This().Field(connectionField))),
-                                                                               Code.Method("take", Code.Number(1)),
-                                                                               Code.Method("mergeMap", Code.Lambda("connection", Code.Local("connection").Method("send", parameters))
-                                                                               ))
+                                              Code.Method("mergeMap", Code.Lambda(Code.This().Field(connectionField))),
+                                              Code.Method("take", Code.Number(1)),
+                                              Code.Method("mergeMap", Code.Lambda("connection", Code.Local("connection").Method("send", parameters))
+                                              ))
                                           .Method("subscribe", Code.Lambda(Code.Multiline()
                                                                                .AddLine(Code.Local(subjectName).Method("next").Close())
                                                                                .AddLine(Code.Local(subjectName).Method("complete").Close())),
-                                                  Code.Lambda("error", Code.Local(subjectName).Method("error", Code.Local("error")))).Close())
+                                              Code.Lambda("error", Code.Local(subjectName).Method("error", Code.Local("error")))).Close())
                                   .WithCode(Code.Return(Code.Local(subjectName)));
                 }
                 foreach (HttpServiceActionTransferObject action in hub.Events)
@@ -532,7 +533,7 @@ namespace KY.Generator.Angular.Writers
                         this.AddUsing(parameter.Type, classTemplate, hubOptions, relativeModelPath);
                     }
                     TypeTemplate eventType;
-                    List<ICodeFragment> eventResult = new List<ICodeFragment>();
+                    List<ICodeFragment> eventResult = new();
                     if (action.Parameters.Count == 0)
                     {
                         eventType = Code.Void();
@@ -591,20 +592,25 @@ namespace KY.Generator.Angular.Writers
                 if (type.OriginalName == nameof(DateTime))
                 {
                     datePropertyFound = true;
-                    if (isModelEnumerable)
+                    AssignTemplate assignTemplate = isModelEnumerable
+                                                        ? Code.Local("entry").Field(propertyName).Assign(Code.This().Method("convertToDate", Code.Local("entry").Field(propertyName)))
+                                                        : this.WriteFieldChain(chain).Field(propertyName).Assign(Code.This().Method("convertToDate", this.WriteFieldChain(chain).Field(propertyName)));
+                    ICodeFragment lineTemplate;
+                    if (property.IsOptional || property.Type.IsNullable)
                     {
-                        innerCode.AddLine(Code.Local("entry").Field(propertyName).Assign(Code.This().Method("convertToDate", Code.Local("entry").Field(propertyName))).Close());
+                        lineTemplate = assignTemplate.Close();
                     }
                     else
                     {
-                        innerCode.AddLine(this.WriteFieldChain(chain).Field(propertyName).Assign(Code.This().Method("convertToDate", this.WriteFieldChain(chain).Field(propertyName))).Close());
+                        lineTemplate = assignTemplate.NullCoalescing(this.WriteFieldChain(chain).Field(propertyName));
                     }
+                    innerCode.AddLine(lineTemplate);
                 }
                 ModelTransferObject propertyModel = type as ModelTransferObject;
                 TypeTransferObject entryType = propertyModel?.Generics.FirstOrDefault()?.Type;
                 entryType = entryType == null ? null : model.Generics.FirstOrDefault(generic => generic.Alias?.Name == entryType.Name)?.Type ?? entryType;
                 ModelTransferObject entryModel = entryType as ModelTransferObject ?? this.transferObjects.OfType<ModelTransferObject>().FirstOrDefault(x => x.Name == entryType?.Name && x.Namespace == entryType?.Namespace);
-                List<string> nextChain = new List<string>(chain);
+                List<string> nextChain = new(chain);
                 nextChain.Add(propertyName);
                 List<TypeTransferObject> nextTypeChain = new List<TypeTransferObject>(typeChain);
                 nextTypeChain.Add(type);
@@ -642,10 +648,10 @@ namespace KY.Generator.Angular.Writers
                     .WithCode(Code.Return(Code.Local("url")
                                               .Append(Code.Local("separator"))
                                               .Append(Code.Parenthesis(Code.InlineIf(Code.Local("value").Equals().ForceNull().Or().Local("value").Equals().Undefined(),
-                                                                                     Code.String(string.Empty),
-                                                                                     Code.Local("value").Method("toString")
-                                                                       )))
-                              ))
+                                                  Code.String(string.Empty),
+                                                  Code.Local("value").Method("toString")
+                                              )))
+                    ))
             );
             code.AddLine(Code.If(Code.Local("value").NotEquals().ForceNull().And().Local("value").NotEquals().Undefined())
                              .WithCode(Code.Return(Code.Local("url")
@@ -653,7 +659,7 @@ namespace KY.Generator.Angular.Writers
                                                        .Append(Code.Local("parameterName"))
                                                        .Append(Code.String("="))
                                                        .Append(Code.Local("value").Method("toString"))
-                                       ))
+                             ))
             );
             code.AddLine(Code.Return(Code.Local("url")));
             classTemplate.AddMethod("append", Code.Type("string"))
@@ -667,11 +673,11 @@ namespace KY.Generator.Angular.Writers
         private void AddAppendDateMethod(ClassTemplate classTemplate)
         {
             ICodeFragment code = Code.InlineIf(Code.Local("date").Equals().ForceNull().Or().Local("date").Equals().Undefined(),
-                                               Code.String(string.Empty),
-                                               Code.InlineIf(Code.TypeScript($"typeof(date) === \"string\""),
-                                                             Code.Local("date"),
-                                                             Code.Local("date").Method("toISOString")
-                                               )
+                Code.String(string.Empty),
+                Code.InlineIf(Code.TypeScript($"typeof(date) === \"string\""),
+                    Code.Local("date"),
+                    Code.Local("date").Method("toISOString")
+                )
             );
             classTemplate.AddMethod("appendDate", Code.Type("string"))
                          .WithParameter(Code.Type("string"), "url")
@@ -683,13 +689,24 @@ namespace KY.Generator.Angular.Writers
 
         private void AppendConvertToDateMethod(ClassTemplate classTemplate)
         {
-            classTemplate.AddMethod("convertToDate", Code.Type("Date"))
-                         .WithParameter(Code.Type("string | Date"), "value")
-                         .WithCode(Code.Return(Code.InlineIf(Code.TypeScript($"typeof(value) === \"string\""),
-                                                             Code.New(Code.Type("Date"), Code.Local("value")),
-                                                             Code.Local("value")
-                                               )
-                                   ));
+            classTemplate.AddMethod("convertToDate", Code.Type("Date | undefined"))
+                         .WithParameter(Code.Type("string | Date | undefined"), "value")
+                         .WithCode(Code.Return(Code.InlineIf(Code.TypeScript("typeof(value) === \"string\""),
+                                 Code.New(Code.Type("Date"), Code.Local("value")),
+                                 Code.Local("value")
+                             )
+                         ));
+        }
+
+        private void AppendFixUndefined(ClassTemplate classTemplate)
+        {
+            classTemplate.AddMethod("fixUndefined", Code.Type("any"))
+                         .WithParameter(Code.Type("any"), "value")
+                         .WithCode(Code.If(Code.Not().Local("value")).WithCode(Code.Return(Code.Local("value").NullCoalescing().Local("undefined"))))
+                         .WithCode(Code.If(Code.Static(Code.Type("Array")).Method("isArray", Code.Local("value")))
+                                       .WithCode(Code.TypeScript("value.forEach((entry, index) => value[index] = this.fixUndefined(entry));")))
+                         .WithCode(Code.If(Code.TypeScript("typeof value === 'object'")).WithCode(Code.TypeScript("for (const key of Object.keys(value)) { value[key] = this.fixUndefined(value[key]); }")))
+                         .WithCode(Code.Return(Code.Local("value")));
         }
 
         private string GetAllowedName(ILanguage language, string name)

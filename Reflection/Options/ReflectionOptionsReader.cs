@@ -43,6 +43,9 @@ namespace KY.Generator.Reflection
                     case GenerateOnlySubTypesAttribute:
                         entry.Part.OnlySubTypes = true;
                         break;
+                    case GenerateNoOptionalAttribute:
+                        entry.Part.NoOptional = true;
+                        break;
                 }
             }
         }

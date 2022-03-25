@@ -113,6 +113,12 @@ namespace KY.Generator
             set => this.Part.ForceIndex = value;
         }
 
+        bool IOptions.NoOptional
+        {
+            get => this.GetPrimitive(x => x?.NoOptional);
+            set => this.Part.NoOptional = value;
+        }
+
         Dictionary<string, string> IOptions.ReplaceName => this.GetMerged(part => part?.ReplaceName);
         public FormattingOptions Formatting { get; }
 

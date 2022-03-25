@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using KY.Core;
 using KY.Generator.Models;
 using KY.Generator.Reflection.Extensions;
 using KY.Generator.Reflection.Language;
+using KY.Generator.Templates;
 using KY.Generator.Transfer;
 
 namespace KY.Generator.Reflection.Readers
@@ -279,7 +281,9 @@ namespace KY.Generator.Reflection.Readers
                                                                 {
                                                                     Name = property.Name,
                                                                     Type = this.Read(property.PropertyType, propertyOptions),
-                                                                    Attributes = property.GetCustomAttributes().ToTransferObjects().ToList()
+                                                                    Attributes = property.GetCustomAttributes().ToTransferObjects().ToList(),
+                                                                    IsOptional = !propertyOptions.NoOptional && !property.GetCustomAttributes().Any(attribute => attribute.GetType().Name.Equals("RequiredAttribute")),
+                                                                    Default = this.ReadDefaultValue(property, propertyOptions)
                                                                 };
                 model.Properties.Add(propertyTransferObject);
                 this.options.Set(propertyTransferObject, propertyOptions);
@@ -299,7 +303,10 @@ namespace KY.Generator.Reflection.Readers
                 FieldTransferObject fieldTransferObject = new()
                                                           {
                                                               Name = field.Name,
-                                                              Type = this.Read(field.FieldType, fieldOptions)
+                                                              Type = this.Read(field.FieldType, fieldOptions),
+                                                              Attributes = field.GetCustomAttributes().ToTransferObjects().ToList(),
+                                                              IsOptional = !fieldOptions.NoOptional && !field.GetCustomAttributes().Any(attribute => attribute.GetType().Name.Equals("RequiredAttribute")),
+                                                              Default = this.ReadDefaultValue(field, fieldOptions)
                                                           };
                 model.Fields.Add(fieldTransferObject);
                 this.options.Set(fieldTransferObject, fieldOptions);
@@ -320,7 +327,7 @@ namespace KY.Generator.Reflection.Readers
                                                           {
                                                               Name = field.Name,
                                                               Type = this.Read(field.FieldType, fieldOptions),
-                                                              Default = field.GetValue(null)
+                                                              Default = this.ReadDefaultValue(field, fieldOptions)
                                                           };
                 model.Constants.Add(fieldTransferObject);
                 this.options.Set(fieldTransferObject, fieldOptions);
@@ -343,6 +350,16 @@ namespace KY.Generator.Reflection.Readers
             {
                 throw new InvalidOperationException("Internal Error l2sl3: Type is not a TypeInfo");
             }
+        }
+
+        private object ReadDefaultValue(MemberInfo memberInfo, IOptions memberOptions)
+        {
+            object defaultValue = memberInfo.GetCustomAttribute<DefaultValueAttribute>()?.Value;
+            if (defaultValue is Type defaultType)
+            {
+                return this.Read(defaultType, memberOptions);
+            }
+            return defaultValue;
         }
     }
 }

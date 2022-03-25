@@ -24,6 +24,7 @@ namespace KY.Generator
         TypeTransferObject ReturnType { get; set; }
         string Formatter { get; set; }
         bool ForceOverwrite { get; set; }
+        bool NoOptional { get; set; }
 
         // TODO: Should be moved to ITypeScriptOptions
         bool Strict { get; set; }

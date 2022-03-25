@@ -28,10 +28,11 @@ namespace KY.Generator.TypeScript.Writers
                       .If(template.IsStatic).Add("static ").EndIf()
                       .Add($"get {template.Name}(): ")
                       .Add(template.Type)
-                      .If(template.Strict && template.Type.IsNullable).Add(" | undefined").EndIf()
+                      .If(template.DefaultValue == null && template.Strict && template.Type.IsNullable).Add(" | undefined").EndIf()
                       .StartBlock()
                       .Add(template.Getter ?? Code.Return(Code.This().Field(fieldTemplate.Name)))
-                      .EndBlock();
+                      .EndBlock()
+                      .If(template.DefaultValue != null && !template.Class.IsInterface).Add(" = ").Add(template.DefaultValue).EndIf();
             }
             if (template.HasSetter || template.Setter != null)
             {
@@ -39,11 +40,12 @@ namespace KY.Generator.TypeScript.Writers
                       .If(template.IsStatic).Add("static ").EndIf()
                       .Add($"set {template.Name}(value: ")
                       .Add(template.Type)
-                      .If(template.Strict && template.Type.IsNullable).Add(" | undefined").EndIf()
+                      .If(template.DefaultValue == null && template.Strict && template.Type.IsNullable).Add(" | undefined").EndIf()
                       .Add(")")
                       .StartBlock()
                       .Add(template.Setter ?? Code.This().Field(fieldTemplate.Name).Assign(Code.Local("value")).Close())
-                      .EndBlock();
+                      .EndBlock()
+                      .If(template.DefaultValue != null && !template.Class.IsInterface).Add(" = ").Add(template.DefaultValue).EndIf();
             }
         }
     }
