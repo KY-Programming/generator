@@ -389,11 +389,11 @@ namespace KY.Generator.Angular.Writers
                                               .WithUsing("LogLevel", "@microsoft/signalr")
                                               .WithUsing(connectionStatusEnum.Name, FileSystem.Combine(relativeModelPath, connectionStatusFileTemplate.Name).Replace("\\", "/"))
                                               .WithAttribute("Injectable", Code.AnonymousObject().WithProperty("providedIn", Code.String("root")));
-                FieldTemplate isClosedField = classTemplate.AddField("isClosed", Code.Type("boolean"));
+                FieldTemplate isClosedField = classTemplate.AddField("isClosed", Code.Type("boolean")).Default(Code.Boolean(true));
                 FieldTemplate serviceUrlField = classTemplate.AddField("serviceUrl", Code.Type("string")).Public().FormatName(hubOptions).Default(Code.String(string.Empty));
-                FieldTemplate optionsField = classTemplate.AddField("options", Code.Type("IHttpConnectionOptions")).Public().FormatName(hubOptions);
+                FieldTemplate optionsField = classTemplate.AddField("options", Code.Type("IHttpConnectionOptions")).Public().FormatName(hubOptions).Default(Code.AnonymousObject());
                 FieldTemplate logLevelField = classTemplate.AddField("logLevel", Code.Type("LogLevel")).Public().FormatName(hubOptions).Default(Code.Static(Code.Type("LogLevel")).Field("Error"));
-                FieldTemplate connectionField = classTemplate.AddField("connection", Code.Generic("ReplaySubject", Code.Type("HubConnection")));
+                FieldTemplate connectionField = classTemplate.AddField("connection", Code.Generic("ReplaySubject", Code.Type("HubConnection"))).Optional();
                 FieldTemplate timeoutsField = null;
                 if (configuration.Service.Timeouts?.Count > 0)
                 {
@@ -465,7 +465,7 @@ namespace KY.Generator.Angular.Writers
                                                                                                                  .AddLine(Code.Local("subject").Method("next").Close())
                                                                                                                  .AddLine(Code.Local("subject").Method("complete").Close())
                                                                                                                  .AddLine(Code.This().Field(statusSubjectField).Method("next", Code.Local(connectionStatusEnum.Name).Field("connected")).Close())))
-                                                                                 .Method("catch", Code.Lambda("error", errorCode)).Close())
+                                                                                 .Method("catch", Code.Lambda(errorCode)).Close())
                                                                     .AddLine(Code.Return(Code.Local("subject")))
                                                             )))
                                                             .WithCode(createConnectionCode)
