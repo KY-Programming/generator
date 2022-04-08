@@ -545,11 +545,16 @@ namespace KY.Generator.Angular.Writers
                     }
                     else
                     {
-                        AnonymousObjectTemplate anonymousObject = Code.AnonymousObject();
-                        action.Parameters.ForEach(parameter => anonymousObject.AddProperty(parameter.Name).FormatName(hubOptions));
-                        DeclareTypeTemplate declareTypeTemplate = namespaceTemplate.AddDeclareType(action.Name + "Event", anonymousObject).FormatName(hubOptions);
+                        AnonymousObjectTemplate eventTypeObject = Code.AnonymousObject();
+                        AnonymousObjectTemplate resultObject = Code.AnonymousObject();
+                        foreach (HttpServiceActionParameterTransferObject parameter in action.Parameters)
+                        {
+                            eventTypeObject.AddProperty(parameter.Name, parameter.Type.ToTemplate()).FormatName(hubOptions);
+                            resultObject.AddProperty(parameter.Name).FormatName(hubOptions);
+                        }
+                        DeclareTypeTemplate declareTypeTemplate = namespaceTemplate.AddDeclareType(action.Name + "Event", eventTypeObject).FormatName(hubOptions);
                         eventType = Code.Type(declareTypeTemplate.Name);
-                        eventResult.Add(anonymousObject);
+                        eventResult.Add(resultObject);
                     }
                     GenericTypeTemplate subjectType = Code.Generic("Subject", eventType);
                     FieldTemplate eventPrivateField = classTemplate.AddField(action.Name + "Subject", subjectType).Readonly().FormatName(hubOptions).Default(Code.New(subjectType));
