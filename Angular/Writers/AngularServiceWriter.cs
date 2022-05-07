@@ -85,7 +85,9 @@ namespace KY.Generator.Angular.Writers
                                                                    .WithGetter(Code.Return(Code.This().Field(serviceUrlField)))
                                                                    .WithSetter(Code.This().Field(serviceUrlField).Assign(Code.Local("value").Method("replace", Code.TypeScript(@"/\/+$/"), Code.String(""))).Close());
                 classTemplate.AddConstructor().WithParameter(Code.Type(httpClient), "http")
-                             .WithCode(Code.This().Field(httpField).Assign(Code.Local("http")).Close());
+                             .WithCode(Code.This().Field(httpField).Assign(Code.Local("http")).Close())
+                             .WithCode(Code.This().Property(serviceUrlProperty).Assign(Code.Local("document").Property("baseURI").NullCoalescing(Code.String(string.Empty).Close())));
+                             
                 string relativeModelPath = FileSystem.RelativeTo(configuration.Model?.RelativePath ?? ".", configuration.Service.RelativePath);
                 relativeModelPath = string.IsNullOrEmpty(relativeModelPath) ? "." : relativeModelPath;
                 bool addAppendMethod = false;
