@@ -323,11 +323,13 @@ namespace KY.Generator.Reflection.Readers
                 {
                     continue;
                 }
+                object defaultValue = this.ReadDefaultValue(field, fieldOptions);
                 FieldTransferObject fieldTransferObject = new()
                                                           {
                                                               Name = field.Name,
                                                               Type = this.Read(field.FieldType, fieldOptions),
-                                                              Default = this.ReadDefaultValue(field, fieldOptions)
+                                                              Default = defaultValue,
+                                                              IsOptional = defaultValue == null
                                                           };
                 model.Constants.Add(fieldTransferObject);
                 this.options.Set(fieldTransferObject, fieldOptions);
@@ -359,7 +361,15 @@ namespace KY.Generator.Reflection.Readers
             {
                 return this.Read(defaultType, memberOptions);
             }
-            return defaultValue;
+            if (defaultValue != null)
+            {
+                return defaultValue;
+            }
+            // if (memberInfo is FieldInfo fieldInfo && fieldInfo.IsLiteral)
+            // {
+                return memberInfo.DeclaringType?.GetField(memberInfo.Name)?.GetValue(null);
+            // }
+            // return null;
         }
     }
 }

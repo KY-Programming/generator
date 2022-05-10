@@ -125,7 +125,7 @@ namespace KY.Generator.Transfer.Writers
                 this.MapType(model.Language, modelOptions.Language, model.BasedOn);
             }
 
-            bool isInterface = model.IsInterface || modelOptions.PreferInterfaces;
+            bool isInterface = model.IsInterface || modelOptions.PreferInterfaces && model.Constants.Count == 0;
             string modelNamespace = modelOptions.SkipNamespace ? string.Empty : model.Namespace;
             ClassTemplate otherClassTemplate = this.files.Where(file => file.RelativePath == relativePath
                                                                         && file.Options.Language == modelOptions.Language)
