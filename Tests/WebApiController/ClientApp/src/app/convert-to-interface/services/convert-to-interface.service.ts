@@ -23,6 +23,7 @@ export class ConvertToInterfaceService {
 
     public constructor(http: HttpClient) {
         this.http = http;
+        this.serviceUrl = document.baseURI ?? "";
     }
 
     public get(subject: string, httpOptions?: {}): Observable<ConvertMe> {
@@ -30,7 +31,7 @@ export class ConvertToInterfaceService {
         let url: string = this.serviceUrl + "/converttointerface/get";
         url = this.append(url, subject, "subject");
         this.http.get<ConvertMe>(url, httpOptions).subscribe((result) => {
-            rxjsSubject.next(result);
+            rxjsSubject.next(this.fixUndefined(result));
             rxjsSubject.complete();
         }, (error) => rxjsSubject.error(error));
         return rxjsSubject;
@@ -44,6 +45,19 @@ export class ConvertToInterfaceService {
             return url + (url.indexOf("?") === -1 ? "?" : "&") + parameterName + "=" + value.toString();
         }
         return url;
+    }
+
+    public fixUndefined(value: any): any {
+        if (! value) {
+            return value ??  undefined;
+        }
+        if (Array.isArray(value)) {
+            value.forEach((entry, index) => value[index] = this.fixUndefined(entry));
+        }
+        if (typeof value === 'object') {
+            for (const key of Object.keys(value)) { value[key] = this.fixUndefined(value[key]); }
+        }
+        return value;
     }
 }
 

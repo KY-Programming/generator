@@ -22,6 +22,7 @@ export class DerivedService {
 
     public constructor(http: HttpClient) {
         this.http = http;
+        this.serviceUrl = document.baseURI ?? "";
     }
 
     public get(httpOptions?: {}): Observable<void> {
@@ -62,6 +63,19 @@ export class DerivedService {
             subject.complete();
         }, (error) => subject.error(error));
         return subject;
+    }
+
+    public fixUndefined(value: any): any {
+        if (! value) {
+            return value ??  undefined;
+        }
+        if (Array.isArray(value)) {
+            value.forEach((entry, index) => value[index] = this.fixUndefined(entry));
+        }
+        if (typeof value === 'object') {
+            for (const key of Object.keys(value)) { value[key] = this.fixUndefined(value[key]); }
+        }
+        return value;
     }
 }
 

@@ -22,6 +22,7 @@ export class DuplicateNameService {
 
     public constructor(http: HttpClient) {
         this.http = http;
+        this.serviceUrl = document.baseURI ?? "";
     }
 
     public testA(id: number, httpOptions?: {}): Observable<void> {
@@ -66,7 +67,7 @@ export class DuplicateNameService {
         let url: string = this.serviceUrl + "/duplicatename/testb";
         url = this.append(url, id, "id");
         this.http.get<string>(url, httpOptions).subscribe((result) => {
-            subject.next(result);
+            subject.next(this.fixUndefined(result));
             subject.complete();
         }, (error) => subject.error(error));
         return subject;
@@ -78,7 +79,7 @@ export class DuplicateNameService {
         let url: string = this.serviceUrl + "/duplicatename";
         url = this.append(url, id, "id");
         this.http.get<string>(url, httpOptions).subscribe((result) => {
-            subject.next(result);
+            subject.next(this.fixUndefined(result));
             subject.complete();
         }, (error) => subject.error(error));
         return subject;
@@ -92,6 +93,19 @@ export class DuplicateNameService {
             return url + (url.indexOf("?") === -1 ? "?" : "&") + parameterName + "=" + value.toString();
         }
         return url;
+    }
+
+    public fixUndefined(value: any): any {
+        if (! value) {
+            return value ??  undefined;
+        }
+        if (Array.isArray(value)) {
+            value.forEach((entry, index) => value[index] = this.fixUndefined(entry));
+        }
+        if (typeof value === 'object') {
+            for (const key of Object.keys(value)) { value[key] = this.fixUndefined(value[key]); }
+        }
+        return value;
     }
 }
 

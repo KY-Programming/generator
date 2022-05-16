@@ -2,7 +2,7 @@
 // tslint:disable
 
 export class EdgeCase1SubType {
-    public property: string;
+    public property?: string;
 
     public constructor(init?: Partial<EdgeCase1SubType>) {
         Object.assign(this, init);

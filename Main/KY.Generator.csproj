@@ -2,9 +2,9 @@
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFramework>net6.0</TargetFramework>
+        <TargetFramework>net5.0</TargetFramework>
         <TargetFrameworks>netcoreapp2.0;netcoreapp3.0;net5.0;net6.0</TargetFrameworks>
-        <Version>9.0.0-preview.4</Version>
+        <Version>9.0.0-preview.13</Version>
         <Authors>KY-Programming</Authors>
         <Product>KY.Generator</Product>
         <Copyright>2022 - KY-Programming</Copyright>

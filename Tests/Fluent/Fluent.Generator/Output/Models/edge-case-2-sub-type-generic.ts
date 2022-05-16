@@ -2,7 +2,7 @@
 // tslint:disable
 
 export class EdgeCase2SubTypeGeneric<T> {
-    public genericProperty: T;
+    public genericProperty?: T;
 
     public constructor(init?: Partial<EdgeCase2SubTypeGeneric<T>>) {
         Object.assign(this, init);

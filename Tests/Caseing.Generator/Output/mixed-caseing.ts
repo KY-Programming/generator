@@ -5,8 +5,8 @@ import { CaseMe } from "./case-me";
 import { KeepMyCase } from "./keep-my-case";
 
 export class MixedCaseing {
-    public caseMe: CaseMe;
-    public keepMyCase: KeepMyCase;
+    public caseMe?: CaseMe;
+    public keepMyCase?: KeepMyCase;
 
     public constructor(init?: Partial<MixedCaseing>) {
         Object.assign(this, init);

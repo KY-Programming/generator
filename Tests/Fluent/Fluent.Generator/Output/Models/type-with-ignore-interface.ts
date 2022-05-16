@@ -2,7 +2,7 @@
 // tslint:disable
 
 export class TypeWithIgnoreInterface {
-    public ignoredProperty: string;
+    public ignoredProperty?: string;
 
     public constructor(init?: Partial<TypeWithIgnoreInterface>) {
         Object.assign(this, init);

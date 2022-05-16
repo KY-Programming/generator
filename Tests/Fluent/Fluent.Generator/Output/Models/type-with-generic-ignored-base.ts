@@ -2,7 +2,7 @@
 // tslint:disable
 
 export class TypeWithGenericIgnoredBase {
-    public property: string;
+    public property?: string;
 
     public constructor(init?: Partial<TypeWithGenericIgnoredBase>) {
         Object.assign(this, init);

@@ -2,7 +2,7 @@
 // tslint:disable
 
 export class CaseMe {
-    public stringProperty: string;
+    public stringProperty?: string;
 
     public constructor(init?: Partial<CaseMe>) {
         Object.assign(this, init);

@@ -29,13 +29,14 @@ export class DateService {
 
     public constructor(http: HttpClient) {
         this.http = http;
+        this.serviceUrl = document.baseURI ?? "";
     }
 
     public get(httpOptions?: {}): Observable<Date> {
         let subject = new Subject<Date>();
         let url: string = this.serviceUrl + "/api/date/get";
         this.http.get<Date>(url, httpOptions).subscribe((result) => {
-            subject.next(this.convertToDate(result));
+            subject.next(this.fixUndefined(this.convertToDate(result)));
             subject.complete();
         }, (error) => subject.error(error));
         return subject;
@@ -45,7 +46,7 @@ export class DateService {
         let subject = new Subject<Date[]>();
         let url: string = this.serviceUrl + "/api/date/getarray";
         this.http.get<Date[]>(url, httpOptions).subscribe((result) => {
-            subject.next(result.map((entry) => this.convertToDate(entry)));
+            subject.next(this.fixUndefined(result.map((entry) => this.convertToDate(entry))));
             subject.complete();
         }, (error) => subject.error(error));
         return subject;
@@ -55,7 +56,7 @@ export class DateService {
         let subject = new Subject<Date[]>();
         let url: string = this.serviceUrl + "/api/date/getlist";
         this.http.get<Date[]>(url, httpOptions).subscribe((result) => {
-            subject.next(result.map((entry) => this.convertToDate(entry)));
+            subject.next(this.fixUndefined(result.map((entry) => this.convertToDate(entry))));
             subject.complete();
         }, (error) => subject.error(error));
         return subject;
@@ -65,7 +66,7 @@ export class DateService {
         let subject = new Subject<Date[]>();
         let url: string = this.serviceUrl + "/api/date/getenumerable";
         this.http.get<Date[]>(url, httpOptions).subscribe((result) => {
-            subject.next(result.map((entry) => this.convertToDate(entry)));
+            subject.next(this.fixUndefined(result.map((entry) => this.convertToDate(entry))));
             subject.complete();
         }, (error) => subject.error(error));
         return subject;
@@ -78,7 +79,7 @@ export class DateService {
             if (result) {
                 result.date = this.convertToDate(result.date);
             }
-            subject.next(result);
+            subject.next(this.fixUndefined(result));
             subject.complete();
         }, (error) => subject.error(error));
         return subject;
@@ -93,7 +94,7 @@ export class DateService {
                     entry.date = this.convertToDate(entry.date);
                 });
             }
-            subject.next(result);
+            subject.next(this.fixUndefined(result));
             subject.complete();
         }, (error) => subject.error(error));
         return subject;
@@ -108,7 +109,7 @@ export class DateService {
                     entry.date = this.convertToDate(entry.date);
                 });
             }
-            subject.next(result);
+            subject.next(this.fixUndefined(result));
             subject.complete();
         }, (error) => subject.error(error));
         return subject;
@@ -123,7 +124,7 @@ export class DateService {
                     entry.date = this.convertToDate(entry.date);
                 });
             }
-            subject.next(result);
+            subject.next(this.fixUndefined(result));
             subject.complete();
         }, (error) => subject.error(error));
         return subject;
@@ -133,7 +134,7 @@ export class DateService {
         let subject = new Subject<DateArrayWrapper>();
         let url: string = this.serviceUrl + "/api/date/getwrappedarray";
         this.http.get<DateArrayWrapper>(url, httpOptions).subscribe((result) => {
-            subject.next(result);
+            subject.next(this.fixUndefined(result));
             subject.complete();
         }, (error) => subject.error(error));
         return subject;
@@ -148,7 +149,7 @@ export class DateService {
                     result.model.date = this.convertToDate(result.model.date);
                 }
             }
-            subject.next(result);
+            subject.next(this.fixUndefined(result));
             subject.complete();
         }, (error) => subject.error(error));
         return subject;
@@ -165,7 +166,7 @@ export class DateService {
                     }
                 });
             }
-            subject.next(result);
+            subject.next(this.fixUndefined(result));
             subject.complete();
         }, (error) => subject.error(error));
         return subject;
@@ -184,7 +185,7 @@ export class DateService {
                     });
                 }
             }
-            subject.next(result);
+            subject.next(this.fixUndefined(result));
             subject.complete();
         }, (error) => subject.error(error));
         return subject;
@@ -205,7 +206,7 @@ export class DateService {
                     }
                 });
             }
-            subject.next(result);
+            subject.next(this.fixUndefined(result));
             subject.complete();
         }, (error) => subject.error(error));
         return subject;
@@ -221,7 +222,7 @@ export class DateService {
                     result.model.date = this.convertToDate(result.model.date);
                 }
             }
-            subject.next(result);
+            subject.next(this.fixUndefined(result));
             subject.complete();
         }, (error) => subject.error(error));
         return subject;
@@ -238,7 +239,7 @@ export class DateService {
                     });
                 }
             }
-            subject.next(result);
+            subject.next(this.fixUndefined(result));
             subject.complete();
         }, (error) => subject.error(error));
         return subject;
@@ -255,7 +256,7 @@ export class DateService {
                     });
                 }
             }
-            subject.next(result);
+            subject.next(this.fixUndefined(result));
             subject.complete();
         }, (error) => subject.error(error));
         return subject;
@@ -286,8 +287,21 @@ export class DateService {
         return this.append(url, date === null || date === undefined ? "" : typeof(date) === "string" ? date : date.toISOString(), parameterName, separator);
     }
 
-    public convertToDate(value: string | Date): Date {
-        return typeof(value) === "string" ? new Date(value) : value;
+    public convertToDate(value: string | Date | undefined): Date | undefined {
+        return value === "0001-01-01T00:00:00" ? new Date("0001-01-01T00:00:00Z") : typeof(value) === "string" ? new Date(value) : value;
+    }
+
+    public fixUndefined(value: any): any {
+        if (! value) {
+            return value ??  undefined;
+        }
+        if (Array.isArray(value)) {
+            value.forEach((entry, index) => value[index] = this.fixUndefined(entry));
+        }
+        if (typeof value === 'object') {
+            for (const key of Object.keys(value)) { value[key] = this.fixUndefined(value[key]); }
+        }
+        return value;
     }
 }
 

@@ -4,7 +4,7 @@
 import { DateModelWrapper } from "./date-model-wrapper";
 
 export class DateModelWrapperListWrapper {
-    public list: DateModelWrapper[];
+    public list?: DateModelWrapper[];
 
     public constructor(init?: Partial<DateModelWrapperListWrapper>) {
         Object.assign(this, init);

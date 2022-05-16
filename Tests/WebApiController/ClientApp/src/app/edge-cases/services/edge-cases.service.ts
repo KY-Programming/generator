@@ -25,6 +25,7 @@ export class EdgeCasesService {
 
     public constructor(http: HttpClient) {
         this.http = http;
+        this.serviceUrl = document.baseURI ?? "";
     }
 
     public get(subject: string, httpOptions?: {}): Observable<void> {
@@ -54,7 +55,7 @@ export class EdgeCasesService {
         let url: string = this.serviceUrl + "/api/edgecases/cancelable";
         url = this.append(url, subject, "subject");
         this.http.get<string[]>(url, httpOptions).subscribe((result) => {
-            rxjsSubject.next(result);
+            rxjsSubject.next(this.fixUndefined(result));
             rxjsSubject.complete();
         }, (error) => rxjsSubject.error(error));
         return rxjsSubject;
@@ -65,7 +66,7 @@ export class EdgeCasesService {
         httpOptions = { responseType: 'text', ...httpOptions};
         let url: string = this.serviceUrl + "/api/edgecases/string";
         this.http.get<string>(url, httpOptions).subscribe((result) => {
-            subject.next(result);
+            subject.next(this.fixUndefined(result));
             subject.complete();
         }, (error) => subject.error(error));
         return subject;
@@ -75,7 +76,7 @@ export class EdgeCasesService {
         let subject = new Subject<string>();
         let url: string = this.serviceUrl + "/api/edgecases/getguid";
         this.http.get<string>(url, httpOptions).subscribe((result) => {
-            subject.next(result.replace(/(^"|"$)/g, ""));
+            subject.next(this.fixUndefined(result.replace(/(^"|"$)/g, "")));
             subject.complete();
         }, (error) => subject.error(error));
         return subject;
@@ -86,7 +87,7 @@ export class EdgeCasesService {
         let url: string = this.serviceUrl + "/api/edgecases/withdi";
         url = this.append(url, value, "value");
         this.http.get<boolean>(url, httpOptions).subscribe((result) => {
-            subject.next(result);
+            subject.next(this.fixUndefined(result));
             subject.complete();
         }, (error) => subject.error(error));
         return subject;
@@ -98,7 +99,7 @@ export class EdgeCasesService {
         let url: string = this.serviceUrl + "/api/edgecases/fromheader";
         url = this.append(url, value, "value");
         this.http.get<string>(url, httpOptions).subscribe((result) => {
-            subject.next(result);
+            subject.next(this.fixUndefined(result));
             subject.complete();
         }, (error) => subject.error(error));
         return subject;
@@ -111,7 +112,7 @@ export class EdgeCasesService {
         url = this.append(url, queryValue, "queryValue");
         url = this.append(url, value, "value");
         this.http.get<string>(url, httpOptions).subscribe((result) => {
-            subject.next(result);
+            subject.next(this.fixUndefined(result));
             subject.complete();
         }, (error) => subject.error(error));
         return subject;
@@ -123,7 +124,7 @@ export class EdgeCasesService {
         let url: string = this.serviceUrl + "/api/edgecases/fromqueryarray";
         queryArray.forEach((entry) => url = this.append(url, entry, "queryArray"));
         this.http.get<string>(url, httpOptions).subscribe((result) => {
-            subject.next(result);
+            subject.next(this.fixUndefined(result));
             subject.complete();
         }, (error) => subject.error(error));
         return subject;
@@ -135,7 +136,7 @@ export class EdgeCasesService {
         url = this.append(url, value1, "value1");
         url = this.append(url, value2, "value2");
         this.http.get<GenericResult<string>>(url, httpOptions).subscribe((result) => {
-            subject.next(result);
+            subject.next(this.fixUndefined(result));
             subject.complete();
         }, (error) => subject.error(error));
         return subject;
@@ -145,7 +146,7 @@ export class EdgeCasesService {
         let subject = new Subject<GenericResult<ExclusiveGenericComplexResult>>();
         let url: string = this.serviceUrl + "/api/edgecases/genericcomplexresult";
         this.http.get<GenericResult<ExclusiveGenericComplexResult>>(url, httpOptions).subscribe((result) => {
-            subject.next(result);
+            subject.next(this.fixUndefined(result));
             subject.complete();
         }, (error) => subject.error(error));
         return subject;
@@ -162,7 +163,7 @@ export class EdgeCasesService {
                     });
                 }
             }
-            subject.next(result);
+            subject.next(this.fixUndefined(result));
             subject.complete();
         }, (error) => subject.error(error));
         return subject;
@@ -175,7 +176,7 @@ export class EdgeCasesService {
         url = this.append(url, required, "required");
         url = this.append(url, optional, "optional");
         this.http.get<string>(url, httpOptions).subscribe((result) => {
-            subject.next(result);
+            subject.next(this.fixUndefined(result));
             subject.complete();
         }, (error) => subject.error(error));
         return subject;
@@ -188,7 +189,7 @@ export class EdgeCasesService {
         url = this.append(url, required, undefined, "/");
         url = this.append(url, optional, undefined, "/");
         this.http.get<string>(url, httpOptions).subscribe((result) => {
-            subject.next(result);
+            subject.next(this.fixUndefined(result));
             subject.complete();
         }, (error) => subject.error(error));
         return subject;
@@ -202,7 +203,7 @@ export class EdgeCasesService {
         url += "/optional";
         url = this.append(url, optional, undefined, "/");
         this.http.get<string>(url, httpOptions).subscribe((result) => {
-            subject.next(result);
+            subject.next(this.fixUndefined(result));
             subject.complete();
         }, (error) => subject.error(error));
         return subject;
@@ -213,7 +214,7 @@ export class EdgeCasesService {
         httpOptions = { responseType: 'text', ...httpOptions};
         let url: string = this.serviceUrl + "/api/test/edgecases/getwithabsoluteroute";
         this.http.get<string>(url, httpOptions).subscribe((result) => {
-            subject.next(result);
+            subject.next(this.fixUndefined(result));
             subject.complete();
         }, (error) => subject.error(error));
         return subject;
@@ -226,7 +227,7 @@ export class EdgeCasesService {
         url = this.append(url, id, undefined, "/");
         url += "/getwithabsoluterouteandparameter/edgecases";
         this.http.get<string>(url, httpOptions).subscribe((result) => {
-            subject.next(result);
+            subject.next(this.fixUndefined(result));
             subject.complete();
         }, (error) => subject.error(error));
         return subject;
@@ -237,7 +238,7 @@ export class EdgeCasesService {
         let url: string = this.serviceUrl + "/api/edgecases/unknownresult";
         url = this.append(url, value, "value");
         this.http.get<TDefault>(url, httpOptions).subscribe((result) => {
-            subject.next(result);
+            subject.next(this.fixUndefined(result));
             subject.complete();
         }, (error) => subject.error(error));
         return subject;
@@ -253,8 +254,21 @@ export class EdgeCasesService {
         return url;
     }
 
-    public convertToDate(value: string | Date): Date {
-        return typeof(value) === "string" ? new Date(value) : value;
+    public convertToDate(value: string | Date | undefined): Date | undefined {
+        return value === "0001-01-01T00:00:00" ? new Date("0001-01-01T00:00:00Z") : typeof(value) === "string" ? new Date(value) : value;
+    }
+
+    public fixUndefined(value: any): any {
+        if (! value) {
+            return value ??  undefined;
+        }
+        if (Array.isArray(value)) {
+            value.forEach((entry, index) => value[index] = this.fixUndefined(entry));
+        }
+        if (typeof value === 'object') {
+            for (const key of Object.keys(value)) { value[key] = this.fixUndefined(value[key]); }
+        }
+        return value;
     }
 }
 

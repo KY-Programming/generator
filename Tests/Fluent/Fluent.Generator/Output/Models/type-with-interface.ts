@@ -4,7 +4,7 @@
 import { IInterface } from "./interface.interface";
 
 export class TypeWithInterface implements IInterface {
-    public property: string;
+    public property?: string;
 
     public constructor(init?: Partial<TypeWithInterface>) {
         Object.assign(this, init);

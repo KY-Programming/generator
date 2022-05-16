@@ -21,7 +21,7 @@ namespace KY.Generator
         {
             Generator.InitializeLogger(args);
 
-            bool success = Generator.Initialize()
+            bool success = Generator.Create()
                                     .PreloadModule<AngularModule>()
                                     .PreloadModule<AspDotNetModule>()
                                     .PreloadModule<CsharpModule>()

@@ -4,7 +4,7 @@
 import { EdgeCase1SubType } from "./edge-case-1-sub-type";
 
 export class EdgeCase1SubTypeGeneric<T> extends EdgeCase1SubType {
-    public genericProperty: T;
+    public genericProperty?: T;
 
     public constructor(init?: Partial<EdgeCase1SubTypeGeneric<T>>) {
         super();

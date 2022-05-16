@@ -4,9 +4,9 @@
 import { DateModel } from "./date-model";
 
 export class DateModelWrapperWithDate {
-    public id: string;
-    public date: Date;
-    public model: DateModel;
+    public id?: string;
+    public date?: Date;
+    public model?: DateModel;
 
     public constructor(init?: Partial<DateModelWrapperWithDate>) {
         Object.assign(this, init);

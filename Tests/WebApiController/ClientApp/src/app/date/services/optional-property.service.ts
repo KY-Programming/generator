@@ -1,7 +1,7 @@
 ﻿/* eslint-disable */
 // tslint:disable
 
-import { GetComplexModel } from "../models/get-complex-model";
+import { OptionalPropertiesModel } from "../models/optional-properties-model";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
@@ -10,7 +10,7 @@ import { Subject } from "rxjs";
 @Injectable({
     providedIn: "root"
 })
-export class GetComplexService {
+export class OptionalPropertyService {
     private readonly http: HttpClient;
     private serviceUrlValue: string = "";
 
@@ -26,10 +26,10 @@ export class GetComplexService {
         this.serviceUrl = document.baseURI ?? "";
     }
 
-    public get(httpOptions?: {}): Observable<GetComplexModel> {
-        let subject = new Subject<GetComplexModel>();
-        let url: string = this.serviceUrl + "/getcomplex/get";
-        this.http.get<GetComplexModel>(url, httpOptions).subscribe((result) => {
+    public getOptionalPropertiesModel(httpOptions?: {}): Observable<OptionalPropertiesModel> {
+        let subject = new Subject<OptionalPropertiesModel>();
+        let url: string = this.serviceUrl + "/api/optionalproperty/getoptionalpropertiesmodel";
+        this.http.get<OptionalPropertiesModel>(url, httpOptions).subscribe((result) => {
             subject.next(this.fixUndefined(result));
             subject.complete();
         }, (error) => subject.error(error));

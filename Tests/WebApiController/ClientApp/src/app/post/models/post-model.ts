@@ -2,7 +2,7 @@
 // tslint:disable
 
 export class PostModel {
-    public value: string;
+    public value?: string;
 
     public constructor(init?: Partial<PostModel>) {
         Object.assign(this, init);

@@ -23,19 +23,19 @@ export class VersionedApiService {
 
     public constructor(http: HttpClient) {
         this.http = http;
+        this.serviceUrl = document.baseURI ?? "";
     }
 
     public get(httpOptions?: {}): Observable<WeatherForecast[]> {
         let subject = new Subject<WeatherForecast[]>();
         let url: string = this.serviceUrl + "/versionedapi";
-        url += "?api-version=1.0";
         this.http.get<WeatherForecast[]>(url, httpOptions).subscribe((result) => {
             if (result) {
                 result.forEach((entry) => {
                     entry.date = this.convertToDate(entry.date);
                 });
             }
-            subject.next(result);
+            subject.next(this.fixUndefined(result));
             subject.complete();
         }, (error) => subject.error(error));
         return subject;
@@ -46,14 +46,13 @@ export class VersionedApiService {
         let url: string = this.serviceUrl + "/versionedapi/next";
         url = this.append(url, days, undefined, "/");
         url += "/days";
-        url += "?api-version=1.0";
         this.http.get<WeatherForecast[]>(url, httpOptions).subscribe((result) => {
             if (result) {
                 result.forEach((entry) => {
                     entry.date = this.convertToDate(entry.date);
                 });
             }
-            subject.next(result);
+            subject.next(this.fixUndefined(result));
             subject.complete();
         }, (error) => subject.error(error));
         return subject;
@@ -62,7 +61,6 @@ export class VersionedApiService {
     public getNext2(days: number, httpOptions?: {}): Observable<WeatherForecast[]> {
         let subject = new Subject<WeatherForecast[]>();
         let url: string = this.serviceUrl + "/versionedapi/next-days";
-        url += "?api-version=2.0";
         url = this.append(url, days, "days");
         this.http.get<WeatherForecast[]>(url, httpOptions).subscribe((result) => {
             if (result) {
@@ -70,7 +68,7 @@ export class VersionedApiService {
                     entry.date = this.convertToDate(entry.date);
                 });
             }
-            subject.next(result);
+            subject.next(this.fixUndefined(result));
             subject.complete();
         }, (error) => subject.error(error));
         return subject;
@@ -79,9 +77,9 @@ export class VersionedApiService {
     public getWithAbsoluteRoute(httpOptions?: {}): Observable<string> {
         let subject = new Subject<string>();
         httpOptions = { responseType: 'text', ...httpOptions};
-        let url: string = this.serviceUrl + "/api/v1.0/test/versionedapi/getwithabsoluteroute";
+        let url: string = this.serviceUrl + "/api/test/versionedapi/getwithabsoluteroute";
         this.http.get<string>(url, httpOptions).subscribe((result) => {
-            subject.next(result);
+            subject.next(this.fixUndefined(result));
             subject.complete();
         }, (error) => subject.error(error));
         return subject;
@@ -97,8 +95,21 @@ export class VersionedApiService {
         return url;
     }
 
-    public convertToDate(value: string | Date): Date {
-        return typeof(value) === "string" ? new Date(value) : value;
+    public convertToDate(value: string | Date | undefined): Date | undefined {
+        return value === "0001-01-01T00:00:00" ? new Date("0001-01-01T00:00:00Z") : typeof(value) === "string" ? new Date(value) : value;
+    }
+
+    public fixUndefined(value: any): any {
+        if (! value) {
+            return value ??  undefined;
+        }
+        if (Array.isArray(value)) {
+            value.forEach((entry, index) => value[index] = this.fixUndefined(entry));
+        }
+        if (typeof value === 'object') {
+            for (const key of Object.keys(value)) { value[key] = this.fixUndefined(value[key]); }
+        }
+        return value;
     }
 }
 

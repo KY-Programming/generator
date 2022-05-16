@@ -2,7 +2,7 @@
 // tslint:disable
 
 export class ThirdType {
-    public stringProperty: string;
+    public stringProperty?: string;
 
     public constructor(init?: Partial<ThirdType>) {
         Object.assign(this, init);

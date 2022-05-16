@@ -23,6 +23,7 @@ export class ConvertToInterfaceOptionalService {
 
     public constructor(http: HttpClient) {
         this.http = http;
+        this.serviceUrl = document.baseURI ?? "";
     }
 
     public get(subject: string, httpOptions?: {}): Observable<ConvertMeOptional> {
@@ -33,7 +34,7 @@ export class ConvertToInterfaceOptionalService {
             if (result) {
                 result.dateTimeProperty = this.convertToDate(result.dateTimeProperty);
             }
-            rxjsSubject.next(result);
+            rxjsSubject.next(this.fixUndefined(result));
             rxjsSubject.complete();
         }, (error) => rxjsSubject.error(error));
         return rxjsSubject;
@@ -49,8 +50,21 @@ export class ConvertToInterfaceOptionalService {
         return url;
     }
 
-    public convertToDate(value: string | Date): Date {
-        return typeof(value) === "string" ? new Date(value) : value;
+    public convertToDate(value: string | Date | undefined): Date | undefined {
+        return value === "0001-01-01T00:00:00" ? new Date("0001-01-01T00:00:00Z") : typeof(value) === "string" ? new Date(value) : value;
+    }
+
+    public fixUndefined(value: any): any {
+        if (! value) {
+            return value ??  undefined;
+        }
+        if (Array.isArray(value)) {
+            value.forEach((entry, index) => value[index] = this.fixUndefined(entry));
+        }
+        if (typeof value === 'object') {
+            for (const key of Object.keys(value)) { value[key] = this.fixUndefined(value[key]); }
+        }
+        return value;
     }
 }
 

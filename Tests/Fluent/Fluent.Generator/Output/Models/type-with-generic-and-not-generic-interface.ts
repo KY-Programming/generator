@@ -5,7 +5,7 @@ import { IInterfaceGeneric } from "./interface-generic.interface";
 import { IInterface } from "./interface.interface";
 
 export class TypeWithGenericAndNotGenericInterface implements IInterfaceGeneric<string>, IInterface {
-    public property: string;
+    public property?: string;
 
     public constructor(init?: Partial<TypeWithGenericAndNotGenericInterface>) {
         Object.assign(this, init);

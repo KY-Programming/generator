@@ -24,13 +24,14 @@ export class FixCasingService {
 
     public constructor(http: HttpClient) {
         this.http = http;
+        this.serviceUrl = document.baseURI ?? "";
     }
 
     public get(httpOptions?: {}): Observable<CasingModel> {
         let subject = new Subject<CasingModel>();
         let url: string = this.serviceUrl + "/fixcasing/get";
         this.http.get<CasingModel>(url, httpOptions).subscribe((result) => {
-            subject.next(result);
+            subject.next(this.fixUndefined(result));
             subject.complete();
         }, (error) => subject.error(error));
         return subject;
@@ -58,7 +59,7 @@ export class FixCasingService {
             delete result['snake_case'];
             result.upperSnakeCase = result.upperSnakeCase || result["UPPER_SNAKE_CASE"];
             delete result['UPPER_SNAKE_CASE'];
-            subject.next(result);
+            subject.next(this.fixUndefined(result));
             subject.complete();
         }, (error) => subject.error(error));
         return subject;
@@ -80,7 +81,7 @@ export class FixCasingService {
                     delete entry['UPPER_SNAKE_CASE'];
                 })
             }
-            subject.next(result);
+            subject.next(this.fixUndefined(result));
             subject.complete();
         }, (error) => subject.error(error));
         return subject;
@@ -94,6 +95,19 @@ export class FixCasingService {
             subject.complete();
         }, (error) => subject.error(error));
         return subject;
+    }
+
+    public fixUndefined(value: any): any {
+        if (! value) {
+            return value ??  undefined;
+        }
+        if (Array.isArray(value)) {
+            value.forEach((entry, index) => value[index] = this.fixUndefined(entry));
+        }
+        if (typeof value === 'object') {
+            for (const key of Object.keys(value)) { value[key] = this.fixUndefined(value[key]); }
+        }
+        return value;
     }
 }
 

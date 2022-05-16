@@ -2,8 +2,8 @@
 // tslint:disable
 
 export class KeepMyCase {
-    public StringProperty: string;
-    public Number_Property: number;
+    public StringProperty?: string;
+    public Number_Property?: number;
 
     public constructor(init?: Partial<KeepMyCase>) {
         Object.assign(this, init);

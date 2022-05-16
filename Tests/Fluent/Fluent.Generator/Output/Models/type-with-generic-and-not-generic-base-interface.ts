@@ -4,8 +4,8 @@
 import { IGenericInterfaceWithNonGenericBase } from "./generic-interface-with-non-generic-base.interface";
 
 export class TypeWithGenericAndNotGenericBaseInterface implements IGenericInterfaceWithNonGenericBase<string> {
-    public property: string;
-    public genericProperty: string;
+    public property?: string;
+    public genericProperty?: string;
 
     public constructor(init?: Partial<TypeWithGenericAndNotGenericBaseInterface>) {
         Object.assign(this, init);

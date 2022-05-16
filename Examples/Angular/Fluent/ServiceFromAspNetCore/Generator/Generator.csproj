@@ -10,9 +10,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="KY.Generator.Angular" Version="8.2.0" />
+    <PackageReference Include="KY.Generator.Angular" Version="9.0.0-preview.13" />
     <PackageReference Include="KY.Generator.AspDotNet" Version="8.2.0" />
-    <PackageReference Include="KY.Generator.Fluent" Version="8.2.0" />
+    <PackageReference Include="KY.Generator.Fluent" Version="9.0.0-preview.13" />
   </ItemGroup>
 
 </Project>

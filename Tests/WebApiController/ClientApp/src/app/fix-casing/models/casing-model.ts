@@ -2,12 +2,12 @@
 // tslint:disable
 
 export class CasingModel {
-    public alllower: string;
-    public allupper: string;
-    public pascalCase: string;
-    public camelCase: string;
-    public snakeCase: string;
-    public upperSnakeCase: string;
+    public alllower?: string;
+    public allupper?: string;
+    public pascalCase?: string;
+    public camelCase?: string;
+    public snakeCase?: string;
+    public upperSnakeCase?: string;
 
     public constructor(init?: Partial<CasingModel>) {
         Object.assign(this, init);

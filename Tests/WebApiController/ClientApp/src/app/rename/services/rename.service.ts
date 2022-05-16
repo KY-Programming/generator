@@ -24,6 +24,7 @@ export class RenameService {
 
     public constructor(http: HttpClient) {
         this.http = http;
+        this.serviceUrl = document.baseURI ?? "";
     }
 
     public renameDtoToModel(id: number, httpOptions?: {}): Observable<RenameModel> {
@@ -31,7 +32,7 @@ export class RenameService {
         let url: string = this.serviceUrl + "/rename";
         url = this.append(url, id, "id");
         this.http.get<RenameModel>(url, httpOptions).subscribe((result) => {
-            subject.next(result);
+            subject.next(this.fixUndefined(result));
             subject.complete();
         }, (error) => subject.error(error));
         return subject;
@@ -42,7 +43,7 @@ export class RenameService {
         let url: string = this.serviceUrl + "/rename";
         url = this.append(url, id, "id");
         this.http.get<Data>(url, httpOptions).subscribe((result) => {
-            subject.next(result);
+            subject.next(this.fixUndefined(result));
             subject.complete();
         }, (error) => subject.error(error));
         return subject;
@@ -56,6 +57,19 @@ export class RenameService {
             return url + (url.indexOf("?") === -1 ? "?" : "&") + parameterName + "=" + value.toString();
         }
         return url;
+    }
+
+    public fixUndefined(value: any): any {
+        if (! value) {
+            return value ??  undefined;
+        }
+        if (Array.isArray(value)) {
+            value.forEach((entry, index) => value[index] = this.fixUndefined(entry));
+        }
+        if (typeof value === 'object') {
+            for (const key of Object.keys(value)) { value[key] = this.fixUndefined(value[key]); }
+        }
+        return value;
     }
 }
 

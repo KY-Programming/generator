@@ -2,8 +2,8 @@
 // tslint:disable
 
 export class GenericResult<T> {
-    public rows: T[];
-    public strings: string[];
+    public rows?: T[];
+    public strings?: string[];
 
     public constructor(init?: Partial<GenericResult<T>>) {
         Object.assign(this, init);

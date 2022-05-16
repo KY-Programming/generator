@@ -2,7 +2,7 @@
 // tslint:disable
 
 export class TwoWhitespaceTest {
-  public property: string;
+  public property?: string;
 
   public constructor(init?: Partial<TwoWhitespaceTest>) {
     Object.assign(this, init);

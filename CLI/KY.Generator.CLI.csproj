@@ -42,9 +42,8 @@
       <HintPath>..\packages\Costura.Fody.5.7.0\lib\netstandard1.0\Costura.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="KY.Core.Common, Version=4.24.2.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\packages\KY.Core.Common.4.24.2\lib\netstandard2.0\KY.Core.Common.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="KY.Core.Common, Version=4.29.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\KY.Core.Common.4.29.0\lib\netstandard2.0\KY.Core.Common.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Win32.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <HintPath>..\packages\Microsoft.Win32.Primitives.4.3.0\lib\net46\Microsoft.Win32.Primitives.dll</HintPath>

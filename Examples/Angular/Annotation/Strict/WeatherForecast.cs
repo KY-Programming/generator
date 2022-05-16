@@ -1,5 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Strict
 {
@@ -19,6 +22,18 @@ namespace Strict
         public object Object { get; set; }
         public SubType SubType { get; set; }
         public DateTime? NullableDate { get; set; }
+
+        [Required]
+        public string RequiredString { get; set; }
+
+        [Required, DefaultValue("")]
+        public string RequiredNotNullableString { get; set; }
+
+        [Required]
+        public int RequiredInt { get; set; }
+
+        [Required, DefaultValue(typeof(List<string>))]
+        public List<string> RequiredNotNullableList { get; set; }
     }
 
     public class SubType

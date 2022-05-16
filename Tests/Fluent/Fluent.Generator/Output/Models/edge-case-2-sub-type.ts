@@ -4,7 +4,7 @@
 import { EdgeCase2SubTypeGeneric } from "./edge-case-2-sub-type-generic";
 
 export class EdgeCase2SubType extends EdgeCase2SubTypeGeneric<string> {
-    public property: string;
+    public property?: string;
 
     public constructor(init?: Partial<EdgeCase2SubType>) {
         super();

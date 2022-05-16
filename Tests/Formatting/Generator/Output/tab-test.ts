@@ -2,7 +2,7 @@
 // tslint:disable
 
 export class TabTest {
-	public property: string;
+	public property?: string;
 
 	public constructor(init?: Partial<TabTest>) {
 		Object.assign(this, init);

@@ -4,9 +4,9 @@
 import { GetComplexModelService } from "./get-complex-model-service";
 
 export class GetComplexModel {
-    public property: string;
-    public service: GetComplexModelService;
-    public services: GetComplexModelService[];
+    public property?: string;
+    public service?: GetComplexModelService;
+    public services?: GetComplexModelService[];
 
     public constructor(init?: Partial<GetComplexModel>) {
         Object.assign(this, init);
