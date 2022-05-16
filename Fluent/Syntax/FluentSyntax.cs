@@ -78,13 +78,13 @@ namespace KY.Generator.Syntax
 
         private FluentSyntax SetMember<T>(Expression<Func<T, object>> memberAction, Action<ISetMemberFluentSyntax> action)
         {
-            action(new SetFluentMemberSyntax(memberAction.ExtractMember(), this.options));
+            action(new SetFluentMemberSyntax(this.ExtractMemberInfo(memberAction), this.options));
             return this;
         }
 
         private FluentSyntax SetMember<T>(Expression<Action<T>> memberAction, Action<ISetMemberFluentSyntax> action)
         {
-            action(new SetFluentMemberSyntax(memberAction.ExtractMember(), this.options));
+            action(new SetFluentMemberSyntax(this.ExtractMemberInfo(memberAction), this.options));
             return this;
         }
 
@@ -123,6 +123,19 @@ namespace KY.Generator.Syntax
         {
             this.options.Current.Formatter = command;
             return this;
+        }
+
+        private MemberInfo ExtractMemberInfo<T>(Expression<T> expression)
+        {
+            switch (expression.Body)
+            {
+                case MethodCallExpression methodCallExpression:
+                    return methodCallExpression.Method;
+                case MemberExpression memberExpression:
+                    return memberExpression.Member;
+                default:
+                    throw new InvalidOperationException($"Expression '{expression}' is invalid. Use only methods (x => x.Get()) or Properties (x => x.Property)");
+            }
         }
     }
 }

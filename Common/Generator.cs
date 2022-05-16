@@ -11,6 +11,7 @@ using KY.Core.DataAccess;
 using KY.Core.Dependency;
 using KY.Core.Extension;
 using KY.Core.Module;
+using KY.Core.Nuget;
 using KY.Generator.Command;
 using KY.Generator.Commands;
 using KY.Generator.Extensions;
@@ -38,7 +39,6 @@ namespace KY.Generator
         public Generator()
         {
             DateTime start = DateTime.Now;
-            Logger.CatchAll();
             Assembly callingAssembly = Assembly.GetEntryAssembly() ?? Assembly.GetCallingAssembly();
             FrameworkName framework = callingAssembly.GetTargetFramework();
             Logger.Trace($"KY-Generator v{callingAssembly.GetName().Version} ({framework.Identifier.Replace("App", string.Empty)} {framework.Version.Major}.{framework.Version.Minor})");
@@ -70,9 +70,15 @@ namespace KY.Generator
             this.InitializeModules(moduleFinder.Modules);
         }
 
-        public static Generator Initialize()
+        public static Generator Create()
         {
             return new Generator();
+        }
+
+        public Generator SharedAssemblies(string sharedPath)
+        {
+            NugetPackageDependencyLoader.Locations.Insert(0, new SearchLocation(sharedPath)/*.Local()*/.SearchOnlyLocal());
+            return this;
         }
 
         public Generator PreloadModules(string path, string moduleFileNameSearchPattern = default)
@@ -268,6 +274,7 @@ namespace KY.Generator
 
         public static void InitializeLogger(string[] parameters)
         {
+            Logger.CatchAll();
             Logger.Console.ShortenEntries = false;
             Logger.AllTargets.Add(Logger.VisualStudioOutput);
             if (parameters.Any(parameter => parameter.ToLowerInvariant().Contains("forwardlogging")))

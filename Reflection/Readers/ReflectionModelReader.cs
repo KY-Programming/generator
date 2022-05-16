@@ -365,11 +365,11 @@ namespace KY.Generator.Reflection.Readers
             {
                 return defaultValue;
             }
-            // if (memberInfo is FieldInfo fieldInfo && fieldInfo.IsLiteral)
-            // {
+            if (memberInfo is FieldInfo fieldInfo && (fieldInfo.IsLiteral || fieldInfo.IsStatic))
+            {
                 return memberInfo.DeclaringType?.GetField(memberInfo.Name)?.GetValue(null);
-            // }
-            // return null;
+            }
+            return null;
         }
     }
 }

@@ -65,18 +65,18 @@ namespace KY.Generator
                     {
                         try
                         {
-                            assemblyFramework = assemblyFramework ?? attributeData.ConstructorArguments.Select(x => x.Value as string)
-                                                                                  .Where(x => x != null)
-                                                                                  .Select(TryParseFrameworkName)
-                                                                                  .FirstOrDefault()?
-                                                                                  .GetSwitchableFramework();
+                            assemblyFramework ??= attributeData.ConstructorArguments.Select(x => x.Value as string)
+                                                               .Where(x => x != null)
+                                                               .Select(TryParseFrameworkName)
+                                                               .FirstOrDefault()?
+                                                               .GetSwitchableFramework();
                         }
                         catch
                         {
                             // Some unnecessary attributes can not be read by a assembly with the wrong framework version, so ignore them
                         }
                     }
-                    assemblyFramework = assemblyFramework ?? SwitchableFramework.None;
+                    assemblyFramework ??= SwitchableFramework.None;
                 }
 
                 SwitchableFramework entryFramework = entryAssembly.GetSwitchableFramework();

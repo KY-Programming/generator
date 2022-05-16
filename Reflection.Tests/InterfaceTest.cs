@@ -16,7 +16,7 @@ namespace KY.Generator.Reflection.Tests
         public void Initialize()
         {
             this.output = new MemoryOutput();
-            this.generator = Generator.Initialize()
+            this.generator = Generator.Create()
                                       .PreloadModule<CsharpModule>()
                                       .PreloadModule<TypeScriptModule>()
                                       .PreloadModule<ReflectionModule>()
