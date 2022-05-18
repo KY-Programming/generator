@@ -1,9 +1,10 @@
 ﻿using System.Reflection;
+using KY.Generator.Transfer;
 
-namespace KY.Generator.Reflection
+namespace KY.Generator.Reflection;
+
+public class ReflectionOptionsReader : IGlobalOptionsReader
 {
-    public class ReflectionOptionsReader : IGlobalOptionsReader
-    {
         public void Read(object key, OptionsSet entry)
         {
             if (key is not ICustomAttributeProvider attributeProvider)
@@ -43,11 +44,29 @@ namespace KY.Generator.Reflection
                     case GenerateOnlySubTypesAttribute:
                         entry.Part.OnlySubTypes = true;
                         break;
+                case GenerateReturnTypeAttribute returnTypeAttribute:
+                    if (returnTypeAttribute.Type != null)
+                    {
+                        entry.Part.ReturnType = new TypeTransferObject
+                                                {
+                                                    Name = returnTypeAttribute.Type.Name,
+                                                    Namespace = returnTypeAttribute.Type.Namespace
+                                                };
                     case GenerateNoOptionalAttribute:
                         entry.Part.NoOptional = true;
                         break;
                 }
+                    else
+                    {
+                        entry.Part.ReturnType = new TypeTransferObject
+                                                {
+                                                    Name = returnTypeAttribute.TypeName,
+                                                    FileName = returnTypeAttribute.FileName,
+                                                    OverrideType = returnTypeAttribute.OverrideName
+                                                };
             }
+                    break;
         }
+    }
     }
 }

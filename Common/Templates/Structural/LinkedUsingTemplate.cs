@@ -10,7 +10,7 @@ namespace KY.Generator.Templates
         private readonly string path;
 
         public override string Namespace => this.type.Namespace;
-        public override string Type => this.type.Name;
+        public override string Type => this.type.OverrideType ?? this.type.Name;
         public override string Path => $"{this.path}/{this.type.FileName}";
 
         public LinkedUsingTemplate(TypeTransferObject type, string path)

@@ -101,7 +101,7 @@ namespace KY.Generator.AspDotNet.Readers
                 {
                     HttpServiceActionTransferObject action = new();
                     action.Name = actionTypes.Count == 1 ? method.Name : $"{actionType.Key}{method.Name.FirstCharToUpper()}";
-                    action.ReturnType = this.modelReader.Read(returnType, methodOptions);
+                    action.ReturnType = methodOptions.ReturnType ?? this.modelReader.Read(returnType, methodOptions);
                     action.Route = actionType.Value ?? methodAspOptions.Route;
                     if (action.Route?.Contains(":") ?? false)
                     {
@@ -109,7 +109,7 @@ namespace KY.Generator.AspDotNet.Readers
                     }
                     action.Type = actionType.Key;
                     action.Version = methodAspOptions.ApiVersion?.OrderByDescending(x => x).FirstOrDefault();
-                    action.FixCasingWithMapping = returnEntryTypeOptions.FixCasingWithMapping || methodAspOptions.FixCasingWithMapping;
+                    action.FixCasingWithMapping = (methodOptions.ReturnType == null && returnEntryTypeOptions.FixCasingWithMapping) || methodAspOptions.FixCasingWithMapping;
                     action.RequireBodyParameter = action.Type.IsBodyParameterRequired();
                     List<ParameterInfo> parameters = method.GetParameters().Where(
                         parameter => !this.aspOptions.Get(parameter, methodAspOptions).IsFromHeader

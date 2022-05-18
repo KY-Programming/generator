@@ -12,6 +12,7 @@ namespace KY.Generator.Transfer
 
         public virtual string Name { get; set; }
         public virtual string FileName { get; set; }
+        public virtual string OverrideType { get; set; }
 
         public virtual string OriginalName
         {

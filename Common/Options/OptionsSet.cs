@@ -85,13 +85,13 @@ namespace KY.Generator
 
         string IOptions.Rename
         {
-            get => this.Part.Rename;
+            get => this.Part.Rename ?? this.Global?.Part.Rename;
             set => this.Part.Rename = value;
         }
 
         TypeTransferObject IOptions.ReturnType
         {
-            get => this.Part.ReturnType;
+            get => this.Part.ReturnType ?? this.Global?.Part.ReturnType;
             set => this.Part.ReturnType = value;
         }
 
