@@ -173,12 +173,19 @@ namespace KY.Generator.Transfer.Writers
                     this.AddUsing(generic.Type, classTemplate, options, relativeModelPath);
                 }
             }
+            string importPath = relativeModelPath.Replace("\\", "/").TrimEnd('/');
             if ((!type.FromSystem || type.FromSystem && options.Language.ImportFromSystem)
                 && !string.IsNullOrEmpty(type.Namespace)
                 && classTemplate.Namespace.Name != type.Namespace
                 && !type.IsGenericParameter)
             {
-                classTemplate.AddUsing(type, relativeModelPath.Replace("\\", "/").TrimEnd('/'));
+                classTemplate.AddUsing(type, importPath);
+            }
+            if ((!type.FromSystem || type.FromSystem && options.Language.ImportFromSystem)
+                && !string.IsNullOrEmpty(type.FileName)
+                && !type.IsGenericParameter)
+            {
+                classTemplate.AddUsing(type, importPath);
             }
             type.Generics.Where(x => x.Alias == null).ForEach(generic => this.AddUsing(generic.Type, classTemplate, options, relativeModelPath));
         }

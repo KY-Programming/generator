@@ -4,7 +4,7 @@ using KY.Generator.Transfer;
 
 namespace KY.Generator.Syntax
 {
-    public class SetFluentMemberSyntax : SetFluentSyntax<ISetMemberFluentSyntax>, ISetMemberFluentSyntax
+    public class SetFluentMemberSyntax : SetFluentSyntax<ISetMemberFluentSyntax>, ISetMemberFluentSyntax, ISetMemberReturnTypeFluentSyntax
     {
         public SetFluentMemberSyntax(Assembly assembly, Options options)
             : base(assembly, options)
@@ -29,15 +29,28 @@ namespace KY.Generator.Syntax
             return this;
         }
 
-        public ISetMemberFluentSyntax ReturnType(Type type)
+        public ISetMemberReturnTypeFluentSyntax ReturnType(Type type)
         {
             this.OptionsSet.ReturnType = new TypeTransferObject { Name = type.Name, Namespace = type.Namespace };
             return this;
         }
 
-        public ISetMemberFluentSyntax ReturnType(string typeName, string nameSpace, string fileName)
+        public ISetMemberReturnTypeFluentSyntax ReturnType(string typeName)
         {
-            this.OptionsSet.ReturnType = new TypeTransferObject { Name = typeName, Namespace = nameSpace, FileName = fileName };
+            this.OptionsSet.ReturnType = new TypeTransferObject { Name = typeName };
+            return this;
+        }
+
+        public ISetMemberFluentSyntax ImportNamespace(string nameSpace)
+        {
+            this.OptionsSet.ReturnType.Namespace = nameSpace;
+            return this;
+        }
+
+        public ISetMemberFluentSyntax ImportFile(string fileName, string type = null)
+        {
+            this.OptionsSet.ReturnType.FileName = fileName;
+            this.OptionsSet.ReturnType.OverrideType = type;
             return this;
         }
     }
