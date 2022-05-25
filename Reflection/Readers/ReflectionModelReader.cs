@@ -272,6 +272,11 @@ namespace KY.Generator.Reflection.Readers
             PropertyInfo[] properties = type.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
             foreach (PropertyInfo property in properties)
             {
+                if (this.ParentHasMember(property, model.BasedOn))
+                {
+                    Logger.Warning($"Property '{property.Name}' skipped. It is already defined on parent '{model.BasedOn.Name}' or its parent");
+                    continue;
+                }
                 IOptions propertyOptions = this.options.Get(property);
                 if (propertyOptions.Ignore)
                 {
@@ -295,6 +300,11 @@ namespace KY.Generator.Reflection.Readers
             FieldInfo[] fields = type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
             foreach (FieldInfo field in fields)
             {
+                if (this.ParentHasMember(field, model.BasedOn))
+                {
+                    Logger.Warning($"Field '{field.Name}' skipped. It is already defined on parent '{model.BasedOn.Name}' or its parent");
+                    continue;
+                }
                 IOptions fieldOptions = this.options.Get(field);
                 if (fieldOptions.Ignore)
                 {
@@ -311,6 +321,20 @@ namespace KY.Generator.Reflection.Readers
                 model.Fields.Add(fieldTransferObject);
                 this.options.Set(fieldTransferObject, fieldOptions);
             }
+        }
+
+        private bool ParentHasMember(MemberInfo member, ModelTransferObject parent)
+        {
+            if (parent == null)
+            {
+                return false;
+            }
+            if (parent.Fields.Any(field => field.Name.Equals(member.Name, StringComparison.CurrentCultureIgnoreCase))
+                || parent.Properties.Any(property => property.Name.Equals(member.Name, StringComparison.CurrentCultureIgnoreCase)))
+            {
+                return true;
+            }
+            return this.ParentHasMember(member, parent.BasedOn);
         }
 
         private void ReadConstants(Type type, ModelTransferObject model)

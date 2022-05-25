@@ -5,45 +5,45 @@ namespace KY.Generator.Reflection;
 
 public class ReflectionOptionsReader : IGlobalOptionsReader
 {
-        public void Read(object key, OptionsSet entry)
+    public void Read(object key, OptionsSet entry)
+    {
+        if (key is not ICustomAttributeProvider attributeProvider)
         {
-            if (key is not ICustomAttributeProvider attributeProvider)
+            return;
+        }
+        foreach (object attribute in attributeProvider.GetCustomAttributes(true))
+        {
+            switch (attribute)
             {
-                return;
-            }
-            foreach (object attribute in attributeProvider.GetCustomAttributes(true))
-            {
-                switch (attribute)
-                {
-                    case GenerateIgnoreAttribute:
-                        entry.Part.Ignore = true;
-                        break;
-                    case GeneratePreferInterfacesAttribute:
-                        entry.Part.PreferInterfaces = true;
-                        break;
-                    case GenerateStrictAttribute strictAttribute:
-                        entry.Part.Strict = strictAttribute.Strict;
-                        break;
-                    case GenerateRenameAttribute renameAttribute:
-                        entry.Part.ReplaceName[renameAttribute.Replace] = renameAttribute.With;
-                        break;
-                    case GeneratePropertiesAsFieldsAttribute:
-                        entry.Part.FieldsToProperties = false;
-                        entry.Part.PropertiesToFields = true;
-                        break;
-                    case GenerateFieldsAsPropertiesAttribute:
-                        entry.Part.FieldsToProperties = true;
-                        entry.Part.PropertiesToFields = false;
-                        break;
-                    case GenerateFormatNamesAttribute formatNamesAttribute:
-                        entry.Part.FormatNames = formatNamesAttribute.FormatNames;
-                        break;
-                    case GenerateNoHeaderAttribute:
-                        entry.Part.AddHeader = false;
-                        break;
-                    case GenerateOnlySubTypesAttribute:
-                        entry.Part.OnlySubTypes = true;
-                        break;
+                case GenerateIgnoreAttribute:
+                    entry.Part.Ignore = true;
+                    break;
+                case GeneratePreferInterfacesAttribute:
+                    entry.Part.PreferInterfaces = true;
+                    break;
+                case GenerateStrictAttribute strictAttribute:
+                    entry.Part.Strict = strictAttribute.Strict;
+                    break;
+                case GenerateRenameAttribute renameAttribute:
+                    entry.Part.ReplaceName[renameAttribute.Replace] = renameAttribute.With;
+                    break;
+                case GeneratePropertiesAsFieldsAttribute:
+                    entry.Part.FieldsToProperties = false;
+                    entry.Part.PropertiesToFields = true;
+                    break;
+                case GenerateFieldsAsPropertiesAttribute:
+                    entry.Part.FieldsToProperties = true;
+                    entry.Part.PropertiesToFields = false;
+                    break;
+                case GenerateFormatNamesAttribute formatNamesAttribute:
+                    entry.Part.FormatNames = formatNamesAttribute.FormatNames;
+                    break;
+                case GenerateNoHeaderAttribute:
+                    entry.Part.AddHeader = false;
+                    break;
+                case GenerateOnlySubTypesAttribute:
+                    entry.Part.OnlySubTypes = true;
+                    break;
                 case GenerateReturnTypeAttribute returnTypeAttribute:
                     if (returnTypeAttribute.Type != null)
                     {
@@ -52,10 +52,7 @@ public class ReflectionOptionsReader : IGlobalOptionsReader
                                                     Name = returnTypeAttribute.Type.Name,
                                                     Namespace = returnTypeAttribute.Type.Namespace
                                                 };
-                    case GenerateNoOptionalAttribute:
-                        entry.Part.NoOptional = true;
-                        break;
-                }
+                    }
                     else
                     {
                         entry.Part.ReturnType = new TypeTransferObject
@@ -64,9 +61,12 @@ public class ReflectionOptionsReader : IGlobalOptionsReader
                                                     FileName = returnTypeAttribute.FileName,
                                                     OverrideType = returnTypeAttribute.OverrideName
                                                 };
-            }
+                    }
                     break;
+                case GenerateNoOptionalAttribute:
+                    entry.Part.NoOptional = true;
+                    break;
+            }
         }
-    }
     }
 }
