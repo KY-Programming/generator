@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
@@ -8,11 +8,12 @@
         <SpaProxyServerUrl>https://localhost:44442</SpaProxyServerUrl>
         <SpaProxyLaunchCommand>npm start</SpaProxyLaunchCommand>
         <ImplicitUsings>enable</ImplicitUsings>
-    </PropertyGroup>
+      <ProjectGuid>{fc26dcad-6b61-49d1-a5a1-1915cdb8dd48}</ProjectGuid>
+  </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="KY.Generator" Version="8.3.0-preview.4" />
-        <PackageReference Include="KY.Generator.Annotations" Version="8.3.0-preview.4" />
+        <PackageReference Include="KY.Generator" Version="8.4.0" />
+        <PackageReference Include="KY.Generator.Annotations" Version="8.4.0" />
         <PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="6.0.5" />
     </ItemGroup>
 

@@ -6,6 +6,7 @@ namespace ChangeReturnType.Controllers;
 [ApiController]
 [Route("[controller]")]
 [GenerateAngularService("/ClientApp/src/app/services", "/ClientApp/src/app/models", "{0}ApiService")]
+[GenerateImport(typeof(SpecialWeatherForecast), "@my-lib/models", "SpecialWeatherForecast")]
 public class WeatherForecastController : ControllerBase
 {
     private static readonly string[] Summaries = new[]
@@ -31,5 +32,11 @@ public class WeatherForecastController : ControllerBase
                                                           Summary = Summaries[Random.Shared.Next(Summaries.Length)]
                                                       })
                          .ToArray();
+    }
+
+    [HttpGet]
+    public IEnumerable<SpecialWeatherForecast> SpecialGet()
+    {
+        return Enumerable.Empty<SpecialWeatherForecast>();
     }
 }
