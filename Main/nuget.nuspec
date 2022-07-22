@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>KY.Generator</id>
-    <version>8.3.0</version>
+    <version>8.4.0</version>
     <title>KY.Generator</title>
     <authors>KY-Programming</authors>
     <owners>KY-Programming</owners>
@@ -25,11 +25,11 @@ Support for Angular, ASP.NET, ASP.NET Core, C# POCOs, TypeScript POCOs, Entity F
     <file src="..\bin\Release\net461\win-x86\publish\**\*.exe" target="tools\net461-x86" />
     <file src="..\bin\Release\net461\win-x86\publish\**\*.dll" target="tools\net461-x86" />
     <file src="..\bin\Release\net461\win-x86\publish\**\*.config" target="tools\net461-x86" />
-    <file src="..\bin\Release\netcoreapp2.0\win-x64\publish\**\*.dll" target="tools\netcoreapp2.0" />
-    <file src="..\bin\Release\netcoreapp2.0\win-x64\publish\**\*.json" target="tools\netcoreapp2.0" />
-    <file src="..\bin\Release\netcoreapp2.0\win-x64\publish\**\*.json" target="tools\netcoreapp2.0" />
-    <!--<file src="..\bin\Release\netcoreapp2.0\win-x86\publish\**\*.dll" target="tools\netcoreapp2.0-x86" />
-    <file src="..\bin\Release\netcoreapp2.0\win-x86\publish\**\*.json" target="tools\netcoreapp2.0-x86" />-->
+      <file src="..\bin\Release\netcoreapp2.0\win-x64\publish\**\*.dll" target="tools\netcoreapp2.0" />
+      <file src="..\bin\Release\netcoreapp2.0\win-x64\publish\**\*.json" target="tools\netcoreapp2.0" />
+      <file src="..\bin\Release\netcoreapp2.0\win-x64\publish\**\*.exe" target="tools\netcoreapp2.0" />
+      <!--<file src="..\bin\Release\netcoreapp2.0\win-x86\publish\**\*.dll" target="tools\netcoreapp2.0-x86" />
+      <file src="..\bin\Release\netcoreapp2.0\win-x86\publish\**\*.json" target="tools\netcoreapp2.0-x86" />-->
     <file src="..\bin\Release\netcoreapp3.0\win-x64\publish\**\*.dll" target="tools\netcoreapp3.0" />
     <file src="..\bin\Release\netcoreapp3.0\win-x64\publish\**\*.json" target="tools\netcoreapp3.0" />
     <file src="..\bin\Release\netcoreapp3.0\win-x64\publish\**\*.exe" target="tools\netcoreapp3.0" />
@@ -49,5 +49,6 @@ Support for Angular, ASP.NET, ASP.NET Core, C# POCOs, TypeScript POCOs, Entity F
     <file src="..\bin\Release\net6.0\win-x86\publish\**\*.exe" target="tools\net6.0-x86" />
     <file src="..\bin\Release\net6.0\win-x86\publish\**\*.json" target="tools\net6.0-x86" />
     <file src="nuget.targets" target="build\KY.Generator.targets" />
+    <file src="..\README.md" />
   </files>
 </package>
