@@ -24,6 +24,10 @@ namespace KY.Generator.TypeScript.Transfer
         {
             IOptions modelOptions = this.Options.Get(model);
             ClassTemplate classTemplate = base.WriteClass(model, relativePath);
+            foreach (Import import in modelOptions.Imports)
+            {
+                classTemplate.AddUsing(import.TypeName, import.FileName);
+            }
             if (!model.IsAbstract && !classTemplate.IsInterface && modelOptions.Language.IsTypeScript())
             {
                 ConstructorTemplate constructor = classTemplate.AddConstructor();

@@ -60,6 +60,12 @@ namespace KY.Generator.Reflection.Readers
             //     return this.ReadExisting(existingModel, caller);
             // }
             this.options.Set(model, typeOptions);
+            Import import = typeOptions.Imports.FirstOrDefault(import => import.Type == type);
+            if (import != null)
+            {
+                Logger.Trace($"{type.Name} ({type.Namespace}) imported from {import.FileName}");
+                return model;
+            }
             if (typeOptions.Ignore)
             {
                 Logger.Trace($"{type.Name} ({type.Namespace}) ignored (decorated with {nameof(GenerateIgnoreAttribute)})");
