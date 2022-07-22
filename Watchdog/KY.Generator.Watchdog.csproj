@@ -2,18 +2,19 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>8.4.1</Version>
+    <Version>8.4.2</Version>
     <Authors>KY-Programming</Authors>
     <Company>KY-Programming</Company>
     <Product>KY.Generator</Product>
     <Description>Watchdog Module for KY-Generator
 Download KY.Generator to use this module</Description>
     <Copyright>2022 - KY-Programming</Copyright>
-    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://generator.ky-programming.de</PackageProjectUrl>
-    <PackageIconUrl>https://ky-programming.de/images/logos/128.png</PackageIconUrl>
+    <PackageIcon>assets\icon.png</PackageIcon>
     <RepositoryUrl>https://github.com/KY-Programming/generator</RepositoryUrl>
-    <PackageTags>KY-Generator KY Generator Watchdog</PackageTags>
+    <PackageTags>KY-Generator KY.Generator Watchdog</PackageTags>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
@@ -28,6 +29,11 @@ Download KY.Generator to use this module</Description>
   <ItemGroup>
     <ProjectReference Include="..\Common\KY.Generator.Common.csproj" />
     <ProjectReference Include="..\Fluent\KY.Generator.Fluent.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\icon.png" Pack="true" PackagePath="assets"/>
+    <None Include="..\Common\README.md" Pack="true" PackagePath=""/>
   </ItemGroup>
 
 </Project>

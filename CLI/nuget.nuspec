@@ -3,13 +3,13 @@
   <metadata>
     <id>KY.Generator.CLI</id>
     <!-- Ensure nuget.targets version is also updated -->
-    <version>8.4.1</version>
+    <version>8.4.2</version>
     <title>KY.Generator.CLI</title>
     <authors>KY-Programming</authors>
     <owners>KY-Programming</owners>
-    <licenseUrl>https://github.com/KY-Programming/generator/blob/master/LICENSE</licenseUrl>
+    <license type="expression">MIT</license>
     <projectUrl>https://github.com/KY-Programming/generator</projectUrl>
-    <iconUrl>https://ky-programming.de/images/logos/128.png</iconUrl>
+    <icon>assets\icon.png</icon>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Command Line Interface for KY-Generator.
 Generate C# or TypeScript classes from .NET assemblies, JSON, TSQL or oData.
@@ -17,10 +17,13 @@ Support for Angular, ASP.NET, ASP.NET Core, C# POCOs, TypeScript POCOs, Entity F
     </description>
     <releaseNotes></releaseNotes>
     <copyright>Copyright 2022</copyright>
-    <tags>KY-Generator KY Generator CLI</tags>
+    <tags>KY-Generator KY.Generator CLI</tags>
+    <readme>docs\README.md</readme>
   </metadata>
   <files>
     <file src="bin\Release\*.exe" target="tools" />
     <file src="bin\Release\*.dll" target="tools" />
+    <file src="..\README.md" target="docs" />
+    <file src="..\icon.png" target="assets" />
   </files>
 </package>
