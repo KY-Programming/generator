@@ -124,6 +124,12 @@ namespace KY.Generator.Transfer.Writers
 
         protected virtual void AddUsing(TypeTransferObject type, ClassTemplate classTemplate, IOptions options, string relativeModelPath = "./")
         {
+            Import import = options.Imports.FirstOrDefault(import => import.Type.Namespace == type.Namespace && import.Type.Name == type.Name);
+            if (import != null)
+            {
+                classTemplate.AddUsing(null, import.TypeName, import.FileName);
+                return;
+            }
             if (type is ModelTransferObject model)
             {
                 foreach (GenericAliasTransferObject generic in model.Generics.Where(x => x.Type != null))

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using KY.Generator.Languages;
+using KY.Generator.Models;
 using KY.Generator.Transfer;
 
 namespace KY.Generator
@@ -26,6 +27,7 @@ namespace KY.Generator
         public TypeTransferObject ReturnType { get; set; }
         public string Formatter { get; set; }
         public bool? ForceOverwrite { get; set; }
+        public List<Import> Imports { get; } = new();
         public bool? NoOptional { get; set; }
     }
 }

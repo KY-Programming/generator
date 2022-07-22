@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using KY.Generator.Models;
 using KY.Generator.Transfer;
 
 namespace KY.Generator.Reflection;
@@ -62,6 +63,9 @@ public class ReflectionOptionsReader : IGlobalOptionsReader
                                                     OverrideType = returnTypeAttribute.OverrideName
                                                 };
                     }
+                    break;
+                case GenerateImportAttribute importAttribute:
+                    entry.Part.Imports.Add(new Import(importAttribute.Type, importAttribute.FileName, importAttribute.TypeName));
                     break;
                 case GenerateNoOptionalAttribute:
                     entry.Part.NoOptional = true;

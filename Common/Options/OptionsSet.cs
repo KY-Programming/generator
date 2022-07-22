@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using KY.Core;
 using KY.Generator.Languages;
+using KY.Generator.Models;
 using KY.Generator.Transfer;
 
 namespace KY.Generator
@@ -133,6 +134,8 @@ namespace KY.Generator
             get => this.GetPrimitive(x => x?.ForceOverwrite);
             set => this.Part.ForceOverwrite = value;
         }
+        
+        List<Import> IOptions.Imports => this.GetMerged(part => part?.Imports);
 
         public OptionsSet(OptionsSet parent, OptionsSet global, OptionsSet caller = null, object target = null)
             : base(parent, global, caller, target)

@@ -1,5 +1,21 @@
 REM 
 REM ==========================================
+REM ||          ChangeReturnType            ||
+REM ==========================================
+REM 
+cd ChangeReturnType
+rmdir /S/Q bin
+rmdir /S/Q ClientApp\src\app\models
+rmdir /S/Q ClientApp\src\app\services
+dotnet add package KY.Generator --prerelease
+dotnet add package KY.Generator.Annotations --prerelease
+dotnet build --no-incremental
+cd ..
+
+PAUSE
+
+REM 
+REM ==========================================
 REM ||          ModelFromAssembly           ||
 REM ==========================================
 REM 
@@ -11,6 +27,7 @@ dotnet add package KY.Generator.Annotations --prerelease
 dotnet build --no-incremental
 cd ..
 
+REM 
 REM ==========================================
 REM ||    ServiceFromAspNetCore    ||
 REM ==========================================
