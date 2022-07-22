@@ -27,4 +27,9 @@
         <OutputPath>..\bin\Release</OutputPath>
     </PropertyGroup>
 
+    <ItemGroup>
+        <None Include="..\icon.png" Pack="true" PackagePath="assets"/>
+        <None Include="..\Common\README.md" Pack="true" PackagePath=""/>
+    </ItemGroup>
+
 </Project>

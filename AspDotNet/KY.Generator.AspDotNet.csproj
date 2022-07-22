@@ -9,11 +9,12 @@
     <Description>ASP.net Module for KY-Generator
 Download KY.Generator to use this module</Description>
     <Copyright>2022 - KY-Programming</Copyright>
-    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://generator.ky-programming.de</PackageProjectUrl>
-    <PackageIconUrl>https://ky-programming.de/images/logos/128.png</PackageIconUrl>
+    <PackageIcon>assets\icon.png</PackageIcon>
     <RepositoryUrl>https://github.com/KY-Programming/generator</RepositoryUrl>
-    <PackageTags>KY-Generator KY Generator ASP.net</PackageTags>
+    <PackageTags>KY-Generator KY.Generator ASP.net</PackageTags>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
@@ -35,6 +36,11 @@ Download KY.Generator to use this module</Description>
     <ProjectReference Include="..\Common\KY.Generator.Common.csproj" />
     <ProjectReference Include="..\CSharp\KY.Generator.Csharp.csproj" />
     <ProjectReference Include="..\Reflection\KY.Generator.Reflection.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\icon.png" Pack="true" PackagePath="assets"/>
+    <None Include="..\Common\README.md" Pack="true" PackagePath=""/>
   </ItemGroup>
 
 </Project>

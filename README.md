@@ -34,7 +34,7 @@ Create a new class library project
 
 Install nuget package [KY.Generator.Fluent](https://www.nuget.org/packages/KY.Generator.Fluent/) ![](https://img.shields.io/nuget/v/KY.Generator.Fluent.svg?style=flat)
 
-Derrive a class from GeneratorFluentMain, override the execute method and use the Read method
+Derive a class from GeneratorFluentMain, override the execute method and use the Read method
 ```
 public class GeneratorMain : GeneratorFluentMain
 {
@@ -61,5 +61,5 @@ KY.Generator.exe reflection -assembly=KY.Generator.Examples.Reflection.dll -name
 ```
 See [documentation](https://generator.ky-programming.de/start/commands/overview) for more details
 
-## More Informations
+## Read More
 For complete overview see our [documentation](https://generator.ky-programming.de)

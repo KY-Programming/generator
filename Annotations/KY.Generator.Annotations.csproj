@@ -8,12 +8,13 @@
     <Product>KY.Generator</Product>
     <Description>Annotations for KY-Generator</Description>
     <Copyright>2022 - KY-Programming</Copyright>
-    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://generator.ky-programming.de</PackageProjectUrl>
-    <PackageIconUrl>https://ky-programming.de/images/logos/128.png</PackageIconUrl>
+    <PackageIcon>assets\icon.png</PackageIcon>
     <RepositoryUrl>https://github.com/KY-Programming/generator</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageTags>KY-Generator KY Generator Annotations</PackageTags>
+    <PackageTags>KY-Generator KY.Generator Annotations</PackageTags>
     <RootNamespace>KY.Generator</RootNamespace>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
@@ -25,5 +26,10 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <OutputPath>..\bin\Release</OutputPath>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\icon.png" Pack="true" PackagePath="assets"/>
+    <None Include="README.md" Pack="true" PackagePath=""/>
+  </ItemGroup>
 
 </Project>
