@@ -54,7 +54,11 @@ namespace KY.Generator.TypeScript.Transfer.Readers
         {
             string text = FileSystem.ReadAllText(path);
             TsConfig tsConfig = JsonConvert.DeserializeObject<TsConfig>(text);
-            transferObjects.Add(tsConfig);
+            if (tsConfig != null)
+            {
+                tsConfig.Path = path;
+                transferObjects.Add(tsConfig);
+            }
             Logger.Trace($"Activate TypeScript {(tsConfig?.CompilerOptions?.Strict == true ? "strict" : "regular")} mode");
             return tsConfig;
         }

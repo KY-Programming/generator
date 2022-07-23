@@ -4,6 +4,7 @@ namespace KY.Generator.TypeScript.Transfer
 {
     public class TsConfig : ITransferObject
     {
+        public string Path { get; set; }
         public CompilerOptions CompilerOptions { get; set; } = new();
     }
 

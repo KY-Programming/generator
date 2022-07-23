@@ -21,17 +21,20 @@ namespace KY.Generator.Licensing
             this.globalSettingsService = globalSettingsService;
         }
 
-        public async void Check()
+        public Task Check()
         {
-            try
+            return Task.Factory.StartNew(()  =>
             {
-                this.license = await this.SendCommand<string>($"{this.globalSettingsService.Read().License}/check");
-                this.waitForCheck.Set();
-            }
-            catch (Exception exception)
-            {
-                Logger.Warning(exception.Message + Environment.NewLine + exception.StackTrace);
-            }
+                try
+                {
+                    this.license = this.SendCommand<string>($"{this.globalSettingsService.Read().License}/check").Result;
+                    this.waitForCheck.Set();
+                }
+                catch (Exception exception)
+                {
+                    Logger.Warning(exception.Message + Environment.NewLine + exception.StackTrace);
+                }
+            });
         }
 
         public string Get()
