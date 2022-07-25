@@ -609,7 +609,7 @@ namespace KY.Generator.Angular.Writers
                     }
                     else
                     {
-                        lineTemplate = assignTemplate.NullCoalescing(this.WriteFieldChain(chain).Field(propertyName));
+                        lineTemplate = assignTemplate.NullCoalescing(this.WriteFieldChain(chain).Field(propertyName).Close());
                     }
                     innerCode.AddLine(lineTemplate);
                 }
