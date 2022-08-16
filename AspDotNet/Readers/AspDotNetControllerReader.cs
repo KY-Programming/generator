@@ -111,6 +111,7 @@ namespace KY.Generator.AspDotNet.Readers
                     action.Version = methodAspOptions.ApiVersion?.OrderByDescending(x => x).FirstOrDefault();
                     action.FixCasingWithMapping = (methodOptions.ReturnType == null && returnEntryTypeOptions.FixCasingWithMapping) || methodAspOptions.FixCasingWithMapping;
                     action.RequireBodyParameter = action.Type.IsBodyParameterRequired();
+                    action.CanHaveBodyParameter = action.Type.IsBodyParameterAllowed();
                     List<ParameterInfo> parameters = method.GetParameters().Where(
                         parameter => !this.aspOptions.Get(parameter, methodAspOptions).IsFromHeader
                                      && !this.aspOptions.Get(parameter, methodAspOptions).IsFromServices
@@ -139,6 +140,10 @@ namespace KY.Generator.AspDotNet.Readers
                         if (action.Type == HttpServiceActionTypeTransferObject.Get && actionParameter.Type.Name == "List" && !actionParameter.FromQuery)
                         {
                             Logger.Error($"HttpGet methods with list parameter '{parameter.Name}' of {type.FullName}.{method.Name} has to be decorated with [FromQuery]");
+                        }
+                        if (actionParameter.FromBody && !action.CanHaveBodyParameter)
+                        {
+                            Logger.Warning($"{controller.Name}.{method.Name} with [Http{action.Type}] attribute does not supports [FromBody] parameters");
                         }
                     }
                     if (action.RequireBodyParameter)

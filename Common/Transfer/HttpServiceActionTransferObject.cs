@@ -8,6 +8,7 @@ namespace KY.Generator.Transfer
         public TypeTransferObject ReturnType { get; set; }
         public string Route { get; set; }
         public bool RequireBodyParameter { get; set; }
+        public bool CanHaveBodyParameter { get; set; }
         public List<HttpServiceActionParameterTransferObject> Parameters { get; }
         public HttpServiceActionTypeTransferObject Type { get; set; }
         public string Version { get; set; }
