@@ -155,9 +155,16 @@ namespace KY.Generator.Angular.Writers
                     string actionRoute = action.Route?.TrimEnd('/').Replace("[action]", action.Name.ToLower()).Replace("[controller]", controllerName.ToLower());
                     string uri = actionRoute == null ? $"/{controllerRoute}" : actionRoute.StartsWith("/") ? actionRoute : $"/{controllerRoute}/{actionRoute}";
 
-                    List<HttpServiceActionParameterTransferObject> inlineParameters = action.Parameters.Where(x => !x.FromBody && x.Inline).OrderBy(x => x.InlineIndex).ToList();
-                    List<HttpServiceActionParameterTransferObject> urlParameters = action.Parameters.Where(x => !x.FromBody && !x.Inline && x.AppendName).ToList();
-                    List<HttpServiceActionParameterTransferObject> urlDirectParameters = action.Parameters.Where(x => !x.FromBody && !x.Inline && !x.AppendName).ToList();
+                    List<HttpServiceActionParameterTransferObject> inlineParameters = action.Parameters
+                                                                                            .Where(x => (!x.FromBody || !action.CanHaveBodyParameter) && x.Inline)
+                                                                                            .OrderBy(x => x.InlineIndex)
+                                                                                            .ToList();
+                    List<HttpServiceActionParameterTransferObject> urlParameters = action.Parameters
+                                                                                         .Where(x => (!x.FromBody || !action.CanHaveBodyParameter) && !x.Inline && x.AppendName)
+                                                                                         .ToList();
+                    List<HttpServiceActionParameterTransferObject> urlDirectParameters = action.Parameters
+                                                                                               .Where(x => (!x.FromBody || !action.CanHaveBodyParameter) && !x.Inline && !x.AppendName)
+                                                                                               .ToList();
                     MultilineCodeFragment code = Code.Multiline();
                     bool hasReturnType = returnType.Name != "void" && returnType.Name != "Task";
                     ExecuteMethodTemplate nextMethod = Code.Local(subjectName).Method("next");
@@ -300,7 +307,7 @@ namespace KY.Generator.Angular.Writers
                     }
                     ChainedCodeFragment executeAction = Code.This().Field(httpField);
                     List<ICodeFragment> parameters = new() { Code.Local(urlTemplate) };
-                    if (action.Parameters.Any(x => x.FromBody))
+                    if (action.CanHaveBodyParameter && action.Parameters.Any(x => x.FromBody))
                     {
                         parameters.Add(Code.Local(action.Parameters.Single(x => x.FromBody).Name));
                     }
