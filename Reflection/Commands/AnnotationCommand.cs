@@ -48,7 +48,7 @@ namespace KY.Generator.Reflection.Commands
             List<RawCommandParameter> globalParameters = this.Parameters.GetType().GetProperties()
                                                              .Where(x => x.GetCustomAttribute<GeneratorGlobalParameterAttribute>() != null)
                                                              .Select(x =>
-                                                                         new RawCommandParameter(x.Name, x.GetMethod.Invoke(this.Parameters, null)?.ToString())
+                                                                 new RawCommandParameter(x.Name, x.GetMethod.Invoke(this.Parameters, null)?.ToString())
                                                              )
                                                              .Where(x => !string.IsNullOrEmpty(x.Value))
                                                              .ToList();
@@ -74,23 +74,27 @@ namespace KY.Generator.Reflection.Commands
                         }
                         return command;
                     }));
-                    foreach (IGeneratorCommandAdditionalParameterAttribute additionalParameterAttribute in attributes.OfType<IGeneratorCommandAdditionalParameterAttribute>())
+                }
+                if (commands.Count == 0)
+                {
+                    continue;
+                }
+                foreach (IGeneratorCommandAdditionalParameterAttribute additionalParameterAttribute in attributes.OfType<IGeneratorCommandAdditionalParameterAttribute>())
+                {
+                    foreach (AttributeCommandConfiguration additionalParameters in additionalParameterAttribute.Commands)
                     {
-                        foreach (AttributeCommandConfiguration additionalParameters in additionalParameterAttribute.Commands)
+                        foreach (RawCommand command in commands.Where(x => x.Name == additionalParameters.Command || additionalParameters.Command == "*"))
                         {
-                            foreach (RawCommand command in commands.Where(x => x.Name == additionalParameters.Command || additionalParameters.Command == "*"))
-                            {
-                                command.Parameters.AddRange(additionalParameters.Parameters.Select(RawCommandParameter.Parse));
-                            }
+                            command.Parameters.AddRange(additionalParameters.Parameters.Select(RawCommandParameter.Parse));
                         }
                     }
-                    foreach (RawCommand command in commands)
+                }
+                foreach (RawCommand command in commands)
+                {
+                    IGeneratorCommandResult commandResult = commandRunner.Run(command);
+                    if (!commandResult.Success)
                     {
-                        IGeneratorCommandResult commandResult = commandRunner.Run(command);
-                        if (!commandResult.Success)
-                        {
-                            return commandResult;
-                        }
+                        return commandResult;
                     }
                 }
                 this.resolver.Get<IEnvironment>().TransferObjects.AddIfNotExists(commandResolver.Get<List<ITransferObject>>());
