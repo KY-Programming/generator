@@ -5,16 +5,16 @@
         <Nullable>enable</Nullable>
         <IsPackable>false</IsPackable>
         <SpaRoot>ClientApp\</SpaRoot>
-        <SpaProxyServerUrl>https://localhost:44442</SpaProxyServerUrl>
+        <SpaProxyServerUrl>https://localhost:44435</SpaProxyServerUrl>
         <SpaProxyLaunchCommand>npm start</SpaProxyLaunchCommand>
         <ImplicitUsings>enable</ImplicitUsings>
-      <ProjectGuid>{fc26dcad-6b61-49d1-a5a1-1915cdb8dd48}</ProjectGuid>
+      <ProjectGuid>{969bbdc9-df23-40ed-b6dd-702aa1fe7b03}</ProjectGuid>
   </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="KY.Generator" Version="8.4.4" />
         <PackageReference Include="KY.Generator.Annotations" Version="8.4.4" />
-        <PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="6.0.5" />
+        <PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="6.0.8" />
     </ItemGroup>
 
     <ItemGroup>
