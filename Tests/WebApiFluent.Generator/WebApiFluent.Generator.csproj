@@ -6,11 +6,9 @@
   </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="KY.Generator" Version="8.4.3" />
-      <PackageReference Include="KY.Generator.Angular" Version="8.4.3" />
-      <PackageReference Include="KY.Generator.Annotations" Version="8.4.3" />
-      <PackageReference Include="KY.Generator.AspDotNet" Version="8.4.3" />
-      <PackageReference Include="KY.Generator.Fluent" Version="8.4.3" />
+      <PackageReference Include="KY.Generator.Angular" Version="8.4.4" />
+      <PackageReference Include="KY.Generator.AspDotNet" Version="8.4.4" />
+      <PackageReference Include="KY.Generator.Fluent" Version="8.4.4" />
     </ItemGroup>
 
     <ItemGroup>

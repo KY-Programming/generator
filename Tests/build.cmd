@@ -191,6 +191,7 @@ dotnet add package KY.Generator.Fluent --prerelease
 dotnet add package KY.Generator.Angular --prerelease
 dotnet add package KY.Generator.AspDotNet --prerelease
 dotnet build --no-incremental
+cd ..
 
 REM ==========================================
 REM ||                Net5                  ||
@@ -209,6 +210,19 @@ REM ==========================================
 REM 
 cd Net6
 rmdir /S/Q Output
+dotnet add package KY.Generator --prerelease
+dotnet add package KY.Generator.Annotations --prerelease
+dotnet build --no-incremental
+cd ..
+
+REM ==========================================
+REM ||               SignalR                ||
+REM ==========================================
+REM 
+cd SignalR
+rmdir /S/Q ClientApp\src\app\services
+rmdir /S/Q ClientApp\src\app\models
+rmdir /S/Q ClientApp\src\app\multiple
 dotnet add package KY.Generator --prerelease
 dotnet add package KY.Generator.Annotations --prerelease
 dotnet build --no-incremental
