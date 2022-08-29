@@ -6,7 +6,7 @@
         {
             if (parameters.NoHeader != null)
             {
-                options.AddHeader = parameters.NoHeader.Value;
+                options.AddHeader = !parameters.NoHeader.Value;
             }
             if (parameters.FormatNames != null)
             {
