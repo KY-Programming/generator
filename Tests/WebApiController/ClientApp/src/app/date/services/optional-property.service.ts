@@ -36,7 +36,7 @@ export class OptionalPropertyService {
         return subject;
     }
 
-    public fixUndefined(value: any): any {
+    private fixUndefined(value: any): any {
         if (! value) {
             return value ??  undefined;
         }

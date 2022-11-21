@@ -19,11 +19,12 @@ import { Subject } from "rxjs";
     providedIn: "root"
 })
 export class MultipleOutputHubService {
-    private isClosed: boolean;
+    private isClosed: boolean = true;
     public serviceUrl: string = "";
-    public options: IHttpConnectionOptions;
+    public options: IHttpConnectionOptions = {
+    };
     public logLevel: LogLevel = LogLevel.Error;
-    private connection: ReplaySubject<HubConnection>;
+    private connection?: ReplaySubject<HubConnection>;
     private readonly timeouts: number[] = [0, 0, 1000, 2000, 5000];
     private readonly statusSubject: ReplaySubject<ConnectionStatus> = new ReplaySubject<ConnectionStatus>(1);
     public readonly status$: Observable<ConnectionStatus> = this.statusSubject.asObservable();
@@ -51,7 +52,7 @@ export class MultipleOutputHubService {
                 subject.next();
                 subject.complete();
                 this.statusSubject.next(ConnectionStatus.connected);
-            }).catch((error) => {
+            }).catch(() => {
                 if (this.isClosed) {
                     return;
                 }

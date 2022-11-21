@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <Company>KY-Programming</Company>
     <Authors>KY-Programming</Authors>
-    <Version>9.0.0-preview.13</Version>
+    <Version>9.0.0-preview.20</Version>
     <Product>KY.Generator</Product>
     <Description>Annotations for KY-Generator</Description>
     <Copyright>2022 - KY-Programming</Copyright>

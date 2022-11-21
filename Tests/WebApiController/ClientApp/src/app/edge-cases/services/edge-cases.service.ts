@@ -254,11 +254,11 @@ export class EdgeCasesService {
         return url;
     }
 
-    public convertToDate(value: string | Date | undefined): Date | undefined {
+    private convertToDate(value: string | Date | undefined): Date | undefined {
         return value === "0001-01-01T00:00:00" ? new Date("0001-01-01T00:00:00Z") : typeof(value) === "string" ? new Date(value) : value;
     }
 
-    public fixUndefined(value: any): any {
+    private fixUndefined(value: any): any {
         if (! value) {
             return value ??  undefined;
         }

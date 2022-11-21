@@ -7,9 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="KY.Generator.Angular" Version="9.0.0-preview.13" />
-    <PackageReference Include="KY.Generator.Fluent" Version="9.0.0-preview.13" />
-    <PackageReference Include="KY.Generator.Json" Version="9.0.0-preview.13" />
+    <PackageReference Include="KY.Generator.Angular" Version="9.0.0-preview.20" />
+    <PackageReference Include="KY.Generator.Fluent" Version="9.0.0-preview.20" />
+    <PackageReference Include="KY.Generator.Json" Version="9.0.0-preview.20" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 

@@ -22,6 +22,7 @@ export class InvalidWordsService {
 
     public constructor(http: HttpClient) {
         this.http = http;
+        this.serviceUrl = document.baseURI ?? "";
     }
 
     public switch(switchValue: string, httpOptions?: {}): Observable<void> {
@@ -96,6 +97,19 @@ export class InvalidWordsService {
             return url + (url.indexOf("?") === -1 ? "?" : "&") + parameterName + "=" + value.toString();
         }
         return url;
+    }
+
+    private fixUndefined(value: any): any {
+        if (! value) {
+            return value ??  undefined;
+        }
+        if (Array.isArray(value)) {
+            value.forEach((entry, index) => value[index] = this.fixUndefined(entry));
+        }
+        if (typeof value === 'object') {
+            for (const key of Object.keys(value)) { value[key] = this.fixUndefined(value[key]); }
+        }
+        return value;
     }
 }
 
