@@ -28,6 +28,10 @@ namespace KY.Generator.Extensions
             {
                 return SwitchableFramework.Net6;
             }
+            if (targetFramework.IsCore() && targetFramework.Version.Major == 7)
+            {
+                return SwitchableFramework.Net7;
+            }
             return SwitchableFramework.None;
         }
     }

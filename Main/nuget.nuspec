@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>KY.Generator</id>
-    <version>8.4.4</version>
+    <version>8.5.0-preview.0</version>
     <title>KY.Generator</title>
     <authors>KY-Programming</authors>
     <owners>KY-Programming</owners>
@@ -48,7 +48,13 @@ Support for Angular, ASP.NET, ASP.NET Core, C# POCOs, TypeScript POCOs, Entity F
     <file src="..\bin\Release\net6.0\win-x64\publish\**\*.exe" target="tools\net6.0" />
     <file src="..\bin\Release\net6.0\win-x86\publish\**\*.dll" target="tools\net6.0-x86" />
     <file src="..\bin\Release\net6.0\win-x86\publish\**\*.exe" target="tools\net6.0-x86" />
-    <file src="..\bin\Release\net6.0\win-x86\publish\**\*.json" target="tools\net6.0-x86" />
+    <file src="..\bin\Release\net6.0\win-x86\publish\**\*.json" target="tools\net6.0-x86" />      
+    <file src="..\bin\Release\net7.0\win-x64\publish\**\*.dll" target="tools\net7.0" />
+    <file src="..\bin\Release\net7.0\win-x64\publish\**\*.json" target="tools\net7.0" />
+    <file src="..\bin\Release\net7.0\win-x64\publish\**\*.exe" target="tools\net7.0" />
+    <file src="..\bin\Release\net7.0\win-x86\publish\**\*.dll" target="tools\net7.0-x86" />
+    <file src="..\bin\Release\net7.0\win-x86\publish\**\*.exe" target="tools\net7.0-x86" />
+    <file src="..\bin\Release\net7.0\win-x86\publish\**\*.json" target="tools\net7.0-x86" />
     <file src="nuget.targets" target="build\KY.Generator.targets" />
     <file src="..\README.md" target="" />
     <file src="..\icon.png" target="assets" />
