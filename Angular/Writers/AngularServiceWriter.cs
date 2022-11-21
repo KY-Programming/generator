@@ -694,7 +694,7 @@ namespace KY.Generator.Angular.Writers
                     Code.Local("date").Method("toISOString")
                 )
             );
-            classTemplate.AddMethod("appendDate", Code.Type("string"))
+            classTemplate.AddMethod("appendDate", Code.Type("string")).Private()
                          .WithParameter(Code.Type("string"), "url")
                          .WithParameter(Code.Type("Date"), "date")
                          .WithParameter(Code.Type("string"), "parameterName", Code.String(string.Empty))
@@ -704,7 +704,7 @@ namespace KY.Generator.Angular.Writers
 
         private void AppendConvertToDateMethod(ClassTemplate classTemplate)
         {
-            classTemplate.AddMethod("convertToDate", Code.Type("Date | undefined"))
+            classTemplate.AddMethod("convertToDate", Code.Type("Date | undefined")).Private()
                          .WithParameter(Code.Type("string | Date | undefined"), "value")
                          .WithCode(Code.Return(Code.InlineIf(Code.Local("value").Equals().String("0001-01-01T00:00:00"),
                              Code.New(Code.Type("Date"), Code.String("0001-01-01T00:00:00Z")),
@@ -717,7 +717,7 @@ namespace KY.Generator.Angular.Writers
 
         private void AppendFixUndefined(ClassTemplate classTemplate)
         {
-            classTemplate.AddMethod("fixUndefined", Code.Type("any"))
+            classTemplate.AddMethod("fixUndefined", Code.Type("any")).Private()
                          .WithParameter(Code.Type("any"), "value")
                          .WithCode(Code.If(Code.Not().Local("value")).WithCode(Code.Return(Code.Local("value").NullCoalescing().Local("undefined"))))
                          .WithCode(Code.If(Code.Static(Code.Type("Array")).Method("isArray", Code.Local("value")))
