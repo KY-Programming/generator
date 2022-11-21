@@ -8,7 +8,7 @@ namespace Caseing.Generator
         {
             this.Read(read => read.Reflection(reflection => reflection.FromType<MixedCaseing>()))
                 .SetType<KeepMyCase>(config => config.FormatNames(false))
-                .Write(write => write.Angular(angular => angular.Models(config => config.OutputPath("Output"))));
+                .Write(write => write.Angular(angular => angular.Models(config => config.OutputPath("Output").NoHeader())));
         }
     }
 }

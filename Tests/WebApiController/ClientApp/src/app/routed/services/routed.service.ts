@@ -151,7 +151,7 @@ export class RoutedService {
         let subject = new Subject<void>();
         let url: string = this.serviceUrl + "/routed/test5";
         url = this.append(url, test, undefined, "/");
-        this.http.post<void>(url, httpOptions).subscribe(() => {
+        this.http.post<void>(url, undefined, httpOptions).subscribe(() => {
             subject.next();
             subject.complete();
         }, (error) => subject.error(error));

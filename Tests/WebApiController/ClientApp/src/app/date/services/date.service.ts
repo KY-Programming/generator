@@ -265,7 +265,7 @@ export class DateService {
         let subject = new Subject<void>();
         let url: string = this.serviceUrl + "/api/date/post";
         url = this.appendDate(url, date, "date");
-        this.http.post<void>(url, httpOptions).subscribe(() => {
+        this.http.post<void>(url, undefined, httpOptions).subscribe(() => {
             subject.next();
             subject.complete();
         }, (error) => subject.error(error));

@@ -28,7 +28,7 @@ export class PostService {
     public postWithoutParameter(httpOptions?: {}): Observable<void> {
         let subject = new Subject<void>();
         let url: string = this.serviceUrl + "/post/postwithoutparameter";
-        this.http.post<void>(url, httpOptions).subscribe(() => {
+        this.http.post<void>(url, undefined, httpOptions).subscribe(() => {
             subject.next();
             subject.complete();
         }, (error) => subject.error(error));
@@ -39,7 +39,7 @@ export class PostService {
         let subject = new Subject<void>();
         let url: string = this.serviceUrl + "/post/postwithoneparameter";
         url = this.append(url, test, "test");
-        this.http.post<void>(url, httpOptions).subscribe(() => {
+        this.http.post<void>(url, undefined, httpOptions).subscribe(() => {
             subject.next();
             subject.complete();
         }, (error) => subject.error(error));
@@ -51,7 +51,7 @@ export class PostService {
         let url: string = this.serviceUrl + "/post/postwithtwoparameter";
         url = this.append(url, text, "text");
         url = this.append(url, count, "count");
-        this.http.post<void>(url, httpOptions).subscribe(() => {
+        this.http.post<void>(url, undefined, httpOptions).subscribe(() => {
             subject.next();
             subject.complete();
         }, (error) => subject.error(error));

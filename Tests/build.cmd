@@ -1,7 +1,5 @@
 @title KY-Generator Tests
 
-
-
 REM ==========================================
 REM ||    AnnotationsWithMultipleOutputs    ||
 REM ==========================================
@@ -209,6 +207,17 @@ REM ||                Net6                  ||
 REM ==========================================
 REM 
 cd Net6
+rmdir /S/Q Output
+dotnet add package KY.Generator --prerelease
+dotnet add package KY.Generator.Annotations --prerelease
+dotnet build --no-incremental
+cd ..
+
+REM ==========================================
+REM ||                Net7                  ||
+REM ==========================================
+REM 
+cd Net7
 rmdir /S/Q Output
 dotnet add package KY.Generator --prerelease
 dotnet add package KY.Generator.Annotations --prerelease

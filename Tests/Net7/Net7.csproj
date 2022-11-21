@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+      <ProjectGuid>{6efc183e-a677-4cf2-bd36-b22c0bb466ce}</ProjectGuid>
+  </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="KY.Generator" Version="8.5.0" />
+      <PackageReference Include="KY.Generator.Annotations" Version="8.5.0" />
+    </ItemGroup>
+
+</Project>

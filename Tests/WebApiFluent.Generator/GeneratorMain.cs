@@ -8,8 +8,8 @@ namespace WebApiFluent.Generator
         public override void Execute()
         {
             this.Read(read => read.AspDotNet(asp => asp.FromController<WeatherForecastController>()))
-                .Write(write => write.Angular(angular => angular.Services(config => config.OutputPath("../WebApiFluent/ClientApp/src/app/services"))
-                                                                .Models(config => config.OutputPath("../WebApiFluent/ClientApp/src/app/models"))
+                .Write(write => write.Angular(angular => angular.Services(config => config.OutputPath("../WebApiFluent/ClientApp/src/app/services").NoHeader())
+                                                                .Models(config => config.OutputPath("../WebApiFluent/ClientApp/src/app/models").NoHeader())
                                      )
                                      .Formatter("\"$output../WebApiFluent/ClientApp/node_modules/.bin/prettier\" --write \"$file\"")
                                      .ForceOverwrite()

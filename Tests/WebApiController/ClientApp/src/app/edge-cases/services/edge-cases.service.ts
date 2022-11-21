@@ -42,7 +42,7 @@ export class EdgeCasesService {
         let rxjsSubject = new Subject<void>();
         let url: string = this.serviceUrl + "/api/edgecases/post";
         url = this.append(url, subject, "subject");
-        this.http.post<void>(url, httpOptions).subscribe(() => {
+        this.http.post<void>(url, undefined, httpOptions).subscribe(() => {
             rxjsSubject.next();
             rxjsSubject.complete();
         }, (error) => rxjsSubject.error(error));
