@@ -1,7 +1,6 @@
 ﻿/* eslint-disable */
 // tslint:disable
 
-import { PostModel } from "../models/post-model";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
@@ -10,7 +9,7 @@ import { Subject } from "rxjs";
 @Injectable({
     providedIn: "root"
 })
-export class PostService {
+export class InvalidWordsService {
     private readonly http: HttpClient;
     private serviceUrlValue: string = "";
 
@@ -23,12 +22,34 @@ export class PostService {
 
     public constructor(http: HttpClient) {
         this.http = http;
-        this.serviceUrl = document.baseURI ?? "";
     }
 
-    public postWithoutParameter(httpOptions?: {}): Observable<void> {
+    public switch(switchValue: string, httpOptions?: {}): Observable<void> {
         let subject = new Subject<void>();
-        let url: string = this.serviceUrl + "/post/postwithoutparameter";
+        let url: string = this.serviceUrl + "/api/invalidwords";
+        url = this.append(url, switchValue, "switch");
+        this.http.get<void>(url, httpOptions).subscribe(() => {
+            subject.next();
+            subject.complete();
+        }, (error) => subject.error(error));
+        return subject;
+    }
+
+    public getCase(caseValue: string, httpOptions?: {}): Observable<void> {
+        let subject = new Subject<void>();
+        let url: string = this.serviceUrl + "/api/invalidwords";
+        url = this.append(url, caseValue, "case");
+        this.http.get<void>(url, httpOptions).subscribe(() => {
+            subject.next();
+            subject.complete();
+        }, (error) => subject.error(error));
+        return subject;
+    }
+
+    public postCase(caseValue: string, httpOptions?: {}): Observable<void> {
+        let subject = new Subject<void>();
+        let url: string = this.serviceUrl + "/api/invalidwords";
+        url = this.append(url, caseValue, "case");
         this.http.post<void>(url, undefined, httpOptions).subscribe(() => {
             subject.next();
             subject.complete();
@@ -36,55 +57,31 @@ export class PostService {
         return subject;
     }
 
-    public postWithOneParameter(test: string, httpOptions?: {}): Observable<void> {
+    public patchCase(caseValue: string, httpOptions?: {}): Observable<void> {
         let subject = new Subject<void>();
-        let url: string = this.serviceUrl + "/post/postwithoneparameter";
-        url = this.append(url, test, "test");
-        this.http.post<void>(url, undefined, httpOptions).subscribe(() => {
+        let url: string = this.serviceUrl + "/api/invalidwords";
+        this.http.patch<void>(url, caseValue, httpOptions).subscribe(() => {
             subject.next();
             subject.complete();
         }, (error) => subject.error(error));
         return subject;
     }
 
-    public postWithTwoParameter(text: string, count: number, httpOptions?: {}): Observable<void> {
+    public putCase(caseValue: string, httpOptions?: {}): Observable<void> {
         let subject = new Subject<void>();
-        let url: string = this.serviceUrl + "/post/postwithtwoparameter";
-        url = this.append(url, text, "text");
-        url = this.append(url, count, "count");
-        this.http.post<void>(url, undefined, httpOptions).subscribe(() => {
+        let url: string = this.serviceUrl + "/api/invalidwords";
+        this.http.put<void>(url, caseValue, httpOptions).subscribe(() => {
             subject.next();
             subject.complete();
         }, (error) => subject.error(error));
         return subject;
     }
 
-    public postWithBodyParameter(model: PostModel, httpOptions?: {}): Observable<void> {
+    public deleteCase(caseValue: string, httpOptions?: {}): Observable<void> {
         let subject = new Subject<void>();
-        let url: string = this.serviceUrl + "/post/postwithbodyparameter";
-        this.http.post<void>(url, model, httpOptions).subscribe(() => {
-            subject.next();
-            subject.complete();
-        }, (error) => subject.error(error));
-        return subject;
-    }
-
-    public postWithValueAndBodyParameter(id: number, model: PostModel, httpOptions?: {}): Observable<void> {
-        let subject = new Subject<void>();
-        let url: string = this.serviceUrl + "/post/postwithvalueandbodyparameter";
-        url = this.append(url, id, "id");
-        this.http.post<void>(url, model, httpOptions).subscribe(() => {
-            subject.next();
-            subject.complete();
-        }, (error) => subject.error(error));
-        return subject;
-    }
-
-    public postWithValueAndBodyParameterFlipped(model: PostModel, id: number, httpOptions?: {}): Observable<void> {
-        let subject = new Subject<void>();
-        let url: string = this.serviceUrl + "/post/postwithvalueandbodyparameterflipped";
-        url = this.append(url, id, "id");
-        this.http.post<void>(url, model, httpOptions).subscribe(() => {
+        let url: string = this.serviceUrl + "/api/invalidwords";
+        url = this.append(url, caseValue, "case");
+        this.http.delete<void>(url, httpOptions).subscribe(() => {
             subject.next();
             subject.complete();
         }, (error) => subject.error(error));
@@ -99,19 +96,6 @@ export class PostService {
             return url + (url.indexOf("?") === -1 ? "?" : "&") + parameterName + "=" + value.toString();
         }
         return url;
-    }
-
-    public fixUndefined(value: any): any {
-        if (! value) {
-            return value ??  undefined;
-        }
-        if (Array.isArray(value)) {
-            value.forEach((entry, index) => value[index] = this.fixUndefined(entry));
-        }
-        if (typeof value === 'object') {
-            for (const key of Object.keys(value)) { value[key] = this.fixUndefined(value[key]); }
-        }
-        return value;
     }
 }
 

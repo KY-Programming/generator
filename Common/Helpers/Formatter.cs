@@ -41,37 +41,41 @@ namespace KY.Generator
         {
             if (options.FormatNames || force)
             {
-                return Format(name, casing, options.Formatting.AllowedSpecialCharacters, mode);
+                return Format(name, casing, options, mode);
             }
             return name;
         }
 
-        public static string Format(string name, string casing, string allowChars, CaseMode mode)
+        public static string Format(string name, string casing, IOptions options, CaseMode mode)
         {
             casing.AssertIsNotNullOrEmpty(nameof(casing));
+            if (options.Language.ReservedKeywords.ContainsKey(name))
+            {
+                name = options.Language.ReservedKeywords[name];
+            }
             if (mode == CaseMode.AspDotNetCompatible)
             {
                 return name?.ToAspDotNetCompatibleFirstLowerCase();
             }
             if (casing.Equals(Case.CamelCase, StringComparison.CurrentCultureIgnoreCase))
             {
-                return name?.ToCamelCase(allowChars);
+                return name?.ToCamelCase(options.Formatting.AllowedSpecialCharacters);
             }
             if (casing.Equals(Case.PascalCase, StringComparison.CurrentCultureIgnoreCase))
             {
-                return name?.ToPascalCase(allowChars);
+                return name?.ToPascalCase(options.Formatting.AllowedSpecialCharacters);
             }
             if (casing.Equals(Case.KebabCase, StringComparison.CurrentCultureIgnoreCase))
             {
-                return name?.ToKebabCase(allowChars);
+                return name?.ToKebabCase(options.Formatting.AllowedSpecialCharacters);
             }
             if (casing.Equals(Case.SnakeCase, StringComparison.CurrentCultureIgnoreCase))
             {
-                return name?.ToSnakeCase(allowChars);
+                return name?.ToSnakeCase(options.Formatting.AllowedSpecialCharacters);
             }
             if (casing.Equals(Case.DarwinCase, StringComparison.CurrentCultureIgnoreCase))
             {
-                return name?.ToDarwinCase(allowChars);
+                return name?.ToDarwinCase(options.Formatting.AllowedSpecialCharacters);
             }
             if (casing.Equals(Case.FirstCharToLower, StringComparison.CurrentCultureIgnoreCase))
             {

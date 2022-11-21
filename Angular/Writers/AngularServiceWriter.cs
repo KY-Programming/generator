@@ -307,9 +307,10 @@ namespace KY.Generator.Angular.Writers
                     }
                     ChainedCodeFragment executeAction = Code.This().Field(httpField);
                     List<ICodeFragment> parameters = new() { Code.Local(urlTemplate) };
-                    if (action.CanHaveBodyParameter && action.Parameters.Any(x => x.FromBody))
+                    if (action.CanHaveBodyParameter)
                     {
-                        parameters.Add(Code.Local(action.Parameters.Single(x => x.FromBody).Name));
+                        HttpServiceActionParameterTransferObject bodyParameter = action.Parameters.SingleOrDefault(x => x.FromBody);
+                        parameters.Add(bodyParameter == null ? Code.Undefined() : Code.Local(mapping[bodyParameter]));
                     }
                     if (actionTypeOptions[action.Type]?.HasHttpOptions ?? false)
                     {
