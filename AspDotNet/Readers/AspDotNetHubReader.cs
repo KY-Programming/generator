@@ -46,8 +46,10 @@ namespace KY.Generator.AspDotNet.Readers
             hub.Name = type.Name;
             hub.Language = ReflectionLanguage.Instance;
 
-            IAspDotNetOptions typeOptions = this.aspOptions.Get(type);
-            this.aspOptions.Set(hub, typeOptions);
+            IOptions typeOptions = this.options.Get(type);
+            this.options.Set(hub, typeOptions);
+            IAspDotNetOptions typeAspOptions = this.aspOptions.Get(type);
+            this.aspOptions.Set(hub, typeAspOptions);
 
             MethodInfo[] methods = type.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
             foreach (MethodInfo method in methods)
