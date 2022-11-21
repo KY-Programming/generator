@@ -27,19 +27,30 @@ namespace KY.Generator
             }
 
             Assembly entryAssembly = Assembly.GetEntryAssembly();
-            ProcessorArchitecture entryArchitecture = entryAssembly.GetName().ProcessorArchitecture;
+            ProcessorArchitecture? entryArchitecture = entryAssembly?.GetName().ProcessorArchitecture;
             try
             {
                 ProcessorArchitecture assemblyArchitecture = AssemblyName.GetAssemblyName(assemblyName).ProcessorArchitecture;
-                bool isCompatible64 = (entryArchitecture == ProcessorArchitecture.Amd64 || entryArchitecture == ProcessorArchitecture.MSIL)
-                                    && (assemblyArchitecture == ProcessorArchitecture.Amd64 || assemblyArchitecture == ProcessorArchitecture.MSIL);
-                bool isCompatible86 = entryArchitecture == ProcessorArchitecture.X86 && assemblyArchitecture == ProcessorArchitecture.X86;
-                if (!isCompatible64 && !isCompatible86)
+                if (assemblyArchitecture != ProcessorArchitecture.None)
                 {
-                    return new LocateAssemblyResult(assemblyArchitecture);
+                    bool isCompatible64 = (entryArchitecture == ProcessorArchitecture.Amd64 || entryArchitecture == ProcessorArchitecture.MSIL)
+                                          && (assemblyArchitecture == ProcessorArchitecture.Amd64 || assemblyArchitecture == ProcessorArchitecture.MSIL);
+                    bool isCompatible86 = entryArchitecture == ProcessorArchitecture.X86 && assemblyArchitecture == ProcessorArchitecture.X86;
+                    if (!isCompatible64 && !isCompatible86)
+                    {
+                        return new LocateAssemblyResult(assemblyArchitecture);
+                    }
                 }
             }
             catch (FileNotFoundException)
+            {
+                if (isBeforeBuild)
+                {
+                    return new LocateAssemblyResult();
+                }
+                throw;
+            }
+            catch (DirectoryNotFoundException)
             {
                 if (isBeforeBuild)
                 {
@@ -53,8 +64,8 @@ namespace KY.Generator
                 SwitchableFramework? assemblyFramework = null;
                 string[] frameworkFiles = FileSystem.GetFiles(RuntimeEnvironment.GetRuntimeDirectory(), "*.dll");
                 IEnumerable<string> loadedAssemblies = AppDomain.CurrentDomain.GetAssemblies().Where(x => !x.IsDynamic).Select(x => x.Location);
-                PathAssemblyResolver resolver = new PathAssemblyResolver(loadedAssemblies.Concat(frameworkFiles));
-                MetadataLoadContext metadataLoadContext = new MetadataLoadContext(resolver);
+                PathAssemblyResolver resolver = new(loadedAssemblies.Concat(frameworkFiles));
+                MetadataLoadContext metadataLoadContext = new(resolver);
 
                 using (metadataLoadContext)
                 {
@@ -65,18 +76,18 @@ namespace KY.Generator
                     {
                         try
                         {
-                            assemblyFramework = assemblyFramework ?? attributeData.ConstructorArguments.Select(x => x.Value as string)
-                                                                                  .Where(x => x != null)
-                                                                                  .Select(TryParseFrameworkName)
-                                                                                  .FirstOrDefault()?
-                                                                                  .GetSwitchableFramework();
+                            assemblyFramework ??= attributeData.ConstructorArguments.Select(x => x.Value as string)
+                                                               .Where(x => x != null)
+                                                               .Select(TryParseFrameworkName)
+                                                               .FirstOrDefault()?
+                                                               .GetSwitchableFramework();
                         }
                         catch
                         {
                             // Some unnecessary attributes can not be read by a assembly with the wrong framework version, so ignore them
                         }
                     }
-                    assemblyFramework = assemblyFramework ?? SwitchableFramework.None;
+                    assemblyFramework ??= SwitchableFramework.None;
                 }
 
                 SwitchableFramework entryFramework = entryAssembly.GetSwitchableFramework();
