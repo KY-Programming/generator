@@ -169,6 +169,13 @@ namespace KY.Generator.Transfer.Writers
                 }
                 return Code.New(typeTransferObject.ToTemplate());
             }
+            Type valueType = value.GetType();
+            if (valueType.IsEnum)
+            {
+                TypeTemplate type = Code.Type(Formatter.FormatClass(valueType.Name, memberOptions));
+                string property = Formatter.FormatField(value.ToString(), memberOptions);
+                return Code.Static(type).Property(property);
+            }
             switch (value)
             {
                 case int intValue:
