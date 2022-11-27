@@ -24,6 +24,11 @@ namespace KY.Generator.TypeScript
 
         public static bool Read(string relativePath, IDependencyResolver resolver)
         {
+            Options options = resolver.Get<Options>();
+            if (options.Current.Strict)
+            {
+                return true;
+            }
             if (resolver.Get<IOutput>() is FileOutput fileOutput)
             {
                 string fullPath = FileSystem.Combine(fileOutput.BasePath, relativePath);
