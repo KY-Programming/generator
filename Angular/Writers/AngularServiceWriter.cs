@@ -604,7 +604,7 @@ namespace KY.Generator.Angular.Writers
                 }
                 IOptions propertyOptions = this.Options.Get(property);
                 string propertyName = Formatter.FormatProperty(property.Name, propertyOptions);
-                if (type.OriginalName == nameof(DateTime))
+                if (type.IgnoreNullable().OriginalName == nameof(DateTime))
                 {
                     datePropertyFound = true;
                     AssignTemplate assignTemplate = isModelEnumerable
