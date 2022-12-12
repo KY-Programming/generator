@@ -598,7 +598,7 @@ namespace KY.Generator.Angular.Writers
             foreach (PropertyTransferObject property in model.Properties)
             {
                 TypeTransferObject type = model.Generics.FirstOrDefault(generic => generic.Alias?.Name == property.Name)?.Type ?? property.Type;
-                if (typeChain.Any(typeFromChain => typeFromChain.Name == property.Type.Name && typeFromChain.Namespace == property.Type.Namespace))
+                if (type.Name != "Array" && typeChain.Any(typeFromChain => typeFromChain.Name == property.Type.Name && typeFromChain.Namespace == property.Type.Namespace))
                 {
                     continue;
                 }
