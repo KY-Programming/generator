@@ -174,7 +174,7 @@ public class AngularServiceWriter : TransferWriter
                     ICodeFragment nextCode = localCode;
                     if (isGuidReturnType)
                     {
-                        nextCode = localCode.Method("replace", Code.TypeScript("/(^\"|\"$)/g"), Code.String(string.Empty));
+                        nextCode = localCode.NullConditional().Method("replace", Code.TypeScript("/(^\"|\"$)/g"), Code.String(string.Empty));
                     }
                     if (isDateReturnType)
                     {
