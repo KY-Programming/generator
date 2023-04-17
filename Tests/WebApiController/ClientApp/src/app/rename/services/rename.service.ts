@@ -14,6 +14,7 @@ import { Subject } from "rxjs";
 export class RenameService {
     private readonly http: HttpClient;
     private serviceUrlValue: string = "";
+    public httpOptions: {} = {};
 
     public get serviceUrl(): string {
         return this.serviceUrlValue;
@@ -29,6 +30,7 @@ export class RenameService {
 
     public renameDtoToModel(id: number, httpOptions?: {}): Observable<RenameModel> {
         let subject = new Subject<RenameModel>();
+        httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/rename";
         url = this.append(url, id, "id");
         this.http.get<RenameModel>(url, httpOptions).subscribe((result) => {
@@ -40,6 +42,7 @@ export class RenameService {
 
     public removeDummy(id: number, httpOptions?: {}): Observable<Data> {
         let subject = new Subject<Data>();
+        httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/rename";
         url = this.append(url, id, "id");
         this.http.get<Data>(url, httpOptions).subscribe((result) => {

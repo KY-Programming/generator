@@ -13,6 +13,7 @@ import { Subject } from "rxjs";
 export class GetComplexService {
     private readonly http: HttpClient;
     private serviceUrlValue: string = "";
+    public httpOptions: {} = {};
 
     public get serviceUrl(): string {
         return this.serviceUrlValue;
@@ -28,6 +29,7 @@ export class GetComplexService {
 
     public get(httpOptions?: {}): Observable<GetComplexModel> {
         let subject = new Subject<GetComplexModel>();
+        httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/getcomplex/get";
         this.http.get<GetComplexModel>(url, httpOptions).subscribe((result) => {
             subject.next(this.fixUndefined(result));

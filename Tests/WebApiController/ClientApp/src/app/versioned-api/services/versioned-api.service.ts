@@ -13,6 +13,7 @@ import { Subject } from "rxjs";
 export class VersionedApiService {
     private readonly http: HttpClient;
     private serviceUrlValue: string = "";
+    public httpOptions: {} = {};
 
     public get serviceUrl(): string {
         return this.serviceUrlValue;
@@ -28,6 +29,7 @@ export class VersionedApiService {
 
     public get(httpOptions?: {}): Observable<WeatherForecast[]> {
         let subject = new Subject<WeatherForecast[]>();
+        httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/versionedapi";
         this.http.get<WeatherForecast[]>(url, httpOptions).subscribe((result) => {
             if (result) {
@@ -43,6 +45,7 @@ export class VersionedApiService {
 
     public getNext(days: number, httpOptions?: {}): Observable<WeatherForecast[]> {
         let subject = new Subject<WeatherForecast[]>();
+        httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/versionedapi/next";
         url = this.append(url, days, undefined, "/");
         url += "/days";
@@ -60,6 +63,7 @@ export class VersionedApiService {
 
     public getNext2(days: number, httpOptions?: {}): Observable<WeatherForecast[]> {
         let subject = new Subject<WeatherForecast[]>();
+        httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/versionedapi/next-days";
         url = this.append(url, days, "days");
         this.http.get<WeatherForecast[]>(url, httpOptions).subscribe((result) => {
@@ -76,7 +80,7 @@ export class VersionedApiService {
 
     public getWithAbsoluteRoute(httpOptions?: {}): Observable<string> {
         let subject = new Subject<string>();
-        httpOptions = { responseType: 'text', ...httpOptions};
+        httpOptions = { responseType: 'text', ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/api/test/versionedapi/getwithabsoluteroute";
         this.http.get<string>(url, httpOptions).subscribe((result) => {
             subject.next(this.fixUndefined(result));

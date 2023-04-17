@@ -13,6 +13,7 @@ import { Subject } from "rxjs";
 export class KeepCasingService {
     private readonly http: HttpClient;
     private serviceUrlValue: string = "";
+    public httpOptions: {} = {};
 
     public get serviceUrl(): string {
         return this.serviceUrlValue;
@@ -28,6 +29,7 @@ export class KeepCasingService {
 
     public get(httpOptions?: {}): Observable<KeepCasingModel> {
         let subject = new Subject<KeepCasingModel>();
+        httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/keepcasing";
         this.http.get<KeepCasingModel>(url, httpOptions).subscribe((result) => {
             subject.next(this.fixUndefined(result));
@@ -38,6 +40,7 @@ export class KeepCasingService {
 
     public post(model: KeepCasingModel, httpOptions?: {}): Observable<void> {
         let subject = new Subject<void>();
+        httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/keepcasing";
         this.http.post<void>(url, model, httpOptions).subscribe(() => {
             subject.next();

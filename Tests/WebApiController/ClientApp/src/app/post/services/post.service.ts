@@ -13,6 +13,7 @@ import { Subject } from "rxjs";
 export class PostService {
     private readonly http: HttpClient;
     private serviceUrlValue: string = "";
+    public httpOptions: {} = {};
 
     public get serviceUrl(): string {
         return this.serviceUrlValue;
@@ -28,6 +29,7 @@ export class PostService {
 
     public postWithoutParameter(httpOptions?: {}): Observable<void> {
         let subject = new Subject<void>();
+        httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/post/postwithoutparameter";
         this.http.post<void>(url, undefined, httpOptions).subscribe(() => {
             subject.next();
@@ -38,6 +40,7 @@ export class PostService {
 
     public postWithOneParameter(test: string, httpOptions?: {}): Observable<void> {
         let subject = new Subject<void>();
+        httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/post/postwithoneparameter";
         url = this.append(url, test, "test");
         this.http.post<void>(url, undefined, httpOptions).subscribe(() => {
@@ -49,6 +52,7 @@ export class PostService {
 
     public postWithTwoParameter(text: string, count: number, httpOptions?: {}): Observable<void> {
         let subject = new Subject<void>();
+        httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/post/postwithtwoparameter";
         url = this.append(url, text, "text");
         url = this.append(url, count, "count");
@@ -61,6 +65,7 @@ export class PostService {
 
     public postWithBodyParameter(model: PostModel, httpOptions?: {}): Observable<void> {
         let subject = new Subject<void>();
+        httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/post/postwithbodyparameter";
         this.http.post<void>(url, model, httpOptions).subscribe(() => {
             subject.next();
@@ -71,6 +76,7 @@ export class PostService {
 
     public postWithValueAndBodyParameter(id: number, model: PostModel, httpOptions?: {}): Observable<void> {
         let subject = new Subject<void>();
+        httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/post/postwithvalueandbodyparameter";
         url = this.append(url, id, "id");
         this.http.post<void>(url, model, httpOptions).subscribe(() => {
@@ -82,6 +88,7 @@ export class PostService {
 
     public postWithValueAndBodyParameterFlipped(model: PostModel, id: number, httpOptions?: {}): Observable<void> {
         let subject = new Subject<void>();
+        httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/post/postwithvalueandbodyparameterflipped";
         url = this.append(url, id, "id");
         this.http.post<void>(url, model, httpOptions).subscribe(() => {

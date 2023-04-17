@@ -13,6 +13,7 @@ import { Subject } from "rxjs";
 export class ProducesService {
     private readonly http: HttpClient;
     private serviceUrlValue: string = "";
+    public httpOptions: {} = {};
 
     public get serviceUrl(): string {
         return this.serviceUrlValue;
@@ -28,6 +29,7 @@ export class ProducesService {
 
     public get(days: number, httpOptions?: {}): Observable<WeatherForecast[]> {
         let subject = new Subject<WeatherForecast[]>();
+        httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/produces";
         url = this.append(url, days, "days");
         this.http.get<WeatherForecast[]>(url, httpOptions).subscribe((result) => {
@@ -44,6 +46,7 @@ export class ProducesService {
 
     public get2(days: number, httpOptions?: {}): Observable<WeatherForecast[]> {
         let subject = new Subject<WeatherForecast[]>();
+        httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/produces/get2";
         url = this.append(url, days, "days");
         this.http.get<WeatherForecast[]>(url, httpOptions).subscribe((result) => {

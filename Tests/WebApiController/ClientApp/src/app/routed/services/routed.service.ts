@@ -13,6 +13,7 @@ import { Subject } from "rxjs";
 export class RoutedService {
     private readonly http: HttpClient;
     private serviceUrlValue: string = "";
+    public httpOptions: {} = {};
 
     public get serviceUrl(): string {
         return this.serviceUrlValue;
@@ -28,6 +29,7 @@ export class RoutedService {
 
     public get(httpOptions?: {}): Observable<WeatherForecast[]> {
         let subject = new Subject<WeatherForecast[]>();
+        httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/routed";
         this.http.get<WeatherForecast[]>(url, httpOptions).subscribe((result) => {
             if (result) {
@@ -43,6 +45,7 @@ export class RoutedService {
 
     public getThree(httpOptions?: {}): Observable<WeatherForecast[]> {
         let subject = new Subject<WeatherForecast[]>();
+        httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/routed/three";
         this.http.get<WeatherForecast[]>(url, httpOptions).subscribe((result) => {
             if (result) {
@@ -58,6 +61,7 @@ export class RoutedService {
 
     public getThreeDays(httpOptions?: {}): Observable<WeatherForecast[]> {
         let subject = new Subject<WeatherForecast[]>();
+        httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/routed/three/days";
         this.http.get<WeatherForecast[]>(url, httpOptions).subscribe((result) => {
             if (result) {
@@ -73,6 +77,7 @@ export class RoutedService {
 
     public getNext(days: number, httpOptions?: {}): Observable<WeatherForecast[]> {
         let subject = new Subject<WeatherForecast[]>();
+        httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/routed/next";
         url = this.append(url, days, undefined, "/");
         url += "/days";
@@ -90,6 +95,7 @@ export class RoutedService {
 
     public test(test: number, days: number, httpOptions?: {}): Observable<void> {
         let subject = new Subject<void>();
+        httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/routed/next";
         url = this.append(url, days, undefined, "/");
         url += "/days";
@@ -103,6 +109,7 @@ export class RoutedService {
 
     public test2(test: number, days: number, httpOptions?: {}): Observable<void> {
         let subject = new Subject<void>();
+        httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/routed/test2";
         url = this.append(url, test, "test");
         url = this.append(url, days, "days");
@@ -115,6 +122,7 @@ export class RoutedService {
 
     public test3(test: number, days: number, httpOptions?: {}): Observable<void> {
         let subject = new Subject<void>();
+        httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/routed/test3";
         url = this.append(url, test, undefined, "/");
         url = this.append(url, days, "days");
@@ -127,6 +135,7 @@ export class RoutedService {
 
     public test4(days: number, test: number, httpOptions?: {}): Observable<void> {
         let subject = new Subject<void>();
+        httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/routed/test4";
         url = this.append(url, test, undefined, "/");
         url = this.append(url, days, "days");
@@ -139,6 +148,7 @@ export class RoutedService {
 
     public getTest5(test: number, httpOptions?: {}): Observable<void> {
         let subject = new Subject<void>();
+        httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/routed/test5";
         url = this.append(url, test, undefined, "/");
         this.http.get<void>(url, httpOptions).subscribe(() => {
@@ -150,6 +160,7 @@ export class RoutedService {
 
     public postTest5(test: number, httpOptions?: {}): Observable<void> {
         let subject = new Subject<void>();
+        httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/routed/test5";
         url = this.append(url, test, undefined, "/");
         this.http.post<void>(url, undefined, httpOptions).subscribe(() => {
@@ -161,6 +172,7 @@ export class RoutedService {
 
     public test6(test: number, httpOptions?: {}): Observable<string[]> {
         let subject = new Subject<string[]>();
+        httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/routed/test6";
         url = this.append(url, test, undefined, "/");
         this.http.get<string[]>(url, httpOptions).subscribe((result) => {
@@ -172,6 +184,7 @@ export class RoutedService {
 
     public test7(test: number, httpOptions?: {}): Observable<string[]> {
         let subject = new Subject<string[]>();
+        httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/routed/test7";
         url = this.append(url, test, undefined, "/");
         this.http.get<string[]>(url, httpOptions).subscribe((result) => {
@@ -183,6 +196,7 @@ export class RoutedService {
 
     public test8(httpOptions?: {}): Observable<string[]> {
         let subject = new Subject<string[]>();
+        httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/routed/test8";
         this.http.get<string[]>(url, httpOptions).subscribe((result) => {
             subject.next(this.fixUndefined(result));
@@ -193,6 +207,7 @@ export class RoutedService {
 
     public test9(httpOptions?: {}): Observable<string[]> {
         let subject = new Subject<string[]>();
+        httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/routed/test9";
         this.http.get<string[]>(url, httpOptions).subscribe((result) => {
             subject.next(this.fixUndefined(result));
@@ -203,6 +218,7 @@ export class RoutedService {
 
     public test10(httpOptions?: {}): Observable<string[]> {
         let subject = new Subject<string[]>();
+        httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/routed/test10";
         this.http.get<string[]>(url, httpOptions).subscribe((result) => {
             subject.next(this.fixUndefined(result));
@@ -213,6 +229,7 @@ export class RoutedService {
 
     public test11(httpOptions?: {}): Observable<string[]> {
         let subject = new Subject<string[]>();
+        httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/routed/test11";
         this.http.get<string[]>(url, httpOptions).subscribe((result) => {
             subject.next(this.fixUndefined(result));
@@ -223,6 +240,7 @@ export class RoutedService {
 
     public test12(httpOptions?: {}): Observable<string[]> {
         let subject = new Subject<string[]>();
+        httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/routed/test12";
         this.http.get<string[]>(url, httpOptions).subscribe((result) => {
             subject.next(this.fixUndefined(result));
@@ -233,6 +251,7 @@ export class RoutedService {
 
     public test13(httpOptions?: {}): Observable<string[]> {
         let subject = new Subject<string[]>();
+        httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/routed/test13";
         this.http.get<string[]>(url, httpOptions).subscribe((result) => {
             subject.next(this.fixUndefined(result));

@@ -12,6 +12,7 @@ import { Subject } from "rxjs";
 export class DuplicateNameService {
     private readonly http: HttpClient;
     private serviceUrlValue: string = "";
+    public httpOptions: {} = {};
 
     public get serviceUrl(): string {
         return this.serviceUrlValue;
@@ -27,6 +28,7 @@ export class DuplicateNameService {
 
     public testA(id: number, httpOptions?: {}): Observable<void> {
         let subject = new Subject<void>();
+        httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/duplicatename";
         url = this.append(url, id, undefined, "/");
         this.http.get<void>(url, httpOptions).subscribe(() => {
@@ -38,6 +40,7 @@ export class DuplicateNameService {
 
     public testAById(id: number, variantA: string, httpOptions?: {}): Observable<void> {
         let subject = new Subject<void>();
+        httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/duplicatename";
         url = this.append(url, id, undefined, "/");
         url = this.append(url, variantA, undefined, "/");
@@ -50,6 +53,7 @@ export class DuplicateNameService {
 
     public testAByIdAndVariantA(id: number, variantA: string, variantB: string, httpOptions?: {}): Observable<void> {
         let subject = new Subject<void>();
+        httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/duplicatename";
         url = this.append(url, id, undefined, "/");
         url = this.append(url, variantA, undefined, "/");
@@ -63,7 +67,7 @@ export class DuplicateNameService {
 
     public testB(id: number, httpOptions?: {}): Observable<string> {
         let subject = new Subject<string>();
-        httpOptions = { responseType: 'text', ...httpOptions};
+        httpOptions = { responseType: 'text', ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/duplicatename/testb";
         url = this.append(url, id, "id");
         this.http.get<string>(url, httpOptions).subscribe((result) => {
@@ -75,7 +79,7 @@ export class DuplicateNameService {
 
     public testBById(id: string, httpOptions?: {}): Observable<string> {
         let subject = new Subject<string>();
-        httpOptions = { responseType: 'text', ...httpOptions};
+        httpOptions = { responseType: 'text', ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/duplicatename";
         url = this.append(url, id, "id");
         this.http.get<string>(url, httpOptions).subscribe((result) => {
