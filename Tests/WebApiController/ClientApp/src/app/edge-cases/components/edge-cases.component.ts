@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { EdgeCasesService } from '../services/edge-cases.service';
+import { HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-edge-cases',
@@ -19,7 +20,9 @@ export class EdgeCasesComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
+    this.service.httpOptions = {
+        headers: new HttpHeaders({'X-Test': 'Test'})
+    }
   }
 
   public withDi(): void {

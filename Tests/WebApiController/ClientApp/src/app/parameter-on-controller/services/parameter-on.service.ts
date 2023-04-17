@@ -12,6 +12,7 @@ import { Subject } from "rxjs";
 export class ParameterOnService {
     private readonly http: HttpClient;
     private serviceUrlValue: string = "";
+    public httpOptions: {} = {};
 
     public get serviceUrl(): string {
         return this.serviceUrlValue;
@@ -26,6 +27,7 @@ export class ParameterOnService {
 
     public get(test: string, id: string, httpOptions?: {}): Observable<void> {
         let subject = new Subject<void>();
+        httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/parameteron";
         url = this.append(url, id, undefined, "/");
         url += "/get";

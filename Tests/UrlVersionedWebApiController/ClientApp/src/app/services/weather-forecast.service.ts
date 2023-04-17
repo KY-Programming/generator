@@ -13,6 +13,7 @@ import { Subject } from "rxjs";
 export class WeatherForecastService {
     private readonly http: HttpClient;
     private serviceUrlValue: string = "";
+    public httpOptions: {} = {};
 
     public get serviceUrl(): string {
         return this.serviceUrlValue;
@@ -27,6 +28,7 @@ export class WeatherForecastService {
 
     public get(httpOptions?: {}): Observable<WeatherForecast[]> {
         let subject = new Subject<WeatherForecast[]>();
+        httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/api/v1.0/weatherforecast";
         this.http.get<WeatherForecast[]>(url, httpOptions).subscribe((result) => {
             if (result) {

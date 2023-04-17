@@ -12,6 +12,7 @@ import { Subject } from "rxjs";
 export class InvalidWordsService {
     private readonly http: HttpClient;
     private serviceUrlValue: string = "";
+    public httpOptions: {} = {};
 
     public get serviceUrl(): string {
         return this.serviceUrlValue;
@@ -26,6 +27,7 @@ export class InvalidWordsService {
 
     public switch(switchValue: string, httpOptions?: {}): Observable<void> {
         let subject = new Subject<void>();
+        httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/api/invalidwords";
         url = this.append(url, switchValue, "switch");
         this.http.get<void>(url, httpOptions).subscribe(() => {
@@ -37,6 +39,7 @@ export class InvalidWordsService {
 
     public getCase(caseValue: string, httpOptions?: {}): Observable<void> {
         let subject = new Subject<void>();
+        httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/api/invalidwords";
         url = this.append(url, caseValue, "case");
         this.http.get<void>(url, httpOptions).subscribe(() => {
@@ -48,6 +51,7 @@ export class InvalidWordsService {
 
     public postCase(caseValue: string, httpOptions?: {}): Observable<void> {
         let subject = new Subject<void>();
+        httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/api/invalidwords";
         url = this.append(url, caseValue, "case");
         this.http.post<void>(url, undefined, httpOptions).subscribe(() => {
@@ -59,6 +63,7 @@ export class InvalidWordsService {
 
     public patchCase(caseValue: string, httpOptions?: {}): Observable<void> {
         let subject = new Subject<void>();
+        httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/api/invalidwords";
         this.http.patch<void>(url, caseValue, httpOptions).subscribe(() => {
             subject.next();
@@ -69,6 +74,7 @@ export class InvalidWordsService {
 
     public putCase(caseValue: string, httpOptions?: {}): Observable<void> {
         let subject = new Subject<void>();
+        httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/api/invalidwords";
         this.http.put<void>(url, caseValue, httpOptions).subscribe(() => {
             subject.next();
@@ -79,6 +85,7 @@ export class InvalidWordsService {
 
     public deleteCase(caseValue: string, httpOptions?: {}): Observable<void> {
         let subject = new Subject<void>();
+        httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/api/invalidwords";
         url = this.append(url, caseValue, "case");
         this.http.delete<void>(url, httpOptions).subscribe(() => {

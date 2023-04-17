@@ -13,6 +13,7 @@ import { Subject } from "rxjs";
 export class ConvertToInterfaceService {
     private readonly http: HttpClient;
     private serviceUrlValue: string = "";
+    public httpOptions: {} = {};
 
     public get serviceUrl(): string {
         return this.serviceUrlValue;
@@ -27,6 +28,7 @@ export class ConvertToInterfaceService {
 
     public get(subject: string, httpOptions?: {}): Observable<ConvertMe> {
         let rxjsSubject = new Subject<ConvertMe>();
+        httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/converttointerface/get";
         url = this.append(url, subject, "subject");
         this.http.get<ConvertMe>(url, httpOptions).subscribe((result) => {

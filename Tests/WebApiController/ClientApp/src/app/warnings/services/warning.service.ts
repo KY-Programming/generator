@@ -13,6 +13,7 @@ import { Subject } from "rxjs";
 export class WarningService {
     private readonly http: HttpClient;
     private serviceUrlValue: string = "";
+    public httpOptions: {} = {};
 
     public get serviceUrl(): string {
         return this.serviceUrlValue;
@@ -27,6 +28,7 @@ export class WarningService {
 
     public getWithBody(model: WeatherForecast, httpOptions?: {}): Observable<void> {
         let subject = new Subject<void>();
+        httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/api/warning";
         url = this.append(url, model, "model");
         this.http.get<void>(url, httpOptions).subscribe(() => {
@@ -38,6 +40,7 @@ export class WarningService {
 
     public postWithBody(model: WeatherForecast, httpOptions?: {}): Observable<void> {
         let subject = new Subject<void>();
+        httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/api/warning";
         this.http.post<void>(url, model, httpOptions).subscribe(() => {
             subject.next();
@@ -48,6 +51,7 @@ export class WarningService {
 
     public patchWithBody(model: WeatherForecast, httpOptions?: {}): Observable<void> {
         let subject = new Subject<void>();
+        httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/api/warning";
         this.http.patch<void>(url, model, httpOptions).subscribe(() => {
             subject.next();
@@ -58,6 +62,7 @@ export class WarningService {
 
     public putWithBody(model: WeatherForecast, httpOptions?: {}): Observable<void> {
         let subject = new Subject<void>();
+        httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/api/warning";
         this.http.put<void>(url, model, httpOptions).subscribe(() => {
             subject.next();
@@ -68,6 +73,7 @@ export class WarningService {
 
     public deleteWithBody(model: WeatherForecast, httpOptions?: {}): Observable<void> {
         let subject = new Subject<void>();
+        httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/api/warning";
         url = this.append(url, model, "model");
         this.http.delete<void>(url, httpOptions).subscribe(() => {
