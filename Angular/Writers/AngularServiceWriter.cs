@@ -81,6 +81,7 @@ namespace KY.Generator.Angular.Writers
                                                   .WithAttribute("Injectable", Code.AnonymousObject().WithProperty("providedIn", Code.String("root")));
                 FieldTemplate httpField = classTemplate.AddField("http", Code.Type(httpClient)).Readonly().FormatName(controllerOptions);
                 FieldTemplate serviceUrlField = classTemplate.AddField("serviceUrlValue", Code.Type("string")).FormatName(controllerOptions).Default(Code.String(string.Empty));
+                FieldTemplate httpOptionsField = classTemplate.AddField("httpOptions", Code.Type("{}")).Public().FormatName(controllerOptions).Default(Code.Local("{}"));
                 PropertyTemplate serviceUrlProperty = classTemplate.AddProperty("serviceUrl", Code.Type("string"))
                                                                    .WithGetter(Code.Return(Code.This().Field(serviceUrlField)))
                                                                    .WithSetter(Code.This().Field(serviceUrlField).Assign(Code.Local("value").Method("replace", Code.TypeScript(@"/\/+$/"), Code.String(""))).Close());
@@ -142,7 +143,10 @@ namespace KY.Generator.Angular.Writers
                         methodTemplate.AddParameter(Code.Type("{}"), "httpOptions").Optional();
                         if (isStringReturnType)
                         {
-                            methodTemplate.WithCode(Code.TypeScript("httpOptions = { responseType: 'text', ...httpOptions}").Close());
+                            methodTemplate.WithCode(Code.TypeScript("httpOptions = { responseType: 'text', ...this.httpOptions, ...httpOptions}").Close());
+                        } else
+                        {
+                            methodTemplate.WithCode(Code.TypeScript("httpOptions = { ...this.httpOptions, ...httpOptions}").Close());
                         }
                     }
                     if (isDateReturnType && isDateArrayReturnType)
