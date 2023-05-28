@@ -117,6 +117,12 @@ namespace WebApiController.Controllers
         {
             return new UnknownResult(value);
         }
+
+        [HttpGet("[action]")]
+        public SelfReferencingModel SelfReferencing()
+        {
+            return new SelfReferencingModel();
+        }
     }
 
     public class ExclusiveGenericComplexResult

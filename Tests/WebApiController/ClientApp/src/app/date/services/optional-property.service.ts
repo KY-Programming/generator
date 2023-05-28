@@ -13,6 +13,7 @@ import { Subject } from "rxjs";
 export class OptionalPropertyService {
     private readonly http: HttpClient;
     private serviceUrlValue: string = "";
+    public httpOptions: {} = {};
 
     public get serviceUrl(): string {
         return this.serviceUrlValue;
@@ -28,6 +29,7 @@ export class OptionalPropertyService {
 
     public getOptionalPropertiesModel(httpOptions?: {}): Observable<OptionalPropertiesModel> {
         let subject = new Subject<OptionalPropertiesModel>();
+        httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/api/optionalproperty/getoptionalpropertiesmodel";
         this.http.get<OptionalPropertiesModel>(url, httpOptions).subscribe((result) => {
             subject.next(this.fixUndefined(result));

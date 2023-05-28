@@ -89,11 +89,12 @@ public class AngularServiceWriter : TransferWriter
                          .WithCode(Code.This().Field(httpField).Assign(Code.Local("http")).Close())
                          .WithCode(Code.This().Property(serviceUrlProperty).Assign(Code.Local("document").Property("baseURI").NullCoalescing(Code.String(string.Empty).Close())));
 
+            List<MethodTemplate> convertDateMethods = new();
             string relativeModelPath = FileSystem.RelativeTo(configuration.Model?.RelativePath ?? ".", configuration.Service.RelativePath);
             relativeModelPath = string.IsNullOrEmpty(relativeModelPath) ? "." : relativeModelPath;
             bool addAppendMethod = false;
             bool addAppendDateMethod = false;
-            bool appendConvertToDateMethod = false;
+            bool appendConvertDateMethod = false;
             foreach (HttpServiceActionTransferObject action in controller.Actions)
             {
                 string subjectName = action.Parameters.Any(x => x.Name == "subject") ? "rxjsSubject" : "subject";
@@ -154,7 +155,7 @@ public class AngularServiceWriter : TransferWriter
                 }
                 if (isDateReturnType && isDateArrayReturnType)
                 {
-                    appendConvertToDateMethod = true;
+                    appendConvertDateMethod = true;
                 }
                 string controllerRoute = controller.Route?.Trim('/').Replace("[controller]", controllerName.ToLower()) ?? controllerName.ToLower();
                 string actionRoute = action.Route?.TrimEnd('/').Replace("[action]", action.Name.ToLower()).Replace("[controller]", controllerName.ToLower());
@@ -183,14 +184,28 @@ public class AngularServiceWriter : TransferWriter
                     }
                     if (isDateReturnType)
                     {
-                        nextCode = Code.This().Method("convertToDate", nextCode);
+                        nextCode = Code.This().Method("convertDate", nextCode);
                     }
                     if (isDateArrayReturnType)
                     {
-                        nextCode = localCode.Method("map", Code.Lambda("entry", Code.This().Method("convertToDate", Code.Local("entry"))));
+                        nextCode = localCode.Method("map", Code.Lambda("entry", Code.This().Method("convertDate", Code.Local("entry"))));
                     }
                     nextMethod.WithParameter(Code.This().Method("fixUndefined", nextCode));
-                    appendConvertToDateMethod = this.WriteDateFixes(returnModel, isEnumerable, code, new List<string> { "result" }, new List<TypeTransferObject> { returnModel }) || appendConvertToDateMethod;
+                    if (this.WriteDateFixes(classTemplate, convertDateMethods, returnModel))
+                    {
+                        appendConvertDateMethod = true;
+                        string methodName = $"convert{returnModel.Name.ToPascalCase()}Date";
+                        if (isEnumerable)
+                        {
+                            code.AddLine(Code.Local("result").Method("forEach", Code.Lambda("m",
+                                Code.This().Method(methodName, Code.Local("m"))
+                            )).Close());
+                        }
+                        else
+                        {
+                            code.AddLine(Code.This().Method(methodName, Code.Local("result")).Close());
+                        }
+                    }
                 }
                 if (action.FixCasingWithMapping)
                 {
@@ -354,10 +369,12 @@ public class AngularServiceWriter : TransferWriter
             {
                 this.AddAppendDateMethod(classTemplate);
             }
-            if (appendConvertToDateMethod)
+            if (appendConvertDateMethod)
             {
-                this.AppendConvertToDateMethod(classTemplate);
+                this.AppendConvertDateMethod(classTemplate);
             }
+            classTemplate.Methods.RemoveRange(convertDateMethods);
+            classTemplate.Methods.AddRange(convertDateMethods);
             this.AppendFixUndefined(classTemplate);
         }
         List<SignalRHubTransferObject> hubs = this.transferObjects.OfType<SignalRHubTransferObject>().ToList();
@@ -585,46 +602,31 @@ public class AngularServiceWriter : TransferWriter
         }
     }
 
-    private bool WriteDateFixes(ModelTransferObject model, bool isModelEnumerable, MultilineCodeFragment code, IReadOnlyList<string> chain, IReadOnlyList<TypeTransferObject> typeChain)
+    private bool WriteDateFixes(ClassTemplate classTemplate, List<MethodTemplate> convertDateMethods, ModelTransferObject model)
     {
         if (model == null)
         {
             return false;
         }
-        bool datePropertyFound = false;
-        IfTemplate ifTemplate = Code.If(this.WriteFieldChain(chain));
-        MultilineCodeFragment innerCode = ifTemplate.Code;
-        if (isModelEnumerable)
+        string methodName = $"convert{model.Name.ToPascalCase()}Date";
+        if (convertDateMethods.Any(x => x.Name.Equals(methodName, StringComparison.InvariantCultureIgnoreCase)))
         {
-            innerCode = Code.Multiline();
-            datePropertyFound = model.OriginalName == nameof(DateTime);
-            if (datePropertyFound)
-            {
-                ifTemplate.WithCode(this.WriteFieldChain(chain).Assign(this.WriteFieldChain(chain).Method("map", Code.Lambda("entry",
-                    Code.TypeScript("this.convertToDate(entry)!")
-                ))));
-            }
-            else
-            {
-                ifTemplate.WithCode(this.WriteFieldChain(chain).Method("forEach", Code.Lambda("entry", innerCode)).Close());
-            }
-            chain = new List<string> { "entry" };
+            return true;
         }
+        bool hasLocalDateProperty = false;
+        MethodTemplate convertDateMethodTemplate = classTemplate.AddMethod(methodName, Code.Void()).Private()
+                                                                .WithParameter(model.ToTemplate(), "model")
+                                                                .WithCode(Code.If(Code.Local("!model")).WithCode(Code.Return()));
+        convertDateMethods.Add(convertDateMethodTemplate);
         foreach (PropertyTransferObject property in model.Properties)
         {
             TypeTransferObject type = model.Generics.FirstOrDefault(generic => generic.Alias?.Name == property.Name)?.Type ?? property.Type;
-            if (type.Name != "Array" && typeChain.Any(typeFromChain => typeFromChain.Name == property.Type.Name && typeFromChain.Namespace == property.Type.Namespace))
-            {
-                continue;
-            }
             IOptions propertyOptions = this.Options.Get(property);
             string propertyName = Formatter.FormatProperty(property.Name, propertyOptions);
             if (type.IgnoreNullable().OriginalName == nameof(DateTime))
             {
-                datePropertyFound = true;
-                AssignTemplate assignTemplate = isModelEnumerable
-                                                    ? Code.Local("entry").Field(propertyName).Assign(Code.This().Method("convertToDate", Code.Local("entry").Field(propertyName)))
-                                                    : this.WriteFieldChain(chain).Field(propertyName).Assign(Code.This().Method("convertToDate", this.WriteFieldChain(chain).Field(propertyName)));
+                hasLocalDateProperty = true;
+                AssignTemplate assignTemplate = Code.Local("model").Field(propertyName).Assign(Code.This().Method("convertDate", Code.Local("model").Field(propertyName)));
                 ICodeFragment lineTemplate;
                 if (property.IsOptional || property.Type.IsNullable)
                 {
@@ -632,43 +634,51 @@ public class AngularServiceWriter : TransferWriter
                 }
                 else
                 {
-                    lineTemplate = assignTemplate.NullCoalescing(this.WriteFieldChain(chain).Field(propertyName).Close());
+                    lineTemplate = assignTemplate.NullCoalescing(Code.Local(propertyName).Close());
                 }
-                innerCode.AddLine(lineTemplate);
+                convertDateMethodTemplate.WithCode(lineTemplate);
             }
             ModelTransferObject propertyModel = type as ModelTransferObject;
             TypeTransferObject entryType = propertyModel?.Generics.FirstOrDefault()?.Type;
             entryType = entryType == null ? null : model.Generics.FirstOrDefault(generic => generic.Alias?.Name == entryType.Name)?.Type ?? entryType;
             ModelTransferObject entryModel = entryType as ModelTransferObject ?? this.transferObjects.OfType<ModelTransferObject>().FirstOrDefault(x => x.Name == entryType?.Name && x.Namespace == entryType?.Namespace);
-            List<string> nextChain = new(chain);
-            nextChain.Add(propertyName);
-            List<TypeTransferObject> nextTypeChain = new(typeChain);
-            nextTypeChain.Add(type);
             if (propertyModel != null && propertyModel.IsEnumerable() && entryModel != null)
             {
-                datePropertyFound = this.WriteDateFixes(entryModel, true, innerCode, nextChain, nextTypeChain) || datePropertyFound;
+                if (entryModel.OriginalName == nameof(DateTime))
+                {
+                    hasLocalDateProperty = true;
+                    convertDateMethodTemplate.WithCode(Code.Local("model").Field(propertyName).Assign(
+                        Code.Local("model").Field(propertyName).Method("map", Code.Lambda("m",
+                            Code.This().Method("convertDate", Code.Local("m"))
+                        )))
+                    );
+                }
+                else if (this.WriteDateFixes(classTemplate, convertDateMethods, entryModel))
+                {
+                    hasLocalDateProperty = true;
+                    GenericAliasTransferObject aliasedType = model.Generics.FirstOrDefault(x => x.Alias.Name == property.Type.Generics.Single().Alias.Name)
+                                                             ?? property.Type.Generics.Single();
+                    string convertMethodName = $"convert{aliasedType.Type.Name.ToPascalCase()}Date";
+                    convertDateMethodTemplate.WithCode(Code.Local("model").Field(propertyName + "?").Method("forEach", Code.Lambda("m", Code.This().Method(convertMethodName, Code.Local("m")))));
+                }
             }
             else if (propertyModel != null && propertyModel.Properties.Count > 0)
             {
-                datePropertyFound = this.WriteDateFixes(propertyModel, false, innerCode, nextChain, nextTypeChain) || datePropertyFound;
+                if (this.WriteDateFixes(classTemplate, convertDateMethods, propertyModel))
+                {
+                    hasLocalDateProperty = true;
+                    string convertMethodName = $"convert{property.Type.Name.ToPascalCase()}Date";
+                    convertDateMethodTemplate.WithCode(Code.This().Method(convertMethodName, Code.Local("model").Field(propertyName)));
+                }
             }
         }
-        if (datePropertyFound)
+        if (hasLocalDateProperty)
         {
-            code.AddLine(ifTemplate);
+            return true;
         }
-        return datePropertyFound;
-    }
-
-    private ChainedCodeFragment WriteFieldChain(IEnumerable<string> chain)
-    {
-        List<string> chainList = chain.ToList();
-        ChainedCodeFragment code = Code.Local(chainList.First());
-        foreach (string field in chainList.Skip(1))
-        {
-            code = code.Field(field);
-        }
-        return code;
+        convertDateMethods.Remove(convertDateMethodTemplate);
+        classTemplate.Methods.Remove(convertDateMethodTemplate);
+        return false;
     }
 
     private void AddAppendMethod(ClassTemplate classTemplate)
@@ -717,9 +727,9 @@ public class AngularServiceWriter : TransferWriter
                      .WithCode(Code.Return(Code.This().Method("append", Code.Local("url"), code, Code.Local("parameterName"), Code.Local("separator"))));
     }
 
-    private void AppendConvertToDateMethod(ClassTemplate classTemplate)
+    private void AppendConvertDateMethod(ClassTemplate classTemplate)
     {
-        classTemplate.AddMethod("convertToDate", Code.Type("Date | undefined")).Private()
+        classTemplate.AddMethod("convertDate", Code.Type("Date | undefined")).Private()
                      .WithParameter(Code.Type("string | Date | undefined"), "value")
                      .WithCode(Code.Return(Code.InlineIf(Code.Local("value").Equals().String("0001-01-01T00:00:00"),
                          Code.New(Code.Type("Date"), Code.String("0001-01-01T00:00:00Z")),

@@ -32,11 +32,7 @@ export class RoutedService {
         httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/routed";
         this.http.get<WeatherForecast[]>(url, httpOptions).subscribe((result) => {
-            if (result) {
-                result.forEach((entry) => {
-                    entry.date = this.convertToDate(entry.date);
-                });
-            }
+            result.forEach((m) => this.convertWeatherForecastDate(m));
             subject.next(this.fixUndefined(result));
             subject.complete();
         }, (error) => subject.error(error));
@@ -48,11 +44,7 @@ export class RoutedService {
         httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/routed/three";
         this.http.get<WeatherForecast[]>(url, httpOptions).subscribe((result) => {
-            if (result) {
-                result.forEach((entry) => {
-                    entry.date = this.convertToDate(entry.date);
-                });
-            }
+            result.forEach((m) => this.convertWeatherForecastDate(m));
             subject.next(this.fixUndefined(result));
             subject.complete();
         }, (error) => subject.error(error));
@@ -64,11 +56,7 @@ export class RoutedService {
         httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/routed/three/days";
         this.http.get<WeatherForecast[]>(url, httpOptions).subscribe((result) => {
-            if (result) {
-                result.forEach((entry) => {
-                    entry.date = this.convertToDate(entry.date);
-                });
-            }
+            result.forEach((m) => this.convertWeatherForecastDate(m));
             subject.next(this.fixUndefined(result));
             subject.complete();
         }, (error) => subject.error(error));
@@ -82,11 +70,7 @@ export class RoutedService {
         url = this.append(url, days, undefined, "/");
         url += "/days";
         this.http.get<WeatherForecast[]>(url, httpOptions).subscribe((result) => {
-            if (result) {
-                result.forEach((entry) => {
-                    entry.date = this.convertToDate(entry.date);
-                });
-            }
+            result.forEach((m) => this.convertWeatherForecastDate(m));
             subject.next(this.fixUndefined(result));
             subject.complete();
         }, (error) => subject.error(error));
@@ -270,8 +254,15 @@ export class RoutedService {
         return url;
     }
 
-    private convertToDate(value: string | Date | undefined): Date | undefined {
+    private convertDate(value: string | Date | undefined): Date | undefined {
         return value === "0001-01-01T00:00:00" ? new Date("0001-01-01T00:00:00Z") : typeof(value) === "string" ? new Date(value) : value;
+    }
+
+    public convertWeatherForecastDate(model: WeatherForecast): void {
+        if (!model) {
+            return;
+        }
+        model.date = this.convertDate(model.date);
     }
 
     private fixUndefined(value: any): any {

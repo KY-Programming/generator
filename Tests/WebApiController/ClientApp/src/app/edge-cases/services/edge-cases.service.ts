@@ -4,6 +4,7 @@
 import { DateModel } from "../models/date-model";
 import { ExclusiveGenericComplexResult } from "../models/exclusive-generic-complex-result";
 import { GenericResult } from "../models/generic-result";
+import { SelfReferencingModel } from "../models/self-referencing-model";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
@@ -81,7 +82,7 @@ export class EdgeCasesService {
         httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/api/edgecases/getguid";
         this.http.get<string>(url, httpOptions).subscribe((result) => {
-            subject.next(this.fixUndefined(result.replace(/(^"|"$)/g, "")));
+            subject.next(this.fixUndefined(result?.replace(/(^"|"$)/g, "")));
             subject.complete();
         }, (error) => subject.error(error));
         return subject;
@@ -165,13 +166,7 @@ export class EdgeCasesService {
         httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/api/edgecases/getgenericwithmodel";
         this.http.get<GenericResult<DateModel>>(url, httpOptions).subscribe((result) => {
-            if (result) {
-                if (result.rows) {
-                    result.rows.forEach((entry) => {
-                        entry.date = this.convertToDate(entry.date);
-                    });
-                }
-            }
+            this.convertGenericResultDate(result);
             subject.next(this.fixUndefined(result));
             subject.complete();
         }, (error) => subject.error(error));
@@ -254,6 +249,18 @@ export class EdgeCasesService {
         return subject;
     }
 
+    public selfReferencing(httpOptions?: {}): Observable<SelfReferencingModel> {
+        let subject = new Subject<SelfReferencingModel>();
+        httpOptions = { ...this.httpOptions, ...httpOptions};
+        let url: string = this.serviceUrl + "/api/edgecases/selfreferencing";
+        this.http.get<SelfReferencingModel>(url, httpOptions).subscribe((result) => {
+            this.convertSelfReferencingModelDate(result);
+            subject.next(this.fixUndefined(result));
+            subject.complete();
+        }, (error) => subject.error(error));
+        return subject;
+    }
+
     public append(url: string, value: {toString(): string} | undefined | null, parameterName: string = "", separator: string = ""): string {
         if (! parameterName) {
             return url + separator + (value === null || value === undefined ? "" : value.toString());
@@ -264,8 +271,29 @@ export class EdgeCasesService {
         return url;
     }
 
-    private convertToDate(value: string | Date | undefined): Date | undefined {
+    private convertDate(value: string | Date | undefined): Date | undefined {
         return value === "0001-01-01T00:00:00" ? new Date("0001-01-01T00:00:00Z") : typeof(value) === "string" ? new Date(value) : value;
+    }
+
+    public convertGenericResultDate(model: GenericResult<DateModel>): void {
+        if (!model) {
+            return;
+        }
+        model.rows.forEach((m) => this.convertDateModelDate(m))
+    }
+
+    public convertDateModelDate(model: DateModel): void {
+        if (!model) {
+            return;
+        }
+        model.date = this.convertDate(model.date);
+    }
+
+    public convertSelfReferencingModelDate(model: SelfReferencingModel): void {
+        if (!model) {
+            return;
+        }
+        model.children.forEach((m) => this.convertSelfReferencingModelDate(m))
     }
 
     private fixUndefined(value: any): any {

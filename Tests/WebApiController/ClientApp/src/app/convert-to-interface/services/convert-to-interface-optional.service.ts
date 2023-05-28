@@ -33,9 +33,7 @@ export class ConvertToInterfaceOptionalService {
         let url: string = this.serviceUrl + "/converttointerfaceoptional/get";
         url = this.append(url, subject, "subject");
         this.http.get<ConvertMeOptional>(url, httpOptions).subscribe((result) => {
-            if (result) {
-                result.dateTimeProperty = this.convertToDate(result.dateTimeProperty);
-            }
+            this.convertConvertMeOptionalDate(result);
             rxjsSubject.next(this.fixUndefined(result));
             rxjsSubject.complete();
         }, (error) => rxjsSubject.error(error));
@@ -52,8 +50,15 @@ export class ConvertToInterfaceOptionalService {
         return url;
     }
 
-    private convertToDate(value: string | Date | undefined): Date | undefined {
+    private convertDate(value: string | Date | undefined): Date | undefined {
         return value === "0001-01-01T00:00:00" ? new Date("0001-01-01T00:00:00Z") : typeof(value) === "string" ? new Date(value) : value;
+    }
+
+    public convertConvertMeOptionalDate(model: ConvertMeOptional): void {
+        if (!model) {
+            return;
+        }
+        model.dateTimeProperty = this.convertDate(model.dateTimeProperty);
     }
 
     private fixUndefined(value: any): any {
