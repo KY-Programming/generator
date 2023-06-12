@@ -191,7 +191,7 @@ public class AngularServiceWriter : TransferWriter
                         nextCode = localCode.Method("map", Code.Lambda("entry", Code.This().Method("convertDate", Code.Local("entry"))));
                     }
                     nextMethod.WithParameter(Code.This().Method("fixUndefined", nextCode));
-                    if (this.WriteDateFixes(classTemplate, convertDateMethods, returnModel))
+                    if (this.WriteDateFixes(classTemplate, convertDateMethods, returnModel, controllerOptions, relativeModelPath))
                     {
                         appendConvertDateMethod = true;
                         string methodName = $"convert{returnModel.Name.ToPascalCase()}Date";
@@ -497,7 +497,7 @@ public class AngularServiceWriter : TransferWriter
                                                                                                              .AddLine(Code.Local("subject").Method("next").Close())
                                                                                                              .AddLine(Code.Local("subject").Method("complete").Close())
                                                                                                              .AddLine(Code.This().Field(statusSubjectField).Method("next", Code.Local(connectionStatusEnum.Name).Field("connected")).Close())))
-                                                                             .Method("catch", Code.Lambda(errorCode)).Close())
+                                                                             .Method("catch", Code.Lambda("error", errorCode)).Close())
                                                                 .AddLine(Code.Return(Code.Local("subject")))
                                                         )))
                                                         .WithCode(createConnectionCode)
@@ -602,7 +602,7 @@ public class AngularServiceWriter : TransferWriter
         }
     }
 
-    private bool WriteDateFixes(ClassTemplate classTemplate, List<MethodTemplate> convertDateMethods, ModelTransferObject model)
+    private bool WriteDateFixes(ClassTemplate classTemplate, List<MethodTemplate> convertDateMethods, ModelTransferObject model, IOptions controllerOptions, string relativeModelPath)
     {
         if (model == null)
         {
@@ -613,6 +613,7 @@ public class AngularServiceWriter : TransferWriter
         {
             return true;
         }
+        this.AddUsing(model, classTemplate, controllerOptions, relativeModelPath);
         bool hasLocalDateProperty = false;
         MethodTemplate convertDateMethodTemplate = classTemplate.AddMethod(methodName, Code.Void()).Private()
                                                                 .WithParameter(model.ToTemplate(), "model")
@@ -634,7 +635,7 @@ public class AngularServiceWriter : TransferWriter
                 }
                 else
                 {
-                    lineTemplate = assignTemplate.NullCoalescing(Code.Local(propertyName).Close());
+                    lineTemplate = assignTemplate.NullCoalescing(Code.Local("model").Field(propertyName).Close());
                 }
                 convertDateMethodTemplate.WithCode(lineTemplate);
             }
@@ -653,18 +654,18 @@ public class AngularServiceWriter : TransferWriter
                         )))
                     );
                 }
-                else if (this.WriteDateFixes(classTemplate, convertDateMethods, entryModel))
+                else if (this.WriteDateFixes(classTemplate, convertDateMethods, entryModel, controllerOptions, relativeModelPath))
                 {
                     hasLocalDateProperty = true;
                     GenericAliasTransferObject aliasedType = model.Generics.FirstOrDefault(x => x.Alias.Name == property.Type.Generics.Single().Alias.Name)
                                                              ?? property.Type.Generics.Single();
                     string convertMethodName = $"convert{aliasedType.Type.Name.ToPascalCase()}Date";
-                    convertDateMethodTemplate.WithCode(Code.Local("model").Field(propertyName + "?").Method("forEach", Code.Lambda("m", Code.This().Method(convertMethodName, Code.Local("m")))));
+                    convertDateMethodTemplate.WithCode(Code.Local("model").Field(propertyName + "?").Method("forEach", Code.Lambda("m", Code.This().Method(convertMethodName, Code.Local("m")))).Close());
                 }
             }
             else if (propertyModel != null && propertyModel.Properties.Count > 0)
             {
-                if (this.WriteDateFixes(classTemplate, convertDateMethods, propertyModel))
+                if (this.WriteDateFixes(classTemplate, convertDateMethods, propertyModel, controllerOptions, relativeModelPath))
                 {
                     hasLocalDateProperty = true;
                     string convertMethodName = $"convert{property.Type.Name.ToPascalCase()}Date";
