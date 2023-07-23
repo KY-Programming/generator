@@ -544,7 +544,7 @@ public class AngularServiceWriter : TransferWriter
                 methodTemplate.WithCode(Code.Declare(Code.Generic("Subject", Code.Void()), subjectName, Code.New(Code.Generic("Subject", Code.Void()))))
                               .WithCode(
                                   Code.This().Method(connectMethod).Method("pipe",
-                                          Code.Method("mergeMap", Code.Lambda(Code.This().Field(connectionField))),
+                                          Code.Method("mergeMap", Code.Lambda(Code.This().Field(connectionField.Name + "!"))),
                                           Code.Method("take", Code.Number(1)),
                                           Code.Method("mergeMap", Code.Lambda("connection", Code.Local("connection").Method("send", parameters))
                                           ))
@@ -616,7 +616,7 @@ public class AngularServiceWriter : TransferWriter
         this.AddUsing(model, classTemplate, controllerOptions, relativeModelPath);
         bool hasLocalDateProperty = false;
         MethodTemplate convertDateMethodTemplate = classTemplate.AddMethod(methodName, Code.Void()).Private()
-                                                                .WithParameter(model.ToTemplate(), "model")
+                                                                .WithParameter(model.ToTemplate(), "model?")
                                                                 .WithCode(Code.If(Code.Local("!model")).WithCode(Code.Return()));
         convertDateMethods.Add(convertDateMethodTemplate);
         foreach (PropertyTransferObject property in model.Properties)
@@ -669,7 +669,7 @@ public class AngularServiceWriter : TransferWriter
                 {
                     hasLocalDateProperty = true;
                     string convertMethodName = $"convert{property.Type.Name.ToPascalCase()}Date";
-                    convertDateMethodTemplate.WithCode(Code.This().Method(convertMethodName, Code.Local("model").Field(propertyName)));
+                    convertDateMethodTemplate.WithCode(Code.This().Method(convertMethodName, Code.Local("model").Field(propertyName)).Close());
                 }
             }
         }
