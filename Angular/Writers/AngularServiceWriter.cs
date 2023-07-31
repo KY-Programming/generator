@@ -722,7 +722,7 @@ public class AngularServiceWriter : TransferWriter
         );
         classTemplate.AddMethod("appendDate", Code.Type("string")).Private()
                      .WithParameter(Code.Type("string"), "url")
-                     .WithParameter(Code.Type("Date"), "date")
+                     .WithParameter(Code.Type("Date | null | undefined | string"), "date")
                      .WithParameter(Code.Type("string"), "parameterName", Code.String(string.Empty))
                      .WithParameter(Code.Type("string"), "separator", Code.String(string.Empty))
                      .WithCode(Code.Return(Code.This().Method("append", Code.Local("url"), code, Code.Local("parameterName"), Code.Local("separator"))));

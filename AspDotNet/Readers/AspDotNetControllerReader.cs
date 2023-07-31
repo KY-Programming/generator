@@ -128,7 +128,7 @@ namespace KY.Generator.AspDotNet.Readers
                         actionParameter.FromQuery = parameterOptions.IsFromQuery;
                         actionParameter.Inline = fullRoute.Contains($"{{{parameter.Name}}}");
                         actionParameter.InlineIndex = actionParameter.Inline && action.Route != null ? action.Route.IndexOf($"{{{parameter.Name}}}") : 0;
-                        actionParameter.IsOptional = parameter.IsOptional;
+                        actionParameter.IsOptional = parameter.IsOptional || Nullable.GetUnderlyingType(parameter.ParameterType) != null;
                         if (fullRoute.Contains($"{{{parameter.Name}?}}"))
                         {
                             actionParameter.Inline = true;
