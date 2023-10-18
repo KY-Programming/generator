@@ -5,10 +5,10 @@
     <Authors>KY-Programming</Authors>
     <Company>KY-Programming</Company>
     <Product>KY.Generator</Product>
-    <Version>8.6.0</Version>
+    <Version>8.7.0</Version>
     <Description>C# Module for KY-Generator
 Download KY.Generator to use this module</Description>
-    <Copyright>2022 - KY-Programming</Copyright>
+    <Copyright>2023 - KY-Programming</Copyright>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://generator.ky-programming.de</PackageProjectUrl>
