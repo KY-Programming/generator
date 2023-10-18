@@ -3,6 +3,7 @@
 
 export class CaseMe {
     public stringProperty: string;
+    public s1: string;
 
     public constructor(init?: Partial<CaseMe>) {
         Object.assign(this, init);
