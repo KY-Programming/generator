@@ -304,7 +304,7 @@ public class AngularServiceWriter : TransferWriter
                                 Code.Local("entry"),
                                 Code.String(parameter.Name)
                             )));
-                        methodTemplate.WithCode(Code.Local(mapping[parameter]).Method("forEach", forEachLambda).Close());
+                        methodTemplate.WithCode(Code.Local(mapping[parameter]).NullConditional().Method("forEach", forEachLambda).Close());
                     }
                     else
                     {
