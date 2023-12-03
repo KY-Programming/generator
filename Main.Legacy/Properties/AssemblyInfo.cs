@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("KY-Programming")]
 [assembly: AssemblyProduct("KY.Generator")]
-[assembly: AssemblyCopyright("Copyright © KY-Programming 2006-2021")]
+[assembly: AssemblyCopyright("2023 - KY-Programming")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

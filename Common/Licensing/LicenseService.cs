@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Net;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using KY.Core;
@@ -13,53 +12,74 @@ namespace KY.Generator.Licensing
     public class LicenseService
     {
         private readonly GlobalSettingsService globalSettingsService;
+        private readonly GlobalLicenseService globalLicenseService;
         private readonly ManualResetEvent waitForCheck = new(false);
-        private string license;
+        public bool IsValid { get; private set; }
+        public DateTime ValidUntil { get; private set; }
 
-        public LicenseService(GlobalSettingsService globalSettingsService)
+        public LicenseService(GlobalSettingsService globalSettingsService, GlobalLicenseService globalLicenseService)
         {
             this.globalSettingsService = globalSettingsService;
+            this.globalLicenseService = globalLicenseService;
         }
 
-        public Task Check()
+        public void Check()
         {
-            return Task.Factory.StartNew(()  =>
+            Task.Factory.StartNew(async () =>
             {
                 try
                 {
-                    this.license = this.SendCommand<string>($"{this.globalSettingsService.Read().License}/check").Result;
-                    this.waitForCheck.Set();
+                    SignedLicense signedLicense = await this.SendCommand<SignedLicense>($"{this.globalSettingsService.Read().License}/check");
+                    this.globalLicenseService.Set(signedLicense);
+                    this.CheckLicense(signedLicense);
                 }
                 catch (Exception exception)
                 {
                     Logger.Warning(exception.Message + Environment.NewLine + exception.StackTrace);
+                    lock (this.globalLicenseService)
+                    {
+                        this.CheckLicense(this.globalLicenseService.Read());
+                    }
                 }
+                this.waitForCheck.Set();
             });
         }
 
-        public string Get()
+        /// <summary>Blocks the current thread until the license is checked or when a cached license is available kills the check.</summary>
+        public void WaitOrKill()
         {
-            return this.license;
+            lock (this.globalLicenseService)
+            {
+                this.CheckLicense(this.globalLicenseService.Read());
+            }
+            // If the cached license is valid, we can terminate faster
+            if (this.IsValid)
+            {
+                Logger.Trace($"License check skipped. Stored license is valid until {this.ValidUntil}");
+                this.waitForCheck.Set();
+            }
+            else
+            {
+                this.waitForCheck.WaitOne();
+            }
         }
 
-        /// <summary>Blocks the current thread until the license is checked, using a <see cref="T:System.TimeSpan" /> to specify a optional timeout.</summary>
-        /// <param name="timeout">A <see cref="T:System.TimeSpan" /> that represents the number of milliseconds to wait, or a null to wait indefinitely.</param>
-        /// <returns>
-        /// <see langword="true" /> if the was checked successful; otherwise, <see langword="false" />.</returns>
-        public bool Wait(TimeSpan? timeout = null)
+        private void CheckLicense(SignedLicense signedLicense)
         {
-            return timeout.HasValue ? this.waitForCheck.WaitOne(timeout.Value) : this.waitForCheck.WaitOne();
+            this.IsValid = new LicenseValidator().Validate(signedLicense);
+            this.ValidUntil = signedLicense.License?.ValidUntil ?? DateTime.MinValue;
         }
 
         private async Task<T> SendCommand<T>(string command, string query = "")
         {
-// #if DEBUG
-//             string baseUri = "http://localhost:8087/api/v1/license";
-// #else
-            string baseUri = "https://generator.ky-programming.de/api/v1/license";
-// #endif
+#if DEBUG
+            string baseUri = "http://localhost:8003/api/v2/license";
+#else
+            string baseUri = "https://generator.ky-programming.de/api/v2/license";
+#endif
             HttpWebRequest request = WebRequest.CreateHttp($"{baseUri}/{command}?{query}");
             request.Method = WebRequestMethods.Http.Get;
+            request.Timeout = (int)TimeSpan.FromSeconds(5).TotalMilliseconds;
             WebResponse response = request.GetResponse();
             using Stream responseStream = response.GetResponseStream();
             string responseString = await responseStream.ReadStringAsync();
@@ -69,6 +89,30 @@ namespace KY.Generator.Licensing
             }
             Logger.Warning(responseString);
             throw new InvalidOperationException("Can not parse the response. No valid json");
+        }
+
+        public void ShowMessages()
+        {
+            SignedLicense signedLicense = this.globalLicenseService.Read();
+            if (signedLicense.License?.Messages == null)
+            {
+                return;
+            }
+            foreach (Message message in signedLicense.License.Messages)
+            {
+                switch (message.Type)
+                {
+                    case MessageType.Info:
+                        Logger.Trace(message.Text);
+                        break;
+                    case MessageType.Warning:
+                        Logger.Warning(message.Text);
+                        break;
+                    default:
+                        Logger.Error(message.Text);
+                        break;
+                }
+            }
         }
     }
 }

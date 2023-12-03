@@ -1,7 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using KY.Core;
-using KY.Core.Dependency;
 using KY.Generator.Angular;
 using KY.Generator.Angular.Configurations;
 using KY.Generator.Mappings;

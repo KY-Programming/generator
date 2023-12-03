@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Net.Http;
-using KY.Core;
-using KY.Core.DataAccess;
 using KY.Generator.Command;
 using KY.Generator.Output;
 

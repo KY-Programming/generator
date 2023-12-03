@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -50,9 +51,10 @@ namespace KY.Generator.Statistics
             Logger.Trace($"Initialized {this.Data.InitializedModules} modules in {this.Data.InitializationDuration.Format()}");
         }
 
-        public void RunEnd(Guid outputId)
+        public void RunEnd(Guid outputId, string name)
         {
             this.Data.Id = outputId;
+            this.Data.Name = name;
             this.Data.License = this.globalSettingsService.Read().License;
             this.Data.RunEnd = DateTime.Now;
             Logger.Trace($"Executed {this.Data.RanCommands.Count} commands in {this.Data.RunDuration.Format()}");
@@ -150,7 +152,7 @@ namespace KY.Generator.Statistics
         {
             byte[] content = data == default ? Array.Empty<byte>() : Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(data));
 #if DEBUG
-            string baseUri = "http://localhost:8087/api/v1/statistics";
+            string baseUri = "http://localhost:8003/api/v1/statistics";
 #else
             string baseUri = "https://generator.ky-programming.de/api/v1/statistics";
 #endif
@@ -160,8 +162,8 @@ namespace KY.Generator.Statistics
             request.ContentLength = content.Length;
             using Stream stream = request.GetRequestStream();
             stream.Write(content);
-            request.GetResponse();
-        }
+                request.GetResponse();
+            }
 
         public void Cleanup()
         {

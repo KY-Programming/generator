@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using KY.Core;
 using KY.Core.DataAccess;
@@ -33,13 +34,22 @@ namespace KY.Generator.Commands
                 project.Id = Guid.NewGuid();
                 parser.SetProjectGuid(this.Parameters.Project, project.Id);
             }
+            if (project != null && project.Name == null)
+            {
+                project.Name = projectFileName.Replace(Path.GetExtension(projectFileName), string.Empty);
+            }
 
             if (project == null || project.Id == Guid.Empty)
             {
                 Logger.Warning($"Can not read project id. No solution for project '{this.Parameters.Project}' found. Automatic file cleanup deactivated!");
                 return this.Success();
             }
-            this.resolver.Get<IEnvironment>().OutputId = project.Id;
+            IEnvironment environment = this.resolver.Get<IEnvironment>();
+            environment.OutputId = project.Id;
+            environment.Name = project.Name;
+            environment.ProjectFile = this.Parameters.Project;
+            AssemblyCache assemblyCache = this.resolver.Get<AssemblyCache>();
+            assemblyCache.LoadLocal();
 
             return this.Success().ForceRerunOnAsync();
         }

@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Reflection;
 using KY.Core.DataAccess;
+using KY.Generator.Models;
 
 namespace KY.Generator;
 

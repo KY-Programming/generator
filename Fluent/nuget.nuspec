@@ -14,7 +14,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Fluent language for KY-Generator</description>
     <releaseNotes></releaseNotes>
-    <copyright>Copyright 2022</copyright>
+    <copyright>2023 - KY-Programming</copyright>
     <tags>KY-Generator KY.Generator Fluent Language</tags>
     <dependencies>
       <dependency id="KY.Generator" version="9.0.0-preview.28"></dependency>
@@ -25,5 +25,6 @@
     <file src="..\bin\Release\netstandard2.0\publish\KY.Generator.Fluent.dll" target="lib\netstandard2.0" />
     <file src="..\bin\Release\KY.Generator.Fluent*.xml" target="lib\netstandard2.0" />
     <file src="..\icon.png" target="assets" />
+    <file src="..\README.md" target="docs" />
   </files>
 </package>

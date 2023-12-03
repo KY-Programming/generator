@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using KY.Core;
 using KY.Generator.Templates;
 
 namespace KY.Generator.Transfer.Extensions
