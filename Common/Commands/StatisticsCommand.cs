@@ -1,4 +1,3 @@
-using KY.Core.DataAccess;
 using KY.Generator.Command;
 using KY.Generator.Settings;
 using KY.Generator.Statistics;

@@ -63,7 +63,10 @@ namespace KY.Generator
             {
                 SwitchableFramework? assemblyFramework = null;
                 string[] frameworkFiles = FileSystem.GetFiles(RuntimeEnvironment.GetRuntimeDirectory(), "*.dll");
-                IEnumerable<string> loadedAssemblies = AppDomain.CurrentDomain.GetAssemblies().Where(x => !x.IsDynamic).Select(x => x.Location);
+                IEnumerable<string> loadedAssemblies = AppDomain.CurrentDomain.GetAssemblies()
+                                                                .Where(x => !x.IsDynamic)
+                                                                .Select(x => x.Location)
+                                                                .Where(x => !string.IsNullOrEmpty(x));
                 PathAssemblyResolver resolver = new(loadedAssemblies.Concat(frameworkFiles));
                 MetadataLoadContext metadataLoadContext = new(resolver);
 

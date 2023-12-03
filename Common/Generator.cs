@@ -34,6 +34,8 @@ namespace KY.Generator
         private readonly List<IGeneratorCommand> commands = new();
         private readonly GeneratorEnvironment environment = new();
         private readonly StatisticsService statisticsService;
+        private readonly LicenseService licenseService;
+        private readonly AssemblyCache assemblyCache;
 
         public Generator()
         {
@@ -45,10 +47,16 @@ namespace KY.Generator
             Logger.Trace("Current Directory: " + Environment.CurrentDirectory);
             Logger.Trace("Log Directory: " + Logger.File.Path);
 
-            NugetPackageDependencyLoader.Activate();
+            Stopwatch runtimeStopwatch = new();
+            runtimeStopwatch.Start();
+            this.assemblyCache = new AssemblyCache(this.environment);
+            runtimeStopwatch.Stop();
+            Logger.Trace($"Installed runtimes searched in {runtimeStopwatch.ElapsedMilliseconds} ms");
+            NugetPackageDependencyLoader.Activate(this.assemblyCache);
             NugetPackageDependencyLoader.ResolveDependencies(this.GetType().Assembly);
 
             this.resolver = new DependencyResolver();
+            this.resolver.Bind<AssemblyCache>().To(this.assemblyCache);
             this.resolver.Bind<ITypeMapping>().ToSingleton<TypeMapping>();
             this.resolver.Bind<CommandRunner>().ToSelf();
             this.resolver.Bind<ModuleFinder>().ToSingleton();
@@ -60,8 +68,10 @@ namespace KY.Generator
             this.resolver.Bind<StatisticsService>().ToSingleton();
             this.resolver.Bind<GlobalStatisticsService>().ToSingleton();
             this.resolver.Bind<GlobalSettingsService>().ToSingleton();
+            this.resolver.Bind<GlobalLicenseService>().ToSingleton();
             this.resolver.Bind<LicenseService>().ToSingleton();
-            this.resolver.Get<LicenseService>().Check();
+            this.licenseService = this.resolver.Get<LicenseService>();
+            this.licenseService.Check();
 
             this.statisticsService = this.resolver.Get<StatisticsService>();
             this.statisticsService.ProgramStart(start);
@@ -146,10 +156,8 @@ namespace KY.Generator
                 IGeneratorCommandResult switchContext = null;
                 bool switchAsync = false;
                 this.commands.ForEach(command => command.Prepare());
-                if (!this.resolver.Get<LicenseService>().Wait(TimeSpan.FromMilliseconds(250)))
-                {
-                    Logger.Warning($"Can not check license. Some modules may be deactivated.");
-                }
+                this.statisticsService.Data.IsMsBuild = this.statisticsService.Data.IsMsBuild || this.commands.Any(x => x.Parameters.IsMsBuild);
+                this.statisticsService.Data.IsBeforeBuild = this.statisticsService.Data.IsBeforeBuild || this.commands.Any(x => x.Parameters.IsBeforeBuild);
                 foreach (IGeneratorCommand command in this.commands)
                 {
                     IGeneratorCommandResult result = runner.Run(command);
@@ -164,20 +172,37 @@ namespace KY.Generator
                         asyncCommands.Add(command);
                     }
                 }
-                this.statisticsService.RunEnd(this.environment.OutputId);
+                this.statisticsService.RunEnd(this.environment.OutputId, this.environment.Name);
                 List<FileTemplate> files = this.resolver.Get<List<FileTemplate>>();
                 if (files.Count > 0)
                 {
-                    Logger.Trace("Generate code...");
-                    files.Write(this.output);
-                    this.statisticsService.GenerateEnd(this.output.Lines);
-                    files.ForEach(file => this.statisticsService.Count(file));
+                    this.licenseService.WaitOrKill();
+                    if (this.licenseService.IsValid)
+                    {
+                        Logger.Trace("Generate code...");
+                        files.Write(this.output);
+                        this.statisticsService.GenerateEnd(this.output.Lines);
+                        files.ForEach(file => this.statisticsService.Count(file));
+                    }
+                    else if (this.licenseService.ValidUntil > DateTime.MinValue)
+                    {
+                        Logger.Error("License has expired. Ensure that https://generator.ky-programming.de is reachable or generate a new offline license at https://generator.ky-programming.de/license");
+                        Logger.Error("Generate code canceled!");
+                        success = false;
+                    }
+                    else
+                    {
+                        Logger.Error("No valid license found. Ensure that https://generator.ky-programming.de is reachable or generate an offline license at https://generator.ky-programming.de/license");
+                        Logger.Error("Generate code canceled!");
+                        success = false;
+                    }
                 }
                 if (success)
                 {
                     this.output.Execute();
                     this.commands.ForEach(command => command.FollowUp());
                 }
+                this.assemblyCache.Save();
                 if (switchAsync)
                 {
                     return this.SwitchToAsync(asyncCommands);
@@ -187,6 +212,7 @@ namespace KY.Generator
                     return this.SwitchContext(switchContext, asyncCommands);
                 }
                 this.statisticsService.ProgramEnd(files.Count);
+                this.licenseService.ShowMessages();
                 if (!this.commands.OfType<StatisticsCommand>().Any() && this.resolver.Get<GlobalSettingsService>().Read().StatisticsEnabled)
                 {
                     string fileName = this.statisticsService.Write();
@@ -293,10 +319,22 @@ namespace KY.Generator
         private void InitializeModules(IEnumerable<ModuleBase> modules)
         {
             List<ModuleBase> list = modules.ToList();
+            Dictionary<ModuleBase, Stopwatch> stopwatches = list.ToDictionary(x => x, _ => new Stopwatch());
             this.statisticsService.Data.InitializedModules = list.Count;
-            list.ForEach(module => this.resolver.Bind<ModuleBase>().To(module));
-            list.ForEach(module => module.Initialize());
-            list.ForEach(module => Logger.Trace($"{module.GetType().Name.Replace("Module", "")}-{module.GetType().Assembly.GetName().Version} module loaded"));
+            foreach (ModuleBase module in list)
+            {
+                stopwatches[module].Start();
+                this.resolver.Bind<ModuleBase>().To(module);
+                stopwatches[module].Stop();
+            }
+            foreach (ModuleBase module in list)
+            {
+                Stopwatch stopwatch = stopwatches[module];
+                stopwatch.Start();
+                module.Initialize();
+                stopwatch.Stop();
+                Logger.Trace($"{module.GetType().Name.Replace("Module", "")}-{module.GetType().Assembly.GetName().Version} module loaded in {(stopwatch.ElapsedMilliseconds >= 1 ? stopwatch.ElapsedMilliseconds.ToString() : "<1")} ms");
+            }
         }
     }
 }

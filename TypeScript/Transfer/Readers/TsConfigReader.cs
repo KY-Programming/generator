@@ -11,6 +11,7 @@ namespace KY.Generator.TypeScript.Transfer.Readers
     public class TsConfigReader
     {
         private readonly List<ITransferObject> transferObjects;
+        private static readonly Dictionary<string, TsConfig> cache = new();
         private static readonly Regex pathRegex = new(@"(?<path>.*ClientApp[^\\\/]*)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         public TsConfigReader(List<ITransferObject> transferObjects)
@@ -24,6 +25,11 @@ namespace KY.Generator.TypeScript.Transfer.Readers
             if (tsConfig != null)
             {
                 return tsConfig;
+            }
+            if (cache.TryGetValue(fullPath, out TsConfig read))
+            {
+                this.LogInfo(read);
+                return read;
             }
             string path = FileSystem.Combine(fullPath, "tsconfig.json");
             Logger.Trace($"Try to read strict mode from {path}");
@@ -42,12 +48,19 @@ namespace KY.Generator.TypeScript.Transfer.Readers
                 path = FileSystem.Combine(fullPath.Substring(0, fullPath.IndexOf("src")), "tsconfig.json");
                 Logger.Trace($"Try to read strict mode from {path}");
             }
+            TsConfig config;
             if (FileSystem.FileExists(path))
             {
-                return this.Parse(path);
+                config = this.Parse(path);
+                this.LogInfo(config);
             }
-            Logger.Trace("Could not find tsconfig.json");
-            return null;
+            else
+            {
+                Logger.Trace("Could not find tsconfig.json");
+                config = null;
+            }
+            cache[fullPath] = config;
+            return config;
         }
 
         private TsConfig Parse(string path)
@@ -55,8 +68,12 @@ namespace KY.Generator.TypeScript.Transfer.Readers
             string text = FileSystem.ReadAllText(path);
             TsConfig tsConfig = JsonConvert.DeserializeObject<TsConfig>(text);
             transferObjects.Add(tsConfig);
-            Logger.Trace($"Activate TypeScript {(tsConfig?.CompilerOptions?.Strict == true ? "strict" : "regular")} mode");
             return tsConfig;
+        }
+
+        private void LogInfo(TsConfig config)
+        {
+            Logger.Trace($"Activate TypeScript {(config?.CompilerOptions?.Strict == true ? "strict" : "regular")} mode");
         }
     }
 }

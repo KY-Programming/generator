@@ -7,7 +7,10 @@ namespace KY.Generator.Statistics
     {
         public string Version { get; set; }
         public Guid Id { get; set; }
+        public string Name { get; set; }
         public Guid License { get; set; }
+        public bool IsMsBuild { get; set; }
+        public bool IsBeforeBuild { get; set; }
         public DateTime Start { get; set; }
         public int InitializedModules { get; set; }
         public DateTime InitializationEnd { get; set; }

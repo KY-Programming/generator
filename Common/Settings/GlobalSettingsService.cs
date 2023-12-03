@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using KY.Core;
 using KY.Core.DataAccess;
 using KY.Generator.Models;
@@ -21,13 +22,15 @@ namespace KY.Generator.Settings
         {
             if (this.cache == null)
             {
+                Stopwatch stopwatch = new();
+                stopwatch.Start();
                 if (FileSystem.FileExists(this.fileName))
                 {
-                    Logger.Trace("Read global settings...");
                     this.cache = JsonConvert.DeserializeObject<GlobalSettings>(FileSystem.ReadAllText(this.fileName));
                 }
                 this.cache ??= new GlobalSettings();
-                this.Write();
+                stopwatch.Stop();
+                Logger.Trace($"Global settings read in {stopwatch.ElapsedMilliseconds} ms");
             }
             return this.cache;
         }
