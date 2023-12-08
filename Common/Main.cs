@@ -1,6 +1,8 @@
 ﻿using System.Diagnostics;
 using System.Reflection;
+using KY.Core;
 using KY.Core.DataAccess;
+using KY.Core.Nuget;
 using KY.Generator.Models;
 
 namespace KY.Generator;
@@ -18,6 +20,8 @@ public static class Main
         }
 #endif
         Generator.InitializeLogger(args);
+        NugetPackageDependencyLoader.Activate();
+        NugetPackageDependencyLoader.Locations.Insert(0, new SearchLocation(SharedPath));
         return Generator.Create()
                         .SharedAssemblies(SharedPath)
                         .PreloadModules(SharedPath, "KY.Generator.*.dll")
