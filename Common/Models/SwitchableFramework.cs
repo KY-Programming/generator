@@ -20,6 +20,9 @@
         Net6,
 
         [FrameworkName("net7.0")]
-        Net7
+        Net7,
+
+        [FrameworkName("net8.0")]
+        Net8
     }
 }
