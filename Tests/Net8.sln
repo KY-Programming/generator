@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{E3B491F1-AFF7-4A44-88BD-3ABFD34F53A9}") = "Net8", "Net8\Net8.csproj", "{8D02CE37-8013-4A57-A40D-4A10C8C65DE2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Net8", "Net8\Net8.csproj", "{8D02CE37-8013-4A57-A40D-4A10C8C65DE2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
