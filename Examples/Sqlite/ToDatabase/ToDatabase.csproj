@@ -8,8 +8,8 @@
 
     <ItemGroup>
       <PackageReference Include="KY.Core.Common" Version="4.20.1" />
-      <PackageReference Include="KY.Generator" Version="8.8.1" />
-      <PackageReference Include="KY.Generator.Annotations" Version="8.8.1" />
+      <PackageReference Include="KY.Generator" Version="8.8.2" />
+      <PackageReference Include="KY.Generator.Annotations" Version="8.8.2" />
       <PackageReference Include="Microsoft.Data.Sqlite" Version="5.0.7" />
     </ItemGroup>
 

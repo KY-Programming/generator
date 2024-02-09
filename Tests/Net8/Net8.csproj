@@ -4,11 +4,12 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+    <ProjectGuid>{6167c327-3ad5-4a3c-95e0-524b71e1c094}</ProjectGuid>
   </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="KY.Generator" Version="8.8.1" />
-      <PackageReference Include="KY.Generator.Annotations" Version="8.8.1" />
+      <PackageReference Include="KY.Generator" Version="8.8.2" />
+      <PackageReference Include="KY.Generator.Annotations" Version="8.8.2" />
     </ItemGroup>
 
 </Project>

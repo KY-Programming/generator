@@ -10,9 +10,9 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="KY.Generator.Angular" Version="8.8.1" />
-        <PackageReference Include="KY.Generator.Fluent" Version="8.8.1" />
-        <PackageReference Include="KY.Generator.Reflection" Version="8.8.1" />
+        <PackageReference Include="KY.Generator.Angular" Version="8.8.2" />
+        <PackageReference Include="KY.Generator.Fluent" Version="8.8.2" />
+        <PackageReference Include="KY.Generator.Reflection" Version="8.8.2" />
     </ItemGroup>
 
 </Project>
