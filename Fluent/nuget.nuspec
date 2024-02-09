@@ -3,7 +3,7 @@
 <package>
   <metadata>
     <id>KY.Generator.Fluent</id>
-    <version>8.8.1</version>
+    <version>8.8.2</version>
     <title>KY.Generator</title>
     <authors>KY-Programming</authors>
     <owners>KY-Programming</owners>
@@ -14,11 +14,11 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Fluent language for KY-Generator</description>
     <releaseNotes></releaseNotes>
-    <copyright>2023 - KY-Programming</copyright>
+    <copyright>2024 - KY-Programming</copyright>
     <tags>KY-Generator KY.Generator Fluent Language</tags>
     <dependencies>
-      <dependency id="KY.Generator" version="8.8.1"/>
-      <dependency id="KY.Generator.Common" version="8.8.1"/>
+      <dependency id="KY.Generator" version="8.8.2"/>
+      <dependency id="KY.Generator.Common" version="8.8.2"/>
     </dependencies>
   </metadata>
   <files>

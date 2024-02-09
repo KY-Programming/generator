@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>KY.Generator</id>
-    <version>8.8.1</version>
+    <version>8.8.2</version>
     <title>KY.Generator</title>
     <authors>KY-Programming</authors>
     <owners>KY-Programming</owners>
@@ -14,7 +14,7 @@
     <description>Generate C# or TypeScript classes from .NET assemblies, JSON, TSQL or oData.
 Support for Angular, ASP.NET, ASP.NET Core, C# POCOs, TypeScript POCOs, Entity Framework and more.</description>
     <releaseNotes></releaseNotes>
-    <copyright>2023 - KY-Programming</copyright>
+    <copyright>2024 - KY-Programming</copyright>
     <tags>KY-Generator KY.Generator</tags>
     <readme>README.md</readme>
   </metadata>
