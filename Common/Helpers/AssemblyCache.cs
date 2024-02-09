@@ -52,7 +52,7 @@ public class AssemblyCache : IAssemblyCache
 
     public void LoadGlobal()
     {
-        string fileName = FileSystem.Combine(this.environment.ApplicationData, this.globalCacheFileName);
+        string fileName = FileSystem.Combine(this.environment.LocalApplicationData, this.globalCacheFileName);
         if (FileSystem.FileExists(fileName))
         {
             string json = FileSystem.ReadAllText(fileName);
@@ -68,7 +68,7 @@ public class AssemblyCache : IAssemblyCache
         }
         string hash = Sha1.Create(this.environment.ProjectFile).ToString().Substring(0, 8);
         this.localCacheFileName = $"{this.environment.Name}-{hash}-assembly-cache.json";
-        string fileName = FileSystem.Combine(this.environment.ApplicationData, this.localCacheFileName);
+        string fileName = FileSystem.Combine(this.environment.LocalApplicationData, this.localCacheFileName);
         if (FileSystem.FileExists(fileName))
         {
             string json = FileSystem.ReadAllText(fileName);
@@ -95,12 +95,12 @@ public class AssemblyCache : IAssemblyCache
     {
         if (this.global.Count > 0)
         {
-            string fileName = FileSystem.Combine(this.environment.ApplicationData, this.globalCacheFileName);
+            string fileName = FileSystem.Combine(this.environment.LocalApplicationData, this.globalCacheFileName);
             FileSystem.WriteAllText(fileName, JsonConvert.SerializeObject(this.global));
         }
         if (this.local.Count > 0 && this.localCacheFileName != null)
         {
-            string fileName = FileSystem.Combine(this.environment.ApplicationData, this.localCacheFileName);
+            string fileName = FileSystem.Combine(this.environment.LocalApplicationData, this.localCacheFileName);
             FileSystem.WriteAllText(fileName, JsonConvert.SerializeObject(this.local));
         }
     }

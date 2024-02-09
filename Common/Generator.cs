@@ -36,6 +36,7 @@ namespace KY.Generator
         private readonly StatisticsService statisticsService;
         private readonly LicenseService licenseService;
         private readonly AssemblyCache assemblyCache;
+        private bool initializationFailed;
 
         public Generator()
         {
@@ -47,11 +48,18 @@ namespace KY.Generator
             Logger.Trace("Current Directory: " + Environment.CurrentDirectory);
             Logger.Trace("Log Directory: " + Logger.File.Path);
 
+            Stopwatch prepareEnvironmentStopwatch = new();
+            prepareEnvironmentStopwatch.Start();
+            this.PrepareEnvironment();
+            prepareEnvironmentStopwatch.Stop();
+            Logger.Trace($"Prepared environment in {prepareEnvironmentStopwatch.ElapsedMilliseconds} ms");
+
             Stopwatch runtimeStopwatch = new();
             runtimeStopwatch.Start();
             this.assemblyCache = new AssemblyCache(this.environment);
             runtimeStopwatch.Stop();
             Logger.Trace($"Installed runtimes searched in {runtimeStopwatch.ElapsedMilliseconds} ms");
+
             NugetPackageDependencyLoader.Activate(this.assemblyCache);
             NugetPackageDependencyLoader.ResolveDependencies(this.GetType().Assembly);
 
@@ -78,6 +86,28 @@ namespace KY.Generator
 
             ModuleFinder moduleFinder = this.resolver.Get<ModuleFinder>();
             this.InitializeModules(moduleFinder.Modules);
+        }
+
+        private void PrepareEnvironment()
+        {
+            try
+            {
+                FileSystem.CreateDirectory(this.environment.ApplicationData);
+            }
+            catch (Exception exception)
+            {
+                Logger.Error($"Could not prepare environment. Could not create directory {this.environment.ApplicationData}. {exception.Message}");
+                this.initializationFailed = true;
+            }
+            try
+            {
+                FileSystem.CreateDirectory(this.environment.LocalApplicationData);
+            }
+            catch (Exception exception)
+            {
+                Logger.Error($"Could not prepare environment. Could not create directory {this.environment.LocalApplicationData}. {exception.Message}");
+                this.initializationFailed = true;
+            }
         }
 
         public static Generator Initialize()
@@ -149,52 +179,60 @@ namespace KY.Generator
             bool success = true;
             try
             {
+                if (this.initializationFailed)
+                {
+                    success = false;
+                }
                 List<ILanguage> languages = this.resolver.Get<List<ILanguage>>();
                 GeneratorCommand.AddParser(value => languages.FirstOrDefault(x => x.Name.Equals(value, StringComparison.CurrentCultureIgnoreCase)));
                 CommandRunner runner = this.resolver.Get<CommandRunner>();
                 List<IGeneratorCommand> asyncCommands = new();
                 IGeneratorCommandResult switchContext = null;
+                List<FileTemplate> files = null;
                 bool switchAsync = false;
                 this.commands.ForEach(command => command.Prepare());
                 this.statisticsService.Data.IsMsBuild = this.statisticsService.Data.IsMsBuild || this.commands.Any(x => x.Parameters.IsMsBuild);
                 this.statisticsService.Data.IsBeforeBuild = this.statisticsService.Data.IsBeforeBuild || this.commands.Any(x => x.Parameters.IsBeforeBuild);
-                foreach (IGeneratorCommand command in this.commands)
+                if (success)
                 {
-                    IGeneratorCommandResult result = runner.Run(command);
-                    success &= result.Success;
-                    switchAsync = switchAsync || result.SwitchToAsync;
-                    if (result.SwitchContext)
+                    foreach (IGeneratorCommand command in this.commands)
                     {
-                        switchContext ??= result;
+                        IGeneratorCommandResult result = runner.Run(command);
+                        success &= result.Success;
+                        switchAsync = switchAsync || result.SwitchToAsync;
+                        if (result.SwitchContext)
+                        {
+                            switchContext ??= result;
+                        }
+                        if (result.SwitchContext || result.SwitchToAsync || result.RerunOnAsync)
+                        {
+                            asyncCommands.Add(command);
+                        }
                     }
-                    if (result.SwitchContext || result.SwitchToAsync || result.RerunOnAsync)
+                    this.statisticsService.RunEnd(this.environment.OutputId, this.environment.Name);
+                    files = this.resolver.Get<List<FileTemplate>>();
+                    if (files.Count > 0)
                     {
-                        asyncCommands.Add(command);
-                    }
-                }
-                this.statisticsService.RunEnd(this.environment.OutputId, this.environment.Name);
-                List<FileTemplate> files = this.resolver.Get<List<FileTemplate>>();
-                if (files.Count > 0)
-                {
-                    this.licenseService.WaitOrKill();
-                    if (this.licenseService.IsValid)
-                    {
-                        Logger.Trace("Generate code...");
-                        files.Write(this.output);
-                        this.statisticsService.GenerateEnd(this.output.Lines);
-                        files.ForEach(file => this.statisticsService.Count(file));
-                    }
-                    else if (this.licenseService.ValidUntil > DateTime.MinValue)
-                    {
-                        Logger.Error("License has expired. Ensure that https://generator.ky-programming.de is reachable or generate a new offline license at https://generator.ky-programming.de/license");
-                        Logger.Error("Generate code canceled!");
-                        success = false;
-                    }
-                    else
-                    {
-                        Logger.Error("No valid license found. Ensure that https://generator.ky-programming.de is reachable or generate an offline license at https://generator.ky-programming.de/license");
-                        Logger.Error("Generate code canceled!");
-                        success = false;
+                        this.licenseService.WaitOrKill();
+                        if (this.licenseService.IsValid)
+                        {
+                            Logger.Trace("Generate code...");
+                            files.Write(this.output);
+                            this.statisticsService.GenerateEnd(this.output.Lines);
+                            files.ForEach(file => this.statisticsService.Count(file));
+                        }
+                        else if (this.licenseService.ValidUntil > DateTime.MinValue)
+                        {
+                            Logger.Error("License has expired. Ensure that https://generator.ky-programming.de is reachable or generate a new offline license at https://generator.ky-programming.de/license");
+                            Logger.Error("Generate code canceled!");
+                            success = false;
+                        }
+                        else
+                        {
+                            Logger.Error("No valid license found. Ensure that https://generator.ky-programming.de is reachable or generate an offline license at https://generator.ky-programming.de/license");
+                            Logger.Error("Generate code canceled!");
+                            success = false;
+                        }
                     }
                 }
                 if (success)
@@ -211,7 +249,7 @@ namespace KY.Generator
                 {
                     return this.SwitchContext(switchContext, asyncCommands);
                 }
-                this.statisticsService.ProgramEnd(files.Count);
+                this.statisticsService.ProgramEnd(files?.Count ?? 0);
                 this.licenseService.ShowMessages();
                 if (!this.commands.OfType<StatisticsCommand>().Any() && this.resolver.Get<GlobalSettingsService>().Read().StatisticsEnabled)
                 {
@@ -228,9 +266,16 @@ namespace KY.Generator
             {
                 Logger.Trace("===============================");
             }
-            if (!success && Logger.ErrorTargets.Contains(Logger.MsBuildOutput))
+            if (!success)
             {
-                Logger.Error($"See the full log in: {Logger.File.Path}");
+                string message =  "\n\n>>> NEED HELP?\n" +
+                                  ">>> check https://generator.ky-programming.de\n" +
+                                  $">>> or contact support{(char)64}ky-programming.de\n\n";
+                if (Logger.ErrorTargets.Contains(Logger.MsBuildOutput))
+                {
+                    message += $"\nSee the full log in: {Logger.File.Path}";
+                }
+                Logger.Error(message);
             }
             return success;
         }

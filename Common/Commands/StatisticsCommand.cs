@@ -1,3 +1,5 @@
+using System.Diagnostics;
+using KY.Core.DataAccess;
 using KY.Generator.Command;
 using KY.Generator.Settings;
 using KY.Generator.Statistics;
@@ -34,6 +36,7 @@ namespace KY.Generator.Commands
                 this.statisticsService.Anonymize(statistic);
                 this.statisticsService.Submit(statistic);
             }
+            this.statisticsService.Delete(this.Parameters.File);
             return this.Success();
         }
     }

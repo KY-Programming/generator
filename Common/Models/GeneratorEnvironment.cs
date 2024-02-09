@@ -13,5 +13,6 @@ namespace KY.Generator.Models
         public string OutputPath { get; set; }
         public List<ITransferObject> TransferObjects { get; } = new();
         public string ApplicationData { get; } = FileSystem.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "KY-Programming", "KY-Generator");
+        public string LocalApplicationData { get; } = FileSystem.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "KY-Programming", "KY-Generator");
     }
 }
