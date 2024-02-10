@@ -64,6 +64,11 @@ namespace KY.Generator.Statistics
             }
         }
 
+        public void RunFailed()
+        {
+            this.Data.License = this.globalSettingsService.Read().License;
+        }
+
         public void GenerateEnd(long lines)
         {
             this.Data.OutputLines = lines;

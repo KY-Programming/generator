@@ -29,7 +29,6 @@ namespace KY.Generator.Commands
             }
             this.globalStatisticsService.Read();
             this.globalStatisticsService.Append(statistic);
-            this.globalStatisticsService.Analyze();
             this.globalStatisticsService.Write();
             if (this.globalSettingsService.Read().StatisticsEnabled)
             {

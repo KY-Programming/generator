@@ -7,111 +7,113 @@ using KY.Core;
 using KY.Generator.Settings;
 using Newtonsoft.Json;
 
-namespace KY.Generator.Licensing
+namespace KY.Generator.Licensing;
+
+internal class LicenseService
 {
-    public class LicenseService
+    private readonly GlobalSettingsService globalSettingsService;
+    private readonly GlobalLicenseService globalLicenseService;
+    private readonly ManualResetEvent waitForCheck = new(false);
+    public bool IsValid { get; private set; }
+    public DateTime ValidUntil { get; private set; }
+
+    public LicenseService(GlobalSettingsService globalSettingsService, GlobalLicenseService globalLicenseService)
     {
-        private readonly GlobalSettingsService globalSettingsService;
-        private readonly GlobalLicenseService globalLicenseService;
-        private readonly ManualResetEvent waitForCheck = new(false);
-        public bool IsValid { get; private set; }
-        public DateTime ValidUntil { get; private set; }
+        this.globalSettingsService = globalSettingsService;
+        this.globalLicenseService = globalLicenseService;
+    }
 
-        public LicenseService(GlobalSettingsService globalSettingsService, GlobalLicenseService globalLicenseService)
+    public void Check()
+    {
+        Task.Factory.StartNew(async () =>
         {
-            this.globalSettingsService = globalSettingsService;
-            this.globalLicenseService = globalLicenseService;
-        }
-
-        public void Check()
-        {
-            Task.Factory.StartNew(async () =>
+            try
             {
-                try
+                Guid licenseId = this.globalSettingsService.Read().License;
+                SignedLicense license = this.globalLicenseService.Read();
+                if (license.License.Id == licenseId && (license.License.ValidUntil.Date - DateTime.Today).TotalDays >= 7 && license.Validate())
                 {
-                    SignedLicense signedLicense = await this.SendCommand<SignedLicense>($"{this.globalSettingsService.Read().License}/check");
-                    this.globalLicenseService.Set(signedLicense);
-                    this.CheckLicense(signedLicense);
+                    this.globalLicenseService.Set(license);
                 }
-                catch (Exception exception)
+                else
                 {
-                    Logger.Warning(exception.Message + Environment.NewLine + exception.StackTrace);
-                    lock (this.globalLicenseService)
-                    {
-                        this.CheckLicense(this.globalLicenseService.Read());
-                    }
+                    license = await this.SendCommand<SignedLicense>($"{licenseId}/check");
+                    this.globalLicenseService.Set(license);
                 }
-                this.waitForCheck.Set();
-            });
-        }
-
-        /// <summary>Blocks the current thread until the license is checked or when a cached license is available kills the check.</summary>
-        public void WaitOrKill()
-        {
-            lock (this.globalLicenseService)
+                this.CheckLicense(license);
+            }
+            catch (Exception exception)
             {
+                Logger.Warning(exception.Message + Environment.NewLine + exception.StackTrace);
                 this.CheckLicense(this.globalLicenseService.Read());
             }
-            // If the cached license is valid, we can terminate faster
-            if (this.IsValid)
-            {
-                Logger.Trace($"License check skipped. Stored license is valid until {this.ValidUntil}");
-                this.waitForCheck.Set();
-            }
-            else
-            {
-                this.waitForCheck.WaitOne();
-            }
-        }
+            this.waitForCheck.Set();
+        });
+    }
 
-        private void CheckLicense(SignedLicense signedLicense)
+    /// <summary>Blocks the current thread until the license is checked or when a cached license is available kills the check.</summary>
+    public void WaitOrKill()
+    {
+        this.CheckLicense(this.globalLicenseService.Read());
+        // If the cached license is valid, we can terminate faster
+        if (this.IsValid)
         {
-            this.IsValid = new LicenseValidator().Validate(signedLicense);
-            this.ValidUntil = signedLicense.License?.ValidUntil ?? DateTime.MinValue;
+            Logger.Trace($"License check skipped. Stored license is valid until {this.ValidUntil}");
+            this.waitForCheck.Set();
         }
-
-        private async Task<T> SendCommand<T>(string command, string query = "")
+        else
         {
+            this.waitForCheck.WaitOne();
+        }
+    }
+
+    private void CheckLicense(SignedLicense signedLicense)
+    {
+        this.IsValid = signedLicense.Validate();
+        this.ValidUntil = signedLicense.License?.ValidUntil ?? DateTime.MinValue;
+    }
+
+    private async Task<T> SendCommand<T>(string command, string query = "")
+    {
 #if DEBUG
-            string baseUri = "http://localhost:8003/api/v2/license";
+        string baseUri = "http://localhost:8003/api/v3/license";
 #else
-            string baseUri = "https://generator.ky-programming.de/api/v2/license";
+            string baseUri = "https://generator.ky-programming.de/api/v3/license";
 #endif
-            HttpWebRequest request = WebRequest.CreateHttp($"{baseUri}/{command}?{query}");
-            request.Method = WebRequestMethods.Http.Get;
-            request.Timeout = (int)TimeSpan.FromSeconds(5).TotalMilliseconds;
-            WebResponse response = request.GetResponse();
-            using Stream responseStream = response.GetResponseStream();
-            string responseString = await responseStream.ReadStringAsync();
-            if (responseString.StartsWith("[") || responseString.StartsWith("{") || responseString.StartsWith("\""))
-            {
-                return JsonConvert.DeserializeObject<T>(responseString);
-            }
-            Logger.Warning(responseString);
-            throw new InvalidOperationException("Can not parse the response. No valid json");
-        }
-
-        public void ShowMessages()
+        HttpWebRequest request = WebRequest.CreateHttp($"{baseUri}/{command}?{query}");
+        request.Method = WebRequestMethods.Http.Get;
+        request.Timeout = (int)TimeSpan.FromSeconds(5).TotalMilliseconds;
+        WebResponse response = request.GetResponse();
+        using Stream responseStream = response.GetResponseStream();
+        string responseString = await responseStream.ReadStringAsync();
+        if (responseString.StartsWith("[") || responseString.StartsWith("{") || responseString.StartsWith("\""))
         {
-            SignedLicense signedLicense = this.globalLicenseService.Read();
-            if (signedLicense.License?.Messages == null)
+            return JsonConvert.DeserializeObject<T>(responseString);
+        }
+        Logger.Warning(responseString);
+        throw new InvalidOperationException("Can not parse the response. No valid json");
+    }
+
+    public void ShowMessages()
+    {
+        SignedLicense signedLicense = this.globalLicenseService.Read();
+        if (signedLicense.License?.Messages == null)
+        {
+            return;
+        }
+        foreach (Message message in signedLicense.License.Messages)
+        {
+            switch (message.Type)
             {
-                return;
-            }
-            foreach (Message message in signedLicense.License.Messages)
-            {
-                switch (message.Type)
-                {
-                    case MessageType.Info:
-                        Logger.Trace(message.Text);
-                        break;
-                    case MessageType.Warning:
-                        Logger.Warning(message.Text);
-                        break;
-                    default:
-                        Logger.Error(message.Text);
-                        break;
-                }
+                case MessageType.Info:
+                    Logger.Trace(message.Text);
+                    break;
+                case MessageType.Warning:
+                    Logger.Warning(message.Text);
+                    break;
+                default:
+                    Logger.Error(message.Text);
+                    break;
             }
         }
     }

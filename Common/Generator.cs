@@ -37,11 +37,13 @@ namespace KY.Generator
         private readonly LicenseService licenseService;
         private readonly AssemblyCache assemblyCache;
         private bool initializationFailed;
+        private List<string> initializationErrors = new();
 
         public Generator()
         {
             DateTime start = DateTime.Now;
             Logger.CatchAll();
+            Logger.Added += this.OnLoggerAdded;
             Assembly callingAssembly = Assembly.GetEntryAssembly() ?? Assembly.GetCallingAssembly();
             FrameworkName framework = callingAssembly.GetTargetFramework();
             Logger.Trace($"KY-Generator v{callingAssembly.GetName().Version} ({framework.Identifier.Replace("App", string.Empty)} {framework.Version.Major}.{framework.Version.Minor})");
@@ -81,8 +83,10 @@ namespace KY.Generator
             this.licenseService = this.resolver.Get<LicenseService>();
             this.licenseService.Check();
 
+            Logger.Added -= this.OnLoggerAdded;
             this.statisticsService = this.resolver.Get<StatisticsService>();
             this.statisticsService.ProgramStart(start);
+            this.statisticsService.Data.Errors.AddRange(this.initializationErrors);
 
             ModuleFinder moduleFinder = this.resolver.Get<ModuleFinder>();
             this.InitializeModules(moduleFinder.Modules);
@@ -193,7 +197,7 @@ namespace KY.Generator
                 this.commands.ForEach(command => command.Prepare());
                 this.statisticsService.Data.IsMsBuild = this.statisticsService.Data.IsMsBuild || this.commands.Any(x => x.Parameters.IsMsBuild);
                 this.statisticsService.Data.IsBeforeBuild = this.statisticsService.Data.IsBeforeBuild || this.commands.Any(x => x.Parameters.IsBeforeBuild);
-                if (success)
+                if (success || this.commands.Any(x => x.Parameters.Force))
                 {
                     foreach (IGeneratorCommand command in this.commands)
                     {
@@ -240,6 +244,10 @@ namespace KY.Generator
                     this.output.Execute();
                     this.commands.ForEach(command => command.FollowUp());
                 }
+                else
+                {
+                    this.statisticsService.RunFailed();
+                }
                 this.assemblyCache.Save();
                 if (switchAsync)
                 {
@@ -251,6 +259,25 @@ namespace KY.Generator
                 }
                 this.statisticsService.ProgramEnd(files?.Count ?? 0);
                 this.licenseService.ShowMessages();
+            }
+            catch (Exception exception)
+            {
+                Logger.Error(exception);
+                success = false;
+            }
+            if (!success)
+            {
+                string message = "\n\n>>> NEED HELP?\n" +
+                                 ">>> check https://generator.ky-programming.de\n" +
+                                 $">>> or contact support{(char)64}ky-programming.de\n\n";
+                if (Logger.ErrorTargets.Contains(Logger.MsBuildOutput))
+                {
+                    message += $"\nSee the full log in: {Logger.File.Path}";
+                }
+                Logger.Error(message);
+            }
+            try
+            {
                 if (!this.commands.OfType<StatisticsCommand>().Any() && this.resolver.Get<GlobalSettingsService>().Read().StatisticsEnabled)
                 {
                     string fileName = this.statisticsService.Write();
@@ -260,24 +287,17 @@ namespace KY.Generator
             catch (Exception exception)
             {
                 Logger.Error(exception);
-                success = false;
             }
-            finally
-            {
-                Logger.Trace("===============================");
-            }
-            if (!success)
-            {
-                string message =  "\n\n>>> NEED HELP?\n" +
-                                  ">>> check https://generator.ky-programming.de\n" +
-                                  $">>> or contact support{(char)64}ky-programming.de\n\n";
-                if (Logger.ErrorTargets.Contains(Logger.MsBuildOutput))
-                {
-                    message += $"\nSee the full log in: {Logger.File.Path}";
-                }
-                Logger.Error(message);
-            }
+            Logger.Trace("===============================");
             return success;
+        }
+
+        private void OnLoggerAdded(object sender, EventArgs<LogEntry> args)
+        {
+            if (args.Value.Type != LogType.Trace)
+            {
+                this.initializationErrors.Add(args.Value.Message);
+            }
         }
 
         private bool SwitchContext(IGeneratorCommandResult result, IEnumerable<IGeneratorCommand> commandsToRun)

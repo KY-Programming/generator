@@ -28,7 +28,11 @@ namespace KY.Generator.Settings
                 {
                     this.cache = JsonConvert.DeserializeObject<GlobalSettings>(FileSystem.ReadAllText(this.fileName));
                 }
-                this.cache ??= new GlobalSettings();
+                else
+                {
+                    this.cache ??= new GlobalSettings();
+                    this.Write();
+                }
                 stopwatch.Stop();
                 Logger.Trace($"Global settings read in {stopwatch.ElapsedMilliseconds} ms");
             }

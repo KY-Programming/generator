@@ -59,15 +59,11 @@ namespace KY.Generator.Statistics
             FileSystem.WriteAllText(this.fileName, JsonConvert.SerializeObject(this.cache));
         }
 
-        public void Analyze()
-        {
-            // TODO: Implement analyze of submitted data
-        }
-
         public void StartCalculation(string statisticsFileName)
         {
             StatisticsCommand command = this.resolver.Create<StatisticsCommand>();
             command.Parameters.File = statisticsFileName;
+            command.Parameters.Force = true;
             GeneratorProcess.StartHidden(command);
         }
 
