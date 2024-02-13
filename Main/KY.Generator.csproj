@@ -4,7 +4,7 @@
         <OutputType>Exe</OutputType>
         <TargetFramework>net8.0</TargetFramework>
         <TargetFrameworks>netcoreapp2.0;netcoreapp3.0;net5.0;net6.0;net7.0;net8.0</TargetFrameworks>
-        <Version>8.8.3</Version>
+        <Version>8.8.4</Version>
         <Authors>KY-Programming</Authors>
         <Product>KY.Generator</Product>
         <Copyright>2024 - KY-Programming</Copyright>
