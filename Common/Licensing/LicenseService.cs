@@ -29,9 +29,9 @@ internal class LicenseService
         {
             try
             {
-                Guid licenseId = this.globalSettingsService.Read()?.License ?? Guid.Empty;
+                Guid licenseId = this.globalSettingsService.Read().License ;
                 SignedLicense license = this.globalLicenseService.Read();
-                if (license.License.Id == licenseId && (license.License.ValidUntil.Date - DateTime.Today).TotalDays >= 7 && license.Validate())
+                if (license.License != null && license.License.Id == licenseId && (license.License.ValidUntil.Date - DateTime.Today).TotalDays >= 7 && license.Validate())
                 {
                     this.globalLicenseService.Set(license);
                 }
@@ -58,7 +58,7 @@ internal class LicenseService
         // If the cached license is valid, we can terminate faster
         if (this.IsValid)
         {
-            Logger.Trace($"License check skipped. Stored license is valid until {this.ValidUntil}");
+            Logger.Trace($"License check skipped. Stored license is valid until {this.ValidUntil.ToShortDateString()}");
             this.waitForCheck.Set();
         }
         else
