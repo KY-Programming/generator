@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <Company>KY-Programming</Company>
     <Authors>KY-Programming</Authors>
-    <Version>8.8.4</Version>
+    <Version>8.8.5</Version>
     <Product>KY.Generator</Product>
     <Description>JSON Module for KY-Generator
 Download KY.Generator to use this module</Description>
