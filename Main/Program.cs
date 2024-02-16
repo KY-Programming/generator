@@ -26,13 +26,6 @@ internal class Program
         string coreFileName = Path.Combine(SharedPath, assemblyName + ".dll");
         if (!File.Exists(coreFileName))
         {
-#if DEBUG
-            if (assemblyName == "KY.Core.Common")
-            {
-                AssemblyLoadContext.Default.LoadFromAssemblyPath(Environment.ExpandEnvironmentVariables(@"%USERPROFILE%\.nuget\packages\ky.core.common\4.13.0\lib\netstandard2.0\KY.Core.Common.dll"));
-                return true;
-            }
-#endif
             Console.WriteLine($"Error: {assemblyName} not found in {SharedPath}");
             return false;
         }

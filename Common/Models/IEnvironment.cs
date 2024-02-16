@@ -12,5 +12,6 @@ namespace KY.Generator.Models
         List<ITransferObject> TransferObjects { get; }
         string OutputPath { get; set; }
         string ApplicationData { get; }
+        string LocalApplicationData { get; }
     }
 }

@@ -8,7 +8,7 @@
     <Product>KY.Generator</Product>
     <Description>JSON Module for KY-Generator
 Download KY.Generator to use this module</Description>
-    <Copyright>2023 - KY-Programming</Copyright>
+    <Copyright>2024 - KY-Programming</Copyright>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://generator.ky-programming.de</PackageProjectUrl>
@@ -28,7 +28,7 @@ Download KY.Generator to use this module</Description>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
   <ItemGroup>

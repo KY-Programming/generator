@@ -27,11 +27,19 @@ namespace KY.Generator.Reflection.Readers
                 Logger.Trace($"Class {configuration.Namespace}.{configuration.Name} not found");
                 return;
             }
-            ModelTransferObject selfModel = this.modelReader.Read(type, caller);
-            IOptions modelOptions = this.options.Get(selfModel);
-            if (configuration.OnlySubTypes || modelOptions.OnlySubTypes)
+            try
             {
-                modelOptions.OnlySubTypes = true;
+                ModelTransferObject selfModel = this.modelReader.Read(type, caller);
+                IOptions modelOptions = this.options.Get(selfModel);
+                if (configuration.OnlySubTypes || modelOptions.OnlySubTypes)
+                {
+                    modelOptions.OnlySubTypes = true;
+                }
+            }
+            catch
+            {
+                Logger.Warning("Reflection reader could not read " + type.FullName);
+                throw;
             }
         }
     }

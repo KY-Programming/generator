@@ -26,9 +26,21 @@ namespace KY.Generator.Settings
                 stopwatch.Start();
                 if (FileSystem.FileExists(this.fileName))
                 {
-                    this.cache = JsonConvert.DeserializeObject<GlobalSettings>(FileSystem.ReadAllText(this.fileName));
+                    try
+                    {
+                        this.cache = JsonConvert.DeserializeObject<GlobalSettings>(FileSystem.ReadAllText(this.fileName));
+                    }
+                    catch (Exception exception)
+                    {
+                        Logger.Warning("Could not read global settings." + Environment.NewLine + exception.Message + Environment.NewLine + exception.StackTrace);
+                        this.cache = null;
+                    }
                 }
-                this.cache ??= new GlobalSettings();
+                if (this.cache == null)
+                {
+                    this.cache = new GlobalSettings();
+                    this.Write();
+                }
                 stopwatch.Stop();
                 Logger.Trace($"Global settings read in {stopwatch.ElapsedMilliseconds} ms");
             }

@@ -37,21 +37,31 @@ namespace KY.Generator
         private readonly StatisticsService statisticsService;
         private readonly LicenseService licenseService;
         private readonly AssemblyCache assemblyCache;
+        private bool initializationFailed;
+        private List<string> initializationErrors = new();
 
         public Generator()
         {
             DateTime start = DateTime.Now;
+            Logger.Added += this.OnLoggerAdded;
             Assembly callingAssembly = Assembly.GetEntryAssembly() ?? Assembly.GetCallingAssembly();
             FrameworkName framework = callingAssembly.GetTargetFramework();
             Logger.Trace($"KY-Generator v{callingAssembly.GetName().Version} ({framework.Identifier.Replace("App", string.Empty)} {framework.Version.Major}.{framework.Version.Minor})");
             Logger.Trace("Current Directory: " + Environment.CurrentDirectory);
             Logger.Trace("Log Directory: " + Logger.File.Path);
 
+            Stopwatch prepareEnvironmentStopwatch = new();
+            prepareEnvironmentStopwatch.Start();
+            this.PrepareEnvironment();
+            prepareEnvironmentStopwatch.Stop();
+            Logger.Trace($"Prepared environment in {prepareEnvironmentStopwatch.ElapsedMilliseconds} ms");
+
             Stopwatch runtimeStopwatch = new();
             runtimeStopwatch.Start();
             this.assemblyCache = new AssemblyCache(this.environment);
             runtimeStopwatch.Stop();
             Logger.Trace($"Installed runtimes searched in {runtimeStopwatch.ElapsedMilliseconds} ms");
+
             NugetPackageDependencyLoader.Activate(this.assemblyCache);
             NugetPackageDependencyLoader.ResolveDependencies(this.GetType().Assembly);
 
@@ -73,11 +83,35 @@ namespace KY.Generator
             this.licenseService = this.resolver.Get<LicenseService>();
             this.licenseService.Check();
 
+            Logger.Added -= this.OnLoggerAdded;
             this.statisticsService = this.resolver.Get<StatisticsService>();
             this.statisticsService.ProgramStart(start);
+            this.statisticsService.Data.Errors.AddRange(this.initializationErrors);
 
             ModuleFinder moduleFinder = this.resolver.Get<ModuleFinder>();
             this.InitializeModules(moduleFinder.Modules);
+        }
+
+        private void PrepareEnvironment()
+        {
+            try
+            {
+                FileSystem.CreateDirectory(this.environment.ApplicationData);
+            }
+            catch (Exception exception)
+            {
+                Logger.Error($"Could not prepare environment. Could not create directory {this.environment.ApplicationData}. {exception.Message}");
+                this.initializationFailed = true;
+            }
+            try
+            {
+                FileSystem.CreateDirectory(this.environment.LocalApplicationData);
+            }
+            catch (Exception exception)
+            {
+                Logger.Error($"Could not prepare environment. Could not create directory {this.environment.LocalApplicationData}. {exception.Message}");
+                this.initializationFailed = true;
+            }
         }
 
         public static Generator Create()
@@ -155,15 +189,22 @@ namespace KY.Generator
             bool success = true;
             try
             {
+                if (this.initializationFailed)
+                {
+                    success = false;
+                }
                 List<ILanguage> languages = this.resolver.Get<List<ILanguage>>();
                 GeneratorCommand.AddParser(value => languages.FirstOrDefault(x => x.Name.Equals(value, StringComparison.CurrentCultureIgnoreCase)));
                 CommandRunner runner = this.resolver.Get<CommandRunner>();
                 List<IGeneratorCommand> asyncCommands = new();
                 IGeneratorCommandResult switchContext = null;
+                List<FileTemplate> files = null;
                 bool switchAsync = false;
                 this.commands.ForEach(command => command.Prepare());
                 this.statisticsService.Data.IsMsBuild = this.statisticsService.Data.IsMsBuild || this.commands.Any(x => x.Parameters.IsMsBuild);
                 this.statisticsService.Data.IsBeforeBuild = this.statisticsService.Data.IsBeforeBuild || this.commands.Any(x => x.Parameters.IsBeforeBuild);
+                if (success || this.commands.Any(x => x.Parameters.Force))
+                {
                 foreach (IGeneratorCommand command in this.commands)
                 {
                     IGeneratorCommandResult result = runner.Run(command);
@@ -179,7 +220,7 @@ namespace KY.Generator
                     }
                 }
                 this.statisticsService.RunEnd(this.environment.OutputId, this.environment.Name);
-                List<FileTemplate> files = this.resolver.Get<List<FileTemplate>>();
+                    files = this.resolver.Get<List<FileTemplate>>();
                 if (files.Count > 0)
                 {
                     this.licenseService.WaitOrKill();
@@ -203,10 +244,15 @@ namespace KY.Generator
                         success = false;
                     }
                 }
+                }
                 if (success)
                 {
                     this.output.Execute();
                     this.commands.ForEach(command => command.FollowUp());
+                }
+                else
+                {
+                    this.statisticsService.RunFailed();
                 }
                 this.assemblyCache.Save();
                 if (switchAsync)
@@ -217,8 +263,27 @@ namespace KY.Generator
                 {
                     return this.SwitchContext(switchContext, asyncCommands);
                 }
-                this.statisticsService.ProgramEnd(files.Count);
+                this.statisticsService.ProgramEnd(files?.Count ?? 0);
                 this.licenseService.ShowMessages();
+            }
+            catch (Exception exception)
+            {
+                Logger.Error(exception);
+                success = false;
+            }
+            if (!success)
+            {
+                string message = "\n\n>>> NEED HELP?\n" +
+                                 ">>> check https://generator.ky-programming.de\n" +
+                                 $">>> or contact support{(char)64}ky-programming.de\n\n";
+                if (Logger.ErrorTargets.Contains(Logger.MsBuildOutput))
+                {
+                    message += $"\nSee the full log in: {Logger.File.Path}";
+                }
+                Logger.Error(message);
+            }
+            try
+            {
                 if (!this.commands.OfType<StatisticsCommand>().Any() && this.resolver.Get<GlobalSettingsService>().Read().StatisticsEnabled)
                 {
                     string fileName = this.statisticsService.Write();
@@ -228,17 +293,17 @@ namespace KY.Generator
             catch (Exception exception)
             {
                 Logger.Error(exception);
-                success = false;
             }
-            finally
-            {
                 Logger.Trace("===============================");
-            }
-            if (!success && Logger.ErrorTargets.Contains(Logger.MsBuildOutput))
-            {
-                Logger.Error($"See the full log in: {Logger.File.Path}");
-            }
             return success;
+            }
+
+        private void OnLoggerAdded(object sender, EventArgs<LogEntry> args)
+            {
+            if (args.Value.Type != LogType.Trace)
+            {
+                this.initializationErrors.Add(args.Value.Message);
+            }
         }
 
         private bool SwitchContext(IGeneratorCommandResult result, IEnumerable<IGeneratorCommand> commandsToRun)

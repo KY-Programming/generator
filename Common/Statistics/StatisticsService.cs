@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -65,6 +64,11 @@ namespace KY.Generator.Statistics
             }
         }
 
+        public void RunFailed()
+        {
+            this.Data.License = this.globalSettingsService.Read().License;
+        }
+
         public void GenerateEnd(long lines)
         {
             this.Data.OutputLines = lines;
@@ -98,7 +102,7 @@ namespace KY.Generator.Statistics
 
         public Statistic Read(string fileName)
         {
-            string filePath = FileSystem.Combine(this.environment.ApplicationData, fileName);
+            string filePath = FileSystem.Combine(this.environment.LocalApplicationData, fileName);
             if (!FileSystem.FileExists(filePath))
             {
                 Logger.Trace($"File not found {fileName}...");
@@ -108,11 +112,16 @@ namespace KY.Generator.Statistics
             return JsonConvert.DeserializeObject<Statistic>(FileSystem.ReadAllText(filePath));
         }
 
+        public void Delete(string fileName)
+        {
+            string filePath = FileSystem.Combine(this.environment.LocalApplicationData, fileName);
+            FileSystem.DeleteFile(filePath);
+        }
+
         public string Write()
         {
             string fileName = $"{this.Data.Start:yyyy-MM-dd-hh-mm-ss-fff}-{this.Data.Id}.statistics.json";
-            FileSystem.CreateDirectory(this.environment.ApplicationData);
-            FileSystem.WriteAllText(this.environment.ApplicationData, fileName, JsonConvert.SerializeObject(this.Data));
+            FileSystem.WriteAllText(this.environment.LocalApplicationData, fileName, JsonConvert.SerializeObject(this.Data));
             return fileName;
         }
 
@@ -162,12 +171,14 @@ namespace KY.Generator.Statistics
             request.ContentLength = content.Length;
             using Stream stream = request.GetRequestStream();
             stream.Write(content);
-                request.GetResponse();
-            }
+            request.GetResponse();
+        }
 
         public void Cleanup()
         {
-            string[] files = FileSystem.GetFiles(this.environment.ApplicationData, "*.statistics.json");
+            string[] files = FileSystem.GetFiles(this.environment.LocalApplicationData, "*.statistics.json")
+                                       .Concat(FileSystem.GetFiles(this.environment.ApplicationData, "*.statistics.json"))
+                                       .ToArray();
             foreach (string file in files)
             {
                 FileSystem.DeleteFile(file);

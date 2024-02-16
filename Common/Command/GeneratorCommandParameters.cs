@@ -27,6 +27,9 @@
 
         [GeneratorGlobalParameter]
         public bool SkipAsyncCheck { get; set; }
+        
+        [GeneratorGlobalParameter]
+        public bool Force { get; set; }
 
         public string Assembly { get; set; }
         public string RelativePath { get; set; }
