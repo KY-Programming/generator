@@ -1,4 +1,5 @@
-﻿using KY.Core;
+﻿using System;
+using KY.Core;
 using KY.Core.DataAccess;
 using KY.Generator.Models;
 using Newtonsoft.Json;
@@ -23,7 +24,15 @@ internal class GlobalLicenseService
             {
                 if (FileSystem.FileExists(this.fileName))
                 {
-                    this.cache = JsonConvert.DeserializeObject<SignedLicense>(FileSystem.ReadAllText(this.fileName));
+                    try
+                    {
+                        this.cache = JsonConvert.DeserializeObject<SignedLicense>(FileSystem.ReadAllText(this.fileName));
+                    }
+                    catch (Exception exception)
+                    {
+                        Logger.Warning("Could not read global license." + Environment.NewLine + exception.Message + Environment.NewLine + exception.StackTrace);
+                        this.cache = null;
+                    }
                 }
                 this.cache ??= new SignedLicense();
             }

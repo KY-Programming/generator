@@ -29,7 +29,7 @@ internal class LicenseService
         {
             try
             {
-                Guid licenseId = this.globalSettingsService.Read().License;
+                Guid licenseId = this.globalSettingsService.Read()?.License ?? Guid.Empty;
                 SignedLicense license = this.globalLicenseService.Read();
                 if (license.License.Id == licenseId && (license.License.ValidUntil.Date - DateTime.Today).TotalDays >= 7 && license.Validate())
                 {
