@@ -227,6 +227,10 @@ namespace KY.Generator.Reflection.Readers
             IOptions modelOptions = this.options.Get(model);
             for (int index = 0; index < model.Template.Generics.Count; index++)
             {
+                if (index >= type.GenericTypeArguments.Length)
+                {
+                    continue;
+                }
                 string alias = model.Template.Generics[index].Alias.Name;
                 ModelTransferObject argument = this.Read(type.GenericTypeArguments[index], modelOptions);
                 this.ApplyGenericTemplate(model, alias, argument);
@@ -235,6 +239,10 @@ namespace KY.Generator.Reflection.Readers
 
         private void ApplyGenericTemplate(TypeTransferObject target, string alias, TypeTransferObject type)
         {
+            if (target is not GenericModelTransferObject)
+            {
+                return;
+            }
             if (target is GenericModelTransferObject genericModel && genericModel.Generics.Count == 0)
             {
                 genericModel.Template.Generics.Clone().ForEach(genericModel.Generics.Add);
