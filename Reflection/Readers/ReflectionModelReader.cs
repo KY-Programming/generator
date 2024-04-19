@@ -307,7 +307,10 @@ namespace KY.Generator.Reflection.Readers
                                                                 {
                                                                     Name = property.Name,
                                                                     Type = this.Read(propertyOptions.ReturnType, propertyOptions) ?? this.Read(property.PropertyType, propertyOptions),
-                                                                    Attributes = property.GetCustomAttributes().ToTransferObjects().ToList()
+                                                                    Attributes = property.GetCustomAttributes().ToTransferObjects().ToList(),
+                                                                    IsAbstract = property.GetMethod?.IsAbstract ?? property.SetMethod?.IsAbstract ?? false,
+                                                                    IsVirtual = property.GetMethod?.IsVirtual ?? property.SetMethod?.IsVirtual ?? false,
+                                                                    IsOverwrite = property.GetMethod?.GetBaseDefinition() != property.GetMethod || property.SetMethod?.GetBaseDefinition() != property.SetMethod,
                                                                 };
                 model.Properties.Add(propertyTransferObject);
                 this.options.Set(propertyTransferObject, propertyOptions);

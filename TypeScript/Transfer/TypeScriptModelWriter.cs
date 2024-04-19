@@ -40,6 +40,10 @@ namespace KY.Generator.TypeScript.Transfer
 
         protected override FieldTemplate AddField(ModelTransferObject model, MemberTransferObject member, ClassTemplate classTemplate)
         {
+            if (member.IsOverwrite)
+            {
+                return null;
+            }
             IOptions fieldOptions = this.Options.Get(member);
             FieldTemplate fieldTemplate = base.AddField(model, member, classTemplate);
             fieldTemplate.Strict = fieldOptions.Strict;
@@ -52,6 +56,10 @@ namespace KY.Generator.TypeScript.Transfer
 
         protected override PropertyTemplate AddProperty(ModelTransferObject model, MemberTransferObject member, ClassTemplate classTemplate)
         {
+            if (member.IsOverwrite)
+            {
+                return null;
+            }
             IOptions propertyOptions = this.Options.Get(member);
             PropertyTemplate propertyTemplate = base.AddProperty(model, member, classTemplate);
             propertyTemplate.Strict = propertyOptions.Strict;
