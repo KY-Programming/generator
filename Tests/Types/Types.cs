@@ -94,11 +94,23 @@ namespace Types
         // Generics
         public List<string> StringList { get; set; }
         public List<SubType> SubTypeList { get; set; }
+        public IList<string> StringIList { get; set; }
+        public IList<SubType> SubTypeIList { get; set; }
+        public IEnumerable<string> StringIEnumerable { get; set; }
+        public IEnumerable<SubType> SubTypeIEnumerable { get; set; }
+        public IReadOnlyList<string> StringIReadOnlyList { get; set; }
+        public IReadOnlyList<SubType> SubTypeIReadOnlyList { get; set; }
+        public ICollection<string> StringICollection { get; set; }
+        public ICollection<SubType> SubTypeICollection { get; set; }
+        public IReadOnlyCollection<string> StringIReadOnlyCollection { get; set; }
+        public IReadOnlyCollection<SubType> SubTypeIReadOnlyCollection { get; set; }
         public Dictionary<string, string> StringStringDictionary { get; set; }
         public Dictionary<int, string> IntStringDictionary { get; set; }
         public Dictionary<string, SubType> StringSubTypeDictionary { get; set; }
         public Dictionary<int, SubType> IntSubTypeDictionary { get; set; }
         public Dictionary<SubType, string> SubTypeStringDictionary { get; set; }
+        public IDictionary<string, string> StringStringIDictionary { get; set; }
+        public IReadOnlyDictionary<string, string> StringStringIReadOnlyDictionary { get; set; }
         public GenericSubType<string, int> GenericSubType { get; set; }
 
         // Accessors

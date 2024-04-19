@@ -11,6 +11,7 @@ namespace Types
         public IndexedEnum IndexedEnum { get; set; }
         public SkippedEnum SkippedEnum { get; set; }
         public NegativeEnum NegativeEnum { get; set; }
+        public SpecialNameEnum SpecialNameEnum { get; set; }
         
         // Types
         public ByteEnum ByteEnum { get; set; }
@@ -113,5 +114,12 @@ public enum ULongEnum : ulong
     Value1 = 1,
     Value2 = 2,
     Value3 = 3
+}
+
+public enum SpecialNameEnum
+{
+    Default,
+    Number,
+    String
 }
 
