@@ -89,7 +89,7 @@ namespace KY.Generator.Transfer
             set => this.Template.IsGenericParameter = value;
         }
 
-        public override Dictionary<string, int> EnumValues
+        public override Dictionary<string, object> EnumValues
         {
             get => this.Template.EnumValues;
             set => this.Template.EnumValues = value;
