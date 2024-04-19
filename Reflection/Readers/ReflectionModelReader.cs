@@ -23,8 +23,30 @@ namespace KY.Generator.Reflection.Readers
             this.environment = environment;
         }
 
+        public ModelTransferObject Read(TypeTransferObject type, IOptions caller = null)
+        {
+            if (type == null)
+            {
+                return null;
+            }
+            if (type.Type != null)
+            {
+                return this.Read(type.Type);
+            }
+            return new ModelTransferObject
+                   {
+                       Name = type.Name,
+                       Namespace = type.Namespace,
+                       Original = type,
+                   };
+        }
+
         public ModelTransferObject Read(Type type, IOptions caller = null)
         {
+            if (type == null)
+            {
+                return null;
+            }
             ModelTransferObject model = new() { Language = ReflectionLanguage.Instance, Type = type };
             model.Name = model.OriginalName = type.Name;
             model.Namespace = type.Namespace;
@@ -292,7 +314,7 @@ namespace KY.Generator.Reflection.Readers
                 PropertyTransferObject propertyTransferObject = new()
                                                                 {
                                                                     Name = property.Name,
-                                                                    Type = this.Read(property.PropertyType, propertyOptions),
+                                                                    Type = this.Read(propertyOptions.ReturnType, propertyOptions) ?? this.Read(property.PropertyType, propertyOptions),
                                                                     Attributes = property.GetCustomAttributes().ToTransferObjects().ToList()
                                                                 };
                 model.Properties.Add(propertyTransferObject);

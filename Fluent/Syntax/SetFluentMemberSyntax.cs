@@ -31,7 +31,7 @@ namespace KY.Generator.Syntax
 
         public ISetMemberReturnTypeFluentSyntax ReturnType(Type type)
         {
-            this.OptionsSet.ReturnType = new TypeTransferObject { Name = type.Name, Namespace = type.Namespace };
+            this.OptionsSet.ReturnType = new TypeTransferObject { Name = type.Name, Namespace = type.Namespace, Type = type };
             return this;
         }
 
