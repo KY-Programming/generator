@@ -69,6 +69,14 @@ namespace KY.Generator.Transfer.Writers
                     {
                         fieldTemplate.DefaultValue = Code.Boolean((bool)constant.Default);
                     }
+                    else if (type == typeof(byte))
+                    {
+                        fieldTemplate.DefaultValue = Code.Number((byte)constant.Default);
+                    }
+                    else if (type == typeof(sbyte))
+                    {
+                        fieldTemplate.DefaultValue = Code.Number((sbyte)constant.Default);
+                    }
                     else
                     {
                         fieldTemplate.DefaultValue = Code.String(constant.Default.ToString());
