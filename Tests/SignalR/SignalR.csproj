@@ -12,8 +12,8 @@
   </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="KY.Generator" Version="8.8.3" />
-        <PackageReference Include="KY.Generator.Annotations" Version="8.8.3" />
+        <PackageReference Include="KY.Generator" Version="8.8.8" />
+        <PackageReference Include="KY.Generator.Annotations" Version="8.8.8" />
         <PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="6.0.8" />
     </ItemGroup>
 

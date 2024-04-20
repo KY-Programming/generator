@@ -12,8 +12,6 @@ dotnet add package KY.Generator.Annotations --prerelease
 dotnet build --no-incremental
 cd ..
 
-PAUSE
-
 REM 
 REM ==========================================
 REM ||          ModelFromAssembly           ||

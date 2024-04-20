@@ -2,13 +2,13 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <ProjectGuid>{224af25a-40c8-4e7e-bf28-0c28451d1171}</ProjectGuid>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="KY.Generator" Version="8.8.3" />
-    <PackageReference Include="KY.Generator.Annotations" Version="8.8.3" />
+    <PackageReference Include="KY.Generator" Version="8.8.8" />
+    <PackageReference Include="KY.Generator.Annotations" Version="8.8.8" />
   </ItemGroup>
 
 </Project>
