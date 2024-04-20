@@ -33,12 +33,7 @@ namespace KY.Generator.Reflection.Readers
             {
                 return this.Read(type.Type);
             }
-            return new ModelTransferObject
-                   {
-                       Name = type.Name,
-                       Namespace = type.Namespace,
-                       Original = type,
-                   };
+            return new ModelTransferObject(type);
         }
 
         public ModelTransferObject Read(Type type, IOptions caller = null)
