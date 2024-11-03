@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>Types</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="KY.Generator.Fluent" Version="10.0.0-preview.1"/>
+        <PackageReference Include="KY.Generator.Reflection" Version="10.0.0-preview.1"/>
+    </ItemGroup>
+
+</Project>
