@@ -3,11 +3,11 @@
         <TargetFramework>netstandard2.0</TargetFramework>
         <Company>KY-Programming</Company>
         <Authors>KY-Programming</Authors>
-        <Version>8.8.8</Version>
+        <Version>8.9.0</Version>
         <Product>KY.Generator</Product>
         <Description>Sqlite Module for KY-Generator
             Download KY.Generator to use this module</Description>
-        <Copyright>2024 - KY-Programming</Copyright>
+        <Copyright>2025 - KY-Programming</Copyright>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageProjectUrl>https://generator.ky-programming.de</PackageProjectUrl>
