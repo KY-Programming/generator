@@ -236,6 +236,17 @@ dotnet build --no-incremental
 cd ..
 
 REM ==========================================
+REM ||                Net9                  ||
+REM ==========================================
+REM 
+cd Net9
+rmdir /S/Q Output
+dotnet add package KY.Generator --prerelease
+dotnet add package KY.Generator.Annotations --prerelease
+dotnet build --no-incremental
+cd ..
+
+REM ==========================================
 REM ||               SignalR                ||
 REM ==========================================
 REM 
