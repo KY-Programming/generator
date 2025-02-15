@@ -10,122 +10,122 @@ using KY.Generator.Templates.Extensions;
 using KY.Generator.Transfer;
 using KY.Generator.Transfer.Extensions;
 
-namespace KY.Generator.AspDotNet.Writers
+namespace KY.Generator.AspDotNet.Writers;
+
+public class AspDotNetEntityControllerWriter : Codeable
 {
-    public class AspDotNetEntityControllerWriter : Codeable
+    private readonly Options options;
+    private readonly List<ITransferObject> transferObjects;
+    private readonly List<FileTemplate> files;
+
+    public AspDotNetEntityControllerWriter(Options options, List<ITransferObject> transferObjects, List<FileTemplate> files)
     {
-        private readonly Options options;
-        private readonly List<ITransferObject> transferObjects;
-        private readonly List<FileTemplate> files;
+        this.options = options;
+        this.transferObjects = transferObjects;
+        this.files = files;
+    }
 
-        public AspDotNetEntityControllerWriter(Options options, List<ITransferObject> transferObjects, List<FileTemplate> files)
+    public virtual void Write(AspDotNetWriteConfiguration configuration)
+    {
+        GeneratorOptions generatorOptions = this.options.Get<GeneratorOptions>();
+        if (!generatorOptions.Language.IsCsharp())
         {
-            this.options = options;
-            this.transferObjects = transferObjects;
-            this.files = files;
+            throw new InvalidOperationException($"Can not generate ASP.net Controller for language {generatorOptions.Language?.Name ?? "Empty"}. Only Csharp is currently implemented");
         }
-
-        public virtual void Write(AspDotNetWriteConfiguration configuration)
+        foreach (AspDotNetWriteEntityControllerConfiguration controllerConfiguration in configuration.Controllers)
         {
-            if (!this.options.Current.Language.IsCsharp())
+            EntityTransferObject entity = this.transferObjects.OfType<EntityTransferObject>().FirstOrDefault(x => x.Name == controllerConfiguration.Entity)
+                                              .AssertIsNotNull(nameof(controllerConfiguration.Entity), $"Entity {controllerConfiguration.Entity} not found. Ensure it is read before.");
+            GeneratorOptions entityOptions = this.options.Get<GeneratorOptions>(entity);
+            string nameSpace = (controllerConfiguration.Namespace ?? configuration.Namespace).AssertIsNotNull(nameof(configuration.Namespace), "asp writer requires a namespace");
+            string className = controllerConfiguration.Name ?? entity.Name + "Controller";
+            ClassTemplate controller = this.files.AddFile(configuration.RelativePath, entityOptions)
+                                           .WithName(Formatter.FormatFile(className, entityOptions))
+                                           .AddNamespace(nameSpace)
+                                           .AddClass(className, Code.Type(configuration.Template.ControllerBase))
+                                           .FormatName(entityOptions)
+                                           .FormatPrefix(entityOptions)
+                                           .WithAttribute("Route", Code.String(controllerConfiguration.Route ?? "[controller]"));
+
+            controller.Usings.AddRange(configuration.Template.Usings);
+
+            TypeTemplate modelType = entity.Model.ToTemplate();
+
+            configuration.Usings.ForEach(x => controller.AddUsing(x));
+            controllerConfiguration.Usings.ForEach(x => controller.AddUsing(x));
+
+            FieldTemplate repositoryField = controller.AddField("repository", Code.Type(entity.Name + "Repository")).Readonly();
+            controller.AddConstructor().Code.AddLine(Code.This().Field(repositoryField).Assign(Code.New(repositoryField.Type)).Close());
+
+            if (controllerConfiguration.Get != null)
             {
-                throw new InvalidOperationException($"Can not generate ASP.net Controller for language {this.options.Current.Language?.Name ?? "Empty"}. Only Csharp is currently implemented");
+                controller.AddUsing("System.Linq");
+                MethodTemplate method = controller.AddMethod("Get", Code.Generic("IEnumerable", modelType));
+                if (configuration.Template.UseAttributes)
+                {
+                    method.WithAttribute("HttpGet", Code.String(controllerConfiguration.Get.Name ?? "[action]"));
+                }
+                DeclareTemplate queryable = Code.Declare(Code.Generic("IQueryable", modelType), "queryable", Code.This().Field(repositoryField).Method("Get"));
+                method.Code.AddLine(queryable);
+                foreach (PropertyTransferObject property in entity.Model.Properties)
+                {
+                    ParameterTemplate parameter = method.AddParameter(property.Type.ToTemplate(), property.Name, Code.Local("default")) /*.FormatName(configuration)*/;
+                    method.Code.AddLine(Code.If(Code.Local(parameter).NotEquals().Local("default"), x => x.Code.AddLine(Code.Local(queryable).Assign(Code.Local(queryable).Method("Where", Code.Lambda("x", Code.Local("x").Property(property.Name).Equals().Local(parameter)))).Close())));
+                }
+                method.Code.AddLine(Code.Return(Code.Local(queryable)));
             }
-            foreach (AspDotNetWriteEntityControllerConfiguration controllerConfiguration in configuration.Controllers)
+            if (controllerConfiguration.Post != null)
             {
-                EntityTransferObject entity = transferObjects.OfType<EntityTransferObject>().FirstOrDefault(x => x.Name == controllerConfiguration.Entity)
-                                                             .AssertIsNotNull(nameof(controllerConfiguration.Entity), $"Entity {controllerConfiguration.Entity} not found. Ensure it is read before.");
-                IOptions entityOptions = this.options.Get(entity);
-                string nameSpace = (controllerConfiguration.Namespace ?? configuration.Namespace).AssertIsNotNull(nameof(configuration.Namespace), "asp writer requires a namespace");
-                string className = controllerConfiguration.Name ?? entity.Name + "Controller";
-                ClassTemplate controller = this.files.AddFile(configuration.RelativePath, entityOptions)
-                                               .WithName(Formatter.FormatFile(className, entityOptions))
-                                               .AddNamespace(nameSpace)
-                                               .AddClass(className, Code.Type(configuration.Template.ControllerBase))
-                                               .FormatName(entityOptions)
-                                               .FormatPrefix(entityOptions)
-                                               .WithAttribute("Route", Code.String(controllerConfiguration.Route ?? "[controller]"));
-
-                controller.Usings.AddRange(configuration.Template.Usings);
-
-                TypeTemplate modelType = entity.Model.ToTemplate();
-
-                configuration.Usings.ForEach(x => controller.AddUsing(x));
-                controllerConfiguration.Usings.ForEach(x => controller.AddUsing(x));
-
-                FieldTemplate repositoryField = controller.AddField("repository", Code.Type(entity.Name + "Repository")).Readonly();
-                controller.AddConstructor().Code.AddLine(Code.This().Field(repositoryField).Assign(Code.New(repositoryField.Type)).Close());
-
-                if (controllerConfiguration.Get != null)
+                MethodTemplate method = controller.AddMethod("Post", Code.Void());
+                if (configuration.Template.UseAttributes)
                 {
-                    controller.AddUsing("System.Linq");
-                    MethodTemplate method = controller.AddMethod("Get", Code.Generic("IEnumerable", modelType));
-                    if (configuration.Template.UseAttributes)
-                    {
-                        method.WithAttribute("HttpGet", Code.String(controllerConfiguration.Get.Name ?? "[action]"));
-                    }
-                    DeclareTemplate queryable = Code.Declare(Code.Generic("IQueryable", modelType), "queryable", Code.This().Field(repositoryField).Method("Get"));
-                    method.Code.AddLine(queryable);
-                    foreach (PropertyTransferObject property in entity.Model.Properties)
-                    {
-                        ParameterTemplate parameter = method.AddParameter(property.Type.ToTemplate(), property.Name, Code.Local("default")) /*.FormatName(configuration)*/;
-                        method.Code.AddLine(Code.If(Code.Local(parameter).NotEquals().Local("default"), x => x.Code.AddLine(Code.Local(queryable).Assign(Code.Local(queryable).Method("Where", Code.Lambda("x", Code.Local("x").Property(property.Name).Equals().Local(parameter)))).Close())));
-                    }
-                    method.Code.AddLine(Code.Return(Code.Local(queryable)));
+                    method.WithAttribute("HttpPost", Code.String(controllerConfiguration.Post.Name ?? "[action]"));
                 }
-                if (controllerConfiguration.Post != null)
-                {
-                    MethodTemplate method = controller.AddMethod("Post", Code.Void());
-                    if (configuration.Template.UseAttributes)
-                    {
-                        method.WithAttribute("HttpPost", Code.String(controllerConfiguration.Post.Name ?? "[action]"));
-                    }
-                    ParameterTemplate parameter = method.AddParameter(modelType, "entity")
-                                                        .WithAttribute("FromBody");
+                ParameterTemplate parameter = method.AddParameter(modelType, "entity")
+                                                    .WithAttribute("FromBody");
 
-                    method.Code.AddLine(Code.This().Field(repositoryField).Method("Add", Code.Local(parameter)).Close());
-                }
-                if (controllerConfiguration.Patch != null)
+                method.Code.AddLine(Code.This().Field(repositoryField).Method("Add", Code.Local(parameter)).Close());
+            }
+            if (controllerConfiguration.Patch != null)
+            {
+                MethodTemplate method = controller.AddMethod("Patch", Code.Void());
+                if (configuration.Template.UseAttributes)
                 {
-                    MethodTemplate method = controller.AddMethod("Patch", Code.Void());
-                    if (configuration.Template.UseAttributes)
-                    {
-                        method.WithAttribute("HttpPatch", Code.String(controllerConfiguration.Patch.Name ?? "[action]"));
-                    }
-                    ParameterTemplate parameter = method.AddParameter(modelType, "entity")
-                                                        .WithAttribute("FromBody");
+                    method.WithAttribute("HttpPatch", Code.String(controllerConfiguration.Patch.Name ?? "[action]"));
+                }
+                ParameterTemplate parameter = method.AddParameter(modelType, "entity")
+                                                    .WithAttribute("FromBody");
 
-                    method.Code.AddLine(Code.This().Field(repositoryField).Method("Update", Code.Local(parameter)).Close());
-                }
-                if (controllerConfiguration.Put != null)
+                method.Code.AddLine(Code.This().Field(repositoryField).Method("Update", Code.Local(parameter)).Close());
+            }
+            if (controllerConfiguration.Put != null)
+            {
+                MethodTemplate method = controller.AddMethod("Put", Code.Void());
+                if (configuration.Template.UseAttributes)
                 {
-                    MethodTemplate method = controller.AddMethod("Put", Code.Void());
-                    if (configuration.Template.UseAttributes)
-                    {
-                        method.WithAttribute("HttpPut", Code.String(controllerConfiguration.Put.Name ?? "[action]"));
-                    }
-                    ParameterTemplate parameter = method.AddParameter(modelType, "entity")
-                                                        .WithAttribute("FromBody");
+                    method.WithAttribute("HttpPut", Code.String(controllerConfiguration.Put.Name ?? "[action]"));
+                }
+                ParameterTemplate parameter = method.AddParameter(modelType, "entity")
+                                                    .WithAttribute("FromBody");
 
-                    method.Code.AddLine(Code.This().Field(repositoryField).Method("Update", Code.Local(parameter)).Close());
-                }
-                if (controllerConfiguration.Delete != null)
+                method.Code.AddLine(Code.This().Field(repositoryField).Method("Update", Code.Local(parameter)).Close());
+            }
+            if (controllerConfiguration.Delete != null)
+            {
+                MethodTemplate method = controller.AddMethod("Delete", Code.Void());
+                if (configuration.Template.UseAttributes)
                 {
-                    MethodTemplate method = controller.AddMethod("Delete", Code.Void());
-                    if (configuration.Template.UseAttributes)
-                    {
-                        method.WithAttribute("HttpDelete", Code.String(controllerConfiguration.Delete.Name ?? "[action]"));
-                    }
-                    List<ParameterTemplate> parameters = new List<ParameterTemplate>();
-                    foreach (EntityKeyTransferObject key in entity.Keys)
-                    {
-                        PropertyTransferObject property = entity.Model.Properties.First(x => x.Name.Equals(key.Name, StringComparison.InvariantCultureIgnoreCase));
-                        IOptions propertyOptions = this.options.Get(property);
-                        parameters.Add(method.AddParameter(property.Type.ToTemplate(), property.Name)
-                                             .FormatName(propertyOptions));
-                    }
-                    method.Code.AddLine(Code.This().Field(repositoryField).Method("Delete", parameters.Select(x => Code.Local(x))).Close());
+                    method.WithAttribute("HttpDelete", Code.String(controllerConfiguration.Delete.Name ?? "[action]"));
                 }
+                List<ParameterTemplate> parameters = new();
+                foreach (EntityKeyTransferObject key in entity.Keys)
+                {
+                    PropertyTransferObject property = entity.Model.Properties.First(x => x.Name.Equals(key.Name, StringComparison.InvariantCultureIgnoreCase));
+                    GeneratorOptions propertyOptions = this.options.Get<GeneratorOptions>(property);
+                    parameters.Add(method.AddParameter(property.Type.ToTemplate(), property.Name)
+                                         .FormatName(propertyOptions));
+                }
+                method.Code.AddLine(Code.This().Field(repositoryField).Method("Delete", parameters.Select(x => Code.Local(x))).Close());
             }
         }
     }

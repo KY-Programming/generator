@@ -1,14 +1,13 @@
 ﻿using System.Reflection;
 using KY.Generator.Models;
 
-namespace KY.Generator.Extensions
+namespace KY.Generator.Extensions;
+
+public static class SwitchableFrameworkExtension
 {
-    public static class SwitchableFrameworkExtension
+    public static string? FrameworkName(this SwitchableFramework framework)
     {
-        public static string FrameworkName(this SwitchableFramework framework)
-        {
-            FieldInfo memberInfos = framework.GetType().GetField(framework.ToString());
-            return memberInfos?.GetCustomAttribute<FrameworkNameAttribute>()?.Name;
-        }
+        FieldInfo memberInfos = framework.GetType().GetField(framework.ToString());
+        return memberInfos?.GetCustomAttribute<FrameworkNameAttribute>()?.Name;
     }
 }

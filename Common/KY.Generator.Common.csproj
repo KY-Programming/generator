@@ -1,42 +1,49 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <Company>KY-Programming</Company>
-    <Authors>KY-Programming</Authors>
-    <Product>KY.Generator</Product>
-    <Version>9.0.0-preview.37</Version>
-    <Description>Core elements for KY-Generator
-Download KY.Generator to use this module</Description>
-    <Copyright>2024 - KY-Programming</Copyright>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://generator.ky-programming.de</PackageProjectUrl>
-    <PackageIcon>assets\icon.png</PackageIcon>
-    <RepositoryUrl>https://github.com/KY-Programming/generator</RepositoryUrl>
-    <PackageTags>KY-Generator KY.Generator</PackageTags>
-    <RootNamespace>KY.Generator</RootNamespace>
-    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-    <LangVersion>latest</LangVersion>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <Company>KY-Programming</Company>
+        <Authors>KY-Programming</Authors>
+        <Product>KY.Generator</Product>
+        <Version>10.0.0-preview.2</Version>
+        <Description>Core elements for KY-Generator
+            Download KY.Generator to use this module
+        </Description>
+        <Copyright>2024 - KY-Programming</Copyright>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageProjectUrl>https://generator.ky-programming.de</PackageProjectUrl>
+        <PackageIcon>assets\icon.png</PackageIcon>
+        <RepositoryUrl>https://github.com/KY-Programming/generator</RepositoryUrl>
+        <PackageTags>KY-Generator KY.Generator</PackageTags>
+        <RootNamespace>KY.Generator</RootNamespace>
+        <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+        <LangVersion>latest</LangVersion>
+    </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <OutputPath>..\bin\Debug</OutputPath>
-  </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+        <OutputPath>..\bin\Debug</OutputPath>
+    </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <OutputPath>..\bin\Release</OutputPath>
-  </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+        <OutputPath>..\bin\Release</OutputPath>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="KY.Core.Common" Version="4.34.1" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="System.Reflection.MetadataLoadContext" Version="8.0.0" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="KY.Core.Common" Version="4.34.1"/>
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3"/>
+        <PackageReference Include="System.Reflection.MetadataLoadContext" Version="8.0.0"/>
+    </ItemGroup>
 
-  <ItemGroup>
-    <None Include="..\icon.png" Pack="true" PackagePath="assets" />
-    <None Include="..\Common\README.md" Pack="true" PackagePath="" />
-  </ItemGroup>
+    <ItemGroup>
+        <None Include="..\icon.png" Pack="true" PackagePath="assets"/>
+        <None Include="..\Common\README.md" Pack="true" PackagePath=""/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Annotations\KY.Generator.Annotations.csproj"/>
+    </ItemGroup>
 
 </Project>

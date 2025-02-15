@@ -1,6 +1,5 @@
 using KY.Core;
 using KY.Generator.Command;
-using KY.Generator.Licensing;
 using KY.Generator.Settings;
 
 namespace KY.Generator.Commands;
@@ -8,7 +7,7 @@ namespace KY.Generator.Commands;
 internal class GetLicenseCommand : GeneratorCommand<GetLicenseCommandParameters>
 {
     private readonly GlobalSettingsService globalSettingsService;
-    public override string[] Names { get; } = { "get-license", "l" };
+    public static string[] Names { get; } = [ToCommand(nameof(GetLicenseCommand)), "get-license", "l"];
 
     public GetLicenseCommand(GlobalSettingsService globalSettingsService)
     {

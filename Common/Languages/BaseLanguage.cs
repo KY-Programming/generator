@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using KY.Core;
 using KY.Core.Dependency;
 using KY.Generator.Models;
@@ -9,6 +6,7 @@ using KY.Generator.Output;
 using KY.Generator.Templates;
 using KY.Generator.Writers;
 using FileWriter = KY.Generator.Writers.FileWriter;
+using StringWriter = KY.Generator.Writers.StringWriter;
 
 namespace KY.Generator.Languages;
 
@@ -168,7 +166,7 @@ public abstract class BaseLanguage : Codeable, ILanguage, ITemplateWriter
         fragments.ForEach(fragment => this.Write(fragment, output));
     }
 
-    public virtual string FormatFile(string name, IOptions options, string type = null, bool force = false)
+    public virtual string FormatFile(string name, GeneratorOptions options, string type = null, bool force = false)
     {
         name.AssertIsNotNull(nameof(name));
         name = Formatter.Format(name, options.Formatting.FileCase, options, force);

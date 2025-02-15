@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using KY.Core.Dependency;
 using KY.Core.Module;
 using KY.Generator.Command;
@@ -16,21 +17,21 @@ using KY.Generator.Languages;
 [assembly: InternalsVisibleTo("KY.Generator.Tsql.Tests")]
 [assembly: InternalsVisibleTo("KY.Generator.Angular.Tests")]
 
-namespace KY.Generator
+namespace KY.Generator;
+
+internal class CoreModule : ModuleBase
 {
-    internal class CoreModule : ModuleBase
+    public CoreModule(IDependencyResolver dependencyResolver)
+        : base(dependencyResolver)
     {
-        public CoreModule(IDependencyResolver dependencyResolver)
-            : base(dependencyResolver)
-        {
-            //this.DependencyResolver.Bind<IGeneratorCommand>().To<ClientCommand>();
-            this.DependencyResolver.Bind<IGeneratorCommand>().To<VersionCommand>();
-            this.DependencyResolver.Bind<IGeneratorCommand>().To<ReadIdCommand>();
-            this.DependencyResolver.Bind<IGeneratorCommand>().To<StatisticsCommand>();
-            this.DependencyResolver.Bind<IGeneratorCommand>().To<OptionsCommand>();
-            this.DependencyResolver.Bind<IGeneratorCommand>().To<CleanupCommand>();
-            this.DependencyResolver.Bind<IGeneratorCommand>().To<GetLicenseCommand>();
-            this.DependencyResolver.Bind<ILanguage>().To<EmptyLanguage>();
-        }
+        this.DependencyResolver.Get<GeneratorCommandFactory>().Register<VersionCommand>(VersionCommand.Names);
+        this.DependencyResolver.Get<GeneratorCommandFactory>().Register<ReadProjectCommand>(ReadProjectCommand.Names);
+        this.DependencyResolver.Get<GeneratorCommandFactory>().Register<StatisticsCommand>(StatisticsCommand.Names);
+        this.DependencyResolver.Get<GeneratorCommandFactory>().Register<OptionsCommand>(OptionsCommand.Names);
+        this.DependencyResolver.Get<GeneratorCommandFactory>().Register<CleanupCommand>(CleanupCommand.Names);
+        this.DependencyResolver.Get<GeneratorCommandFactory>().Register<GetLicenseCommand>(GetLicenseCommand.Names);
+        this.DependencyResolver.Bind<ILanguage>().To<EmptyLanguage>();
+        this.DependencyResolver.Bind<IOptionsFactory>().ToSingleton<GeneratorOptionsFactory>();
+        Options.Register(() => this.DependencyResolver.Get<List<IOptionsFactory>>());
     }
 }

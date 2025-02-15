@@ -1,38 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
+﻿namespace KY.Generator;
 
-namespace KY.Generator
+[AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = true)]
+public class GenerateAngularModelAttribute(string relativePath = "")
+    : Attribute, IGeneratorCommandAttribute
 {
-    [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = true)]
-    public class GenerateAngularModelAttribute : Attribute, IGeneratorCommandAttribute
+    public string RelativePath { get; } = relativePath;
+
+    public IEnumerable<AttributeCommandConfiguration> Commands =>
+    [
+        new("reflection-read", "-namespace=$NAMESPACE$", "-name=$NAME$"),
+        new("angular-model", this.Parameters)
+    ];
+
+    private List<string> Parameters
     {
-        public IEnumerable<AttributeCommandConfiguration> Commands
+        get
         {
-            get { return new[]
-                         {
-                             new AttributeCommandConfiguration("reflection-read", "-namespace=$NAMESPACE$", "-name=$NAME$"),
-                             new AttributeCommandConfiguration("angular-model", this.Parameters)
-                         }; }
-        }
-
-        private List<string> Parameters
-        {
-            get
+            List<string> parameter = [];
+            if (this.RelativePath != string.Empty)
             {
-                List<string> parameter = new List<string>();
-                if (this.RelativePath != null)
-                {
-                    parameter.Add($"-relativePath={this.RelativePath}");
-                }
-                return parameter;
+                parameter.Add($"-relativePath={this.RelativePath}");
             }
-        }
-
-        public string RelativePath { get; }
-
-        public GenerateAngularModelAttribute(string relativePath = null)
-        {
-            this.RelativePath = relativePath;
+            return parameter;
         }
     }
 }

@@ -1,40 +1,43 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <Authors>KY-Programming</Authors>
-    <Company>KY-Programming</Company>
-    <Product>KY.Generator</Product>
-    <Version>7.6.0</Version>
-    <Copyright>2024 - KY-Programming</Copyright>
-    <Description>EntityFramework Module for KY-Generator
-Download KY.Generator to use this module</Description>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://generator.ky-programming.de</PackageProjectUrl>
-    <PackageIcon>assets\icon.png</PackageIcon>
-    <RepositoryUrl>https://github.com/KY-Programming/generator</RepositoryUrl>
-    <PackageTags>KY-Generator KY.Generator EntityFramework EF</PackageTags>
-    <LangVersion>latest</LangVersion>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <Authors>KY-Programming</Authors>
+        <Company>KY-Programming</Company>
+        <Product>KY.Generator</Product>
+        <Version>7.6.0</Version>
+        <Copyright>2024 - KY-Programming</Copyright>
+        <Description>EntityFramework Module for KY-Generator
+            Download KY.Generator to use this module
+        </Description>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageProjectUrl>https://generator.ky-programming.de</PackageProjectUrl>
+        <PackageIcon>assets\icon.png</PackageIcon>
+        <RepositoryUrl>https://github.com/KY-Programming/generator</RepositoryUrl>
+        <PackageTags>KY-Generator KY.Generator EntityFramework EF</PackageTags>
+        <LangVersion>latest</LangVersion>
+    </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <OutputPath>..\bin\Debug</OutputPath>
-  </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+        <OutputPath>..\bin\Debug</OutputPath>
+    </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <OutputPath>..\bin\Release</OutputPath>
-  </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+        <OutputPath>..\bin\Release</OutputPath>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Common\KY.Generator.Common.csproj" />
-    <ProjectReference Include="..\CSharp\KY.Generator.Csharp.csproj" />
-    <ProjectReference Include="..\Tsql\KY.Generator.Tsql.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\Common\KY.Generator.Common.csproj"/>
+        <ProjectReference Include="..\CSharp\KY.Generator.Csharp.csproj"/>
+        <ProjectReference Include="..\Tsql\KY.Generator.Tsql.csproj"/>
+    </ItemGroup>
 
-  <ItemGroup>
-    <None Include="..\icon.png" Pack="true" PackagePath="assets"/>
-    <None Include="..\Common\README.md" Pack="true" PackagePath=""/>
-  </ItemGroup>
+    <ItemGroup>
+        <None Include="..\icon.png" Pack="true" PackagePath="assets"/>
+        <None Include="..\Common\README.md" Pack="true" PackagePath=""/>
+    </ItemGroup>
 
 </Project>

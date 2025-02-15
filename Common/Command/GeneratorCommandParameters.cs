@@ -3,6 +3,12 @@
     public class GeneratorCommandParameters
     {
         [GeneratorGlobalParameter]
+        public string Project { get; set; }
+        
+        [GeneratorGlobalParameter]
+        public string Solution { get; set; }
+        
+        [GeneratorGlobalParameter]
         public string Output { get; set; }
 
         [GeneratorGlobalParameter("beforeBuild")]

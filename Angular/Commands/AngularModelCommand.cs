@@ -7,38 +7,32 @@ using KY.Generator.Output;
 using KY.Generator.TypeScript;
 using KY.Generator.TypeScript.Transfer;
 
-namespace KY.Generator.Angular.Commands
+namespace KY.Generator.Angular.Commands;
+
+public class AngularModelCommand(IDependencyResolver resolver) : GeneratorCommand<GeneratorCommandParameters>
 {
-    public class AngularModelCommand : GeneratorCommand<AngularModelCommandParameters>
+    public static string[] Names { get; } = [ToCommand(nameof(AngularModelCommand)), "angular-model"];
+
+    public override void Prepare()
     {
-        private readonly IDependencyResolver resolver;
+        Options options = resolver.Get<Options>();
+        GeneratorOptions generatorOptions = options.Get<GeneratorOptions>();
+        generatorOptions.SetFromParameter(this.Parameters);
+        generatorOptions.Language = resolver.Get<AngularTypeScriptLanguage>();
+        generatorOptions.Formatting.AllowedSpecialCharacters = "$";
+        generatorOptions.SkipNamespace = true;
+        generatorOptions.PropertiesToFields = true;
+        TypeScriptOptions typeScriptOptions = options.Get<TypeScriptOptions>();
+        // TODO: Fix path is null
+        typeScriptOptions.SetStrict(this.Parameters.RelativePath, resolver);
+    }
 
-        public override string[] Names { get; } = { "angular-model" };
-
-        public AngularModelCommand(IDependencyResolver resolver)
-        {
-            this.resolver = resolver;
-        }
-
-        public override void Prepare()
-        {
-            IOptions options = this.resolver.Get<Options>().Current;
-            options.SetFromParameter(this.Parameters);
-            options.SetStrict(this.Parameters.RelativePath, this.resolver);
-            options.Language = this.resolver.Get<AngularTypeScriptLanguage>();
-            options.Formatting.AllowedSpecialCharacters = "$";
-            options.SkipNamespace = true;
-            options.PropertiesToFields = true;
-
-            this.resolver.Create<AngularModelWriter>().FormatNames();
-        }
-
-        public override IGeneratorCommandResult Run()
-        {
-            this.resolver.Get<IOutput>().DeleteAllRelatedFiles(this.Parameters.RelativePath);
-            this.resolver.Create<AngularModelWriter>().Write(this.Parameters.RelativePath);
-            this.resolver.Create<TypeScriptIndexHelper>().Execute(this.Parameters.RelativePath);
-            return this.Success();
-        }
+    public override IGeneratorCommandResult Run()
+    {
+        // TODO: Fix path is null
+        resolver.Get<IOutput>().DeleteAllRelatedFiles(this.Parameters.RelativePath);
+        resolver.Create<AngularModelWriter>().FormatNames().Write(this.Parameters.RelativePath);
+        resolver.Create<TypeScriptIndexHelper>().Execute(this.Parameters.RelativePath);
+        return this.Success();
     }
 }

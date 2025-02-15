@@ -3,14 +3,13 @@ using KY.Core.Module;
 using KY.Generator.Command;
 using KY.Generator.Watchdog.Commands;
 
-namespace KY.Generator.Watchdog
+namespace KY.Generator.Watchdog;
+
+public class WatchdogModule : ModuleBase
 {
-    public class WatchdogModule : ModuleBase
+    public WatchdogModule(IDependencyResolver dependencyResolver)
+        : base(dependencyResolver)
     {
-        public WatchdogModule(IDependencyResolver dependencyResolver)
-            : base(dependencyResolver)
-        {
-            this.DependencyResolver.Bind<IGeneratorCommand>().To<WatchdogCommand>();
-        }
+        this.DependencyResolver.Get<GeneratorCommandFactory>().Register<WatchdogCommand>(WatchdogCommand.Names);
     }
 }

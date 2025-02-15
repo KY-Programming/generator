@@ -3,38 +3,38 @@ using KY.Generator.Output;
 using KY.Generator.Templates;
 using KY.Generator.Writers;
 
-namespace KY.Generator.TypeScript.Writers
+namespace KY.Generator.TypeScript.Writers;
+
+public class ThrowWriter : ITemplateWriter
 {
-    public class ThrowWriter : ITemplateWriter
+    private readonly Options options;
+
+    public ThrowWriter(Options options)
     {
-        private readonly IOptions options;
+        this.options = options;
+    }
 
-        public ThrowWriter(IOptions options)
+    public virtual void Write(ICodeFragment fragment, IOutputCache output)
+    {
+        GeneratorOptions generatorOptions = this.options.Get<GeneratorOptions>();
+        ThrowTemplate template = (ThrowTemplate)fragment;
+        if (template.Type.Name == nameof(ArgumentOutOfRangeException))
         {
-            this.options = options;
+            output.Add("throw new Error(")
+                  .Add(template.Parameters[2])
+                  .Add(" + ")
+                  .Add(generatorOptions.Formatting.Quote)
+                  .Add(" Actual value: ")
+                  .Add(generatorOptions.Formatting.Quote)
+                  .Add(" + ")
+                  .Add(template.Parameters[1])
+                  .Add(")");
         }
-
-        public virtual void Write(ICodeFragment fragment, IOutputCache output)
+        else
         {
-            ThrowTemplate template = (ThrowTemplate)fragment;
-            if (template.Type.Name == nameof(ArgumentOutOfRangeException))
-            {
-                output.Add("throw new Error(")
-                      .Add(template.Parameters[2])
-                      .Add(" + ")
-                      .Add(this.options.Formatting.Quote)
-                      .Add(" Actual value: ")
-                      .Add(this.options.Formatting.Quote)
-                      .Add(" + ")
-                      .Add(template.Parameters[1])
-                      .Add(")");
-            }
-            else
-            {
-                output.Add("throw new Error(")
-                      .Add(template.Parameters)
-                      .Add(")");
-            }
+            output.Add("throw new Error(")
+                  .Add(template.Parameters)
+                  .Add(")");
         }
     }
 }

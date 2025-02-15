@@ -8,7 +8,7 @@ namespace KY.Generator.Csharp.Writers
 {
     public class CsharpClassWriter : ClassWriter
     {
-        public CsharpClassWriter(IOptions options)
+        public CsharpClassWriter(Options options)
             : base(options)
         { }
 

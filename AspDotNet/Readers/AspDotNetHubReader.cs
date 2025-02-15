@@ -1,99 +1,87 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
+﻿using System.Reflection;
 using KY.Core;
 using KY.Generator.AspDotNet.Configurations;
 using KY.Generator.Reflection.Language;
 using KY.Generator.Reflection.Readers;
 using KY.Generator.Transfer;
 
-namespace KY.Generator.AspDotNet.Readers
+namespace KY.Generator.AspDotNet.Readers;
+
+public class AspDotNetHubReader
 {
-    public class AspDotNetHubReader
+    private readonly ReflectionModelReader modelReader;
+    private readonly Options options;
+    private readonly List<ITransferObject> transferObjects;
+
+    public AspDotNetHubReader(ReflectionModelReader modelReader, Options options, List<ITransferObject> transferObjects)
     {
-        private readonly ReflectionModelReader modelReader;
-        private readonly AspDotNetOptions aspOptions;
-        private readonly Options options;
-        private readonly List<ITransferObject> transferObjects;
+        this.modelReader = modelReader;
+        this.options = options;
+        this.transferObjects = transferObjects;
+    }
 
-        public AspDotNetHubReader(ReflectionModelReader modelReader, AspDotNetOptions aspOptions, Options options, List<ITransferObject> transferObjects)
+    public void Read(AspDotNetReadConfiguration configuration)
+    {
+        configuration.Hub.AssertIsNotNull($"SignalR: {nameof(configuration.Hub)}");
+        configuration.Hub.Name.AssertIsNotNull($"SignalR: {nameof(configuration.Hub)}.{nameof(configuration.Hub.Name)}");
+        configuration.Hub.Namespace.AssertIsNotNull($"SignalR: {nameof(configuration.Hub)}.{nameof(configuration.Hub.Namespace)}");
+        Logger.Trace($"Read SignalR hub {configuration.Hub.Namespace}.{configuration.Hub.Name}...");
+        Type type = GeneratorTypeLoader.Get(configuration.Hub.Assembly, configuration.Hub.Namespace, configuration.Hub.Name);
+        if (type == null || type.BaseType == null || type.BaseType.Name != "Hub`1")
         {
-            this.modelReader = modelReader;
-            this.aspOptions = aspOptions;
-            this.options = options;
-            this.transferObjects = transferObjects;
+            return;
+        }
+        if (!type.BaseType.IsGenericType)
+        {
+            Logger.Error("Implement generic Hub<T> instead of non-generic Hub type");
         }
 
-        public void Read(AspDotNetReadConfiguration configuration)
+        SignalRHubTransferObject hub = new();
+        hub.Name = type.Name;
+        hub.Language = ReflectionLanguage.Instance;
+
+        MethodInfo[] methods = type.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
+        foreach (MethodInfo method in methods)
         {
-            configuration.Hub.AssertIsNotNull($"SignalR: {nameof(configuration.Hub)}");
-            configuration.Hub.Name.AssertIsNotNull($"SignalR: {nameof(configuration.Hub)}.{nameof(configuration.Hub.Name)}");
-            configuration.Hub.Namespace.AssertIsNotNull($"SignalR: {nameof(configuration.Hub)}.{nameof(configuration.Hub.Namespace)}");
-            Logger.Trace($"Read SignalR hub {configuration.Hub.Namespace}.{configuration.Hub.Name}...");
-            Type type = GeneratorTypeLoader.Get(configuration.Hub.Assembly, configuration.Hub.Namespace, configuration.Hub.Name);
-            if (type == null || type.BaseType == null || type.BaseType.Name != "Hub`1")
+            if (method.Name == "OnConnectedAsync" || method.Name == "OnDisconnectedAsync")
             {
-                return;
+                continue;
             }
-            if (!type.BaseType.IsGenericType)
+            GeneratorOptions methodOptions = this.options.Get<GeneratorOptions>(method);
+            HttpServiceActionTransferObject action = new();
+            action.Name = method.Name;
+            if (method.ReturnType.Name != typeof(void).Name && method.ReturnType.Name != nameof(Task))
             {
-                Logger.Error("Implement generic Hub<T> instead of non-generic Hub type");
+                Logger.Error($"Return type of method {method.Name} in {hub.Name} has to be void or Task");
             }
-
-            SignalRHubTransferObject hub = new();
-            hub.Name = type.Name;
-            hub.Language = ReflectionLanguage.Instance;
-
-            IOptions typeOptions = this.options.Get(type);
-            this.options.Set(hub, typeOptions);
-            IAspDotNetOptions typeAspOptions = this.aspOptions.Get(type);
-            this.aspOptions.Set(hub, typeAspOptions);
-
-            MethodInfo[] methods = type.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
-            foreach (MethodInfo method in methods)
+            foreach (ParameterInfo parameter in method.GetParameters())
             {
-                if (method.Name == "OnConnectedAsync" || method.Name == "OnDisconnectedAsync")
-                {
-                    continue;
-                }
-                IOptions methodOptions = this.options.Get(method);
-                HttpServiceActionTransferObject action = new();
-                action.Name = method.Name;
-                if (method.ReturnType.Name != typeof(void).Name && method.ReturnType.Name != nameof(Task))
-                {
-                    Logger.Error($"Return type of method {method.Name} in {hub.Name} has to be void or Task");
-                }
-                foreach (ParameterInfo parameter in method.GetParameters())
-                {
-                    action.Parameters.Add(new HttpServiceActionParameterTransferObject
-                                          {
-                                              Name = parameter.Name,
-                                              Type = this.modelReader.Read(parameter.ParameterType, methodOptions)
-                                          });
-                }
-                hub.Actions.Add(action);
+                action.Parameters.Add(new HttpServiceActionParameterTransferObject
+                                      {
+                                          Name = parameter.Name,
+                                          Type = this.modelReader.Read(parameter.ParameterType, methodOptions)
+                                      });
             }
-
-            Type notificationType = type.BaseType.GetGenericArguments().Single();
-            MethodInfo[] notificationMethods = notificationType.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
-            foreach (MethodInfo method in notificationMethods)
-            {
-                IOptions methodOptions = this.options.Get(method);
-                HttpServiceActionTransferObject action = new();
-                action.Name = method.Name;
-                foreach (ParameterInfo parameter in method.GetParameters())
-                {
-                    action.Parameters.Add(new HttpServiceActionParameterTransferObject
-                                          {
-                                              Name = parameter.Name,
-                                              Type = this.modelReader.Read(parameter.ParameterType, methodOptions)
-                                          });
-                }
-                hub.Events.Add(action);
-            }
-            transferObjects.Add(hub);
+            hub.Actions.Add(action);
         }
+
+        Type notificationType = type.BaseType.GetGenericArguments().Single();
+        MethodInfo[] notificationMethods = notificationType.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
+        foreach (MethodInfo method in notificationMethods)
+        {
+            GeneratorOptions methodOptions = this.options.Get<GeneratorOptions>(method);
+            HttpServiceActionTransferObject action = new();
+            action.Name = method.Name;
+            foreach (ParameterInfo parameter in method.GetParameters())
+            {
+                action.Parameters.Add(new HttpServiceActionParameterTransferObject
+                                      {
+                                          Name = parameter.Name,
+                                          Type = this.modelReader.Read(parameter.ParameterType, methodOptions)
+                                      });
+            }
+            hub.Events.Add(action);
+        }
+        this.transferObjects.Add(hub);
     }
 }

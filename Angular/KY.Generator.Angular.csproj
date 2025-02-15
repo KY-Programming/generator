@@ -1,43 +1,47 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <Authors>KY-Programming</Authors>
-    <Company>KY-Programming</Company>
-    <Product>KY.Generator</Product>
-    <Version>9.0.0-preview.37</Version>
-    <Copyright>2024 - KY-Programming</Copyright>
-    <Description>Angular Module for KY-Generator
-Download KY.Generator to use this module</Description>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://generator.ky-programming.de</PackageProjectUrl>
-    <PackageIcon>assets\icon.png</PackageIcon>
-    <RepositoryUrl>https://github.com/KY-Programming/generator</RepositoryUrl>
-    <PackageTags>KY-Generator KY.Generator Angular</PackageTags>
-    <LangVersion>latest</LangVersion>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <Authors>KY-Programming</Authors>
+        <Company>KY-Programming</Company>
+        <Product>KY.Generator</Product>
+        <Version>10.0.0-preview.2</Version>
+        <Copyright>2024 - KY-Programming</Copyright>
+        <Description>Angular Module for KY-Generator
+            Download KY.Generator to use this module
+        </Description>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageProjectUrl>https://generator.ky-programming.de</PackageProjectUrl>
+        <PackageIcon>assets\icon.png</PackageIcon>
+        <RepositoryUrl>https://github.com/KY-Programming/generator</RepositoryUrl>
+        <PackageTags>KY-Generator KY.Generator Angular</PackageTags>
+        <LangVersion>latest</LangVersion>
+    </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <OutputPath>..\bin\Debug</OutputPath>
-    <NoWarn>1701;1702</NoWarn>
-  </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+        <OutputPath>..\bin\Debug</OutputPath>
+        <NoWarn>1701;1702</NoWarn>
+    </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <OutputPath>..\bin\Release</OutputPath>
-    <NoWarn>1701;1702;1591</NoWarn>
-    <DocumentationFile>..\bin\Release\KY.Generator.Angular.xml</DocumentationFile>
-  </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+        <OutputPath>..\bin\Release</OutputPath>
+        <NoWarn>1701;1702;1591</NoWarn>
+        <DocumentationFile>..\bin\Release\KY.Generator.Angular.xml</DocumentationFile>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Common\KY.Generator.Common.csproj" />
-    <ProjectReference Include="..\Fluent\KY.Generator.Fluent.csproj" />
-    <ProjectReference Include="..\TypeScript\KY.Generator.TypeScript.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\Annotations\KY.Generator.Annotations.csproj"/>
+        <ProjectReference Include="..\Common\KY.Generator.Common.csproj"/>
+        <ProjectReference Include="..\Fluent\KY.Generator.Fluent.csproj"/>
+        <ProjectReference Include="..\TypeScript\KY.Generator.TypeScript.csproj"/>
+    </ItemGroup>
 
-  <ItemGroup>
-    <None Include="..\icon.png" Pack="true" PackagePath="assets"/>
-    <None Include="..\Common\README.md" Pack="true" PackagePath=""/>
-  </ItemGroup>
+    <ItemGroup>
+        <None Include="..\icon.png" Pack="true" PackagePath="assets"/>
+        <None Include="..\Common\README.md" Pack="true" PackagePath=""/>
+    </ItemGroup>
 
 </Project>
