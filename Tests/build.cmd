@@ -1,5 +1,9 @@
 @title KY-Generator Tests
 
+cd v10
+start build
+cd ..
+
 REM ==========================================
 REM ||    AnnotationsWithMultipleOutputs    ||
 REM ==========================================
@@ -22,19 +26,6 @@ rmdir /S/Q Output
 dotnet add package KY.Generator.Fluent --prerelease
 dotnet add package KY.Generator.Angular --prerelease
 dotnet add package KY.Generator.Reflection --prerelease
-dotnet build --no-incremental
-cd ..
-
-
-REM ==========================================
-REM ||               Types                 ||
-REM ==========================================
-REM 
-cd Types
-rmdir /S/Q bin
-rmdir /S/Q Output
-dotnet add package KY.Generator --prerelease
-dotnet add package KY.Generator.Annotations --prerelease
 dotnet build --no-incremental
 cd ..
 
@@ -72,6 +63,8 @@ rmdir /S/Q ClientApp\src\app\routed\models
 rmdir /S/Q ClientApp\src\app\routed\services
 rmdir /S/Q ClientApp\src\app\versioned-api\models
 rmdir /S/Q ClientApp\src\app\versioned-api\services
+rmdir /S/Q ClientApp\src\app\warnings\services
+rmdir /S/Q ClientApp\src\app\warnings\models
 dotnet add package KY.Generator --prerelease
 dotnet add package KY.Generator.Annotations --prerelease
 dotnet build --no-incremental

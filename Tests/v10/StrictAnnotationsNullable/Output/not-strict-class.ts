@@ -1,7 +1,7 @@
 ﻿/* eslint-disable */
 // tslint:disable
 
-export class NullableNotStrictClass {
+export class NotStrictClass {
     public stringProperty: string;
     public nullableStringProperty?: string;
     public requiredNullableStringProperty: string;
@@ -9,7 +9,7 @@ export class NullableNotStrictClass {
     public nullableIntProperty?: number;
     public requiredNullableIntProperty: number;
 
-    public constructor(init?: Partial<NullableNotStrictClass>) {
+    public constructor(init?: Partial<NotStrictClass>) {
         Object.assign(this, init);
     }
 }

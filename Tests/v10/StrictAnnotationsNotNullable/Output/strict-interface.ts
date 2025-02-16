@@ -1,7 +1,7 @@
 ﻿/* eslint-disable */
 // tslint:disable
 
-export interface NotNullableStrictInterface {
+export interface StrictInterface {
     stringProperty?: string | undefined;
     requiredStringProperty: string | undefined;
     requiredStringWithDefaultProperty: string | undefined;

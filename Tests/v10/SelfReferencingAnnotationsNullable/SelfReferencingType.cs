@@ -1,6 +1,6 @@
-using KY.Generator;
+﻿using KY.Generator;
 
-namespace Types;
+namespace SelfReferencing;
 
 [GenerateTypeScriptModel]
 [GenerateStrict]

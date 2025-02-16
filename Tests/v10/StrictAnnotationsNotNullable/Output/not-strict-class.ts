@@ -1,14 +1,14 @@
 ﻿/* eslint-disable */
 // tslint:disable
 
-export class NotNullableNotStrictClass {
+export class NotStrictClass {
     public stringProperty?: string;
     public requiredStringProperty: string;
     public intProperty: number;
     public nullableIntProperty?: number;
     public requiredNullableIntProperty: number;
 
-    public constructor(init?: Partial<NotNullableNotStrictClass>) {
+    public constructor(init?: Partial<NotStrictClass>) {
         Object.assign(this, init);
     }
 }

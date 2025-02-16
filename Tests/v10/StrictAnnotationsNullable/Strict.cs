@@ -1,12 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using KY.Generator;
 
-namespace Types;
+namespace Strict;
 
 [GenerateTypeScriptModel]
 [GenerateStrict]
 [GeneratePreferInterfaces]
-public class NullableStrictInterface
+public class StrictInterface
 {
     public string StringProperty { get; set; } = string.Empty;
     public string? NullableStringProperty { get; set; }
@@ -23,7 +23,7 @@ public class NullableStrictInterface
 
 [GenerateTypeScriptModel]
 [GeneratePreferInterfaces]
-public class NullableNotStrictInterface
+public class NotStrictInterface
 {
     public string StringProperty { get; set; } = string.Empty;
     public string? NullableStringProperty { get; set; }
@@ -40,7 +40,7 @@ public class NullableNotStrictInterface
 
 [GenerateTypeScriptModel]
 [GenerateStrict]
-public class NullableStrictClass
+public class StrictClass
 {
     public string StringProperty { get; set; } = string.Empty;
     public string? NullableStringProperty { get; set; }
@@ -56,7 +56,7 @@ public class NullableStrictClass
 }
 
 [GenerateTypeScriptModel]
-public class NullableNotStrictClass
+public class NotStrictClass
 {
     public string StringProperty { get; set; } = string.Empty;
     public string? NullableStringProperty { get; set; }
