@@ -234,6 +234,10 @@ public class ReflectionModelReader
 
     private void ApplyGenericTemplate(TypeTransferObject target, string alias, TypeTransferObject type)
     {
+            if (target is not GenericModelTransferObject)
+            {
+                return;
+            }
         if (target is GenericModelTransferObject genericModel && genericModel.Generics.Count == 0)
         {
             genericModel.Template.Generics.Clone().ForEach(genericModel.Generics.Add);
