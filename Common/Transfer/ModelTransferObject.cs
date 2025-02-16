@@ -9,7 +9,7 @@ public class ModelTransferObject : TypeTransferObject
 {
     public virtual bool IsEnum { get; set; }
     public virtual bool IsAbstract { get; set; }
-    public virtual Dictionary<string, int>? EnumValues { get; set; }
+    public virtual Dictionary<string, object>? EnumValues { get; set; }
     public virtual ModelTransferObject? BasedOn { get; set; }
 
     // TODO: Transfer objects should be independent from language

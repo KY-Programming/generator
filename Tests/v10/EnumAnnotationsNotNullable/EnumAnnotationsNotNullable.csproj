@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>disable</Nullable>
+        <RootNamespace>Enum</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="KY.Generator.Annotations" Version="10.0.0-preview.2" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Output\" />
+    </ItemGroup>
+
+</Project>

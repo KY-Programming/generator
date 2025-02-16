@@ -173,22 +173,15 @@ public class ReflectionModelReader
     {
         // Logger.Trace($"Reflection read enum {type.Name} ({type.Namespace})");
         model.IsEnum = true;
-        model.EnumValues = new Dictionary<string, int>();
-        Array values = Enum.GetValues(type);
-        foreach (object value in values)
+        model.EnumValues = new Dictionary<string, object>();
+        FieldInfo[] fields = type.GetFields();
+        foreach (FieldInfo field in fields)
         {
-            if (!(value is int))
+            if (field.Name.Equals("value__"))
             {
-                //throw new InvalidOperationException($"Can not convert {value.GetType().Name} enums. Only int enums are currently implemented");
+                continue;
             }
-        }
-        foreach (int value in values.Cast<int>())
-        {
-            string? name = Enum.GetName(type, value);
-            if (name != null)
-            {
-                model.EnumValues.Add(name, value);
-            }
+            model.EnumValues.Add(field.Name, field.GetRawConstantValue());
         }
     }
 

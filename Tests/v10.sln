@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StrictAnnotationsNullable",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SelfReferencingAnnotationsNullable", "v10\SelfReferencingAnnotationsNullable\SelfReferencingAnnotationsNullable.csproj", "{B84D2F96-FBA8-416C-B067-F17F09809015}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnumAnnotationsNotNullable", "v10\EnumAnnotationsNotNullable\EnumAnnotationsNotNullable.csproj", "{6E81AC59-1AC5-47CF-A3F6-ABA0BD471546}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +38,9 @@ Global
 		{B84D2F96-FBA8-416C-B067-F17F09809015}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B84D2F96-FBA8-416C-B067-F17F09809015}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B84D2F96-FBA8-416C-B067-F17F09809015}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E81AC59-1AC5-47CF-A3F6-ABA0BD471546}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E81AC59-1AC5-47CF-A3F6-ABA0BD471546}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E81AC59-1AC5-47CF-A3F6-ABA0BD471546}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E81AC59-1AC5-47CF-A3F6-ABA0BD471546}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
