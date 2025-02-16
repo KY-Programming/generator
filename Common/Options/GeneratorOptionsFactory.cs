@@ -68,7 +68,8 @@ public class GeneratorOptionsFactory : IOptionsFactory
                         options.ReturnType = new TypeTransferObject
                                              {
                                                  Name = returnTypeAttribute.Type.Name,
-                                                 Namespace = returnTypeAttribute.Type.Namespace
+                                                 Namespace = returnTypeAttribute.Type.Namespace,
+                                                 Type = returnTypeAttribute.Type
                                              };
                     }
                     else

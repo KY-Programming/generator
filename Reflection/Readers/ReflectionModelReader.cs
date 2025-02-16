@@ -20,8 +20,30 @@ public class ReflectionModelReader
         this.transferObjects = transferObjects;
     }
 
+    public ModelTransferObject Read(TypeTransferObject type, GeneratorOptions? caller = null)
+    {
+        if (type == null)
+        {
+            return null;
+        }
+        if (type.Type != null)
+        {
+            return this.Read(type.Type);
+        }
+        return new ModelTransferObject
+               {
+                   Name = type.Name,
+                   Namespace = type.Namespace,
+                   Original = type
+               };
+    }
+
     public ModelTransferObject Read(Type type, GeneratorOptions? caller = null)
     {
+        if (type == null)
+        {
+            return null;
+        }
         ModelTransferObject model = new();
         model.Name = model.OriginalName = type.Name;
         model.Namespace = type.Namespace;
@@ -234,10 +256,10 @@ public class ReflectionModelReader
 
     private void ApplyGenericTemplate(TypeTransferObject target, string alias, TypeTransferObject type)
     {
-            if (target is not GenericModelTransferObject)
-            {
-                return;
-            }
+        if (target is not GenericModelTransferObject)
+        {
+            return;
+        }
         if (target is GenericModelTransferObject genericModel && genericModel.Generics.Count == 0)
         {
             genericModel.Template.Generics.Clone().ForEach(genericModel.Generics.Add);
@@ -297,6 +319,7 @@ public class ReflectionModelReader
             PropertyTransferObject propertyTransferObject = new()
                                                             {
                                                                 Name = property.Name,
+                                                                Type = this.Read(propertyOptions.ReturnType, propertyOptions) ?? this.Read(property.PropertyType, propertyOptions),
                                                                 DeclaringType = model,
                                                                 Attributes = property.GetCustomAttributes().ToTransferObjects().ToList(),
                                                                 IsRequired = isRequired,

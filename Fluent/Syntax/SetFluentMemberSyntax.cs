@@ -31,7 +31,7 @@ public class SetFluentMemberSyntax : SetFluentSyntax<ISetMemberFluentSyntax>, IS
 
     public ISetMemberReturnTypeFluentSyntax ReturnType(Type type)
     {
-        this.GeneratorOptions.ReturnType = new TypeTransferObject { Name = type.Name, Namespace = type.Namespace };
+        this.GeneratorOptions.ReturnType = new TypeTransferObject { Name = type.Name, Namespace = type.Namespace, Type = type };
         return this;
     }
 

@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using KY.Core;
 using KY.Generator.Templates;
 
 namespace KY.Generator.Transfer;
@@ -28,6 +29,9 @@ public class TypeTransferObject : ITransferObject
     public virtual TypeTransferObject Original { get; set; }
     public virtual ICodeFragment Default { get; set; }
     public string FullName => $"{this.Namespace}.{this.Name}";
+
+    [NotCloneable]
+    public virtual Type Type { get; set; }
 
     public TypeTransferObject()
     { }

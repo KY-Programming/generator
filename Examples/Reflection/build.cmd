@@ -119,3 +119,15 @@ dotnet add package KY.Generator --prerelease
 dotnet add package KY.Generator.Annotations --prerelease
 dotnet build --no-incremental
 cd ..
+REM 
+REM ====================================
+REM || ReflectionReturnTypeAttribute  ||
+REM ====================================
+REM 
+cd ReflectionReturnTypeAttribute
+rmdir /S/Q bin
+rmdir /S/Q Output
+dotnet add package KY.Generator --prerelease
+dotnet add package KY.Generator.Annotations --prerelease
+dotnet build --no-incremental
+cd ..
