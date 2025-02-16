@@ -30,6 +30,8 @@ public class Types
     public const float ConstFloat = 7.1f;
     public const double ConstDouble = 8.2;
     public const bool ConstBool = true;
+    public const byte ConstByte = 9;
+    public const sbyte ConstSByte = 10;
 
     // Default Values
     [DefaultValue("Default")]
@@ -105,6 +107,8 @@ public class Types
     public double DoubleProperty { get; set; }
     public bool BoolProperty { get; set; }
     public object ObjectProperty { get; set; } = new();
+    public byte ByteProperty { get; set; }
+    public sbyte SByteProperty { get; set; }
 
     // Nullable Types
     public bool? NullableBoolProperty { get; set; }
@@ -127,23 +131,24 @@ public class Types
     public Nullable<double> Nullable2DoubleProperty { get; set; }
 
     // System Types
-    public string SystemStringProperty { get; set; } = "";
-    public short SystemInt16Property { get; set; }
-    public int SystemInt32Property { get; set; }
-    public long SystemInt64Property { get; set; }
-    public float SystemSingleProperty { get; set; }
-    public double SystemDoubleProperty { get; set; }
-    public DateTime SystemDateTimeProperty { get; set; }
-    public Array SystemArrayProperty { get; set; } = Array.Empty<object>();
-    public byte SystemByteProperty { get; set; }
-    public char SystemCharProperty { get; set; }
-    public decimal SystemDecimalProperty { get; set; }
-    public Guid SystemGuidProperty { get; set; }
-    public object SystemObjectProperty { get; set; } = new();
-    public TimeSpan SystemTimeSpanProperty { get; set; }
-    public ushort SystemUInt16Property { get; set; }
-    public uint SystemUInt32Property { get; set; }
-    public ulong SystemUInt64Property { get; set; }
+    public System.String SystemStringProperty { get; set; } = "";
+    public System.Int16 SystemInt16Property { get; set; }
+    public System.Int32 SystemInt32Property { get; set; }
+    public System.Int64 SystemInt64Property { get; set; }
+    public System.Single SystemSingleProperty { get; set; }
+    public System.Double SystemDoubleProperty { get; set; }
+    public System.DateTime SystemDateTimeProperty { get; set; }
+    public System.Array SystemArrayProperty { get; set; } = Array.Empty<object>();
+    public System.Byte SystemByteProperty { get; set; }
+    public System.SByte SystemSByteProperty { get; set; }
+    public System.Char SystemCharProperty { get; set; }
+    public System.Decimal SystemDecimalProperty { get; set; }
+    public System.Guid SystemGuidProperty { get; set; }
+    public System.Object SystemObjectProperty { get; set; } = new();
+    public System.TimeSpan SystemTimeSpanProperty { get; set; }
+    public System.UInt16 SystemUInt16Property { get; set; }
+    public System.UInt32 SystemUInt32Property { get; set; }
+    public System.UInt64 SystemUInt64Property { get; set; }
 
     // Complex Types
     public SubType SubTypeProperty { get; set; } = new();

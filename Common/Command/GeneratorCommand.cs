@@ -151,6 +151,9 @@ public static class GeneratorCommand
         AddParser(byte.Parse);
         AddParser(value => value == null ? (byte?)null : byte.Parse(value));
         AddParser(value => value?.Split(',').Select(byte.Parse).ToList());
+        AddParser(sbyte.Parse);
+        AddParser(value => value == null ? (sbyte?)null : sbyte.Parse(value));
+        AddParser(value => value?.Split(',').Select(sbyte.Parse).ToList());
         AddParser(char.Parse);
         AddParser(value => value == null ? (char?)null : char.Parse(value));
         AddParser(value => value?.Split(',').Select(char.Parse).ToList());

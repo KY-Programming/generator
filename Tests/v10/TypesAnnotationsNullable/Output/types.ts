@@ -15,6 +15,8 @@ export class Types {
     public static readonly constFloat: number = 7.1;
     public static readonly constDouble: number = 8.2;
     public static readonly constBool: boolean = true;
+    public static readonly constByte: number = 9;
+    public static readonly constSByte: number = 10;
     public stringField?: string;
     public intField?: number = 0;
     public dateTimeField?: Date = new Date(0);
@@ -49,6 +51,8 @@ export class Types {
     public doubleProperty: number = 0;
     public boolProperty: boolean = false;
     public objectProperty?: unknown | undefined;
+    public byteProperty: number = 0;
+    public sByteProperty: number = 0;
     public nullableBoolProperty?: boolean | undefined;
     public nullableShortProperty?: number | undefined;
     public nullableUShortProperty?: number | undefined;
@@ -80,6 +84,7 @@ export class Types {
     public systemDecimalProperty: number = 0;
     public systemGuidProperty: string;
     public systemObjectProperty?: unknown | undefined;
+    public systemSByteProperty: number = 0;
     public systemTimeSpanProperty: string;
     public systemUInt16Property: number = 0;
     public systemUInt32Property: number = 0;

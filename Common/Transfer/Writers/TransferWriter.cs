@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using KY.Core;
+﻿using KY.Core;
 using KY.Generator.Languages;
 using KY.Generator.Mappings;
 using KY.Generator.Models;
@@ -200,6 +198,10 @@ public abstract class TransferWriter : Codeable
                 return Code.DateTime(dateTimeValue);
             case bool boolValue:
                 return Code.Boolean(boolValue);
+            case byte byteValue:
+                return Code.Number(byteValue);
+            case sbyte sbyteValue:
+                return Code.Number(sbyteValue);
             default:
                 return Code.String(value?.ToString());
         }

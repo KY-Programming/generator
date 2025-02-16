@@ -20,6 +20,7 @@ namespace KY.Generator.Sqlite.Extensions
             typeMapping.Map<ReflectionLanguage>().To<SqliteLanguage>()
                        .From("System.Boolean").To(SqliteType.Integer)
                        .From("System.Byte").To(SqliteType.Integer)
+                       .From("System.SByte").To(SqliteType.Integer)
                        .From("System.Char").To(SqliteType.Integer)
                        .From("System.DateTime").To(SqliteType.Text)
                        .From("System.Decimal").To(SqliteType.Integer)
