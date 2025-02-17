@@ -23,4 +23,33 @@ public class ModelTransferObject : TypeTransferObject
     public virtual List<MethodTransferObject> Methods { get; } = [];
     public virtual List<string> Usings { get; } = [];
     public virtual string? Comment { get; set; }
+
+        [NotCloneable]
+        public virtual Type Type { get; set; }
+
+        public ModelTransferObject()
+        { }
+
+        public ModelTransferObject(TypeTransferObject type)
+            : base(type)
+        { }
+
+        public ModelTransferObject(ModelTransferObject type)
+            : base(type)
+        {
+            this.IsEnum = type.IsEnum;
+            this.IsAbstract = type.IsAbstract;
+            this.EnumValues = type.EnumValues;
+            // this.BasedOn = type.BasedOn;
+            // this.Language = type.Language;
+            // this.Interfaces = type.Interfaces;
+            // this.Constants = type.Constants;
+            // this.Fields = type.Fields;
+            // this.Properties = type.Properties;
+            // this.Methods = type.Methods;
+            // this.Usings = type.Usings;
+            this.Comment = type.Comment;
+            this.Type = type.Type;
+        }
+    }
 }

@@ -25,7 +25,7 @@ public class TypeTransferObject : ITransferObject
     public virtual bool IsGeneric { get; set; }
     public virtual bool IsGenericParameter { get; set; }
     public virtual bool IsInterface { get; set; }
-    public virtual List<GenericAliasTransferObject> Generics { get; } = new();
+    public virtual List<GenericAliasTransferObject> Generics { get; } = [];
     public virtual TypeTransferObject Original { get; set; }
     public virtual ICodeFragment Default { get; set; }
     public string FullName => $"{this.Namespace}.{this.Name}";
@@ -39,12 +39,18 @@ public class TypeTransferObject : ITransferObject
     public TypeTransferObject(TypeTransferObject type)
     {
         this.Name = type.Name;
+        this.FileName = type.FileName;
+        this.OverrideType = type.OverrideType;
+        this.OriginalName = type.OriginalName;
         this.Namespace = type.Namespace;
         this.FromSystem = type.FromSystem;
         this.IsNullable = type.IsNullable;
         this.IsGeneric = type.IsGeneric;
         this.IsGenericParameter = type.IsGenericParameter;
+        this.IsInterface = type.IsInterface;
         this.Generics = type.Generics.ToList();
+        this.Original = type.Original;
+        this.Default = type.Default;
     }
 
     public bool Equals(TypeTransferObject type)
