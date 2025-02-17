@@ -9,7 +9,7 @@
         <Version>10.0.0-preview.2</Version>
         <Product>KY.Generator</Product>
         <Description>Fluent language for KY-Generator</Description>
-        <Copyright>2024 - KY-Programming</Copyright>
+    <Copyright>2025 - KY-Programming</Copyright>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageProjectUrl>https://generator.ky-programming.de</PackageProjectUrl>

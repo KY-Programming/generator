@@ -22,6 +22,7 @@
       <Framework Condition="$(FrameworkRaw.StartsWith('6.'))">net6.0</Framework>
       <Framework Condition="$(FrameworkRaw.StartsWith('7.'))">net7.0</Framework>
       <Framework Condition="$(FrameworkRaw.StartsWith('8.'))">net8.0</Framework>
+      <Framework Condition="$(FrameworkRaw.StartsWith('9.'))">net9.0</Framework>
     </PropertyGroup>
     <Exec Command="%22$(MSBuildThisFileDirectory)..\tools\$(Framework)\KY.Generator.exe%22 readid -solution=%22$(SolutionPath)%22 -project=%22$(ProjectPath)%22 fluent -assembly=%22$(TargetPath)%22 -output=%22$(ProjectDir)\%22 -msbuild -beforeBuild"
           Condition="$(Framework) != 'netcoreapp2.0'"
@@ -64,6 +65,7 @@
       <Framework Condition="$(FrameworkRaw.StartsWith('6.'))">net6.0</Framework>
       <Framework Condition="$(FrameworkRaw.StartsWith('7.'))">net7.0</Framework>
       <Framework Condition="$(FrameworkRaw.StartsWith('8.'))">net8.0</Framework>
+      <Framework Condition="$(FrameworkRaw.StartsWith('9.'))">net9.0</Framework>
     </PropertyGroup>
     <Exec Command="dotnet %22$(MSBuildThisFileDirectory)../tools/$(Framework)/KY.Generator.dll%22 readid -solution=%22$(SolutionPath)%22 -project=%22$(ProjectPath)%22 fluent -assembly=%22$(TargetPath)%22 -output=%22$(ProjectDir)%22 -msbuild -beforeBuild"
           Condition="$(Framework) != 'none'"
@@ -102,6 +104,7 @@
       <Framework Condition="$(FrameworkRaw.StartsWith('6.'))">net6.0</Framework>
       <Framework Condition="$(FrameworkRaw.StartsWith('7.'))">net7.0</Framework>
       <Framework Condition="$(FrameworkRaw.StartsWith('8.'))">net8.0</Framework>
+      <Framework Condition="$(FrameworkRaw.StartsWith('9.'))">net9.0</Framework>
     </PropertyGroup>
     <Exec Command="dotnet %22$(MSBuildThisFileDirectory)../tools/$(Framework)/KY.Generator.dll%22 readid -solution=%22$(SolutionPath)%22 -project=%22$(ProjectPath)%22 fluent -assembly=%22$(TargetPath)%22 -output=%22$(ProjectDir)%22 -msbuild -beforeBuild"
           Condition="$(Framework) != 'none'"
