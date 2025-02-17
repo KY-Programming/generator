@@ -35,6 +35,10 @@ public class TypeScriptModelWriter : ModelWriter
 
     protected override FieldTemplate AddField(ModelTransferObject model, MemberTransferObject member, ClassTemplate classTemplate)
     {
+        if (member.IsOverwrite)
+        {
+            return null;
+        }
         TypeScriptOptions fieldOptions = this.Options.Get<TypeScriptOptions>(member);
         FieldTemplate fieldTemplate = base.AddField(model, member, classTemplate);
         fieldTemplate.Strict = fieldOptions.Strict;
@@ -47,6 +51,10 @@ public class TypeScriptModelWriter : ModelWriter
 
     protected override PropertyTemplate AddProperty(ModelTransferObject model, MemberTransferObject member, ClassTemplate classTemplate)
     {
+        if (member.IsOverwrite)
+        {
+            return null;
+        }
         TypeScriptOptions propertyOptions = this.Options.Get<TypeScriptOptions>(member);
         PropertyTemplate propertyTemplate = base.AddProperty(model, member, classTemplate);
         propertyTemplate.Strict = propertyOptions.Strict;
