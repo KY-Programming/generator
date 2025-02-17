@@ -1,7 +1,7 @@
 ﻿/* eslint-disable */
 // tslint:disable
 
-export interface TypesGenericSubType<TOne, TTwo> {
+export interface GenericSubType<TOne, TTwo> {
     single?: TOne;
     single2?: string;
     enumerable?: TOne[];

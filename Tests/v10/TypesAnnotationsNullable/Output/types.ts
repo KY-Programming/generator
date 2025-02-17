@@ -97,12 +97,24 @@ export class Types {
     public subTypeArrayProperty?: SubType[] | undefined;
     public stringList?: string[] | undefined;
     public subTypeList?: SubType[] | undefined;
+    public stringIList?: string[] | undefined;
+    public subTypeIList?: SubType[] | undefined;
+    public stringIEnumerable?: string[] | undefined;
+    public subTypeIEnumerable?: SubType[] | undefined;
+    public stringIReadOnlyList?: string[] | undefined;
+    public subTypeIReadOnlyList?: SubType[] | undefined;
+    public stringICollection?: string[] | undefined;
+    public subTypeICollection?: SubType[] | undefined;
+    public stringIReadOnlyCollection?: string[] | undefined;
+    public subTypeIReadOnlyCollection?: SubType[] | undefined;
     public stringStringDictionary?: { [key: string]: string; } | undefined;
     public intStringDictionary?: { [key: number]: string; } | undefined;
     public stringSubTypeDictionary?: { [key: string]: SubType; } | undefined;
     public intSubTypeDictionary?: { [key: number]: SubType; } | undefined;
     public subTypeStringDictionary?: { /* unsupported type for key. Expected string or number. Got 'SubType'. */ } | undefined;
-    public genericSubType?: GenericSubType<string, number> | undefined;
+    public stringStringIDictionary?: { [key: string]: string; } | undefined;
+    public stringStringIReadOnlyDictionary?: { [key: string]: string; } | undefined;
+    public typesGenericSubType?: GenericSubType<string, number> | undefined;
     public readonlyProperty?: string | undefined;
     public writeonlyProperty?: string | undefined;
 

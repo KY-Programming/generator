@@ -66,7 +66,7 @@ public class Types
 
     // Default Nullable Values
     [DefaultValue("Default")]
-    public string DefaultNullableString { get; set; } = "Default";
+    public string? DefaultNullableString { get; set; } = "Default";
 
     [DefaultValue(1)]
     public short? DefaultNullableShort { get; set; } = 1;
@@ -151,33 +151,41 @@ public class Types
     public System.UInt64 SystemUInt64Property { get; set; }
 
     // Complex Types
-    public TypesSubType TypesSubTypeProperty { get; set; } = new();
+    public SubType SubTypeProperty { get; set; } = new();
 
     // Arrays
     public string[] StringArrayProperty { get; set; } = [];
     public int[] IntArrayProperty { get; set; } = [];
     public byte[] ByteArrayProperty { get; set; } = [];
     public DateTime[] SystemDateTimeArrayProperty { get; set; } = [];
-    public TypesSubType[] SubTypeArrayProperty { get; set; } = [];
+    public SubType[] SubTypeArrayProperty { get; set; } = [];
 
     // Generics
     public List<string> StringList { get; set; } = [];
-    public List<TypesSubType> SubTypeList { get; set; } = [];
-    public Dictionary<string, string> StringStringDictionary { get; set; } = new();
-    public Dictionary<int, string> IntStringDictionary { get; set; } = new();
-    public Dictionary<string, TypesSubType> StringSubTypeDictionary { get; set; } = new();
-    public Dictionary<int, TypesSubType> IntSubTypeDictionary { get; set; } = new();
-    public Dictionary<TypesSubType, string> SubTypeStringDictionary { get; set; } = new();
-    public TypesGenericSubType<string, int> TypesGenericSubType { get; set; } = new();
+    public List<SubType> SubTypeList { get; set; } = [];
+    public IList<string> StringIList { get; set; } = [];
+    public IList<SubType> SubTypeIList { get; set; } = [];
+    public IEnumerable<string> StringIEnumerable { get; set; } = [];
+    public IEnumerable<SubType> SubTypeIEnumerable { get; set; } = [];
+    public IReadOnlyList<string> StringIReadOnlyList { get; set; } = [];
+    public IReadOnlyList<SubType> SubTypeIReadOnlyList { get; set; } = [];
+    public ICollection<string> StringICollection { get; set; } = [];
+    public ICollection<SubType> SubTypeICollection { get; set; } = [];
+    public IReadOnlyCollection<string> StringIReadOnlyCollection { get; set; } = [];
+    public IReadOnlyCollection<SubType> SubTypeIReadOnlyCollection { get; set; } = [];
+    public Dictionary<string, string> StringStringDictionary { get; set; } = [];
+    public Dictionary<int, string> IntStringDictionary { get; set; } = [];
+    public Dictionary<string, SubType> StringSubTypeDictionary { get; set; } = [];
+    public Dictionary<int, SubType> IntSubTypeDictionary { get; set; } = [];
+    public Dictionary<SubType, string> SubTypeStringDictionary { get; set; } = [];
+    public IDictionary<string, string> StringStringIDictionary { get; set; } = new Dictionary<string, string>();
+    public IReadOnlyDictionary<string, string> StringStringIReadOnlyDictionary { get; set; } = new Dictionary<string, string>();
+    public GenericSubType<string, int> GenericSubType { get; set; } = new();
 
     // Accessors
     public string ReadonlyProperty => string.Empty;
-
-    public string WriteonlyProperty
-    {
-        set { }
-    }
-
+    // ReSharper disable once ValueParameterNotUsed
+    public string WriteonlyProperty { set {} }
     protected string ProtectedProperty { get; set; } = "";
     private string PrivateProperty { get; set; } = "";
     internal string InternalProperty { get; set; } = "";
@@ -186,12 +194,12 @@ public class Types
     internal string InternalField = "";
 }
 
-public class TypesSubType
+public class SubType
 {
     public string Property { get; set; } = "";
 }
 
-public class TypesGenericSubType<TOne, TTwo>
+public class GenericSubType<TOne, TTwo>
 {
     public TOne Single { get; }
     public string Single2 { get; }

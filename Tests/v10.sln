@@ -12,6 +12,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SelfReferencingAnnotationsN
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnumAnnotationsNotNullable", "v10\EnumAnnotationsNotNullable\EnumAnnotationsNotNullable.csproj", "{6E81AC59-1AC5-47CF-A3F6-ABA0BD471546}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InheritanceAnnotationsNotNullable", "v10\InheritanceAnnotationsNotNullable\InheritanceAnnotationsNotNullable.csproj", "{DE1DACB4-0916-4152-925D-BB9825CC3427}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,5 +44,9 @@ Global
 		{6E81AC59-1AC5-47CF-A3F6-ABA0BD471546}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6E81AC59-1AC5-47CF-A3F6-ABA0BD471546}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6E81AC59-1AC5-47CF-A3F6-ABA0BD471546}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE1DACB4-0916-4152-925D-BB9825CC3427}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE1DACB4-0916-4152-925D-BB9825CC3427}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE1DACB4-0916-4152-925D-BB9825CC3427}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE1DACB4-0916-4152-925D-BB9825CC3427}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

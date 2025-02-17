@@ -1,8 +1,8 @@
 ﻿/* eslint-disable */
 // tslint:disable
 
-import { TypesGenericSubType } from "./types-generic-sub-type";
-import { TypesSubType } from "./types-sub-type";
+import { GenericSubType } from "./generic-sub-type";
+import { SubType } from "./sub-type";
 
 export class Types {
     public static readonly constString: string = "String";
@@ -89,20 +89,32 @@ export class Types {
     public systemUInt16Property: number = 0;
     public systemUInt32Property: number = 0;
     public systemUInt64Property: number = 0;
-    public typesSubTypeProperty?: TypesSubType | undefined;
+    public subTypeProperty?: SubType | undefined;
     public stringArrayProperty?: string[] | undefined;
     public intArrayProperty?: number[] | undefined;
     public byteArrayProperty?: number[] | undefined;
     public systemDateTimeArrayProperty?: Date[] | undefined;
-    public subTypeArrayProperty?: TypesSubType[] | undefined;
+    public subTypeArrayProperty?: SubType[] | undefined;
     public stringList?: string[] | undefined;
-    public subTypeList?: TypesSubType[] | undefined;
+    public subTypeList?: SubType[] | undefined;
+    public stringIList?: string[] | undefined;
+    public subTypeIList?: SubType[] | undefined;
+    public stringIEnumerable?: string[] | undefined;
+    public subTypeIEnumerable?: SubType[] | undefined;
+    public stringIReadOnlyList?: string[] | undefined;
+    public subTypeIReadOnlyList?: SubType[] | undefined;
+    public stringICollection?: string[] | undefined;
+    public subTypeICollection?: SubType[] | undefined;
+    public stringIReadOnlyCollection?: string[] | undefined;
+    public subTypeIReadOnlyCollection?: SubType[] | undefined;
     public stringStringDictionary?: { [key: string]: string; } | undefined;
     public intStringDictionary?: { [key: number]: string; } | undefined;
-    public stringSubTypeDictionary?: { [key: string]: TypesSubType; } | undefined;
-    public intSubTypeDictionary?: { [key: number]: TypesSubType; } | undefined;
-    public subTypeStringDictionary?: { /* unsupported type for key. Expected string or number. Got 'TypesSubType'. */ } | undefined;
-    public typesGenericSubType?: TypesGenericSubType<string, number> | undefined;
+    public stringSubTypeDictionary?: { [key: string]: SubType; } | undefined;
+    public intSubTypeDictionary?: { [key: number]: SubType; } | undefined;
+    public subTypeStringDictionary?: { /* unsupported type for key. Expected string or number. Got 'SubType'. */ } | undefined;
+    public stringStringIDictionary?: { [key: string]: string; } | undefined;
+    public stringStringIReadOnlyDictionary?: { [key: string]: string; } | undefined;
+    public typesGenericSubType?: GenericSubType<string, number> | undefined;
     public readonlyProperty?: string | undefined;
     public writeonlyProperty?: string | undefined;
 

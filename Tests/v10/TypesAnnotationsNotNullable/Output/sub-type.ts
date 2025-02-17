@@ -1,7 +1,7 @@
 ﻿/* eslint-disable */
 // tslint:disable
 
-export interface TypesSubType {
+export interface SubType {
     property?: string;
 }
 
