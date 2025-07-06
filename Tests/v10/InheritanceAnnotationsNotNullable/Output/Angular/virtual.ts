@@ -2,8 +2,8 @@
 // tslint:disable
 
 export class Virtual {
-    public stringProperty: string;
-    public virtualProperty: string;
+    public stringProperty?: string;
+    public virtualProperty?: string;
 
     public constructor(init?: Partial<Virtual>) {
         Object.assign(this, init);

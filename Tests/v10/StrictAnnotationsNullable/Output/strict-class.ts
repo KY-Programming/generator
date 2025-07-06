@@ -2,11 +2,11 @@
 // tslint:disable
 
 export class StrictClass {
-    public stringProperty: string;
-    public nullableStringProperty?: string | undefined;
+    public stringProperty: string = "";
+    public nullableStringProperty?: string;
     public requiredNullableStringProperty: string | undefined;
     public intProperty: number = 0;
-    public nullableIntProperty?: number | undefined;
+    public nullableIntProperty?: number;
     public requiredNullableIntProperty: number | undefined;
 
     public constructor(init?: Partial<StrictClass>) {

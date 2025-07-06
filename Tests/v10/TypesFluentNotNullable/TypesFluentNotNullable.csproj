@@ -5,11 +5,14 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>disable</Nullable>
         <RootNamespace>Types</RootNamespace>
-    </PropertyGroup>
+      <ProjectGuid>{34250918-9be9-4645-baab-94eff779a14c}</ProjectGuid>
+  </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="KY.Generator.Fluent" Version="10.0.0-preview.1"/>
-        <PackageReference Include="KY.Generator.Reflection" Version="10.0.0-preview.1"/>
+        <PackageReference Include="KY.Generator" Version="10.0.0-preview.7" />
+        <PackageReference Include="KY.Generator.Annotations" Version="10.0.0-preview.7" />
+        <PackageReference Include="KY.Generator.Fluent" Version="10.0.0-preview.1" />
+        <PackageReference Include="KY.Generator.Reflection" Version="10.0.0-preview.1" />
     </ItemGroup>
 
 </Project>

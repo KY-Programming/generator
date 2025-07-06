@@ -2,13 +2,13 @@
 // tslint:disable
 
 export class SelfReferencingType {
-    public stringProperty?: string | undefined;
-    public selfProperty: SelfReferencingType;
-    public selfList?: SelfReferencingType[] | undefined;
+    public stringProperty: string = "";
+    public selfProperty?: SelfReferencingType;
+    public selfList: SelfReferencingType[] = [];
 
     public constructor(init?: Partial<SelfReferencingType>) {
         Object.assign(this, init);
     }
 }
 
-// outputid:f13dd313-1bd6-4a8e-9b3f-d6266d3a25ff
+// outputid:b84d2f96-fba8-416c-b067-f17f09809015

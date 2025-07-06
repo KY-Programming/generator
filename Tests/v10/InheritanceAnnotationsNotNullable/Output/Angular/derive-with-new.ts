@@ -4,9 +4,6 @@
 import { Base } from "./base";
 
 export class DeriveWithNew extends Base {
-    public stringField: string;
-    public stringProperty: number;
-
     public constructor(init?: Partial<DeriveWithNew>) {
         super();
         Object.assign(this, init);

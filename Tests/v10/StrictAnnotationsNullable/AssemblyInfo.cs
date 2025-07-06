@@ -2,3 +2,4 @@
 
 [assembly:GenerateNoHeader]
 [assembly:GenerateModelOutput("Output")]
+[assembly:GenerateNoIndex]

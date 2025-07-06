@@ -2,10 +2,9 @@
 
 namespace Inheritance;
 
-[GenerateTypeScriptModel("Output")]
+[GenerateTypeScriptModel]
 [GenerateAngularModel("Output/Angular")]
 [GenerateOnlySubTypes]
-[GenerateStrict]
 public class Inheritance
 {
     public Derived Derived { get; set; }

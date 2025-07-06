@@ -2,11 +2,11 @@
 // tslint:disable
 
 export interface StrictInterface {
-    stringProperty?: string | undefined;
+    stringProperty?: string;
     requiredStringProperty: string | undefined;
     requiredStringWithDefaultProperty: string | undefined;
     intProperty: number;
-    nullableIntProperty?: number | undefined;
+    nullableIntProperty?: number;
     requiredNullableIntProperty: number | undefined;
 }
 

@@ -1,4 +1,28 @@
 REM ==========================================
+REM ||      EnumAnnotationsNotNullable      ||
+REM ==========================================
+REM 
+cd EnumAnnotationsNotNullable
+rmdir /S/Q bin
+rmdir /S/Q Output
+dotnet add package KY.Generator --prerelease
+dotnet add package KY.Generator.Annotations --prerelease
+dotnet build --no-incremental
+cd ..
+
+REM ==========================================
+REM ||  InheritanceAnnotationsNotNullable   ||
+REM ==========================================
+REM 
+cd InheritanceAnnotationsNotNullable
+rmdir /S/Q bin
+rmdir /S/Q Output
+dotnet add package KY.Generator --prerelease
+dotnet add package KY.Generator.Annotations --prerelease
+dotnet build --no-incremental
+cd ..
+
+REM ==========================================
 REM ||  SelfReferencingAnnotationsNullable  ||
 REM ==========================================
 REM 
@@ -82,3 +106,18 @@ dotnet add package KY.Generator.Annotations --prerelease
 dotnet build --no-incremental
 cd ..
 
+REM ==========================================
+REM ||             VALIDATE                 ||
+REM ==========================================
+REM
+cd TypeScriptValidationNotStrict
+REM start validate
+cd ..
+
+REM ==========================================
+REM ||         VALIDATE STRICT             ||
+REM ==========================================
+REM
+cd TypeScriptValidationStrict
+start validate
+cd ..

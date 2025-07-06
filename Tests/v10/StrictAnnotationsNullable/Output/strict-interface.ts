@@ -3,10 +3,10 @@
 
 export interface StrictInterface {
     stringProperty: string;
-    nullableStringProperty?: string | undefined;
+    nullableStringProperty?: string;
     requiredNullableStringProperty: string | undefined;
     intProperty: number;
-    nullableIntProperty?: number | undefined;
+    nullableIntProperty?: number;
     requiredNullableIntProperty: number | undefined;
 }
 

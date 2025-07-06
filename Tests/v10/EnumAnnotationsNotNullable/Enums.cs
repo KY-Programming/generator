@@ -2,8 +2,8 @@
 
 namespace Enum;
 
-[GenerateTypeScriptModel("Output")]
-[GenerateStrict]
+[GenerateTypeScriptModel]
+[GenerateOnlySubTypes]
 public class Enums
 {
     public DefaultEnum DefaultEnum { get; set; }
