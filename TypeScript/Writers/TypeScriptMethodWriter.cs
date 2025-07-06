@@ -12,10 +12,8 @@ public class TypeScriptMethodWriter : Codeable, ITemplateWriter
     public virtual void Write(ICodeFragment fragment, IOutputCache output)
     {
         MethodTemplate template = (MethodTemplate)fragment;
-        this.WriteSignature(template, null, output);
         if (template is TypeScriptMethodTemplate methodTemplate)
         {
-            output.BreakLine();
             TypeScriptMethodOverloadTemplate combinedOverloadTemplate = new();
             this.Combine(combinedOverloadTemplate, methodTemplate);
             foreach (TypeScriptMethodOverloadTemplate overload in methodTemplate.Overloads)
@@ -24,7 +22,13 @@ public class TypeScriptMethodWriter : Codeable, ITemplateWriter
                 this.WriteSignature(template, overload, output);
                 output.BreakLine();
             }
+            this.WriteSignature(template, null, output);
+            output.BreakLine();
             this.WriteSignature(template, combinedOverloadTemplate, output);
+        }
+        else
+        {
+            this.WriteSignature(template, null, output);
         }
         output.StartBlock()
               .Add(template.Code)

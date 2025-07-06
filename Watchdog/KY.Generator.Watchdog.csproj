@@ -4,14 +4,14 @@
         <TargetFramework>netstandard2.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <Version>10.0.0-preview.2</Version>
+        <Version>10.0.0-preview.7</Version>
         <Authors>KY-Programming</Authors>
         <Company>KY-Programming</Company>
         <Product>KY.Generator</Product>
         <Description>Watchdog Module for KY-Generator
             Download KY.Generator to use this module
         </Description>
-    <Copyright>2025 - KY-Programming</Copyright>
+        <Copyright>2025 - KY-Programming</Copyright>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageProjectUrl>https://generator.ky-programming.de</PackageProjectUrl>

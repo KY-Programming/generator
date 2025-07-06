@@ -39,12 +39,17 @@ public class TypeScriptModelWriter : ModelWriter
         {
             return null;
         }
-        TypeScriptOptions fieldOptions = this.Options.Get<TypeScriptOptions>(member);
+        GeneratorOptions fieldOptions = this.Options.Get<GeneratorOptions>(member);
+        TypeScriptOptions fieldTypeScriptOptions = this.Options.Get<TypeScriptOptions>(member);
         FieldTemplate fieldTemplate = base.AddField(model, member, classTemplate);
-        fieldTemplate.Strict = fieldOptions.Strict;
-        if (fieldTemplate.DefaultValue == null && fieldOptions.Strict && !fieldTemplate.IsNullable)
+        fieldTemplate.Strict = fieldTypeScriptOptions.Strict;
+        if (fieldTemplate.DefaultValue == null && fieldTypeScriptOptions.Strict && !fieldTemplate.IsNullable)
         {
             fieldTemplate.DefaultValue = member.Type?.Default;
+            if (fieldTemplate.DefaultValue == null && model.Language != null && fieldOptions.Language != null && member.Type != null)
+            {
+                fieldTemplate.DefaultValue = this.TypeMapping.GetStrictDefault(model.Language, fieldOptions.Language, member.Type.Original ?? member.Type);
+            }
         }
         return fieldTemplate;
     }

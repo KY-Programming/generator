@@ -194,7 +194,7 @@ public class Options
                     continue;
                 }
                 object? argumentKey = this.ReverseSearch(options);
-                if (argumentKey != null && mappings.Values.Any(x => x.Arguments.Contains(argumentKey)))
+                if (argumentKey != null /*&& mappings.Values.Any(x => x.Arguments.Contains(argumentKey))*/)
                 {
                     arguments.Replace(argument, argumentKey);
                     continue;

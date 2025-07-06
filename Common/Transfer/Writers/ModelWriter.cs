@@ -96,7 +96,7 @@ public class ModelWriter : TransferWriter, ITransferWriter
         }
     }
 
-    protected virtual EnumTemplate WriteEnum(ModelTransferObject model, string relativePath)
+    protected virtual EnumTemplate WriteEnum(ModelTransferObject model, string? relativePath)
     {
         if (model.EnumValues == null)
         {
@@ -108,15 +108,15 @@ public class ModelWriter : TransferWriter, ITransferWriter
                                         .AddNamespace(modelOptions.SkipNamespace ? string.Empty : model.Namespace)
                                         .AddEnum(model.Name);
 
-            foreach (KeyValuePair<string, object> pair in model.EnumValues)
+        foreach (KeyValuePair<string, object> pair in model.EnumValues)
         {
             string formattedName = Formatter.FormatProperty(pair.Key, modelOptions);
-                enumTemplate.Values.Add(new EnumValueTemplate(pair.Key, Code.Local(pair.Value.ToString()), formattedName));
+            enumTemplate.Values.Add(new EnumValueTemplate(pair.Key, Code.Local(pair.Value.ToString()), formattedName));
         }
         return enumTemplate;
     }
 
-    protected virtual ClassTemplate WriteClass(ModelTransferObject model, string relativePath)
+    protected virtual ClassTemplate WriteClass(ModelTransferObject model, string? relativePath)
     {
         GeneratorOptions modelOptions = this.Options.Get<GeneratorOptions>(model);
         if (model.BasedOn != null && model.Language != null && modelOptions.Language != null)

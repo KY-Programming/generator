@@ -17,7 +17,7 @@ public class TypeScriptFieldWriter : ITemplateWriter
               .If(template.IsOptional).Add("?").EndIf()
               .Add(": ")
               .Add(template.Type)
-              .If(template.Strict && template.IsNullable).Add(" | undefined").EndIf()
+              .If(template.Strict && (template.IsNullable || template.DefaultValue == null) && !template.IsOptional).Add(" | undefined").EndIf()
               .If(template.DefaultValue != null && !template.Class.IsInterface).Add(" = ").Add(template.DefaultValue!).EndIf()
               .CloseLine();
     }

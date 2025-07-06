@@ -71,6 +71,11 @@ public abstract class TransferWriter : Codeable
         type.Generics.ForEach(x => this.MapType(fromLanguage, toLanguage, x.Type));
     }
 
+    protected virtual ICodeFragment? DefaultValue(ILanguage fromLanguage, ILanguage toLanguage, TypeTransferObject type)
+    {
+        return this.TypeMapping.GetStrictDefault(fromLanguage, toLanguage, type);
+    }
+
     protected virtual FieldTemplate AddField(ModelTransferObject model, MemberTransferObject member, ClassTemplate classTemplate)
     {
         GeneratorOptions fieldOptions = this.Options.Get<GeneratorOptions>(member);

@@ -2,7 +2,7 @@
 <package>
     <metadata>
         <id>KY.Generator</id>
-        <version>10.0.0-preview.2</version>
+        <version>10.0.0-preview.7</version>
         <title>KY.Generator</title>
         <authors>KY-Programming</authors>
         <owners>KY-Programming</owners>
@@ -15,7 +15,7 @@
             Support for Angular, ASP.NET, ASP.NET Core, C# POCOs, TypeScript POCOs, Entity Framework and more.
         </description>
         <releaseNotes></releaseNotes>
-    <copyright>2025 - KY-Programming</copyright>
+        <copyright>2025 - KY-Programming</copyright>
         <tags>KY-Generator KY.Generator</tags>
         <readme>README.md</readme>
     </metadata>
@@ -32,44 +32,44 @@
         <file src="..\bin\Release\netcoreapp2.0\win-x64\publish\**\*.exe" target="tools\netcoreapp2.0"/>
         <!--<file src="..\bin\Release\netcoreapp2.0\win-x86\publish\**\*.dll" target="tools\netcoreapp2.0-x86" />
         <file src="..\bin\Release\netcoreapp2.0\win-x86\publish\**\*.json" target="tools\netcoreapp2.0-x86" />-->
-    <file src="..\bin\Release\netcoreapp3.0\win-x64\publish\**\*.dll" target="tools\netcoreapp3.0" />
-    <file src="..\bin\Release\netcoreapp3.0\win-x64\publish\**\*.json" target="tools\netcoreapp3.0" />
-    <file src="..\bin\Release\netcoreapp3.0\win-x64\publish\**\*.exe" target="tools\netcoreapp3.0" />
-    <file src="..\bin\Release\netcoreapp3.0\win-x86\publish\**\*.dll" target="tools\netcoreapp3.0-x86" />
-    <file src="..\bin\Release\netcoreapp3.0\win-x86\publish\**\*.exe" target="tools\netcoreapp3.0-x86" />
-    <file src="..\bin\Release\netcoreapp3.0\win-x86\publish\**\*.json" target="tools\netcoreapp3.0-x86" />
-    <file src="..\bin\Release\net5.0\win-x64\publish\**\*.dll" target="tools\net5.0" />
-    <file src="..\bin\Release\net5.0\win-x64\publish\**\*.json" target="tools\net5.0" />
-    <file src="..\bin\Release\net5.0\win-x64\publish\**\*.exe" target="tools\net5.0" />
-    <file src="..\bin\Release\net5.0\win-x86\publish\**\*.dll" target="tools\net5.0-x86" />
-    <file src="..\bin\Release\net5.0\win-x86\publish\**\*.exe" target="tools\net5.0-x86" />
-    <file src="..\bin\Release\net5.0\win-x86\publish\**\*.json" target="tools\net5.0-x86" />
-    <file src="..\bin\Release\net6.0\win-x64\publish\**\*.dll" target="tools\net6.0" />
-    <file src="..\bin\Release\net6.0\win-x64\publish\**\*.json" target="tools\net6.0" />
-    <file src="..\bin\Release\net6.0\win-x64\publish\**\*.exe" target="tools\net6.0" />
-    <file src="..\bin\Release\net6.0\win-x86\publish\**\*.dll" target="tools\net6.0-x86" />
-    <file src="..\bin\Release\net6.0\win-x86\publish\**\*.exe" target="tools\net6.0-x86" />
-    <file src="..\bin\Release\net6.0\win-x86\publish\**\*.json" target="tools\net6.0-x86" />      
-    <file src="..\bin\Release\net7.0\win-x64\publish\**\*.dll" target="tools\net7.0" />
-    <file src="..\bin\Release\net7.0\win-x64\publish\**\*.json" target="tools\net7.0" />
-    <file src="..\bin\Release\net7.0\win-x64\publish\**\*.exe" target="tools\net7.0" />
-    <file src="..\bin\Release\net7.0\win-x86\publish\**\*.dll" target="tools\net7.0-x86" />
-    <file src="..\bin\Release\net7.0\win-x86\publish\**\*.exe" target="tools\net7.0-x86" />
-    <file src="..\bin\Release\net7.0\win-x86\publish\**\*.json" target="tools\net7.0-x86" />    
-    <file src="..\bin\Release\net8.0\win-x64\publish\**\*.dll" target="tools\net8.0" />
-    <file src="..\bin\Release\net8.0\win-x64\publish\**\*.json" target="tools\net8.0" />
-    <file src="..\bin\Release\net8.0\win-x64\publish\**\*.exe" target="tools\net8.0" />
-    <file src="..\bin\Release\net8.0\win-x86\publish\**\*.dll" target="tools\net8.0-x86" />
-    <file src="..\bin\Release\net8.0\win-x86\publish\**\*.exe" target="tools\net8.0-x86" />
-    <file src="..\bin\Release\net8.0\win-x86\publish\**\*.json" target="tools\net8.0-x86" />   
-    <file src="..\bin\Release\net9.0\win-x64\publish\**\*.dll" target="tools\net9.0" />
-    <file src="..\bin\Release\net9.0\win-x64\publish\**\*.json" target="tools\net9.0" />
-    <file src="..\bin\Release\net9.0\win-x64\publish\**\*.exe" target="tools\net9.0" />
-    <file src="..\bin\Release\net9.0\win-x86\publish\**\*.dll" target="tools\net9.0-x86" />
-    <file src="..\bin\Release\net9.0\win-x86\publish\**\*.exe" target="tools\net9.0-x86" />
-    <file src="..\bin\Release\net9.0\win-x86\publish\**\*.json" target="tools\net9.0-x86" />
-    <file src="nuget.targets" target="build\KY.Generator.targets" />
-    <file src="..\README.md" target="" />
-    <file src="..\icon.png" target="assets" />
+        <file src="..\bin\Release\netcoreapp3.0\win-x64\publish\**\*.dll" target="tools\netcoreapp3.0"/>
+        <file src="..\bin\Release\netcoreapp3.0\win-x64\publish\**\*.json" target="tools\netcoreapp3.0"/>
+        <file src="..\bin\Release\netcoreapp3.0\win-x64\publish\**\*.exe" target="tools\netcoreapp3.0"/>
+        <file src="..\bin\Release\netcoreapp3.0\win-x86\publish\**\*.dll" target="tools\netcoreapp3.0-x86"/>
+        <file src="..\bin\Release\netcoreapp3.0\win-x86\publish\**\*.exe" target="tools\netcoreapp3.0-x86"/>
+        <file src="..\bin\Release\netcoreapp3.0\win-x86\publish\**\*.json" target="tools\netcoreapp3.0-x86"/>
+        <file src="..\bin\Release\net5.0\win-x64\publish\**\*.dll" target="tools\net5.0"/>
+        <file src="..\bin\Release\net5.0\win-x64\publish\**\*.json" target="tools\net5.0"/>
+        <file src="..\bin\Release\net5.0\win-x64\publish\**\*.exe" target="tools\net5.0"/>
+        <file src="..\bin\Release\net5.0\win-x86\publish\**\*.dll" target="tools\net5.0-x86"/>
+        <file src="..\bin\Release\net5.0\win-x86\publish\**\*.exe" target="tools\net5.0-x86"/>
+        <file src="..\bin\Release\net5.0\win-x86\publish\**\*.json" target="tools\net5.0-x86"/>
+        <file src="..\bin\Release\net6.0\win-x64\publish\**\*.dll" target="tools\net6.0"/>
+        <file src="..\bin\Release\net6.0\win-x64\publish\**\*.json" target="tools\net6.0"/>
+        <file src="..\bin\Release\net6.0\win-x64\publish\**\*.exe" target="tools\net6.0"/>
+        <file src="..\bin\Release\net6.0\win-x86\publish\**\*.dll" target="tools\net6.0-x86"/>
+        <file src="..\bin\Release\net6.0\win-x86\publish\**\*.exe" target="tools\net6.0-x86"/>
+        <file src="..\bin\Release\net6.0\win-x86\publish\**\*.json" target="tools\net6.0-x86"/>
+        <file src="..\bin\Release\net7.0\win-x64\publish\**\*.dll" target="tools\net7.0"/>
+        <file src="..\bin\Release\net7.0\win-x64\publish\**\*.json" target="tools\net7.0"/>
+        <file src="..\bin\Release\net7.0\win-x64\publish\**\*.exe" target="tools\net7.0"/>
+        <file src="..\bin\Release\net7.0\win-x86\publish\**\*.dll" target="tools\net7.0-x86"/>
+        <file src="..\bin\Release\net7.0\win-x86\publish\**\*.exe" target="tools\net7.0-x86"/>
+        <file src="..\bin\Release\net7.0\win-x86\publish\**\*.json" target="tools\net7.0-x86"/>
+        <file src="..\bin\Release\net8.0\win-x64\publish\**\*.dll" target="tools\net8.0"/>
+        <file src="..\bin\Release\net8.0\win-x64\publish\**\*.json" target="tools\net8.0"/>
+        <file src="..\bin\Release\net8.0\win-x64\publish\**\*.exe" target="tools\net8.0"/>
+        <file src="..\bin\Release\net8.0\win-x86\publish\**\*.dll" target="tools\net8.0-x86"/>
+        <file src="..\bin\Release\net8.0\win-x86\publish\**\*.exe" target="tools\net8.0-x86"/>
+        <file src="..\bin\Release\net8.0\win-x86\publish\**\*.json" target="tools\net8.0-x86"/>
+        <file src="..\bin\Release\net9.0\win-x64\publish\**\*.dll" target="tools\net9.0"/>
+        <file src="..\bin\Release\net9.0\win-x64\publish\**\*.json" target="tools\net9.0"/>
+        <file src="..\bin\Release\net9.0\win-x64\publish\**\*.exe" target="tools\net9.0"/>
+        <file src="..\bin\Release\net9.0\win-x86\publish\**\*.dll" target="tools\net9.0-x86"/>
+        <file src="..\bin\Release\net9.0\win-x86\publish\**\*.exe" target="tools\net9.0-x86"/>
+        <file src="..\bin\Release\net9.0\win-x86\publish\**\*.json" target="tools\net9.0-x86"/>
+        <file src="nuget.targets" target="build\KY.Generator.targets"/>
+        <file src="..\README.md" target=""/>
+        <file src="..\icon.png" target="assets"/>
     </files>
 </package>

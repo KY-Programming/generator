@@ -64,7 +64,7 @@ public class GeneratorOptions(GeneratorOptions? parent, GeneratorOptions? global
 
     public bool Ignore
     {
-        get => this.GetValue(x => x.ignore);
+        get => this.GetOwnValue(x => x.ignore);
         set => this.ignore = value;
     }
 
@@ -109,19 +109,19 @@ public class GeneratorOptions(GeneratorOptions? parent, GeneratorOptions? global
 
     public bool OnlySubTypes
     {
-        get => this.GetValue(x => x.onlySubTypes);
+        get => this.GetOwnValue(x => x.onlySubTypes);
         set => this.onlySubTypes = value;
     }
 
     public string? Rename
     {
-        get => this.GetValue(x => x.rename);
+        get => this.GetOwnValue(x => x.rename);
         set => this.rename = value;
     }
 
     public TypeTransferObject? ReturnType
     {
-        get => this.GetValue(x => x.returnType);
+        get => this.GetOwnValue(x => x.returnType);
         set => this.returnType = value;
     }
 

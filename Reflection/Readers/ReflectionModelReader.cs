@@ -299,10 +299,9 @@ public class ReflectionModelReader
             {
                 continue;
             }
-            bool isRequired = property.CustomAttributes.Any(x => x.AttributeType.FullName == "System.ComponentModel.DataAnnotations.RequiredAttribute");
-            bool isNullable = (!property.PropertyType.IsValueType && propertyOptions.Nullable
-                                                                  && property.CustomAttributes.All(x => x.AttributeType.FullName != "System.Runtime.CompilerServices.NullableAttribute"))
-                              || (!propertyOptions.Nullable && !property.PropertyType.IsValueType)
+            bool isRequired = property.IsRequired();
+            bool isNullable = (!property.PropertyType.IsValueType && (!propertyOptions.Nullable || property.IsNullable()))
+                              || (!property.PropertyType.IsValueType && !propertyOptions.Nullable)
                               || (property.PropertyType.IsGenericType && property.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>));
             PropertyTransferObject propertyTransferObject = new()
                                                             {

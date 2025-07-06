@@ -26,7 +26,6 @@ public class AngularServiceCommand : GeneratorCommand<AngularServiceCommandParam
         GeneratorOptions generatorOptions = options.Get<GeneratorOptions>();
         generatorOptions.SetFromParameter(this.Parameters);
         generatorOptions.Language = this.resolver.Get<AngularTypeScriptLanguage>();
-        generatorOptions.Formatting.AllowedSpecialCharacters = "$";
         generatorOptions.SkipNamespace = true;
         generatorOptions.PropertiesToFields = true;
         TypeScriptOptions typeScriptOptions = options.Get<TypeScriptOptions>();

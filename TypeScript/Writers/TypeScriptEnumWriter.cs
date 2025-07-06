@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using KY.Generator.Output;
+﻿using KY.Generator.Output;
 using KY.Generator.Templates;
 using KY.Generator.Writers;
 
@@ -32,7 +31,15 @@ public class TypeScriptEnumWriter : EnumWriter
             {
                 output.Add(", ");
             }
-            output.Add(value.Value).Add(": ").Add(Code.String(value.Name));
+            if (value.Value is LocalVariableTemplate variable && variable.Name.Contains("-"))
+            {
+                output.Add(Code.String(variable.Name));
+            }
+            else
+            {
+                output.Add(value.Value);
+            }
+            output.Add(": ").Add(Code.String(value.Name));
         }
         output.Add(" }").CloseLine()
               .Add($"export const {template.Name}NameMapping: {{ [key: string]: number }} = {{ ");

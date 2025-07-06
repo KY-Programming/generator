@@ -18,6 +18,7 @@ public class TypeScriptLanguage : BaseLanguage
     public TypeScriptLanguage(IDependencyResolver resolver)
         : base(resolver)
     {
+        this.Formatting.AllowedSpecialCharacters = "$";
         this.Formatting.StartBlockInNewLine = false;
         this.Formatting.FileCase = Case.KebabCase;
         this.Formatting.ClassCase = Case.PascalCase;

@@ -26,8 +26,8 @@ public class TypeTransferObject : ITransferObject
     public virtual bool IsGenericParameter { get; set; }
     public virtual bool IsInterface { get; set; }
     public virtual List<GenericAliasTransferObject> Generics { get; } = [];
-    public virtual TypeTransferObject Original { get; set; }
-    public virtual ICodeFragment Default { get; set; }
+    public virtual TypeTransferObject? Original { get; set; }
+    public virtual ICodeFragment? Default { get; set; }
     public string FullName => $"{this.Namespace}.{this.Name}";
 
     [NotCloneable]

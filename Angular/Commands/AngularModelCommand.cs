@@ -19,7 +19,6 @@ public class AngularModelCommand(IDependencyResolver resolver) : GeneratorComman
         GeneratorOptions generatorOptions = options.Get<GeneratorOptions>();
         generatorOptions.SetFromParameter(this.Parameters);
         generatorOptions.Language = resolver.Get<AngularTypeScriptLanguage>();
-        generatorOptions.Formatting.AllowedSpecialCharacters = "$";
         generatorOptions.SkipNamespace = true;
         generatorOptions.PropertiesToFields = true;
         TypeScriptOptions typeScriptOptions = options.Get<TypeScriptOptions>();

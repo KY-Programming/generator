@@ -1,5 +1,4 @@
-﻿using KY.Core;
-using KY.Generator.Templates;
+﻿using KY.Generator.Templates;
 
 namespace KY.Generator.TypeScript.Templates;
 
@@ -15,17 +14,30 @@ public class TypeScriptUnionTypeTemplate : TypeTemplate
         }
         foreach (TypeTemplate type in types)
         {
+            if (type == null)
+            {
+                continue;
+            }
             if (type is TypeScriptUnionTypeTemplate unionType)
             {
                 foreach (TypeTemplate subType in unionType.Types)
                 {
-                    this.Types.AddIfNotExists(subType);
+                    this.AddType(subType);
                 }
             }
             else
             {
-                this.Types.Add(type);
+                this.AddType(type);
             }
         }
+    }
+
+    private void AddType(TypeTemplate type)
+    {
+        if (this.Types.Any(x => x.Equals(type)))
+        {
+            return;
+        }
+        this.Types.Add(type);
     }
 }

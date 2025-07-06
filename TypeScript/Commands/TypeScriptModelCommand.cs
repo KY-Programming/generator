@@ -17,7 +17,6 @@ public class TypeScriptModelCommand(IDependencyResolver resolver) : GeneratorCom
         GeneratorOptions generatorOptions = options.Get<GeneratorOptions>();
         generatorOptions.SetFromParameter(this.Parameters);
         generatorOptions.Language = resolver.Get<TypeScriptLanguage>();
-        generatorOptions.Formatting.AllowedSpecialCharacters = "$";
         generatorOptions.SkipNamespace = true;
         generatorOptions.PropertiesToFields = true;
     }
