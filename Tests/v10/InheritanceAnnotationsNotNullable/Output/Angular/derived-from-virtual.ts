@@ -4,7 +4,7 @@
 import { Virtual } from "./virtual";
 
 export class DerivedFromVirtual extends Virtual {
-    public intProperty: number;
+    public intProperty: number = 0;
 
     public constructor(init?: Partial<DerivedFromVirtual>) {
         super();

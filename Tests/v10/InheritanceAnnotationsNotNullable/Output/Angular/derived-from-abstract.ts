@@ -4,7 +4,7 @@
 import { Abstract } from "./abstract";
 
 export class DerivedFromAbstract extends Abstract {
-    public intProperty: number;
+    public intProperty: number = 0;
 
     public constructor(init?: Partial<DerivedFromAbstract>) {
         super();

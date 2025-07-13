@@ -123,6 +123,7 @@ public class Types
     [Required]
     public int RequiredAttributeIntProperty { get; set; }
 
+    [Required]
     public uint RequiredAttributeUIntProperty { get; set; }
 
     [Required]

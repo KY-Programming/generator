@@ -18,8 +18,8 @@ export class Types {
     public static readonly constByte: number = 9;
     public static readonly constSByte: number = 10;
     public stringField?: string;
-    public intField?: number = 0;
-    public dateTimeField?: Date = new Date(0);
+    public intField?: number;
+    public dateTimeField?: Date;
     public defaultString: string = "Default";
     public defaultShort: number = 1;
     public defaultUShort: number = 2;

@@ -18,8 +18,8 @@ export class Types {
     public static readonly constByte: number = 9;
     public static readonly constSByte: number = 10;
     public stringField?: string;
-    public intField?: number = 0;
-    public dateTimeField?: Date = new Date(0);
+    public intField?: number;
+    public dateTimeField?: Date;
     public defaultString?: string = "Default";
     public defaultShort: number = 1;
     public defaultUShort: number = 2;
@@ -40,7 +40,7 @@ export class Types {
     public defaultNullableFloat?: number = 7.1;
     public defaultNullableDouble?: number = 8.2;
     public defaultNullableBool?: boolean = true;
-    public requiredStringProperty: string = "";
+    public requiredStringProperty: string | undefined;
     public requiredShortProperty: number = 0;
     public requiredUShortProperty: number = 0;
     public requiredIntProperty: number = 0;
@@ -53,7 +53,7 @@ export class Types {
     public requiredObjectProperty: unknown | undefined;
     public requiredByteProperty: number = 0;
     public requiredSByteProperty: number = 0;
-    public requiredAttributeStringProperty: string = "";
+    public requiredAttributeStringProperty: string | undefined;
     public requiredAttributeShortProperty: number = 0;
     public requiredAttributeUShortProperty: number = 0;
     public requiredAttributeIntProperty: number = 0;
