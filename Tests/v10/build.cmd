@@ -1,8 +1,8 @@
-REM ==========================================
-REM ||      EnumAnnotationsNotNullable      ||
-REM ==========================================
+REM ===============================================
+REM ||      EnumAnnotationsNullableDisabled      ||
+REM ===============================================
 REM 
-cd EnumAnnotationsNotNullable
+cd EnumAnnotationsNullableDisabled
 rmdir /S/Q bin
 rmdir /S/Q Output
 dotnet add package KY.Generator --prerelease
@@ -10,11 +10,11 @@ dotnet add package KY.Generator.Annotations --prerelease
 dotnet build --no-incremental
 cd ..
 
-REM ==========================================
-REM ||  InheritanceAnnotationsNotNullable   ||
-REM ==========================================
+REM ===============================================
+REM ||  InheritanceAnnotationsNullableDisabled   ||
+REM ===============================================
 REM 
-cd InheritanceAnnotationsNotNullable
+cd InheritanceAnnotationsNullableDisabled
 rmdir /S/Q bin
 rmdir /S/Q Output
 dotnet add package KY.Generator --prerelease
@@ -22,11 +22,11 @@ dotnet add package KY.Generator.Annotations --prerelease
 dotnet build --no-incremental
 cd ..
 
-REM ==========================================
-REM ||  SelfReferencingAnnotationsNullable  ||
-REM ==========================================
+REM ===============================================
+REM ||  SelfReferencingAnnotationsNullableEnabled  ||
+REM ===============================================
 REM 
-cd SelfReferencingAnnotationsNullable
+cd SelfReferencingAnnotationsNullableEnabled
 rmdir /S/Q bin
 rmdir /S/Q Output
 dotnet add package KY.Generator --prerelease
@@ -34,11 +34,11 @@ dotnet add package KY.Generator.Annotations --prerelease
 dotnet build --no-incremental
 cd ..
 
-REM ==========================================
-REM ||     StrictAnnotationsNotNullable     ||
-REM ==========================================
+REM ===============================================
+REM ||     StrictAnnotationsNullableDisabled     ||
+REM ===============================================
 REM 
-cd StrictAnnotationsNotNullable
+cd StrictAnnotationsNullableDisabled
 rmdir /S/Q bin
 rmdir /S/Q Output
 dotnet add package KY.Generator --prerelease
@@ -46,11 +46,11 @@ dotnet add package KY.Generator.Annotations --prerelease
 dotnet build --no-incremental
 cd ..
 
-REM ==========================================
-REM ||      StrictAnnotationsNullable       ||
-REM ==========================================
+REM ===============================================
+REM ||      StrictAnnotationsNullableEnabled       ||
+REM ===============================================
 REM 
-cd StrictAnnotationsNullable
+cd StrictAnnotationsNullableEnabled
 rmdir /S/Q bin
 rmdir /S/Q Output
 dotnet add package KY.Generator --prerelease
@@ -58,11 +58,11 @@ dotnet add package KY.Generator.Annotations --prerelease
 dotnet build --no-incremental
 cd ..
 
-REM ==========================================
-REM ||     TypesAnnotationsNotNullable      ||
-REM ==========================================
+REM ===============================================
+REM ||     TypesAnnotationsNullableDisabled      ||
+REM ===============================================
 REM 
-cd TypesAnnotationsNotNullable
+cd TypesAnnotationsNullableDisabled
 rmdir /S/Q bin
 rmdir /S/Q Output
 dotnet add package KY.Generator --prerelease
@@ -70,11 +70,11 @@ dotnet add package KY.Generator.Annotations --prerelease
 dotnet build --no-incremental
 cd ..
 
-REM ==========================================
-REM ||       TypesAnnotationsNullable       ||
-REM ==========================================
+REM ===============================================
+REM ||     TypesAnnotationsNullableEnabled       ||
+REM ===============================================
 REM 
-cd TypesAnnotationsNullable
+cd TypesAnnotationsNullableEnabled
 rmdir /S/Q bin
 rmdir /S/Q Output
 dotnet add package KY.Generator --prerelease
@@ -82,11 +82,11 @@ dotnet add package KY.Generator.Annotations --prerelease
 dotnet build --no-incremental
 cd ..
 
-REM ==========================================
-REM ||        TypesFluentNotNullable        ||
-REM ==========================================
+REM ===============================================
+REM ||        TypesFluentNullableDisabled        ||
+REM ===============================================
 REM 
-cd TypesFluentNotNullable
+cd TypesFluentNullableDisabled
 rmdir /S/Q bin
 rmdir /S/Q Output
 dotnet add package KY.Generator --prerelease
@@ -94,11 +94,11 @@ dotnet add package KY.Generator.Annotations --prerelease
 dotnet build --no-incremental
 cd ..
 
-REM ==========================================
-REM ||          TypesFluentNullable         ||
-REM ==========================================
+REM ===============================================
+REM ||        TypesFluentNullableEnabled         ||
+REM ===============================================
 REM 
-cd TypesFluentNullable
+cd TypesFluentNullableEnabled
 rmdir /S/Q bin
 rmdir /S/Q Output
 dotnet add package KY.Generator --prerelease
