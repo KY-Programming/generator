@@ -1,20 +1,24 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TypesAnnotationsNotNullable", "v10\TypesAnnotationsNotNullable\TypesAnnotationsNotNullable.csproj", "{88210355-DDB5-4BF6-A426-81493E839D4E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TypesAnnotationsNullableDisabled", "v10\TypesAnnotationsNullableDisabled\TypesAnnotationsNullableDisabled.csproj", "{88210355-DDB5-4BF6-A426-81493E839D4E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TypesAnnotationsNullable", "v10\TypesAnnotationsNullable\TypesAnnotationsNullable.csproj", "{F13DD313-1BD6-4A8E-9B3F-D6266D3A25FF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TypesAnnotationsNullableEnabled", "v10\TypesAnnotationsNullableEnabled\TypesAnnotationsNullableEnabled.csproj", "{F13DD313-1BD6-4A8E-9B3F-D6266D3A25FF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StrictAnnotationsNotNullable", "v10\StrictAnnotationsNotNullable\StrictAnnotationsNotNullable.csproj", "{88210355-DDB5-4BF6-A426-81493E839D4E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StrictAnnotationsNullableDisabled", "v10\StrictAnnotationsNullableDisabled\StrictAnnotationsNullableDisabled.csproj", "{88210355-DDB5-4BF6-A426-81493E839D4E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StrictAnnotationsNullable", "v10\StrictAnnotationsNullable\StrictAnnotationsNullable.csproj", "{F13DD313-1BD6-4A8E-9B3F-D6266D3A25FF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StrictAnnotationsNullableEnabled", "v10\StrictAnnotationsNullableEnabled\StrictAnnotationsNullableEnabled.csproj", "{F13DD313-1BD6-4A8E-9B3F-D6266D3A25FF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SelfReferencingAnnotationsNullable", "v10\SelfReferencingAnnotationsNullable\SelfReferencingAnnotationsNullable.csproj", "{B84D2F96-FBA8-416C-B067-F17F09809015}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SelfReferencingAnnotationsNullableEnabled", "v10\SelfReferencingAnnotationsNullableEnabled\SelfReferencingAnnotationsNullableEnabled.csproj", "{B84D2F96-FBA8-416C-B067-F17F09809015}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnumAnnotationsNotNullable", "v10\EnumAnnotationsNotNullable\EnumAnnotationsNotNullable.csproj", "{605E91D7-EE13-4F1D-9B92-845BB3ACE852}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnumAnnotationsNullableDisabled", "v10\EnumAnnotationsNullableDisabled\EnumAnnotationsNullableDisabled.csproj", "{605E91D7-EE13-4F1D-9B92-845BB3ACE852}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InheritanceAnnotationsNotNullable", "v10\InheritanceAnnotationsNotNullable\InheritanceAnnotationsNotNullable.csproj", "{605E91D7-EE13-4F1D-9B92-845BB3ACE852}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InheritanceAnnotationsNullableDisabled", "v10\InheritanceAnnotationsNullableDisabled\InheritanceAnnotationsNullableDisabled.csproj", "{605E91D7-EE13-4F1D-9B92-845BB3ACE852}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomBuildOutputLocation", "v10\CustomBuildOutputLocation\CustomBuildOutputLocation.csproj", "{9EB9A315-74E4-453D-B86A-2EAE6207D03F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TypesFluentNullableDisabled", "v10\TypesFluentNullableDisabled\TypesFluentNullableDisabled.csproj", "{34250918-9BE9-4645-BAAB-94EFF779A14C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TypesFluentNullableEnabled", "v10\TypesFluentNullableEnabled\TypesFluentNullableEnabled.csproj", "{D599F518-8C6C-4031-A89A-531C7E7FAC42}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -54,5 +58,13 @@ Global
 		{9EB9A315-74E4-453D-B86A-2EAE6207D03F}.Debug|Any CPU.Build.0 = Custom|Any CPU
 		{9EB9A315-74E4-453D-B86A-2EAE6207D03F}.Release|Any CPU.ActiveCfg = Custom|Any CPU
 		{9EB9A315-74E4-453D-B86A-2EAE6207D03F}.Release|Any CPU.Build.0 = Custom|Any CPU
+		{34250918-9BE9-4645-BAAB-94EFF779A14C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34250918-9BE9-4645-BAAB-94EFF779A14C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34250918-9BE9-4645-BAAB-94EFF779A14C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34250918-9BE9-4645-BAAB-94EFF779A14C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D599F518-8C6C-4031-A89A-531C7E7FAC42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D599F518-8C6C-4031-A89A-531C7E7FAC42}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D599F518-8C6C-4031-A89A-531C7E7FAC42}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D599F518-8C6C-4031-A89A-531C7E7FAC42}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

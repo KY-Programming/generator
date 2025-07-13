@@ -344,7 +344,7 @@ public class ReflectionModelReader
                                                           Type = this.Read(field.FieldType, fieldOptions),
                                                           DeclaringType = model,
                                                           Attributes = field.GetCustomAttributes().ToTransferObjects().ToList(),
-                                                          IsOptional = !fieldOptions.NoOptional && !field.GetCustomAttributes().Any(attribute => attribute.GetType().Name.Equals("RequiredAttribute")),
+                                                          IsOptional = !fieldOptions.NoOptional && !field.IsRequired(),
                                                           Default = this.ReadDefaultValue(field, fieldOptions)
                                                       };
             this.options.Map(fieldTransferObject, () => this.options.Get<GeneratorOptions>(field, null));

@@ -43,7 +43,7 @@ public class TypeScriptModelWriter : ModelWriter
         TypeScriptOptions fieldTypeScriptOptions = this.Options.Get<TypeScriptOptions>(member);
         FieldTemplate fieldTemplate = base.AddField(model, member, classTemplate);
         fieldTemplate.Strict = fieldTypeScriptOptions.Strict;
-        if (fieldTemplate.DefaultValue == null && fieldTypeScriptOptions.Strict && !fieldTemplate.IsNullable)
+        if (fieldTemplate.DefaultValue == null && fieldTypeScriptOptions.Strict && !fieldTemplate.IsNullable && !fieldTemplate.IsOptional)
         {
             fieldTemplate.DefaultValue = member.Type?.Default;
             if (fieldTemplate.DefaultValue == null && model.Language != null && fieldOptions.Language != null && member.Type != null)

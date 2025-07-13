@@ -36,6 +36,7 @@ public class Generator : IGeneratorRunSyntax
     private readonly AssemblyCache assemblyCache;
     private bool initializationFailed;
     private readonly List<string> initializationErrors = [];
+    private List<string> sharedPaths = [];
 
     public Generator()
     {
@@ -117,13 +118,33 @@ public class Generator : IGeneratorRunSyntax
         return new Generator();
     }
 
-    public Generator SharedAssemblies(string sharedPath)
+    public Generator SharedAssemblies(IEnumerable<string> sharedPaths)
     {
-        NugetPackageDependencyLoader.Locations.Insert(0, new SearchLocation(sharedPath) /*.Local()*/.SearchOnlyLocal());
+        List<string> paths = sharedPaths.ToList();
+        for (int index = 0; index < paths.Count; index++)
+        {
+            string sharedPath = paths[index];
+            NugetPackageDependencyLoader.Locations.Insert(index, new SearchLocation(sharedPath) /*.Local()*/.SearchOnlyLocal());
+        }
+        this.sharedPaths = paths;
         return this;
     }
 
-    public Generator PreloadModules(string path, string? moduleFileNameSearchPattern = default)
+    public Generator PreloadModules(string moduleFileNameSearchPattern)
+    {
+        ModuleFinder moduleFinder = this.resolver.Get<ModuleFinder>();
+        List<ModuleBase> loadedModules = [];
+        foreach (string sharedPath in this.sharedPaths)
+        {
+            int alreadyLoadedModules = loadedModules.Count;
+            loadedModules.AddRange(moduleFinder.LoadFrom(sharedPath, moduleFileNameSearchPattern));
+            Logger.Trace($"{loadedModules.Count - alreadyLoadedModules} modules loaded from {sharedPath}");
+        }
+        this.InitializeModules(loadedModules);
+        return this;
+    }
+
+    public Generator PreloadModules(string path, string moduleFileNameSearchPattern)
     {
         ModuleFinder moduleFinder = this.resolver.Get<ModuleFinder>();
         List<ModuleBase> loadedModules = moduleFinder.LoadFrom(path, moduleFileNameSearchPattern);
@@ -413,7 +434,7 @@ public class Generator : IGeneratorRunSyntax
     {
         List<ModuleBase> list = modules.ToList();
         Dictionary<ModuleBase, Stopwatch> stopwatches = list.ToDictionary(x => x, _ => new Stopwatch());
-        this.statisticsService.Data.InitializedModules = list.Count;
+        this.statisticsService.Data.InitializedModules += list.Count;
         foreach (ModuleBase module in list)
         {
             stopwatches[module].Start();
