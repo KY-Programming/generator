@@ -91,6 +91,8 @@ rmdir /S/Q bin
 rmdir /S/Q Output
 dotnet add package KY.Generator --prerelease
 dotnet add package KY.Generator.Annotations --prerelease
+dotnet add package KY.Generator.Fluent --prerelease
+dotnet add package KY.Generator.Reflection --prerelease
 dotnet build --no-incremental
 cd ..
 
@@ -103,6 +105,8 @@ rmdir /S/Q bin
 rmdir /S/Q Output
 dotnet add package KY.Generator --prerelease
 dotnet add package KY.Generator.Annotations --prerelease
+dotnet add package KY.Generator.Fluent --prerelease
+dotnet add package KY.Generator.Reflection --prerelease
 dotnet build --no-incremental
 cd ..
 
