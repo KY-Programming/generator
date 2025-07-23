@@ -14,6 +14,7 @@
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>Fluent language for KY-Generator</description>
         <releaseNotes></releaseNotes>
+        <readme>docs\README.md</readme>
         <copyright>2025 - KY-Programming</copyright>
         <tags>KY-Generator KY.Generator Fluent Language</tags>
         <dependencies>
