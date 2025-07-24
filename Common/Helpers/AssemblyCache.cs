@@ -14,7 +14,9 @@ public class AssemblyCache : IAssemblyCache
     private readonly string globalCacheFileName = "global-assembly-cache.json";
     private string localCacheFileName;
     private readonly IEnvironment environment;
+    private bool hasGlobalChanges;
     private Dictionary<string, string> global = new();
+    private bool hasLocalChanges;
     private Dictionary<string, string> local = new();
     private readonly List<string> globalPaths;
 
@@ -42,10 +44,12 @@ public class AssemblyCache : IAssemblyCache
         }
         if (this.globalPaths.Any(location.StartsWith))
         {
+            this.hasGlobalChanges = true;
             this.global[name] = location;
         }
         else
         {
+            this.hasLocalChanges = true;
             this.local[name] = location;
         }
     }
@@ -57,6 +61,7 @@ public class AssemblyCache : IAssemblyCache
         {
             string json = FileSystem.ReadAllText(fileName);
             this.global = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+            this.hasGlobalChanges = false;
         }
     }
 
@@ -73,6 +78,7 @@ public class AssemblyCache : IAssemblyCache
         {
             string json = FileSystem.ReadAllText(fileName);
             this.local = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+            this.hasLocalChanges = false;
         }
     }
 
@@ -93,12 +99,12 @@ public class AssemblyCache : IAssemblyCache
 
     public void Save()
     {
-        if (this.global.Count > 0)
+        if (this.global.Count > 0 && this.hasGlobalChanges)
         {
             string fileName = FileSystem.Combine(this.environment.LocalApplicationData, this.globalCacheFileName);
             FileSystem.WriteAllText(fileName, JsonConvert.SerializeObject(this.global));
         }
-        if (this.local.Count > 0 && this.localCacheFileName != null)
+        if (this.local.Count > 0 && this.hasLocalChanges && this.localCacheFileName != null)
         {
             string fileName = FileSystem.Combine(this.environment.LocalApplicationData, this.localCacheFileName);
             FileSystem.WriteAllText(fileName, JsonConvert.SerializeObject(this.local));
