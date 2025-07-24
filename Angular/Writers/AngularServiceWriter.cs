@@ -730,8 +730,8 @@ public class AngularServiceWriter : TransferWriter
 
     private void AppendConvertDateMethod(ClassTemplate classTemplate)
     {
-        classTemplate.AddMethod("convertDate", Code.Type("Date | undefined")).Private()
-                     .WithParameter(Code.Type("string | Date | undefined"), "value")
+        classTemplate.AddMethod("convertDate", Code.Type("any")).Private()
+                     .WithParameter(Code.Type("any"), "value")
                      .WithCode(Code.Return(Code.InlineIf(Code.Local("value").Equals().String("0001-01-01T00:00:00"),
                          Code.New(Code.Type("Date"), Code.String("0001-01-01T00:00:00Z")),
                          Code.InlineIf(Code.TypeScript("typeof(value) === \"string\""),
