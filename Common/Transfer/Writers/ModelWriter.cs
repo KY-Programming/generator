@@ -109,10 +109,10 @@ namespace KY.Generator.Transfer.Writers
                                             .AddNamespace(modelOptions.SkipNamespace ? string.Empty : model.Namespace)
                                             .AddEnum(model.Name);
 
-            foreach (KeyValuePair<string, int> pair in model.EnumValues)
+            foreach (KeyValuePair<string, object> pair in model.EnumValues)
             {
                 string formattedName = Formatter.FormatProperty(pair.Key, modelOptions);
-                enumTemplate.Values.Add(new EnumValueTemplate(pair.Key, Code.Number(pair.Value), formattedName));
+                enumTemplate.Values.Add(new EnumValueTemplate(pair.Key, Code.Local(pair.Value.ToString()), formattedName));
             }
             return enumTemplate;
         }

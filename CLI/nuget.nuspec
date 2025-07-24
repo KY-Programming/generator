@@ -16,7 +16,7 @@ Generate C# or TypeScript classes from .NET assemblies, JSON, TSQL or oData.
 Support for Angular, ASP.NET, ASP.NET Core, C# POCOs, TypeScript POCOs, Entity Framework and more.
     </description>
     <releaseNotes></releaseNotes>
-    <copyright>2024 - KY-Programming</copyright>
+    <copyright>2025 - KY-Programming</copyright>
     <tags>KY-Generator KY.Generator CLI</tags>
     <readme>docs\README.md</readme>
   </metadata>

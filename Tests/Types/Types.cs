@@ -23,6 +23,8 @@ namespace Types
         public const float ConstFloat = 7.1f;
         public const double ConstDouble = 8.2;
         public const bool ConstBool = true;
+        public const byte ConstByte = 9;
+        public const sbyte ConstSByte = 10;
 
         // Types
         public string StringProperty { get; set; }
@@ -36,6 +38,8 @@ namespace Types
         public double DoubleProperty { get; set; }
         public bool BoolProperty { get; set; }
         public object ObjectProperty { get; set; }
+        public byte ByteProperty { get; set; }
+        public sbyte SByteProperty { get; set; }
 
         // Nullable Types
         public bool? NullableBoolProperty { get; set; }
@@ -67,6 +71,7 @@ namespace Types
         public System.DateTime SystemDateTimeProperty { get; set; }
         public System.Array SystemArrayProperty { get; set; }
         public System.Byte SystemByteProperty { get; set; }
+        public System.SByte SystemSByteProperty { get; set; }
         public System.Char SystemCharProperty { get; set; }
         public System.Decimal SystemDecimalProperty { get; set; }
         public System.Guid SystemGuidProperty { get; set; }
@@ -89,11 +94,23 @@ namespace Types
         // Generics
         public List<string> StringList { get; set; }
         public List<SubType> SubTypeList { get; set; }
+        public IList<string> StringIList { get; set; }
+        public IList<SubType> SubTypeIList { get; set; }
+        public IEnumerable<string> StringIEnumerable { get; set; }
+        public IEnumerable<SubType> SubTypeIEnumerable { get; set; }
+        public IReadOnlyList<string> StringIReadOnlyList { get; set; }
+        public IReadOnlyList<SubType> SubTypeIReadOnlyList { get; set; }
+        public ICollection<string> StringICollection { get; set; }
+        public ICollection<SubType> SubTypeICollection { get; set; }
+        public IReadOnlyCollection<string> StringIReadOnlyCollection { get; set; }
+        public IReadOnlyCollection<SubType> SubTypeIReadOnlyCollection { get; set; }
         public Dictionary<string, string> StringStringDictionary { get; set; }
         public Dictionary<int, string> IntStringDictionary { get; set; }
         public Dictionary<string, SubType> StringSubTypeDictionary { get; set; }
         public Dictionary<int, SubType> IntSubTypeDictionary { get; set; }
         public Dictionary<SubType, string> SubTypeStringDictionary { get; set; }
+        public IDictionary<string, string> StringStringIDictionary { get; set; }
+        public IReadOnlyDictionary<string, string> StringStringIReadOnlyDictionary { get; set; }
         public GenericSubType<string, int> GenericSubType { get; set; }
 
         // Accessors

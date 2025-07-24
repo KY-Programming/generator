@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using KY.Core;
 using KY.Generator.Templates;
 
 namespace KY.Generator.Transfer
@@ -26,10 +28,13 @@ namespace KY.Generator.Transfer
         public virtual bool IsGeneric { get; set; }
         public virtual bool IsGenericParameter { get; set; }
         public virtual bool IsInterface { get; set; }
-        public virtual List<GenericAliasTransferObject> Generics { get; } = new();
+        public virtual List<GenericAliasTransferObject> Generics { get; } = [];
         public virtual TypeTransferObject Original { get; set; }
         public virtual ICodeFragment Default { get; set; }
         public string FullName => $"{this.Namespace}.{this.Name}";
+
+        [NotCloneable]
+        public virtual Type Type { get; set; }
 
         public TypeTransferObject()
         { }
@@ -37,12 +42,18 @@ namespace KY.Generator.Transfer
         public TypeTransferObject(TypeTransferObject type)
         {
             this.Name = type.Name;
+            this.FileName = type.FileName;
+            this.OverrideType = type.OverrideType;
+            this.OriginalName = type.OriginalName;
             this.Namespace = type.Namespace;
             this.FromSystem = type.FromSystem;
             this.IsNullable = type.IsNullable;
             this.IsGeneric = type.IsGeneric;
             this.IsGenericParameter = type.IsGenericParameter;
+            this.IsInterface = type.IsInterface;
             this.Generics = type.Generics.ToList();
+            this.Original = type.Original;
+            this.Default = type.Default;
         }
 
         public bool Equals(TypeTransferObject type)

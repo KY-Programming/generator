@@ -25,8 +25,25 @@ namespace KY.Generator.Reflection.Readers
             this.environment = environment;
         }
 
+        public ModelTransferObject Read(TypeTransferObject type, IOptions caller = null)
+        {
+            if (type == null)
+            {
+                return null;
+            }
+            if (type.Type != null)
+            {
+                return this.Read(type.Type);
+            }
+            return new ModelTransferObject(type);
+        }
+
         public ModelTransferObject Read(Type type, IOptions caller = null)
         {
+            if (type == null)
+            {
+                return null;
+            }
             ModelTransferObject model = new() { Language = ReflectionLanguage.Instance, Type = type };
             model.Name = model.OriginalName = type.Name;
             model.Namespace = type.Namespace;
@@ -158,24 +175,16 @@ namespace KY.Generator.Reflection.Readers
         {
             // Logger.Trace($"Reflection read enum {type.Name} ({type.Namespace})");
             model.IsEnum = true;
-            model.EnumValues = new Dictionary<string, int>();
-            Array values = Enum.GetValues(type);
-            foreach (object value in values)
+            model.EnumValues = new Dictionary<string, object>();
+            FieldInfo[] fields = type.GetFields();
+            foreach (FieldInfo field in fields)
             {
-                if (!(value is int))
-                {
-                    //throw new InvalidOperationException($"Can not convert {value.GetType().Name} enums. Only int enums are currently implemented");
+                if (field.Name.Equals("value__")) 
+                    continue;
+                
+                model.EnumValues.Add(field.Name, field.GetRawConstantValue());
                 }
             }
-            foreach (int value in values.Cast<int>())
-            {
-                string name = Enum.GetName(type, value);
-                if (name != null)
-                {
-                    model.EnumValues.Add(name, value);
-                }
-            }
-        }
 
         private void ReadClass(Type type, ModelTransferObject model, IOptions caller)
         {
@@ -231,7 +240,7 @@ namespace KY.Generator.Reflection.Readers
             {
                 if (type.GenericTypeArguments.Length <= index)
                 {
-                    break;
+                    continue;
                 }
                 string alias = model.Template.Generics[index].Alias.Name;
                 ModelTransferObject argument = this.Read(type.GenericTypeArguments[index], modelOptions);
@@ -241,6 +250,10 @@ namespace KY.Generator.Reflection.Readers
 
         private void ApplyGenericTemplate(TypeTransferObject target, string alias, TypeTransferObject type)
         {
+            if (target is not GenericModelTransferObject)
+            {
+                return;
+            }
             if (target is GenericModelTransferObject genericModel && genericModel.Generics.Count == 0)
             {
                 genericModel.Template.Generics.Clone().ForEach(genericModel.Generics.Add);
@@ -295,8 +308,11 @@ namespace KY.Generator.Reflection.Readers
                 PropertyTransferObject propertyTransferObject = new()
                                                                 {
                                                                     Name = property.Name,
-                                                                    Type = this.Read(property.PropertyType, propertyOptions),
+                                                                    Type = this.Read(propertyOptions.ReturnType, propertyOptions) ?? this.Read(property.PropertyType, propertyOptions),
                                                                     Attributes = property.GetCustomAttributes().ToTransferObjects().ToList(),
+                                                                    IsAbstract = property.GetMethod?.IsAbstract ?? property.SetMethod?.IsAbstract ?? false,
+                                                                    IsVirtual = property.GetMethod?.IsVirtual ?? property.SetMethod?.IsVirtual ?? false,
+                                                                    IsOverwrite = property.GetMethod?.GetBaseDefinition() != property.GetMethod || property.SetMethod?.GetBaseDefinition() != property.SetMethod,
                                                                     IsOptional = !propertyOptions.NoOptional && !property.GetCustomAttributes().Any(attribute => attribute.GetType().Name.Equals("RequiredAttribute")),
                                                                     Default = this.ReadDefaultValue(property, propertyOptions)
                                                                 };

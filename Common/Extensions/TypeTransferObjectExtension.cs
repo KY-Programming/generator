@@ -16,7 +16,7 @@ namespace KY.Generator.Extensions
 
         public static bool IsEnumerable(this TypeTransferObject type)
         {
-            return type.Name == "Array" || type.Name == "List" || type.Name == "IList" || type.Name == "IEnumerable" || type.Name == "ICollection";
+            return type.Name == "Array" || type.Name == "List" || type.Name == "IList" || type.Name == "IEnumerable" || type.Name == "ICollection" || type.Name == "IReadOnlyList" || type.Name == "IReadOnlyCollection";
         }
     }
 }

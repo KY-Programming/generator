@@ -101,7 +101,7 @@ namespace KY.Generator.AspDotNet.Readers
                 {
                     HttpServiceActionTransferObject action = new();
                     action.Name = actionTypes.Count == 1 ? method.Name : $"{actionType.Key}{method.Name.FirstCharToUpper()}";
-                    action.ReturnType = methodOptions.ReturnType ?? this.modelReader.Read(returnType, methodOptions);
+                    action.ReturnType = this.modelReader.Read(methodOptions.ReturnType, methodOptions) ?? this.modelReader.Read(returnType, methodOptions);
                     action.Route = actionType.Value ?? methodAspOptions.Route;
                     if (action.Route?.Contains(":") ?? false)
                     {
