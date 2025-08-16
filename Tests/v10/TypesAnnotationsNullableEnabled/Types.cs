@@ -32,6 +32,7 @@ public class Types
     public const bool ConstBool = true;
     public const byte ConstByte = 9;
     public const sbyte ConstSByte = 10;
+    public const NumericEnum ConstNumericEnum = NumericEnum.One;
 
     // Default Values
     [DefaultValue("Default")]
@@ -94,6 +95,9 @@ public class Types
 
     [DefaultValue(true)]
     public bool? DefaultNullableBool { get; set; } = true;
+    
+    [DefaultValue(NumericEnum.One)]
+    public NumericEnum DefaultNullableNumericEnum { get; set; } = NumericEnum.One;
 
     // Required Properties
     public required string RequiredStringProperty { get; set; } = "";
@@ -109,6 +113,7 @@ public class Types
     public required object RequiredObjectProperty { get; set; } = new();
     public required byte RequiredByteProperty { get; set; }
     public required sbyte RequiredSByteProperty { get; set; }
+    public required NumericEnum RequiredNumericEnumProperty { get; set; }
 
     // Require Attribute Properties
     [Required]
@@ -148,9 +153,12 @@ public class Types
 
     [Required]
     public sbyte RequiredAttributeSByteProperty { get; set; }
+    
+    [Required]
+    public NumericEnum RequiredAttributeNumericEnumProperty { get; set; }
 
     // Types
-    public string StringProperty { get; set; }
+    public string StringProperty { get; set; } = "";
     public short ShortProperty { get; set; }
     public ushort UShortProperty { get; set; }
     public int IntProperty { get; set; }
@@ -160,9 +168,10 @@ public class Types
     public float FloatProperty { get; set; }
     public double DoubleProperty { get; set; }
     public bool BoolProperty { get; set; }
-    public object ObjectProperty { get; set; }
+    public object ObjectProperty { get; set; } = new();
     public byte ByteProperty { get; set; }
     public sbyte SByteProperty { get; set; }
+    public NumericEnum NumericEnumProperty { get; set; }
 
     // Nullable Types
     public string? NullableStringProperty { get; set; }
@@ -175,6 +184,7 @@ public class Types
     public ulong? NullableULongProperty { get; set; }
     public float? NullableFloatProperty { get; set; }
     public double? NullableDoubleProperty { get; set; }
+    public NumericEnum? NullableNumericEnumProperty { get; set; }
     public Nullable<bool> Nullable2BoolProperty { get; set; }
     public Nullable<short> Nullable2ShortProperty { get; set; }
     public Nullable<ushort> Nullable2UShortProperty { get; set; }
@@ -184,6 +194,7 @@ public class Types
     public Nullable<ulong> Nullable2ULongProperty { get; set; }
     public Nullable<float> Nullable2FloatProperty { get; set; }
     public Nullable<double> Nullable2DoubleProperty { get; set; }
+    public Nullable<NumericEnum> Nullable2NumericEnumProperty { get; set; }
 
     // System Types
     public String SystemStringProperty { get; set; } = "";
@@ -238,7 +249,7 @@ public class Types
     public GenericSubType<string, int> GenericSubType { get; set; } = new();
 
     // Accessors
-    public string ReadonlyProperty => string.Empty;
+    public string ReadonlyProperty => string.Empty; 
 
     // ReSharper disable once ValueParameterNotUsed
     public string WriteonlyProperty
@@ -266,4 +277,12 @@ public class GenericSubType<TOne, TTwo>
     public IEnumerable<TOne> Enumerable { get; set; }
     public List<TTwo> List { get; set; }
     public List<string> StringList { get; set; }
+}
+
+public enum NumericEnum
+{
+    Zero = 0,
+    One = 1,
+    Two = 2,
+    Three = 3
 }

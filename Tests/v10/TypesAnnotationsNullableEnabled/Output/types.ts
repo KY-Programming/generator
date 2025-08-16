@@ -2,6 +2,7 @@
 // tslint:disable
 
 import { GenericSubType } from "./generic-sub-type";
+import { NumericEnum } from "./numeric-enum";
 import { SubType } from "./sub-type";
 
 export class Types {
@@ -17,6 +18,7 @@ export class Types {
     public static readonly constBool: boolean = true;
     public static readonly constByte: number = 9;
     public static readonly constSByte: number = 10;
+    public static readonly constNumericEnum: NumericEnum = NumericEnum.one;
     public stringField?: string;
     public intField?: number;
     public dateTimeField?: Date;
@@ -40,6 +42,7 @@ export class Types {
     public defaultNullableFloat?: number = 7.1;
     public defaultNullableDouble?: number = 8.2;
     public defaultNullableBool?: boolean = true;
+    public defaultNullableNumericEnum: NumericEnum = NumericEnum.one;
     public requiredStringProperty: string = "";
     public requiredShortProperty: number = 0;
     public requiredUShortProperty: number = 0;
@@ -53,6 +56,7 @@ export class Types {
     public requiredObjectProperty: unknown | undefined;
     public requiredByteProperty: number = 0;
     public requiredSByteProperty: number = 0;
+    public requiredNumericEnumProperty: NumericEnum;
     public requiredAttributeStringProperty: string = "";
     public requiredAttributeShortProperty: number = 0;
     public requiredAttributeUShortProperty: number = 0;
@@ -66,6 +70,7 @@ export class Types {
     public requiredAttributeObjectProperty: unknown | undefined;
     public requiredAttributeByteProperty: number = 0;
     public requiredAttributeSByteProperty: number = 0;
+    public requiredAttributeNumericEnumProperty: NumericEnum;
     public stringProperty: string = "";
     public shortProperty: number = 0;
     public uShortProperty: number = 0;
@@ -79,6 +84,7 @@ export class Types {
     public objectProperty: unknown | undefined;
     public byteProperty: number = 0;
     public sByteProperty: number = 0;
+    public numericEnumProperty: NumericEnum;
     public nullableStringProperty?: string;
     public nullableBoolProperty?: boolean;
     public nullableShortProperty?: number;
@@ -89,6 +95,7 @@ export class Types {
     public nullableULongProperty?: number;
     public nullableFloatProperty?: number;
     public nullableDoubleProperty?: number;
+    public nullableNumericEnumProperty?: NumericEnum;
     public nullable2BoolProperty?: boolean;
     public nullable2ShortProperty?: number;
     public nullable2UShortProperty?: number;
@@ -98,6 +105,7 @@ export class Types {
     public nullable2ULongProperty?: number;
     public nullable2FloatProperty?: number;
     public nullable2DoubleProperty?: number;
+    public nullable2NumericEnumProperty?: NumericEnum;
     public systemStringProperty: string = "";
     public systemInt16Property: number = 0;
     public systemInt32Property: number = 0;
