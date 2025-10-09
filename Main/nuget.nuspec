@@ -20,12 +20,12 @@ Support for Angular, ASP.NET, ASP.NET Core, C# POCOs, TypeScript POCOs, Entity F
   </metadata>
   <files>
     <file src="..\bin\Release\netstandard2.0\publish\**\*.dll" target="tools\netstandard2.0" />
-    <file src="..\bin\Release\net461\win-x64\publish\**\*.exe" target="tools\net461" />
-    <file src="..\bin\Release\net461\win-x64\publish\**\*.dll" target="tools\net461" />
-    <file src="..\bin\Release\net461\win-x64\publish\**\*.config" target="tools\net461" />
-    <file src="..\bin\Release\net461\win-x86\publish\**\*.exe" target="tools\net461-x86" />
-    <file src="..\bin\Release\net461\win-x86\publish\**\*.dll" target="tools\net461-x86" />
-    <file src="..\bin\Release\net461\win-x86\publish\**\*.config" target="tools\net461-x86" />
+    <file src="..\bin\Release\net462\win-x64\publish\**\*.exe" target="tools\net462" />
+    <file src="..\bin\Release\net462\win-x64\publish\**\*.dll" target="tools\net462" />
+    <file src="..\bin\Release\net462\win-x64\publish\**\*.config" target="tools\net462" />
+    <file src="..\bin\Release\net462\win-x86\publish\**\*.exe" target="tools\net462-x86" />
+    <file src="..\bin\Release\net462\win-x86\publish\**\*.dll" target="tools\net462-x86" />
+    <file src="..\bin\Release\net462\win-x86\publish\**\*.config" target="tools\net462-x86" />
       <file src="..\bin\Release\netcoreapp2.0\win-x64\publish\**\*.dll" target="tools\netcoreapp2.0" />
       <file src="..\bin\Release\netcoreapp2.0\win-x64\publish\**\*.json" target="tools\netcoreapp2.0" />
       <file src="..\bin\Release\netcoreapp2.0\win-x64\publish\**\*.exe" target="tools\netcoreapp2.0" />

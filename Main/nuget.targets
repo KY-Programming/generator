@@ -15,7 +15,7 @@
       <Output TaskParameter="ConsoleOutput" PropertyName="FrameworkRaw" />
     </Exec>
     <PropertyGroup>
-      <Framework>net461</Framework>
+      <Framework>net462</Framework>
       <Framework Condition="$(FrameworkRaw.StartsWith('2.'))">netcoreapp2.0</Framework>
       <Framework Condition="$(FrameworkRaw.StartsWith('3.'))">netcoreapp3.0</Framework>
       <Framework Condition="$(FrameworkRaw.StartsWith('5.'))">net5.0</Framework>
