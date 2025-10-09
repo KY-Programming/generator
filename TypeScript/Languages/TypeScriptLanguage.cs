@@ -18,6 +18,7 @@ public class TypeScriptLanguage : BaseLanguage
     public TypeScriptLanguage(IDependencyResolver resolver)
         : base(resolver)
     {
+        this.Formatting.AllowedSpecialCharacters = "$";
         this.Formatting.StartBlockInNewLine = false;
         this.Formatting.FileCase = Case.KebabCase;
         this.Formatting.ClassCase = Case.PascalCase;
@@ -88,9 +89,10 @@ public class TypeScriptLanguage : BaseLanguage
         this.AddWriter<DeclareTypeTemplate, DeclareTypeWriter>();
         this.AddWriter<NamespaceTemplate, TypeScriptNamespaceWriter>();
         this.AddWriter<FileTemplate, TypeScriptFileWriter>();
+        this.AddWriter<TypeScriptUnionTypeTemplate, TypeScriptUnionTypeWriter>();
     }
 
-    public override string FormatFile(string name, IOptions options, string type = null, bool force = false)
+    public override string FormatFile(string name, GeneratorOptions options, string type = null, bool force = false)
     {
         string fileName = base.FormatFile(name, options, type, force);
         // if ("interface".Equals(type, StringComparison.CurrentCultureIgnoreCase))

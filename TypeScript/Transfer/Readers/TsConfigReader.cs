@@ -40,8 +40,8 @@ namespace KY.Generator.TypeScript.Transfer.Readers
                 {
                     string basePath = match.Groups["path"].Value;
                     path = FileSystem.Combine(basePath, "tsconfig.json");
+                    Logger.Trace($"Try to read strict mode from {path}");
                 }
-                Logger.Trace($"Try to read strict mode from {path}");
             }
             if (!FileSystem.FileExists(path) && fullPath.Contains("src"))
             {
@@ -67,7 +67,8 @@ namespace KY.Generator.TypeScript.Transfer.Readers
         {
             string text = FileSystem.ReadAllText(path);
             TsConfig tsConfig = JsonConvert.DeserializeObject<TsConfig>(text);
-            transferObjects.Add(tsConfig);
+            tsConfig.Path = path;
+            this.transferObjects.Add(tsConfig);
             return tsConfig;
         }
 

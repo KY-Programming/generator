@@ -2,26 +2,21 @@
 using KY.Generator.Reflection.Readers;
 using KY.Generator.Transfer;
 
-namespace KY.Generator.Sqlite.Transfer.Readers
+namespace KY.Generator.Sqlite.Transfer.Readers;
+
+public class SqliteModelReader
 {
-    public class SqliteModelReader
+    private readonly ReflectionModelReader modelReader;
+
+    public SqliteModelReader(ReflectionModelReader modelReader)
     {
-        private readonly ReflectionModelReader modelReader;
-        private readonly Options options;
+        this.modelReader = modelReader;
+    }
 
-        public SqliteModelReader(ReflectionModelReader modelReader, Options options)
-        {
-            this.modelReader = modelReader;
-            this.options = options;
-        }
-
-        public SqliteModelTransferObject Read(Type type)
-        {
-            ModelTransferObject model = this.modelReader.Read(type);
-            IOptions modelOptions = this.options.Get(model);
-            SqliteModelTransferObject sqliteModel = new(model);
-            this.options.Set(sqliteModel, modelOptions);
-            return sqliteModel;
-        }
+    public SqliteModelTransferObject Read(Type type)
+    {
+        ModelTransferObject model = this.modelReader.Read(type);
+        SqliteModelTransferObject sqliteModel = new(model);
+        return sqliteModel;
     }
 }

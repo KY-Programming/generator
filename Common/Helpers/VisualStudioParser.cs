@@ -47,7 +47,7 @@ namespace KY.Generator
                 return null;
             }
 
-            VisualStudioSolutionProject project = new VisualStudioSolutionProject();
+            VisualStudioSolutionProject project = new();
 
             XElement element = FileSystem.ReadXml(path);
             foreach (XElement propertyGroup in element.GetElementsIgnoreNamespace("PropertyGroup"))
@@ -58,7 +58,15 @@ namespace KY.Generator
                     if (projectGuid != null)
                     {
                         project.Id = new Guid(projectGuid.Value);
-                        break;
+                    }
+                    XElement nullable = propertyGroup.GetElementIgnoreNamespace("Nullable");
+                    if (nullable?.Value == "enable")
+                    {
+                        project.Nullable = true;
+                    }
+                    else if (nullable?.Value == "disable")
+                    {
+                        project.Nullable = false;
                     }
                 }
                 catch (Exception exception)
@@ -66,7 +74,6 @@ namespace KY.Generator
                     Logger.Warning($"Can not read from .csproj. {exception.Message}{Environment.NewLine}{exception.StackTrace}");
                 }
             }
-
             return project;
         }
 
@@ -103,5 +110,6 @@ namespace KY.Generator
         public string Name { get; set; }
         public string Path { get; set; }
         public Guid TypeId { get; set; }
+        public bool? Nullable { get; set; }
     }
 }

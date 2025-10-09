@@ -4,30 +4,27 @@ using KY.Generator.AspDotNet.Configurations;
 using KY.Generator.Templates;
 using KY.Generator.Transfer.Writers;
 
-namespace KY.Generator.AspDotNet.Writers
+namespace KY.Generator.AspDotNet.Writers;
+
+public class AspDotNetWriter : ITransferWriter
 {
-    public class AspDotNetWriter : ITransferWriter
+    private readonly IDependencyResolver resolver;
+
+    public AspDotNetWriter(IDependencyResolver resolver)
     {
-        private readonly IDependencyResolver resolver;
-        private readonly Options options;
+        this.resolver = resolver;
+    }
 
-        public AspDotNetWriter(IDependencyResolver resolver, Options options)
+    public virtual void Write(AspDotNetWriteConfiguration configuration)
+    {
+        List<FileTemplate> files = new();
+        if (configuration.GeneratorController != null)
         {
-            this.resolver = resolver;
-            this.options = options;
+            this.resolver.Create<AspDotNetGeneratorControllerWriter>().Write(configuration, files);
         }
-
-        public virtual void Write(AspDotNetWriteConfiguration configuration)
+        if (configuration.Controllers.Count > 0)
         {
-            List<FileTemplate> files = new List<FileTemplate>();
-            if (configuration.GeneratorController != null)
-            {
-                this.resolver.Create<AspDotNetGeneratorControllerWriter>().Write(configuration, files);
-            }
-            if (configuration.Controllers.Count > 0)
-            {
-                this.resolver.Create<AspDotNetEntityControllerWriter>().Write(configuration);
-            }
+            this.resolver.Create<AspDotNetEntityControllerWriter>().Write(configuration);
         }
     }
 }

@@ -3,14 +3,13 @@ using KY.Core.Module;
 using KY.Generator.Command;
 using KY.Generator.Commands;
 
-namespace KY.Generator
+namespace KY.Generator;
+
+public class FluentModule : ModuleBase
 {
-    public class FluentModule : ModuleBase
+    public FluentModule(IDependencyResolver dependencyResolver)
+        : base(dependencyResolver)
     {
-        public FluentModule(IDependencyResolver dependencyResolver)
-            : base(dependencyResolver)
-        {
-            this.DependencyResolver.Bind<IGeneratorCommand>().To<FluentCommand>();
-        }
+        this.DependencyResolver.Get<GeneratorCommandFactory>().Register<FluentCommand>(FluentCommand.Names);
     }
 }

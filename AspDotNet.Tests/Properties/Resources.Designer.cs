@@ -118,7 +118,7 @@ namespace KY.Generator.AspDotNet.Tests.Properties {
         ///using System.Linq;
         ///using System.Web.Http;
         ///using KY.Generator;
-        ///using KY.Generator.Output;
+        ///using KY.Generator.RelativePath;
         ///
         ///namespace KY.Generator.Test.Controllers
         ///{
@@ -144,7 +144,7 @@ namespace KY.Generator.AspDotNet.Tests.Properties {
         ///using System.Collections.Generic;
         ///using System.Linq;
         ///using KY.Generator;
-        ///using KY.Generator.Output;
+        ///using KY.Generator.RelativePath;
         ///using Microsoft.AspNetCore.Mvc;
         ///
         ///namespace KY.Generator.Test.Controllers

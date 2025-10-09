@@ -2,10 +2,10 @@
 
 cd Tests
 start build
+cd ..
 
-cd ..\Examples
+cd Examples
 start build
-
 cd ..
 
 nircmd cmdwait 100 win center ititle "KY-Generator Test Builder"

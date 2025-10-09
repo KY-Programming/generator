@@ -3,23 +3,22 @@ using KY.Generator.Command;
 using KY.Generator.Output;
 using KY.Generator.Sqlite.Readers;
 
-namespace KY.Generator.Sqlite.Commands
+namespace KY.Generator.Sqlite.Commands;
+
+public class SqliteReadDatabaseCommand : GeneratorCommand<SqliteReadDatabaseCommandParameters>
 {
-    public class SqliteReadDatabaseCommand : GeneratorCommand<SqliteReadDatabaseCommandParameters>
+    private readonly IDependencyResolver resolver;
+    public static string[] Names { get; } = [ToCommand(nameof(SqliteReadDatabaseCommand)), "sqlite-read"];
+
+    public SqliteReadDatabaseCommand(IDependencyResolver resolver)
     {
-        private readonly IDependencyResolver resolver;
-        public override string[] Names { get; } = { "sqlite-read" };
+        this.resolver = resolver;
+    }
 
-        public SqliteReadDatabaseCommand(IDependencyResolver resolver)
-        {
-            this.resolver = resolver;
-        }
-
-        public override IGeneratorCommandResult Run()
-        {
-            string outputPath = this.resolver.Get<IOutput>() is FileOutput fileOutput ? fileOutput.BasePath : string.Empty;
-            this.resolver.Create<SqliteTableReader>().Read(this.Parameters, outputPath);
-            return this.Success();
-        }
+    public override IGeneratorCommandResult Run()
+    {
+        string outputPath = this.resolver.Get<IOutput>() is FileOutput fileOutput ? fileOutput.BasePath : string.Empty;
+        this.resolver.Create<SqliteTableReader>().Read(this.Parameters, outputPath);
+        return this.Success();
     }
 }

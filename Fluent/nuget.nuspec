@@ -1,30 +1,31 @@
 <?xml version="1.0"?>
 
 <package>
-  <metadata>
-    <id>KY.Generator.Fluent</id>
-    <version>9.0.1</version>
-    <title>KY.Generator</title>
-    <authors>KY-Programming</authors>
-    <owners>KY-Programming</owners>
-    <license type="expression">MIT</license>
-    <projectUrl>https://generator.ky-programming.de</projectUrl>
-    <repository type="git" url="https://github.com/KY-Programming/generator" />
-    <icon>assets\icon.png</icon>
-    <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Fluent language for KY-Generator</description>
-    <releaseNotes></releaseNotes>
-    <copyright>2025 - KY-Programming</copyright>
-    <tags>KY-Generator KY.Generator Fluent Language</tags>
-    <dependencies>
-      <dependency id="KY.Generator" version="9.0.1"></dependency>
-      <dependency id="KY.Generator.Common" version="9.0.1"></dependency>
-    </dependencies>
-  </metadata>
-  <files>
-    <file src="..\bin\Release\netstandard2.0\publish\KY.Generator.Fluent.dll" target="lib\netstandard2.0" />
-    <file src="..\bin\Release\KY.Generator.Fluent*.xml" target="lib\netstandard2.0" />
-    <file src="..\icon.png" target="assets" />
-    <file src="..\README.md" target="docs" />
-  </files>
+    <metadata>
+        <id>KY.Generator.Fluent</id>
+        <version>10.0.0-preview.15</version>
+        <title>KY.Generator</title>
+        <authors>KY-Programming</authors>
+        <owners>KY-Programming</owners>
+        <license type="expression">MIT</license>
+        <projectUrl>https://generator.ky-programming.de</projectUrl>
+        <repository type="git" url="https://github.com/KY-Programming/generator"/>
+        <icon>assets\icon.png</icon>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Fluent language for KY-Generator</description>
+        <releaseNotes></releaseNotes>
+        <readme>docs\README.md</readme>
+        <copyright>2025 - KY-Programming</copyright>
+        <tags>KY-Generator KY.Generator Fluent Language</tags>
+        <dependencies>
+            <dependency id="KY.Generator" version="10.0.0-preview.15"/>
+            <dependency id="KY.Generator.Common" version="10.0.0-preview.15"/>
+        </dependencies>
+    </metadata>
+    <files>
+        <file src="..\bin\Release\netstandard2.0\publish\KY.Generator.Fluent.dll" target="lib\netstandard2.0"/>
+        <file src="..\bin\Release\KY.Generator.Fluent*.xml" target="lib\netstandard2.0"/>
+        <file src="..\icon.png" target="assets"/>
+        <file src="..\README.md" target="docs"/>
+    </files>
 </package>

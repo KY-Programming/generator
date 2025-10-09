@@ -3,17 +3,15 @@ using KY.Core.Module;
 using KY.Generator.AspDotNet.Commands;
 using KY.Generator.Command;
 
-namespace KY.Generator.AspDotNet
+namespace KY.Generator.AspDotNet;
+
+public class AspDotNetModule : ModuleBase
 {
-    public class AspDotNetModule : ModuleBase
+    public AspDotNetModule(IDependencyResolver dependencyResolver)
+        : base(dependencyResolver)
     {
-        public AspDotNetModule(IDependencyResolver dependencyResolver)
-            : base(dependencyResolver)
-        {
-            this.DependencyResolver.Bind<IGeneratorCommand>().To<AspDotNetReadControllerCommand>();
-            this.DependencyResolver.Bind<IGeneratorCommand>().To<AspDotNetReadHubCommand>();
-            Options.Register<AspDotNetOptions>();
-            this.DependencyResolver.Bind<AspDotNetOptionsReader>().ToSelf();
-        }
+        this.DependencyResolver.Get<GeneratorCommandFactory>().Register<AspDotNetReadControllerCommand>(AspDotNetReadControllerCommand.Names);
+        this.DependencyResolver.Get<GeneratorCommandFactory>().Register<AspDotNetReadHubCommand>(AspDotNetReadHubCommand.Names);
+        this.DependencyResolver.Bind<IOptionsFactory>().ToSingleton<AspDotNetOptionsFactory>();
     }
 }

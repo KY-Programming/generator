@@ -1,29 +1,28 @@
 ﻿using KY.Generator.Command;
 using KY.Generator.Statistics;
 
-namespace KY.Generator.Commands
+namespace KY.Generator.Commands;
+
+public class CleanupCommand : GeneratorCommand<CleanupCommandParameters>
 {
-    public class CleanupCommand : GeneratorCommand<CleanupCommandParameters>
+    private readonly StatisticsService statisticsService;
+    public static string[] Names { get; } = [ToCommand(nameof(CleanupCommand)), "cleanup"];
+
+    public CleanupCommand(StatisticsService statisticsService)
     {
-        private readonly StatisticsService statisticsService;
-        public override string[] Names { get; } = { "cleanup" };
+        this.statisticsService = statisticsService;
+    }
 
-        public CleanupCommand(StatisticsService statisticsService)
+    public override IGeneratorCommandResult Run()
+    {
+        if (this.Parameters.Logs)
         {
-            this.statisticsService = statisticsService;
+            // TODO: Cleanup logs
         }
-
-        public override IGeneratorCommandResult Run()
+        if (this.Parameters.Statistics)
         {
-            if (this.Parameters.Logs)
-            {
-                // TODO: Cleanup logs
-            }
-            if (this.Parameters.Statistics)
-            {
-                this.statisticsService.Cleanup();
-            }
-            return this.Success();
+            this.statisticsService.Cleanup();
         }
+        return this.Success();
     }
 }

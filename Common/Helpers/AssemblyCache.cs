@@ -65,13 +65,13 @@ public class AssemblyCache : IAssemblyCache
         }
     }
 
-    public void LoadLocal()
+    public void LoadLocal(string projectFilePath)
     {
-        if (this.environment.ProjectFile == null)
+        if (projectFilePath == null)
         {
             return;
         }
-        string hash = Sha1.Create(this.environment.ProjectFile).ToString().Substring(0, 8);
+        string hash = Sha1.Create(projectFilePath).ToString().Substring(0, 8);
         this.localCacheFileName = $"{this.environment.Name}-{hash}-assembly-cache.json";
         string fileName = FileSystem.Combine(this.environment.LocalApplicationData, this.localCacheFileName);
         if (FileSystem.FileExists(fileName))

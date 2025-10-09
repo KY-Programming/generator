@@ -4,39 +4,39 @@ using KY.Generator.Languages;
 using KY.Generator.Output;
 using KY.Generator.Templates;
 
-namespace KY.Generator.Writers
+namespace KY.Generator.Writers;
+
+public class EnumWriter : Codeable, ITemplateWriter
 {
-    public class EnumWriter : Codeable, ITemplateWriter
+    private readonly Options options;
+
+    public EnumWriter(Options options)
     {
-        private readonly IOptions options;
+        this.options = options;
+    }
 
-        public EnumWriter(IOptions options)
+    public virtual void Write(ICodeFragment fragment, IOutputCache output)
+    {
+        GeneratorOptions generatorOptions = this.options.Get<GeneratorOptions>();
+        BaseLanguage language = generatorOptions.Language.CastTo<BaseLanguage>();
+        EnumTemplate template = (EnumTemplate)fragment;
+        output.Add(template.Attributes)
+              .Add(language.ClassScope)
+              .Add(" enum ")
+              .Add(template.Name);
+        if (template.BasedOn != null)
         {
-            this.options = options;
+            output.Add(" : ").Add(template.BasedOn);
         }
-
-        public virtual void Write(ICodeFragment fragment, IOutputCache output)
+        output.StartBlock();
+        EnumValueTemplate last = template.Values.LastOrDefault();
+        foreach (EnumValueTemplate enumTemplateValue in template.Values)
         {
-            BaseLanguage language = this.options.Language.CastTo<BaseLanguage>();
-            EnumTemplate template = (EnumTemplate)fragment;
-            output.Add(template.Attributes)
-                  .Add(language.ClassScope)
-                  .Add(" enum ")
-                  .Add(template.Name);
-            if (template.BasedOn != null)
-            {
-                output.Add(" : ").Add(template.BasedOn);
-            }
-            output.StartBlock();
-            EnumValueTemplate last = template.Values.LastOrDefault();
-            foreach (EnumValueTemplate enumTemplateValue in template.Values)
-            {
-                output.Add($"{enumTemplateValue.FormattedName} = ")
-                      .Add(enumTemplateValue.Value)
-                      .Add(last == enumTemplateValue ? string.Empty : ",")
-                      .BreakLine();
-            }
-            output.EndBlock();
+            output.Add($"{enumTemplateValue.FormattedName} = ")
+                  .Add(enumTemplateValue.Value)
+                  .Add(last == enumTemplateValue ? string.Empty : ",")
+                  .BreakLine();
         }
+        output.EndBlock();
     }
 }

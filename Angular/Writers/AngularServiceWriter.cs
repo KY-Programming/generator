@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using KY.Core;
+﻿using KY.Core;
 using KY.Core.DataAccess;
 using KY.Generator.Angular.Commands;
 using KY.Generator.Angular.Configurations;
@@ -17,6 +14,7 @@ using KY.Generator.TypeScript;
 using KY.Generator.TypeScript.Extensions;
 using KY.Generator.TypeScript.Languages;
 using KY.Generator.TypeScript.Templates;
+using KY.Generator.TypeScript.Templates.Extensions;
 
 namespace KY.Generator.Angular.Writers;
 
@@ -26,8 +24,8 @@ public class AngularServiceWriter : TransferWriter
     private readonly List<ITransferObject> transferObjects;
     private readonly List<FileTemplate> files;
 
-    public AngularServiceWriter(ITypeMapping typeMapping, Options options, List<ITransferObject> transferObjects, List<FileTemplate> files)
-        : base(typeMapping, options)
+    public AngularServiceWriter(Options options, ITypeMapping typeMapping, List<ITransferObject> transferObjects, List<FileTemplate> files)
+        : base(options, typeMapping)
     {
         this.transferObjects = transferObjects;
         this.files = files;
@@ -36,9 +34,10 @@ public class AngularServiceWriter : TransferWriter
     public virtual void Write(AngularWriteConfiguration configuration)
     {
         Logger.Trace("Generate angular service for ASP.NET controller...");
-        if (!this.Options.Current.Language.IsTypeScript())
+        GeneratorOptions generatorOptions = this.Options.Get<GeneratorOptions>();
+        if (!generatorOptions.Language.IsTypeScript())
         {
-            throw new InvalidOperationException($"Can not generate service for ASP.NET controller for language {this.Options.Current.Language?.Name ?? "Empty"}");
+            throw new InvalidOperationException($"Can not generate service for ASP.NET controller for language {generatorOptions.Language?.Name ?? "Empty"}");
         }
         if (configuration.Model?.RelativePath == null && configuration.Service.RelativePath?.Count(x => x == '/' || x == '\\') > 1)
         {
@@ -64,7 +63,7 @@ public class AngularServiceWriter : TransferWriter
                                                                                                             };
         foreach (HttpServiceTransferObject controller in this.transferObjects.OfType<HttpServiceTransferObject>())
         {
-            IOptions controllerOptions = this.Options.Get(controller);
+            GeneratorOptions controllerOptions = this.Options.Get<GeneratorOptions>(controller);
             Dictionary<HttpServiceActionParameterTransferObject, ParameterTemplate> mapping = new();
             string controllerName = controller.Name.TrimEnd("Controller");
             string className = configuration.Service.Name?.Replace("{0}", controllerName) ?? controllerName + "Service";
@@ -383,13 +382,13 @@ public class AngularServiceWriter : TransferWriter
         if (hubs.Count > 0)
         {
             string className = "ConnectionStatus";
-            IOptions anyOptions = this.Options.Get(hubs.First());
+            GeneratorOptions anyOptions = this.Options.Get<GeneratorOptions>(hubs.First());
             connectionStatusFileTemplate = this.files.AddFile(configuration.Model.RelativePath, anyOptions)
                                                .WithName(Formatter.FormatFile(className, anyOptions));
             connectionStatusEnum = connectionStatusFileTemplate
                                    .AddNamespace(string.Empty)
                                    .AddEnum(className)
-                                   .FormatName(this.Options.Get(hubs.First()))
+                                   .FormatName(this.Options.Get<GeneratorOptions>(hubs.First()))
                                    .AddValue("connecting")
                                    .AddValue("connected")
                                    .AddValue("sleeping")
@@ -397,7 +396,7 @@ public class AngularServiceWriter : TransferWriter
         }
         foreach (SignalRHubTransferObject hub in hubs)
         {
-            IOptions hubOptions = this.Options.Get(hub);
+            GeneratorOptions hubOptions = this.Options.Get<GeneratorOptions>(hub);
             string relativeModelPath = FileSystem.RelativeTo(configuration.Model?.RelativePath ?? ".", configuration.Service.RelativePath);
             string className = configuration.Service.Name?.Replace("{0}", hub.Name) ?? hub.Name + "Service";
             FileTemplate file = this.files.AddFile(configuration.Service.RelativePath, hubOptions)
@@ -602,7 +601,7 @@ public class AngularServiceWriter : TransferWriter
         }
     }
 
-    private bool WriteDateFixes(ClassTemplate classTemplate, List<MethodTemplate> convertDateMethods, ModelTransferObject model, IOptions controllerOptions, string relativeModelPath)
+    private bool WriteDateFixes(ClassTemplate classTemplate, List<MethodTemplate> convertDateMethods, ModelTransferObject model, GeneratorOptions controllerOptions, string relativeModelPath)
     {
         if (model == null)
         {
@@ -615,14 +614,14 @@ public class AngularServiceWriter : TransferWriter
         }
         this.AddUsing(model, classTemplate, controllerOptions, relativeModelPath);
         bool hasLocalDateProperty = false;
-        MethodTemplate convertDateMethodTemplate = classTemplate.AddMethod(methodName, Code.Void()).Private()
+        MethodTemplate convertDateMethodTemplate = classTemplate.AddMethod(methodName, Code.Void())
                                                                 .WithParameter(model.ToTemplate(), "model?")
                                                                 .WithCode(Code.If(Code.Local("!model")).WithCode(Code.Return()));
         convertDateMethods.Add(convertDateMethodTemplate);
         foreach (PropertyTransferObject property in model.Properties)
         {
             TypeTransferObject type = model.Generics.FirstOrDefault(generic => generic.Alias?.Name == property.Name)?.Type ?? property.Type;
-            IOptions propertyOptions = this.Options.Get(property);
+            GeneratorOptions propertyOptions = this.Options.Get<GeneratorOptions>(property);
             string propertyName = Formatter.FormatProperty(property.Name, propertyOptions);
             if (type.IgnoreNullable().OriginalName == nameof(DateTime))
             {
@@ -730,8 +729,12 @@ public class AngularServiceWriter : TransferWriter
 
     private void AppendConvertDateMethod(ClassTemplate classTemplate)
     {
-        classTemplate.AddMethod("convertDate", Code.Type("any")).Private()
-                     .WithParameter(Code.Type("any"), "value")
+        classTemplate.AddMethod("convertDate", Code.UnionType(Code.Type("Date"), Code.Undefined())).Private()
+                     .WithParameter(Code.UnionType(Code.Type("string"), Code.Type("Date"), Code.Undefined()), "value")
+                     .AddOverload(overload => overload
+                                              .WithParameter(Code.UnionType(Code.Type("string"), Code.Type("Date")), "value")
+                                              .WithReturnType(Code.Type("Date"))
+                     )
                      .WithCode(Code.Return(Code.InlineIf(Code.Local("value").Equals().String("0001-01-01T00:00:00"),
                          Code.New(Code.Type("Date"), Code.String("0001-01-01T00:00:00Z")),
                          Code.InlineIf(Code.TypeScript("typeof(value) === \"string\""),

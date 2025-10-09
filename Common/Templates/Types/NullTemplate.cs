@@ -1,9 +1,11 @@
-namespace KY.Generator.Templates
+using System.Diagnostics;
+
+namespace KY.Generator.Templates;
+
+[DebuggerDisplay("TypeTemplate: Null")]
+public class NullTemplate : TypeTemplate
 {
-    public class NullTemplate : TypeTemplate
-    {
-        public NullTemplate()
-            : base(string.Empty)
-        { }
-    }
+    public NullTemplate()
+        : base(string.Empty)
+    { }
 }

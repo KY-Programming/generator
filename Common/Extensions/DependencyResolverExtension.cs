@@ -2,17 +2,15 @@
 using KY.Core.Dependency;
 using KY.Generator.Transfer;
 
-namespace KY.Generator.Extensions
+namespace KY.Generator;
+
+public static class DependencyResolverExtension
 {
-    public static class DependencyResolverExtension
+    public static IDependencyResolver CloneForCommand(this IDependencyResolver resolver)
     {
-        public static IDependencyResolver CloneForCommands(this IDependencyResolver resolver)
-        {
-            DependencyResolver newResolver = new(resolver);
-            Options.Bind(newResolver);
-            newResolver.Bind<IOptions>().To(newResolver.Get<Options>().Current);
-            newResolver.Bind<List<ITransferObject>>().To(new List<ITransferObject>());
-            return newResolver;
-        }
+        DependencyResolver newResolver = new(resolver);
+        newResolver.Bind<Options>().ToSingleton();
+        newResolver.Bind<List<ITransferObject>>().To([]);
+        return newResolver;
     }
 }

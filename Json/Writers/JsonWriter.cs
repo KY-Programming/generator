@@ -1,28 +1,25 @@
-﻿using System.Collections.Generic;
-using KY.Core.Dependency;
-using KY.Generator.Output;
-using KY.Generator.Transfer;
+﻿using KY.Core.Dependency;
 using KY.Generator.Transfer.Writers;
 
-namespace KY.Generator.Json.Writers
+namespace KY.Generator.Json.Writers;
+
+internal class JsonWriter : ITransferWriter
 {
-    internal class JsonWriter : ITransferWriter
+    private readonly IDependencyResolver resolver;
+
+    public JsonWriter(IDependencyResolver resolver)
     {
-        private readonly IDependencyResolver resolver;
+        this.resolver = resolver;
+    }
 
-        public JsonWriter(IDependencyResolver resolver)
-        {
-            this.resolver = resolver;
-        }
+    public JsonWriter FormatNames()
+    {
+        this.resolver.Create<ObjectWriter>().FormatNames();
+        return this;
+    }
 
-        public void FormatNames()
-        {
-            this.resolver.Create<ObjectWriter>().FormatNames();
-        }
-
-        public void Write(string relativePath, bool withReader)
-        {
-            this.resolver.Create<ObjectWriter>().Write(relativePath, withReader);
-        }
+    public void Write(string relativePath, bool withReader)
+    {
+        this.resolver.Create<ObjectWriter>().Write(relativePath, withReader);
     }
 }

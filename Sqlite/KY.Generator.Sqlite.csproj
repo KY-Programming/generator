@@ -1,12 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
         <Company>KY-Programming</Company>
         <Authors>KY-Programming</Authors>
-        <Version>9.0.1</Version>
+        <Version>10.0.0-preview.15</Version>
         <Product>KY.Generator</Product>
         <Description>Sqlite Module for KY-Generator
-            Download KY.Generator to use this module</Description>
+            Download KY.Generator to use this module
+        </Description>
         <Copyright>2025 - KY-Programming</Copyright>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -16,30 +19,30 @@
         <PackageTags>KY-Generator KY.Generator Sqlite</PackageTags>
         <LangVersion>latest</LangVersion>
         <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-      <ProjectGuid>{87b62d3e-939c-499a-ab71-5a7401da324f}</ProjectGuid>
-  </PropertyGroup>
+        <ProjectGuid>{87b62d3e-939c-499a-ab71-5a7401da324f}</ProjectGuid>
+    </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-      <OutputPath>..\bin\Debug\</OutputPath>
+        <OutputPath>..\bin\Debug\</OutputPath>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-      <OutputPath>..\bin\Release\</OutputPath>
+        <OutputPath>..\bin\Release\</OutputPath>
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Microsoft.Data.Sqlite" Version="5.0.7" />
+        <PackageReference Include="Microsoft.Data.Sqlite" Version="5.0.7"/>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\CSharp\KY.Generator.Csharp.csproj" />
-      <ProjectReference Include="..\Fluent\KY.Generator.Fluent.csproj" />
-      <ProjectReference Include="..\Reflection\KY.Generator.Reflection.csproj" />
+        <ProjectReference Include="..\CSharp\KY.Generator.Csharp.csproj"/>
+        <ProjectReference Include="..\Fluent\KY.Generator.Fluent.csproj"/>
+        <ProjectReference Include="..\Reflection\KY.Generator.Reflection.csproj"/>
     </ItemGroup>
 
-  <ItemGroup>
-    <None Include="..\icon.png" Pack="true" PackagePath="assets"/>
-    <None Include="..\Common\README.md" Pack="true" PackagePath=""/>
-  </ItemGroup>
+    <ItemGroup>
+        <None Include="..\icon.png" Pack="true" PackagePath="assets"/>
+        <None Include="..\Common\README.md" Pack="true" PackagePath=""/>
+    </ItemGroup>
 
 </Project>

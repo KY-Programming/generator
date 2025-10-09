@@ -5,17 +5,17 @@ using KY.Generator.Angular.Languages;
 using KY.Generator.Command;
 using KY.Generator.Languages;
 
-namespace KY.Generator.Angular
+namespace KY.Generator.Angular;
+
+public class AngularModule : ModuleBase
 {
-    public class AngularModule : ModuleBase
+    public AngularModule(IDependencyResolver dependencyResolver)
+        : base(dependencyResolver)
     {
-        public AngularModule(IDependencyResolver dependencyResolver)
-            : base(dependencyResolver)
-        {
-            this.DependencyResolver.Bind<IGeneratorCommand>().To<AngularServiceCommand>();
-            this.DependencyResolver.Bind<IGeneratorCommand>().To<AngularModelCommand>();
-            this.DependencyResolver.Bind<IGeneratorCommand>().To<AngularPackageCommand>();
-            this.DependencyResolver.Bind<ILanguage>().To<AngularTypeScriptLanguage>();
-        }
+        this.DependencyResolver.Get<GeneratorCommandFactory>().Register<AngularServiceCommand>(AngularServiceCommand.Names);
+        this.DependencyResolver.Get<GeneratorCommandFactory>().Register<AngularModelCommand>(AngularModelCommand.Names);
+        this.DependencyResolver.Get<GeneratorCommandFactory>().Register<AngularPackageCommand>(AngularPackageCommand.Names);
+        this.DependencyResolver.Bind<ILanguage>().To<AngularTypeScriptLanguage>();
+        this.DependencyResolver.Bind<IOptionsFactory>().ToSingleton<AngularOptionsFactory>();
     }
 }

@@ -82,7 +82,7 @@ public class CsharpLanguage : BaseLanguage
         this.AddWriter<FileTemplate, CsharpFileWriter>();
     }
 
-    public override string FormatFile(string name, IOptions options, string type = null, bool force = false)
+    public override string FormatFile(string name, GeneratorOptions options, string type = null, bool force = false)
     {
         return base.FormatFile(name, options, type, force) + ".cs";
     }

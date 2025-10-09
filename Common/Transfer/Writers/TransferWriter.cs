@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using KY.Core;
+﻿using KY.Core;
 using KY.Generator.Languages;
 using KY.Generator.Mappings;
 using KY.Generator.Models;
@@ -15,7 +13,7 @@ public abstract class TransferWriter : Codeable
     protected ITypeMapping TypeMapping { get; }
     protected Options Options { get; }
 
-    protected TransferWriter(ITypeMapping typeMapping, Options options)
+    protected TransferWriter(Options options, ITypeMapping typeMapping)
     {
         this.TypeMapping = typeMapping;
         this.Options = options;
@@ -25,7 +23,7 @@ public abstract class TransferWriter : Codeable
     {
         foreach (FieldTransferObject constant in model.Constants)
         {
-            IOptions fieldOptions = this.Options.Get(constant);
+            GeneratorOptions fieldOptions = this.Options.Get<GeneratorOptions>(constant);
             FieldTemplate fieldTemplate = this.AddField(model, constant, classTemplate).Constant();
             fieldTemplate.DefaultValue = this.ValueToTemplate(constant.Default, model, fieldOptions);
         }
@@ -35,7 +33,7 @@ public abstract class TransferWriter : Codeable
     {
         foreach (FieldTransferObject field in model.Fields)
         {
-            IOptions fieldOptions = this.Options.Get(field);
+            GeneratorOptions fieldOptions = this.Options.Get<GeneratorOptions>(field);
             if (fieldOptions.FieldsToProperties)
             {
                 this.AddProperty(model, field, classTemplate);
@@ -51,7 +49,7 @@ public abstract class TransferWriter : Codeable
     {
         foreach (PropertyTransferObject property in model.Properties)
         {
-            IOptions propertyOptions = this.Options.Get(property);
+            GeneratorOptions propertyOptions = this.Options.Get<GeneratorOptions>(property);
             if (propertyOptions.PropertiesToFields)
             {
                 this.AddField(model, property, classTemplate);
@@ -73,9 +71,14 @@ public abstract class TransferWriter : Codeable
         type.Generics.ForEach(x => this.MapType(fromLanguage, toLanguage, x.Type));
     }
 
+    protected virtual ICodeFragment? DefaultValue(ILanguage fromLanguage, ILanguage toLanguage, TypeTransferObject type)
+    {
+        return this.TypeMapping.GetStrictDefault(fromLanguage, toLanguage, type);
+    }
+
     protected virtual FieldTemplate AddField(ModelTransferObject model, MemberTransferObject member, ClassTemplate classTemplate)
     {
-        IOptions fieldOptions = this.Options.Get(member);
+        GeneratorOptions fieldOptions = this.Options.Get<GeneratorOptions>(member);
         if (model.Language != null && fieldOptions.Language != null)
         {
             this.MapType(model.Language, fieldOptions.Language, member.Type);
@@ -84,6 +87,7 @@ public abstract class TransferWriter : Codeable
         FieldTemplate fieldTemplate = classTemplate.AddField(member.Name, member.Type.ToTemplate()).Public().FormatName(fieldOptions)
                                                    .WithComment(member.Comment);
         fieldTemplate.IsOptional = member.IsOptional;
+        fieldTemplate.IsNullable = member.IsNullable;
         fieldTemplate.DefaultValue = this.ValueToTemplate(member.Default, model, fieldOptions);
         if (fieldOptions.WithOptionalProperties)
         {
@@ -101,7 +105,7 @@ public abstract class TransferWriter : Codeable
             canRead = property.CanRead;
             canWrite = property.CanWrite;
         }
-        IOptions propertyOptions = this.Options.Get(member);
+        GeneratorOptions propertyOptions = this.Options.Get<GeneratorOptions>(member);
         if (model.Language != null && propertyOptions.Language != null)
         {
             this.MapType(model.Language, propertyOptions.Language, member.Type);
@@ -110,6 +114,7 @@ public abstract class TransferWriter : Codeable
         propertyTemplate.HasGetter = canRead;
         propertyTemplate.HasSetter = canWrite;
         propertyTemplate.IsOptional = member.IsOptional;
+        propertyTemplate.IsNullable = member.IsNullable;
         propertyTemplate.DefaultValue = this.ValueToTemplate(member.Default, model, propertyOptions);
         if (propertyOptions.WithOptionalProperties)
         {
@@ -122,7 +127,7 @@ public abstract class TransferWriter : Codeable
         return propertyTemplate;
     }
 
-    protected virtual void AddUsing(TypeTransferObject type, ClassTemplate classTemplate, IOptions options, string relativeModelPath = "./")
+    protected virtual void AddUsing(TypeTransferObject type, ClassTemplate classTemplate, GeneratorOptions options, string relativeModelPath = "./")
     {
         Import import = options.Imports.FirstOrDefault(import => import.Type.Namespace == type.Namespace && import.Type.Name == type.Name);
         if (import != null)
@@ -154,7 +159,7 @@ public abstract class TransferWriter : Codeable
         type.Generics.Where(x => x.Alias == null).ForEach(generic => this.AddUsing(generic.Type, classTemplate, options, relativeModelPath));
     }
 
-    protected virtual ICodeFragment ValueToTemplate<T>(T value, ModelTransferObject model, IOptions memberOptions)
+    protected virtual ICodeFragment ValueToTemplate<T>(T value, ModelTransferObject model, GeneratorOptions memberOptions)
     {
         if (value == null)
         {

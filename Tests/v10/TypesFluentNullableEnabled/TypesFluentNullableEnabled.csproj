@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>Types</RootNamespace>
+      <ProjectGuid>{d599f518-8c6c-4031-a89a-531c7e7fac42}</ProjectGuid>
+  </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="KY.Generator" Version="10.0.0-preview.14" />
+        <PackageReference Include="KY.Generator.Annotations" Version="10.0.0-preview.14" />
+        <PackageReference Include="KY.Generator.Fluent" Version="10.0.0-preview.1" />
+        <PackageReference Include="KY.Generator.Reflection" Version="10.0.0-preview.1" />
+    </ItemGroup>
+
+</Project>

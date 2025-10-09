@@ -1,27 +1,27 @@
 using KY.Generator.Csharp.Templates;
 using KY.Generator.Output;
 using KY.Generator.Templates;
-using KY.Generator.Writers;
+using StringWriter = KY.Generator.Writers.StringWriter;
 
-namespace KY.Generator.Csharp.Writers
+namespace KY.Generator.Csharp.Writers;
+
+public class VerbatimStringWriter : StringWriter
 {
-    public class VerbatimStringWriter : StringWriter
+    private readonly Options options;
+
+    public VerbatimStringWriter(Options options)
+        : base(options)
     {
-        private readonly IOptions options;
+        this.options = options;
+    }
 
-        public VerbatimStringWriter(IOptions options)
-            : base(options)
-        {
-            this.options = options;
-        }
-
-        public override void Write(ICodeFragment fragment, IOutputCache output)
-        {
-            VerbatimStringTemplate template = (VerbatimStringTemplate)fragment;
-            output.Add("@")
-                  .Add(this.options.Formatting.Quote)
-                  .Add(template.Value, true)
-                  .Add(this.options.Formatting.Quote);
-        }
+    public override void Write(ICodeFragment fragment, IOutputCache output)
+    {
+        GeneratorOptions generatorOptions = this.options.Get<GeneratorOptions>();
+        VerbatimStringTemplate template = (VerbatimStringTemplate)fragment;
+        output.Add("@")
+              .Add(generatorOptions.Formatting.Quote)
+              .Add(template.Value, true)
+              .Add(generatorOptions.Formatting.Quote);
     }
 }

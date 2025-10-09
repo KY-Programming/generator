@@ -3,23 +3,22 @@ using KY.Generator.Output;
 using KY.Generator.Templates;
 using KY.Generator.Writers;
 
-namespace KY.Generator.TypeScript.Writers
+namespace KY.Generator.TypeScript.Writers;
+
+public class TypeScriptFieldWriter : ITemplateWriter
 {
-    public class TypeScriptFieldWriter : ITemplateWriter
+    public virtual void Write(ICodeFragment fragment, IOutputCache output)
     {
-        public virtual void Write(ICodeFragment fragment, IOutputCache output)
-        {
-            FieldTemplate template = (FieldTemplate)fragment;
-            output.If(template.Visibility != Visibility.None).Add(template.Visibility.ToString().ToLower()).Add(" ").EndIf()
-                  .If(template.IsStatic || template.IsConstant).Add("static ").EndIf()
-                  .If(template.IsReadonly || template.IsConstant).Add("readonly ").EndIf()
-                  .Add(template.Name)
-                  .If(template.IsOptional).Add("?").EndIf()
-                  .Add(": ")
-                  .Add(template.Type)
-                  .If(template.DefaultValue == null && template.Strict && template.Type.IsNullable).Add(" | undefined").EndIf()
-                  .If(template.DefaultValue != null && !template.Class.IsInterface).Add(" = ").Add(template.DefaultValue).EndIf()
-                  .CloseLine();
-        }
+        FieldTemplate template = (FieldTemplate)fragment;
+        output.If(template.Visibility != Visibility.None).Add(template.Visibility.ToString().ToLower()).Add(" ").EndIf()
+              .If(template.IsStatic || template.IsConstant).Add("static ").EndIf()
+              .If(template.IsReadonly || template.IsConstant).Add("readonly ").EndIf()
+              .Add(template.Name)
+              .If(template.IsOptional).Add("?").EndIf()
+              .Add(": ")
+              .Add(template.Type)
+              .If(template.Strict && (template.IsNullable || template.DefaultValue == null) && !template.IsOptional).Add(" | undefined").EndIf()
+              .If(template.DefaultValue != null && !template.Class.IsInterface).Add(" = ").Add(template.DefaultValue!).EndIf()
+              .CloseLine();
     }
 }

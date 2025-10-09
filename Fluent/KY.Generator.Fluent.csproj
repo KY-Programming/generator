@@ -1,46 +1,48 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <Company>KY-Programming</Company>
-    <Authors>KY-Programming</Authors>
-    <Version>9.0.1</Version>
-    <Product>KY.Generator</Product>
-    <Description>Fluent language for KY-Generator</Description>
-    <Copyright>2025 - KY-Programming</Copyright>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://generator.ky-programming.de</PackageProjectUrl>
-    <PackageIcon>assets\icon.png</PackageIcon>
-    <RepositoryUrl>https://github.com/KY-Programming/generator</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
-    <PackageTags>KY-Generator KY.Generator Fluent Language</PackageTags>
-    <LangVersion>latest</LangVersion>
-    <RootNamespace>KY.Generator</RootNamespace>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <Company>KY-Programming</Company>
+        <Authors>KY-Programming</Authors>
+        <Version>10.0.0-preview.15</Version>
+        <Product>KY.Generator</Product>
+        <Description>Fluent language for KY-Generator</Description>
+        <Copyright>2025 - KY-Programming</Copyright>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageProjectUrl>https://generator.ky-programming.de</PackageProjectUrl>
+        <PackageIcon>assets\icon.png</PackageIcon>
+        <RepositoryUrl>https://github.com/KY-Programming/generator</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageTags>KY-Generator KY.Generator Fluent Language</PackageTags>
+        <LangVersion>latest</LangVersion>
+        <RootNamespace>KY.Generator</RootNamespace>
+    </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <OutputPath>..\bin\Debug</OutputPath>
-  </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+        <OutputPath>..\bin\Debug</OutputPath>
+    </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <OutputPath>..\bin\Release</OutputPath>
-    <DocumentationFile>..\bin\Release\KY.Generator.Fluent.xml</DocumentationFile>
-    <NoWarn>1701;1702;1591</NoWarn>
-  </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+        <OutputPath>..\bin\Release</OutputPath>
+        <DocumentationFile>..\bin\Release\KY.Generator.Fluent.xml</DocumentationFile>
+        <NoWarn>1701;1702;1591</NoWarn>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Common\KY.Generator.Common.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\Common\KY.Generator.Common.csproj"/>
+    </ItemGroup>
 
-  <ItemGroup>
-    <None Include="..\icon.png" Pack="true" PackagePath="assets"/>
-    <None Include="README.md" Pack="true" PackagePath=""/>
-  </ItemGroup>
+    <ItemGroup>
+        <None Include="..\icon.png" Pack="true" PackagePath="assets"/>
+        <None Include="README.md" Pack="true" PackagePath=""/>
+    </ItemGroup>
 
-  <ItemGroup>
-    <None Include="..\icon.png" Pack="true" PackagePath="assets"/>
-    <None Include="README.md" Pack="true" PackagePath=""/>
-  </ItemGroup>
+    <ItemGroup>
+        <None Include="..\icon.png" Pack="true" PackagePath="assets"/>
+        <None Include="README.md" Pack="true" PackagePath=""/>
+    </ItemGroup>
 
 </Project>

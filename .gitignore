@@ -299,3 +299,5 @@ __pycache__/
 /Svn
 /Examples/Angular/Fluent/NpmPackage/package/*.tgz
 /Examples/Angular/Fluent/NpmPackage/package
+/Tests/v10/TypeScriptValidationNotStrict/Output
+/Tests/v10/TypeScriptValidationStrict/Output

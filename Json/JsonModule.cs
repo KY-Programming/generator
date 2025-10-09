@@ -8,20 +8,19 @@ using KY.Generator.Mappings;
 
 [assembly: InternalsVisibleTo("KY.Generator.Json.Tests")]
 
-namespace KY.Generator.Json
-{
-    public class JsonModule : ModuleBase
-    {
-        public JsonModule(IDependencyResolver dependencyResolver)
-            : base(dependencyResolver)
-        {
-            this.DependencyResolver.Bind<IGeneratorCommand>().To<JsonReadCommand>();
-            this.DependencyResolver.Bind<IGeneratorCommand>().To<JsonWriteCommand>();
-        }
+namespace KY.Generator.Json;
 
-        public override void Initialize()
-        {
-            this.DependencyResolver.Get<ITypeMapping>().Initialize();
-        }
+public class JsonModule : ModuleBase
+{
+    public JsonModule(IDependencyResolver dependencyResolver)
+        : base(dependencyResolver)
+    {
+        this.DependencyResolver.Get<GeneratorCommandFactory>().Register<JsonReadCommand>(JsonReadCommand.Names);
+        this.DependencyResolver.Get<GeneratorCommandFactory>().Register<JsonWriteCommand>(JsonWriteCommand.Names);
+    }
+
+    public override void Initialize()
+    {
+        this.DependencyResolver.Get<ITypeMapping>().Initialize();
     }
 }

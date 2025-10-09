@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <Configurations>Custom</Configurations>
+        <Platforms>AnyCPU</Platforms>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Custom' ">
+      <DefineConstants>TRACE; DEBUG;</DefineConstants>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="KY.Generator" Version="10.0.0-preview.3" />
+      <PackageReference Include="KY.Generator.Annotations" Version="10.0.0-preview.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Output\" />
+    </ItemGroup>
+
+</Project>
