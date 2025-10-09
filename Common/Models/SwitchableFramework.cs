@@ -4,7 +4,7 @@
     {
         None,
 
-        [FrameworkName("net461")]
+        [FrameworkName("net462")]
         Net4,
 
         [FrameworkName("netcoreapp2.0")]
