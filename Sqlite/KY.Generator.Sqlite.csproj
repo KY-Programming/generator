@@ -5,7 +5,7 @@
         <Nullable>enable</Nullable>
         <Company>KY-Programming</Company>
         <Authors>KY-Programming</Authors>
-        <Version>10.0.0-preview.15</Version>
+        <Version>10.0.0-preview.17</Version>
         <Product>KY.Generator</Product>
         <Description>Sqlite Module for KY-Generator
             Download KY.Generator to use this module
@@ -31,18 +31,18 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.Data.Sqlite" Version="5.0.7"/>
+        <PackageReference Include="Microsoft.Data.Sqlite" Version="5.0.7" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\CSharp\KY.Generator.Csharp.csproj"/>
-        <ProjectReference Include="..\Fluent\KY.Generator.Fluent.csproj"/>
-        <ProjectReference Include="..\Reflection\KY.Generator.Reflection.csproj"/>
+        <ProjectReference Include="..\CSharp\KY.Generator.Csharp.csproj" />
+        <ProjectReference Include="..\Fluent\KY.Generator.Fluent.csproj" />
+        <ProjectReference Include="..\Reflection\KY.Generator.Reflection.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <None Include="..\icon.png" Pack="true" PackagePath="assets"/>
-        <None Include="..\Common\README.md" Pack="true" PackagePath=""/>
+        <None Include="..\icon.png" Pack="true" PackagePath="assets" />
+        <None Include="..\Common\README.md" Pack="true" PackagePath="" />
     </ItemGroup>
 
 </Project>

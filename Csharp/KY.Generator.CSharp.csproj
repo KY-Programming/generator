@@ -7,7 +7,7 @@
         <Authors>KY-Programming</Authors>
         <Company>KY-Programming</Company>
         <Product>KY.Generator</Product>
-        <Version>10.0.0-preview.15</Version>
+        <Version>10.0.0-preview.17</Version>
         <Description>C# Module for KY-Generator
             Download KY.Generator to use this module
         </Description>
@@ -31,12 +31,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Common\KY.Generator.Common.csproj"/>
+        <ProjectReference Include="..\Common\KY.Generator.Common.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <None Include="..\icon.png" Pack="true" PackagePath="assets"/>
-        <None Include="..\Common\README.md" Pack="true" PackagePath=""/>
+        <None Include="..\icon.png" Pack="true" PackagePath="assets" />
+        <None Include="..\Common\README.md" Pack="true" PackagePath="" />
     </ItemGroup>
 
 </Project>

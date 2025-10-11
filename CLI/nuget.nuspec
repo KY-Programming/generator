@@ -3,7 +3,7 @@
     <metadata>
         <id>KY.Generator.CLI</id>
         <!-- Ensure nuget.targets version is also updated -->
-        <version>10.0.0-preview.15</version>
+        <version>10.0.0-preview.17</version>
         <title>KY.Generator.CLI</title>
         <authors>KY-Programming</authors>
         <owners>KY-Programming</owners>
@@ -21,9 +21,9 @@
         <readme>docs\README.md</readme>
     </metadata>
     <files>
-        <file src="bin\Release\*.exe" target="tools"/>
-        <file src="bin\Release\*.dll" target="tools"/>
-        <file src="..\README.md" target="docs"/>
-        <file src="..\icon.png" target="assets"/>
+        <file src="bin\Release\*.exe" target="tools" />
+        <file src="bin\Release\*.dll" target="tools" />
+        <file src="..\README.md" target="docs" />
+        <file src="..\icon.png" target="assets" />
     </files>
 </package>
