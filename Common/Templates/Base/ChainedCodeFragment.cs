@@ -59,6 +59,7 @@ public abstract class ChainedCodeFragment : ICodeFragment, ICloneable
         while (currentOriginal.Previous != null)
         {
             currentClone.Previous = (ChainedCodeFragment)currentOriginal.Previous.Clone();
+            currentClone.Previous.Next = currentClone;
             currentClone = currentClone.Previous;
             currentOriginal = currentOriginal.Previous;
         }
@@ -67,6 +68,7 @@ public abstract class ChainedCodeFragment : ICodeFragment, ICloneable
         while (currentOriginal.Next != null)
         {
             currentClone.Next = (ChainedCodeFragment)currentOriginal.Next.Clone();
+            currentClone.Next.Previous = currentClone;
             currentClone = currentClone.Next;
             currentOriginal = currentOriginal.Next;
         }
