@@ -1,7 +1,11 @@
-namespace KY.Generator.Templates
+namespace KY.Generator.Templates;
+
+public class BaseTemplate : ChainedCodeFragment
 {
-    public class BaseTemplate : ChainedCodeFragment
+    public override string Separator => " ";
+
+    public override object Clone()
     {
-        public override string Separator => " ";
+        return this.CloneTo(new BaseTemplate());
     }
 }

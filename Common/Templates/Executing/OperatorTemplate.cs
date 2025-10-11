@@ -1,26 +1,30 @@
-﻿namespace KY.Generator.Templates
+﻿namespace KY.Generator.Templates;
+
+public enum Operator
 {
-    public enum Operator
+    Not,
+    Equals,
+    NotEquals,
+    Greater,
+    GreaterThan,
+    Lower,
+    LowerThan,
+    And,
+    Or
+}
+
+public class OperatorTemplate : ChainedCodeFragment
+{
+    public override string Separator => " ";
+    public Operator Operator { get; }
+
+    public OperatorTemplate(Operator @operator)
     {
-        Not,
-        Equals,
-        NotEquals,
-        Greater,
-        GreaterThan,
-        Lower,
-        LowerThan,
-        And,
-        Or
+        this.Operator = @operator;
     }
 
-    public class OperatorTemplate : ChainedCodeFragment
+    public override object Clone()
     {
-        public override string Separator => " ";
-        public Operator Operator { get; }
-
-        public OperatorTemplate(Operator @operator)
-        {
-            this.Operator = @operator;
-        }
+        return this.CloneTo(new OperatorTemplate(this.Operator));
     }
 }

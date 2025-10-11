@@ -1,13 +1,17 @@
-﻿namespace KY.Generator.Templates
-{
-    public class ExecutePropertyTemplate : ChainedCodeFragment
-    {
-        public override string Separator => ".";
-        public string Name { get; set; }
+﻿namespace KY.Generator.Templates;
 
-        public ExecutePropertyTemplate(string name)
-        {
-            this.Name = name;
-        }
+public class ExecutePropertyTemplate : ChainedCodeFragment
+{
+    public override string Separator => ".";
+    public string Name { get; set; }
+
+    public ExecutePropertyTemplate(string name)
+    {
+        this.Name = name;
+    }
+
+    public override object Clone()
+    {
+        return this.CloneTo(new ExecutePropertyTemplate(this.Name));
     }
 }

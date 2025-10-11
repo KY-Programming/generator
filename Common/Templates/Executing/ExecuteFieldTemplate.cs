@@ -1,13 +1,17 @@
-﻿namespace KY.Generator.Templates
-{
-    public class ExecuteFieldTemplate : ChainedCodeFragment
-    {
-        public override string Separator => ".";
-        public string Name { get; set; }
+﻿namespace KY.Generator.Templates;
 
-        public ExecuteFieldTemplate(string name)
-        {
-            this.Name = name;
-        }
+public class ExecuteFieldTemplate : ChainedCodeFragment
+{
+    public override string Separator => ".";
+    public string Name { get; set; }
+
+    public ExecuteFieldTemplate(string name)
+    {
+        this.Name = name;
+    }
+
+    public override object Clone()
+    {
+        return this.CloneTo(new ExecuteFieldTemplate(this.Name));
     }
 }

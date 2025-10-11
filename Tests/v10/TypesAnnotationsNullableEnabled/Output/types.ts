@@ -56,7 +56,7 @@ export class Types {
     public requiredObjectProperty: unknown | undefined;
     public requiredByteProperty: number = 0;
     public requiredSByteProperty: number = 0;
-    public requiredNumericEnumProperty: NumericEnum;
+    public requiredNumericEnumProperty: NumericEnum = NumericEnum.zero;
     public requiredAttributeStringProperty: string = "";
     public requiredAttributeShortProperty: number = 0;
     public requiredAttributeUShortProperty: number = 0;
@@ -70,7 +70,7 @@ export class Types {
     public requiredAttributeObjectProperty: unknown | undefined;
     public requiredAttributeByteProperty: number = 0;
     public requiredAttributeSByteProperty: number = 0;
-    public requiredAttributeNumericEnumProperty: NumericEnum;
+    public requiredAttributeNumericEnumProperty: NumericEnum = NumericEnum.zero;
     public stringProperty: string = "";
     public shortProperty: number = 0;
     public uShortProperty: number = 0;
@@ -84,7 +84,7 @@ export class Types {
     public objectProperty: unknown | undefined;
     public byteProperty: number = 0;
     public sByteProperty: number = 0;
-    public numericEnumProperty: NumericEnum;
+    public numericEnumProperty: NumericEnum = NumericEnum.zero;
     public nullableStringProperty?: string;
     public nullableBoolProperty?: boolean;
     public nullableShortProperty?: number;

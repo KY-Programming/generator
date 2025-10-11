@@ -1,4 +1,5 @@
-﻿using KY.Generator.Mappings;
+﻿using KY.Core;
+using KY.Generator.Mappings;
 using KY.Generator.Templates;
 using KY.Generator.Templates.Extensions;
 using KY.Generator.Transfer;
@@ -33,7 +34,7 @@ public class TypeScriptModelWriter : ModelWriter
         return classTemplate;
     }
 
-    protected override FieldTemplate AddField(ModelTransferObject model, MemberTransferObject member, ClassTemplate classTemplate)
+    protected override FieldTemplate? AddField(ModelTransferObject model, MemberTransferObject member, ClassTemplate classTemplate)
     {
         if (member.IsOverwrite)
         {
@@ -45,7 +46,7 @@ public class TypeScriptModelWriter : ModelWriter
         fieldTemplate.Strict = fieldTypeScriptOptions.Strict;
         if (fieldTemplate.DefaultValue == null && fieldTypeScriptOptions.Strict && !fieldTemplate.IsNullable && !fieldTemplate.IsOptional)
         {
-            fieldTemplate.DefaultValue = member.Type?.Default;
+            fieldTemplate.DefaultValue = member.Type?.Default?.Clone();
             if (fieldTemplate.DefaultValue == null && model.Language != null && fieldOptions.Language != null && member.Type != null)
             {
                 fieldTemplate.DefaultValue = this.TypeMapping.GetStrictDefault(model.Language, fieldOptions.Language, member.Type.Original ?? member.Type);
@@ -54,7 +55,7 @@ public class TypeScriptModelWriter : ModelWriter
         return fieldTemplate;
     }
 
-    protected override PropertyTemplate AddProperty(ModelTransferObject model, MemberTransferObject member, ClassTemplate classTemplate)
+    protected override PropertyTemplate? AddProperty(ModelTransferObject model, MemberTransferObject member, ClassTemplate classTemplate)
     {
         if (member.IsOverwrite)
         {
@@ -65,7 +66,7 @@ public class TypeScriptModelWriter : ModelWriter
         propertyTemplate.Strict = propertyOptions.Strict;
         if (propertyTemplate.DefaultValue == null && propertyOptions.Strict && !propertyTemplate.IsNullable)
         {
-            propertyTemplate.DefaultValue = member.Type?.Default;
+            propertyTemplate.DefaultValue = member.Type?.Default?.Clone();
         }
         return propertyTemplate;
     }

@@ -13,7 +13,7 @@ public class FieldTemplate : AttributeableTempalte
     public Visibility Visibility { get; set; }
     public ICodeFragment? DefaultValue { get; set; }
     public ClassTemplate Class { get; }
-    public CommentTemplate Comment { get; set; }
+    public CommentTemplate? Comment { get; set; }
     public bool IsReadonly { get; set; }
     public bool IsOptional { get; set; }
 
@@ -30,9 +30,9 @@ public class FieldTemplate : AttributeableTempalte
         this.Visibility = Visibility.Private;
     }
 
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
-        FieldTemplate property = obj as FieldTemplate;
+        FieldTemplate? property = obj as FieldTemplate;
         return property != null && this.Name.Equals(property.Name);
     }
 

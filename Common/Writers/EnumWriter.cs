@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using KY.Core;
+﻿using KY.Core;
 using KY.Generator.Languages;
 using KY.Generator.Output;
 using KY.Generator.Templates;
@@ -29,7 +28,7 @@ public class EnumWriter : Codeable, ITemplateWriter
             output.Add(" : ").Add(template.BasedOn);
         }
         output.StartBlock();
-        EnumValueTemplate last = template.Values.LastOrDefault();
+        EnumValueTemplate? last = template.Values.LastOrDefault();
         foreach (EnumValueTemplate enumTemplateValue in template.Values)
         {
             output.Add($"{enumTemplateValue.FormattedName} = ")

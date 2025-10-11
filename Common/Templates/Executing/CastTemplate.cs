@@ -1,13 +1,17 @@
-﻿namespace KY.Generator.Templates
-{
-    public class CastTemplate : ChainedCodeFragment
-    {
-        public TypeTemplate Type { get; }
-        public override string Separator => "";
+﻿namespace KY.Generator.Templates;
 
-        public CastTemplate(TypeTemplate type)
-        {
-            this.Type = type;
-        }
+public class CastTemplate : ChainedCodeFragment
+{
+    public TypeTemplate Type { get; }
+    public override string Separator => "";
+
+    public CastTemplate(TypeTemplate type)
+    {
+        this.Type = type;
+    }
+
+    public override object Clone()
+    {
+        return this.CloneTo(new CastTemplate(this.Type));
     }
 }

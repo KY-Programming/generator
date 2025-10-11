@@ -1,14 +1,18 @@
-namespace KY.Generator.Templates
+namespace KY.Generator.Templates;
+
+public class NullCoalescingTemplate : ChainedCodeFragment
 {
-    public class NullCoalescingTemplate : ChainedCodeFragment
+    public ICodeFragment Code { get; }
+
+    public override string Separator => "";
+
+    public NullCoalescingTemplate(ICodeFragment code = null)
     {
-        public ICodeFragment Code { get; }
+        this.Code = code;
+    }
 
-        public NullCoalescingTemplate(ICodeFragment code = null)
-        {
-            this.Code = code;
-        }
-
-        public override string Separator => "";
+    public override object Clone()
+    {
+        return this.CloneTo(new NullCoalescingTemplate(this.Code));
     }
 }

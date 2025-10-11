@@ -1,14 +1,18 @@
 using KY.Core;
 
-namespace KY.Generator.Templates
-{
-    public class LocalVariableTemplate : ChainedCodeFragment
-    {
-        public string Name { get; }
+namespace KY.Generator.Templates;
 
-        public LocalVariableTemplate(string name)
-        {
-            this.Name = name.AssertIsNotNullOrEmpty(nameof(name));
-        }
+public class LocalVariableTemplate : ChainedCodeFragment
+{
+    public string Name { get; }
+
+    public LocalVariableTemplate(string name)
+    {
+        this.Name = name.AssertIsNotNullOrEmpty(nameof(name));
+    }
+
+    public override object Clone()
+    {
+        return this.CloneTo(new LocalVariableTemplate(this.Name));
     }
 }

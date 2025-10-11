@@ -5,6 +5,7 @@ using KY.Generator.Extensions;
 using KY.Generator.Models;
 using KY.Generator.Reflection.Extensions;
 using KY.Generator.Reflection.Language;
+using KY.Generator.Templates.Extensions;
 using KY.Generator.Transfer;
 
 namespace KY.Generator.Reflection.Readers;
@@ -176,7 +177,18 @@ public class ReflectionModelReader
             {
                 continue;
             }
-            model.EnumValues.Add(field.Name, field.GetRawConstantValue());
+            object value = field.GetRawConstantValue();
+            model.EnumValues.Add(field.Name, value);
+            if (value.Equals(0))
+            {
+                string defaultName = Formatter.FormatProperty(field.Name, this.options.Get<GeneratorOptions>(model));
+                model.Default = Code.Instance.Local(model.Name).Field(defaultName);
+            }
+        }
+        if (model.Default == null)
+        {
+            string fallbackName = Formatter.FormatProperty(model.EnumValues.First().Key, this.options.Get<GeneratorOptions>(model));
+            model.Default = Code.Instance.Local(model.Name).Field(fallbackName);
         }
     }
 

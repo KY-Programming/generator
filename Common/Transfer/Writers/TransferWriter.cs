@@ -143,14 +143,14 @@ public abstract class TransferWriter : Codeable
             }
         }
         string importPath = relativeModelPath.Replace("\\", "/").TrimEnd('/');
-        if ((!type.FromSystem || (type.FromSystem && options.Language.ImportFromSystem))
+        if ((!type.FromSystem || type.FromSystem && options.Language.ImportFromSystem)
             && !string.IsNullOrEmpty(type.Namespace)
             && classTemplate.Namespace.Name != type.Namespace
             && !type.IsGenericParameter)
         {
             classTemplate.AddUsing(type, importPath);
         }
-        if ((!type.FromSystem || (type.FromSystem && options.Language.ImportFromSystem))
+        if ((!type.FromSystem || type.FromSystem && options.Language.ImportFromSystem)
             && !string.IsNullOrEmpty(type.FileName)
             && !type.IsGenericParameter)
         {
