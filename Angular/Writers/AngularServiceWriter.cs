@@ -431,6 +431,10 @@ public class AngularServiceWriter : TransferWriter
                 timeoutsField = classTemplate.AddField("timeouts", Code.Generic("Array", Code.Type("number"))).Readonly()
                                              .Default(Code.TypeScript($"[{string.Join(", ", configuration.Service.Timeouts)}]"));
             }
+            FieldTemplate connectErrorSubjectField = classTemplate.AddField("connectErrorSubject", Code.Generic("Subject", Code.Type("Error"))).Readonly()
+                                                                  .Default(Code.New(Code.Generic("Subject", Code.Type("Error"))));
+            classTemplate.AddField("connectError$", Code.Generic("Observable", Code.Type("Error"))).FormatName(hubOptions).Readonly().Public()
+                         .Default(Code.This().Local(connectErrorSubjectField).Method("asObservable"));
             FieldTemplate statusSubjectField = classTemplate.AddField("statusSubject", Code.Generic("ReplaySubject", connectionStatusEnum.ToType())).Readonly()
                                                             .Default(Code.New(Code.Generic("ReplaySubject", connectionStatusEnum.ToType()), Code.Number(1)));
             classTemplate.AddField("status$", Code.Generic("Observable", connectionStatusEnum.ToType())).FormatName(hubOptions).Readonly().Public()
@@ -440,6 +444,7 @@ public class AngularServiceWriter : TransferWriter
             if (timeoutsField != null)
             {
                 errorCode.AddLine(Code.If(Code.This().Field(isClosedField)).WithCode(Code.Return()))
+                         .AddLine(Code.This().Field(connectErrorSubjectField).Method("next", Code.Local("error")).Close())
                          .AddLine(Code.This().Field(statusSubjectField).Method("next", Code.Local(connectionStatusEnum.Name).Field("sleeping")).Close())
                          .AddLine(Code.Declare(Code.Type("number"), "timeout", Code.This().Field(timeoutsField).Index(Code.Local("trial"))))
                          .AddLine(Code.Local("trial++").Close());
