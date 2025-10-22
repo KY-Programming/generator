@@ -32,7 +32,16 @@ namespace KY.Generator.TypeScript.Writers
                 {
                     output.Add(", ");
                 }
-                output.Add(value.Value).Add(": ").Add(Code.String(value.Name));
+                if (value.Value is LocalVariableTemplate localVariableTemplate && localVariableTemplate.Name.StartsWith("-"))
+                {
+                    // Fix TS2322: Type number is not assignable to type { [key: number]: string; } on negative values
+                    output.Add(Code.String(localVariableTemplate.Name));
+                }
+                else
+                {
+                    output.Add(value.Value);
+                }
+                output.Add(": ").Add(Code.String(value.Name));
             }
             output.Add(" }").CloseLine()
                   .Add($"export const {template.Name}NameMapping: {{ [key: string]: number }} = {{ ");
