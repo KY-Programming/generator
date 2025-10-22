@@ -31,6 +31,7 @@ public class TypeScriptEnumWriter : EnumWriter
             {
                 output.Add(", ");
             }
+            // Fix TS2322: Type number is not assignable to type { [key: number]: string; } on negative values
             if (value.Value is LocalVariableTemplate variable && variable.Name.Contains("-"))
             {
                 output.Add(Code.String(variable.Name));
