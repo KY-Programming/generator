@@ -18,7 +18,6 @@ public class ReflectionModule : ModuleBase
         this.DependencyResolver.Bind<ReflectionReader>().ToSelf();
         this.DependencyResolver.Bind<ReflectionWriter>().ToSelf();
         this.DependencyResolver.Get<GeneratorCommandFactory>().Register<ReflectionCommand>(ReflectionCommand.Names);
-        this.DependencyResolver.Get<GeneratorCommandFactory>().Register<AnnotationCommand>(AnnotationCommand.Names);
         this.DependencyResolver.Get<GeneratorCommandFactory>().Register<ReflectionReadCommand>(ReflectionReadCommand.Names);
         this.DependencyResolver.Get<GeneratorCommandFactory>().Register<ReflectionWriteCommand>(ReflectionWriteCommand.Names);
     }

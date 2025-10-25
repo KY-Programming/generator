@@ -3,10 +3,11 @@ using KY.Core;
 using KY.Core.Dependency;
 using KY.Generator.Command;
 using KY.Generator.Extensions;
+using KY.Generator.Helpers;
 using KY.Generator.Models;
 using KY.Generator.Transfer;
 
-namespace KY.Generator.Reflection.Commands;
+namespace KY.Generator.Commands;
 
 public class AnnotationCommand : GeneratorCommand<AnnotationCommandParameters>
 {
