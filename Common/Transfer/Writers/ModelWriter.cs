@@ -106,7 +106,8 @@ public class ModelWriter : TransferWriter, ITransferWriter
         EnumTemplate enumTemplate = this.files.AddFile(relativePath, modelOptions)
                                         .WithName(model.FileName)
                                         .AddNamespace(modelOptions.SkipNamespace ? string.Empty : model.Namespace)
-                                        .AddEnum(model.Name);
+                                        .AddEnum(model.Name)
+                                        .WithComment(model.Comment);
 
         foreach (KeyValuePair<string, object> pair in model.EnumValues)
         {
@@ -124,7 +125,7 @@ public class ModelWriter : TransferWriter, ITransferWriter
             this.MapType(model.Language, modelOptions.Language, model.BasedOn);
         }
 
-        bool isInterface = model.IsInterface || (modelOptions.PreferInterfaces && model.Constants.Count == 0);
+        bool isInterface = model.IsInterface || modelOptions.PreferInterfaces && model.Constants.Count == 0;
         string modelNamespace = modelOptions.SkipNamespace ? string.Empty : model.Namespace;
         ClassTemplate otherClassTemplate = this.files.Where(file => file.RelativePath == relativePath
                                                                     && file.Options.Language == modelOptions.Language)
@@ -137,7 +138,8 @@ public class ModelWriter : TransferWriter, ITransferWriter
                                                                                    .AddNamespace(modelNamespace);
 
         ClassTemplate classTemplate = namespaceTemplate.AddClass(model.Name, model.BasedOn?.ToTemplate())
-                                                       .FormatName(modelOptions);
+                                                       .FormatName(modelOptions)
+                                                       .WithComment(model.Comment);
         if (model.BasedOn != null)
         {
             this.AddUsing(model.BasedOn, classTemplate, modelOptions);

@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using KY.Generator.Extensions;
+﻿using KY.Generator.Extensions;
 using KY.Generator.Transfer;
 
 namespace KY.Generator.Templates.Extensions;
@@ -110,9 +109,9 @@ public static class ClassTemplateExtension
         return classTemplate;
     }
 
-    public static ClassTemplate WithComment(this ClassTemplate classTemplate, string description, CommentType type = CommentType.Block)
+    public static ClassTemplate WithComment(this ClassTemplate classTemplate, string? description, CommentType type = CommentType.Block)
     {
-        classTemplate.Comment = new CommentTemplate(description, type);
+        classTemplate.Comment = description == null ? null : new CommentTemplate(description, type);
         return classTemplate;
     }
 

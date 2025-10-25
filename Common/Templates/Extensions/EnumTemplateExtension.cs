@@ -23,4 +23,10 @@ public static class EnumTemplateExtension
     {
         return new UsingTemplate(enumTemplate.Namespace.Name, enumTemplate.Name, enumTemplate.Namespace.File.RelativePath);
     }
+
+    public static EnumTemplate WithComment(this EnumTemplate enumTemplate, string? description, CommentType type = CommentType.Block)
+    {
+        enumTemplate.Comment = description == null ? null : new CommentTemplate(description, type);
+        return enumTemplate;
+    }
 }
