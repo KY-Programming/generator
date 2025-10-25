@@ -45,6 +45,7 @@
     <ItemGroup>
         <None Include="..\icon.png" Pack="true" PackagePath="assets" Visible="false" />
         <None Include="..\Common\README.md" Pack="true" PackagePath="" Visible="false" />
+        <None Remove="KY.Generator.AspDotNet.csproj.DotSettings" />
     </ItemGroup>
 
 </Project>
