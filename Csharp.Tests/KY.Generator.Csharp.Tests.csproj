@@ -18,6 +18,7 @@
     <ItemGroup>
         <ProjectReference Include="..\Common.Tests\KY.Generator.Common.Tests.csproj" />
         <ProjectReference Include="..\Common\KY.Generator.Common.csproj" />
+        <ProjectReference Include="..\Csharp.Generator\KY.Generator.CSharp.Generator.csproj" />
         <ProjectReference Include="..\CSharp\KY.Generator.Csharp.csproj" />
     </ItemGroup>
 

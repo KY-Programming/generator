@@ -169,6 +169,10 @@
             <Project>{8c35562d-fbce-4588-ab3b-fcc6deadebae}</Project>
             <Name>KY.Generator.Common</Name>
         </ProjectReference>
+        <ProjectReference Include="..\Csharp.Generator\KY.Generator.CSharp.Generator.csproj">
+            <Project>{5594973b-83ee-436c-b5fc-90ed68fdf0aa}</Project>
+            <Name>KY.Generator.CSharp.Generator</Name>
+        </ProjectReference>
         <ProjectReference Include="..\CSharp\KY.Generator.Csharp.csproj">
             <Project>{D23DC658-3C95-4A73-BBC7-22A94E81AEE8}</Project>
             <Name>KY.Generator.Csharp</Name>
