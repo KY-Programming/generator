@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Reflection;
 using KY.Core;
-using KY.Generator.Extensions;
 using KY.Generator.Models;
 
 namespace KY.Generator.Command;
@@ -117,14 +116,7 @@ public abstract class GeneratorCommand<T> : IGeneratorCommand
 
     public override string ToString()
     {
-        return $" {ToCommand(this.GetType().Name)} {(this.OriginalParameters == null ? string.Join(" ", this.ParametersToString()) : string.Join(" ", this.OriginalParameters))}";
-    }
-
-    protected static IEnumerable<string> ToCommand(string className)
-    {
-        string baseName = className.TrimEnd("Command").ToKebabCase();
-        yield return baseName;
-        yield return baseName.Replace("'", string.Empty);
+        return $" {this.Parameters.CommandName} {(this.OriginalParameters == null ? string.Join(" ", this.ParametersToString()) : string.Join(" ", this.OriginalParameters))}";
     }
 
     private IEnumerable<string> ParametersToString()
