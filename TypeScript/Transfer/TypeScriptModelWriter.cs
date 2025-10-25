@@ -16,10 +16,11 @@ public class TypeScriptModelWriter : ModelWriter
         : base(options, typeMapping, transferObjects, files)
     { }
 
-    protected override ClassTemplate WriteClass(ModelTransferObject model, string relativePath)
+    protected override ClassTemplate WriteClass(ModelTransferObject model, string? relativePath)
     {
         GeneratorOptions modelOptions = this.Options.Get<GeneratorOptions>(model);
-        ClassTemplate classTemplate = base.WriteClass(model, relativePath);
+        TypeScriptOptions typeScriptOptions = this.Options.Get<TypeScriptOptions>(model);
+        ClassTemplate classTemplate = base.WriteClass(model, relativePath ?? typeScriptOptions.ModelOutput);
         if (!model.IsAbstract && !classTemplate.IsInterface && modelOptions.Language.IsTypeScript())
         {
             ConstructorTemplate constructor = classTemplate.AddConstructor();

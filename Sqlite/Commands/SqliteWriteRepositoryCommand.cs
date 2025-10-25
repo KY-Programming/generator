@@ -12,17 +12,19 @@ namespace KY.Generator.Sqlite.Commands;
 public class SqliteWriteRepositoryCommand : GeneratorCommand<SqliteWriteRepositoryCommandParameters>
 {
     private readonly IDependencyResolver resolver;
+    private readonly GeneratorTypeLoader typeLoader;
 
-    public static string[] Names { get; } = [ToCommand(nameof(SqliteWriteRepositoryCommand)), "sqlite-repository"];
+    public static string[] Names { get; } = [..ToCommand(nameof(SqliteWriteRepositoryCommand)), "sqlite-repository"];
 
-    public SqliteWriteRepositoryCommand(IDependencyResolver resolver)
+    public SqliteWriteRepositoryCommand(IDependencyResolver resolver, GeneratorTypeLoader typeLoader)
     {
         this.resolver = resolver;
+        this.typeLoader = typeLoader;
     }
 
     public override IGeneratorCommandResult Run()
     {
-        Type type = GeneratorTypeLoader.Get(this.Parameters.Assembly, this.Parameters.Namespace, this.Parameters.Name);
+        Type? type = this.typeLoader.Get(this.Parameters.Namespace, this.Parameters.Name);
         if (type == null)
         {
             Logger.Trace($"Class {this.Parameters.Namespace}.{this.Parameters.Name} not found");

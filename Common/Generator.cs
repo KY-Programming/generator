@@ -34,6 +34,7 @@ public class Generator : IGeneratorRunSyntax
     private readonly StatisticsService statisticsService;
     private readonly LicenseService licenseService;
     private readonly AssemblyCache assemblyCache;
+    private readonly GeneratorModuleLoader moduleLoader;
     private bool initializationFailed;
     private readonly List<string> initializationErrors = [];
     private List<string> sharedPaths = [];
@@ -79,16 +80,17 @@ public class Generator : IGeneratorRunSyntax
         this.resolver.Bind<GlobalSettingsService>().ToSingleton();
         this.resolver.Bind<GlobalLicenseService>().ToSingleton();
         this.resolver.Bind<LicenseService>().ToSingleton();
+        this.resolver.Bind<GeneratorModuleLoader>().ToSingleton();
         this.licenseService = this.resolver.Get<LicenseService>();
         this.licenseService.Check();
+        this.moduleLoader = this.resolver.Get<GeneratorModuleLoader>();
 
         Logger.Added -= this.OnLoggerAdded;
         this.statisticsService = this.resolver.Get<StatisticsService>();
         this.statisticsService.ProgramStart(start);
         this.statisticsService.Data.Errors.AddRange(this.initializationErrors);
 
-        ModuleFinder moduleFinder = this.resolver.Get<ModuleFinder>();
-        this.InitializeModules(moduleFinder.Modules);
+        this.moduleLoader.InitializeModules();
     }
 
     private void PrepareEnvironment()
@@ -130,25 +132,9 @@ public class Generator : IGeneratorRunSyntax
         return this;
     }
 
-    public Generator PreloadModules(string moduleFileNameSearchPattern)
-    {
-        ModuleFinder moduleFinder = this.resolver.Get<ModuleFinder>();
-        List<ModuleBase> loadedModules = [];
-        foreach (string sharedPath in this.sharedPaths)
-        {
-            int alreadyLoadedModules = loadedModules.Count;
-            loadedModules.AddRange(moduleFinder.LoadFrom(sharedPath, moduleFileNameSearchPattern));
-            Logger.Trace($"{loadedModules.Count - alreadyLoadedModules} modules loaded from {sharedPath}");
-        }
-        this.InitializeModules(loadedModules);
-        return this;
-    }
-
     public Generator PreloadModules(string path, string moduleFileNameSearchPattern)
     {
-        ModuleFinder moduleFinder = this.resolver.Get<ModuleFinder>();
-        List<ModuleBase> loadedModules = moduleFinder.LoadFrom(path, moduleFileNameSearchPattern);
-        this.InitializeModules(loadedModules);
+        this.moduleLoader.Load(path, moduleFileNameSearchPattern);
         return this;
     }
 
@@ -230,8 +216,6 @@ public class Generator : IGeneratorRunSyntax
             {
                 success = false;
             }
-            List<ILanguage> languages = this.resolver.Get<List<ILanguage>>();
-            GeneratorCommand.AddParser(value => languages.FirstOrDefault(x => x.Name.Equals(value, StringComparison.CurrentCultureIgnoreCase)));
             GeneratorCommandRunner runner = this.resolver.Get<GeneratorCommandRunner>();
             List<IGeneratorCommand> asyncCommands = [];
             IGeneratorCommandResult? switchContext = null;
@@ -243,9 +227,9 @@ public class Generator : IGeneratorRunSyntax
                 command.Parse();
                 command.Prepare();
             }
-            this.statisticsService.Data.IsMsBuild = this.statisticsService.Data.IsMsBuild || this.commands.Any(x => x.Parameters.IsMsBuild);
-            this.statisticsService.Data.IsBeforeBuild = this.statisticsService.Data.IsBeforeBuild || this.commands.Any(x => x.Parameters.IsBeforeBuild);
-            if (success || this.commands.Any(x => x.Parameters.Force))
+            List<ILanguage> languages = this.resolver.TryGet<List<ILanguage>>();
+            GeneratorCommand.AddParser(value => languages.FirstOrDefault(x => x.Name.Equals(value, StringComparison.CurrentCultureIgnoreCase)));
+            if (success || this.environment.Force)
             {
                 foreach (IGeneratorCommand command in this.commands)
                 {
@@ -427,27 +411,6 @@ public class Generator : IGeneratorRunSyntax
             Logger.ErrorTargets.Add(Logger.MsBuildOutput);
             Logger.WarningTargets.Remove(Logger.VisualStudioOutput);
             Logger.ErrorTargets.Remove(Logger.VisualStudioOutput);
-        }
-    }
-
-    private void InitializeModules(IEnumerable<ModuleBase> modules)
-    {
-        List<ModuleBase> list = modules.ToList();
-        Dictionary<ModuleBase, Stopwatch> stopwatches = list.ToDictionary(x => x, _ => new Stopwatch());
-        this.statisticsService.Data.InitializedModules += list.Count;
-        foreach (ModuleBase module in list)
-        {
-            stopwatches[module].Start();
-            this.resolver.Bind<ModuleBase>().To(module);
-            stopwatches[module].Stop();
-        }
-        foreach (ModuleBase module in list)
-        {
-            Stopwatch stopwatch = stopwatches[module];
-            stopwatch.Start();
-            module.Initialize();
-            stopwatch.Stop();
-            Logger.Trace($"{module.GetType().Name.Replace("Module", "")}-{module.GetType().Assembly.GetName().Version} module loaded in {(stopwatch.ElapsedMilliseconds >= 1 ? stopwatch.ElapsedMilliseconds.ToString() : "<1")} ms");
         }
     }
 }

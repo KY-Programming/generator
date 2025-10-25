@@ -20,7 +20,6 @@ public class ModelTransferObject : TypeTransferObject
     public virtual List<FieldTransferObject> Constants { get; } = [];
     public virtual List<FieldTransferObject> Fields { get; } = [];
     public virtual List<PropertyTransferObject> Properties { get; } = [];
-    public virtual List<MethodTransferObject> Methods { get; } = [];
     public virtual List<string> Usings { get; } = [];
     public virtual string? Comment { get; set; }
 
@@ -34,21 +33,20 @@ public class ModelTransferObject : TypeTransferObject
         : base(type)
     { }
 
-    public ModelTransferObject(ModelTransferObject type)
-        : base(type)
+    public ModelTransferObject(ModelTransferObject model)
+        : base(model)
     {
-        this.IsEnum = type.IsEnum;
-        this.IsAbstract = type.IsAbstract;
-        this.EnumValues = type.EnumValues;
-        // this.BasedOn = type.BasedOn;
-        // this.Language = type.Language;
-        // this.Interfaces = type.Interfaces;
-        // this.Constants = type.Constants;
-        // this.Fields = type.Fields;
-        // this.Properties = type.Properties;
-        // this.Methods = type.Methods;
-        // this.Usings = type.Usings;
-        this.Comment = type.Comment;
-        this.Type = type.Type;
+        this.IsEnum = model.IsEnum;
+        this.IsAbstract = model.IsAbstract;
+        this.EnumValues = model.EnumValues?.ToDictionary(x => x.Key, x => x.Value);
+        this.BasedOn = model.BasedOn;
+        this.Language = model.Language;
+        this.Interfaces = model.Interfaces.ToList();
+        this.Constants = model.Constants.Select(x => new FieldTransferObject(x)).ToList();
+        this.Fields = model.Fields.Select(x => new FieldTransferObject(x)).ToList();
+        this.Properties = model.Properties.Select(x => new PropertyTransferObject(x)).ToList();
+        this.Usings = model.Usings.ToList();
+        this.Comment = model.Comment;
+        this.Type = model.Type;
     }
 }

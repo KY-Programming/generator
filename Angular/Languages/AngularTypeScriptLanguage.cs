@@ -2,14 +2,13 @@
 using KY.Generator.Models;
 using KY.Generator.TypeScript.Languages;
 
-namespace KY.Generator.Angular.Languages
+namespace KY.Generator.Angular.Languages;
+
+public class AngularTypeScriptLanguage : TypeScriptLanguage
 {
-    internal class AngularTypeScriptLanguage : TypeScriptLanguage
+    public AngularTypeScriptLanguage(IDependencyResolver resolver)
+        : base(resolver)
     {
-        public AngularTypeScriptLanguage(IDependencyResolver resolver)
-            : base(resolver)
-        {
-            this.Formatting.Add(new FileNameReplacer("angular-service", "^(.*)-service$", "$1.service", "service"));
-        }
+        this.Formatting.Add(new FileNameReplacer("angular-service", "^(.*)-service$", "$1.service", "service"));
     }
 }

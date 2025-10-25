@@ -1,5 +1,4 @@
-using System;
-using System.Collections.Generic;
+using System.Reflection;
 using KY.Generator.Command;
 using KY.Generator.Transfer;
 
@@ -14,4 +13,8 @@ public interface IEnvironment
     string ApplicationData { get; }
     string LocalApplicationData { get; }
     List<CliCommandParameter> Parameters { get; }
+    bool IsBeforeBuild { get; set; }
+    bool IsMsBuild { get; set; }
+    bool Force { get; set; }
+    List<Assembly> LoadedAssemblies { get; }
 }

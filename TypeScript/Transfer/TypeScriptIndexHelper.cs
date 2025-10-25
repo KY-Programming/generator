@@ -23,14 +23,14 @@ public class TypeScriptIndexHelper
         this.options = options.Get<TypeScriptOptions>();
     }
 
-    public void Execute(string relativePath)
+    public void Execute(string? relativePath)
     {
         if (this.options.NoIndex && !this.options.ForceIndex)
         {
             return;
         }
 
-        TypeScriptIndexFile indexFile = this.reader.Read(relativePath);
+        TypeScriptIndexFile? indexFile = this.reader.Read(relativePath);
 
         List<FileTemplate> fileTemplates = this.files.Where(file => file.RelativePath == relativePath
                                                                     && file.Name != "index.ts"

@@ -9,7 +9,7 @@ namespace KY.Generator.AspDotNet.Commands;
 internal class AspDotNetReadHubCommand : GeneratorCommand<AspDotNetReadHubCommandParameters>
 {
     private readonly IDependencyResolver resolver;
-    public static string[] Names { get; } = [ToCommand(nameof(AspDotNetReadHubCommand)), "asp-read-hub"];
+    public static string[] Names { get; } = [..ToCommand(nameof(AspDotNetReadHubCommand)), "asp-read-hub"];
 
     public AspDotNetReadHubCommand(IDependencyResolver resolver)
     {

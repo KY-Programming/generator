@@ -7,19 +7,19 @@ using KY.Generator.Models;
 
 namespace KY.Generator.Commands;
 
-internal class ReadProjectCommand(IDependencyResolver resolver) : GeneratorCommand<ReadProjectCommandParameters>, IPrepareCommand
+public class ReadProjectCommand(IDependencyResolver resolver) : GeneratorCommand<ReadProjectCommandParameters>, IPrepareCommand
 {
-    public static string[] Names { get; } = [ToCommand(nameof(ReadProjectCommand)), "read-project", "readProject", "readid"];
+    public static string[] Names { get; } = [..ToCommand(nameof(ReadProjectCommand)), "read-project", "readProject", "readid"];
 
     public override IGeneratorCommandResult Run()
     {
         string projectFileName = FileSystem.GetFileName(this.Parameters.Project);
         VisualStudioParser parser = new();
-        VisualStudioSolutionProject project = parser.ParseProject(this.Parameters.Project);
+        VisualStudioSolutionProject? project = parser.ParseProject(this.Parameters.Project);
         if (project == null || project.Id == Guid.Empty)
         {
-            VisualStudioSolution solution = parser.ParseSolution(this.Parameters.Solution) ?? this.FindSolution(parser);
-            VisualStudioSolutionProject solutionProject = solution?.Projects.FirstOrDefault(x => x.Path.EndsWith(projectFileName));
+            VisualStudioSolution? solution = parser.ParseSolution(this.Parameters.Solution) ?? this.FindSolution(parser);
+            VisualStudioSolutionProject? solutionProject = solution?.Projects.FirstOrDefault(x => x.Path.EndsWith(projectFileName));
             if (project == null)
             {
                 project = solutionProject;

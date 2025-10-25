@@ -8,7 +8,7 @@ namespace KY.Generator.Tsql.Commands;
 public class TsqlReadCommand : GeneratorCommand<TsqlReadCommandParameters>
 {
     private readonly IDependencyResolver resolver;
-    public static string[] Names { get; } = [ToCommand(nameof(TsqlReadCommand)), "tsql-read"];
+    public static string[] Names { get; } = [..ToCommand(nameof(TsqlReadCommand)), "tsql-read"];
 
     public TsqlReadCommand(IDependencyResolver resolver)
     {
@@ -22,20 +22,20 @@ public class TsqlReadCommand : GeneratorCommand<TsqlReadCommandParameters>
         if (!string.IsNullOrEmpty(this.Parameters.Table))
         {
             configuration.Entities.Add(new TsqlReadEntity
-                                       {
-                                           Schema = this.Parameters.Schema,
-                                           Table = this.Parameters.Table,
-                                           Namespace = this.Parameters.Namespace,
-                                           Name = this.Parameters.Name
-                                       });
+            {
+                Schema = this.Parameters.Schema,
+                Table = this.Parameters.Table,
+                Namespace = this.Parameters.Namespace,
+                Name = this.Parameters.Name
+            });
         }
         if (!string.IsNullOrEmpty(this.Parameters.StoredProcedure))
         {
             configuration.StoredProcedures.Add(new TsqlReadStoredProcedure
-                                               {
-                                                   Schema = this.Parameters.Schema,
-                                                   Name = this.Parameters.StoredProcedure
-                                               });
+            {
+                Schema = this.Parameters.Schema,
+                Name = this.Parameters.StoredProcedure
+            });
         }
 
         this.resolver.Create<TsqlReader>().Read(configuration);

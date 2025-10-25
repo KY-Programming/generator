@@ -1,10 +1,9 @@
 using KY.Generator.Command;
 
-namespace KY.Generator.Commands
+namespace KY.Generator.Commands;
+
+public class OptionsCommandParameters : GeneratorCommandParameters
 {
-    internal class OptionsCommandParameters : GeneratorCommandParameters
-    {
-        public string Option { get; set; }
-        public string Value { get; set; }
-    }
+    public string? Statistics { get; set; }
+    public string? Output { get; set; }
 }

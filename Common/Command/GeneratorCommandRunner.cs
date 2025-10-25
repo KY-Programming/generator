@@ -1,11 +1,16 @@
-﻿using KY.Generator.Extensions;
-using KY.Generator.Output;
-using KY.Generator.Statistics;
+﻿using KY.Generator.Statistics;
 
 namespace KY.Generator.Command;
 
-public class GeneratorCommandRunner(IOutput output, StatisticsService statisticsService)
+public class GeneratorCommandRunner
 {
+    private readonly StatisticsService statisticsService;
+
+    public GeneratorCommandRunner(StatisticsService statisticsService)
+    {
+        this.statisticsService = statisticsService;
+    }
+
     public IGeneratorCommandResult Run(IEnumerable<IGeneratorCommand> commands)
     {
         List<IGeneratorCommand> list = commands.ToList();
@@ -24,10 +29,6 @@ public class GeneratorCommandRunner(IOutput output, StatisticsService statistics
 
     public IGeneratorCommandResult Run(IGeneratorCommand command)
     {
-        if (!string.IsNullOrEmpty(command.Parameters.Output))
-        {
-            output.Move(command.Parameters.Output);
-        }
         if (!command.Parameters.SkipAsyncCheck)
         {
             if (!command.Parameters.IsOnlyAsync && command.Parameters.IsAsync)
@@ -35,18 +36,6 @@ public class GeneratorCommandRunner(IOutput output, StatisticsService statistics
                 return new SwitchAsyncResult();
             }
             bool? isAssemblyAsync = command.Parameters.IsAsyncAssembly;
-            if (!command.Parameters.IsAsync)
-            {
-                if (!string.IsNullOrEmpty(command.Parameters.Assembly))
-                {
-                    LocateAssemblyResult locateAssemblyResult = GeneratorAssemblyLocator.Locate(command.Parameters.Assembly, command.Parameters.IsBeforeBuild);
-                    if (locateAssemblyResult.SwitchContext)
-                    {
-                        return locateAssemblyResult;
-                    }
-                    isAssemblyAsync = locateAssemblyResult.Assembly?.IsAsync();
-                }
-            }
             if (isAssemblyAsync != null)
             {
                 if (!command.Parameters.IsOnlyAsync && isAssemblyAsync.Value)
@@ -59,14 +48,14 @@ public class GeneratorCommandRunner(IOutput output, StatisticsService statistics
                 }
             }
         }
-        Measurement measurement = statisticsService.StartMeasurement();
+        Measurement measurement = this.statisticsService.StartMeasurement();
         try
         {
             return command.Run();
         }
         finally
         {
-            statisticsService.Measure(measurement, command);
+            this.statisticsService.Measure(measurement, command);
         }
     }
 }

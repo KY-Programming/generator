@@ -23,7 +23,10 @@ public class StatisticsService
         this.environment = environment;
         this.globalSettingsService = globalSettingsService;
         Assembly callingAssembly = Assembly.GetEntryAssembly() ?? Assembly.GetCallingAssembly();
-        this.Data = new Statistic { Version = callingAssembly.GetName().Version.ToString() };
+        this.Data = new Statistic
+        {
+            Version = callingAssembly.GetName().Version.ToString()
+        };
         Logger.Added += this.OnLoggerAdded;
     }
 
@@ -43,7 +46,7 @@ public class StatisticsService
     public void InitializationEnd()
     {
         this.Data.InitializationEnd = DateTime.Now;
-        Logger.Trace($"Initialized {this.Data.InitializedModules} modules in {this.Data.InitializationDuration.Format()}");
+        Logger.Trace($"Initialized after {this.Data.InitializationDuration.Format()}");
     }
 
     public void RunEnd(Guid outputId, string name)
@@ -87,7 +90,11 @@ public class StatisticsService
     public void Measure(Measurement measurement, IGeneratorCommand command)
     {
         measurement.Stop();
-        this.Data.RanCommands.Add(new CommandStatistic { Command = command.GetType().Name, Duration = measurement.Elapsed });
+        this.Data.RanCommands.Add(new CommandStatistic
+        {
+            Command = command.GetType().Name,
+            Duration = measurement.Elapsed
+        });
     }
 
     public void Count(FileTemplate file)

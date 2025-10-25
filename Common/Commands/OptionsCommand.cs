@@ -1,46 +1,57 @@
 using KY.Core;
 using KY.Generator.Command;
-using KY.Generator.Settings;
+using KY.Generator.Models;
+using KY.Generator.Output;
 using KY.Generator.Statistics;
 
 namespace KY.Generator.Commands;
 
-internal class OptionsCommand : GeneratorCommand<OptionsCommandParameters>
+public class OptionsCommand : GeneratorCommand<OptionsCommandParameters>, IPrepareCommand
 {
     private readonly StatisticsService statisticsService;
     private readonly GlobalStatisticsService globalStatisticsService;
-    private readonly GlobalSettingsService globalSettingsService;
-    public static string[] Names { get; } = [ToCommand(nameof(OptionsCommand)), "set"];
+    private readonly IOutput output;
+    private readonly IEnvironment environment;
+    public static string[] Names { get; } = [..ToCommand(nameof(OptionsCommand)), "set"];
 
-    public OptionsCommand(StatisticsService statisticsService, GlobalStatisticsService globalStatisticsService, GlobalSettingsService globalSettingsService)
+    public OptionsCommand(StatisticsService statisticsService, GlobalStatisticsService globalStatisticsService, IOutput output, IEnvironment environment)
     {
         this.statisticsService = statisticsService;
         this.globalStatisticsService = globalStatisticsService;
-        this.globalSettingsService = globalSettingsService;
+        this.output = output;
+        this.environment = environment;
     }
 
     public override IGeneratorCommandResult Run()
     {
-        if ("statistics".Equals(this.Parameters.Option, StringComparison.CurrentCultureIgnoreCase))
+        if (this.Parameters.Statistics != null)
         {
             List<Guid> ids = this.globalStatisticsService.GetIds();
-            if ("disable".Equals(this.Parameters.Value, StringComparison.CurrentCultureIgnoreCase))
+            switch (this.Parameters.Statistics?.ToLowerInvariant())
             {
-                this.statisticsService.Disable(ids);
+                case "false":
+                case "off":
+                case "disable":
+                    this.statisticsService.Disable(ids);
+                    break;
+                case "true":
+                case "on":
+                case "enable":
+                    this.statisticsService.Enable(ids);
+                    break;
+                default:
+                    Logger.Error($"Invalid value '{this.Parameters.Statistics}' for option 'statistics'. Valid values are 'enable' or 'disable'");
+                    return this.Error();
             }
-            else if ("enable".Equals(this.Parameters.Value, StringComparison.CurrentCultureIgnoreCase))
-            {
-                this.statisticsService.Enable(ids);
-            }
-            else
-            {
-                Logger.Error($"Invalid value '{this.Parameters.Value}' for option '{this.Parameters.Option}'. Valid values are 'enable' or 'disable'");
-                return this.Error();
-            }
+        }
+        else if (this.Parameters.Output != null)
+        {
+            this.environment.OutputPath = this.Parameters.Output;
+            this.output.Move(this.Parameters.Output);
         }
         else
         {
-            Logger.Error($"Unknown option \"{this.Parameters.Option}\" found.");
+            Logger.Error($"Unknown or missing option found.");
             return this.Error();
         }
         return this.Success();

@@ -12,12 +12,14 @@ public class AspDotNetHubReader
     private readonly ReflectionModelReader modelReader;
     private readonly Options options;
     private readonly List<ITransferObject> transferObjects;
+    private readonly GeneratorTypeLoader typeLoader;
 
-    public AspDotNetHubReader(ReflectionModelReader modelReader, Options options, List<ITransferObject> transferObjects)
+    public AspDotNetHubReader(ReflectionModelReader modelReader, Options options, List<ITransferObject> transferObjects, GeneratorTypeLoader typeLoader)
     {
         this.modelReader = modelReader;
         this.options = options;
         this.transferObjects = transferObjects;
+        this.typeLoader = typeLoader;
     }
 
     public void Read(AspDotNetReadConfiguration configuration)
@@ -26,7 +28,7 @@ public class AspDotNetHubReader
         configuration.Hub.Name.AssertIsNotNull($"SignalR: {nameof(configuration.Hub)}.{nameof(configuration.Hub.Name)}");
         configuration.Hub.Namespace.AssertIsNotNull($"SignalR: {nameof(configuration.Hub)}.{nameof(configuration.Hub.Namespace)}");
         Logger.Trace($"Read SignalR hub {configuration.Hub.Namespace}.{configuration.Hub.Name}...");
-        Type type = GeneratorTypeLoader.Get(configuration.Hub.Assembly, configuration.Hub.Namespace, configuration.Hub.Name);
+        Type? type = this.typeLoader.Get(configuration.Hub.Namespace, configuration.Hub.Name);
         if (type == null || type.BaseType == null || type.BaseType.Name != "Hub`1")
         {
             return;
@@ -57,10 +59,10 @@ public class AspDotNetHubReader
             foreach (ParameterInfo parameter in method.GetParameters())
             {
                 action.Parameters.Add(new HttpServiceActionParameterTransferObject
-                                      {
-                                          Name = parameter.Name,
-                                          Type = this.modelReader.Read(parameter.ParameterType, methodOptions)
-                                      });
+                {
+                    Name = parameter.Name,
+                    Type = this.modelReader.Read(parameter.ParameterType, methodOptions)
+                });
             }
             hub.Actions.Add(action);
         }
@@ -75,10 +77,10 @@ public class AspDotNetHubReader
             foreach (ParameterInfo parameter in method.GetParameters())
             {
                 action.Parameters.Add(new HttpServiceActionParameterTransferObject
-                                      {
-                                          Name = parameter.Name,
-                                          Type = this.modelReader.Read(parameter.ParameterType, methodOptions)
-                                      });
+                {
+                    Name = parameter.Name,
+                    Type = this.modelReader.Read(parameter.ParameterType, methodOptions)
+                });
             }
             hub.Events.Add(action);
         }

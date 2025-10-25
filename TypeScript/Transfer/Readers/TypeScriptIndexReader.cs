@@ -16,8 +16,12 @@ namespace KY.Generator.TypeScript.Transfer.Readers
             this.environment = environment;
         }
 
-        public TypeScriptIndexFile Read(string relativePath)
+        public TypeScriptIndexFile? Read(string? relativePath)
         {
+            if (relativePath == null)
+            {
+                return null;
+            }
             string fullPath = FileSystem.Combine(this.environment.OutputPath, relativePath, "index.ts");
             if (!FileSystem.FileExists(fullPath))
             {
@@ -27,7 +31,7 @@ namespace KY.Generator.TypeScript.Transfer.Readers
             return this.Parse(fileContent);
         }
 
-        public TypeScriptIndexFile Parse(string value)
+        public TypeScriptIndexFile? Parse(string value)
         {
             Match match = regex.Match(value);
             if (!match.Success)
@@ -47,15 +51,18 @@ namespace KY.Generator.TypeScript.Transfer.Readers
                 if (!string.IsNullOrEmpty(types) && !string.IsNullOrEmpty(path))
                 {
                     file.Lines.Add(new ExportIndexLine
-                                   {
-                                       Types = types.Trim(' ', '{', '}').Split(',').Select(x => x.Trim()).ToList(),
-                                       Path = path
-                                   }
+                        {
+                            Types = types.Trim(' ', '{', '}').Split(',').Select(x => x.Trim()).ToList(),
+                            Path = path
+                        }
                     );
                 }
                 else if (!string.IsNullOrEmpty(fallback))
                 {
-                    file.Lines.Add(new UnknownIndexLine { Content = fallback });
+                    file.Lines.Add(new UnknownIndexLine
+                    {
+                        Content = fallback
+                    });
                 }
                 currentMatch = currentMatch.NextMatch();
             } while (currentMatch.Success);

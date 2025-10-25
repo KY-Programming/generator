@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Text;
 using KY.Core;
 using KY.Generator.Templates;
 
@@ -68,9 +65,9 @@ internal class FileWriter : IOutputCache
         return this;
     }
 
-    public IOutputCache Add(params ICodeFragment[] fragments)
+    public IOutputCache Add(params ICodeFragment?[] fragments)
     {
-        return this.Add(fragments.ToList());
+        return this.Add(fragments.OfType<ICodeFragment>().ToList());
     }
 
     public IOutputCache Add(IEnumerable<ICodeFragment> fragments)

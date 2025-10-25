@@ -14,12 +14,14 @@ public class AspDotNetControllerReader
     private readonly ReflectionModelReader modelReader;
     private readonly Options options;
     private readonly List<ITransferObject> transferObjects;
+    private readonly GeneratorTypeLoader typeLoader;
 
-    public AspDotNetControllerReader(ReflectionModelReader modelReader, Options options, List<ITransferObject> transferObjects)
+    public AspDotNetControllerReader(ReflectionModelReader modelReader, Options options, List<ITransferObject> transferObjects, GeneratorTypeLoader typeLoader)
     {
         this.modelReader = modelReader;
         this.options = options;
         this.transferObjects = transferObjects;
+        this.typeLoader = typeLoader;
     }
 
     public virtual void Read(AspDotNetReadConfiguration configuration)
@@ -28,7 +30,7 @@ public class AspDotNetControllerReader
         configuration.Controller.Name.AssertIsNotNull($"ASP: {nameof(configuration.Controller)}.{nameof(configuration.Controller.Name)}");
         configuration.Controller.Namespace.AssertIsNotNull($"ASP: {nameof(configuration.Controller)}.{nameof(configuration.Controller.Namespace)}");
         Logger.Trace($"Read ASP.NET controller {configuration.Controller.Namespace}.{configuration.Controller.Name}...");
-        Type? type = GeneratorTypeLoader.Get(configuration.Controller.Assembly, configuration.Controller.Namespace, configuration.Controller.Name);
+        Type? type = this.typeLoader.Get(configuration.Controller.Namespace, configuration.Controller.Name);
         if (type == null)
         {
             return;
@@ -102,13 +104,12 @@ public class AspDotNetControllerReader
                 }
                 action.Type = actionType.Key;
                 action.Version = methodAspOptions.ApiVersion?.OrderByDescending(x => x).FirstOrDefault();
-                action.FixCasingWithMapping = (methodOptions.ReturnType == null && returnEntryTypeOptions.FixCasingWithMapping) || methodAspOptions.FixCasingWithMapping;
+                action.FixCasingWithMapping = methodOptions.ReturnType == null && returnEntryTypeOptions.FixCasingWithMapping || methodAspOptions.FixCasingWithMapping;
                 action.RequireBodyParameter = action.Type.IsBodyParameterRequired();
                 action.CanHaveBodyParameter = action.Type.IsBodyParameterAllowed();
-                List<ParameterInfo> parameters = method.GetParameters().Where(
-                    parameter => !this.options.Get(parameter, methodAspOptions).IsFromHeader
-                                 && !this.options.Get(parameter, methodAspOptions).IsFromServices
-                                 && parameter.ParameterType.FullName != "System.Threading.CancellationToken"
+                List<ParameterInfo> parameters = method.GetParameters().Where(parameter => !this.options.Get(parameter, methodAspOptions).IsFromHeader
+                                                                                           && !this.options.Get(parameter, methodAspOptions).IsFromServices
+                                                                                           && parameter.ParameterType.FullName != "System.Threading.CancellationToken"
                 ).ToList();
                 foreach (ParameterInfo parameter in parameters)
                 {
@@ -117,7 +118,7 @@ public class AspDotNetControllerReader
                     HttpServiceActionParameterTransferObject actionParameter = new();
                     actionParameter.Name = parameter.Name;
                     actionParameter.Type = this.modelReader.Read(parameter.ParameterType, methodOptions);
-                    actionParameter.FromBody = parameterOptions.IsFromBody || (action.Type != HttpServiceActionTypeTransferObject.Get && !parameter.ParameterType.IsValueType && parameter.ParameterType != typeof(string));
+                    actionParameter.FromBody = parameterOptions.IsFromBody || action.Type != HttpServiceActionTypeTransferObject.Get && !parameter.ParameterType.IsValueType && parameter.ParameterType != typeof(string);
                     actionParameter.FromQuery = parameterOptions.IsFromQuery;
                     actionParameter.Inline = fullRoute.Contains($"{{{parameter.Name}}}");
                     actionParameter.InlineIndex = actionParameter.Inline && action.Route != null ? action.Route.IndexOf($"{{{parameter.Name}}}") : 0;

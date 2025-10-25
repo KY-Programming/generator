@@ -12,9 +12,9 @@ public static class TypeScriptStrictHelper
 {
     private static readonly Dictionary<string, TsConfig> cache = new();
 
-    public static void SetStrict(this TypeScriptOptions options, string relativePath, IDependencyResolver resolver)
+    public static void SetStrict(this TypeScriptOptions options, string? relativePath, IDependencyResolver resolver)
     {
-        if (options.IsStrictSet)
+        if (options.IsStrictSet || relativePath == null)
         {
             return;
         }

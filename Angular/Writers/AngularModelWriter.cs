@@ -1,24 +1,19 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using KY.Generator.Mappings;
+using KY.Generator.Templates;
 using KY.Generator.Transfer;
 using KY.Generator.TypeScript.Transfer;
 
 namespace KY.Generator.Angular.Writers;
 
-public class AngularModelWriter(TypeScriptModelWriter modelWriter, IEnumerable<ITransferObject> transferObjects, Options options)
+public class AngularModelWriter : TypeScriptModelWriter
 {
-    public AngularModelWriter FormatNames()
-    {
-        modelWriter.FormatNames();
-        return this;
-    }
+    public AngularModelWriter(Options options, ITypeMapping typeMapping, IEnumerable<ITransferObject> transferObjects, IList<FileTemplate> files)
+        : base(options, typeMapping, transferObjects, files)
+    { }
 
-    public void Write(string relativePath)
+    protected override void WriteModel(ModelTransferObject model, string? relativePath)
     {
-        foreach (ModelTransferObject model in transferObjects.OfType<ModelTransferObject>())
-        {
-            AngularOptions angularOptions = options.Get<AngularOptions>(model);
-            modelWriter.Write(relativePath ?? angularOptions.ModelOutput ?? "/ClientApp/src/app/models");
-        }
+        AngularOptions angularOptions = this.Options.Get<AngularOptions>(model);
+        base.WriteModel(model, relativePath ?? angularOptions.ModelOutput ?? "/ClientApp/src/app/models");
     }
 }

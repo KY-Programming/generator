@@ -9,7 +9,7 @@ namespace KY.Generator.AspDotNet.Commands;
 internal class AspDotNetReadControllerCommand : GeneratorCommand<AspDotNetReadControllerCommandParameters>
 {
     private readonly IDependencyResolver resolver;
-    public static string[] Names { get; } = [ToCommand(nameof(AspDotNetReadControllerCommand)), "asp-read-controller"];
+    public static string[] Names { get; } = [..ToCommand(nameof(AspDotNetReadControllerCommand)), "asp-read-controller"];
 
     public AspDotNetReadControllerCommand(IDependencyResolver resolver)
     {

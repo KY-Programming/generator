@@ -13,17 +13,24 @@ using KY.Generator.TypeScript.Languages;
 
 namespace KY.Generator.Reflection.Commands;
 
-internal class ReflectionCommand(IDependencyResolver resolver) : GeneratorCommand<ReflectionCommandParameters>
+internal class ReflectionCommand : GeneratorCommand<ReflectionCommandParameters>
 {
-    public static string[] Names { get; } = [ToCommand(nameof(ReflectionCommand)), "reflection"];
+    private readonly IDependencyResolver resolver;
+
+    public static string[] Names { get; } = [..ToCommand(nameof(ReflectionCommand)), "reflection"];
+
+    public ReflectionCommand(IDependencyResolver resolver)
+    {
+        this.resolver = resolver;
+    }
 
     public override IGeneratorCommandResult Run()
     {
-        Options options = resolver.Get<Options>();
+        Options options = this.resolver.Get<Options>();
         GeneratorOptions generatorOptions = options.Get<GeneratorOptions>();
         generatorOptions.Language = this.Parameters.Language?.Name?.Equals(nameof(OutputLanguage.Csharp), StringComparison.CurrentCultureIgnoreCase) ?? false
-                                        ? resolver.Get<CsharpLanguage>()
-                                        : resolver.Get<TypeScriptLanguage>();
+            ? this.resolver.Get<CsharpLanguage>()
+            : this.resolver.Get<TypeScriptLanguage>();
         if (generatorOptions.Language.IsTypeScript())
         {
             generatorOptions.SkipNamespace = true;
@@ -34,17 +41,15 @@ internal class ReflectionCommand(IDependencyResolver resolver) : GeneratorComman
         ReflectionReadConfiguration readConfiguration = new();
         readConfiguration.Name = this.Parameters.Name;
         readConfiguration.Namespace = this.Parameters.Namespace;
-        readConfiguration.Assembly = this.Parameters.Assembly;
         readConfiguration.OnlySubTypes = this.Parameters.OnlySubTypes;
 
-        resolver.Create<ReflectionReader>().Read(readConfiguration, generatorOptions);
-        resolver.Get<IOutput>().DeleteAllRelatedFiles(this.Parameters.RelativePath);
-        ReflectionWriter writer = resolver.Create<ReflectionWriter>();
+        this.resolver.Create<ReflectionReader>().Read(readConfiguration, generatorOptions);
+        this.resolver.Get<IOutput>().DeleteAllRelatedFiles(this.Parameters.RelativePath);
+        ReflectionWriter writer = this.resolver.Create<ReflectionWriter>();
         writer.FormatNames();
         writer.Write(this.Parameters.RelativePath);
 
-        resolver.Get<IEnvironment>().TransferObjects.AddIfNotExists(resolver.Get<List<ITransferObject>>());
-
+        this.resolver.Get<IEnvironment>().TransferObjects.AddIfNotExists(this.resolver.Get<List<ITransferObject>>());
         return this.Success();
     }
 }

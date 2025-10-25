@@ -18,7 +18,7 @@ public class AngularPackageCommand : GeneratorCommand<AngularPackageCommandParam
     private string packagePath;
     private string relativePackagePath;
 
-    public static string[] Names { get; } = [ToCommand(nameof(AngularPackageCommand)), "angular-package"];
+    public static string[] Names { get; } = [..ToCommand(nameof(AngularPackageCommand)), "angular-package"];
     public List<IGeneratorCommand> Commands { get; } = [];
 
     public AngularPackageCommand(IDependencyResolver resolver, IOutput output)

@@ -1,10 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using KY.Core.Dependency;
-using KY.Core.Module;
-using KY.Generator.Command;
 using KY.Generator.Commands;
 using KY.Generator.Languages;
+using KY.Generator.Models;
 
 [assembly: InternalsVisibleTo("KY.Generator.Tests")]
 [assembly: InternalsVisibleTo("KY.Generator.Common.Tests")]
@@ -19,21 +17,28 @@ using KY.Generator.Languages;
 
 namespace KY.Generator;
 
-internal class CoreModule : ModuleBase
+internal class CoreModule : GeneratorModule
 {
     public CoreModule(IDependencyResolver dependencyResolver)
         : base(dependencyResolver)
     {
-        this.DependencyResolver.Get<GeneratorCommandFactory>().Register<VersionCommand>(VersionCommand.Names);
-        this.DependencyResolver.Get<GeneratorCommandFactory>().Register<ReadProjectCommand>(ReadProjectCommand.Names);
-        this.DependencyResolver.Get<GeneratorCommandFactory>().Register<StatisticsCommand>(StatisticsCommand.Names);
-        this.DependencyResolver.Get<GeneratorCommandFactory>().Register<OptionsCommand>(OptionsCommand.Names);
-        this.DependencyResolver.Get<GeneratorCommandFactory>().Register<CleanupCommand>(CleanupCommand.Names);
-        this.DependencyResolver.Get<GeneratorCommandFactory>().Register<GetLicenseCommand>(GetLicenseCommand.Names);
-        this.DependencyResolver.Get<GeneratorCommandFactory>().Register<FluentCommand>(FluentCommand.Names);
-        this.DependencyResolver.Get<GeneratorCommandFactory>().Register<AnnotationCommand>(AnnotationCommand.Names);
-        this.DependencyResolver.Bind<ILanguage>().To<EmptyLanguage>();
-        this.DependencyResolver.Bind<IOptionsFactory>().ToSingleton<GeneratorOptionsFactory>();
+        this.Register<VersionCommand>(VersionCommand.Names);
+        this.Register<ReadProjectCommand>(ReadProjectCommand.Names);
+        this.Register<StatisticsCommand>(StatisticsCommand.Names);
+        this.Register<OptionsCommand>(OptionsCommand.Names);
+        this.Register<CleanupCommand>(CleanupCommand.Names);
+        this.Register<GetLicenseCommand>(GetLicenseCommand.Names);
+        this.Register<FluentCommand>(FluentCommand.Names);
+        this.Register<AnnotationCommand>(AnnotationCommand.Names);
+        this.Register<LoadCommand>(LoadCommand.Names);
+        this.Register<ForceCommand>(ForceCommand.Names);
+        this.Register<MsBuildCommand>(MsBuildCommand.Names);
+        this.Register<BeforeBuildCommand>(BeforeBuildCommand.Names);
+        this.Register<NoHeaderCommand>(NoHeaderCommand.Names);
+        this.RegisterLanguage<EmptyLanguage>();
+        this.RegisterOptions<GeneratorOptionsFactory>();
+        this.DependencyResolver.Bind<GeneratorTypeLoader>().ToSingleton();
+        // Register the options factories. This is not needed for other modules because the dependency resolver keeps the list for all modules.
         Options.Register(() => this.DependencyResolver.Get<List<IOptionsFactory>>());
     }
 }

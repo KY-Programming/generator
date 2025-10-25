@@ -6,7 +6,7 @@
         <Nullable>enable</Nullable>
         <Company>KY-Programming</Company>
         <Authors>KY-Programming</Authors>
-        <Version>10.0.0-preview.17</Version>
+        <Version>10.0.0-preview.19</Version>
         <Product>KY.Generator</Product>
         <Description>ASP.net Module for KY-Generator
             Download KY.Generator to use this module
@@ -32,7 +32,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="KY.Core.Common" Version="4.34.1" />
+        <PackageReference Include="KY.Core.Common" Version="4.36.0" />
     </ItemGroup>
 
     <ItemGroup>

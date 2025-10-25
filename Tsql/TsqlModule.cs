@@ -11,11 +11,12 @@ public class TsqlModule : ModuleBase
 {
     public TsqlModule(IDependencyResolver dependencyResolver)
         : base(dependencyResolver)
-    { }
+    {
+        this.DependencyResolver.Get<GeneratorCommandFactory>().Register<TsqlReadCommand>(TsqlReadCommand.Names);
+    }
 
     public override void Initialize()
     {
         this.DependencyResolver.Get<ITypeMapping>().Initialize();
-        this.DependencyResolver.Get<GeneratorCommandFactory>().Register<TsqlReadCommand>(TsqlReadCommand.Names);
     }
 }

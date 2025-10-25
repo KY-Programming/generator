@@ -1,4 +1,5 @@
-﻿using KY.Core;
+using System.Reflection;
+using KY.Core;
 using KY.Core.Dependency;
 using KY.Generator.Command;
 using KY.Generator.Extensions;
@@ -14,7 +15,7 @@ internal class FluentCommand : GeneratorCommand<FluentCommandParameters>
     private readonly IDependencyResolver resolver;
     private readonly List<GeneratorFluentMain> mains = new();
 
-    public static string[] Names { get; } = [ToCommand(nameof(FluentCommand)), "fluent"];
+    public static string[] Names { get; } = [..ToCommand(nameof(FluentCommand)), "fluent"];
 
     public FluentCommand(IDependencyResolver resolver)
     {
@@ -23,48 +24,41 @@ internal class FluentCommand : GeneratorCommand<FluentCommandParameters>
 
     public override IGeneratorCommandResult Run()
     {
-        if (string.IsNullOrEmpty(this.Parameters.Assembly))
+        IEnvironment environment = this.resolver.Get<IEnvironment>();
+        if (environment.LoadedAssemblies.Count == 0)
         {
-            Logger.Error("Run from attributes can not be run without assembly parameter");
+            Logger.Error($"Can not run '{Names.First()}' command without loaded assemblies. Add at least one 'load -assembly=<assembly-path>' command before.");
             return this.Error();
         }
-        LocateAssemblyResult result = GeneratorAssemblyLocator.Locate(this.Parameters.Assembly, this.Parameters.IsBeforeBuild);
-        if (result.SwitchContext)
+        foreach (Assembly assembly in environment.LoadedAssemblies)
         {
-            return result;
-        }
-        if (this.Parameters.IsBeforeBuild && !result.Success)
-        {
-            return this.Success();
-        }
-        bool isAssemblyAsync = result.Assembly.IsAsync();
-        if (!this.Parameters.IsOnlyAsync && isAssemblyAsync)
-        {
-            return this.SwitchAsync();
-        }
-        IEnumerable<Type> types = TypeHelper.GetTypes(result.Assembly).Where(type => typeof(GeneratorFluentMain).IsAssignableFrom(type));
-        foreach (Type objectType in types)
-        {
-            GeneratorFluentMain main = (GeneratorFluentMain)this.resolver.Create(objectType);
-            this.mains.Add(main);
-            main.Resolver = this.resolver;
-            if (this.Parameters.IsBeforeBuild)
+            if (!this.Parameters.IsOnlyAsync && assembly.IsAsync())
             {
-                main.ExecuteBeforeBuild();
+                return this.SwitchAsync();
             }
-            else
+            IEnumerable<Type> types = TypeHelper.GetTypes(assembly).Where(type => typeof(GeneratorFluentMain).IsAssignableFrom(type));
+            foreach (Type objectType in types)
             {
-                main.Execute();
-            }
-            IEnvironment environment = this.resolver.Get<IEnvironment>();
-            foreach (IFluentInternalSyntax syntax in main.Syntaxes)
-            {
-                IGeneratorCommandResult commandResult = syntax.Run();
-                if (!commandResult.Success)
+                GeneratorFluentMain main = (GeneratorFluentMain)this.resolver.Create(objectType);
+                this.mains.Add(main);
+                main.Resolver = this.resolver;
+                if (environment.IsBeforeBuild)
                 {
-                    return commandResult;
+                    main.ExecuteBeforeBuild();
                 }
-                environment.TransferObjects.AddIfNotExists(syntax.Resolver.Get<List<ITransferObject>>());
+                else
+                {
+                    main.Execute();
+                }
+                foreach (IFluentInternalSyntax syntax in main.Syntaxes)
+                {
+                    IGeneratorCommandResult commandResult = syntax.Run();
+                    if (!commandResult.Success)
+                    {
+                        return commandResult;
+                    }
+                    environment.TransferObjects.AddIfNotExists(syntax.Resolver.Get<List<ITransferObject>>());
+                }
             }
         }
         return this.Success();

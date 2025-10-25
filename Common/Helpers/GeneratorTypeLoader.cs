@@ -1,17 +1,29 @@
-﻿using KY.Core;
-using KY.Core.Nuget;
+﻿using System.Reflection;
+using KY.Core;
+using KY.Generator.Models;
 
 namespace KY.Generator;
 
-public static class GeneratorTypeLoader
+public class GeneratorTypeLoader
 {
-    public static Type? Get(string assemblyName, string nameSpace, string typeName, params SearchLocation[] locations)
+    private readonly IEnvironment environment;
+
+    public GeneratorTypeLoader(IEnvironment environment)
     {
-        List<SearchLocation> list = locations.ToList();
-        // TODO: Check if alternative is required
-        //list.Add(new SearchLocation(configuration.GeneratorEnvironment.ConfigurationFilePath));
-        //list.Add(new SearchLocation(configuration.GeneratorEnvironment.OutputPath));
-        Version defaultVersion = typeof(CoreModule).Assembly.GetName().Version;
-        return NugetPackageTypeLoader.Get(assemblyName, nameSpace, typeName, defaultVersion, list.ToArray());
+        this.environment = environment;
+    }
+
+    public Type? Get(string nameSpace, string typeName)
+    {
+        foreach (Assembly assembly in this.environment.LoadedAssemblies)
+        {
+            Type? type = assembly.GetType($"{nameSpace}.{typeName}");
+            if (type != null)
+            {
+                return type;
+            }
+        }
+        Logger.Error($"Can not find type '{nameSpace}.{typeName}'. Ensure the assembly is loaded via 'load -assembly=<assembly-path>' command before.");
+        return null;
     }
 }

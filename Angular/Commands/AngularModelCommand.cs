@@ -11,7 +11,7 @@ namespace KY.Generator.Angular.Commands;
 
 public class AngularModelCommand(IDependencyResolver resolver) : GeneratorCommand<GeneratorCommandParameters>
 {
-    public static string[] Names { get; } = [ToCommand(nameof(AngularModelCommand)), "angular-model"];
+    public static string[] Names { get; } = [..ToCommand(nameof(AngularModelCommand)), "angular-model"];
 
     public override void Prepare()
     {

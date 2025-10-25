@@ -1,151 +1,148 @@
-﻿using System.Collections.Generic;
-using KY.Generator.Languages;
-using KY.Generator.Templates;
+﻿using KY.Generator.Templates;
 
-namespace KY.Generator.Output
+namespace KY.Generator.Output;
+
+internal class FileWriterCondition : IOutputCache
 {
-    internal class FileWriterCondition : IOutputCache
+    private readonly IOutputCache output;
+    private readonly bool condition;
+
+    public IEnumerable<ICodeFragment> LastFragments => this.output.LastFragments;
+
+    public FileWriterCondition(IOutputCache output, bool condition)
     {
-        private readonly IOutputCache output;
-        private readonly bool condition;
+        this.output = output;
+        this.condition = condition;
+    }
 
-        public IEnumerable<ICodeFragment> LastFragments => this.output.LastFragments;
-
-        public FileWriterCondition(IOutputCache output, bool condition)
+    public IOutputCache Add(string code, bool keepIndent = false)
+    {
+        if (this.condition)
         {
-            this.output = output;
-            this.condition = condition;
+            this.output.Add(code, keepIndent);
         }
+        return this;
+    }
 
-        public IOutputCache Add(string code, bool keepIndent = false)
+    public IOutputCache Add(params ICodeFragment?[] fragments)
+    {
+        if (this.condition)
         {
-            if (this.condition)
-            {
-                this.output.Add(code, keepIndent);
-            }
-            return this;
+            this.output.Add(fragments);
         }
+        return this;
+    }
 
-        public IOutputCache Add(params ICodeFragment[] fragments)
+    public IOutputCache Add(IEnumerable<ICodeFragment> fragments)
+    {
+        if (this.condition)
         {
-            if (this.condition)
-            {
-                this.output.Add(fragments);
-            }
-            return this;
+            this.output.Add(fragments);
         }
+        return this;
+    }
 
-        public IOutputCache Add(IEnumerable<ICodeFragment> fragments)
+    public IOutputCache Add(IEnumerable<ICodeFragment> fragments, string separator)
+    {
+        if (this.condition)
         {
-            if (this.condition)
-            {
-                this.output.Add(fragments);
-            }
-            return this;
+            this.output.Add(fragments, separator);
         }
+        return this;
+    }
 
-        public IOutputCache Add(IEnumerable<ICodeFragment> fragments, string separator)
+    public IOutputCache CloseLine()
+    {
+        if (this.condition)
         {
-            if (this.condition)
-            {
-                this.output.Add(fragments, separator);
-            }
-            return this;
+            this.output.CloseLine();
         }
+        return this;
+    }
 
-        public IOutputCache CloseLine()
+    public IOutputCache BreakLine()
+    {
+        if (this.condition)
         {
-            if (this.condition)
-            {
-                this.output.CloseLine();
-            }
-            return this;
+            this.output.BreakLine();
         }
+        return this;
+    }
 
-        public IOutputCache BreakLine()
+    public IOutputCache BreakLineIfNotEmpty()
+    {
+        if (this.condition)
         {
-            if (this.condition)
-            {
-                this.output.BreakLine();
-            }
-            return this;
+            this.output.BreakLineIfNotEmpty();
         }
+        return this;
+    }
 
-        public IOutputCache BreakLineIfNotEmpty()
+    public IOutputCache UnBreakLine()
+    {
+        if (this.condition)
         {
-            if (this.condition)
-            {
-                this.output.BreakLineIfNotEmpty();
-            }
-            return this;
+            this.output.UnBreakLine();
         }
+        return this;
+    }
 
-        public IOutputCache UnBreakLine()
+    public IOutputCache Indent()
+    {
+        if (this.condition)
         {
-            if (this.condition)
-            {
-                this.output.UnBreakLine();
-            }
-            return this;
+            this.output.Indent();
         }
+        return this;
+    }
 
-        public IOutputCache Indent()
+    public IOutputCache UnIndent()
+    {
+        if (this.condition)
         {
-            if (this.condition)
-            {
-                this.output.Indent();
-            }
-            return this;
+            this.output.UnIndent();
         }
+        return this;
+    }
 
-        public IOutputCache UnIndent()
+    public IOutputCache StartBlock()
+    {
+        if (this.condition)
         {
-            if (this.condition)
-            {
-                this.output.UnIndent();
-            }
-            return this;
+            this.output.StartBlock();
         }
+        return this;
+    }
 
-        public IOutputCache StartBlock()
+    public IOutputCache EndBlock(bool breakLine = true)
+    {
+        if (this.condition)
         {
-            if (this.condition)
-            {
-                this.output.StartBlock();
-            }
-            return this;
+            this.output.EndBlock(breakLine);
         }
+        return this;
+    }
 
-        public IOutputCache EndBlock(bool breakLine = true)
+    public IOutputCache If(bool innerCondition)
+    {
+        if (this.condition)
         {
-            if (this.condition)
-            {
-                this.output.EndBlock(breakLine);
-            }
-            return this;
+            return new FileWriterCondition(this, innerCondition);
         }
+        return new NoOperationFileWriter(this.output);
+    }
 
-        public IOutputCache If(bool innerCondition)
-        {
-            if (this.condition)
-            {
-                return new FileWriterCondition(this, innerCondition);
-            }
-            return new NoOperationFileWriter(this.output);
-        }
+    public IOutputCache EndIf()
+    {
+        return this.output;
+    }
 
-        public IOutputCache EndIf()
+    public IOutputCache ExtraIndent(int indents = 1)
+    {
+        if (this.condition)
         {
-            return this.output;
+            return this.output.ExtraIndent(indents);
         }
-
-        public IOutputCache ExtraIndent(int indents = 1)
-        {
-            if (this.condition)
-            {
-                return this.output.ExtraIndent(indents);
-            }
-            return this;
-        }
+        return this;
     }
 }

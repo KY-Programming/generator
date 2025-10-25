@@ -105,7 +105,6 @@ public class GenericModelTransferObject : ModelTransferObject, ICloneable
     }
 
     public override List<TypeTransferObject> Interfaces => this.Template.Interfaces;
-    public override List<MethodTransferObject> Methods => this.Template.Methods;
     public override List<string> Usings => this.Template.Usings;
 
     public override string Comment
@@ -122,7 +121,11 @@ public class GenericModelTransferObject : ModelTransferObject, ICloneable
     object ICloneable.Clone()
     {
         GenericModelTransferObject clone = new(this.Template);
-        this.Generics.Select(x => new GenericAliasTransferObject { Alias = x.Alias.Clone(), Type = x.Type }).ForEach(clone.Generics.Add);
+        this.Generics.Select(x => new GenericAliasTransferObject
+        {
+            Alias = x.Alias.Clone(),
+            Type = x.Type
+        }).ForEach(clone.Generics.Add);
         return clone;
     }
 }

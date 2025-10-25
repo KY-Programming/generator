@@ -11,7 +11,7 @@ internal class ReflectionWriteCommand : GeneratorCommand<ReflectionWriteCommandP
 {
     private readonly IDependencyResolver resolver;
 
-    public static string[] Names { get; } = [ToCommand(nameof(ReflectionWriteCommand)), "reflection-write"];
+    public static string[] Names { get; } = [..ToCommand(nameof(ReflectionWriteCommand)), "reflection-write"];
 
     public ReflectionWriteCommand(IDependencyResolver resolver)
     {

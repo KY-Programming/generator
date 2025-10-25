@@ -9,16 +9,17 @@ public class GeneratorCommandFactory(IDependencyResolver resolverFallback)
     private readonly Dictionary<string, Type> commands = new();
     private readonly List<Type> prepareCommands = [];
 
-    public void Register<T>(IEnumerable<string> names) where T : IGeneratorCommand
+    public GeneratorCommandFactory Register<T>(IEnumerable<string> names) where T : IGeneratorCommand
     {
         this.Register(typeof(T), names.Unique());
         if (typeof(IPrepareCommand).IsAssignableFrom(typeof(T)))
         {
             this.prepareCommands.Add(typeof(T));
         }
+        return this;
     }
 
-    public void Register(Type command, IEnumerable<string> names)
+    public GeneratorCommandFactory Register(Type command, IEnumerable<string> names)
     {
         foreach (string name in names)
         {
@@ -28,6 +29,7 @@ public class GeneratorCommandFactory(IDependencyResolver resolverFallback)
             }
             this.commands.Add(name, command);
         }
+        return this;
     }
 
     public List<IGeneratorCommand> Create(params string[] parameters)

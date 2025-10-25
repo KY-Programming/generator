@@ -10,7 +10,7 @@ public class JsonReadCommand : GeneratorCommand<JsonReadCommandParameters>
 {
     private readonly IDependencyResolver resolver;
 
-    public static string[] Names { get; } = [ToCommand(nameof(JsonReadCommand)), "json-read"];
+    public static string[] Names { get; } = [..ToCommand(nameof(JsonReadCommand)), "json-read"];
 
     public JsonReadCommand(IDependencyResolver resolver)
     {

@@ -12,7 +12,7 @@ namespace KY.Generator.Watchdog.Commands;
 public class WatchdogCommand : GeneratorCommand<WatchdogCommandParameters>
 {
     private readonly IDependencyResolver resolver;
-    public static string[] Names { get; } = [ToCommand(nameof(WatchdogCommand)), "watchdog"];
+    public static string[] Names { get; } = [..ToCommand(nameof(WatchdogCommand)), "watchdog"];
     public List<IGeneratorCommand> Commands { get; } = new();
 
     public WatchdogCommand(IDependencyResolver resolver)

@@ -4,10 +4,6 @@ public static class OptionsExtension
 {
     public static void SetFromParameter(this GeneratorOptions options, GeneratorCommandParameters parameters)
     {
-        if (parameters.NoHeader != null)
-        {
-            options.AddHeader = !parameters.NoHeader.Value;
-        }
         if (parameters.FormatNames != null)
         {
             options.FormatNames = parameters.FormatNames.Value;

@@ -9,19 +9,20 @@ internal class ReflectionReader : ITransferReader
 {
     private readonly ReflectionModelReader modelReader;
     private readonly Options options;
+    private readonly GeneratorTypeLoader typeLoader;
 
-    public ReflectionReader(ReflectionModelReader modelReader, Options options)
+    public ReflectionReader(ReflectionModelReader modelReader, Options options, GeneratorTypeLoader typeLoader)
     {
         this.modelReader = modelReader;
         this.options = options;
+        this.typeLoader = typeLoader;
     }
 
     public void Read(ReflectionReadConfiguration configuration, GeneratorOptions? caller = null)
     {
-        Type type = GeneratorTypeLoader.Get(configuration.Assembly, configuration.Namespace, configuration.Name);
+        Type? type = this.typeLoader.Get(configuration.Namespace, configuration.Name);
         if (type == null)
         {
-            Logger.Trace($"Class {configuration.Namespace}.{configuration.Name} not found");
             return;
         }
         try

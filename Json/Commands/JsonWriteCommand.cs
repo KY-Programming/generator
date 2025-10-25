@@ -9,7 +9,7 @@ namespace KY.Generator.Json.Commands;
 
 public class JsonWriteCommand(IDependencyResolver resolver) : GeneratorCommand<JsonWriteCommandParameters>
 {
-    public static string[] Names { get; } = [ToCommand(nameof(JsonWriteCommand)), "json-write"];
+    public static string[] Names { get; } = [..ToCommand(nameof(JsonWriteCommand)), "json-write"];
 
     public override void Prepare()
     {

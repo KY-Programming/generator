@@ -1,10 +1,9 @@
 ﻿using KY.Generator.Command;
 
-namespace KY.Generator.AspDotNet.Commands
+namespace KY.Generator.AspDotNet.Commands;
+
+internal class AspDotNetReadControllerCommandParameters : GeneratorCommandParameters
 {
-    internal class AspDotNetReadControllerCommandParameters : GeneratorCommandParameters
-    {
-        public string Namespace { get; set; }
-        public string Name { get; set; }
-    }
+    public string Namespace { get; set; }
+    public string Name { get; set; }
 }

@@ -13,7 +13,7 @@ public class AnnotationCommand : GeneratorCommand<AnnotationCommandParameters>
 {
     private readonly IDependencyResolver resolver;
 
-    public static string[] Names { get; } = [ToCommand(nameof(AnnotationCommand)), "annotation", "attributes"];
+    public static string[] Names { get; } = [..ToCommand(nameof(AnnotationCommand)), "annotation", "attributes"];
 
     public AnnotationCommand(IDependencyResolver resolver)
     {
@@ -22,77 +22,69 @@ public class AnnotationCommand : GeneratorCommand<AnnotationCommandParameters>
 
     public override IGeneratorCommandResult Run()
     {
-        if (string.IsNullOrEmpty(this.Parameters.Assembly))
+        IEnvironment environment = this.resolver.Get<IEnvironment>();
+        if (environment.LoadedAssemblies.Count == 0)
         {
-            Logger.Error("Run from attributes can not be run without assembly parameter");
+            Logger.Error($"Can not run '{Names.First()}' command without loaded assemblies. Add at least one 'load -assembly=<assembly-path>' command before.");
             return this.Error();
         }
-        LocateAssemblyResult result = GeneratorAssemblyLocator.Locate(this.Parameters.Assembly, this.Parameters.IsBeforeBuild);
-        if (result.SwitchContext)
+        foreach (Assembly assembly in environment.LoadedAssemblies)
         {
-            return result;
-        }
-        if (this.Parameters.IsBeforeBuild && !result.Success)
-        {
-            return this.Success();
-        }
-        bool isAssemblyAsync = result.Assembly.IsAsync();
-        if (!this.Parameters.IsOnlyAsync && isAssemblyAsync)
-        {
-            return this.SwitchAsync();
-        }
-        List<CliCommandParameter> globalParameters = this.Parameters.GetType().GetProperties()
-                                                         .Where(x => x.GetCustomAttribute<GeneratorGlobalParameterAttribute>() != null)
-                                                         .Select(x =>
-                                                             new CliCommandParameter(x.Name, x.GetMethod.Invoke(this.Parameters, null)?.ToString())
-                                                         )
-                                                         .Where(x => !string.IsNullOrEmpty(x.Value))
-                                                         .ToList();
-        foreach (Type objectType in TypeHelper.GetTypes(result.Assembly))
-        {
-            IDependencyResolver commandResolver = this.resolver.CloneForCommand();
-            GeneratorCommandRunner generatorCommandRunner = commandResolver.Get<GeneratorCommandRunner>();
-            List<Attribute> attributes = objectType.GetCustomAttributes().ToList();
-            List<CliCommand> rawCommands = [];
-            foreach (IGeneratorCommandAttribute attribute in attributes.OfType<IGeneratorCommandAttribute>())
+            if (!this.Parameters.IsOnlyAsync && assembly.IsAsync())
             {
-                rawCommands.AddRange(attribute.Commands.Select(x =>
-                {
-                    CliCommand command = new(x.Command);
-                    command.Parameters.AddRange(x.Parameters.Select(CliCommandParameter.Parse));
-                    command.Parameters.Add(new CliCommandParameter(nameof(GeneratorCommandParameters.IsAsyncAssembly), isAssemblyAsync.ToString()));
-                    command.Parameters.AddRange(globalParameters);
-                    foreach (CliCommandParameter parameter in command.Parameters)
-                    {
-                        parameter.Value = parameter.Value.Replace("$ASSEMBLY$", this.Parameters.Assembly)
-                                                   .Replace("$NAMESPACE$", objectType.Namespace)
-                                                   .Replace("$NAME$", objectType.FullName.TrimStart(objectType.Namespace + "."));
-                    }
-                    return command;
-                }));
+                return this.SwitchAsync();
             }
-            if (rawCommands.Count == 0)
+            List<CliCommandParameter> globalParameters = this.Parameters.GetType().GetProperties()
+                                                             .Where(x => x.GetCustomAttribute<GeneratorGlobalParameterAttribute>() != null)
+                                                             .Select(x =>
+                                                                 new CliCommandParameter(x.Name, x.GetMethod.Invoke(this.Parameters, null)?.ToString())
+                                                             )
+                                                             .Where(x => !string.IsNullOrEmpty(x.Value))
+                                                             .ToList();
+            foreach (Type objectType in TypeHelper.GetTypes(assembly))
             {
-                continue;
-            }
-            foreach (IGeneratorCommandAdditionalParameterAttribute additionalParameterAttribute in attributes.OfType<IGeneratorCommandAdditionalParameterAttribute>())
-            {
-                foreach (AttributeCommandConfiguration additionalParameters in additionalParameterAttribute.Commands)
+                IDependencyResolver commandResolver = this.resolver.CloneForCommand();
+                GeneratorCommandRunner generatorCommandRunner = commandResolver.Get<GeneratorCommandRunner>();
+                List<Attribute> attributes = objectType.GetCustomAttributes().ToList();
+                List<CliCommand> rawCommands = [];
+                foreach (IGeneratorCommandAttribute attribute in attributes.OfType<IGeneratorCommandAttribute>())
                 {
-                    foreach (CliCommand command in rawCommands.Where(x => x.Name == additionalParameters.Command || additionalParameters.Command == "*"))
+                    rawCommands.AddRange(attribute.Commands.Select(x =>
                     {
-                        command.Parameters.AddRange(additionalParameters.Parameters.Select(CliCommandParameter.Parse));
+                        CliCommand command = new(x.Command);
+                        command.Parameters.AddRange(x.Parameters.Select(CliCommandParameter.Parse));
+                        command.Parameters.AddRange(globalParameters);
+                        foreach (CliCommandParameter parameter in command.Parameters)
+                        {
+                            parameter.Value = parameter.Value.Replace("$NAMESPACE$", objectType.Namespace)
+                                                       .Replace("$NAME$", objectType.FullName.TrimStart(objectType.Namespace + "."));
+                        }
+                        return command;
+                    }));
+                }
+                if (rawCommands.Count == 0)
+                {
+                    continue;
+                }
+                foreach (IGeneratorCommandAdditionalParameterAttribute additionalParameterAttribute in attributes.OfType<IGeneratorCommandAdditionalParameterAttribute>())
+                {
+                    foreach (AttributeCommandConfiguration additionalParameters in additionalParameterAttribute.Commands)
+                    {
+                        foreach (CliCommand command in rawCommands.Where(x => x.Name == additionalParameters.Command || additionalParameters.Command == "*"))
+                        {
+                            command.Parameters.AddRange(additionalParameters.Parameters.Select(CliCommandParameter.Parse));
+                        }
                     }
                 }
+                List<IGeneratorCommand> commands = commandResolver.Get<GeneratorCommandFactory>().Create(rawCommands, commandResolver);
+                commands.ForEach(x => x.Parse());
+                IGeneratorCommandResult commandResult = generatorCommandRunner.Run(commands);
+                if (!commandResult.Success)
+                {
+                    return commandResult;
+                }
+                environment.TransferObjects.AddIfNotExists(commandResolver.Get<List<ITransferObject>>());
             }
-            List<IGeneratorCommand> commands = commandResolver.Get<GeneratorCommandFactory>().Create(rawCommands, commandResolver);
-            commands.ForEach(x => x.Parse());
-            IGeneratorCommandResult commandResult = generatorCommandRunner.Run(commands);
-            if (!commandResult.Success)
-            {
-                return commandResult;
-            }
-            this.resolver.Get<IEnvironment>().TransferObjects.AddIfNotExists(commandResolver.Get<List<ITransferObject>>());
         }
         return this.Success();
     }

@@ -1,73 +1,73 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
 
-    <IsPackable>false</IsPackable>
+        <IsPackable>false</IsPackable>
 
-    <LangVersion>latest</LangVersion>
-  </PropertyGroup>
+        <LangVersion>latest</LangVersion>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="Resources\Complex.cs.result" />
-    <None Remove="Resources\ComplexWithReader.cs.result" />
-    <None Remove="Resources\ObjectArrayProperty.cs.result" />
-    <None Remove="Resources\ObjectProperty.cs.result" />
-    <None Remove="Resources\Simple.cs.result" />
-    <None Remove="Resources\SimpleReader.cs.result" />
-    <None Remove="Resources\SimpleWithoutReader.cs.result" />
-    <None Remove="Resources\SimpleWithReader.cs.result" />
-  </ItemGroup>
+    <ItemGroup>
+        <None Remove="Resources\Complex.cs.result" />
+        <None Remove="Resources\ComplexWithReader.cs.result" />
+        <None Remove="Resources\ObjectArrayProperty.cs.result" />
+        <None Remove="Resources\ObjectProperty.cs.result" />
+        <None Remove="Resources\Simple.cs.result" />
+        <None Remove="Resources\SimpleReader.cs.result" />
+        <None Remove="Resources\SimpleWithoutReader.cs.result" />
+        <None Remove="Resources\SimpleWithReader.cs.result" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <Compile Include="Resources\Complex.cs.result" />
-    <Compile Include="Resources\ObjectArrayProperty.cs.result" />
-    <Compile Include="Resources\ObjectProperty.cs.result" />
-    <Compile Include="Resources\Simple.cs.result" />
-    <Compile Include="Resources\SimpleReader.cs.result" />
-    <Compile Include="Resources\SimpleWithoutReader.cs.result" />
-    <Compile Include="Resources\ComplexWithReader.cs.result" />
-    <Compile Include="Resources\SimpleWithReader.cs.result" />
-  </ItemGroup>
+    <ItemGroup>
+        <Compile Include="Resources\Complex.cs.result" />
+        <Compile Include="Resources\ObjectArrayProperty.cs.result" />
+        <Compile Include="Resources\ObjectProperty.cs.result" />
+        <Compile Include="Resources\Simple.cs.result" />
+        <Compile Include="Resources\SimpleReader.cs.result" />
+        <Compile Include="Resources\SimpleWithoutReader.cs.result" />
+        <Compile Include="Resources\ComplexWithReader.cs.result" />
+        <Compile Include="Resources\SimpleWithReader.cs.result" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="KY.Core.Common" Version="4.34.1" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.4.0" />
-    <PackageReference Include="MSTest.TestAdapter" Version="2.0.0" />
-    <PackageReference Include="MSTest.TestFramework" Version="2.0.0" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="KY.Core.Common" Version="4.36.0" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.4.0" />
+        <PackageReference Include="MSTest.TestAdapter" Version="2.0.0" />
+        <PackageReference Include="MSTest.TestFramework" Version="2.0.0" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Common\KY.Generator.Common.csproj" />
-    <ProjectReference Include="..\CSharp\KY.Generator.Csharp.csproj" />
-    <ProjectReference Include="..\Json\KY.Generator.Json.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\Common\KY.Generator.Common.csproj" />
+        <ProjectReference Include="..\CSharp\KY.Generator.Csharp.csproj" />
+        <ProjectReference Include="..\Json\KY.Generator.Json.csproj" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <Compile Update="Properties\Resources.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
+    <ItemGroup>
+        <Compile Update="Properties\Resources.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>Resources.resx</DependentUpon>
+        </Compile>
+    </ItemGroup>
 
-  <ItemGroup>
-    <EmbeddedResource Update="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Update="Properties\Resources.resx">
+            <Generator>ResXFileCodeGenerator</Generator>
+            <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+    </ItemGroup>
 
-  <ItemGroup>
-    <None Update="Resources\formatNames.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\complex.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\simple.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
+    <ItemGroup>
+        <None Update="Resources\formatNames.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Resources\complex.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Resources\simple.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
 
 </Project>

@@ -1,9 +1,7 @@
-﻿namespace KY.Generator.AspDotNet.Configurations
+﻿namespace KY.Generator.AspDotNet.Configurations;
+
+public class AspDotNetReadHubConfiguration
 {
-    public class AspDotNetReadHubConfiguration
-    {
-        public string Name { get; set; }
-        public string Namespace { get; set; }
-        public string Assembly { get; set; }
-    }
+    public string Name { get; set; }
+    public string Namespace { get; set; }
 }

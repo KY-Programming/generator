@@ -120,9 +120,11 @@ public abstract class GeneratorCommand<T> : IGeneratorCommand
         return $" {ToCommand(this.GetType().Name)} {(this.OriginalParameters == null ? string.Join(" ", this.ParametersToString()) : string.Join(" ", this.OriginalParameters))}";
     }
 
-    protected static string ToCommand(string className)
+    protected static IEnumerable<string> ToCommand(string className)
     {
-        return className.TrimEnd("Command").ToKebabCase();
+        string baseName = className.TrimEnd("Command").ToKebabCase();
+        yield return baseName;
+        yield return baseName.Replace("'", string.Empty);
     }
 
     private IEnumerable<string> ParametersToString()
