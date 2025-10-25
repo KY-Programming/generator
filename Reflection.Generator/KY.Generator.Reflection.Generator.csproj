@@ -26,7 +26,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Annotations\KY.Generator.Annotations.csproj" />
         <ProjectReference Include="..\Common\KY.Generator.Common.csproj" />
         <ProjectReference Include="..\CSharp\KY.Generator.Csharp.csproj" />
         <ProjectReference Include="..\Reflection\KY.Generator.Reflection.csproj" />

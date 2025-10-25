@@ -5,11 +5,13 @@ public class GenerateModelOutputAttribute(string relativePath) : Attribute, IGen
 {
     public string RelativePath { get; } = relativePath;
 
+    // TODO: Rework so that it work with all commands
     public IEnumerable<AttributeCommandConfiguration> Commands =>
     [
         new("angular-model", this.Parameters),
         new("angular-service", this.Parameters),
-        new("reflection", this.Parameters)
+        new("reflection", this.Parameters),
+        new("service-stack-angular-request", this.Parameters)
     ];
 
     private List<string> Parameters

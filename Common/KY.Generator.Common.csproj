@@ -43,8 +43,4 @@
         <None Remove="KY.Generator.Common.csproj.DotSettings" />
     </ItemGroup>
 
-    <ItemGroup>
-        <ProjectReference Include="..\Annotations\KY.Generator.Annotations.csproj" />
-    </ItemGroup>
-
 </Project>

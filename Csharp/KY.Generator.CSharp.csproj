@@ -20,6 +20,7 @@
         <RepositoryType>git</RepositoryType>
         <PackageTags>KY-Generator KY.Generator</PackageTags>
         <LangVersion>latest</LangVersion>
+        <RootNamespace>KY.Generator</RootNamespace>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

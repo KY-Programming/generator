@@ -35,4 +35,8 @@
         <None Remove="KY.Generator.Annotations.csproj.DotSettings" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Core\" />
+    </ItemGroup>
+
 </Project>
