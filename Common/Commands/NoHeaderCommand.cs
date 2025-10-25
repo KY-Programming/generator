@@ -2,10 +2,9 @@ using KY.Generator.Command;
 
 namespace KY.Generator.Commands;
 
-public class NoHeaderCommand : GeneratorCommand<GeneratorCommandParameters>, IPrepareCommand
+internal class NoHeaderCommand : GeneratorCommand<NoHeaderCommandParameters>, IPrepareCommand
 {
     private readonly Options options;
-    public static string[] Names { get; } = [..ToCommand(nameof(NoHeaderCommand))];
 
     public NoHeaderCommand(Options options)
     {

@@ -9,12 +9,10 @@ using KY.Generator.Sqlite.Writers;
 
 namespace KY.Generator.Sqlite.Commands;
 
-public class SqliteWriteRepositoryCommand : GeneratorCommand<SqliteWriteRepositoryCommandParameters>
+internal class SqliteWriteRepositoryCommand : GeneratorCommand<SqliteWriteRepositoryCommandParameters>
 {
     private readonly IDependencyResolver resolver;
     private readonly GeneratorTypeLoader typeLoader;
-
-    public static string[] Names { get; } = [..ToCommand(nameof(SqliteWriteRepositoryCommand)), "sqlite-repository"];
 
     public SqliteWriteRepositoryCommand(IDependencyResolver resolver, GeneratorTypeLoader typeLoader)
     {

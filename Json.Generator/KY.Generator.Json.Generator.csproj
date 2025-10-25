@@ -12,15 +12,8 @@
             Download KY.Generator to use this module
         </Description>
         <Copyright>2025 - KY-Programming</Copyright>
-        <PackageReadmeFile>README.md</PackageReadmeFile>
-        <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <PackageProjectUrl>https://generator.ky-programming.de</PackageProjectUrl>
-        <PackageIcon>assets\icon.png</PackageIcon>
-        <RepositoryUrl>https://github.com/KY-Programming/generator</RepositoryUrl>
-        <RepositoryType>git</RepositoryType>
-        <PackageTags>KY-Generator KY.Generator JSON</PackageTags>
         <LangVersion>latest</LangVersion>
-        <RootNamespace>KY.Generator</RootNamespace>
+        <RootNamespace>KY.Generator.Json</RootNamespace>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -38,13 +31,8 @@
     <ItemGroup>
         <ProjectReference Include="..\Common\KY.Generator.Common.csproj" />
         <ProjectReference Include="..\CSharp\KY.Generator.Csharp.csproj" />
+        <ProjectReference Include="..\Json\KY.Generator.Json.csproj" />
         <ProjectReference Include="..\TypeScript\KY.Generator.TypeScript.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <None Include="..\icon.png" Pack="true" PackagePath="assets" Visible="false" />
-        <None Include="..\Common\README.md" Pack="true" PackagePath="" Visible="false" />
-        <None Remove="KY.Generator.Json.csproj.DotSettings" />
     </ItemGroup>
 
 </Project>

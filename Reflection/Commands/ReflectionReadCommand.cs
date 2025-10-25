@@ -5,10 +5,9 @@ using KY.Generator.Reflection.Readers;
 
 namespace KY.Generator.Reflection.Commands;
 
-public class ReflectionReadCommand : GeneratorCommand<ReflectionReadCommandParameters>
+internal class ReflectionReadCommand : GeneratorCommand<ReflectionReadCommandParameters>
 {
     private readonly IDependencyResolver resolver;
-    public static string[] Names { get; } = [..ToCommand(nameof(ReflectionReadCommand)), "reflection-read"];
 
     public ReflectionReadCommand(IDependencyResolver resolver)
     {

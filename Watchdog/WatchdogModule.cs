@@ -10,6 +10,6 @@ public class WatchdogModule : ModuleBase
     public WatchdogModule(IDependencyResolver dependencyResolver)
         : base(dependencyResolver)
     {
-        this.DependencyResolver.Get<GeneratorCommandFactory>().Register<WatchdogCommand>(WatchdogCommand.Names);
+        this.DependencyResolver.Get<GeneratorCommandFactory>().Register<WatchdogCommand>(WatchdogCommandParameters.Names);
     }
 }

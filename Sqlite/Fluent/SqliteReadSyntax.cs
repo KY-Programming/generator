@@ -1,31 +1,26 @@
-﻿using System.Collections.Generic;
-using KY.Core.Dependency;
-using KY.Generator.Command;
+﻿using KY.Core.Dependency;
 using KY.Generator.Syntax;
 
-namespace KY.Generator.Sqlite.Fluent
+namespace KY.Generator.Sqlite.Fluent;
+
+public class SqliteReadSyntax : ExecutableSyntax, ISqliteReadSyntax
 {
-    public class SqliteReadSyntax : ISqliteReadSyntax, IExecutableSyntax
+    private readonly IReadFluentSyntaxInternal syntax;
+
+    public IDependencyResolver Resolver => this.syntax.Resolver;
+
+    public SqliteReadSyntax(IReadFluentSyntaxInternal syntax)
     {
-        private readonly IReadFluentSyntaxInternal syntax;
+        this.syntax = syntax;
+    }
 
-        public IDependencyResolver Resolver => this.syntax.Resolver;
+    public ISqliteFromDatabaseOrReadSyntax UseConnectionString(string connectionString)
+    {
+        return new SqliteFromDatabaseSyntax(this, connectionString);
+    }
 
-        public List<IGeneratorCommand> Commands { get; } = new();
-
-        public SqliteReadSyntax(IReadFluentSyntaxInternal syntax)
-        {
-            this.syntax = syntax;
-        }
-
-        public ISqliteFromDatabaseOrReadSyntax UseConnectionString(string connectionString)
-        {
-            return new SqliteFromDatabaseSyntax(this, connectionString);
-        }
-
-        public ISqliteFromDatabaseOrReadSyntax UseFile(string file)
-        {
-            return new SqliteFromDatabaseSyntax(this, $"Data Source={file}");
-        }
+    public ISqliteFromDatabaseOrReadSyntax UseFile(string file)
+    {
+        return new SqliteFromDatabaseSyntax(this, $"Data Source={file}");
     }
 }

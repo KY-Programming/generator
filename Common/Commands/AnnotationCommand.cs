@@ -9,11 +9,9 @@ using KY.Generator.Transfer;
 
 namespace KY.Generator.Commands;
 
-public class AnnotationCommand : GeneratorCommand<AnnotationCommandParameters>
+internal class AnnotationCommand : GeneratorCommand<AnnotationCommandParameters>
 {
     private readonly IDependencyResolver resolver;
-
-    public static string[] Names { get; } = [..ToCommand(nameof(AnnotationCommand)), "annotation", "attributes"];
 
     public AnnotationCommand(IDependencyResolver resolver)
     {
@@ -25,7 +23,7 @@ public class AnnotationCommand : GeneratorCommand<AnnotationCommandParameters>
         IEnvironment environment = this.resolver.Get<IEnvironment>();
         if (environment.LoadedAssemblies.Count == 0)
         {
-            Logger.Error($"Can not run '{Names.First()}' command without loaded assemblies. Add at least one 'load -assembly=<assembly-path>' command before.");
+            Logger.Error($"Can not run '{this.Parameters.CommandName}' command without loaded assemblies. Add at least one 'load -assembly=<assembly-path>' command before.");
             return this.Error();
         }
         foreach (Assembly assembly in environment.LoadedAssemblies)

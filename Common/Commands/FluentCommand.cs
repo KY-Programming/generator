@@ -15,8 +15,6 @@ internal class FluentCommand : GeneratorCommand<FluentCommandParameters>
     private readonly IDependencyResolver resolver;
     private readonly List<GeneratorFluentMain> mains = new();
 
-    public static string[] Names { get; } = [..ToCommand(nameof(FluentCommand)), "fluent"];
-
     public FluentCommand(IDependencyResolver resolver)
     {
         this.resolver = resolver;
@@ -27,7 +25,7 @@ internal class FluentCommand : GeneratorCommand<FluentCommandParameters>
         IEnvironment environment = this.resolver.Get<IEnvironment>();
         if (environment.LoadedAssemblies.Count == 0)
         {
-            Logger.Error($"Can not run '{Names.First()}' command without loaded assemblies. Add at least one 'load -assembly=<assembly-path>' command before.");
+            Logger.Error($"Can not run '{this.Parameters.CommandName}' command without loaded assemblies. Add at least one 'load -assembly=<assembly-path>' command before.");
             return this.Error();
         }
         foreach (Assembly assembly in environment.LoadedAssemblies)

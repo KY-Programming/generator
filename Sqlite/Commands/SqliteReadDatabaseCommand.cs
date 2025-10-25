@@ -5,10 +5,9 @@ using KY.Generator.Sqlite.Readers;
 
 namespace KY.Generator.Sqlite.Commands;
 
-public class SqliteReadDatabaseCommand : GeneratorCommand<SqliteReadDatabaseCommandParameters>
+internal class SqliteReadDatabaseCommand : GeneratorCommand<SqliteReadDatabaseCommandParameters>
 {
     private readonly IDependencyResolver resolver;
-    public static string[] Names { get; } = [..ToCommand(nameof(SqliteReadDatabaseCommand)), "sqlite-read"];
 
     public SqliteReadDatabaseCommand(IDependencyResolver resolver)
     {

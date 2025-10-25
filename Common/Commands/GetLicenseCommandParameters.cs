@@ -2,6 +2,11 @@
 
 namespace KY.Generator.Commands;
 
-internal class GetLicenseCommandParameters : GeneratorCommandParameters
+public class GetLicenseCommandParameters : GeneratorCommandParameters
 {
+    public static string[] Names { get; } = [..ToCommand(nameof(GetLicenseCommand)), "l"];
+
+    public GetLicenseCommandParameters()
+        : base(Names.First())
+    { }
 }

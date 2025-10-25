@@ -5,73 +5,71 @@ namespace KY.Generator.Angular.Fluent;
 
 internal class AngularServiceSyntax : IAngularServiceSyntax, IAngularHttpClientSyntax
 {
-    private readonly IExecutableSyntax syntax;
-    private readonly AngularServiceCommand command;
+    private readonly AngularServiceCommandParameters command;
 
-    public AngularServiceSyntax(IExecutableSyntax syntax, AngularServiceCommand command)
+    public AngularServiceSyntax(ExecutableSyntax syntax, AngularServiceCommandParameters command)
     {
-        this.syntax = syntax;
         this.command = command;
-        this.command.Parameters.RelativeModelPath = this.syntax.Commands.OfType<AngularModelCommand>().FirstOrDefault()?.Parameters.RelativePath;
+        this.command.RelativeModelPath = syntax.Commands.OfType<AngularModelCommandParameters>().FirstOrDefault()?.RelativePath;
     }
 
     public IAngularServiceSyntax FormatNames(bool value = true)
     {
-        this.command.Parameters.FormatNames = value;
+        this.command.FormatNames = value;
         return this;
     }
 
     public IAngularServiceSyntax OutputPath(string path)
     {
-        this.command.Parameters.RelativePath = path;
+        this.command.RelativePath = path;
         return this;
     }
 
     public IAngularServiceSyntax Name(string name)
     {
-        this.command.Parameters.Name = name;
+        this.command.Name = name;
         return this;
     }
 
     public IAngularHttpClientSyntax HttpClient(string type, string import)
     {
-        this.command.Parameters.HttpClient = type;
-        this.command.Parameters.HttpClientUsing = import;
+        this.command.HttpClient = type;
+        this.command.HttpClientUsing = import;
         return this;
     }
 
-    public IAngularHttpClientSyntax GetMethod(string name, Action<IAngularHttpClientMethodSyntax> optionsAction = null)
+    public IAngularHttpClientSyntax GetMethod(string name, Action<IAngularHttpClientMethodSyntax>? optionsAction = null)
     {
-        this.command.Parameters.HttpClientGet = name;
-        optionsAction?.Invoke(new AngularHttpClientSyntax(this.command.Parameters.HttpClientGetOptions));
+        this.command.HttpClientGet = name;
+        optionsAction?.Invoke(new AngularHttpClientSyntax(this.command.HttpClientGetOptions));
         return this;
     }
 
-    public IAngularHttpClientSyntax PostMethod(string name, Action<IAngularHttpClientMethodSyntax> optionsAction = null)
+    public IAngularHttpClientSyntax PostMethod(string name, Action<IAngularHttpClientMethodSyntax>? optionsAction = null)
     {
-        this.command.Parameters.HttpClientPost = name;
-        optionsAction?.Invoke(new AngularHttpClientSyntax(this.command.Parameters.HttpClientPostOptions));
+        this.command.HttpClientPost = name;
+        optionsAction?.Invoke(new AngularHttpClientSyntax(this.command.HttpClientPostOptions));
         return this;
     }
 
-    public IAngularHttpClientSyntax PutMethod(string name, Action<IAngularHttpClientMethodSyntax> optionsAction = null)
+    public IAngularHttpClientSyntax PutMethod(string name, Action<IAngularHttpClientMethodSyntax>? optionsAction = null)
     {
-        this.command.Parameters.HttpClientPut = name;
-        optionsAction?.Invoke(new AngularHttpClientSyntax(this.command.Parameters.HttpClientPutOptions));
+        this.command.HttpClientPut = name;
+        optionsAction?.Invoke(new AngularHttpClientSyntax(this.command.HttpClientPutOptions));
         return this;
     }
 
-    public IAngularHttpClientSyntax PatchMethod(string name, Action<IAngularHttpClientMethodSyntax> optionsAction = null)
+    public IAngularHttpClientSyntax PatchMethod(string name, Action<IAngularHttpClientMethodSyntax>? optionsAction = null)
     {
-        this.command.Parameters.HttpClientPatch = name;
-        optionsAction?.Invoke(new AngularHttpClientSyntax(this.command.Parameters.HttpClientPatchOptions));
+        this.command.HttpClientPatch = name;
+        optionsAction?.Invoke(new AngularHttpClientSyntax(this.command.HttpClientPatchOptions));
         return this;
     }
 
-    public IAngularHttpClientSyntax DeleteMethod(string name, Action<IAngularHttpClientMethodSyntax> optionsAction = null)
+    public IAngularHttpClientSyntax DeleteMethod(string name, Action<IAngularHttpClientMethodSyntax>? optionsAction = null)
     {
-        this.command.Parameters.HttpClientDelete = name;
-        optionsAction?.Invoke(new AngularHttpClientSyntax(this.command.Parameters.HttpClientDeleteOptions));
+        this.command.HttpClientDelete = name;
+        optionsAction?.Invoke(new AngularHttpClientSyntax(this.command.HttpClientDeleteOptions));
         return this;
     }
 }

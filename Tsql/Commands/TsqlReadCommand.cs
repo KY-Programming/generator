@@ -5,10 +5,9 @@ using KY.Generator.Tsql.Readers;
 
 namespace KY.Generator.Tsql.Commands;
 
-public class TsqlReadCommand : GeneratorCommand<TsqlReadCommandParameters>
+internal class TsqlReadCommand : GeneratorCommand<TsqlReadCommandParameters>
 {
     private readonly IDependencyResolver resolver;
-    public static string[] Names { get; } = [..ToCommand(nameof(TsqlReadCommand)), "tsql-read"];
 
     public TsqlReadCommand(IDependencyResolver resolver)
     {

@@ -5,10 +5,12 @@ namespace KY.Generator.Command;
 public class GeneratorCommandRunner
 {
     private readonly StatisticsService statisticsService;
+    private readonly GeneratorCommandFactory commandFactory;
 
-    public GeneratorCommandRunner(StatisticsService statisticsService)
+    public GeneratorCommandRunner(StatisticsService statisticsService, GeneratorCommandFactory commandFactory)
     {
         this.statisticsService = statisticsService;
+        this.commandFactory = commandFactory;
     }
 
     public IGeneratorCommandResult Run(IEnumerable<IGeneratorCommand> commands)
@@ -23,6 +25,26 @@ public class GeneratorCommandRunner
             {
                 return result;
             }
+        }
+        return result ?? new SuccessResult();
+    }
+
+    public IGeneratorCommandResult Run(IEnumerable<GeneratorCommandParameters> parameters)
+    {
+        List<IGeneratorCommand> commands = this.commandFactory.Create(parameters);
+        IGeneratorCommandResult? result = null;
+        commands.ForEach(command => command.Prepare());
+        foreach (IGeneratorCommand command in commands)
+        {
+            result = this.Run(command);
+            if (!result.Success)
+            {
+                return result;
+            }
+        }
+        foreach (IGeneratorCommand command in commands)
+        {
+            command.FollowUp();
         }
         return result ?? new SuccessResult();
     }

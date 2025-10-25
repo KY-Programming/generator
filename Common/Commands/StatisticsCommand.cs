@@ -9,7 +9,6 @@ internal class StatisticsCommand : GeneratorCommand<StatisticsCommandParameters>
     private readonly GlobalStatisticsService globalStatisticsService;
     private readonly StatisticsService statisticsService;
     private readonly GlobalSettingsService globalSettingsService;
-    public static string[] Names { get; } = [..ToCommand(nameof(StatisticsCommand)), "statistics", "statistic", "stats", "stat"];
 
     public StatisticsCommand(GlobalStatisticsService globalStatisticsService, StatisticsService statisticsService, GlobalSettingsService globalSettingsService)
     {

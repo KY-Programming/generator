@@ -11,7 +11,7 @@ public class FluentSyntax : IReadFluentSyntaxInternal, IWriteFluentSyntaxInterna
     private readonly Options options;
     public IDependencyResolver Resolver { get; }
 
-    public List<IExecutableSyntax> Syntaxes { get; } = [];
+    public List<ExecutableSyntax> Syntaxes { get; } = [];
 
     public FluentSyntax(IDependencyResolver resolver, Options options)
     {
@@ -33,7 +33,7 @@ public class FluentSyntax : IReadFluentSyntaxInternal, IWriteFluentSyntaxInterna
     public IGeneratorCommandResult Run()
     {
         GeneratorCommandRunner runner = this.Resolver.Create<GeneratorCommandRunner>();
-        foreach (IExecutableSyntax syntax in this.Syntaxes)
+        foreach (ExecutableSyntax syntax in this.Syntaxes)
         {
             IGeneratorCommandResult commandResult = runner.Run(syntax.Commands);
             if (!commandResult.Success)
@@ -46,7 +46,7 @@ public class FluentSyntax : IReadFluentSyntaxInternal, IWriteFluentSyntaxInterna
 
     public void FollowUp()
     {
-        this.Syntaxes.ForEach(syntax => syntax.Commands.ForEach(command => command.FollowUp()));
+        // this.Syntaxes.ForEach(syntax => syntax.Commands.ForEach(command => command.FollowUp()));
     }
 
     ISwitchToReadFluentSyntax IFluentSyntax<ISwitchToReadFluentSyntax>.SetGlobal(Assembly assembly, Action<ISetFluentSyntax> action)

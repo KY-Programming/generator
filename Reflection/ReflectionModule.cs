@@ -17,9 +17,9 @@ public class ReflectionModule : ModuleBase
         this.DependencyResolver.Bind<ReflectionModelReader>().ToSelf();
         this.DependencyResolver.Bind<ReflectionReader>().ToSelf();
         this.DependencyResolver.Bind<ReflectionWriter>().ToSelf();
-        this.DependencyResolver.Get<GeneratorCommandFactory>().Register<ReflectionCommand>(ReflectionCommand.Names);
-        this.DependencyResolver.Get<GeneratorCommandFactory>().Register<ReflectionReadCommand>(ReflectionReadCommand.Names);
-        this.DependencyResolver.Get<GeneratorCommandFactory>().Register<ReflectionWriteCommand>(ReflectionWriteCommand.Names);
+        this.DependencyResolver.Get<GeneratorCommandFactory>().Register<ReflectionCommand>(ReflectionCommandParameters.Names);
+        this.DependencyResolver.Get<GeneratorCommandFactory>().Register<ReflectionReadCommand>(ReflectionReadCommandParameters.Names);
+        this.DependencyResolver.Get<GeneratorCommandFactory>().Register<ReflectionWriteCommand>(ReflectionWriteCommandParameters.Names);
     }
 
     public override void Initialize()

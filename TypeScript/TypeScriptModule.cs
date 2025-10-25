@@ -21,6 +21,6 @@ public class TypeScriptModule : ModuleBase
         this.DependencyResolver.Bind<TypeScriptIndexWriter>().ToSelf();
         this.DependencyResolver.Bind<TypeScriptIndexHelper>().ToSelf();
         this.DependencyResolver.Bind<IOptionsFactory>().ToSingleton<TypeScriptOptionsFactory>();
-        this.DependencyResolver.Get<GeneratorCommandFactory>().Register<TypeScriptModelCommand>(TypeScriptModelCommand.Names);
+        this.DependencyResolver.Get<GeneratorCommandFactory>().Register<TypeScriptModelCommand>(TypeScriptModelCommandParameters.Names);
     }
 }

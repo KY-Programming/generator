@@ -7,10 +7,8 @@ using KY.Generator.Models;
 
 namespace KY.Generator.Commands;
 
-public class ReadProjectCommand(IDependencyResolver resolver) : GeneratorCommand<ReadProjectCommandParameters>, IPrepareCommand
+internal class ReadProjectCommand(IDependencyResolver resolver) : GeneratorCommand<ReadProjectCommandParameters>, IPrepareCommand
 {
-    public static string[] Names { get; } = [..ToCommand(nameof(ReadProjectCommand)), "read-project", "readProject", "readid"];
-
     public override IGeneratorCommandResult Run()
     {
         string projectFileName = FileSystem.GetFileName(this.Parameters.Project);

@@ -6,13 +6,12 @@ using KY.Generator.Statistics;
 
 namespace KY.Generator.Commands;
 
-public class OptionsCommand : GeneratorCommand<OptionsCommandParameters>, IPrepareCommand
+internal class OptionsCommand : GeneratorCommand<OptionsCommandParameters>, IPrepareCommand
 {
     private readonly StatisticsService statisticsService;
     private readonly GlobalStatisticsService globalStatisticsService;
     private readonly IOutput output;
     private readonly IEnvironment environment;
-    public static string[] Names { get; } = [..ToCommand(nameof(OptionsCommand)), "set"];
 
     public OptionsCommand(StatisticsService statisticsService, GlobalStatisticsService globalStatisticsService, IOutput output, IEnvironment environment)
     {

@@ -4,11 +4,10 @@ using KY.Generator.Models;
 
 namespace KY.Generator.Commands;
 
-public class LoadCommand : GeneratorCommand<LoadCommandParameters>, IPrepareCommand
+internal class LoadCommand : GeneratorCommand<LoadCommandParameters>, IPrepareCommand
 {
     private readonly GeneratorModuleLoader moduleLoader;
     private readonly IEnvironment environment;
-    public static string[] Names { get; } = [..ToCommand(nameof(LoadCommand)), "load"];
 
     public LoadCommand(GeneratorModuleLoader moduleLoader, IEnvironment environment)
     {

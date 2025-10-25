@@ -1,20 +1,19 @@
 ﻿using KY.Generator.Reflection.Commands;
 
-namespace KY.Generator.Reflection.Fluent
+namespace KY.Generator.Reflection.Fluent;
+
+internal class ReflectionFromTypeSyntax : IReflectionFromTypeSyntax
 {
-    internal class ReflectionFromTypeSyntax : IReflectionFromTypeSyntax
+    private readonly ReflectionReadCommandParameters command;
+
+    public ReflectionFromTypeSyntax(ReflectionReadCommandParameters command)
     {
-        private readonly ReflectionReadCommand command;
+        this.command = command;
+    }
 
-        public ReflectionFromTypeSyntax(ReflectionReadCommand command)
-        {
-            this.command = command;
-        }
-
-        public IReflectionFromTypeSyntax OnlySubTypes()
-        {
-            this.command.Parameters.OnlySubTypes = true;
-            return this;
-        }
+    public IReflectionFromTypeSyntax OnlySubTypes()
+    {
+        this.command.OnlySubTypes = true;
+        return this;
     }
 }

@@ -7,10 +7,8 @@ using KY.Generator.TypeScript.Transfer;
 
 namespace KY.Generator.TypeScript.Commands;
 
-public class TypeScriptModelCommand(IDependencyResolver resolver) : GeneratorCommand<GeneratorCommandParameters>
+internal class TypeScriptModelCommand(IDependencyResolver resolver) : GeneratorCommand<TypeScriptModelCommandParameters>
 {
-    public static string[] Names { get; } = [..ToCommand(nameof(TypeScriptModelCommand)), "typescript-model"];
-
     public override void Prepare()
     {
         Options options = resolver.Get<Options>();

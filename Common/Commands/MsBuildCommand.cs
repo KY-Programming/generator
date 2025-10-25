@@ -4,11 +4,10 @@ using KY.Generator.Statistics;
 
 namespace KY.Generator.Commands;
 
-internal class MsBuildCommand : GeneratorCommand<GeneratorCommandParameters>, IPrepareCommand
+internal class MsBuildCommand : GeneratorCommand<MsBuildCommandParameters>, IPrepareCommand
 {
     private readonly IEnvironment environment;
     private readonly StatisticsService statisticsService;
-    public static string[] Names { get; } = [..ToCommand(nameof(MsBuildCommand)), "msbuild"];
 
     public MsBuildCommand(IEnvironment environment, StatisticsService statisticsService)
     {

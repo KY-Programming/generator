@@ -10,8 +10,8 @@ public class AspDotNetModule : ModuleBase
     public AspDotNetModule(IDependencyResolver dependencyResolver)
         : base(dependencyResolver)
     {
-        this.DependencyResolver.Get<GeneratorCommandFactory>().Register<AspDotNetReadControllerCommand>(AspDotNetReadControllerCommand.Names);
-        this.DependencyResolver.Get<GeneratorCommandFactory>().Register<AspDotNetReadHubCommand>(AspDotNetReadHubCommand.Names);
+        this.DependencyResolver.Get<GeneratorCommandFactory>().Register<AspDotNetReadControllerCommand>(AspDotNetReadControllerCommandParameters.Names);
+        this.DependencyResolver.Get<GeneratorCommandFactory>().Register<AspDotNetReadHubCommand>(AspDotNetReadHubCommandParameters.Names);
         this.DependencyResolver.Bind<IOptionsFactory>().ToSingleton<AspDotNetOptionsFactory>();
     }
 }

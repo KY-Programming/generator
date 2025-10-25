@@ -165,9 +165,9 @@
             <Project>{D23DC658-3C95-4A73-BBC7-22A94E81AEE8}</Project>
             <Name>KY.Generator.Csharp</Name>
         </ProjectReference>
-        <ProjectReference Include="..\Json\KY.Generator.Json.csproj">
-            <Project>{7f14808d-cedc-4a7d-bc53-da21eedcde1e}</Project>
-            <Name>KY.Generator.Json</Name>
+        <ProjectReference Include="..\Json.Generator\KY.Generator.Json.Generator.csproj">
+            <Project>{9971b95e-9a7a-4ff0-982f-a7f77572373c}</Project>
+            <Name>KY.Generator.Json.Generator</Name>
         </ProjectReference>
         <ProjectReference Include="..\Reflection\KY.Generator.Reflection.csproj">
             <Project>{1CD25461-36BC-46A1-ABDD-F710179A641E}</Project>

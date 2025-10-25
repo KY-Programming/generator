@@ -1,10 +1,15 @@
 ﻿using KY.Generator.Command;
 
-namespace KY.Generator.AspDotNet.Commands
+namespace KY.Generator.AspDotNet.Commands;
+
+public class AspDotNetReadHubCommandParameters : GeneratorCommandParameters
 {
-    internal class AspDotNetReadHubCommandParameters : GeneratorCommandParameters
-    {
-        public string Namespace { get; set; }
-        public string Name { get; set; }
-    }
+    public string? Namespace { get; set; }
+    public string? Name { get; set; }
+
+    public static string[] Names { get; } = [..ToCommand(nameof(AspDotNetReadHubCommand)), "asp-read-hub"];
+
+    public AspDotNetReadHubCommandParameters()
+        : base(Names.First())
+    { }
 }

@@ -22,19 +22,19 @@ internal class CoreModule : GeneratorModule
     public CoreModule(IDependencyResolver dependencyResolver)
         : base(dependencyResolver)
     {
-        this.Register<VersionCommand>(VersionCommand.Names);
-        this.Register<ReadProjectCommand>(ReadProjectCommand.Names);
-        this.Register<StatisticsCommand>(StatisticsCommand.Names);
-        this.Register<OptionsCommand>(OptionsCommand.Names);
-        this.Register<CleanupCommand>(CleanupCommand.Names);
-        this.Register<GetLicenseCommand>(GetLicenseCommand.Names);
-        this.Register<FluentCommand>(FluentCommand.Names);
-        this.Register<AnnotationCommand>(AnnotationCommand.Names);
-        this.Register<LoadCommand>(LoadCommand.Names);
-        this.Register<ForceCommand>(ForceCommand.Names);
-        this.Register<MsBuildCommand>(MsBuildCommand.Names);
-        this.Register<BeforeBuildCommand>(BeforeBuildCommand.Names);
-        this.Register<NoHeaderCommand>(NoHeaderCommand.Names);
+        this.Register<VersionCommand>(VersionCommandParameters.Names);
+        this.Register<ReadProjectCommand>(ReadProjectCommandParameters.Names);
+        this.Register<StatisticsCommand>(StatisticsCommandParameters.Names);
+        this.Register<OptionsCommand>(OptionsCommandParameters.Names);
+        this.Register<CleanupCommand>(CleanupCommandParameters.Names);
+        this.Register<GetLicenseCommand>(GetLicenseCommandParameters.Names);
+        this.Register<FluentCommand>(FluentCommandParameters.Names);
+        this.Register<AnnotationCommand>(AnnotationCommandParameters.Names);
+        this.Register<LoadCommand>(LoadCommandParameters.Names);
+        this.Register<ForceCommand>(ForceCommandParameters.Names);
+        this.Register<MsBuildCommand>(MsBuildCommandParameters.Names);
+        this.Register<BeforeBuildCommand>(BeforeBuildCommandParameters.Names);
+        this.Register<NoHeaderCommand>(NoHeaderCommandParameters.Names);
         this.RegisterLanguage<EmptyLanguage>();
         this.RegisterOptions<GeneratorOptionsFactory>();
         this.DependencyResolver.Bind<GeneratorTypeLoader>().ToSingleton();

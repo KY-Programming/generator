@@ -1,27 +1,16 @@
-﻿using System.Collections.Generic;
-using KY.Generator.Command;
-using KY.Generator.Json.Commands;
+﻿using KY.Generator.Commands;
 using KY.Generator.Syntax;
 
-namespace KY.Generator
+namespace KY.Generator;
+
+public class JsonReadSyntax : ExecutableSyntax, IJsonReadSyntax
 {
-    public class JsonReadSyntax : IJsonReadSyntax, IExecutableSyntax
+    public IJsonReadSyntax FromFile(string relativePath)
     {
-        private readonly IReadFluentSyntaxInternal syntax;
-
-        public List<IGeneratorCommand> Commands { get; } = new();
-
-        public JsonReadSyntax(IReadFluentSyntaxInternal syntax)
+        this.Commands.Add(new JsonReadCommandParameters
         {
-            this.syntax = syntax;
-        }
-
-        public IJsonReadSyntax FromFile(string relativePath)
-        {
-            JsonReadCommand command = this.syntax.Resolver.Create<JsonReadCommand>();
-            command.Parameters.RelativePath = relativePath;
-            this.Commands.Add(command);
-            return this;
-        }
+            RelativePath = relativePath
+        });
+        return this;
     }
 }

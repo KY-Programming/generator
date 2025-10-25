@@ -12,7 +12,7 @@ public class TsqlModule : ModuleBase
     public TsqlModule(IDependencyResolver dependencyResolver)
         : base(dependencyResolver)
     {
-        this.DependencyResolver.Get<GeneratorCommandFactory>().Register<TsqlReadCommand>(TsqlReadCommand.Names);
+        this.DependencyResolver.Get<GeneratorCommandFactory>().Register<TsqlReadCommand>(TsqlReadCommandParameters.Names);
     }
 
     public override void Initialize()

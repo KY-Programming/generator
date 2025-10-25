@@ -9,10 +9,8 @@ using KY.Generator.TypeScript.Transfer;
 
 namespace KY.Generator.Angular.Commands;
 
-public class AngularModelCommand(IDependencyResolver resolver) : GeneratorCommand<GeneratorCommandParameters>
+internal class AngularModelCommand(IDependencyResolver resolver) : GeneratorCommand<AngularModelCommandParameters>
 {
-    public static string[] Names { get; } = [..ToCommand(nameof(AngularModelCommand)), "angular-model"];
-
     public override void Prepare()
     {
         Options options = resolver.Get<Options>();

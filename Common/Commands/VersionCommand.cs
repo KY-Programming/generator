@@ -5,8 +5,6 @@ namespace KY.Generator.Commands;
 
 internal class VersionCommand : GeneratorCommand<VersionCommandParameters>
 {
-    public static string[] Names { get; } = [..ToCommand(nameof(VersionCommand)), "version", "v"];
-
     public override IGeneratorCommandResult Run()
     {
         Logger.Trace("Execute version command...");

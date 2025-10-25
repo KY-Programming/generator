@@ -12,9 +12,9 @@ public class AngularModule : GeneratorModule
         : base(dependencyResolver)
     {
         this.DependsOn<TypeScriptModule>();
-        this.Register<AngularServiceCommand>(AngularServiceCommand.Names);
-        this.Register<AngularModelCommand>(AngularModelCommand.Names);
-        this.Register<AngularPackageCommand>(AngularPackageCommand.Names);
+        this.Register<AngularServiceCommand>(AngularServiceCommandParameters.Names);
+        this.Register<AngularModelCommand>(AngularModelCommandParameters.Names);
+        this.Register<AngularPackageCommand>(AngularPackageCommandParameters.Names);
         this.RegisterLanguage<AngularTypeScriptLanguage>();
         this.RegisterOptions<AngularOptionsFactory>();
     }

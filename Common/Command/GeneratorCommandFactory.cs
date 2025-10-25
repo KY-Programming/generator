@@ -69,6 +69,36 @@ public class GeneratorCommandFactory(IDependencyResolver resolverFallback)
         return command;
     }
 
+    public List<IGeneratorCommand> Create(IEnumerable<GeneratorCommandParameters> parametersList, IDependencyResolver? resolver = null)
+    {
+        bool allCommandsFound = true;
+        List<IGeneratorCommand> foundCommands = [];
+        foreach (GeneratorCommandParameters parameters in parametersList)
+        {
+            if (!this.commands.TryGetValue(parameters.CommandName, out Type type))
+            {
+                allCommandsFound = false;
+                GeneratorErrors.CommandNotFoundError(parameters.CommandName);
+                continue;
+            }
+            IGeneratorCommand command = this.Create(type, parameters, resolver);
+            foundCommands.Add(command);
+        }
+        if (!allCommandsFound)
+        {
+            GeneratorErrors.CommandDocumentationHint();
+        }
+        return foundCommands;
+    }
+
+    private IGeneratorCommand Create(Type type, GeneratorCommandParameters parameters, IDependencyResolver? resolver = null)
+    {
+        resolver ??= resolverFallback.CloneForCommand();
+        IGeneratorCommand command = (IGeneratorCommand)resolver.Create(type);
+        command.Parameters.SetFrom(parameters);
+        return command;
+    }
+
     public IEnumerable<IPrepareCommand> CreatePrepareCommands()
     {
         return this.prepareCommands.Select(type => (IPrepareCommand)this.Create(type));

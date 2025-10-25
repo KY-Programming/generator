@@ -12,6 +12,11 @@ public static class GeneratorErrors
 
     public static void CommandNotFoundError(CliCommand command)
     {
-        Logger.Error($"Command '{command.Name}' not found");
+        CommandNotFoundError(command.Name);
+    }
+
+    public static void CommandNotFoundError(string command)
+    {
+        Logger.Error($"Command '{command}' not found");
     }
 }

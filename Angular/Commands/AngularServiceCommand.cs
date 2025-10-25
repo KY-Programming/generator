@@ -10,10 +10,9 @@ using KY.Generator.TypeScript.Transfer;
 
 namespace KY.Generator.Angular.Commands;
 
-public class AngularServiceCommand : GeneratorCommand<AngularServiceCommandParameters>
+internal class AngularServiceCommand : GeneratorCommand<AngularServiceCommandParameters>
 {
     private readonly IDependencyResolver resolver;
-    public static string[] Names { get; } = [..ToCommand(nameof(AngularServiceCommand)), "angular-service"];
 
     public AngularServiceCommand(IDependencyResolver resolver)
     {

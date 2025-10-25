@@ -13,8 +13,8 @@ public class SqliteModule : ModuleBase
     public SqliteModule(IDependencyResolver dependencyResolver)
         : base(dependencyResolver)
     {
-        this.DependencyResolver.Get<GeneratorCommandFactory>().Register<SqliteReadDatabaseCommand>(SqliteReadDatabaseCommand.Names);
-        this.DependencyResolver.Get<GeneratorCommandFactory>().Register<SqliteWriteRepositoryCommand>(SqliteWriteRepositoryCommand.Names);
+        this.DependencyResolver.Get<GeneratorCommandFactory>().Register<SqliteReadDatabaseCommand>(SqliteReadDatabaseCommandParameters.Names);
+        this.DependencyResolver.Get<GeneratorCommandFactory>().Register<SqliteWriteRepositoryCommand>(SqliteWriteRepositoryCommandParameters.Names);
         this.DependencyResolver.Bind<SqliteModelReader>().ToSelf();
     }
 

@@ -17,8 +17,6 @@ internal class ReflectionCommand : GeneratorCommand<ReflectionCommandParameters>
 {
     private readonly IDependencyResolver resolver;
 
-    public static string[] Names { get; } = [..ToCommand(nameof(ReflectionCommand)), "reflection"];
-
     public ReflectionCommand(IDependencyResolver resolver)
     {
         this.resolver = resolver;

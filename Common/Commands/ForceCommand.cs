@@ -3,10 +3,9 @@ using KY.Generator.Models;
 
 namespace KY.Generator.Commands;
 
-public class ForceCommand : GeneratorCommand<GeneratorCommandParameters>, IPrepareCommand
+internal class ForceCommand : GeneratorCommand<ForceCommandParameters>, IPrepareCommand
 {
     private readonly IEnvironment environment;
-    public static string[] Names { get; } = [..ToCommand(nameof(ForceCommand))];
 
     public ForceCommand(IEnvironment environment)
     {

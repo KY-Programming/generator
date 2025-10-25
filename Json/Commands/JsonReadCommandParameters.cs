@@ -1,8 +1,12 @@
 ﻿using KY.Generator.Command;
 
-namespace KY.Generator.Json.Commands
+namespace KY.Generator.Commands;
+
+public class JsonReadCommandParameters : GeneratorCommandParameters
 {
-    public class JsonReadCommandParameters : GeneratorCommandParameters
-    {
-    }
+    public static string[] Names { get; } = [..ToCommand(nameof(JsonReadCommandParameters))];
+
+    public JsonReadCommandParameters()
+        : base(Names.First())
+    { }
 }
