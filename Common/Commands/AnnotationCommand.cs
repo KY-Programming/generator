@@ -23,6 +23,10 @@ internal class AnnotationCommand : GeneratorCommand<AnnotationCommandParameters>
         IEnvironment environment = this.resolver.Get<IEnvironment>();
         if (environment.LoadedAssemblies.Count == 0)
         {
+            if (environment.IsBeforeBuild)
+            {
+                return this.Success();
+            }
             Logger.Error($"Can not run '{this.Parameters.CommandName}' command without loaded assemblies. Add at least one 'load -assembly=<assembly-path>' command before.");
             return this.Error();
         }

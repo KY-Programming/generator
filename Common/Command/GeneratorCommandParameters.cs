@@ -39,6 +39,6 @@ public class GeneratorCommandParameters
     {
         string baseName = className.TrimEnd("CommandParameters").TrimEnd("Command").ToKebabCase();
         yield return baseName;
-        yield return baseName.Replace("'", string.Empty);
+        yield return baseName.Replace("-", string.Empty);
     }
 }

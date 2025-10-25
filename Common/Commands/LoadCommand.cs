@@ -23,6 +23,10 @@ internal class LoadCommand : GeneratorCommand<LoadCommandParameters>, IPrepareCo
         }
         Logger.Trace("Execute load command...");
         LocateAssemblyResult result = GeneratorAssemblyLocator.Locate(this.Parameters.Assembly, this.environment.IsBeforeBuild);
+        if (this.environment.IsBeforeBuild && !result.Success)
+        {
+            return this.Success();
+        }
         if (result.SwitchContext || !result.Success)
         {
             return result;

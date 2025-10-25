@@ -23,11 +23,12 @@ public class GeneratorCommandFactory(IDependencyResolver resolverFallback)
     {
         foreach (string name in names)
         {
-            if (this.commands.ContainsKey(name))
+            string lowerName = name.ToLowerInvariant();
+            if (this.commands.ContainsKey(lowerName))
             {
                 throw new InvalidOperationException($"Command '{name}' is already registered.");
             }
-            this.commands.Add(name, command);
+            this.commands.Add(lowerName, command);
         }
         return this;
     }
@@ -43,7 +44,7 @@ public class GeneratorCommandFactory(IDependencyResolver resolverFallback)
         List<IGeneratorCommand> foundCommands = [];
         foreach (CliCommand cliCommand in cliCommands)
         {
-            if (!this.commands.TryGetValue(cliCommand.Name, out Type type))
+            if (!this.commands.TryGetValue(cliCommand.Name.ToLowerInvariant(), out Type type))
             {
                 allCommandsFound = false;
                 GeneratorErrors.CommandNotFoundError(cliCommand);
@@ -75,7 +76,7 @@ public class GeneratorCommandFactory(IDependencyResolver resolverFallback)
         List<IGeneratorCommand> foundCommands = [];
         foreach (GeneratorCommandParameters parameters in parametersList)
         {
-            if (!this.commands.TryGetValue(parameters.CommandName, out Type type))
+            if (!this.commands.TryGetValue(parameters.CommandName.ToLowerInvariant(), out Type type))
             {
                 allCommandsFound = false;
                 GeneratorErrors.CommandNotFoundError(parameters.CommandName);
