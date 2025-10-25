@@ -1,25 +1,28 @@
 ﻿using KY.Core.Dependency;
-using KY.Core.Module;
-using KY.Generator.Command;
+using KY.Generator.Csharp;
 using KY.Generator.Mappings;
+using KY.Generator.Models;
 using KY.Generator.Reflection.Commands;
 using KY.Generator.Reflection.Extensions;
 using KY.Generator.Reflection.Readers;
 using KY.Generator.Reflection.Writers;
+using KY.Generator.TypeScript;
 
 namespace KY.Generator.Reflection;
 
-public class ReflectionModule : ModuleBase
+public class ReflectionModule : GeneratorModule
 {
     public ReflectionModule(IDependencyResolver dependencyResolver)
         : base(dependencyResolver)
     {
+        this.DependsOn<CsharpModule>();
+        this.DependsOn<TypeScriptModule>();
         this.DependencyResolver.Bind<ReflectionModelReader>().ToSelf();
         this.DependencyResolver.Bind<ReflectionReader>().ToSelf();
         this.DependencyResolver.Bind<ReflectionWriter>().ToSelf();
-        this.DependencyResolver.Get<GeneratorCommandFactory>().Register<ReflectionCommand>(ReflectionCommandParameters.Names);
-        this.DependencyResolver.Get<GeneratorCommandFactory>().Register<ReflectionReadCommand>(ReflectionReadCommandParameters.Names);
-        this.DependencyResolver.Get<GeneratorCommandFactory>().Register<ReflectionWriteCommand>(ReflectionWriteCommandParameters.Names);
+        this.Register<ReflectionCommand>(ReflectionCommandParameters.Names);
+        this.Register<ReflectionReadCommand>(ReflectionReadCommandParameters.Names);
+        this.Register<ReflectionWriteCommand>(ReflectionWriteCommandParameters.Names);
     }
 
     public override void Initialize()

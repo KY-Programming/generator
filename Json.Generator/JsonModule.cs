@@ -1,6 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
 using KY.Core.Dependency;
-using KY.Generator.Command;
 using KY.Generator.Commands;
 using KY.Generator.Csharp;
 using KY.Generator.Json.Commands;
@@ -20,8 +19,8 @@ public class JsonModule : GeneratorModule
     {
         this.DependsOn<CsharpModule>();
         this.DependsOn<TypeScriptModule>();
-        this.DependencyResolver.Get<GeneratorCommandFactory>().Register<JsonReadCommand>(JsonReadCommandParameters.Names);
-        this.DependencyResolver.Get<GeneratorCommandFactory>().Register<JsonWriteCommand>(JsonWriteCommandParameters.Names);
+        this.Register<JsonReadCommand>(JsonReadCommandParameters.Names);
+        this.Register<JsonWriteCommand>(JsonWriteCommandParameters.Names);
     }
 
     public override void Initialize()

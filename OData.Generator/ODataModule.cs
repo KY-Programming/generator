@@ -1,19 +1,21 @@
 ﻿using KY.Core.Dependency;
-using KY.Core.Module;
 using KY.Generator.Mappings;
+using KY.Generator.Models;
 using KY.Generator.OData.Extensions;
+using KY.Generator.TypeScript;
 
-namespace KY.Generator.OData
+namespace KY.Generator.OData;
+
+public class ODataModule : GeneratorModule
 {
-    public class ODataModule : ModuleBase
+    public ODataModule(IDependencyResolver dependencyResolver)
+        : base(dependencyResolver)
     {
-        public ODataModule(IDependencyResolver dependencyResolver)
-            : base(dependencyResolver)
-        { }
+        this.DependsOn<TypeScriptModule>();
+    }
 
-        public override void Initialize()
-        {
-            this.DependencyResolver.Get<ITypeMapping>().Initialize();
-        }
+    public override void Initialize()
+    {
+        this.DependencyResolver.Get<ITypeMapping>().Initialize();
     }
 }

@@ -1,16 +1,14 @@
 ﻿using KY.Core.Dependency;
-using KY.Core.Module;
 using KY.Generator.Csharp.Languages;
-using KY.Generator.Languages;
+using KY.Generator.Models;
 
-namespace KY.Generator.Csharp
+namespace KY.Generator.Csharp;
+
+public class CsharpModule : GeneratorModule
 {
-    public class CsharpModule : ModuleBase
+    public CsharpModule(IDependencyResolver dependencyResolver)
+        : base(dependencyResolver)
     {
-        public CsharpModule(IDependencyResolver dependencyResolver)
-            : base(dependencyResolver)
-        {
-            this.DependencyResolver.Bind<ILanguage>().To<CsharpLanguage>();
-        }
+        this.RegisterLanguage<CsharpLanguage>();
     }
 }

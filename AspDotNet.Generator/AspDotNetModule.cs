@@ -1,17 +1,20 @@
 ﻿using KY.Core.Dependency;
-using KY.Core.Module;
 using KY.Generator.AspDotNet.Commands;
-using KY.Generator.Command;
+using KY.Generator.Csharp;
+using KY.Generator.Models;
+using KY.Generator.Reflection;
 
 namespace KY.Generator.AspDotNet;
 
-public class AspDotNetModule : ModuleBase
+public class AspDotNetModule : GeneratorModule
 {
     public AspDotNetModule(IDependencyResolver dependencyResolver)
         : base(dependencyResolver)
     {
-        this.DependencyResolver.Get<GeneratorCommandFactory>().Register<AspDotNetReadControllerCommand>(AspDotNetReadControllerCommandParameters.Names);
-        this.DependencyResolver.Get<GeneratorCommandFactory>().Register<AspDotNetReadHubCommand>(AspDotNetReadHubCommandParameters.Names);
-        this.DependencyResolver.Bind<IOptionsFactory>().ToSingleton<AspDotNetOptionsFactory>();
+        this.DependsOn<CsharpModule>();
+        this.DependsOn<ReflectionModule>();
+        this.Register<AspDotNetReadControllerCommand>(AspDotNetReadControllerCommandParameters.Names);
+        this.Register<AspDotNetReadHubCommand>(AspDotNetReadHubCommandParameters.Names);
+        this.RegisterOptions<AspDotNetOptionsFactory>();
     }
 }

@@ -1,20 +1,21 @@
 ﻿using KY.Core.Dependency;
-using KY.Core.Module;
-using KY.Generator.Command;
 using KY.Generator.Mappings;
+using KY.Generator.Models;
+using KY.Generator.Reflection;
 using KY.Generator.Sqlite.Commands;
 using KY.Generator.Sqlite.Extensions;
 using KY.Generator.Sqlite.Transfer.Readers;
 
 namespace KY.Generator.Sqlite;
 
-public class SqliteModule : ModuleBase
+public class SqliteModule : GeneratorModule
 {
     public SqliteModule(IDependencyResolver dependencyResolver)
         : base(dependencyResolver)
     {
-        this.DependencyResolver.Get<GeneratorCommandFactory>().Register<SqliteReadDatabaseCommand>(SqliteReadDatabaseCommandParameters.Names);
-        this.DependencyResolver.Get<GeneratorCommandFactory>().Register<SqliteWriteRepositoryCommand>(SqliteWriteRepositoryCommandParameters.Names);
+        this.DependsOn<ReflectionModule>();
+        this.Register<SqliteReadDatabaseCommand>(SqliteReadDatabaseCommandParameters.Names);
+        this.Register<SqliteWriteRepositoryCommand>(SqliteWriteRepositoryCommandParameters.Names);
         this.DependencyResolver.Bind<SqliteModelReader>().ToSelf();
     }
 

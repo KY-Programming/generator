@@ -1,12 +1,16 @@
 ﻿using KY.Core.Dependency;
-using KY.Core.Module;
+using KY.Generator.Csharp;
+using KY.Generator.Models;
+using KY.Generator.Tsql;
 
-namespace KY.Generator.EntityFramework
+namespace KY.Generator.EntityFramework;
+
+public class EntityFrameworkModule : GeneratorModule
 {
-    public class EntityFrameworkModule : ModuleBase
+    public EntityFrameworkModule(IDependencyResolver dependencyResolver)
+        : base(dependencyResolver)
     {
-        public EntityFrameworkModule(IDependencyResolver dependencyResolver)
-            : base(dependencyResolver)
-        { }
+        this.DependsOn<CsharpModule>();
+        this.DependsOn<TsqlModule>();
     }
 }
