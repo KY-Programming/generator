@@ -55,8 +55,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KY.Generator.Annotations", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KY.Generator.Tests", "Tests\Generator\KY.Generator.Tests.csproj", "{CD7B6707-035E-481B-9BE6-0FDDB551B2E3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KY.Generator.Fluent", "Fluent\KY.Generator.Fluent.csproj", "{B878D017-75DF-4844-AD7D-F31534C9DF7F}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KY.Generator.Sqlite", "Sqlite\KY.Generator.Sqlite.csproj", "{E589EE23-7610-4914-8911-E857BBBDC2E9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KY.Generator.Sqlite.Tests", "Sqlite.Tests\KY.Generator.Sqlite.Tests.csproj", "{99F27276-68C3-4E7D-B6AF-F3364BA3F356}"
@@ -277,14 +275,6 @@ Global
 		{CD7B6707-035E-481B-9BE6-0FDDB551B2E3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CD7B6707-035E-481B-9BE6-0FDDB551B2E3}.Release|x86.ActiveCfg = Release|Any CPU
 		{CD7B6707-035E-481B-9BE6-0FDDB551B2E3}.Release|x86.Build.0 = Release|Any CPU
-		{B878D017-75DF-4844-AD7D-F31534C9DF7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B878D017-75DF-4844-AD7D-F31534C9DF7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B878D017-75DF-4844-AD7D-F31534C9DF7F}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{B878D017-75DF-4844-AD7D-F31534C9DF7F}.Debug|x86.Build.0 = Debug|Any CPU
-		{B878D017-75DF-4844-AD7D-F31534C9DF7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B878D017-75DF-4844-AD7D-F31534C9DF7F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B878D017-75DF-4844-AD7D-F31534C9DF7F}.Release|x86.ActiveCfg = Release|Any CPU
-		{B878D017-75DF-4844-AD7D-F31534C9DF7F}.Release|x86.Build.0 = Release|Any CPU
 		{E589EE23-7610-4914-8911-E857BBBDC2E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E589EE23-7610-4914-8911-E857BBBDC2E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E589EE23-7610-4914-8911-E857BBBDC2E9}.Debug|x86.ActiveCfg = Debug|Any CPU

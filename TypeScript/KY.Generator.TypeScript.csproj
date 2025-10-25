@@ -33,7 +33,6 @@
     <ItemGroup>
         <ProjectReference Include="..\Annotations\KY.Generator.Annotations.csproj" />
         <ProjectReference Include="..\Common\KY.Generator.Common.csproj" />
-        <ProjectReference Include="..\Fluent\KY.Generator.Fluent.csproj" />
     </ItemGroup>
 
     <ItemGroup>

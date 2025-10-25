@@ -30,6 +30,7 @@ internal class CoreModule : ModuleBase
         this.DependencyResolver.Get<GeneratorCommandFactory>().Register<OptionsCommand>(OptionsCommand.Names);
         this.DependencyResolver.Get<GeneratorCommandFactory>().Register<CleanupCommand>(CleanupCommand.Names);
         this.DependencyResolver.Get<GeneratorCommandFactory>().Register<GetLicenseCommand>(GetLicenseCommand.Names);
+        this.DependencyResolver.Get<GeneratorCommandFactory>().Register<FluentCommand>(FluentCommand.Names);
         this.DependencyResolver.Bind<ILanguage>().To<EmptyLanguage>();
         this.DependencyResolver.Bind<IOptionsFactory>().ToSingleton<GeneratorOptionsFactory>();
         Options.Register(() => this.DependencyResolver.Get<List<IOptionsFactory>>());
