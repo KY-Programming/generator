@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace KY.Generator.Reflection.Fluent;
+﻿namespace KY.Generator;
 
 public interface IReflectionReadSyntax
 {

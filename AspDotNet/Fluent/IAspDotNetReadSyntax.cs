@@ -1,4 +1,4 @@
-﻿namespace KY.Generator.AspDotNet.Fluent;
+﻿namespace KY.Generator;
 
 public interface IAspDotNetReadSyntax
 {

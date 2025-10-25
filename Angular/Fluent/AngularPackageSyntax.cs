@@ -1,8 +1,7 @@
-﻿using KY.Generator.Angular.Commands;
-using KY.Generator.Angular.Models;
+﻿using KY.Generator.Angular.Models;
 using KY.Generator.Syntax;
 
-namespace KY.Generator.Angular.Fluent;
+namespace KY.Generator.Angular;
 
 internal class AngularPackageSyntax : ExecutableSyntax, IAngularPackageSyntax
 {

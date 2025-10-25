@@ -20,6 +20,7 @@
         <RepositoryType>git</RepositoryType>
         <PackageTags>KY-Generator KY.Generator TSQL</PackageTags>
         <LangVersion>latest</LangVersion>
+        <RootNamespace>KY.Generator</RootNamespace>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -31,18 +32,14 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.Data.SqlClient" Version="3.0.0" />
-    </ItemGroup>
-
-    <ItemGroup>
         <ProjectReference Include="..\Common\KY.Generator.Common.csproj" />
         <ProjectReference Include="..\CSharp\KY.Generator.Csharp.csproj" />
         <ProjectReference Include="..\TypeScript\KY.Generator.TypeScript.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <None Include="..\icon.png" Pack="true" PackagePath="assets" />
-        <None Include="..\Common\README.md" Pack="true" PackagePath="" />
+        <None Include="..\icon.png" Pack="true" PackagePath="assets" Visible="false" />
+        <None Include="..\Common\README.md" Pack="true" PackagePath="" Visible="false" />
     </ItemGroup>
 
 </Project>

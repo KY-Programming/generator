@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <Authors>KY-Programming</Authors>
+        <Company>KY-Programming</Company>
+        <Product>KY.Generator</Product>
+        <Version>10.0.0-preview.19</Version>
+        <Copyright>2025 - KY-Programming</Copyright>
+        <Description>Angular Module for KY-Generator
+            Download KY.Generator to use this module
+        </Description>
+        <LangVersion>latest</LangVersion>
+        <RootNamespace>KY.Generator.Angular</RootNamespace>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+        <OutputPath>..\bin\Debug</OutputPath>
+        <NoWarn>1701;1702</NoWarn>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+        <OutputPath>..\bin\Release</OutputPath>
+        <NoWarn>1701;1702;1591</NoWarn>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Angular\KY.Generator.Angular.csproj" />
+        <ProjectReference Include="..\Annotations\KY.Generator.Annotations.csproj" />
+        <ProjectReference Include="..\Common\KY.Generator.Common.csproj" />
+        <ProjectReference Include="..\TypeScript.Generator\KY.Generator.TypeScript.Generator.csproj" />
+        <ProjectReference Include="..\TypeScript\KY.Generator.TypeScript.csproj" />
+    </ItemGroup>
+
+</Project>

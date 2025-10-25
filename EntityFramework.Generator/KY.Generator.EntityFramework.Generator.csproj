@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <Authors>KY-Programming</Authors>
+        <Company>KY-Programming</Company>
+        <Product>KY.Generator</Product>
+        <Version>7.6.0</Version>
+        <Copyright>2025 - KY-Programming</Copyright>
+        <Description>EntityFramework Module for KY-Generator
+            Download KY.Generator to use this module
+        </Description>
+        <LangVersion>latest</LangVersion>
+        <RootNamespace>KY.Generator.EntityFramework</RootNamespace>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+        <OutputPath>..\bin\Debug</OutputPath>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+        <OutputPath>..\bin\Release</OutputPath>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Common\KY.Generator.Common.csproj" />
+        <ProjectReference Include="..\CSharp\KY.Generator.Csharp.csproj" />
+        <ProjectReference Include="..\Tsql.Generator\KY.Generator.Tsql.Generator.csproj" />
+        <ProjectReference Include="..\Tsql\KY.Generator.Tsql.csproj" />
+    </ItemGroup>
+
+</Project>

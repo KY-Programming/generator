@@ -1,6 +1,4 @@
-using KY.Generator.Sqlite.Commands;
-
-namespace KY.Generator.Sqlite.Fluent;
+namespace KY.Generator;
 
 public class SqliteFromDatabaseSyntax : ISqliteFromDatabaseOrReadSyntax
 {

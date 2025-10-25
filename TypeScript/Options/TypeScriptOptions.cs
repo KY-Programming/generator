@@ -1,4 +1,4 @@
-﻿namespace KY.Generator.TypeScript;
+﻿namespace KY.Generator;
 
 public class TypeScriptOptions(TypeScriptOptions? parent, TypeScriptOptions? global, object? target = null)
     : OptionsBase<TypeScriptOptions>(parent, global, target)

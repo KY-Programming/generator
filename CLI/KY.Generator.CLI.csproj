@@ -149,9 +149,17 @@
         <None Include="packages.config" />
     </ItemGroup>
     <ItemGroup>
+        <ProjectReference Include="..\Angular.Generator\KY.Generator.Angular.Generator.csproj">
+            <Project>{d014aa5a-715b-47fb-acc8-645cc4fd242f}</Project>
+            <Name>KY.Generator.Angular.Generator</Name>
+        </ProjectReference>
         <ProjectReference Include="..\Angular\KY.Generator.Angular.csproj">
             <Project>{ECBEBF2B-470C-4F73-96C4-56518981BA50}</Project>
             <Name>KY.Generator.Angular</Name>
+        </ProjectReference>
+        <ProjectReference Include="..\AspDotNet.Generator\KY.Generator.AspDotNet.Generator.csproj">
+            <Project>{70bfed13-598e-450b-a0e9-596abd98b372}</Project>
+            <Name>KY.Generator.AspDotNet.Generator</Name>
         </ProjectReference>
         <ProjectReference Include="..\AspDotNet\KY.Generator.AspDotNet.csproj">
             <Project>{5915BD99-7A27-4A49-B31D-0CB8A3E07795}</Project>
@@ -169,17 +177,33 @@
             <Project>{9971b95e-9a7a-4ff0-982f-a7f77572373c}</Project>
             <Name>KY.Generator.Json.Generator</Name>
         </ProjectReference>
+        <ProjectReference Include="..\Reflection.Generator\KY.Generator.Reflection.Generator.csproj">
+            <Project>{735f4783-0d75-40a5-a233-70c38e2b86a6}</Project>
+            <Name>KY.Generator.Reflection.Generator</Name>
+        </ProjectReference>
         <ProjectReference Include="..\Reflection\KY.Generator.Reflection.csproj">
             <Project>{1CD25461-36BC-46A1-ABDD-F710179A641E}</Project>
             <Name>KY.Generator.Reflection</Name>
+        </ProjectReference>
+        <ProjectReference Include="..\Sqlite.Generator\KY.Generator.Sqlite.Generator.csproj">
+            <Project>{87b62d3e-939c-499a-ab71-5a7401da324f}</Project>
+            <Name>KY.Generator.Sqlite.Generator</Name>
         </ProjectReference>
         <ProjectReference Include="..\Sqlite\KY.Generator.Sqlite.csproj">
             <Project>{87b62d3e-939c-499a-ab71-5a7401da324f}</Project>
             <Name>KY.Generator.Sqlite</Name>
         </ProjectReference>
+        <ProjectReference Include="..\Tsql.Generator\KY.Generator.Tsql.Generator.csproj">
+            <Project>{aa6518e9-3737-4258-8ccf-d65eab21c905}</Project>
+            <Name>KY.Generator.Tsql.Generator</Name>
+        </ProjectReference>
         <ProjectReference Include="..\Tsql\KY.Generator.Tsql.csproj">
             <Project>{2d968283-996b-4619-8b10-d8086c2b2922}</Project>
             <Name>KY.Generator.Tsql</Name>
+        </ProjectReference>
+        <ProjectReference Include="..\TypeScript.Generator\KY.Generator.TypeScript.Generator.csproj">
+            <Project>{020847c4-c29e-4edb-9567-6ac912fe9dcc}</Project>
+            <Name>KY.Generator.TypeScript.Generator</Name>
         </ProjectReference>
         <ProjectReference Include="..\TypeScript\KY.Generator.TypeScript.csproj">
             <Project>{51D247CC-BE96-461F-8848-F6B32461FABB}</Project>

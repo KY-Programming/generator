@@ -30,8 +30,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <None Include="..\icon.png" Pack="true" PackagePath="assets" />
-        <None Include="README.md" Pack="true" PackagePath="" />
+        <None Include="..\icon.png" Pack="true" PackagePath="assets" Visible="false" />
+        <None Include="README.md" Pack="true" PackagePath="" Visible="false" />
+        <None Remove="KY.Generator.Annotations.csproj.DotSettings" />
     </ItemGroup>
 
 </Project>

@@ -1,8 +1,7 @@
-﻿namespace KY.Generator.Sqlite.Fluent
+﻿namespace KY.Generator;
+
+public interface ISqliteFromDatabaseOrReadSyntax : ISqliteFromDatabaseSyntax, ISqliteReadSyntax
 {
-    public interface ISqliteFromDatabaseOrReadSyntax : ISqliteFromDatabaseSyntax, ISqliteReadSyntax
-    {
-        ISqliteFromDatabaseOrReadSyntax UseTable(string tableName);
-        ISqliteFromDatabaseOrReadSyntax UseAll();
-    }
+    ISqliteFromDatabaseOrReadSyntax UseTable(string tableName);
+    ISqliteFromDatabaseOrReadSyntax UseAll();
 }

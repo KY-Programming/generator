@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <Company>KY-Programming</Company>
+        <Authors>KY-Programming</Authors>
+        <Version>7.6.0</Version>
+        <Product>KY.Generator</Product>
+        <Description>OpenApi Module for KY-Generator
+            Download KY.Generator to use this module
+        </Description>
+        <Copyright>2025 - KY-Programming</Copyright>
+        <LangVersion>latest</LangVersion>
+        <RootNamespace>KY.Generator.OpenApi</RootNamespace>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+        <OutputPath>..\bin\Debug</OutputPath>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+        <OutputPath>..\bin\Release</OutputPath>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.OpenApi.Readers" Version="1.2.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Common\KY.Generator.Common.csproj" />
+        <ProjectReference Include="..\CSharp\KY.Generator.Csharp.csproj" />
+        <ProjectReference Include="..\TypeScript.Generator\KY.Generator.TypeScript.Generator.csproj" />
+        <ProjectReference Include="..\TypeScript\KY.Generator.TypeScript.csproj" />
+    </ItemGroup>
+
+</Project>

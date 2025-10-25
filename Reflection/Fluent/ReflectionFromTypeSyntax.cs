@@ -1,6 +1,4 @@
-﻿using KY.Generator.Reflection.Commands;
-
-namespace KY.Generator.Reflection.Fluent;
+﻿namespace KY.Generator;
 
 internal class ReflectionFromTypeSyntax : IReflectionFromTypeSyntax
 {

@@ -19,6 +19,7 @@
         <RepositoryUrl>https://github.com/KY-Programming/generator</RepositoryUrl>
         <PackageTags>KY-Generator KY.Generator ASP.net</PackageTags>
         <LangVersion>latest</LangVersion>
+        <RootNamespace>KY.Generator</RootNamespace>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -42,8 +43,8 @@
     </ItemGroup>
 
     <ItemGroup>
-        <None Include="..\icon.png" Pack="true" PackagePath="assets" />
-        <None Include="..\Common\README.md" Pack="true" PackagePath="" />
+        <None Include="..\icon.png" Pack="true" PackagePath="assets" Visible="false" />
+        <None Include="..\Common\README.md" Pack="true" PackagePath="" Visible="false" />
     </ItemGroup>
 
 </Project>

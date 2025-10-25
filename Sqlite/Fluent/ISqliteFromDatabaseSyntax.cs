@@ -1,5 +1,4 @@
-namespace KY.Generator.Sqlite.Fluent
-{
-    public interface ISqliteFromDatabaseSyntax
-    { }
-}
+namespace KY.Generator;
+
+public interface ISqliteFromDatabaseSyntax
+{ }

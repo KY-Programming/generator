@@ -1,9 +1,8 @@
 ﻿using KY.Core.Dependency;
-using KY.Generator.AspDotNet.Commands;
 using KY.Generator.Commands;
 using KY.Generator.Syntax;
 
-namespace KY.Generator.AspDotNet.Fluent;
+namespace KY.Generator;
 
 internal class AspDotNetReadSyntax : ExecutableSyntax, IAspDotNetReadSyntax
 {

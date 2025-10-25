@@ -1,7 +1,6 @@
-﻿using KY.Generator.Angular.Commands;
-using KY.Generator.Syntax;
+﻿using KY.Generator.Syntax;
 
-namespace KY.Generator.Angular.Fluent;
+namespace KY.Generator.Angular;
 
 internal class AngularServiceSyntax : IAngularServiceSyntax, IAngularHttpClientSyntax
 {

@@ -1,7 +1,7 @@
 ﻿using KY.Generator.Angular.Models;
 using KY.Generator.Command;
 
-namespace KY.Generator.Angular.Commands;
+namespace KY.Generator;
 
 public class AngularPackageCommandParameters : GeneratorCommandParameters
 {
@@ -15,7 +15,7 @@ public class AngularPackageCommandParameters : GeneratorCommandParameters
     public bool VersionFromNpm { get; set; }
     public IncrementVersion IncrementVersion { get; set; }
 
-    public static string[] Names { get; } = [..ToCommand(nameof(AngularPackageCommand))];
+    public static string[] Names { get; } = [..ToCommand(nameof(AngularPackageCommandParameters))];
 
     public AngularPackageCommandParameters()
         : base(Names.First())

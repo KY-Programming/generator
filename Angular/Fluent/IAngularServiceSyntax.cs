@@ -1,4 +1,4 @@
-﻿namespace KY.Generator.Angular.Fluent;
+﻿namespace KY.Generator.Angular;
 
 public interface IAngularServiceSyntax
 {

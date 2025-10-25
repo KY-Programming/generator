@@ -1,11 +1,10 @@
-﻿namespace KY.Generator.Angular.Fluent
+﻿namespace KY.Generator.Angular;
+
+public interface IAngularHttpClientMethodSyntax
 {
-    public interface IAngularHttpClientMethodSyntax
-    {
-        IAngularHttpClientMethodSyntax NoHttpOptions();
-        IAngularHttpClientMethodSyntax NotGeneric();
-        IAngularHttpClientMethodSyntax ReturnGeneric();
-        IAngularHttpClientMethodSyntax ParameterGeneric();
-        IAngularHttpClientMethodSyntax ReturnsAny();
-    }
+    IAngularHttpClientMethodSyntax NoHttpOptions();
+    IAngularHttpClientMethodSyntax NotGeneric();
+    IAngularHttpClientMethodSyntax ReturnGeneric();
+    IAngularHttpClientMethodSyntax ParameterGeneric();
+    IAngularHttpClientMethodSyntax ReturnsAny();
 }

@@ -1,13 +1,10 @@
-using System;
+namespace KY.Generator.Angular;
 
-namespace KY.Generator.Angular.Fluent
+public interface IAngularHttpClientSyntax : IAngularServiceSyntax
 {
-    public interface IAngularHttpClientSyntax : IAngularServiceSyntax
-    {
-        IAngularHttpClientSyntax GetMethod(string name, Action<IAngularHttpClientMethodSyntax> optionsAction = null);
-        IAngularHttpClientSyntax PostMethod(string name, Action<IAngularHttpClientMethodSyntax> optionsAction = null);
-        IAngularHttpClientSyntax PutMethod(string name, Action<IAngularHttpClientMethodSyntax> optionsAction = null);
-        IAngularHttpClientSyntax PatchMethod(string name, Action<IAngularHttpClientMethodSyntax> optionsAction = null);
-        IAngularHttpClientSyntax DeleteMethod(string name, Action<IAngularHttpClientMethodSyntax> optionsAction = null);
-    }
+    IAngularHttpClientSyntax GetMethod(string name, Action<IAngularHttpClientMethodSyntax> optionsAction = null);
+    IAngularHttpClientSyntax PostMethod(string name, Action<IAngularHttpClientMethodSyntax> optionsAction = null);
+    IAngularHttpClientSyntax PutMethod(string name, Action<IAngularHttpClientMethodSyntax> optionsAction = null);
+    IAngularHttpClientSyntax PatchMethod(string name, Action<IAngularHttpClientMethodSyntax> optionsAction = null);
+    IAngularHttpClientSyntax DeleteMethod(string name, Action<IAngularHttpClientMethodSyntax> optionsAction = null);
 }

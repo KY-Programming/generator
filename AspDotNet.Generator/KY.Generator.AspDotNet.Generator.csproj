@@ -1,0 +1,40 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <Company>KY-Programming</Company>
+        <Authors>KY-Programming</Authors>
+        <Version>10.0.0-preview.19</Version>
+        <Product>KY.Generator</Product>
+        <Description>ASP.net Module for KY-Generator
+            Download KY.Generator to use this module
+        </Description>
+        <Copyright>2025 - KY-Programming</Copyright>
+        <LangVersion>latest</LangVersion>
+        <RootNamespace>KY.Generator.AspDotNet</RootNamespace>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+        <OutputPath>..\bin\Debug</OutputPath>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+        <OutputPath>..\bin\Release</OutputPath>
+        <NoWarn>1701;1702;1591</NoWarn>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="KY.Core.Common" Version="4.36.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\AspDotNet\KY.Generator.AspDotNet.csproj" />
+        <ProjectReference Include="..\Common\KY.Generator.Common.csproj" />
+        <ProjectReference Include="..\CSharp\KY.Generator.Csharp.csproj" />
+        <ProjectReference Include="..\Reflection.Generator\KY.Generator.Reflection.Generator.csproj" />
+        <ProjectReference Include="..\Reflection\KY.Generator.Reflection.csproj" />
+    </ItemGroup>
+
+</Project>

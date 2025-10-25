@@ -1,6 +1,6 @@
 ﻿using KY.Generator.Command;
 
-namespace KY.Generator.Sqlite.Commands;
+namespace KY.Generator;
 
 public class SqliteWriteRepositoryCommandParameters : GeneratorCommandParameters
 {
@@ -9,7 +9,7 @@ public class SqliteWriteRepositoryCommandParameters : GeneratorCommandParameters
     public string? Table { get; set; }
     public string? ClassName { get; set; }
 
-    public static string[] Names { get; } = [..ToCommand(nameof(SqliteWriteRepositoryCommand)), "sqlite-repository"];
+    public static string[] Names { get; } = [..ToCommand(nameof(SqliteWriteRepositoryCommandParameters)), "sqlite-repository"];
 
     public SqliteWriteRepositoryCommandParameters()
         : base(Names.First())

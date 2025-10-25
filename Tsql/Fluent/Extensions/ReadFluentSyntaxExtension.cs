@@ -1,8 +1,6 @@
 ﻿using KY.Core;
 using KY.Generator.Syntax;
-using KY.Generator.Tsql.Fluent;
 
-// ReSharper disable once CheckNamespace : Easier usage on lower namespace
 namespace KY.Generator;
 
 public static class ReadFluentSyntaxExtension

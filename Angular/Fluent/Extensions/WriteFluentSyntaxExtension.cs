@@ -1,8 +1,7 @@
 ﻿using KY.Core;
-using KY.Generator.Angular.Fluent;
+using KY.Generator.Angular;
 using KY.Generator.Syntax;
 
-// ReSharper disable once CheckNamespace
 namespace KY.Generator;
 
 public static class WriteFluentSyntaxExtension

@@ -1,6 +1,6 @@
 ﻿using KY.Generator.Command;
 
-namespace KY.Generator.Angular.Commands;
+namespace KY.Generator;
 
 public class AngularServiceCommandParameters : GeneratorCommandParameters
 {
@@ -21,7 +21,7 @@ public class AngularServiceCommandParameters : GeneratorCommandParameters
     public string? HttpClientDelete { get; set; }
     public AngularHttpClientMethodOptions HttpClientDeleteOptions { get; set; } = new();
 
-    public static string[] Names { get; } = [..ToCommand(nameof(AngularServiceCommand))];
+    public static string[] Names { get; } = [..ToCommand(nameof(AngularServiceCommandParameters))];
 
     public AngularServiceCommandParameters()
         : base(Names.First())

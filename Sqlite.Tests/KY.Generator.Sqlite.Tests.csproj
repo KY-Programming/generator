@@ -16,7 +16,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Sqlite\KY.Generator.Sqlite.csproj" />
+        <ProjectReference Include="..\Sqlite.Generator\KY.Generator.Sqlite.Generator.csproj" />
+        <ProjectReference Include="..\Sqlite\KY.Generator.Sqlite.csproj" />
     </ItemGroup>
 
 </Project>

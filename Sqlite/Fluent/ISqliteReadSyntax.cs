@@ -1,10 +1,7 @@
-using System;
+namespace KY.Generator;
 
-namespace KY.Generator.Sqlite.Fluent
+public interface ISqliteReadSyntax
 {
-    public interface ISqliteReadSyntax
-    {
-        ISqliteFromDatabaseOrReadSyntax UseConnectionString(string connectionString);
-        ISqliteFromDatabaseOrReadSyntax UseFile(string file);
-    }
+    ISqliteFromDatabaseOrReadSyntax UseConnectionString(string connectionString);
+    ISqliteFromDatabaseOrReadSyntax UseFile(string file);
 }

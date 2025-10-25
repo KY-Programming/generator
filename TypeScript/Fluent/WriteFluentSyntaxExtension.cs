@@ -1,7 +1,5 @@
 ﻿using KY.Generator.Syntax;
-using KY.Generator.TypeScript;
 
-// ReSharper disable once CheckNamespace
 namespace KY.Generator;
 
 public static class WriteFluentSyntaxExtension

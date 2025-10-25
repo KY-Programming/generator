@@ -19,7 +19,7 @@
         <PackageTags>KY-Generator KY.Generator Sqlite</PackageTags>
         <LangVersion>latest</LangVersion>
         <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-        <ProjectGuid>{87b62d3e-939c-499a-ab71-5a7401da324f}</ProjectGuid>
+        <RootNamespace>KY.Generator</RootNamespace>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -31,18 +31,14 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.Data.Sqlite" Version="5.0.7" />
-    </ItemGroup>
-
-    <ItemGroup>
         <ProjectReference Include="..\Common\KY.Generator.Common.csproj" />
         <ProjectReference Include="..\CSharp\KY.Generator.Csharp.csproj" />
         <ProjectReference Include="..\Reflection\KY.Generator.Reflection.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <None Include="..\icon.png" Pack="true" PackagePath="assets" />
-        <None Include="..\Common\README.md" Pack="true" PackagePath="" />
+        <None Include="..\icon.png" Pack="true" PackagePath="assets" Visible="false" />
+        <None Include="..\Common\README.md" Pack="true" PackagePath="" Visible="false" />
     </ItemGroup>
 
 </Project>

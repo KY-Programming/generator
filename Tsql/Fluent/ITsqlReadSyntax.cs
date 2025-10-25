@@ -1,7 +1,6 @@
-﻿namespace KY.Generator.Tsql.Fluent
+﻿namespace KY.Generator;
+
+public interface ITsqlReadSyntax
 {
-    public interface ITsqlReadSyntax
-    {
-        ITsqlReadSyntax FromTable(string schema, string table);
-    }
+    ITsqlReadSyntax FromTable(string schema, string table);
 }

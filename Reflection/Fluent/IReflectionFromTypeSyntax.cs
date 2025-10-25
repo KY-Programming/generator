@@ -1,11 +1,10 @@
-﻿namespace KY.Generator.Reflection.Fluent
+﻿namespace KY.Generator;
+
+public interface IReflectionFromTypeSyntax
 {
-    public interface IReflectionFromTypeSyntax
-    {
-        /// <summary>
-        /// Reads only the metadata from used/referenced types.
-        /// Use this method to create a index type, which will not be generated, but adds all used types to generation process
-        /// </summary>
-        IReflectionFromTypeSyntax OnlySubTypes();
-    }
+    /// <summary>
+    /// Reads only the metadata from used/referenced types.
+    /// Use this method to create a index type, which will not be generated, but adds all used types to generation process
+    /// </summary>
+    IReflectionFromTypeSyntax OnlySubTypes();
 }

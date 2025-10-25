@@ -1,6 +1,6 @@
 ﻿using KY.Generator.Command;
 
-namespace KY.Generator.Tsql.Commands;
+namespace KY.Generator;
 
 public class TsqlReadCommandParameters : GeneratorCommandParameters
 {
@@ -11,7 +11,7 @@ public class TsqlReadCommandParameters : GeneratorCommandParameters
     public string? Namespace { get; set; }
     public string? Name { get; set; }
 
-    public static string[] Names { get; } = [..ToCommand(nameof(TsqlReadCommand))];
+    public static string[] Names { get; } = [..ToCommand(nameof(TsqlReadCommandParameters))];
 
     public TsqlReadCommandParameters()
         : base(Names.First())
