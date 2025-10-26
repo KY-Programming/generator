@@ -1,130 +1,130 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup>
-    <GeneratorPlatform Condition="$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))">windows</GeneratorPlatform>
-    <GeneratorPlatform Condition="$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))">linux</GeneratorPlatform>
-    <GeneratorPlatform Condition="$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))">osx</GeneratorPlatform>
-  </PropertyGroup>
-
-  <!-- Windows -->
-  <Target Name="KYGeneratorWindowsBeforeTarget"
-          BeforeTargets="BeforeBuild"
-          Condition="$(GeneratorPlatform) == 'windows'">
-    <Exec Command="dotnet --version" ConsoleToMSBuild="true">
-      <Output TaskParameter="ConsoleOutput" PropertyName="FrameworkRaw" />
-    </Exec>
     <PropertyGroup>
-      <Framework>net462</Framework>
-      <Framework Condition="$(FrameworkRaw.StartsWith('2.'))">netcoreapp2.0</Framework>
-      <Framework Condition="$(FrameworkRaw.StartsWith('3.'))">netcoreapp3.0</Framework>
-      <Framework Condition="$(FrameworkRaw.StartsWith('5.'))">net5.0</Framework>
-      <Framework Condition="$(FrameworkRaw.StartsWith('6.'))">net6.0</Framework>
-      <Framework Condition="$(FrameworkRaw.StartsWith('7.'))">net7.0</Framework>
-      <Framework Condition="$(FrameworkRaw.StartsWith('8.'))">net8.0</Framework>
-      <Framework Condition="$(FrameworkRaw.StartsWith('9.'))">net9.0</Framework>
+        <GeneratorPlatform Condition="$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))">windows</GeneratorPlatform>
+        <GeneratorPlatform Condition="$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))">linux</GeneratorPlatform>
+        <GeneratorPlatform Condition="$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))">osx</GeneratorPlatform>
     </PropertyGroup>
-    <Exec Command="%22$(MSBuildThisFileDirectory)..\tools\$(Framework)\KY.Generator.exe%22 readid -solution=%22$(SolutionPath)%22 -project=%22$(ProjectPath)%22 fluent -assembly=%22$(TargetPath)%22 -output=%22$(ProjectDir)\%22 -msbuild -beforeBuild"
-          Condition="$(Framework) != 'netcoreapp2.0'"
-          CustomErrorRegularExpression="^Error:"
-          CustomWarningRegularExpression="^Warning:">
-    </Exec>
-    <Exec Command="dotnet %22$(MSBuildThisFileDirectory)..\tools\$(Framework)\KY.Generator.dll%22 readid -solution=%22$(SolutionPath)%22 -project=%22$(ProjectPath)%22 fluent -assembly=%22$(TargetPath)%22 -output=%22$(ProjectDir)\%22 -msbuild -beforeBuild"
-          Condition="$(Framework) == 'netcoreapp2.0'"
-          CustomErrorRegularExpression="^Error:"
-          CustomWarningRegularExpression="^Warning:">
-    </Exec>
-  </Target>
-  <Target Name="KYGeneratorWindowsAfterTarget"
-          AfterTargets="AfterBuild"
-          Condition="$(GeneratorPlatform) == 'windows'">
-    <Exec Command="%22$(MSBuildThisFileDirectory)..\tools\$(Framework)\KY.Generator.exe%22 readid -solution=%22$(SolutionPath)%22 -project=%22$(ProjectPath)%22 fluent annotation -*assembly=%22$(TargetPath)%22 -*output=%22$(ProjectDir)\%22 -*msbuild"
-          Condition="$(Framework) != 'netcoreapp2.0'"
-          CustomErrorRegularExpression="^Error:"
-          CustomWarningRegularExpression="^Warning:">
-    </Exec>
-    <Exec Command="dotnet %22$(MSBuildThisFileDirectory)..\tools\$(Framework)\KY.Generator.dll%22 readid -solution=%22$(SolutionPath)%22 -project=%22$(ProjectPath)%22 fluent annotation -*assembly=%22$(TargetPath)%22 -*output=%22$(ProjectDir)\%22 -*msbuild"
-          Condition="$(Framework) == 'netcoreapp2.0'"
-          CustomErrorRegularExpression="^Error:"
-          CustomWarningRegularExpression="^Warning:">
-    </Exec>
-  </Target>
 
-  <!-- Linux -->
-  <Target Name="KYGeneratorLinuxBeforeTarget"
-          BeforeTargets="BeforeBuild"
-          Condition="$(GeneratorPlatform) == 'linux'">
-    <Exec Command="dotnet --version" ConsoleToMSBuild="true">
-      <Output TaskParameter="ConsoleOutput" PropertyName="FrameworkRaw" />
-    </Exec>
-    <PropertyGroup>
-      <Framework>none</Framework>
-      <Framework Condition="$(FrameworkRaw.StartsWith('2.'))">netcoreapp2.0</Framework>
-      <Framework Condition="$(FrameworkRaw.StartsWith('3.'))">netcoreapp3.0</Framework>
-      <Framework Condition="$(FrameworkRaw.StartsWith('5.'))">net5.0</Framework>
-      <Framework Condition="$(FrameworkRaw.StartsWith('6.'))">net6.0</Framework>
-      <Framework Condition="$(FrameworkRaw.StartsWith('7.'))">net7.0</Framework>
-      <Framework Condition="$(FrameworkRaw.StartsWith('8.'))">net8.0</Framework>
-      <Framework Condition="$(FrameworkRaw.StartsWith('9.'))">net9.0</Framework>
-    </PropertyGroup>
-    <Exec Command="dotnet %22$(MSBuildThisFileDirectory)../tools/$(Framework)/KY.Generator.dll%22 readid -solution=%22$(SolutionPath)%22 -project=%22$(ProjectPath)%22 fluent -assembly=%22$(TargetPath)%22 -output=%22$(ProjectDir)%22 -msbuild -beforeBuild"
-          Condition="$(Framework) != 'none'"
-          CustomErrorRegularExpression="^Error:"
-          CustomWarningRegularExpression="^Warning:">
-    </Exec>
-    <Message Text="No matching .net framework found. Install at least .net core 2.0"
-             Condition="$(Framework) == 'none'">
-    </Message>
-  </Target>
-  <Target Name="KYGeneratorLinuxAfterTarget"
-          AfterTargets="AfterBuild"
-          Condition="$(GeneratorPlatform) == 'linux'">
-    <Exec Command="dotnet %22$(MSBuildThisFileDirectory)../tools/$(Framework)/KY.Generator.dll%22 readid -solution=%22$(SolutionPath)%22 -project=%22$(ProjectPath)%22 fluent annotation -*assembly=%22$(TargetPath)%22 -*output=%22$(ProjectDir)%22 -*msbuild"
-          Condition="$(Framework) != 'none'"
-          CustomErrorRegularExpression="^Error:"
-          CustomWarningRegularExpression="^Warning:">
-    </Exec>
-    <Message Text="No matching .net framework found. Install at least .net core 2.0"
-             Condition="$(Framework) == 'none'">
-    </Message>
-  </Target>
+    <!-- Windows -->
+    <Target Name="KYGeneratorWindowsBeforeTarget"
+            BeforeTargets="BeforeBuild"
+            Condition="$(GeneratorPlatform) == 'windows'">
+        <Exec Command="dotnet --version" ConsoleToMSBuild="true">
+            <Output TaskParameter="ConsoleOutput" PropertyName="FrameworkRaw" />
+        </Exec>
+        <PropertyGroup>
+            <Framework>net462</Framework>
+            <Framework Condition="$(FrameworkRaw.StartsWith('2.'))">netcoreapp2.0</Framework>
+            <Framework Condition="$(FrameworkRaw.StartsWith('3.'))">netcoreapp3.0</Framework>
+            <Framework Condition="$(FrameworkRaw.StartsWith('5.'))">net5.0</Framework>
+            <Framework Condition="$(FrameworkRaw.StartsWith('6.'))">net6.0</Framework>
+            <Framework Condition="$(FrameworkRaw.StartsWith('7.'))">net7.0</Framework>
+            <Framework Condition="$(FrameworkRaw.StartsWith('8.'))">net8.0</Framework>
+            <Framework Condition="$(FrameworkRaw.StartsWith('9.'))">net9.0</Framework>
+        </PropertyGroup>
+        <Exec Command="%22$(MSBuildThisFileDirectory)..\tools\$(Framework)\KY.Generator.exe%22 readid -solution=%22$(SolutionPath)%22 -project=%22$(ProjectPath)%22 msbuild beforeBuild set -output=%22$(ProjectDir)\%22 load -assembly=%22$(TargetPath)%22 fluent"
+              Condition="$(Framework) != 'netcoreapp2.0'"
+              CustomErrorRegularExpression="^Error:"
+              CustomWarningRegularExpression="^Warning:">
+        </Exec>
+        <Exec Command="dotnet %22$(MSBuildThisFileDirectory)..\tools\$(Framework)\KY.Generator.dll%22 readid -solution=%22$(SolutionPath)%22 -project=%22$(ProjectPath)%22 msbuild beforeBuild set -output=%22$(ProjectDir)\%22 load -assembly=%22$(TargetPath)%22 fluent"
+              Condition="$(Framework) == 'netcoreapp2.0'"
+              CustomErrorRegularExpression="^Error:"
+              CustomWarningRegularExpression="^Warning:">
+        </Exec>
+    </Target>
+    <Target Name="KYGeneratorWindowsAfterTarget"
+            AfterTargets="AfterBuild"
+            Condition="$(GeneratorPlatform) == 'windows'">
+        <Exec Command="%22$(MSBuildThisFileDirectory)..\tools\$(Framework)\KY.Generator.exe%22 readid -solution=%22$(SolutionPath)%22 -project=%22$(ProjectPath)%22 msbuild beforeBuild set -output=%22$(ProjectDir)\%22 load -assembly=%22$(TargetPath)%22 fluent annotation"
+              Condition="$(Framework) != 'netcoreapp2.0'"
+              CustomErrorRegularExpression="^Error:"
+              CustomWarningRegularExpression="^Warning:">
+        </Exec>
+        <Exec Command="dotnet %22$(MSBuildThisFileDirectory)..\tools\$(Framework)\KY.Generator.dll%22 readid -solution=%22$(SolutionPath)%22 -project=%22$(ProjectPath)%22 msbuild beforeBuild set -output=%22$(ProjectDir)\%22 load -assembly=%22$(TargetPath)%22 fluent annotation"
+              Condition="$(Framework) == 'netcoreapp2.0'"
+              CustomErrorRegularExpression="^Error:"
+              CustomWarningRegularExpression="^Warning:">
+        </Exec>
+    </Target>
 
-  <!-- OSX -->
-  <Target Name="KYGeneratorOsxBeforeTarget"
-          BeforeTargets="BeforeBuild"
-          Condition="$(GeneratorPlatform) == 'osx'">
-    <Exec Command="dotnet --version" ConsoleToMSBuild="true">
-      <Output TaskParameter="ConsoleOutput" PropertyName="FrameworkRaw" />
-    </Exec>
-    <PropertyGroup>
-      <Framework>none</Framework>
-      <Framework Condition="$(FrameworkRaw.StartsWith('2.'))">netcoreapp2.0</Framework>
-      <Framework Condition="$(FrameworkRaw.StartsWith('3.'))">netcoreapp3.0</Framework>
-      <Framework Condition="$(FrameworkRaw.StartsWith('5.'))">net5.0</Framework>
-      <Framework Condition="$(FrameworkRaw.StartsWith('6.'))">net6.0</Framework>
-      <Framework Condition="$(FrameworkRaw.StartsWith('7.'))">net7.0</Framework>
-      <Framework Condition="$(FrameworkRaw.StartsWith('8.'))">net8.0</Framework>
-      <Framework Condition="$(FrameworkRaw.StartsWith('9.'))">net9.0</Framework>
-    </PropertyGroup>
-    <Exec Command="dotnet %22$(MSBuildThisFileDirectory)../tools/$(Framework)/KY.Generator.dll%22 readid -solution=%22$(SolutionPath)%22 -project=%22$(ProjectPath)%22 fluent -assembly=%22$(TargetPath)%22 -output=%22$(ProjectDir)%22 -msbuild -beforeBuild"
-          Condition="$(Framework) != 'none'"
-          CustomErrorRegularExpression="^Error:"
-          CustomWarningRegularExpression="^Warning:">
-    </Exec>
-    <Message Text="No matching .net framework found. Install at least .net core 2.0"
-             Condition="$(Framework) == 'none'">
-    </Message>
-  </Target>
-  <Target Name="KYGeneratorOsxAfterTarget"
-          AfterTargets="AfterBuild"
-          Condition="$(GeneratorPlatform) == 'osx'">
-    <Exec Command="dotnet %22$(MSBuildThisFileDirectory)../tools/$(Framework)/KY.Generator.dll%22 readid -solution=%22$(SolutionPath)%22 -project=%22$(ProjectPath)%22 fluent annotation -*assembly=%22$(TargetPath)%22 -*output=%22$(ProjectDir)%22 -*msbuild"
-          Condition="$(Framework) != 'none'"
-          CustomErrorRegularExpression="^Error:"
-          CustomWarningRegularExpression="^Warning:">
-    </Exec>
-    <Message Text="No matching .net framework found. Install at least .net core 2.0"
-             Condition="$(Framework) == 'none'">
-    </Message>
-  </Target>
+    <!-- Linux -->
+    <Target Name="KYGeneratorLinuxBeforeTarget"
+            BeforeTargets="BeforeBuild"
+            Condition="$(GeneratorPlatform) == 'linux'">
+        <Exec Command="dotnet --version" ConsoleToMSBuild="true">
+            <Output TaskParameter="ConsoleOutput" PropertyName="FrameworkRaw" />
+        </Exec>
+        <PropertyGroup>
+            <Framework>none</Framework>
+            <Framework Condition="$(FrameworkRaw.StartsWith('2.'))">netcoreapp2.0</Framework>
+            <Framework Condition="$(FrameworkRaw.StartsWith('3.'))">netcoreapp3.0</Framework>
+            <Framework Condition="$(FrameworkRaw.StartsWith('5.'))">net5.0</Framework>
+            <Framework Condition="$(FrameworkRaw.StartsWith('6.'))">net6.0</Framework>
+            <Framework Condition="$(FrameworkRaw.StartsWith('7.'))">net7.0</Framework>
+            <Framework Condition="$(FrameworkRaw.StartsWith('8.'))">net8.0</Framework>
+            <Framework Condition="$(FrameworkRaw.StartsWith('9.'))">net9.0</Framework>
+        </PropertyGroup>
+        <Exec Command="dotnet %22$(MSBuildThisFileDirectory)../tools/$(Framework)/KY.Generator.dll%22 readid -solution=%22$(SolutionPath)%22 -project=%22$(ProjectPath)%22 msbuild beforeBuild set -output=%22$(ProjectDir)\%22 load -assembly=%22$(TargetPath)%22 fluent"
+              Condition="$(Framework) != 'none'"
+              CustomErrorRegularExpression="^Error:"
+              CustomWarningRegularExpression="^Warning:">
+        </Exec>
+        <Message Text="No matching .net framework found. Install at least .net core 2.0"
+                 Condition="$(Framework) == 'none'">
+        </Message>
+    </Target>
+    <Target Name="KYGeneratorLinuxAfterTarget"
+            AfterTargets="AfterBuild"
+            Condition="$(GeneratorPlatform) == 'linux'">
+        <Exec Command="dotnet %22$(MSBuildThisFileDirectory)../tools/$(Framework)/KY.Generator.dll%22 readid -solution=%22$(SolutionPath)%22 -project=%22$(ProjectPath)%22 msbuild beforeBuild set -output=%22$(ProjectDir)\%22 load -assembly=%22$(TargetPath)%22 fluent annotation"
+              Condition="$(Framework) != 'none'"
+              CustomErrorRegularExpression="^Error:"
+              CustomWarningRegularExpression="^Warning:">
+        </Exec>
+        <Message Text="No matching .net framework found. Install at least .net core 2.0"
+                 Condition="$(Framework) == 'none'">
+        </Message>
+    </Target>
+
+    <!-- OSX -->
+    <Target Name="KYGeneratorOsxBeforeTarget"
+            BeforeTargets="BeforeBuild"
+            Condition="$(GeneratorPlatform) == 'osx'">
+        <Exec Command="dotnet --version" ConsoleToMSBuild="true">
+            <Output TaskParameter="ConsoleOutput" PropertyName="FrameworkRaw" />
+        </Exec>
+        <PropertyGroup>
+            <Framework>none</Framework>
+            <Framework Condition="$(FrameworkRaw.StartsWith('2.'))">netcoreapp2.0</Framework>
+            <Framework Condition="$(FrameworkRaw.StartsWith('3.'))">netcoreapp3.0</Framework>
+            <Framework Condition="$(FrameworkRaw.StartsWith('5.'))">net5.0</Framework>
+            <Framework Condition="$(FrameworkRaw.StartsWith('6.'))">net6.0</Framework>
+            <Framework Condition="$(FrameworkRaw.StartsWith('7.'))">net7.0</Framework>
+            <Framework Condition="$(FrameworkRaw.StartsWith('8.'))">net8.0</Framework>
+            <Framework Condition="$(FrameworkRaw.StartsWith('9.'))">net9.0</Framework>
+        </PropertyGroup>
+        <Exec Command="dotnet %22$(MSBuildThisFileDirectory)../tools/$(Framework)/KY.Generator.dll%22 readid -solution=%22$(SolutionPath)%22 -project=%22$(ProjectPath)%22 msbuild beforeBuild set -output=%22$(ProjectDir)\%22 load -assembly=%22$(TargetPath)%22 fluent"
+              Condition="$(Framework) != 'none'"
+              CustomErrorRegularExpression="^Error:"
+              CustomWarningRegularExpression="^Warning:">
+        </Exec>
+        <Message Text="No matching .net framework found. Install at least .net core 2.0"
+                 Condition="$(Framework) == 'none'">
+        </Message>
+    </Target>
+    <Target Name="KYGeneratorOsxAfterTarget"
+            AfterTargets="AfterBuild"
+            Condition="$(GeneratorPlatform) == 'osx'">
+        <Exec Command="dotnet %22$(MSBuildThisFileDirectory)../tools/$(Framework)/KY.Generator.dll%22 readid -solution=%22$(SolutionPath)%22 -project=%22$(ProjectPath)%22 msbuild beforeBuild set -output=%22$(ProjectDir)\%22 load -assembly=%22$(TargetPath)%22 fluent annotation"
+              Condition="$(Framework) != 'none'"
+              CustomErrorRegularExpression="^Error:"
+              CustomWarningRegularExpression="^Warning:">
+        </Exec>
+        <Message Text="No matching .net framework found. Install at least .net core 2.0"
+                 Condition="$(Framework) == 'none'">
+        </Message>
+    </Target>
 </Project>
