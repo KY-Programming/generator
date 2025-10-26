@@ -1,4 +1,5 @@
 ﻿using KY.Core.Dependency;
+using KY.Generator.Angular;
 using KY.Generator.AspDotNet.Commands;
 using KY.Generator.Csharp;
 using KY.Generator.Models;
@@ -11,6 +12,7 @@ public class AspDotNetModule : GeneratorModule
     public AspDotNetModule(IDependencyResolver dependencyResolver)
         : base(dependencyResolver)
     {
+        this.DependsOn<AngularModule>();
         this.DependsOn<CsharpModule>();
         this.DependsOn<ReflectionModule>();
         this.Register<AspDotNetReadControllerCommand>(AspDotNetReadControllerCommandParameters.Names);

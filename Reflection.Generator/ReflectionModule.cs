@@ -1,4 +1,5 @@
 ﻿using KY.Core.Dependency;
+using KY.Generator.Angular;
 using KY.Generator.Csharp;
 using KY.Generator.Mappings;
 using KY.Generator.Models;
@@ -15,6 +16,7 @@ public class ReflectionModule : GeneratorModule
     public ReflectionModule(IDependencyResolver dependencyResolver)
         : base(dependencyResolver)
     {
+        this.DependsOn<AngularModule>();
         this.DependsOn<CsharpModule>();
         this.DependsOn<TypeScriptModule>();
         this.DependencyResolver.Bind<ReflectionModelReader>().ToSelf();
