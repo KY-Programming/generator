@@ -11,6 +11,7 @@ public class MethodTemplate : AttributeableTempalte
     public Visibility Visibility { get; set; } = Visibility.Public;
     public bool IsStatic { get; set; }
     public bool IsOverride { get; set; }
+    public bool IsAsync { get; set; }
     public List<ParameterTemplate> Parameters { get; } = [];
     public MultilineCodeFragment Code { get; } = new();
     public ClassTemplate Class { get; }

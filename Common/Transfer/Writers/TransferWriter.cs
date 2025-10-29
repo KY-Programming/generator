@@ -76,7 +76,7 @@ public abstract class TransferWriter : Codeable
         return this.TypeMapping.GetStrictDefault(fromLanguage, toLanguage, type);
     }
 
-    protected virtual FieldTemplate AddField(ModelTransferObject model, MemberTransferObject member, ClassTemplate classTemplate)
+    protected virtual FieldTemplate? AddField(ModelTransferObject model, MemberTransferObject member, ClassTemplate classTemplate)
     {
         GeneratorOptions fieldOptions = this.Options.Get<GeneratorOptions>(member);
         if (model.Language != null && fieldOptions.Language != null)
@@ -96,7 +96,7 @@ public abstract class TransferWriter : Codeable
         return fieldTemplate;
     }
 
-    protected virtual PropertyTemplate AddProperty(ModelTransferObject model, MemberTransferObject member, ClassTemplate classTemplate)
+    protected virtual PropertyTemplate? AddProperty(ModelTransferObject model, MemberTransferObject member, ClassTemplate classTemplate)
     {
         bool canRead = true;
         bool canWrite = true;

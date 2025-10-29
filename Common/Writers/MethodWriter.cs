@@ -18,6 +18,7 @@ namespace KY.Generator.Writers
                   .Add(template.Attributes)
                   .Add(template.Visibility.ToString().ToLower()).Add(" ")
                   .If(template.IsStatic).Add("static ").EndIf()
+                  .If(template.IsAsync).Add("async ").EndIf()
                   .If(template.IsOverride).Add("override ").EndIf()
                   .If(template.Type != null).Add(template.Type).Add(" ").EndIf()
                   .Add(template.Name)

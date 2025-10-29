@@ -1,11 +1,11 @@
 namespace KY.Generator.Templates;
 
-public class ThisTemplate : ChainedCodeFragment
+public class AwaitTemplate : ChainedCodeFragment
 {
     public override string Separator => " ";
 
     public override object Clone()
     {
-        return this.CloneTo(new ThisTemplate());
+        return this.CloneTo(new AwaitTemplate());
     }
 }

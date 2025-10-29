@@ -82,4 +82,10 @@ public static class MethodTemplateExtension
         methodTemplate.Name = Formatter.FormatMethod(methodTemplate.Name, options, force);
         return methodTemplate;
     }
+
+    public static MethodTemplate Async(this MethodTemplate methodTemplate)
+    {
+        methodTemplate.IsAsync = true;
+        return methodTemplate;
+    }
 }

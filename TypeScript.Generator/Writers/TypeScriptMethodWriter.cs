@@ -88,6 +88,7 @@ public class TypeScriptMethodWriter : Codeable, ITemplateWriter
               .Add(template.Attributes)
               .If(template.Visibility != Visibility.None).Add(template.Visibility.ToString().ToLower()).Add(" ").EndIf()
               .If(template.IsStatic).Add("static ").EndIf()
+              .If(template.IsAsync).Add("async ").EndIf()
               .If(template.IsOverride).Add("override ").EndIf()
               .Add(template.Name)
               .If(generics != null && generics.Count > 0).Add("<").Add(generics, ", ").Add(">").EndIf()
