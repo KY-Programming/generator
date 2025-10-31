@@ -23,7 +23,7 @@ public class GeneratorOptionsFactory : IOptionsFactory
             Assembly assembly => this.CreateFromCustomAttributes(assembly.GetCustomAttributes(), key, parent as GeneratorOptions),
             MemberInfo member => this.CreateFromCustomAttributes(member.GetCustomAttributes(), key, parent as GeneratorOptions),
             ParameterInfo parameter => this.CreateFromCustomAttributes(parameter.GetCustomAttributes(), key, parent as GeneratorOptions),
-            Options.GlobalKey => new GeneratorOptions(parent as GeneratorOptions, null, "global"),
+            Options.RootKey => new GeneratorOptions(parent as GeneratorOptions, null, "global"),
             _ => new GeneratorOptions(parent as GeneratorOptions, null, key)
             // _ => throw new InvalidOperationException($"Could not create {nameof(GeneratorOptions)} {key.GetType()}")
         };
@@ -66,20 +66,20 @@ public class GeneratorOptionsFactory : IOptionsFactory
                     if (returnTypeAttribute.Type != null)
                     {
                         options.ReturnType = new TypeTransferObject
-                                             {
-                                                 Name = returnTypeAttribute.Type.Name,
-                                                 Namespace = returnTypeAttribute.Type.Namespace,
-                                                 Type = returnTypeAttribute.Type
-                                             };
+                        {
+                            Name = returnTypeAttribute.Type.Name,
+                            Namespace = returnTypeAttribute.Type.Namespace,
+                            Type = returnTypeAttribute.Type
+                        };
                     }
                     else
                     {
                         options.ReturnType = new TypeTransferObject
-                                             {
-                                                 Name = returnTypeAttribute.TypeName,
-                                                 FileName = returnTypeAttribute.FileName,
-                                                 OverrideType = returnTypeAttribute.OverrideName
-                                             };
+                        {
+                            Name = returnTypeAttribute.TypeName,
+                            FileName = returnTypeAttribute.FileName,
+                            OverrideType = returnTypeAttribute.OverrideName
+                        };
                     }
                     break;
                 case GenerateImportAttribute importAttribute:

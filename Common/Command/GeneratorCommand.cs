@@ -87,16 +87,31 @@ public abstract class GeneratorCommand<T> : IGeneratorCommand
     public virtual void FollowUp()
     { }
 
-    public abstract IGeneratorCommandResult Run();
+    public abstract Task<IGeneratorCommandResult> Run();
+
+    protected Task<IGeneratorCommandResult> ResultAsync(IGeneratorCommandResult result)
+    {
+        return Task.FromResult(result);
+    }
 
     protected SuccessResult Success()
     {
         return new SuccessResult();
     }
 
+    protected Task<IGeneratorCommandResult> SuccessAsync()
+    {
+        return this.ResultAsync(this.Success());
+    }
+
     protected ErrorResult Error()
     {
         return new ErrorResult();
+    }
+
+    protected Task<IGeneratorCommandResult> ErrorAsync()
+    {
+        return this.ResultAsync(this.Error());
     }
 
     protected SwitchContextResult SwitchContext(SwitchableFramework switchToFramework)
@@ -112,6 +127,11 @@ public abstract class GeneratorCommand<T> : IGeneratorCommand
     protected SwitchAsyncResult SwitchAsync()
     {
         return new SwitchAsyncResult();
+    }
+
+    protected Task<IGeneratorCommandResult> SwitchAsyncAsync()
+    {
+        return this.ResultAsync(this.SwitchAsync());
     }
 
     public override string ToString()

@@ -107,7 +107,7 @@ public class ReflectionModelReader
         else if (!model.FromSystem)
         {
             this.transferObjects.Add(model);
-            this.ReadClass(type, model, caller);
+            this.ReadClass(type, model);
         }
         if (model.Name == nameof(Nullable))
         {
@@ -155,7 +155,10 @@ public class ReflectionModelReader
         model.Name = "Array";
         model.IsGeneric = true;
         model.FromSystem = true;
-        model.Generics.Add(new GenericAliasTransferObject { Type = this.Read(type.GetElementType(), modelOptions) });
+        model.Generics.Add(new GenericAliasTransferObject
+        {
+            Type = this.Read(type.GetElementType(), modelOptions)
+        });
     }
 
     private void ReadGenericFromSystem(Type type, ModelTransferObject model)
@@ -192,15 +195,16 @@ public class ReflectionModelReader
         }
     }
 
-    private void ReadClass(Type type, ModelTransferObject model, GeneratorOptions? caller)
+    private void ReadClass(Type type, ModelTransferObject model)
     {
         // Logger.Trace($"Reflection read type {type.Name} ({type.Namespace})");
+        GeneratorOptions modelOptions = this.options.Get<GeneratorOptions>(model);
         if (type.BaseType != typeof(object) && type.BaseType != typeof(ValueType) && type.BaseType != null)
         {
             GeneratorOptions baseOptions = this.options.Get<GeneratorOptions>(type.BaseType);
             if (!baseOptions.Ignore)
             {
-                model.BasedOn = this.Read(type.BaseType, caller);
+                model.BasedOn = this.Read(type.BaseType, modelOptions);
             }
         }
         if (model.IsGeneric)
@@ -212,12 +216,12 @@ public class ReflectionModelReader
         model.IsAbstract = type.IsAbstract;
         foreach (Type interFace in type.GetInterfaces(false))
         {
-            GeneratorOptions interfaceOptions = this.options.Get<GeneratorOptions>(interFace);
+            GeneratorOptions interfaceOptions = this.options.Get(interFace, modelOptions);
             if (interfaceOptions.Ignore)
             {
                 continue;
             }
-            ModelTransferObject interfaceTransferObject = this.Read(interFace, caller);
+            ModelTransferObject interfaceTransferObject = this.Read(interFace, modelOptions);
             if (this.transferObjects.Contains(interfaceTransferObject))
             {
                 model.Interfaces.Add(interfaceTransferObject);
@@ -312,23 +316,23 @@ public class ReflectionModelReader
                 continue;
             }
             bool isRequired = property.IsRequired();
-            bool isNullable = (!property.PropertyType.IsValueType && (!propertyOptions.Nullable || property.IsNullable()))
-                              || (!property.PropertyType.IsValueType && !propertyOptions.Nullable)
-                              || (property.PropertyType.IsGenericType && property.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>));
+            bool isNullable = !property.PropertyType.IsValueType && (!propertyOptions.Nullable || property.IsNullable())
+                              || !property.PropertyType.IsValueType && !propertyOptions.Nullable
+                              || property.PropertyType.IsGenericType && property.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>);
             PropertyTransferObject propertyTransferObject = new()
-                                                            {
-                                                                Name = property.Name,
-                                                                Type = this.Read(propertyOptions.ReturnType, propertyOptions) ?? this.Read(property.PropertyType, propertyOptions),
-                                                                DeclaringType = model,
-                                                                Attributes = property.GetCustomAttributes().ToTransferObjects().ToList(),
-                                                                IsAbstract = property.GetMethod?.IsAbstract ?? property.SetMethod?.IsAbstract ?? false,
-                                                                IsVirtual = property.GetMethod?.IsVirtual ?? property.SetMethod?.IsVirtual ?? false,
-                                                                IsOverwrite = property.GetMethod?.GetBaseDefinition() != property.GetMethod || property.SetMethod?.GetBaseDefinition() != property.SetMethod,
-                                                                IsRequired = isRequired,
-                                                                IsNullable = isNullable,
-                                                                IsOptional = /*propertyOptions.NoOptional*/ !isRequired && isNullable,
-                                                                Default = this.ReadDefaultValue(property, propertyOptions)
-                                                            };
+            {
+                Name = property.Name,
+                Type = this.Read(propertyOptions.ReturnType, propertyOptions) ?? this.Read(property.PropertyType, propertyOptions),
+                DeclaringType = model,
+                Attributes = property.GetCustomAttributes().ToTransferObjects().ToList(),
+                IsAbstract = property.GetMethod?.IsAbstract ?? property.SetMethod?.IsAbstract ?? false,
+                IsVirtual = property.GetMethod?.IsVirtual ?? property.SetMethod?.IsVirtual ?? false,
+                IsOverwrite = property.GetMethod?.GetBaseDefinition() != property.GetMethod || property.SetMethod?.GetBaseDefinition() != property.SetMethod,
+                IsRequired = isRequired,
+                IsNullable = isNullable,
+                IsOptional = /*propertyOptions.NoOptional*/ !isRequired && isNullable,
+                Default = this.ReadDefaultValue(property, propertyOptions)
+            };
             this.options.Map(propertyTransferObject, () => this.options.Get<GeneratorOptions>(property, null));
             propertyTransferObject.Type = this.Read(property.PropertyType.IgnoreGeneric(typeof(Nullable<>)), propertyOptions);
             model.Properties.Add(propertyTransferObject);
@@ -351,14 +355,14 @@ public class ReflectionModelReader
                 continue;
             }
             FieldTransferObject fieldTransferObject = new()
-                                                      {
-                                                          Name = field.Name,
-                                                          Type = this.Read(field.FieldType, fieldOptions),
-                                                          DeclaringType = model,
-                                                          Attributes = field.GetCustomAttributes().ToTransferObjects().ToList(),
-                                                          IsOptional = !fieldOptions.NoOptional && !field.IsRequired(),
-                                                          Default = this.ReadDefaultValue(field, fieldOptions)
-                                                      };
+            {
+                Name = field.Name,
+                Type = this.Read(field.FieldType, fieldOptions),
+                DeclaringType = model,
+                Attributes = field.GetCustomAttributes().ToTransferObjects().ToList(),
+                IsOptional = !fieldOptions.NoOptional && !field.IsRequired(),
+                Default = this.ReadDefaultValue(field, fieldOptions)
+            };
             this.options.Map(fieldTransferObject, () => this.options.Get<GeneratorOptions>(field, null));
             model.Fields.Add(fieldTransferObject);
         }
@@ -390,13 +394,13 @@ public class ReflectionModelReader
             }
             object? defaultValue = this.ReadDefaultValue(field, fieldOptions);
             FieldTransferObject fieldTransferObject = new()
-                                                      {
-                                                          Name = field.Name,
-                                                          Type = this.Read(field.FieldType, fieldOptions),
-                                                          DeclaringType = model,
-                                                          Default = defaultValue,
-                                                          IsOptional = defaultValue == null
-                                                      };
+            {
+                Name = field.Name,
+                Type = this.Read(field.FieldType, fieldOptions),
+                DeclaringType = model,
+                Default = defaultValue,
+                IsOptional = defaultValue == null
+            };
             this.options.Map(fieldTransferObject, () => this.options.Get<GeneratorOptions>(field, null));
             model.Constants.Add(fieldTransferObject);
         }
@@ -404,6 +408,7 @@ public class ReflectionModelReader
 
     private void ReadGenericArguments(Type type, TypeTransferObject model)
     {
+        GeneratorOptions modelOptions = this.options.Get<GeneratorOptions>(model);
         model = model is GenericModelTransferObject genericModel ? genericModel.Template : model;
         Type genericType = type.GetGenericTypeDefinition();
         model.Generics.Clear();
@@ -411,7 +416,10 @@ public class ReflectionModelReader
         {
             foreach (Type alias in typeInfo.GenericTypeParameters)
             {
-                model.Generics.Add(new GenericAliasTransferObject { Alias = this.Read(alias) });
+                model.Generics.Add(new GenericAliasTransferObject
+                {
+                    Alias = this.Read(alias, modelOptions)
+                });
             }
         }
         else

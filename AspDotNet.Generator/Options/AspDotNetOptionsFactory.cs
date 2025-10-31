@@ -23,7 +23,7 @@ public class AspDotNetOptionsFactory : IOptionsFactory
             Assembly assembly => this.CreateFromCustomAttributes(assembly.GetCustomAttributes(), key, parent as AspDotNetOptions),
             MemberInfo member => this.CreateFromCustomAttributes(member.GetCustomAttributes(), key, parent as AspDotNetOptions),
             ParameterInfo parameter => this.CreateFromCustomAttributes(parameter.GetCustomAttributes(), key, parent as AspDotNetOptions),
-            Options.GlobalKey => new AspDotNetOptions(parent as AspDotNetOptions, null, "global"),
+            Options.RootKey => new AspDotNetOptions(parent as AspDotNetOptions, null, "global"),
             _ => new AspDotNetOptions(parent as AspDotNetOptions, null, key)
             // _ => throw new InvalidOperationException($"Could not create {nameof(AspDotNetOptions)} {key.GetType()}")
         };

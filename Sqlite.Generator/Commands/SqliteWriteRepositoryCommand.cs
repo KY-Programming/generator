@@ -20,19 +20,19 @@ internal class SqliteWriteRepositoryCommand : GeneratorCommand<SqliteWriteReposi
         this.typeLoader = typeLoader;
     }
 
-    public override IGeneratorCommandResult Run()
+    public override Task<IGeneratorCommandResult> Run()
     {
         Type? type = this.typeLoader.Get(this.Parameters.Namespace, this.Parameters.Name);
         if (type == null)
         {
             Logger.Trace($"Class {this.Parameters.Namespace}.{this.Parameters.Name} not found");
-            return this.Error();
+            return this.ErrorAsync();
         }
         GeneratorOptions options = this.resolver.Get<Options>().Get<GeneratorOptions>();
         options.Language = this.resolver.Get<CsharpLanguage>();
         SqliteModelTransferObject model = this.resolver.Create<SqliteModelReader>().Read(type);
         this.resolver.Get<IOutput>().DeleteAllRelatedFiles(this.Parameters.RelativePath);
         this.resolver.Create<SqliteRepositoryWriter>().Write(model, this.Parameters);
-        return this.Success();
+        return this.SuccessAsync();
     }
 }

@@ -15,7 +15,7 @@ internal class AspDotNetReadHubCommand : GeneratorCommand<AspDotNetReadHubComman
         this.resolver = resolver;
     }
 
-    public override IGeneratorCommandResult Run()
+    public override Task<IGeneratorCommandResult> Run()
     {
         Options options = this.resolver.Get<Options>();
         GeneratorOptions generatorOptions = options.Get<GeneratorOptions>();
@@ -28,6 +28,6 @@ internal class AspDotNetReadHubCommand : GeneratorCommand<AspDotNetReadHubComman
 
         this.resolver.Create<AspDotNetHubReader>().Read(readConfiguration);
 
-        return this.Success();
+        return this.SuccessAsync();
     }
 }

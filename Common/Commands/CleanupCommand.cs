@@ -12,7 +12,7 @@ internal class CleanupCommand : GeneratorCommand<CleanupCommandParameters>
         this.statisticsService = statisticsService;
     }
 
-    public override IGeneratorCommandResult Run()
+    public override Task<IGeneratorCommandResult> Run()
     {
         if (this.Parameters.Logs)
         {
@@ -22,6 +22,6 @@ internal class CleanupCommand : GeneratorCommand<CleanupCommandParameters>
         {
             this.statisticsService.Cleanup();
         }
-        return this.Success();
+        return this.SuccessAsync();
     }
 }

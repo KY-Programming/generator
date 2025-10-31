@@ -21,7 +21,7 @@ public class AngularOptionsFactory : IOptionsFactory
             Assembly assembly => this.CreateFromCustomAttributes(assembly.GetCustomAttributes(), key, parent as AngularOptions),
             MemberInfo member => this.CreateFromCustomAttributes(member.GetCustomAttributes(), key, parent as AngularOptions),
             ParameterInfo parameter => this.CreateFromCustomAttributes(parameter.GetCustomAttributes(), key, parent as AngularOptions),
-            Options.GlobalKey => new AngularOptions(parent as AngularOptions, null, "global"),
+            Options.RootKey => new AngularOptions(parent as AngularOptions, null, "global"),
             _ => new AngularOptions(parent as AngularOptions, null, key)
             // _ => throw new InvalidOperationException($"Could not create {nameof(AngularOptions)} {key.GetType()}")
         };
@@ -36,9 +36,6 @@ public class AngularOptionsFactory : IOptionsFactory
             {
                 case GenerateServiceOutputAttribute serviceOutputAttribute:
                     options.ServiceOutput = serviceOutputAttribute.RelativePath;
-                    break;
-                case GenerateModelOutputAttribute modelOutputAttribute:
-                    options.ModelOutput = modelOutputAttribute.RelativePath;
                     break;
             }
         }

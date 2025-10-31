@@ -32,7 +32,6 @@ public class Generator : IGeneratorRunSyntax
     private readonly List<IGeneratorCommand> commands = [];
     private readonly GeneratorEnvironment environment = new();
     private readonly StatisticsService statisticsService;
-    private readonly LicenseService licenseService;
     private readonly AssemblyCache assemblyCache;
     private readonly GeneratorModuleLoader moduleLoader;
     private bool initializationFailed;
@@ -79,10 +78,8 @@ public class Generator : IGeneratorRunSyntax
         this.resolver.Bind<GlobalStatisticsService>().ToSingleton();
         this.resolver.Bind<GlobalSettingsService>().ToSingleton();
         this.resolver.Bind<GlobalLicenseService>().ToSingleton();
-        this.resolver.Bind<LicenseService>().ToSingleton();
+        this.resolver.Bind<ILicenseService>().ToSingleton<LicenseService>();
         this.resolver.Bind<GeneratorModuleLoader>().ToSingleton();
-        this.licenseService = this.resolver.Get<LicenseService>();
-        this.licenseService.Check();
         this.moduleLoader = this.resolver.Get<GeneratorModuleLoader>();
 
         Logger.Added -= this.OnLoggerAdded;
@@ -206,7 +203,7 @@ public class Generator : IGeneratorRunSyntax
         return this;
     }
 
-    public bool Run()
+    public async Task<bool> Run()
     {
         this.statisticsService.InitializationEnd();
         bool success = true;
@@ -215,6 +212,11 @@ public class Generator : IGeneratorRunSyntax
             if (this.initializationFailed)
             {
                 success = false;
+            }
+            LicenseService licenseService = this.resolver.Get<LicenseService>();
+            if (this.commands.All(x => x is not LoadCommand))
+            {
+                licenseService.Check();
             }
             GeneratorCommandRunner runner = this.resolver.Get<GeneratorCommandRunner>();
             List<IGeneratorCommand> asyncCommands = [];
@@ -233,7 +235,7 @@ public class Generator : IGeneratorRunSyntax
             {
                 foreach (IGeneratorCommand command in this.commands)
                 {
-                    IGeneratorCommandResult result = runner.Run(command);
+                    IGeneratorCommandResult result = await runner.Run(command);
                     success &= result.Success;
                     switchAsync = switchAsync || result.SwitchToAsync;
                     if (result.SwitchContext)
@@ -249,15 +251,15 @@ public class Generator : IGeneratorRunSyntax
                 files = this.resolver.Get<List<FileTemplate>>();
                 if (files.Count > 0)
                 {
-                    this.licenseService.WaitOrKill();
-                    if (this.licenseService.IsValid)
+                    licenseService.WaitOrKill();
+                    if (licenseService.IsValid)
                     {
                         Logger.Trace("Generate code...");
                         files.Write(this.output, this.resolver);
-                        this.statisticsService.GenerateEnd(this.output.Lines);
+                        this.statisticsService.GenerateEnd(this.output.Lines, files.Count);
                         files.ForEach(file => this.statisticsService.Count(file));
                     }
-                    else if (this.licenseService.ValidUntil > DateTime.MinValue)
+                    else if (licenseService.ValidUntil > DateTime.MinValue)
                     {
                         Logger.Error("License has expired. Ensure that https://generator.ky-programming.de is reachable or generate a new offline license at https://generator.ky-programming.de/license");
                         Logger.Error("Generate code canceled!");
@@ -276,10 +278,6 @@ public class Generator : IGeneratorRunSyntax
                 this.output.Execute();
                 this.commands.ForEach(command => command.FollowUp());
             }
-            else
-            {
-                this.statisticsService.RunFailed();
-            }
             this.assemblyCache.Save();
             if (switchAsync)
             {
@@ -287,18 +285,22 @@ public class Generator : IGeneratorRunSyntax
             }
             if (switchContext != null)
             {
-                return this.SwitchContext(switchContext, asyncCommands);
+                return this.SwitchContext(switchContext, this.commands);
             }
-            this.statisticsService.ProgramEnd(files.Count);
-            this.licenseService.ShowMessages();
+            licenseService.ShowMessages();
         }
         catch (Exception exception)
         {
             Logger.Error(exception);
             success = false;
         }
+        finally
+        {
+            this.statisticsService.ProgramEnd(success);
+        }
         if (!success)
         {
+            this.statisticsService.RunFailed(this.environment.OutputId, this.environment.Name);
             string message = "\n\n>>> NEED HELP?\n" +
                              ">>> check https://generator.ky-programming.de\n" +
                              $">>> or contact support{(char)64}ky-programming.de\n\n";

@@ -9,7 +9,7 @@ namespace KY.Generator.Commands;
 
 internal class ReadProjectCommand(IDependencyResolver resolver) : GeneratorCommand<ReadProjectCommandParameters>, IPrepareCommand
 {
-    public override IGeneratorCommandResult Run()
+    public override Task<IGeneratorCommandResult> Run()
     {
         string projectFileName = FileSystem.GetFileName(this.Parameters.Project);
         VisualStudioParser parser = new();
@@ -40,7 +40,7 @@ internal class ReadProjectCommand(IDependencyResolver resolver) : GeneratorComma
         if (project == null || project.Id == Guid.Empty)
         {
             Logger.Warning($"Can not read project id. No solution for project '{this.Parameters.Project}' found. Automatic file cleanup deactivated!");
-            return this.Success();
+            return this.SuccessAsync();
         }
         IEnvironment environment = resolver.Get<IEnvironment>();
         environment.OutputId = project.Id;
@@ -49,7 +49,7 @@ internal class ReadProjectCommand(IDependencyResolver resolver) : GeneratorComma
         AssemblyCache assemblyCache = resolver.Get<AssemblyCache>();
         assemblyCache.LoadLocal(this.Parameters.Project);
 
-        return this.Success().ForceRerunOnAsync();
+        return this.ResultAsync(this.Success().ForceRerunOnAsync());
     }
 
     private VisualStudioSolution FindSolution(VisualStudioParser parser, int levelToGoUp = 3)

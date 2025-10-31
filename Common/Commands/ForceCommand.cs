@@ -12,9 +12,9 @@ internal class ForceCommand : GeneratorCommand<ForceCommandParameters>, IPrepare
         this.environment = environment;
     }
 
-    public override IGeneratorCommandResult Run()
+    public override Task<IGeneratorCommandResult> Run()
     {
         this.environment.Force = true;
-        return this.Success();
+        return this.SuccessAsync();
     }
 }

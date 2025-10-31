@@ -16,7 +16,7 @@ public class JsonReadCommand : GeneratorCommand<JsonReadCommandParameters>
         this.resolver = resolver;
     }
 
-    public override IGeneratorCommandResult Run()
+    public override Task<IGeneratorCommandResult> Run()
     {
         JsonReadConfiguration configuration = new();
         configuration.Source = this.Parameters.RelativePath;
@@ -24,6 +24,6 @@ public class JsonReadCommand : GeneratorCommand<JsonReadCommandParameters>
 
         this.resolver.Create<JsonReader>().Read(configuration);
 
-        return this.Success();
+        return this.SuccessAsync();
     }
 }

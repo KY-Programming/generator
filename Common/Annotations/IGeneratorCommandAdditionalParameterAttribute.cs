@@ -1,9 +1,6 @@
-﻿using System.Collections.Generic;
+﻿namespace KY.Generator;
 
-namespace KY.Generator
+public interface IGeneratorCommandAdditionalParameterAttribute
 {
-    public interface IGeneratorCommandAdditionalParameterAttribute
-    {
-        IEnumerable<AttributeCommandConfiguration> Commands { get; }
-    }
+    IEnumerable<AttributeCommandConfiguration> Commands { get; }
 }

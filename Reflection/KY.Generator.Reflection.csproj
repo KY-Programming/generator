@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>netstandard2.0;net6.0</TargetFrameworks>
+        <TargetFrameworks>netstandard2.0;net8.0</TargetFrameworks>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <Company>KY-Programming</Company>
         <Authors>KY-Programming</Authors>
-        <Version>10.0.0-preview.24</Version>
+        <Version>10.0.0-preview.30</Version>
         <Product>KY.Generator</Product>
         <Description>Reflection Module for KY-Generator
             Download KY.Generator to use this module
@@ -44,7 +44,7 @@
         <None Include="..\icon.png" Pack="true" PackagePath="assets" Visible="false" />
         <None Include="..\Common\README.md" Pack="true" PackagePath="" Visible="false" />
         <None Include="$(OutputPath)\netstandard2.0\publish\KY.Generator.Reflection.Generator.dll" Pack="true" PackagePath="lib\netstandard2.0\" Visible="false" />
-        <None Include="$(OutputPath)\net6.0\publish\KY.Generator.Reflection.Generator.dll" Pack="true" PackagePath="lib\net6.0\" Visible="false" />
+        <None Include="$(OutputPath)\net8.0\publish\KY.Generator.Reflection.Generator.dll" Pack="true" PackagePath="lib\net8.0\" Visible="false" />
         <None Remove="KY.Generator.Reflection.csproj.DotSettings" />
     </ItemGroup>
 

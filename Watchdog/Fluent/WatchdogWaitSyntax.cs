@@ -58,9 +58,9 @@ public class WatchdogWaitSyntax : ExecutableSyntax, IWatchdogWaitSyntax, IFluent
         return syntax;
     }
 
-    public IGeneratorCommandResult Run()
+    public Task<IGeneratorCommandResult> Run()
     {
-        return new SuccessResult();
+        return Task.FromResult<IGeneratorCommandResult>(new SuccessResult());
     }
 
     public void FollowUp()

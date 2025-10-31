@@ -21,7 +21,7 @@ public class TypeScriptOptionsFactory : IOptionsFactory
             Assembly assembly => this.CreateFromCustomAttributes(assembly.GetCustomAttributes(), key, parent as TypeScriptOptions),
             MemberInfo member => this.CreateFromCustomAttributes(member.GetCustomAttributes(), key, parent as TypeScriptOptions),
             ParameterInfo parameter => this.CreateFromCustomAttributes(parameter.GetCustomAttributes(), key, parent as TypeScriptOptions),
-            Options.GlobalKey => new TypeScriptOptions(parent as TypeScriptOptions, null, "global"),
+            Options.RootKey => new TypeScriptOptions(parent as TypeScriptOptions, null, "global"),
             _ => new TypeScriptOptions(parent as TypeScriptOptions, null, key)
             // _ => throw new InvalidOperationException($"Could not create {nameof(TypeScriptOptions)} {key.GetType()}")
         };
@@ -42,9 +42,6 @@ public class TypeScriptOptionsFactory : IOptionsFactory
                     break;
                 case GenerateForceIndexAttribute:
                     options.ForceIndex = true;
-                    break;
-                case GenerateModelOutputAttribute modelOutputAttribute:
-                    options.ModelOutput = modelOutputAttribute.RelativePath;
                     break;
             }
         }

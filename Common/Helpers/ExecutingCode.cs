@@ -160,4 +160,9 @@ public static class ExecutingCode
     {
         return new ParenthesisTemplate(code);
     }
+
+    public static AwaitTemplate Await(this Code _)
+    {
+        return new AwaitTemplate();
+    }
 }

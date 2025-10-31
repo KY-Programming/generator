@@ -33,7 +33,7 @@ internal class AngularPackageCommand : GeneratorCommand<AngularPackageCommandPar
         // this.Commands.ForEach(command => command.Prepare());
     }
 
-    public override IGeneratorCommandResult Run()
+    public override Task<IGeneratorCommandResult> Run()
     {
         Options options = this.resolver.Get<Options>();
         GeneratorOptions generatorOptions = options.Get<GeneratorOptions>();
@@ -56,7 +56,7 @@ internal class AngularPackageCommand : GeneratorCommand<AngularPackageCommandPar
         writer.Write(this.nameWithoutScope, this.Parameters.Name, this.Parameters.Version, this.packagePath, this.Parameters.DependsOn, this.Parameters.CliVersion, servicePath, modelPath, this.Parameters.IncrementVersion, this.Parameters.VersionFromNpm);
         // TODO: Reimplement
         // this.Commands.ForEach(command => command.Run());
-        return this.Success();
+        return this.SuccessAsync();
     }
 
     public override void FollowUp()

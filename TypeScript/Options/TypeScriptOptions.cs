@@ -7,7 +7,6 @@ public class TypeScriptOptions(TypeScriptOptions? parent, TypeScriptOptions? glo
     private bool? isStrictSet;
     private bool? noIndex;
     private bool? forceIndex;
-    private string? modelOutput;
 
     public bool Strict
     {
@@ -31,11 +30,5 @@ public class TypeScriptOptions(TypeScriptOptions? parent, TypeScriptOptions? glo
     {
         get => this.GetValue(x => x.forceIndex);
         set => this.forceIndex = value;
-    }
-
-    public string? ModelOutput
-    {
-        get => this.GetValue(x => x.modelOutput);
-        set => this.modelOutput = value;
     }
 }

@@ -14,7 +14,7 @@ public class PropertyTransferObject : MemberTransferObject
     public PropertyTransferObject(PropertyTransferObject property)
     {
         this.Name = property.Name;
-        this.Type = property.Type.Clone();
+        this.Type = property.Type;
         this.DeclaringType = property.DeclaringType;
         this.CanRead = property.CanRead;
         this.CanRead = property.CanWrite;

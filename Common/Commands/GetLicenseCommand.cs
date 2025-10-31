@@ -13,10 +13,10 @@ internal class GetLicenseCommand : GeneratorCommand<GetLicenseCommandParameters>
         this.globalSettingsService = globalSettingsService;
     }
 
-    public override IGeneratorCommandResult Run()
+    public override Task<IGeneratorCommandResult> Run()
     {
         Logger.Trace("Execute license command...");
         Logger.Trace("Current license id: " + this.globalSettingsService.Read().License);
-        return this.Success();
+        return this.SuccessAsync();
     }
 }

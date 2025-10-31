@@ -14,7 +14,7 @@ internal class ReflectionReadCommand : GeneratorCommand<ReflectionReadCommandPar
         this.resolver = resolver;
     }
 
-    public override IGeneratorCommandResult Run()
+    public override Task<IGeneratorCommandResult> Run()
     {
         ReflectionReadConfiguration readConfiguration = new();
         readConfiguration.Namespace = this.Parameters.Namespace;
@@ -22,6 +22,6 @@ internal class ReflectionReadCommand : GeneratorCommand<ReflectionReadCommandPar
         readConfiguration.OnlySubTypes = this.Parameters.OnlySubTypes;
 
         this.resolver.Create<ReflectionReader>().Read(readConfiguration);
-        return this.Success();
+        return this.SuccessAsync();
     }
 }

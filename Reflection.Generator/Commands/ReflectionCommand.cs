@@ -22,7 +22,7 @@ internal class ReflectionCommand : GeneratorCommand<ReflectionCommandParameters>
         this.resolver = resolver;
     }
 
-    public override IGeneratorCommandResult Run()
+    public override Task<IGeneratorCommandResult> Run()
     {
         Options options = this.resolver.Get<Options>();
         GeneratorOptions generatorOptions = options.Get<GeneratorOptions>();
@@ -43,11 +43,9 @@ internal class ReflectionCommand : GeneratorCommand<ReflectionCommandParameters>
 
         this.resolver.Create<ReflectionReader>().Read(readConfiguration, generatorOptions);
         this.resolver.Get<IOutput>().DeleteAllRelatedFiles(this.Parameters.RelativePath);
-        ReflectionWriter writer = this.resolver.Create<ReflectionWriter>();
-        writer.FormatNames();
-        writer.Write(this.Parameters.RelativePath);
+        this.resolver.Create<ReflectionWriter>().FormatNames().Write();
 
         this.resolver.Get<IEnvironment>().TransferObjects.AddIfNotExists(this.resolver.Get<List<ITransferObject>>());
-        return this.Success();
+        return this.SuccessAsync();
     }
 }

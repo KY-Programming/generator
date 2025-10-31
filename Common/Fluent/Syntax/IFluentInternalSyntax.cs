@@ -6,7 +6,7 @@ namespace KY.Generator.Syntax;
 public interface IFluentInternalSyntax
 {
     IDependencyResolver Resolver { get; }
-    IGeneratorCommandResult Run();
+    Task<IGeneratorCommandResult> Run();
     void FollowUp();
     List<ExecutableSyntax> Syntaxes { get; }
 }

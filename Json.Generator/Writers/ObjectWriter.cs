@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using KY.Generator.Csharp.Extensions;
+﻿using KY.Generator.Csharp.Extensions;
 using KY.Generator.Json.Transfers;
 using KY.Generator.Mappings;
 using KY.Generator.Templates;
@@ -18,10 +16,10 @@ internal class ObjectWriter : ModelWriter
         : base(options, typeMapping, transferObjects, files)
     { }
 
-    public void Write(string relativePath, bool withReader)
+    public void Write(bool withReader)
     {
         this.WithReader = withReader;
-        base.Write(relativePath);
+        base.Write();
     }
 
     private void WriteReader(ClassTemplate classTemplate, ModelTransferObject model)
@@ -49,9 +47,9 @@ internal class ObjectWriter : ModelWriter
                      .Code.AddLine(Code.Return(Code.Local("JsonConvert").GenericMethod("DeserializeObject", objectType, Code.Local("json"))));
     }
 
-    protected override ClassTemplate WriteClass(ModelTransferObject model, string relativePath)
+    protected override ClassTemplate WriteClass(ModelTransferObject model)
     {
-        ClassTemplate classTemplate = base.WriteClass(model, relativePath);
+        ClassTemplate classTemplate = base.WriteClass(model);
         if (model is JsonModelTransferObject && this.WithReader)
         {
             this.WriteReader(classTemplate, model);

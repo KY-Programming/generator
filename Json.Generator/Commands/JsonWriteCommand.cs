@@ -20,10 +20,10 @@ public class JsonWriteCommand(IDependencyResolver resolver) : GeneratorCommand<J
         typeScriptOptions.SetStrict(this.Parameters.RelativePath, resolver);
     }
 
-    public override IGeneratorCommandResult Run()
+    public override Task<IGeneratorCommandResult> Run()
     {
-        resolver.Create<JsonWriter>().FormatNames().Write(this.Parameters.RelativePath, this.Parameters.WithReader);
+        resolver.Create<JsonWriter>().FormatNames().Write(this.Parameters.WithReader);
 
-        return this.Success();
+        return this.SuccessAsync();
     }
 }

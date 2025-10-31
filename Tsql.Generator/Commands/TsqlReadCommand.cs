@@ -14,7 +14,7 @@ internal class TsqlReadCommand : GeneratorCommand<TsqlReadCommandParameters>
         this.resolver = resolver;
     }
 
-    public override IGeneratorCommandResult Run()
+    public override Task<IGeneratorCommandResult> Run()
     {
         TsqlReadConfiguration configuration = new();
         configuration.Connection = this.Parameters.ConnectionString;
@@ -39,6 +39,6 @@ internal class TsqlReadCommand : GeneratorCommand<TsqlReadCommandParameters>
 
         this.resolver.Create<TsqlReader>().Read(configuration);
 
-        return this.Success();
+        return this.SuccessAsync();
     }
 }

@@ -17,7 +17,7 @@ public static class Main
         FileSystem.Combine(BasePath, "net462")
     ];
 
-    public static bool Run(string[] args)
+    public static async Task<bool> Run(string[] args)
     {
 #if DEBUG
         if (args.Length > 0 && args[0] != "statistics")
@@ -41,8 +41,8 @@ public static class Main
         }
         sharedDirectories.Reverse();
         sharedDirectories.Add(SharedPath);
-        return generator.SharedAssemblies(sharedDirectories)
-                        .SetParameters(args)
-                        .Run();
+        return await generator.SharedAssemblies(sharedDirectories)
+                              .SetParameters(args)
+                              .Run();
     }
 }

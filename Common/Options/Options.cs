@@ -7,7 +7,7 @@ namespace KY.Generator;
 
 public class Options
 {
-    public const string GlobalKey = "";
+    public const string RootKey = "<root>";
     private readonly Dictionary<object, Dictionary<Type, object>> cache = new();
     private static readonly Dictionary<object, Dictionary<Type, object>> globalCache = new();
     private static Func<IList<IOptionsFactory>>? factoriesAction;
@@ -90,6 +90,20 @@ public class Options
         return this.GetOrCreate(type, parent ?? this.Get<T>( /*type.Assembly*/), GetGlobal<T>(type));
     }
 
+    public static T GetGlobal<T>(ITransferObject transferObject) where T : OptionsBase<T>
+    {
+        return GetOrCreateGlobal(transferObject, GetGlobal<T>());
+    }
+
+    public T Get<T>(ITransferObject transferObject, T? parent = null) where T : OptionsBase<T>
+    {
+        if (mappings.TryGetValue(transferObject, out OptionsMapping mapping))
+        {
+            return mapping.Execute<T>(this);
+        }
+        return this.GetOrCreate(transferObject, parent ?? this.Get<T>(), GetGlobal<T>(transferObject));
+    }
+
     public static T GetGlobal<T>(MemberTransferObject member) where T : OptionsBase<T>
     {
         return GetOrCreateGlobal(member, GetGlobal<T>(member.DeclaringType ?? throw new InvalidOperationException()));
@@ -106,12 +120,12 @@ public class Options
 
     public static T GetGlobal<T>() where T : OptionsBase<T>
     {
-        return GetOrCreateGlobal<T>(GlobalKey, null);
+        return GetOrCreateGlobal<T>(RootKey, null);
     }
 
     public T Get<T>() where T : OptionsBase<T>
     {
-        return this.GetOrCreate(GlobalKey, null, GetGlobal<T>());
+        return this.GetOrCreate(RootKey, null, GetGlobal<T>());
     }
 
     private static T GetOrCreateGlobal<T>(object key, T? parent) where T : OptionsBase<T>

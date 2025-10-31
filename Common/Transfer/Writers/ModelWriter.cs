@@ -53,19 +53,18 @@ public class ModelWriter : TransferWriter, ITransferWriter
         return this;
     }
 
-    public virtual void Write(string? relativePath)
+    public virtual void Write()
     {
         foreach (ModelTransferObject model in this.transferObjects.OfType<ModelTransferObject>())
         {
-            this.WriteModel(model, relativePath);
+            this.WriteModel(model);
         }
     }
 
-    protected virtual void WriteModel(ModelTransferObject model, string? relativePath)
+    protected virtual void WriteModel(ModelTransferObject model)
     {
         GeneratorOptions modelOptions = this.Options.Get<GeneratorOptions>(model);
-        relativePath ??= modelOptions.ModelOutput;
-        if (this.files.Any(file => file.Name == model.FileName && file.RelativePath == relativePath))
+        if (this.files.Any(file => file.Name == model.FileName && file.RelativePath == modelOptions.ModelOutput))
         {
             return;
         }
@@ -88,22 +87,22 @@ public class ModelWriter : TransferWriter, ITransferWriter
         }
         if (model.IsEnum)
         {
-            this.WriteEnum(model, relativePath);
+            this.WriteEnum(model);
         }
         else
         {
-            this.WriteClass(model, relativePath);
+            this.WriteClass(model);
         }
     }
 
-    protected virtual EnumTemplate WriteEnum(ModelTransferObject model, string? relativePath)
+    protected virtual EnumTemplate WriteEnum(ModelTransferObject model)
     {
         if (model.EnumValues == null)
         {
             throw new InvalidOperationException("Can not write enum without values");
         }
         GeneratorOptions modelOptions = this.Options.Get<GeneratorOptions>(model);
-        EnumTemplate enumTemplate = this.files.AddFile(relativePath, modelOptions)
+        EnumTemplate enumTemplate = this.files.AddFile(modelOptions.ModelOutput, modelOptions)
                                         .WithName(model.FileName)
                                         .AddNamespace(modelOptions.SkipNamespace ? string.Empty : model.Namespace)
                                         .AddEnum(model.Name)
@@ -117,7 +116,7 @@ public class ModelWriter : TransferWriter, ITransferWriter
         return enumTemplate;
     }
 
-    protected virtual ClassTemplate WriteClass(ModelTransferObject model, string? relativePath)
+    protected virtual ClassTemplate WriteClass(ModelTransferObject model)
     {
         GeneratorOptions modelOptions = this.Options.Get<GeneratorOptions>(model);
         if (model.BasedOn != null && model.Language != null && modelOptions.Language != null)
@@ -127,12 +126,12 @@ public class ModelWriter : TransferWriter, ITransferWriter
 
         bool isInterface = model.IsInterface || modelOptions.PreferInterfaces && model.Constants.Count == 0;
         string modelNamespace = modelOptions.SkipNamespace ? string.Empty : model.Namespace;
-        ClassTemplate otherClassTemplate = this.files.Where(file => file.RelativePath == relativePath
+        ClassTemplate otherClassTemplate = this.files.Where(file => file.RelativePath == modelOptions.ModelOutput
                                                                     && file.Options.Language == modelOptions.Language)
                                                .SelectMany(file => file.Namespaces)
                                                .SelectMany(ns => ns.Children).OfType<ClassTemplate>()
                                                .FirstOrDefault(x => x.Namespace.Name == modelNamespace && x.Name == model.Name);
-        NamespaceTemplate namespaceTemplate = otherClassTemplate?.Namespace ?? this.files.AddFile(relativePath, modelOptions)
+        NamespaceTemplate namespaceTemplate = otherClassTemplate?.Namespace ?? this.files.AddFile(modelOptions.ModelOutput, modelOptions)
                                                                                    .WithName(model.FileName)
                                                                                    // .WithType(isInterface ? "interface" : null)
                                                                                    .AddNamespace(modelNamespace);

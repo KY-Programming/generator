@@ -13,14 +13,14 @@ public class GeneratorCommandRunner
         this.commandFactory = commandFactory;
     }
 
-    public IGeneratorCommandResult Run(IEnumerable<IGeneratorCommand> commands)
+    public async Task<IGeneratorCommandResult> Run(IEnumerable<IGeneratorCommand> commands)
     {
         List<IGeneratorCommand> list = commands.ToList();
         IGeneratorCommandResult? result = null;
         list.ForEach(command => command.Prepare());
         foreach (IGeneratorCommand command in list)
         {
-            result = this.Run(command);
+            result = await this.Run(command);
             if (!result.Success)
             {
                 return result;
@@ -29,14 +29,14 @@ public class GeneratorCommandRunner
         return result ?? new SuccessResult();
     }
 
-    public IGeneratorCommandResult Run(IEnumerable<GeneratorCommandParameters> parameters)
+    public async Task<IGeneratorCommandResult> Run(IEnumerable<GeneratorCommandParameters> parameters)
     {
         List<IGeneratorCommand> commands = this.commandFactory.Create(parameters);
         IGeneratorCommandResult? result = null;
         commands.ForEach(command => command.Prepare());
         foreach (IGeneratorCommand command in commands)
         {
-            result = this.Run(command);
+            result = await this.Run(command);
             if (!result.Success)
             {
                 return result;
@@ -49,7 +49,7 @@ public class GeneratorCommandRunner
         return result ?? new SuccessResult();
     }
 
-    public IGeneratorCommandResult Run(IGeneratorCommand command)
+    public async Task<IGeneratorCommandResult> Run(IGeneratorCommand command)
     {
         if (!command.Parameters.SkipAsyncCheck)
         {
@@ -73,7 +73,7 @@ public class GeneratorCommandRunner
         Measurement measurement = this.statisticsService.StartMeasurement();
         try
         {
-            return command.Run();
+            return await command.Run();
         }
         finally
         {

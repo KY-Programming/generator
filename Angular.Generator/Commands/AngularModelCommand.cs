@@ -24,12 +24,12 @@ internal class AngularModelCommand(IDependencyResolver resolver) : GeneratorComm
         typeScriptOptions.SetStrict(this.Parameters.RelativePath, resolver);
     }
 
-    public override IGeneratorCommandResult Run()
+    public override Task<IGeneratorCommandResult> Run()
     {
         // TODO: Fix path is null
         resolver.Get<IOutput>().DeleteAllRelatedFiles(this.Parameters.RelativePath);
-        resolver.Create<AngularModelWriter>().FormatNames().Write(this.Parameters.RelativePath);
+        resolver.Create<AngularModelWriter>().FormatNames().Write();
         resolver.Create<TypeScriptIndexHelper>().Execute(this.Parameters.RelativePath);
-        return this.Success();
+        return this.SuccessAsync();
     }
 }

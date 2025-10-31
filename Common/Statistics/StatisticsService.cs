@@ -53,7 +53,6 @@ public class StatisticsService
     {
         this.Data.Id = outputId;
         this.Data.Name = name;
-        this.Data.License = this.globalSettingsService.Read().License;
         this.Data.RunEnd = DateTime.Now;
         Logger.Trace($"Executed {this.Data.RanCommands.Count} commands in {this.Data.RunDuration.Format()}");
         CommandStatistic slowestCommand = this.Data.RanCommands.OrderByDescending(x => x.Duration).FirstOrDefault();
@@ -63,23 +62,29 @@ public class StatisticsService
         }
     }
 
-    public void RunFailed()
+    public void RunFailed(Guid outputId, string name)
     {
-        this.Data.License = this.globalSettingsService.Read().License;
+        this.Data.Id = outputId;
+        this.Data.Name = name;
+        this.Data.RunEnd = DateTime.Now;
     }
 
-    public void GenerateEnd(long lines)
+    public void GenerateEnd(long lines, int filesCount)
     {
         this.Data.OutputLines = lines;
         this.Data.OutputEnd = DateTime.Now;
+        this.Data.GeneratedFiles = filesCount;
         Logger.Trace($"Generated {this.Data.OutputLines} lines of code in {this.Data.OutputDuration.Format()}");
     }
 
-    public void ProgramEnd(int filesCount)
+    public void ProgramEnd(bool success)
     {
-        this.Data.GeneratedFiles = filesCount;
         this.Data.End = DateTime.Now;
-        Logger.Trace($"Generated {this.Data.GeneratedFiles} files ({this.Data.OutputLines} lines) in {this.Data.Duration.Format()}");
+        this.Data.IsSuccess = success;
+        if (success)
+        {
+            Logger.Trace($"Generated {this.Data.GeneratedFiles} files ({this.Data.OutputLines} lines) in {this.Data.Duration.Format()}");
+        }
     }
 
     public Measurement StartMeasurement()
@@ -103,7 +108,7 @@ public class StatisticsService
         this.Data.CountFilesByLanguage[file.Options.Language.Name]++;
     }
 
-    public Statistic Read(string fileName)
+    public Statistic? Read(string fileName)
     {
         string filePath = FileSystem.Combine(this.environment.LocalApplicationData, fileName);
         if (!FileSystem.FileExists(filePath))

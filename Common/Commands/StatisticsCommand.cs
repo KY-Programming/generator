@@ -17,12 +17,16 @@ internal class StatisticsCommand : GeneratorCommand<StatisticsCommandParameters>
         this.globalSettingsService = globalSettingsService;
     }
 
-    public override IGeneratorCommandResult Run()
+    public override Task<IGeneratorCommandResult> Run()
     {
-        Statistic statistic = this.statisticsService.Read(this.Parameters.File);
+        if (this.Parameters.File == null)
+        {
+            return this.SuccessAsync();
+        }
+        Statistic? statistic = this.statisticsService.Read(this.Parameters.File);
         if (statistic == null)
         {
-            return this.Success();
+            return this.SuccessAsync();
         }
         this.globalStatisticsService.Read();
         this.globalStatisticsService.Append(statistic);
@@ -33,6 +37,6 @@ internal class StatisticsCommand : GeneratorCommand<StatisticsCommandParameters>
             this.statisticsService.Submit(statistic);
         }
         this.statisticsService.Delete(this.Parameters.File);
-        return this.Success();
+        return this.SuccessAsync();
     }
 }

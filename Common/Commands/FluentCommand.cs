@@ -20,17 +20,16 @@ internal class FluentCommand : GeneratorCommand<FluentCommandParameters>
         this.resolver = resolver;
     }
 
-    public override IGeneratorCommandResult Run()
+    public override async Task<IGeneratorCommandResult> Run()
     {
         IEnvironment environment = this.resolver.Get<IEnvironment>();
         if (environment.LoadedAssemblies.Count == 0)
         {
-            if (environment.IsBeforeBuild)
+            if (!environment.IsBeforeBuild)
             {
-                return this.Success();
+                Logger.Warning($"Can not run '{this.Parameters.CommandName}' command without loaded assemblies. Add at least one 'load -assembly=<assembly-path>' command before.");
             }
-            Logger.Error($"Can not run '{this.Parameters.CommandName}' command without loaded assemblies. Add at least one 'load -assembly=<assembly-path>' command before.");
-            return this.Error();
+            return this.Success();
         }
         foreach (Assembly assembly in environment.LoadedAssemblies)
         {
@@ -54,7 +53,7 @@ internal class FluentCommand : GeneratorCommand<FluentCommandParameters>
                 }
                 foreach (IFluentInternalSyntax syntax in main.Syntaxes)
                 {
-                    IGeneratorCommandResult commandResult = syntax.Run();
+                    IGeneratorCommandResult commandResult = await syntax.Run();
                     if (!commandResult.Success)
                     {
                         return commandResult;

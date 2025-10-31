@@ -1,6 +1,4 @@
-﻿using KY.Core;
-
-namespace KY.Generator.Transfer;
+﻿namespace KY.Generator.Transfer;
 
 public class FieldTransferObject : MemberTransferObject
 {
@@ -12,7 +10,7 @@ public class FieldTransferObject : MemberTransferObject
     public FieldTransferObject(FieldTransferObject field)
     {
         this.Name = field.Name;
-        this.Type = field.Type.Clone();
+        this.Type = field.Type;
         this.DeclaringType = field.DeclaringType;
         this.Default = field.Default;
         this.Comment = field.Comment;

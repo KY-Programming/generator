@@ -21,7 +21,7 @@ internal class OptionsCommand : GeneratorCommand<OptionsCommandParameters>, IPre
         this.environment = environment;
     }
 
-    public override IGeneratorCommandResult Run()
+    public override Task<IGeneratorCommandResult> Run()
     {
         if (this.Parameters.Statistics != null)
         {
@@ -40,7 +40,7 @@ internal class OptionsCommand : GeneratorCommand<OptionsCommandParameters>, IPre
                     break;
                 default:
                     Logger.Error($"Invalid value '{this.Parameters.Statistics}' for option 'statistics'. Valid values are 'enable' or 'disable'");
-                    return this.Error();
+                    return this.ErrorAsync();
             }
         }
         else if (this.Parameters.Output != null)
@@ -51,8 +51,8 @@ internal class OptionsCommand : GeneratorCommand<OptionsCommandParameters>, IPre
         else
         {
             Logger.Error($"Unknown or missing option found.");
-            return this.Error();
+            return this.ErrorAsync();
         }
-        return this.Success();
+        return this.SuccessAsync();
     }
 }

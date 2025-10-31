@@ -46,19 +46,19 @@ public class AspDotNetControllerReader
         this.options.Map(controller, () => this.options.Get<GeneratorOptions>(type, null));
 
         List<MethodInfo> methods = [];
-        Type currentTyp = type;
-        while (currentTyp?.Namespace != null && !currentTyp.Namespace.StartsWith("Microsoft") && !currentTyp.Namespace.StartsWith("System"))
+        Type currentType = type;
+        while (currentType?.Namespace != null && !currentType.Namespace.StartsWith("Microsoft") && !currentType.Namespace.StartsWith("System"))
         {
-            GeneratorOptions currentOptions = this.options.Get<GeneratorOptions>(currentTyp);
+            GeneratorOptions currentOptions = this.options.Get<GeneratorOptions>(currentType);
             if (currentOptions.Ignore)
             {
                 break;
             }
-            methods.AddRange(currentTyp.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly)
-                                       // Remove all overwritten methods
-                                       .Where(method => methods.All(m => m.GetBaseDefinition() != method))
+            methods.AddRange(currentType.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly)
+                                        // Remove all overwritten methods
+                                        .Where(method => methods.All(m => m.GetBaseDefinition() != method))
             );
-            currentTyp = currentTyp.BaseType;
+            currentType = currentType.BaseType;
         }
         foreach (MethodInfo method in methods)
         {

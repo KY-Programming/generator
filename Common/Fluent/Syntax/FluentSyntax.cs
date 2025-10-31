@@ -30,12 +30,12 @@ public class FluentSyntax : IReadFluentSyntaxInternal, IWriteFluentSyntaxInterna
         action(this);
     }
 
-    public IGeneratorCommandResult Run()
+    public async Task<IGeneratorCommandResult> Run()
     {
         GeneratorCommandRunner runner = this.Resolver.Create<GeneratorCommandRunner>();
         foreach (ExecutableSyntax syntax in this.Syntaxes)
         {
-            IGeneratorCommandResult commandResult = runner.Run(syntax.Commands);
+            IGeneratorCommandResult commandResult = await runner.Run(syntax.Commands);
             if (!commandResult.Success)
             {
                 return commandResult;

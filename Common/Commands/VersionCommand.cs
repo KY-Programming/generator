@@ -5,7 +5,7 @@ namespace KY.Generator.Commands;
 
 internal class VersionCommand : GeneratorCommand<VersionCommandParameters>
 {
-    public override IGeneratorCommandResult Run()
+    public override Task<IGeneratorCommandResult> Run()
     {
         Logger.Trace("Execute version command...");
         Logger.Trace("Loaded assemblies:");
@@ -14,6 +14,6 @@ internal class VersionCommand : GeneratorCommand<VersionCommandParameters>
                  .Select(x => x.GetName())
                  .OrderBy(x => x.Name)
                  .ForEach(x => Logger.Trace($"{x.Name} {x.Version} {(this.Parameters.ShowDetailed ? x.CodeBase.TrimStart("file:///") : "")}"));
-        return this.Success();
+        return this.SuccessAsync();
     }
 }

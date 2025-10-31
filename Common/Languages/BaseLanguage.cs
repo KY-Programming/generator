@@ -69,6 +69,7 @@ public abstract class BaseLanguage : Codeable, ILanguage, ITemplateWriter
         this.AddWriter<AccessIndexTemplate, AccessIndexWriter>();
         this.AddWriter<AsTemplate, AsWriter>();
         this.AddWriter<AssignTemplate, AssignWriter>();
+        this.AddWriter<AwaitTemplate, AwaitWriter>();
         this.AddWriter<BlankLineTemplate, BlankLineWriter>();
         this.AddWriter<CaseTemplate, CaseWriter>();
         this.AddWriter<ChainedCodeFragment, ChainedCodeFragmentWriter>(true);

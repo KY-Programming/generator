@@ -15,10 +15,10 @@ internal class BeforeBuildCommand : GeneratorCommand<BeforeBuildCommandParameter
         this.statisticsService = statisticsService;
     }
 
-    public override IGeneratorCommandResult Run()
+    public override Task<IGeneratorCommandResult> Run()
     {
         this.environment.IsBeforeBuild = true;
         this.statisticsService.Data.IsBeforeBuild = true;
-        return this.Success();
+        return this.SuccessAsync();
     }
 }

@@ -1,7 +1,6 @@
-﻿namespace KY.Generator.Syntax
+﻿namespace KY.Generator.Syntax;
+
+public interface IGeneratorRunSyntax
 {
-    public interface IGeneratorRunSyntax
-    {
-        bool Run();
-    }
+    Task<bool> Run();
 }

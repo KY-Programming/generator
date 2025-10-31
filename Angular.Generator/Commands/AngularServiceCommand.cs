@@ -19,7 +19,7 @@ internal class AngularServiceCommand : GeneratorCommand<AngularServiceCommandPar
         this.resolver = resolver;
     }
 
-    public override IGeneratorCommandResult Run()
+    public override Task<IGeneratorCommandResult> Run()
     {
         Options options = this.resolver.Get<Options>();
         GeneratorOptions generatorOptions = options.Get<GeneratorOptions>();
@@ -55,6 +55,6 @@ internal class AngularServiceCommand : GeneratorCommand<AngularServiceCommandPar
         this.resolver.Create<AngularServiceWriter>().Write(writeConfiguration);
         this.resolver.Create<TypeScriptIndexHelper>().Execute(this.Parameters.RelativePath);
 
-        return this.Success();
+        return this.SuccessAsync();
     }
 }

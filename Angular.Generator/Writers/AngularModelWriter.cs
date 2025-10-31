@@ -11,9 +11,10 @@ public class AngularModelWriter : TypeScriptModelWriter
         : base(options, typeMapping, transferObjects, files)
     { }
 
-    protected override void WriteModel(ModelTransferObject model, string? relativePath)
+    protected override void WriteModel(ModelTransferObject model)
     {
-        AngularOptions angularOptions = this.Options.Get<AngularOptions>(model);
-        base.WriteModel(model, relativePath ?? angularOptions.ModelOutput ?? "/ClientApp/src/app/models");
+        GeneratorOptions options = this.Options.Get<GeneratorOptions>(model);
+        options.ModelOutput ??= "/ClientApp/src/app/models";
+        base.WriteModel(model);
     }
 }

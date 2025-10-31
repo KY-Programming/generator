@@ -14,10 +14,10 @@ internal class SqliteReadDatabaseCommand : GeneratorCommand<SqliteReadDatabaseCo
         this.resolver = resolver;
     }
 
-    public override IGeneratorCommandResult Run()
+    public override Task<IGeneratorCommandResult> Run()
     {
         string outputPath = this.resolver.Get<IOutput>() is FileOutput fileOutput ? fileOutput.BasePath : string.Empty;
         this.resolver.Create<SqliteTableReader>().Read(this.Parameters, outputPath);
-        return this.Success();
+        return this.SuccessAsync();
     }
 }

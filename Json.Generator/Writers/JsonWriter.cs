@@ -18,8 +18,8 @@ internal class JsonWriter : ITransferWriter
         return this;
     }
 
-    public void Write(string relativePath, bool withReader)
+    public void Write(bool withReader)
     {
-        this.resolver.Create<ObjectWriter>().Write(relativePath, withReader);
+        this.resolver.Create<ObjectWriter>().Write(withReader);
     }
 }

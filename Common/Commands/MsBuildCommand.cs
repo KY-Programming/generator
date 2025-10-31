@@ -15,10 +15,10 @@ internal class MsBuildCommand : GeneratorCommand<MsBuildCommandParameters>, IPre
         this.statisticsService = statisticsService;
     }
 
-    public override IGeneratorCommandResult Run()
+    public override Task<IGeneratorCommandResult> Run()
     {
         this.environment.IsMsBuild = true;
         this.statisticsService.Data.IsMsBuild = true;
-        return this.Success();
+        return this.SuccessAsync();
     }
 }

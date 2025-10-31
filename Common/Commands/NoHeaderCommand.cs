@@ -11,9 +11,9 @@ internal class NoHeaderCommand : GeneratorCommand<NoHeaderCommandParameters>, IP
         this.options = options;
     }
 
-    public override IGeneratorCommandResult Run()
+    public override Task<IGeneratorCommandResult> Run()
     {
         this.options.Get<GeneratorOptions>().AddHeader = false;
-        return this.Success();
+        return this.SuccessAsync();
     }
 }

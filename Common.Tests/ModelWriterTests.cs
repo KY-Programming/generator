@@ -30,12 +30,12 @@ public class ModelWriterTests
     {
         TestOutput output = new();
         ModelTransferObject model = new()
-                                    {
-                                        Name = "Test1",
-                                        Language = new TestLanguage(this.resolver)
-                                    };
+        {
+            Name = "Test1",
+            Language = new TestLanguage(this.resolver)
+        };
         this.transferObjects.Add(model);
-        this.writer.Write(string.Empty);
+        this.writer.Write();
         Assert.AreEqual(1, output.Files.Count, "Unexpected number of files");
         Assert.AreEqual("Test1", output.Files[0].Name, "Unexpected file name");
     }

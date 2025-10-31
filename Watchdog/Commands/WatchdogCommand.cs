@@ -19,7 +19,7 @@ internal class WatchdogCommand : GeneratorCommand<WatchdogCommandParameters>
         this.resolver = resolver;
     }
 
-    public override IGeneratorCommandResult Run()
+    public override Task<IGeneratorCommandResult> Run()
     {
         Logger.Trace("Execute watchdog command...");
         if (this.Parameters.IsAsync)
@@ -28,7 +28,7 @@ internal class WatchdogCommand : GeneratorCommand<WatchdogCommandParameters>
             if (InstanceHelper.IsRunning())
             {
                 Logger.Trace("Generation aborted. An other watchdog is already running.");
-                return this.Success();
+                return this.SuccessAsync();
             }
             string arguments = string.Join(" ", this.Parameters);
             ProcessStartInfo startInfo = new(Assembly.GetEntryAssembly().Location, $"watchdog {arguments}");
@@ -36,7 +36,7 @@ internal class WatchdogCommand : GeneratorCommand<WatchdogCommandParameters>
             startInfo.WorkingDirectory = FileSystem.Parent(startInfo.FileName);
             Logger.Trace($"{startInfo.FileName} {startInfo.Arguments}");
             Process.Start(startInfo);
-            return this.Success();
+            return this.SuccessAsync();
         }
 
         string url = this.Parameters.Url;
@@ -50,12 +50,12 @@ internal class WatchdogCommand : GeneratorCommand<WatchdogCommandParameters>
         if (string.IsNullOrEmpty(command))
         {
             Logger.Error("Command can not be empty");
-            return this.Error();
+            return this.ErrorAsync();
         }
         if (string.IsNullOrEmpty(url) && string.IsNullOrEmpty(launchSettings))
         {
             Logger.Error("No valid target found. Add at least a -url=... or a -launchSettings=... parameter");
-            return this.Error();
+            return this.ErrorAsync();
         }
         if (!string.IsNullOrEmpty(launchSettings))
         {
@@ -64,7 +64,7 @@ internal class WatchdogCommand : GeneratorCommand<WatchdogCommandParameters>
             if (string.IsNullOrEmpty(url))
             {
                 Logger.Error("No value for iisSettings/iisExpress/applicationUrl in launchSettings.json found");
-                return this.Error();
+                return this.ErrorAsync();
             }
             url += "/api/v1/generator/available";
         }
@@ -79,7 +79,7 @@ internal class WatchdogCommand : GeneratorCommand<WatchdogCommandParameters>
 
             //this.resolver.Get<GeneratorCommandRunner>().Run(nextCommand, output);
         }
-        return this.Success();
+        return this.SuccessAsync();
     }
 
     //private ICommandParameter MapParameter(ICommandParameter parameter, string command)

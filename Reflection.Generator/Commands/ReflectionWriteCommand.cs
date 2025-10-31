@@ -16,17 +16,15 @@ internal class ReflectionWriteCommand : GeneratorCommand<ReflectionWriteCommandP
         this.resolver = resolver;
     }
 
-    public override IGeneratorCommandResult Run()
+    public override Task<IGeneratorCommandResult> Run()
     {
         Options options = this.resolver.Get<Options>();
         GeneratorOptions generatorOptions = options.Get<GeneratorOptions>();
         generatorOptions.SetFromParameter(this.Parameters);
         generatorOptions.Language = this.resolver.Get<CsharpLanguage>();
-        ReflectionWriter writer = this.resolver.Create<ReflectionWriter>();
-        writer.FormatNames();
         this.resolver.Get<IOutput>().DeleteAllRelatedFiles(this.Parameters.RelativePath);
-        writer.Write(this.Parameters.RelativePath);
+        this.resolver.Create<ReflectionWriter>().FormatNames().Write();
 
-        return this.Success();
+        return this.SuccessAsync();
     }
 }

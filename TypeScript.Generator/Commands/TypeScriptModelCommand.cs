@@ -19,12 +19,12 @@ internal class TypeScriptModelCommand(IDependencyResolver resolver) : GeneratorC
         generatorOptions.PropertiesToFields = true;
     }
 
-    public override IGeneratorCommandResult Run()
+    public override Task<IGeneratorCommandResult> Run()
     {
         // TODO: Fix path is null
         resolver.Get<IOutput>().DeleteAllRelatedFiles(this.Parameters.RelativePath);
-        resolver.Create<TypeScriptModelWriter>().FormatNames().Write(this.Parameters.RelativePath);
+        resolver.Create<TypeScriptModelWriter>().FormatNames().Write();
         resolver.Create<TypeScriptIndexHelper>().Execute(this.Parameters.RelativePath);
-        return this.Success();
+        return this.SuccessAsync();
     }
 }

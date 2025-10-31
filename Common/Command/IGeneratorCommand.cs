@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace KY.Generator.Command;
+﻿namespace KY.Generator.Command;
 
 public interface IGeneratorCommand
 {
@@ -10,5 +8,5 @@ public interface IGeneratorCommand
     bool Parse();
     void Prepare();
     void FollowUp();
-    IGeneratorCommandResult Run();
+    Task<IGeneratorCommandResult> Run();
 }
