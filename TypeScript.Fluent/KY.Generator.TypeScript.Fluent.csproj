@@ -1,12 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <Company>KY-Programming</Company>
         <Version>10.0.0-preview.30</Version>
-        <RootNamespace>KY.Generator</RootNamespace>
         <LangVersion>latest</LangVersion>
+        <RootNamespace>KY.Generator</RootNamespace>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -19,16 +20,11 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Common.Fluent\KY.Generator.Common.Fluent.csproj" />
-        <ProjectReference Include="..\Common\KY.Generator.Common.csproj" />
+        <ProjectReference Include="..\TypeScript\KY.Generator.TypeScript.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="KY.Core.Common" Version="4.36.0" />
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-        <PackageReference Include="System.Reflection.MetadataLoadContext" Version="9.0.10" />
+        <None Remove="KY.Generator.TypeScript.Fluent.csproj.DotSettings" />
     </ItemGroup>
 
-    <ItemGroup>
-        <None Remove="KY.Generator.Common.Generator.csproj.DotSettings" />
-    </ItemGroup>
 </Project>

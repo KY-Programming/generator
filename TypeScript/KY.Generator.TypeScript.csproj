@@ -32,13 +32,14 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Common.Generator\KY.Generator.Common.Generator.csproj" />
+        <ProjectReference Include="..\Common\KY.Generator.Common.csproj" />
     </ItemGroup>
 
     <ItemGroup>
         <None Include="build.targets" Pack="true" PackagePath="buildTransitive/Package.targets" />
         <None Include="..\icon.png" Pack="true" PackagePath="assets" Visible="false" />
         <None Include="..\Common\README.md" Pack="true" PackagePath="" Visible="false" />
+        <None Include="$(OutputPath)\publish\KY.Generator.TypeScript.Fluent.dll" Pack="true" PackagePath="ref\netstandard2.0\" Visible="false" />
         <None Include="$(OutputPath)\publish\KY.Generator.TypeScript.Generator.dll" Pack="true" PackagePath="ref\netstandard2.0\" Visible="false" />
         <None Remove="KY.Generator.TypeScript.csproj.DotSettings" />
     </ItemGroup>

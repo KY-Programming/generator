@@ -1,48 +1,44 @@
-using KY.Core.Dependency;
-using KY.Generator.Output;
-using KY.Generator.Tsql.Tests.Properties;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace KY.Generator.Tsql.Tests
+namespace KY.Generator.Tsql.Tests;
+
+[TestClass]
+public class FullStageTests
 {
-    [TestClass]
-    public class FullStageTests
+    // private IDependencyResolver resolver;
+
+    //private ConfigurationsReader reader;
+    //private ConfigurationRunner runner;
+    // private MemoryOutput output;
+
+    [TestInitialize]
+    public void Initialize()
     {
-        // private IDependencyResolver resolver;
+        //this.resolver = new DependencyResolver();
+        //this.resolver.Bind<ITypeMapping>().ToSingleton<TypeMapping>();
+        //this.resolver.Bind<IConfigurationReaderVersion>().To<ConfigurationReaderVersion2>();
+        //this.resolver.Bind<ConfigurationMapping>().ToSingleton();
+        //this.resolver.Create<CoreModule>().Initialize();
+        //this.resolver.Create<CsharpModule>().Initialize();
+        //this.resolver.Create<TsqlModule>().Initialize();
+        //this.reader = this.resolver.Create<ConfigurationsReader>();
+        //this.runner = this.resolver.Create<ConfigurationRunner>();
+        //this.output = this.resolver.Create<MemoryOutput>();
+    }
 
-        //private ConfigurationsReader reader;
-        //private ConfigurationRunner runner;
-        // private MemoryOutput output;
+    [TestMethod]
+    public void TestMethod1()
+    {
+        // Assert.AreEqual(true, this.Run(Resources.tsql_generator), "Generation not successful");
+        // Assert.AreEqual(1, this.output.Files.Count);
+        // Assert.AreEqual(Resources.User_cs, this.output.Files["User.cs"]);
+    }
 
-        [TestInitialize]
-        public void Initialize()
-        {
-            //this.resolver = new DependencyResolver();
-            //this.resolver.Bind<ITypeMapping>().ToSingleton<TypeMapping>();
-            //this.resolver.Bind<IConfigurationReaderVersion>().To<ConfigurationReaderVersion2>();
-            //this.resolver.Bind<ConfigurationMapping>().ToSingleton();
-            //this.resolver.Create<CoreModule>().Initialize();
-            //this.resolver.Create<CsharpModule>().Initialize();
-            //this.resolver.Create<TsqlModule>().Initialize();
-            //this.reader = this.resolver.Create<ConfigurationsReader>();
-            //this.runner = this.resolver.Create<ConfigurationRunner>();
-            //this.output = this.resolver.Create<MemoryOutput>();
-        }
-
-        [TestMethod]
-        public void TestMethod1()
-        {
-            // Assert.AreEqual(true, this.Run(Resources.tsql_generator), "Generation not successful");
-            // Assert.AreEqual(1, this.output.Files.Count);
-            // Assert.AreEqual(Resources.User_cs, this.output.Files["User.cs"]);
-        }
-
-        private bool Run(string configuration)
-        {
-            //List<ConfigurationSet> sets = this.reader.Parse(configuration);
-            //sets.ForEach(x => x.Configurations.ForEach(y => y.AddHeader = false));
-            //return this.runner.Run(sets, this.output);
-            return false;
-        }
+    private bool Run(string configuration)
+    {
+        //List<ConfigurationSet> sets = this.reader.Parse(configuration);
+        //sets.ForEach(x => x.Configurations.ForEach(y => y.AddHeader = false));
+        //return this.runner.Run(sets, this.output);
+        return false;
     }
 }

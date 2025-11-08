@@ -7,8 +7,9 @@ public static class WriteFluentSyntaxExtension
     /// </summary>
     public static IWriteFluentSyntax Strict(this IWriteFluentSyntax syntax, bool value = true)
     {
-        TypeScriptOptions options = ((IWriteFluentSyntaxInternal)syntax).Resolver.Get<Options>().Get<TypeScriptOptions>();
-        options.Strict = value;
+        IReadFluentSyntaxInternal internalSyntax = (IReadFluentSyntaxInternal)syntax;
+        ITypeScriptSyntax typeScriptSyntax = internalSyntax.Resolver.Get<ISyntaxResolver>().Create<ITypeScriptSyntax>();
+        typeScriptSyntax.Strict(value);
         return syntax;
     }
 
@@ -17,8 +18,9 @@ public static class WriteFluentSyntaxExtension
     /// </summary>
     public static IWriteFluentSyntax NoIndex(this IWriteFluentSyntax syntax)
     {
-        TypeScriptOptions options = ((IWriteFluentSyntaxInternal)syntax).Resolver.Get<Options>().Get<TypeScriptOptions>();
-        options.NoIndex = true;
+        IReadFluentSyntaxInternal internalSyntax = (IReadFluentSyntaxInternal)syntax;
+        ITypeScriptSyntax typeScriptSyntax = internalSyntax.Resolver.Get<ISyntaxResolver>().Create<ITypeScriptSyntax>();
+        typeScriptSyntax.NoIndex();
         return syntax;
     }
 

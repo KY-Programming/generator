@@ -26,7 +26,7 @@ internal class ReflectionCommand : GeneratorCommand<ReflectionCommandParameters>
     {
         Options options = this.resolver.Get<Options>();
         GeneratorOptions generatorOptions = options.Get<GeneratorOptions>();
-        generatorOptions.Language = this.Parameters.Language?.Name?.Equals(nameof(OutputLanguage.Csharp), StringComparison.CurrentCultureIgnoreCase) ?? false
+        generatorOptions.Language = this.Parameters.Language?.Equals(nameof(OutputLanguage.Csharp), StringComparison.CurrentCultureIgnoreCase) ?? false
             ? this.resolver.Get<CsharpLanguage>()
             : this.resolver.Get<TypeScriptLanguage>();
         if (generatorOptions.Language.IsTypeScript())

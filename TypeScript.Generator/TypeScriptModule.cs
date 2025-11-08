@@ -2,6 +2,7 @@
 using KY.Generator.Languages;
 using KY.Generator.Models;
 using KY.Generator.TypeScript.Commands;
+using KY.Generator.TypeScript.Fluent;
 using KY.Generator.TypeScript.Languages;
 using KY.Generator.TypeScript.Transfer;
 using KY.Generator.TypeScript.Transfer.Readers;
@@ -21,5 +22,6 @@ public class TypeScriptModule : GeneratorModule
         this.DependencyResolver.Bind<TypeScriptIndexHelper>().ToSelf();
         this.DependencyResolver.Bind<IOptionsFactory>().ToSingleton<TypeScriptOptionsFactory>();
         this.Register<TypeScriptModelCommand>(TypeScriptModelCommandParameters.Names);
+        this.Register<ITypeScriptSyntax, TypeScriptSyntax>();
     }
 }
