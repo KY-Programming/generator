@@ -28,7 +28,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Angular\KY.Generator.Angular.csproj" />
-        <ProjectReference Include="..\Common\KY.Generator.Common.csproj" />
+        <ProjectReference Include="..\Common.Generator\KY.Generator.Common.Generator.csproj" />
         <ProjectReference Include="..\TypeScript.Generator\KY.Generator.TypeScript.Generator.csproj" />
     </ItemGroup>
 

@@ -3,6 +3,7 @@ using KY.Core.Dependency;
 using KY.Generator.Commands;
 using KY.Generator.Languages;
 using KY.Generator.Models;
+using KY.Generator.Syntax;
 
 [assembly: InternalsVisibleTo("KY.Generator.Tests")]
 [assembly: InternalsVisibleTo("KY.Generator.Common.Tests")]
@@ -37,6 +38,7 @@ internal class CoreModule : GeneratorModule
         this.Register<NoHeaderCommand>(NoHeaderCommandParameters.Names);
         this.RegisterLanguage<EmptyLanguage>();
         this.RegisterOptions<GeneratorOptionsFactory>();
+        this.DependencyResolver.Bind<ISyntaxResolver>().ToSingleton<SyntaxResolver>();
         this.DependencyResolver.Bind<GeneratorTypeLoader>().ToSingleton();
         // Register the options factories. This is not needed for other modules because the dependency resolver keeps the list for all modules.
         Options.Register(() => this.DependencyResolver.Get<List<IOptionsFactory>>());

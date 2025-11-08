@@ -11,6 +11,7 @@ internal class Program
     {
         bool success = LoadShared("KY.Core.Common")
                        && LoadShared("KY.Generator.Common")
+                       && LoadShared("KY.Generator.Common.Generator")
                        && await Run(args);
         if (!success)
         {
@@ -32,7 +33,7 @@ internal class Program
 
     private static async Task<bool> Run(string[] args)
     {
-        Assembly core = AppDomain.CurrentDomain.GetAssemblies().Single(x => x.FullName?.StartsWith("KY.Generator.Common,") ?? false);
+        Assembly core = AppDomain.CurrentDomain.GetAssemblies().Single(x => x.FullName?.StartsWith("KY.Generator.Common.Generator,") ?? false);
         Type? type = core.GetType("KY.Generator.Main");
         if (type == null)
         {

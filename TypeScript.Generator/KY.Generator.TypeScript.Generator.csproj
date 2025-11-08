@@ -25,7 +25,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Common\KY.Generator.Common.csproj" />
+        <ProjectReference Include="..\Common.Generator\KY.Generator.Common.Generator.csproj" />
         <ProjectReference Include="..\TypeScript\KY.Generator.TypeScript.csproj" />
     </ItemGroup>
 

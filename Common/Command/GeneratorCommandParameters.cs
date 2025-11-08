@@ -1,5 +1,4 @@
-﻿using KY.Core;
-using KY.Generator.Extensions;
+﻿using KY.Generator.Extensions;
 
 namespace KY.Generator.Command;
 
@@ -37,8 +36,17 @@ public class GeneratorCommandParameters
 
     protected static IEnumerable<string> ToCommand(string className)
     {
-        string baseName = className.TrimEnd("CommandParameters").TrimEnd("Command").ToKebabCase();
+        string baseName = TrimEnd(TrimEnd(className, "CommandParameters"), "Command").ToKebabCase();
         yield return baseName;
         yield return baseName.Replace("-", string.Empty);
+    }
+
+    private static string TrimEnd(string value, string trim)
+    {
+        while (value.EndsWith(trim))
+        {
+            value = value.Substring(0, value.Length - trim.Length);
+        }
+        return value;
     }
 }

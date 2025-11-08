@@ -32,15 +32,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="KY.Core.Common" Version="4.36.0" />
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-        <PackageReference Include="System.Reflection.MetadataLoadContext" Version="9.0.10" />
-    </ItemGroup>
-
-    <ItemGroup>
         <None Include="..\icon.png" Pack="true" PackagePath="assets" Visible="false" />
-        <None Include="..\Common\README.md" Pack="true" PackagePath="" Visible="false" />
+        <None Include="README.md" Pack="true" PackagePath="" />
+        <None Include="$(OutputPath)\publish\KY.Generator.Common.Fluent.dll" Pack="true" PackagePath="lib\netstandard2.0\" Visible="false" />
+        <None Include="$(OutputPath)\publish\KY.Generator.Common.Generator.dll" Pack="true" PackagePath="ref\netstandard2.0\" Visible="false" />
         <None Remove="KY.Generator.Common.csproj.DotSettings" />
+        <None Include="build.targets" Pack="true" PackagePath="buildTransitive/Package.targets" />
     </ItemGroup>
 
 </Project>

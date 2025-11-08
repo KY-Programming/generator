@@ -29,7 +29,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Common\KY.Generator.Common.csproj" />
+        <ProjectReference Include="..\Common.Generator\KY.Generator.Common.Generator.csproj" />
         <ProjectReference Include="..\CSharp.Generator\KY.Generator.Csharp.Generator.csproj" />
         <ProjectReference Include="..\Tsql\KY.Generator.Tsql.csproj" />
         <ProjectReference Include="..\TypeScript.Generator\KY.Generator.TypeScript.Generator.csproj" />

@@ -1,8 +1,24 @@
 ﻿using System.Text.RegularExpressions;
-using KY.Core;
-using KY.Core.Extension;
 
 namespace KY.Generator.Extensions;
+
+// Clone from KY.Core
+internal static class CoreStringExtensions
+{
+    public static string FirstCharToLower(this string value)
+    {
+        if (!string.IsNullOrEmpty(value))
+        {
+            value = value[0].ToString().ToLower() + value.Substring(1);
+        }
+        return value;
+    }
+
+    public static string FirstCharToUpper(this string value)
+    {
+        return string.IsNullOrEmpty(value) ? value : value[0].ToString().ToUpper() + value.Substring(1);
+    }
+}
 
 public static class StringExtensions
 {
@@ -80,35 +96,5 @@ public static class StringExtensions
             }
             yield return match;
         }
-    }
-
-    public static int IndexOf(this string value, Regex regex)
-    {
-        return regex.Match(value).Index;
-    }
-
-    public static string Prefix(this string value, string prefix)
-    {
-        if (string.IsNullOrEmpty(value) || string.IsNullOrEmpty(prefix))
-        {
-            return value;
-        }
-        if (!value.StartsWith(prefix))
-        {
-            return prefix + value;
-        }
-        CaseType firstCharCase = value[0].GetCaseType();
-        CaseType secondCharCase = value[1].GetCaseType();
-        CaseType prefixCase = prefix[0].GetCaseType();
-        if (firstCharCase != prefixCase || firstCharCase != secondCharCase)
-        {
-            return prefix + value;
-        }
-        return value;
-    }
-
-    public static string Replace(this string value, IReadOnlyDictionary<string, string>? replaceName)
-    {
-        return replaceName == null ? value : replaceName.Aggregate(value, (current, pair) => current.Replace(pair.Key, pair.Value));
     }
 }

@@ -165,6 +165,10 @@
             <Project>{5915BD99-7A27-4A49-B31D-0CB8A3E07795}</Project>
             <Name>KY.Generator.AspDotNet</Name>
         </ProjectReference>
+        <ProjectReference Include="..\Common.Generator\KY.Generator.Common.Generator.csproj">
+            <Project>{1c34d522-175e-4444-86bf-208bc9d0a5e5}</Project>
+            <Name>KY.Generator.Common.Generator</Name>
+        </ProjectReference>
         <ProjectReference Include="..\Common\KY.Generator.Common.csproj">
             <Project>{8c35562d-fbce-4588-ab3b-fcc6deadebae}</Project>
             <Name>KY.Generator.Common</Name>

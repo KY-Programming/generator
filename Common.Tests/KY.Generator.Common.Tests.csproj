@@ -16,7 +16,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Common\KY.Generator.Common.csproj" />
+        <ProjectReference Include="..\Common.Generator\KY.Generator.Common.Generator.csproj" />
     </ItemGroup>
 
 </Project>
