@@ -68,6 +68,10 @@ public class GeneratorModuleLoader
             {
                 string path = FileSystem.Combine(assembly.Location, generateWithAttribute.AssemblyPath);
                 locator.Locations.Insert(0, new SearchLocation(path));
+                if (path.Contains("\\lib\\"))
+                {
+                    locator.Locations.Insert(1, new SearchLocation(path.Replace("\\lib\\", "\\ref\\")));
+                }
             }
             if (generateWithAttribute?.AssemblyName == null)
             {

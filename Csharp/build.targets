@@ -1,0 +1,10 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <Target Name="KY.Generator.Csharp_RemoveFromPublish" AfterTargets="ComputeFilesToPublish;ResolvePublishAssets">
+        <ItemGroup Condition="'$(GeneratePublish)'=='None'">
+            <ResolvedFileToPublish Remove="@(ResolvedFileToPublish)" Condition="'%(ResolvedFileToPublish.Filename)%(ResolvedFileToPublish.Extension)'=='KY.Generator.Csharp.dll'" />
+        </ItemGroup>
+        <ItemGroup Condition="'$(GeneratePublish)'!='All'">
+            <ResolvedFileToPublish Remove="@(ResolvedFileToPublish)" Condition="'%(ResolvedFileToPublish.Filename)%(ResolvedFileToPublish.Extension)'=='KY.Generator.Csharp.Fluent.dll'" />
+        </ItemGroup>
+    </Target>
+</Project>
