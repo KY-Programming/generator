@@ -7,7 +7,7 @@
         <Company>KY-Programming</Company>
         <Version>10.0.0-preview.30</Version>
         <LangVersion>latest</LangVersion>
-        <RootNamespace>KY.Generator.Tsql</RootNamespace>
+        <RootNamespace>KY.Generator</RootNamespace>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -19,15 +19,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.2" />
+        <ProjectReference Include="..\Tsql\KY.Generator.Tsql.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Common.Generator\KY.Generator.Common.Generator.csproj" />
-        <ProjectReference Include="..\CSharp.Generator\KY.Generator.Csharp.Generator.csproj" />
-        <ProjectReference Include="..\Tsql.Fluent\KY.Generator.Tsql.Fluent.csproj" />
-        <ProjectReference Include="..\Tsql\KY.Generator.Tsql.csproj" />
-        <ProjectReference Include="..\TypeScript.Generator\KY.Generator.TypeScript.Generator.csproj" />
+        <None Remove="KY.Generator.Tsql.Fluent.csproj.DotSettings" />
     </ItemGroup>
 
 </Project>

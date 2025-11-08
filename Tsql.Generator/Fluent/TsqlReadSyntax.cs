@@ -1,6 +1,6 @@
 ﻿using KY.Generator.Command;
 
-namespace KY.Generator;
+namespace KY.Generator.Tsql.Fluent;
 
 public class TsqlReadSyntax : IExecutableSyntax, ITsqlReadSyntax
 {
