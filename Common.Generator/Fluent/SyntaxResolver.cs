@@ -22,7 +22,7 @@ public class SyntaxResolver : ISyntaxResolver
         return (T)factory(commandResolver);
     }
 
-    public void Register<TInterface, TSyntax>() where TInterface : IFluentSyntax<TInterface> where TSyntax : TInterface
+    public void Register<TInterface, TSyntax>() where TInterface : IFluentSyntax where TSyntax : TInterface
     {
         this.register.Add(typeof(TInterface), x => x.Create<TSyntax>());
     }

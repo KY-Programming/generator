@@ -1,6 +1,6 @@
 ﻿using KY.Core;
 
-namespace KY.Generator.Angular;
+namespace KY.Generator.Angular.Fluent;
 
 internal class AngularModelSyntax : IAngularModelSyntax
 {

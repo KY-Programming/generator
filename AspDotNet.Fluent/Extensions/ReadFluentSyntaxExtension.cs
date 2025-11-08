@@ -10,7 +10,7 @@ public static class ReadFluentSyntaxExtension
     public static IReadFluentSyntax AspDotNet(this IReadFluentSyntax syntax, Action<IAspDotNetReadSyntax> action)
     {
         IReadFluentSyntaxInternal internalSyntax = (IReadFluentSyntaxInternal)syntax;
-        AspDotNetReadSyntax readSyntax = internalSyntax.Resolver.Create<AspDotNetReadSyntax>();
+        IAspDotNetReadSyntax readSyntax = internalSyntax.Resolver.Get<ISyntaxResolver>().Create<IAspDotNetReadSyntax>();
         internalSyntax.Syntaxes.Add(readSyntax);
         action(readSyntax);
         readSyntax.Commands.Count.AssertIsPositive(message: $"The {nameof(AspDotNet)} action requires at least one command. E.g. '.{nameof(AspDotNet)}(read => read.{nameof(IAspDotNetReadSyntax.FromController)}<MyController>())'");

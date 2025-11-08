@@ -1,6 +1,7 @@
 ﻿using KY.Core.Dependency;
 using KY.Generator.Angular;
 using KY.Generator.AspDotNet.Commands;
+using KY.Generator.AspDotNet.Fluent;
 using KY.Generator.Csharp;
 using KY.Generator.Models;
 using KY.Generator.Reflection;
@@ -17,6 +18,7 @@ public class AspDotNetModule : GeneratorModule
         this.DependsOn<ReflectionModule>();
         this.Register<AspDotNetReadControllerCommand>(AspDotNetReadControllerCommandParameters.Names);
         this.Register<AspDotNetReadHubCommand>(AspDotNetReadHubCommandParameters.Names);
+        this.Register<IAspDotNetReadSyntax, AspDotNetReadSyntax>();
         this.RegisterOptions<AspDotNetOptionsFactory>();
     }
 }

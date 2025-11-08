@@ -3,5 +3,5 @@
 public interface ISyntaxResolver
 {
     T Create<T>();
-    void Register<TInterface, TSyntax>() where TInterface : IFluentSyntax<TInterface> where TSyntax : TInterface;
+    void Register<TInterface, TSyntax>() where TInterface : IFluentSyntax where TSyntax : TInterface;
 }

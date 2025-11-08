@@ -1,6 +1,6 @@
 ﻿using KY.Generator.Command;
 
-namespace KY.Generator.Angular;
+namespace KY.Generator.Angular.Fluent;
 
 internal class AngularPackageSyntax : IExecutableSyntax, IAngularPackageSyntax
 {

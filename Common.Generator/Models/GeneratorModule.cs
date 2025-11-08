@@ -30,7 +30,7 @@ public abstract class GeneratorModule : ModuleBase
     }
 
     protected void Register<TInterface, TSyntax>()
-        where TInterface : IFluentSyntax<TInterface>
+        where TInterface : IFluentSyntax
         where TSyntax : TInterface
     {
         this.DependencyResolver.Get<ISyntaxResolver>().Register<TInterface, TSyntax>();

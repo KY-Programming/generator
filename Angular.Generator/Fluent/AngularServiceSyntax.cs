@@ -1,4 +1,4 @@
-﻿namespace KY.Generator.Angular;
+﻿namespace KY.Generator.Angular.Fluent;
 
 internal class AngularServiceSyntax : IAngularServiceSyntax, IAngularHttpClientSyntax
 {

@@ -3,7 +3,11 @@ using System.Reflection;
 
 namespace KY.Generator;
 
-public interface IFluentSyntax<out TSyntax>
+public interface IFluentSyntax
+{ }
+
+public interface IFluentSyntax<out TSyntax> : IFluentSyntax
+
 {
     TSyntax SetGlobal(Assembly assembly, Action<ISetFluentSyntax> action);
     TSyntax SetType<T>(Action<ISetFluentSyntax> action);

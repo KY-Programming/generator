@@ -1,7 +1,7 @@
 ﻿using KY.Core;
 using KY.Generator.Command;
 
-namespace KY.Generator.Angular;
+namespace KY.Generator.Angular.Fluent;
 
 internal class AngularWriteSyntax : IExecutableSyntax, IAngularWriteSyntax
 {

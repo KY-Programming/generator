@@ -2,7 +2,7 @@
 using KY.Generator.Command;
 using KY.Generator.Commands;
 
-namespace KY.Generator;
+namespace KY.Generator.AspDotNet.Fluent;
 
 internal class AspDotNetReadSyntax : IExecutableSyntax, IAspDotNetReadSyntax
 {
