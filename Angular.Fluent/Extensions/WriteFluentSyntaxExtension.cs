@@ -11,9 +11,10 @@ public static class WriteFluentSyntaxExtension
     {
         IFluentInternalSyntax internalSyntax = syntax.CastTo<IFluentInternalSyntax>();
         IAngularWriteSyntax writeSyntax = internalSyntax.Resolver.Get<ISyntaxResolver>().Create<IAngularWriteSyntax>();
-        internalSyntax.Syntaxes.Add(writeSyntax);
+        IExecutableSyntax executableSyntax = writeSyntax.CastTo<IExecutableSyntax>();
+        internalSyntax.Syntaxes.Add(executableSyntax);
         action(writeSyntax);
-        writeSyntax.Commands.Count.AssertIsPositive(message: $"The {nameof(Angular)} action requires at least one command. E.g. '.{nameof(Angular)}(write => write.{nameof(IAngularWriteSyntax.Models)}(...))'");
+        executableSyntax.Commands.Count.AssertIsPositive(message: $"The {nameof(Angular)} action requires at least one command. E.g. '.{nameof(Angular)}(write => write.{nameof(IAngularWriteSyntax.Models)}(...))'");
         return syntax;
     }
 }

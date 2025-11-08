@@ -1,6 +1,6 @@
 ﻿namespace KY.Generator;
 
-public interface IReflectionReadSyntax
+public interface IReflectionReadSyntax : IFluentSyntax
 {
     /// <summary>
     /// Read all metadata from this type and provide it to the following write actions.
@@ -16,5 +16,5 @@ public interface IReflectionReadSyntax
     /// </code>
     /// </example>
     /// <typeparam name="T">Type which should be generated</typeparam>
-    IReflectionReadSyntax FromType<T>(Action<IReflectionFromTypeSyntax> options = null);
+    IReflectionReadSyntax FromType<T>(Action<IReflectionFromTypeSyntax>? options = null);
 }

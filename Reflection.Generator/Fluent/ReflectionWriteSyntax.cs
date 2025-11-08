@@ -1,17 +1,11 @@
 ﻿using KY.Generator.Command;
 
-namespace KY.Generator;
+namespace KY.Generator.Reflection.Fluent;
 
 internal class ReflectionWriteSyntax : IExecutableSyntax, IReflectionWriteSyntax
 {
-    private readonly IWriteFluentSyntaxInternal syntax;
     private ReflectionWriteCommandParameters? command;
     public List<GeneratorCommandParameters> Commands { get; } = [];
-
-    public ReflectionWriteSyntax(IWriteFluentSyntaxInternal syntax)
-    {
-        this.syntax = syntax;
-    }
 
     public IReflectionWriteSyntax Models(string relativePath)
     {

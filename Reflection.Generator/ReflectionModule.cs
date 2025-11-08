@@ -5,6 +5,7 @@ using KY.Generator.Mappings;
 using KY.Generator.Models;
 using KY.Generator.Reflection.Commands;
 using KY.Generator.Reflection.Extensions;
+using KY.Generator.Reflection.Fluent;
 using KY.Generator.Reflection.Readers;
 using KY.Generator.Reflection.Writers;
 using KY.Generator.TypeScript;
@@ -25,6 +26,8 @@ public class ReflectionModule : GeneratorModule
         this.Register<ReflectionCommand>(ReflectionCommandParameters.Names);
         this.Register<ReflectionReadCommand>(ReflectionReadCommandParameters.Names);
         this.Register<ReflectionWriteCommand>(ReflectionWriteCommandParameters.Names);
+        this.Register<IReflectionReadSyntax, ReflectionReadSyntax>();
+        this.Register<IReflectionWriteSyntax, ReflectionWriteSyntax>();
     }
 
     public override void Initialize()

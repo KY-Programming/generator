@@ -1,6 +1,6 @@
 ﻿namespace KY.Generator;
 
-public interface IAspDotNetReadSyntax : IFluentSyntax, IExecutableSyntax
+public interface IAspDotNetReadSyntax : IFluentSyntax
 {
     /// <summary>
     /// Read all metadata from this controller and provide it to the following write actions.

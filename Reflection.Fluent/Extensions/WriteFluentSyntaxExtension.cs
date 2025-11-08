@@ -10,10 +10,11 @@ public static class WriteFluentSyntaxExtension
     public static IWriteFluentSyntax Reflection(this IWriteFluentSyntax syntax, Action<IReflectionWriteSyntax> action)
     {
         IWriteFluentSyntaxInternal internalSyntax = (IWriteFluentSyntaxInternal)syntax;
-        ReflectionWriteSyntax writeSyntax = new(internalSyntax);
-        internalSyntax.Syntaxes.Add(writeSyntax);
+        IReflectionWriteSyntax writeSyntax = internalSyntax.Resolver.Create<IReflectionWriteSyntax>();
+        IExecutableSyntax executableSyntax = writeSyntax.CastTo<IExecutableSyntax>();
+        internalSyntax.Syntaxes.Add(executableSyntax);
         action(writeSyntax);
-        writeSyntax.Commands.Count.AssertIsPositive(message: $"The {nameof(Reflection)} action requires at least one command. E.g. '.{nameof(Reflection)}(write => write.{nameof(IReflectionWriteSyntax.Models)}(...))'");
+        executableSyntax.Commands.Count.AssertIsPositive(message: $"The {nameof(Reflection)} action requires at least one command. E.g. '.{nameof(Reflection)}(write => write.{nameof(IReflectionWriteSyntax.Models)}(...))'");
         return internalSyntax;
     }
 }

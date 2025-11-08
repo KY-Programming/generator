@@ -1,7 +1,7 @@
 ﻿using KY.Generator.Command;
 using KY.Generator.Commands;
 
-namespace KY.Generator;
+namespace KY.Generator.Reflection.Fluent;
 
 internal class ReflectionReadSyntax : IExecutableSyntax, IReflectionReadSyntax
 {

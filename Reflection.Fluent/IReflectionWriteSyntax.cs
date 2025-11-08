@@ -1,6 +1,6 @@
 ﻿namespace KY.Generator;
 
-public interface IReflectionWriteSyntax
+public interface IReflectionWriteSyntax : IFluentSyntax
 {
     IReflectionWriteSyntax PropertiesToFields();
     IReflectionWriteSyntax FieldsToProperties();

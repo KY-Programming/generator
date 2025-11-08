@@ -7,7 +7,7 @@
         <Company>KY-Programming</Company>
         <Version>10.0.0-preview.30</Version>
         <LangVersion>latest</LangVersion>
-        <RootNamespace>KY.Generator.Reflection</RootNamespace>
+        <RootNamespace>KY.Generator</RootNamespace>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -17,15 +17,14 @@
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
         <OutputPath>..\bin\Release</OutputPath>
         <NoWarn>1701;1702;1591</NoWarn>
+        <DocumentationFile>..\bin\Release\KY.Generator.Reflection.Fluent.xml</DocumentationFile>
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Angular.Generator\KY.Generator.Angular.Generator.csproj" />
-        <ProjectReference Include="..\Common.Generator\KY.Generator.Common.Generator.csproj" />
-        <ProjectReference Include="..\CSharp.Generator\KY.Generator.Csharp.Generator.csproj" />
-        <ProjectReference Include="..\Reflection.Fluent\KY.Generator.Reflection.Fluent.csproj" />
-        <ProjectReference Include="..\Reflection\KY.Generator.Reflection.csproj" />
-        <ProjectReference Include="..\TypeScript.Generator\KY.Generator.TypeScript.Generator.csproj" />
+        <ProjectReference Include="..\Common.Fluent\KY.Generator.Common.Fluent.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+        <None Remove="KY.Generator.Reflection.Fluent.csproj.DotSettings" />
+    </ItemGroup>
 </Project>
