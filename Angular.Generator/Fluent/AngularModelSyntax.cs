@@ -1,14 +1,13 @@
 ﻿using KY.Core;
-using KY.Generator.Syntax;
 
 namespace KY.Generator.Angular;
 
 internal class AngularModelSyntax : IAngularModelSyntax
 {
-    private readonly ExecutableSyntax syntax;
+    private readonly IExecutableSyntax syntax;
     private readonly AngularModelCommandParameters command;
 
-    public AngularModelSyntax(ExecutableSyntax syntax, AngularModelCommandParameters command)
+    public AngularModelSyntax(IExecutableSyntax syntax, AngularModelCommandParameters command)
     {
         this.syntax = syntax;
         this.command = command;

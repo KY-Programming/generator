@@ -4,14 +4,14 @@ using KY.Core;
 using KY.Core.Dependency;
 using KY.Generator.Command;
 
-namespace KY.Generator.Syntax;
+namespace KY.Generator;
 
 public class FluentSyntax : IReadFluentSyntaxInternal, IWriteFluentSyntaxInternal, ISwitchToReadFluentSyntax
 {
     private readonly Options options;
     public IDependencyResolver Resolver { get; }
 
-    public List<ExecutableSyntax> Syntaxes { get; } = [];
+    public List<IExecutableSyntax> Syntaxes { get; } = [];
 
     public FluentSyntax(IDependencyResolver resolver, Options options)
     {
@@ -33,7 +33,7 @@ public class FluentSyntax : IReadFluentSyntaxInternal, IWriteFluentSyntaxInterna
     public async Task<IGeneratorCommandResult> Run()
     {
         GeneratorCommandRunner runner = this.Resolver.Create<GeneratorCommandRunner>();
-        foreach (ExecutableSyntax syntax in this.Syntaxes)
+        foreach (IExecutableSyntax syntax in this.Syntaxes)
         {
             IGeneratorCommandResult commandResult = await runner.Run(syntax.Commands);
             if (!commandResult.Success)

@@ -1,5 +1,4 @@
-﻿namespace KY.Generator.Syntax
-{
-    public interface IReadFluentSyntax
-    { }
-}
+﻿namespace KY.Generator;
+
+public interface IReadFluentSyntax
+{ }

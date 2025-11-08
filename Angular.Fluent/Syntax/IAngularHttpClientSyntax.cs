@@ -1,4 +1,4 @@
-namespace KY.Generator.Angular;
+namespace KY.Generator;
 
 public interface IAngularHttpClientSyntax : IAngularServiceSyntax
 {

@@ -1,6 +1,4 @@
-﻿using KY.Generator.Syntax;
-
-namespace KY.Generator;
+﻿namespace KY.Generator;
 
 public static class WriteFluentSyntaxExtension
 {

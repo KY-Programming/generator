@@ -1,12 +1,13 @@
 ﻿using KY.Core.Dependency;
+using KY.Generator.Command;
 using KY.Generator.Commands;
-using KY.Generator.Syntax;
 
 namespace KY.Generator;
 
-internal class AspDotNetReadSyntax : ExecutableSyntax, IAspDotNetReadSyntax
+internal class AspDotNetReadSyntax : IExecutableSyntax, IAspDotNetReadSyntax
 {
     private readonly IDependencyResolver resolver;
+    public List<GeneratorCommandParameters> Commands { get; } = [];
 
     public AspDotNetReadSyntax(IDependencyResolver resolver)
     {

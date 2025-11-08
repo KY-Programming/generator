@@ -1,16 +1,15 @@
 ﻿using KY.Core.Dependency;
 using KY.Generator.Command;
-using KY.Generator.Syntax;
 using KY.Generator.Watchdog.Commands;
 
 namespace KY.Generator;
 
-public class WatchdogWaitSyntax : ExecutableSyntax, IWatchdogWaitSyntax, IFluentInternalSyntax
+public class WatchdogWaitSyntax : IExecutableSyntax, IWatchdogWaitSyntax, IFluentInternalSyntax
 {
     private readonly WatchdogCommandParameters command;
-
+    public List<GeneratorCommandParameters> Commands { get; } = [];
     public IDependencyResolver Resolver { get; }
-    public List<ExecutableSyntax> Syntaxes { get; } = new();
+    public List<IExecutableSyntax> Syntaxes { get; } = new();
 
     public WatchdogWaitSyntax(string url, IDependencyResolver resolver)
     {

@@ -1,4 +1,4 @@
-namespace KY.Generator.Syntax;
+namespace KY.Generator;
 
 public interface ISetMemberReturnTypeFluentSyntax : ISetMemberFluentSyntax
 {
@@ -6,7 +6,7 @@ public interface ISetMemberReturnTypeFluentSyntax : ISetMemberFluentSyntax
     /// Import a namespace
     /// </summary>
     ISetMemberFluentSyntax ImportNamespace(string nameSpace);
-    
+
     /// <summary>
     /// Import a file by its name. Specify optionally a different import type name
     /// </summary>

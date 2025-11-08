@@ -1,5 +1,4 @@
 ﻿using KY.Core;
-using KY.Generator.Syntax;
 
 namespace KY.Generator;
 

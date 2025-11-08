@@ -1,6 +1,4 @@
 ﻿using KY.Core;
-using KY.Generator.Angular;
-using KY.Generator.Syntax;
 
 namespace KY.Generator;
 
@@ -12,7 +10,7 @@ public static class WriteFluentSyntaxExtension
     public static IWriteFluentSyntax Angular(this IWriteFluentSyntax syntax, Action<IAngularWriteSyntax> action)
     {
         IFluentInternalSyntax internalSyntax = syntax.CastTo<IFluentInternalSyntax>();
-        AngularWriteSyntax writeSyntax = new();
+        IAngularWriteSyntax writeSyntax = internalSyntax.Resolver.Get<ISyntaxResolver>().Create<IAngularWriteSyntax>();
         internalSyntax.Syntaxes.Add(writeSyntax);
         action(writeSyntax);
         writeSyntax.Commands.Count.AssertIsPositive(message: $"The {nameof(Angular)} action requires at least one command. E.g. '.{nameof(Angular)}(write => write.{nameof(IAngularWriteSyntax.Models)}(...))'");

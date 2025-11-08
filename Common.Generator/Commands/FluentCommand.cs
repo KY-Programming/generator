@@ -5,7 +5,6 @@ using KY.Generator.Command;
 using KY.Generator.Extensions;
 using KY.Generator.Helpers;
 using KY.Generator.Models;
-using KY.Generator.Syntax;
 using KY.Generator.Transfer;
 
 namespace KY.Generator.Commands;

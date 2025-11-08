@@ -1,11 +1,12 @@
-﻿using KY.Generator.Commands;
-using KY.Generator.Syntax;
+﻿using KY.Generator.Command;
+using KY.Generator.Commands;
 
 namespace KY.Generator;
 
-public class JsonWriteSyntax : ExecutableSyntax, IJsonWriteSyntax, IJsonWriteModelSyntax, IJsonWriteModelOrReaderSyntax
+public class JsonWriteSyntax : IExecutableSyntax, IJsonWriteSyntax, IJsonWriteModelSyntax, IJsonWriteModelOrReaderSyntax
 {
     private readonly JsonWriteCommandParameters command = new();
+    public List<GeneratorCommandParameters> Commands { get; } = [];
 
     public IJsonWriteModelOrReaderSyntax Model(string relativePath, string name, string nameSpace)
     {

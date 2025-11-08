@@ -1,6 +1,6 @@
-﻿namespace KY.Generator.Angular;
+﻿namespace KY.Generator;
 
-public interface IAngularWriteSyntax : IAngularWriteBaseSyntax<IAngularWriteSyntax>
+public interface IAngularWriteSyntax : IAngularWriteBaseSyntax<IAngularWriteSyntax>, IExecutableSyntax
 {
     /// <summary>
     /// Creates the code for a npm package

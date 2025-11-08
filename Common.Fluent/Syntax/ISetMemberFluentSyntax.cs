@@ -1,6 +1,4 @@
-using System;
-
-namespace KY.Generator.Syntax;
+namespace KY.Generator;
 
 public interface ISetMemberFluentSyntax : ISetFluentSyntax<ISetMemberFluentSyntax>
 {
@@ -8,12 +6,12 @@ public interface ISetMemberFluentSyntax : ISetFluentSyntax<ISetMemberFluentSynta
     /// Renames a method or property
     /// </summary>
     ISetMemberFluentSyntax Rename(string name);
-        
+
     /// <summary>
     /// Changes the return type
     /// </summary>
     ISetMemberReturnTypeFluentSyntax ReturnType(Type type);
-        
+
     /// <summary>
     /// Changes the return type. Maybe you have to specify also an import e.g. .ReturnType(...).ImportFile(...)
     /// </summary>

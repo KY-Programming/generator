@@ -1,12 +1,10 @@
-﻿using KY.Generator.Syntax;
-
-namespace KY.Generator.Angular;
+﻿namespace KY.Generator.Angular;
 
 internal class AngularServiceSyntax : IAngularServiceSyntax, IAngularHttpClientSyntax
 {
     private readonly AngularServiceCommandParameters command;
 
-    public AngularServiceSyntax(ExecutableSyntax syntax, AngularServiceCommandParameters command)
+    public AngularServiceSyntax(IExecutableSyntax syntax, AngularServiceCommandParameters command)
     {
         this.command = command;
         this.command.RelativeModelPath = syntax.Commands.OfType<AngularModelCommandParameters>().FirstOrDefault()?.RelativePath;

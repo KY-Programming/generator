@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace KY.Generator.Syntax;
+namespace KY.Generator;
 
 public class SetFluentSyntax : SetFluentSyntax<ISetFluentSyntax>, ISetFluentSyntax
 {

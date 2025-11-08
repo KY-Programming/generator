@@ -1,5 +1,4 @@
-﻿using KY.Generator.Angular.Models;
-using KY.Generator.Command;
+﻿using KY.Generator.Command;
 
 namespace KY.Generator;
 

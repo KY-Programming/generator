@@ -1,6 +1,6 @@
 using KY.Generator.Models;
 
-namespace KY.Generator.Syntax;
+namespace KY.Generator;
 
 public class FileNameFluentSyntax : IFileNameFluentSyntax
 {

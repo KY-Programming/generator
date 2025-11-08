@@ -19,7 +19,6 @@ using KY.Generator.Models;
 using KY.Generator.Output;
 using KY.Generator.Settings;
 using KY.Generator.Statistics;
-using KY.Generator.Syntax;
 using KY.Generator.Templates;
 using KY.Generator.Transfer.Writers;
 

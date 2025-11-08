@@ -1,4 +1,4 @@
-namespace KY.Generator.Syntax;
+namespace KY.Generator;
 
 public interface IWriteFluentSyntax
 {

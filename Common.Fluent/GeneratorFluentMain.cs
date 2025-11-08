@@ -2,7 +2,6 @@
 using System.Reflection;
 using KY.Core;
 using KY.Core.Dependency;
-using KY.Generator.Syntax;
 
 namespace KY.Generator;
 
@@ -62,19 +61,19 @@ public abstract class GeneratorFluentMain : ISwitchToReadFluentSyntax
         return this.Create().SetType<T>(action);
     }
 
-    /// <inheritdoc cref="IFluentSyntax{TSyntax}.SetMember{T}(System.Linq.Expressions.Expression{System.Func{T,object}},System.Action{KY.Generator.Syntax.ISetMemberFluentSyntax})"/>
+    /// <inheritdoc cref="IFluentSyntax{TSyntax}.SetMember{T}(System.Linq.Expressions.Expression{System.Func{T,object}},System.Action{ISetMemberFluentSyntax})"/>
     public ISwitchToReadFluentSyntax SetMember<T>(Expression<Func<T, object>> memberExpression, Action<ISetMemberFluentSyntax> action)
     {
         return this.Create().SetMember(memberExpression, action);
     }
 
-    /// <inheritdoc cref="IFluentSyntax{TSyntax}.SetMember{T}(System.Linq.Expressions.Expression{System.Func{T,object}},System.Action{KY.Generator.Syntax.ISetMemberFluentSyntax})"/>
+    /// <inheritdoc cref="IFluentSyntax{TSyntax}.SetMember{T}(System.Linq.Expressions.Expression{System.Func{T,object}},System.Action{ISetMemberFluentSyntax})"/>
     public ISwitchToReadFluentSyntax SetMember<T>(Expression<Action<T>> memberExpression, Action<ISetMemberFluentSyntax> action)
     {
         return this.Create().SetMember(memberExpression, action);
     }
 
-    /// <inheritdoc cref="IFluentSyntax{TSyntax}.SetMember{T}(string,System.Action{KY.Generator.Syntax.ISetMemberFluentSyntax})"/>
+    /// <inheritdoc cref="IFluentSyntax{TSyntax}.SetMember{T}(string,System.Action{ISetMemberFluentSyntax})"/>
     public ISwitchToReadFluentSyntax SetMember<T>(string name, Action<ISetMemberFluentSyntax> action)
     {
         return this.Create().SetMember<T>(name, action);
@@ -83,7 +82,7 @@ public abstract class GeneratorFluentMain : ISwitchToReadFluentSyntax
     private ISwitchToReadFluentSyntax Create()
     {
         ISyntaxResolver syntaxResolver = this.Resolver.Get<ISyntaxResolver>();
-        ISwitchToReadFluentSyntax syntax = syntaxResolver.Get<ISwitchToReadFluentSyntax>();
+        ISwitchToReadFluentSyntax syntax = syntaxResolver.Create<ISwitchToReadFluentSyntax>();
         this.Syntaxes.Add(syntax.CastTo<IFluentInternalSyntax>());
         return syntax;
     }

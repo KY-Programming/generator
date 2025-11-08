@@ -1,10 +1,12 @@
 ﻿using KY.Core;
-using KY.Generator.Syntax;
+using KY.Generator.Command;
 
 namespace KY.Generator.Angular;
 
-internal class AngularWriteSyntax : ExecutableSyntax, IAngularWriteSyntax
+internal class AngularWriteSyntax : IExecutableSyntax, IAngularWriteSyntax
 {
+    public List<GeneratorCommandParameters> Commands { get; } = [];
+
     public IAngularWriteSyntax Models(Action<IAngularModelSyntax>? action = null)
     {
         AngularModelCommandParameters command = new();

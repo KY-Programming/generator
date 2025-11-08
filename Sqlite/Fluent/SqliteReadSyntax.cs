@@ -1,12 +1,12 @@
 ﻿using KY.Core.Dependency;
-using KY.Generator.Syntax;
+using KY.Generator.Command;
 
 namespace KY.Generator;
 
-public class SqliteReadSyntax : ExecutableSyntax, ISqliteReadSyntax
+public class SqliteReadSyntax : IExecutableSyntax, ISqliteReadSyntax
 {
     private readonly IReadFluentSyntaxInternal syntax;
-
+    public List<GeneratorCommandParameters> Commands { get; } = [];
     public IDependencyResolver Resolver => this.syntax.Resolver;
 
     public SqliteReadSyntax(IReadFluentSyntaxInternal syntax)

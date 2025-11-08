@@ -1,8 +1,7 @@
-using System;
 using System.Reflection;
 using KY.Generator.Transfer;
 
-namespace KY.Generator.Syntax;
+namespace KY.Generator;
 
 public class SetFluentMemberSyntax : SetFluentSyntax<ISetMemberFluentSyntax>, ISetMemberFluentSyntax, ISetMemberReturnTypeFluentSyntax
 {
@@ -31,13 +30,21 @@ public class SetFluentMemberSyntax : SetFluentSyntax<ISetMemberFluentSyntax>, IS
 
     public ISetMemberReturnTypeFluentSyntax ReturnType(Type type)
     {
-        this.GeneratorOptions.ReturnType = new TypeTransferObject { Name = type.Name, Namespace = type.Namespace, Type = type };
+        this.GeneratorOptions.ReturnType = new TypeTransferObject
+        {
+            Name = type.Name,
+            Namespace = type.Namespace,
+            Type = type
+        };
         return this;
     }
 
     public ISetMemberReturnTypeFluentSyntax ReturnType(string typeName)
     {
-        this.GeneratorOptions.ReturnType = new TypeTransferObject { Name = typeName };
+        this.GeneratorOptions.ReturnType = new TypeTransferObject
+        {
+            Name = typeName
+        };
         return this;
     }
 

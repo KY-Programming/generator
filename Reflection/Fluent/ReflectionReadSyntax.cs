@@ -1,10 +1,12 @@
-﻿using KY.Generator.Commands;
-using KY.Generator.Syntax;
+﻿using KY.Generator.Command;
+using KY.Generator.Commands;
 
 namespace KY.Generator;
 
-internal class ReflectionReadSyntax : ExecutableSyntax, IReflectionReadSyntax
+internal class ReflectionReadSyntax : IExecutableSyntax, IReflectionReadSyntax
 {
+    public List<GeneratorCommandParameters> Commands { get; } = [];
+
     public IReflectionReadSyntax FromType<T>(Action<IReflectionFromTypeSyntax>? action = null)
     {
         Type type = typeof(T);

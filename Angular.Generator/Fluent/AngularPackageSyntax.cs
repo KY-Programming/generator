@@ -1,11 +1,11 @@
-﻿using KY.Generator.Angular.Models;
-using KY.Generator.Syntax;
+﻿using KY.Generator.Command;
 
 namespace KY.Generator.Angular;
 
-internal class AngularPackageSyntax : ExecutableSyntax, IAngularPackageSyntax
+internal class AngularPackageSyntax : IExecutableSyntax, IAngularPackageSyntax
 {
     private readonly AngularPackageCommandParameters command;
+    public List<GeneratorCommandParameters> Commands { get; } = [];
 
     public AngularPackageSyntax(AngularPackageCommandParameters command)
     {

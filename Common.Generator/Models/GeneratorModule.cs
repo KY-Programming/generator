@@ -29,6 +29,13 @@ public abstract class GeneratorModule : ModuleBase
         this.Log(() => this.DependencyResolver.Get<GeneratorCommandFactory>().Register(command, names));
     }
 
+    protected void Register<TInterface, TSyntax>()
+        where TInterface : IFluentSyntax<TInterface>
+        where TSyntax : TInterface
+    {
+        this.DependencyResolver.Get<ISyntaxResolver>().Register<TInterface, TSyntax>();
+    }
+
     protected void RegisterLanguage<T>() where T : ILanguage
     {
         this.Log(() => this.DependencyResolver.Bind<ILanguage>().To<T>());

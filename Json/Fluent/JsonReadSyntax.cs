@@ -1,10 +1,12 @@
-﻿using KY.Generator.Commands;
-using KY.Generator.Syntax;
+﻿using KY.Generator.Command;
+using KY.Generator.Commands;
 
 namespace KY.Generator;
 
-public class JsonReadSyntax : ExecutableSyntax, IJsonReadSyntax
+public class JsonReadSyntax : IExecutableSyntax, IJsonReadSyntax
 {
+    public List<GeneratorCommandParameters> Commands { get; } = [];
+
     public IJsonReadSyntax FromFile(string relativePath)
     {
         this.Commands.Add(new JsonReadCommandParameters

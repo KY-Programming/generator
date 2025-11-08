@@ -1,10 +1,11 @@
-﻿using KY.Generator.Syntax;
+﻿using KY.Generator.Command;
 
 namespace KY.Generator;
 
-public class TsqlReadSyntax : ExecutableSyntax, ITsqlReadSyntax
+public class TsqlReadSyntax : IExecutableSyntax, ITsqlReadSyntax
 {
     private readonly string connectionString;
+    public List<GeneratorCommandParameters> Commands { get; } = [];
 
     public TsqlReadSyntax(string connectionString)
     {

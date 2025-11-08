@@ -4,10 +4,10 @@
         <TargetFramework>netstandard2.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <Authors>KY-Programming</Authors>
+        <Company>KY-Programming</Company>
         <Version>10.0.0-preview.30</Version>
         <LangVersion>latest</LangVersion>
-        <RootNamespace>KY.Generator.Angular</RootNamespace>
+        <RootNamespace>KY.Generator</RootNamespace>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -18,17 +18,11 @@
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
         <OutputPath>..\bin\Release</OutputPath>
         <NoWarn>1701;1702;1591</NoWarn>
+        <DocumentationFile>..\bin\Release\KY.Generator.Angular.xml</DocumentationFile>
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Angular\KY.Generator.Angular.csproj" />
-        <ProjectReference Include="..\Angular.Fluent\KY.Generator.Angular.Fluent.csproj" />
-        <ProjectReference Include="..\Common.Generator\KY.Generator.Common.Generator.csproj" />
-        <ProjectReference Include="..\TypeScript.Generator\KY.Generator.TypeScript.Generator.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <None Remove="KY.Generator.Angular.Generator.csproj.DotSettings" />
+        <ProjectReference Include="..\Common.Fluent\KY.Generator.Common.Fluent.csproj" />
     </ItemGroup>
 
 </Project>

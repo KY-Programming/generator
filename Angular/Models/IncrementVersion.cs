@@ -1,10 +1,9 @@
-﻿namespace KY.Generator.Angular.Models
+﻿namespace KY.Generator;
+
+public enum IncrementVersion
 {
-    public enum IncrementVersion
-    {
-        None,
-        Major,
-        Minor,
-        Patch
-    }
+    None,
+    Major,
+    Minor,
+    Patch
 }
