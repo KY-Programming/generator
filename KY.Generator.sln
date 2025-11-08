@@ -89,6 +89,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KY.Generator.AspDotNet.Flue
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KY.Generator.Reflection.Fluent", "Reflection.Fluent\KY.Generator.Reflection.Fluent.csproj", "{18C6D00E-2B45-4FEC-822E-A0FEC543D5D5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KY.Generator.Sqlite.Fluent", "Sqlite.Fluent\KY.Generator.Sqlite.Fluent.csproj", "{5B561798-DB8A-4923-B730-66E7DAC7E139}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -441,6 +443,14 @@ Global
 		{18C6D00E-2B45-4FEC-822E-A0FEC543D5D5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{18C6D00E-2B45-4FEC-822E-A0FEC543D5D5}.Release|x86.ActiveCfg = Release|Any CPU
 		{18C6D00E-2B45-4FEC-822E-A0FEC543D5D5}.Release|x86.Build.0 = Release|Any CPU
+		{5B561798-DB8A-4923-B730-66E7DAC7E139}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B561798-DB8A-4923-B730-66E7DAC7E139}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B561798-DB8A-4923-B730-66E7DAC7E139}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5B561798-DB8A-4923-B730-66E7DAC7E139}.Debug|x86.Build.0 = Debug|Any CPU
+		{5B561798-DB8A-4923-B730-66E7DAC7E139}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B561798-DB8A-4923-B730-66E7DAC7E139}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B561798-DB8A-4923-B730-66E7DAC7E139}.Release|x86.ActiveCfg = Release|Any CPU
+		{5B561798-DB8A-4923-B730-66E7DAC7E139}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

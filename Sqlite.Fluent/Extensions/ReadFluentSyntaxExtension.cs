@@ -10,10 +10,11 @@ public static class ReadFluentSyntaxExtension
     public static IReadFluentSyntax Sqlite(this IReadFluentSyntax syntax, Action<ISqliteReadSyntax> action)
     {
         IReadFluentSyntaxInternal internalSyntax = (IReadFluentSyntaxInternal)syntax;
-        SqliteReadSyntax readSyntax = new(internalSyntax);
-        internalSyntax.Syntaxes.Add(readSyntax);
+        ISqliteReadSyntax readSyntax = internalSyntax.Resolver.Create<ISqliteReadSyntax>();
+        IExecutableSyntax executableSyntax = readSyntax.CastTo<IExecutableSyntax>();
+        internalSyntax.Syntaxes.Add(executableSyntax);
         action(readSyntax);
-        readSyntax.Commands.Count.AssertIsPositive(message: $"The {nameof(Sqlite)} action requires at least one command. E.g. '.{nameof(Sqlite)}(read => read.{nameof(ISqliteReadSyntax.UseConnectionString)}(...))'");
+        executableSyntax.Commands.Count.AssertIsPositive(message: $"The {nameof(Sqlite)} action requires at least one command. E.g. '.{nameof(Sqlite)}(read => read.{nameof(ISqliteReadSyntax.UseConnectionString)}(...))'");
         return internalSyntax;
     }
 }

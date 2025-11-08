@@ -6,8 +6,7 @@
         <Company>KY-Programming</Company>
         <Version>10.0.0-preview.30</Version>
         <LangVersion>latest</LangVersion>
-        <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-        <RootNamespace>KY.Generator.Sqlite</RootNamespace>
+        <RootNamespace>KY.Generator</RootNamespace>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -19,14 +18,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.Data.Sqlite" Version="9.0.10" />
+        <ProjectReference Include="..\Common.Fluent\KY.Generator.Common.Fluent.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Common.Generator\KY.Generator.Common.Generator.csproj" />
-        <ProjectReference Include="..\Reflection.Generator\KY.Generator.Reflection.Generator.csproj" />
-        <ProjectReference Include="..\Sqlite.Fluent\KY.Generator.Sqlite.Fluent.csproj" />
-        <ProjectReference Include="..\Sqlite\KY.Generator.Sqlite.csproj" />
+        <None Remove="KY.Generator.Sqlite.Fluent.csproj.DotSettings" />
     </ItemGroup>
 
 </Project>

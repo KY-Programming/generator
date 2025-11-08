@@ -1,7 +1,7 @@
 ﻿using KY.Core.Dependency;
 using KY.Generator.Command;
 
-namespace KY.Generator;
+namespace KY.Generator.Sqlite.Fluent;
 
 public class SqliteReadSyntax : IExecutableSyntax, ISqliteReadSyntax
 {
