@@ -4,14 +4,8 @@
         <TargetFramework>netstandard2.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <Authors>KY-Programming</Authors>
         <Company>KY-Programming</Company>
-        <Product>KY.Generator</Product>
         <Version>10.0.0-preview.30</Version>
-        <Description>C# Module for KY-Generator
-            Download KY.Generator to use this module
-        </Description>
-        <Copyright>2025 - KY-Programming</Copyright>
         <LangVersion>latest</LangVersion>
         <RootNamespace>KY.Generator.CSharp</RootNamespace>
     </PropertyGroup>

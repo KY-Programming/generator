@@ -4,7 +4,8 @@
             <ResolvedFileToPublish Remove="@(ResolvedFileToPublish)" Condition="'%(ResolvedFileToPublish.Filename)%(ResolvedFileToPublish.Extension)'=='KY.Generator.EntityFramework.dll'" />
         </ItemGroup>
         <ItemGroup Condition="'$(GeneratePublish)'!='All'">
-            <ResolvedFileToPublish Remove="@(ResolvedFileToPublish)" Condition="'%(ResolvedFileToPublish.Filename)%(ResolvedFileToPublish.Extension)'=='KY.Generator.EntityFramework.Fluent.dll'" />
+            <!-- <ResolvedFileToPublish Remove="@(ResolvedFileToPublish)" Condition="'%(ResolvedFileToPublish.Filename)%(ResolvedFileToPublish.Extension)'=='KY.Generator.EntityFramework.Fluent.dll'" />-->
+            <ResolvedFileToPublish Remove="@(ResolvedFileToPublish)" Condition="'%(ResolvedFileToPublish.Filename)%(ResolvedFileToPublish.Extension)'=='KY.Generator.EntityFramework.dll'" />
         </ItemGroup>
     </Target>
 </Project>

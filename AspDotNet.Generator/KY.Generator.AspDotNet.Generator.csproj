@@ -4,7 +4,7 @@
         <TargetFramework>netstandard2.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <Authors>KY-Programming</Authors>
+        <Company>KY-Programming</Company>
         <Version>10.0.0-preview.30</Version>
         <LangVersion>latest</LangVersion>
         <RootNamespace>KY.Generator.AspDotNet</RootNamespace>

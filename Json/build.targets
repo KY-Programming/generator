@@ -4,7 +4,8 @@
             <ResolvedFileToPublish Remove="@(ResolvedFileToPublish)" Condition="'%(ResolvedFileToPublish.Filename)%(ResolvedFileToPublish.Extension)'=='KY.Generator.Json.dll'" />
         </ItemGroup>
         <ItemGroup Condition="'$(GeneratePublish)'!='All'">
-            <ResolvedFileToPublish Remove="@(ResolvedFileToPublish)" Condition="'%(ResolvedFileToPublish.Filename)%(ResolvedFileToPublish.Extension)'=='KY.Generator.Json.Fluent.dll'" />
+            <!-- <ResolvedFileToPublish Remove="@(ResolvedFileToPublish)" Condition="'%(ResolvedFileToPublish.Filename)%(ResolvedFileToPublish.Extension)'=='KY.Generator.Json.Fluent.dll'" />-->
+            <ResolvedFileToPublish Remove="@(ResolvedFileToPublish)" Condition="'%(ResolvedFileToPublish.Filename)%(ResolvedFileToPublish.Extension)'=='KY.Generator.Json.dll'" />
         </ItemGroup>
     </Target>
 </Project>
