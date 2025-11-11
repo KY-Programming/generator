@@ -31,11 +31,7 @@ internal class LicenseService
             {
                 Guid licenseId = this.globalSettingsService.Read().License ;
                 SignedLicense license = this.globalLicenseService.Read();
-                if (license.License != null && license.License.Id == licenseId && (license.License.ValidUntil.Date - DateTime.Today).TotalDays >= 7 && license.Validate())
-                {
-                    this.globalLicenseService.Set(license);
-                }
-                else
+                if (license.License == null || license.License.Id != licenseId || (license.License.ValidUntil.Date - DateTime.Today).TotalDays < 7 || !license.Validate())
                 {
                     license = await this.SendCommand<SignedLicense>($"{licenseId}/check");
                     this.globalLicenseService.Set(license);

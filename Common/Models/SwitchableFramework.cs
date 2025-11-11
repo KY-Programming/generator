@@ -4,7 +4,7 @@
     {
         None,
 
-        [FrameworkName("net461")]
+        [FrameworkName("net462")]
         Net4,
 
         [FrameworkName("netcoreapp2.0")]
@@ -26,6 +26,9 @@
         Net8,
 
         [FrameworkName("net9.0")]
-        Net9
+        Net9,
+
+        [FrameworkName("net10.0")]
+        Net10
     }
 }

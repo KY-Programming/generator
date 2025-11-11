@@ -17,8 +17,8 @@
     <copyright>2025 - KY-Programming</copyright>
     <tags>KY-Generator KY.Generator Fluent Language</tags>
     <dependencies>
-      <dependency id="KY.Generator" version="9.0.0"></dependency>
-      <dependency id="KY.Generator.Common" version="9.0.0"></dependency>
+      <dependency id="KY.Generator" version="9.0.0"/>
+      <dependency id="KY.Generator.Common" version="9.0.0"/>
     </dependencies>
   </metadata>
   <files>
