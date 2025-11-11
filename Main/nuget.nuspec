@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>KY.Generator</id>
-    <version>8.9.3</version>
+    <version>8.10.0-preview.0</version>
     <title>KY.Generator</title>
     <authors>KY-Programming</authors>
     <owners>KY-Programming</owners>
@@ -67,6 +67,12 @@ Support for Angular, ASP.NET, ASP.NET Core, C# POCOs, TypeScript POCOs, Entity F
     <file src="..\bin\Release\net9.0\win-x86\publish\**\*.dll" target="tools\net9.0-x86" />
     <file src="..\bin\Release\net9.0\win-x86\publish\**\*.exe" target="tools\net9.0-x86" />
     <file src="..\bin\Release\net9.0\win-x86\publish\**\*.json" target="tools\net9.0-x86" />
+    <file src="..\bin\Release\net10.0\win-x64\publish\**\*.dll" target="tools\net10.0" />
+    <file src="..\bin\Release\net10.0\win-x64\publish\**\*.json" target="tools\net10.0" />
+    <file src="..\bin\Release\net10.0\win-x64\publish\**\*.exe" target="tools\net10.0" />
+    <file src="..\bin\Release\net10.0\win-x86\publish\**\*.dll" target="tools\net10.0-x86" />
+    <file src="..\bin\Release\net10.0\win-x86\publish\**\*.exe" target="tools\net10.0-x86" />
+    <file src="..\bin\Release\net10.0\win-x86\publish\**\*.json" target="tools\net10.0-x86" />
     <file src="nuget.targets" target="build\KY.Generator.targets" />
     <file src="..\README.md" target="" />
     <file src="..\icon.png" target="assets" />
