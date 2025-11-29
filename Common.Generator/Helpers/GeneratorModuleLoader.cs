@@ -1,10 +1,9 @@
 ﻿using System.Diagnostics;
 using System.Reflection;
 using KY.Core;
-using KY.Core.DataAccess;
 using KY.Core.Dependency;
+using KY.Core.Extension;
 using KY.Core.Module;
-using KY.Core.Nuget;
 using KY.Generator.Statistics;
 
 namespace KY.Generator;
@@ -14,13 +13,15 @@ public class GeneratorModuleLoader
     private readonly ModuleFinder moduleFinder;
     private readonly StatisticsService statisticsService;
     private readonly IDependencyResolver resolver;
+    private readonly AssemblyLoader assemblyLoader;
     private readonly List<ModuleBase> initializedModules = [];
 
-    public GeneratorModuleLoader(ModuleFinder moduleFinder, StatisticsService statisticsService, IDependencyResolver resolver)
+    public GeneratorModuleLoader(ModuleFinder moduleFinder, StatisticsService statisticsService, IDependencyResolver resolver, AssemblyLoader assemblyLoader)
     {
         this.moduleFinder = moduleFinder;
         this.statisticsService = statisticsService;
         this.resolver = resolver;
+        this.assemblyLoader = assemblyLoader;
     }
 
     public void Load(string path, string moduleFileNameSearchPattern)
@@ -36,58 +37,56 @@ public class GeneratorModuleLoader
     public void LoadFromAttributesAndDirectReferences(Assembly assembly)
     {
         this.LoadFromAttributes(assembly);
+        List<string> generatorAttributeTypeNames = [typeof(GenerateWithAttribute).FullName, typeof(GeneratePluginAttribute).FullName];
         AssemblyName[] referencedAssemblyNames = assembly.GetReferencedAssemblies();
         foreach (AssemblyName referencedAssemblyName in referencedAssemblyNames)
         {
-            string lowerAssemblyName = referencedAssemblyName.Name.ToLowerInvariant();
-            if (!lowerAssemblyName.Contains("generator") && !lowerAssemblyName.Contains("annotation") && !lowerAssemblyName.Contains("plugin"))
+            AssemblyMetaData? metaData = this.assemblyLoader.LoadMetaData(AssemblyLocateInfo.From(referencedAssemblyName));
+            if (metaData == null)
             {
                 continue;
             }
-            NugetAssemblyLocator locator = NugetPackageDependencyLoader.CreateLocator();
-            locator.Locations.Insert(0, new SearchLocation(assembly.Location).SearchOnlyLocal());
-            Version defaultVersion = typeof(CoreModule).Assembly.GetName().Version;
-            Assembly? referencedAssembly = locator.Locate(referencedAssemblyName.FullName, defaultVersion);
+            IList<CustomAttributeData> customAttributesData = metaData.GetCustomAttributesData();
+            bool hasGenerateAttribute = customAttributesData.Any(x => generatorAttributeTypeNames.Contains(x.AttributeType.FullName));
+            if (!hasGenerateAttribute)
+            {
+                continue;
+            }
+            Assembly? referencedAssembly = this.assemblyLoader.Load(AssemblyLocateInfo.From(metaData));
             if (referencedAssembly == null)
             {
                 continue;
             }
-            this.LoadFromAttributes(referencedAssembly);
+            this.LoadFromAttributesAndDirectReferences(referencedAssembly);
         }
         this.InitializeModules();
     }
 
-    public bool LoadFromAttributes(Assembly assembly)
+    public void LoadFromAttributes(Assembly assembly)
     {
-        bool result = false;
         IEnumerable<GenerateWithAttribute> generateWithAttributes = assembly.GetCustomAttributes<GenerateWithAttribute>();
         foreach (GenerateWithAttribute generateWithAttribute in generateWithAttributes)
         {
-            NugetAssemblyLocator locator = NugetPackageDependencyLoader.CreateLocator();
-            if (generateWithAttribute?.AssemblyPath != null)
+            Version? version = null;
+            if (generateWithAttribute.Version != null)
             {
-                string path = FileSystem.Combine(assembly.Location, generateWithAttribute.AssemblyPath);
-                locator.Locations.Insert(0, new SearchLocation(path));
-                if (path.Contains("\\lib\\"))
-                {
-                    locator.Locations.Insert(1, new SearchLocation(path.Replace("\\lib\\", "\\ref\\")));
-                }
+                version = new Version(generateWithAttribute.Version);
             }
-            if (generateWithAttribute?.AssemblyName == null)
+            if (generateWithAttribute.UseSameVersion)
             {
-                continue;
+                version = assembly.GetName().Version;
             }
-            locator.Locations.Insert(0, new SearchLocation(assembly.Location).SearchOnlyLocal());
-            Version defaultVersion = typeof(CoreModule).Assembly.GetName().Version;
-            Assembly? generatorAssembly = locator.Locate(generateWithAttribute.AssemblyName, defaultVersion);
+            if (generateWithAttribute.UseGeneratorVersion)
+            {
+                version = typeof(CoreModule).Assembly.GetName().Version;
+            }
+            Assembly? generatorAssembly = this.assemblyLoader.Load(new AssemblyLocateInfo(generateWithAttribute.AssemblyName, version, hint: generateWithAttribute.AssemblyPath));
             if (generatorAssembly == null)
             {
                 continue;
             }
             this.Load(generatorAssembly);
-            result = true;
         }
-        return result;
     }
 
     public void InitializeModules(IEnumerable<ModuleBase>? modules = null)
@@ -108,7 +107,7 @@ public class GeneratorModuleLoader
             stopwatch.Start();
             module.Initialize();
             stopwatch.Stop();
-            Logger.Trace($"{module.GetType().Name.Replace("Module", "")}-{module.GetType().Assembly.GetName().Version} module loaded in {(stopwatch.ElapsedMilliseconds >= 1 ? stopwatch.ElapsedMilliseconds.ToString() : "<1")} ms");
+            Logger.Trace($"{module.GetType().Name.Replace("Module", "")}-{module.GetType().Assembly.GetName().Version} module loaded in {stopwatch.FormattedElapsed()}");
             this.initializedModules.Add(module);
         }
     }

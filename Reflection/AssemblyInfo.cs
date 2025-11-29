@@ -1,3 +1,3 @@
 ﻿using KY.Generator;
 
-[assembly: GenerateWith("KY.Generator.Reflection.Generator")]
+[assembly: GenerateWith("KY.Generator.Reflection.Generator", UseSameVersion = true)]

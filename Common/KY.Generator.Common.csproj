@@ -7,7 +7,7 @@
         <Company>KY-Programming</Company>
         <Authors>KY-Programming</Authors>
         <Product>KY.Generator</Product>
-        <Version>10.0.0-preview.30</Version>
+        <Version>10.0.0-preview.35</Version>
         <Description>Core elements for KY-Generator
             Download KY.Generator to use this module
         </Description>
@@ -32,11 +32,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <None Include="build.targets" Pack="true" PackagePath="buildTransitive/Package.targets" />
+        <None Include="build.targets" Pack="true" PackagePath="buildTransitive/KY.Generator.Common.targets" />
         <None Include="..\icon.png" Pack="true" PackagePath="assets" Visible="false" />
         <None Include="README.md" Pack="true" PackagePath="" />
         <None Include="$(OutputPath)\publish\KY.Generator.Common.Fluent.dll" Pack="true" PackagePath="lib\netstandard2.0\" Visible="false" />
-        <None Include="$(OutputPath)\publish\KY.Generator.Common.Generator.dll" Pack="true" PackagePath="ref\netstandard2.0\" Visible="false" />
+        <None Include="$(OutputPath)\publish\KY.Generator.Common.Generator.dll" Pack="true" PackagePath="generators\netstandard2.0\" Visible="false" />
         <None Remove="KY.Generator.Common.csproj.DotSettings" />
     </ItemGroup>
 

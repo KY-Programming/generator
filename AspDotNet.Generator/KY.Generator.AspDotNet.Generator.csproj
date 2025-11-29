@@ -5,7 +5,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <Company>KY-Programming</Company>
-        <Version>10.0.0-preview.30</Version>
+        <Version>10.0.0-preview.35</Version>
         <LangVersion>latest</LangVersion>
         <RootNamespace>KY.Generator.AspDotNet</RootNamespace>
     </PropertyGroup>
@@ -20,7 +20,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="KY.Core.Common" Version="4.36.0" />
+        <PackageReference Include="KY.Core.Common" Version="4.37.0" />
     </ItemGroup>
 
     <ItemGroup>

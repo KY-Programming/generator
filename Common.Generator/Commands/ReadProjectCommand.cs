@@ -2,6 +2,7 @@
 using KY.Core;
 using KY.Core.DataAccess;
 using KY.Core.Dependency;
+using KY.Core.Extension;
 using KY.Generator.Command;
 using KY.Generator.Models;
 
@@ -46,9 +47,6 @@ internal class ReadProjectCommand(IDependencyResolver resolver) : GeneratorComma
         environment.OutputId = project.Id;
         environment.Name = project.Name;
         Options.GetGlobal<GeneratorOptions>().Nullable = project.Nullable ?? false;
-        AssemblyCache assemblyCache = resolver.Get<AssemblyCache>();
-        assemblyCache.LoadLocal(this.Parameters.Project);
-
         return this.ResultAsync(this.Success().ForceRerunOnAsync());
     }
 
@@ -82,7 +80,7 @@ internal class ReadProjectCommand(IDependencyResolver resolver) : GeneratorComma
         finally
         {
             stopwatch.Stop();
-            Logger.Trace($"Searching for solution in {(stopwatch.ElapsedMilliseconds >= 1 ? stopwatch.ElapsedMilliseconds.ToString() : "<1")} ms");
+            Logger.Trace($"Searching for solution in {stopwatch.FormattedElapsed()}");
             Logger.Trace("To skip the previous step, build the solution instead the project or set a <ProjectGuid> in the project file.");
         }
         return null;

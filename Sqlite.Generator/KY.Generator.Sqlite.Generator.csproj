@@ -4,7 +4,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <Company>KY-Programming</Company>
-        <Version>10.0.0-preview.30</Version>
+        <Version>10.0.0-preview.35</Version>
         <LangVersion>latest</LangVersion>
         <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
         <RootNamespace>KY.Generator.Sqlite</RootNamespace>
@@ -19,7 +19,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.Data.Sqlite" Version="9.0.10" />
+        <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.0" />
     </ItemGroup>
 
     <ItemGroup>

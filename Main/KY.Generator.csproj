@@ -1,19 +1,30 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
+        <Version>10.0.0-preview.35</Version>
+        <TargetFramework>net9.0</TargetFramework>
+        <TargetFrameworks>netcoreapp2.0;netcoreapp3.0;net5.0;net6.0;net7.0;net8.0;net9.0;net10.0</TargetFrameworks>
         <OutputType>Exe</OutputType>
-        <TargetFramework>net10.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <TargetFrameworks>netcoreapp2.0;netcoreapp3.0;net5.0;net6.0;net7.0;net8.0;net9.0;net10.0</TargetFrameworks>
-        <Version>10.0.0-preview.30</Version>
         <Authors>KY-Programming</Authors>
+        <Company>KY-Programming</Company>
         <Product>KY.Generator</Product>
         <Copyright>2025 - KY-Programming</Copyright>
-        <AssemblyName>KY.Generator</AssemblyName>
+        <Description>Generate C# or TypeScript classes from .NET assemblies, JSON, TSQL or oData.
+            Support for Angular, ASP.NET, ASP.NET Core, C# POCOs, TypeScript POCOs, Entity Framework and more.
+        </Description>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageProjectUrl>https://generator.ky-programming.de</PackageProjectUrl>
+        <PackageIcon>assets\icon.png</PackageIcon>
+        <RepositoryUrl>https://github.com/KY-Programming/generator</RepositoryUrl>
+        <PackageTags>KY-Generator KY.Generator</PackageTags>
         <RootNamespace>KY.Generator</RootNamespace>
         <Platforms>AnyCPU;x86</Platforms>
         <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
+        <IncludeBuildOutput>false</IncludeBuildOutput>
         <LangVersion>latest</LangVersion>
     </PropertyGroup>
 
@@ -27,11 +38,70 @@
 
     <PropertyGroup Condition="'$(Configuration)'=='Release'">
         <OutputPath>..\bin\Release</OutputPath>
+        <NoWarn>$(NoWarn);NU5128</NoWarn>
     </PropertyGroup>
 
     <ItemGroup>
-        <None Include="..\icon.png" Pack="true" PackagePath="assets" />
-        <None Include="..\Common\README.md" Pack="true" PackagePath="" />
+        <None Include="build.targets" Pack="true" PackagePath="build\KY.Generator.targets" />
+        <None Include="..\icon.png" Pack="true" PackagePath="assets" Visible="false" />
+        <None Include="..\README.md" Pack="true" PackagePath="" />
+        <None Include="..\bin\Release\netstandard2.0\publish\Newtonsoft.Json.dll" Pack="true" PackagePath="tools\netstandard2.0\" Visible="false" />
+        <None Include="..\bin\Release\netstandard2.0\publish\KY.Core.Common.dll" Pack="true" PackagePath="tools\netstandard2.0\" Visible="false" />
+        <None Include="..\bin\Release\netstandard2.0\publish\KY.Generator.Common.dll" Pack="true" PackagePath="tools\netstandard2.0\" Visible="false" />
+        <None Include="..\bin\Release\netstandard2.0\publish\KY.Generator.Common.Generator.dll" Pack="true" PackagePath="tools\netstandard2.0\" Visible="false" />
+        <None Include="..\bin\Release\net462\win-x64\publish\**\*.exe" Pack="true" PackagePath="tools\net462" Visible="false" />
+        <None Include="..\bin\Release\net462\win-x64\publish\**\*.dll" Pack="true" PackagePath="tools\net462" Visible="false" />
+        <None Include="..\bin\Release\net462\win-x64\publish\**\*.config" Pack="true" PackagePath="tools\net462" Visible="false" />
+        <None Include="..\bin\Release\net462\win-x86\publish\**\*.exe" Pack="true" PackagePath="tools\net462-x86" Visible="false" />
+        <None Include="..\bin\Release\net462\win-x86\publish\**\*.dll" Pack="true" PackagePath="tools\net462-x86" Visible="false" />
+        <None Include="..\bin\Release\net462\win-x86\publish\**\*.config" Pack="true" PackagePath="tools\net462-x86" Visible="false" />
+        <None Include="..\bin\Release\netcoreapp2.0\win-x64\publish\**\*.dll" Pack="true" PackagePath="tools\netcoreapp2.0" Visible="false" />
+        <None Include="..\bin\Release\netcoreapp2.0\win-x64\publish\**\*.json" Pack="true" PackagePath="tools\netcoreapp2.0" Visible="false" />
+        <None Include="..\bin\Release\netcoreapp2.0\win-x64\publish\**\*.exe" Pack="true" PackagePath="tools\netcoreapp2.0" Visible="false" />
+        <!--<None Include="..\bin\Release\netcoreapp2.0\win-x86\publish\**\*.dll" Pack="true" PackagePath="tools\netcoreapp2.0-x86" Visible="false" />
+        <None Include="..\bin\Release\netcoreapp2.0\win-x86\publish\**\*.json" Pack="true" PackagePath="tools\netcoreapp2.0-x86" Visible="false" />-->
+        <None Include="..\bin\Release\netcoreapp3.0\win-x64\publish\**\*.dll" Pack="true" PackagePath="tools\netcoreapp3.0" Visible="false" />
+        <None Include="..\bin\Release\netcoreapp3.0\win-x64\publish\**\*.json" Pack="true" PackagePath="tools\netcoreapp3.0" Visible="false" />
+        <None Include="..\bin\Release\netcoreapp3.0\win-x64\publish\**\*.exe" Pack="true" PackagePath="tools\netcoreapp3.0" Visible="false" />
+        <None Include="..\bin\Release\netcoreapp3.0\win-x86\publish\**\*.dll" Pack="true" PackagePath="tools\netcoreapp3.0-x86" Visible="false" />
+        <None Include="..\bin\Release\netcoreapp3.0\win-x86\publish\**\*.exe" Pack="true" PackagePath="tools\netcoreapp3.0-x86" Visible="false" />
+        <None Include="..\bin\Release\netcoreapp3.0\win-x86\publish\**\*.json" Pack="true" PackagePath="tools\netcoreapp3.0-x86" Visible="false" />
+        <None Include="..\bin\Release\net5.0\win-x64\publish\**\*.dll" Pack="true" PackagePath="tools\net5.0" Visible="false" />
+        <None Include="..\bin\Release\net5.0\win-x64\publish\**\*.json" Pack="true" PackagePath="tools\net5.0" Visible="false" />
+        <None Include="..\bin\Release\net5.0\win-x64\publish\**\*.exe" Pack="true" PackagePath="tools\net5.0" Visible="false" />
+        <None Include="..\bin\Release\net5.0\win-x86\publish\**\*.dll" Pack="true" PackagePath="tools\net5.0-x86" Visible="false" />
+        <None Include="..\bin\Release\net5.0\win-x86\publish\**\*.exe" Pack="true" PackagePath="tools\net5.0-x86" Visible="false" />
+        <None Include="..\bin\Release\net5.0\win-x86\publish\**\*.json" Pack="true" PackagePath="tools\net5.0-x86" Visible="false" />
+        <None Include="..\bin\Release\net6.0\win-x64\publish\**\*.dll" Pack="true" PackagePath="tools\net6.0" Visible="false" />
+        <None Include="..\bin\Release\net6.0\win-x64\publish\**\*.json" Pack="true" PackagePath="tools\net6.0" Visible="false" />
+        <None Include="..\bin\Release\net6.0\win-x64\publish\**\*.exe" Pack="true" PackagePath="tools\net6.0" Visible="false" />
+        <None Include="..\bin\Release\net6.0\win-x86\publish\**\*.dll" Pack="true" PackagePath="tools\net6.0-x86" Visible="false" />
+        <None Include="..\bin\Release\net6.0\win-x86\publish\**\*.exe" Pack="true" PackagePath="tools\net6.0-x86" Visible="false" />
+        <None Include="..\bin\Release\net6.0\win-x86\publish\**\*.json" Pack="true" PackagePath="tools\net6.0-x86" Visible="false" />
+        <None Include="..\bin\Release\net7.0\win-x64\publish\**\*.dll" Pack="true" PackagePath="tools\net7.0" Visible="false" />
+        <None Include="..\bin\Release\net7.0\win-x64\publish\**\*.json" Pack="true" PackagePath="tools\net7.0" Visible="false" />
+        <None Include="..\bin\Release\net7.0\win-x64\publish\**\*.exe" Pack="true" PackagePath="tools\net7.0" Visible="false" />
+        <None Include="..\bin\Release\net7.0\win-x86\publish\**\*.dll" Pack="true" PackagePath="tools\net7.0-x86" Visible="false" />
+        <None Include="..\bin\Release\net7.0\win-x86\publish\**\*.exe" Pack="true" PackagePath="tools\net7.0-x86" Visible="false" />
+        <None Include="..\bin\Release\net7.0\win-x86\publish\**\*.json" Pack="true" PackagePath="tools\net7.0-x86" Visible="false" />
+        <None Include="..\bin\Release\net8.0\win-x64\publish\**\*.dll" Pack="true" PackagePath="tools\net8.0" Visible="false" />
+        <None Include="..\bin\Release\net8.0\win-x64\publish\**\*.json" Pack="true" PackagePath="tools\net8.0" Visible="false" />
+        <None Include="..\bin\Release\net8.0\win-x64\publish\**\*.exe" Pack="true" PackagePath="tools\net8.0" Visible="false" />
+        <None Include="..\bin\Release\net8.0\win-x86\publish\**\*.dll" Pack="true" PackagePath="tools\net8.0-x86" Visible="false" />
+        <None Include="..\bin\Release\net8.0\win-x86\publish\**\*.exe" Pack="true" PackagePath="tools\net8.0-x86" Visible="false" />
+        <None Include="..\bin\Release\net8.0\win-x86\publish\**\*.json" Pack="true" PackagePath="tools\net8.0-x86" Visible="false" />
+        <None Include="..\bin\Release\net9.0\win-x64\publish\**\*.dll" Pack="true" PackagePath="tools\net9.0" Visible="false" />
+        <None Include="..\bin\Release\net9.0\win-x64\publish\**\*.json" Pack="true" PackagePath="tools\net9.0" Visible="false" />
+        <None Include="..\bin\Release\net9.0\win-x64\publish\**\*.exe" Pack="true" PackagePath="tools\net9.0" Visible="false" />
+        <None Include="..\bin\Release\net9.0\win-x86\publish\**\*.dll" Pack="true" PackagePath="tools\net9.0-x86" Visible="false" />
+        <None Include="..\bin\Release\net9.0\win-x86\publish\**\*.exe" Pack="true" PackagePath="tools\net9.0-x86" Visible="false" />
+        <None Include="..\bin\Release\net9.0\win-x86\publish\**\*.json" Pack="true" PackagePath="tools\net9.0-x86" Visible="false" />
+        <None Include="..\bin\Release\net10.0\win-x64\publish\**\*.dll" Pack="true" PackagePath="tools\net10.0" Visible="false" />
+        <None Include="..\bin\Release\net10.0\win-x64\publish\**\*.json" Pack="true" PackagePath="tools\net10.0" Visible="false" />
+        <None Include="..\bin\Release\net10.0\win-x64\publish\**\*.exe" Pack="true" PackagePath="tools\net10.0" Visible="false" />
+        <None Include="..\bin\Release\net10.0\win-x86\publish\**\*.dll" Pack="true" PackagePath="tools\net10.0-x86" Visible="false" />
+        <None Include="..\bin\Release\net10.0\win-x86\publish\**\*.exe" Pack="true" PackagePath="tools\net10.0-x86" Visible="false" />
+        <None Include="..\bin\Release\net10.0\win-x86\publish\**\*.json" Pack="true" PackagePath="tools\net10.0-x86" Visible="false" />
     </ItemGroup>
 
 </Project>

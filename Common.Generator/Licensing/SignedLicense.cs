@@ -9,6 +9,7 @@ internal class SignedLicense
     private bool? isValid = null;
     public License? License { get; set; }
     public string? Signature { get; set; }
+    public bool IsEmpty => this.License == null || this.Signature == null;
 
     public bool Validate()
     {
@@ -16,7 +17,7 @@ internal class SignedLicense
         {
             return this.isValid.Value;
         }
-        if (this.License == null || this.Signature == null)
+        if (this.IsEmpty)
         {
             return false;
         }

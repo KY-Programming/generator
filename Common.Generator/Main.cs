@@ -1,8 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Reflection;
-using KY.Core;
 using KY.Core.DataAccess;
-using KY.Core.Nuget;
 
 namespace KY.Generator;
 
@@ -26,8 +24,6 @@ public static class Main
         }
 #endif
         Generator.InitializeLogger(args);
-        NugetPackageDependencyLoader.Activate();
-        NugetPackageDependencyLoader.Locations.Insert(0, new SearchLocation(SharedPath));
         Generator generator = Generator.Create();
         bool isX86 = CurrentPath.EndsWith("x86");
         List<string> sharedDirectories = FileSystem.GetDirectories(BasePath)

@@ -1,5 +1,7 @@
-﻿using System.Net;
+﻿using System.Diagnostics;
+using System.Net;
 using KY.Core;
+using KY.Core.Extension;
 using KY.Generator.Settings;
 using KY.Generator.Statistics;
 using Newtonsoft.Json;
@@ -92,16 +94,24 @@ internal class LicenseService : ILicenseService
         if (this.IsValid)
         {
             Logger.Trace($"License check skipped. Stored license is valid until {this.ValidUntil.ToShortDateString()}");
-            this.waitForCheck.Set();
         }
         else
         {
+            Logger.Trace("Waiting for license check...");
+            Stopwatch stopwatch = new();
+            stopwatch.Start();
             this.waitForCheck.WaitOne();
+            stopwatch.Stop();
+            Logger.Trace($"License check finished in {stopwatch.FormattedElapsed()}");
         }
     }
 
     private void CheckLicense(SignedLicense signedLicense)
     {
+        if (signedLicense.IsEmpty)
+        {
+            return;
+        }
         this.IsValid = signedLicense.Validate();
         this.ValidUntil = signedLicense.License?.ValidUntil ?? DateTime.MinValue;
         this.Features = signedLicense.License?.Features ?? [];

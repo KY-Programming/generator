@@ -1,5 +1,5 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-    <Target Name="KY.Generator.Watchdog_RemoveFromPublish" AfterTargets="ComputeFilesToPublish;ResolvePublishAssets">
+    <Target Name="KY-Generator-Watchdog_RemoveFromPublish" AfterTargets="ComputeFilesToPublish;ResolvePublishAssets">
         <ItemGroup Condition="'$(GeneratePublish)'=='None'">
             <ResolvedFileToPublish Remove="@(ResolvedFileToPublish)" Condition="'%(ResolvedFileToPublish.Filename)%(ResolvedFileToPublish.Extension)'=='KY.Generator.Watchdog.dll'" />
         </ItemGroup>

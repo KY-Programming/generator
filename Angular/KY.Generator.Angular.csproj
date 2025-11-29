@@ -7,7 +7,7 @@
         <Authors>KY-Programming</Authors>
         <Company>KY-Programming</Company>
         <Product>KY.Generator</Product>
-        <Version>10.0.0-preview.30</Version>
+        <Version>10.0.0-preview.35</Version>
         <Copyright>2025 - KY-Programming</Copyright>
         <Description>Angular Module for KY-Generator
             Download KY.Generator to use this module
@@ -39,11 +39,11 @@
     </ItemGroup>
 
     <ItemGroup>
-        <None Include="build.targets" Pack="true" PackagePath="buildTransitive/Package.targets" />
+        <None Include="build.targets" Pack="true" PackagePath="buildTransitive/KY.Generator.Angular.targets" />
         <None Include="..\icon.png" Pack="true" PackagePath="assets" Visible="false" />
         <None Include="..\Common\README.md" Pack="true" PackagePath="" Visible="false" />
         <None Include="$(OutputPath)\publish\KY.Generator.Angular.Fluent.dll" Pack="true" PackagePath="lib\netstandard2.0\" Visible="false" />
-        <None Include="$(OutputPath)\publish\KY.Generator.Angular.Generator.dll" Pack="true" PackagePath="ref\netstandard2.0\" Visible="false" />
+        <None Include="$(OutputPath)\publish\KY.Generator.Angular.Generator.dll" Pack="true" PackagePath="generators\netstandard2.0\" Visible="false" />
         <None Remove="KY.Generator.Angular.csproj.DotSettings" />
     </ItemGroup>
 

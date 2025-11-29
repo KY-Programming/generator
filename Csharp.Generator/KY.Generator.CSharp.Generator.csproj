@@ -5,7 +5,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <Company>KY-Programming</Company>
-        <Version>10.0.0-preview.30</Version>
+        <Version>10.0.0-preview.35</Version>
         <LangVersion>latest</LangVersion>
         <RootNamespace>KY.Generator.CSharp</RootNamespace>
     </PropertyGroup>

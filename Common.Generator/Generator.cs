@@ -8,7 +8,6 @@ using KY.Core.DataAccess;
 using KY.Core.Dependency;
 using KY.Core.Extension;
 using KY.Core.Module;
-using KY.Core.Nuget;
 using KY.Generator.Command;
 using KY.Generator.Commands;
 using KY.Generator.Extensions;
@@ -31,7 +30,6 @@ public class Generator : IGeneratorRunSyntax
     private readonly List<IGeneratorCommand> commands = [];
     private readonly GeneratorEnvironment environment = new();
     private readonly StatisticsService statisticsService;
-    private readonly AssemblyCache assemblyCache;
     private readonly GeneratorModuleLoader moduleLoader;
     private bool initializationFailed;
     private readonly List<string> initializationErrors = [];
@@ -51,19 +49,14 @@ public class Generator : IGeneratorRunSyntax
         prepareEnvironmentStopwatch.Start();
         this.PrepareEnvironment();
         prepareEnvironmentStopwatch.Stop();
-        Logger.Trace($"Prepared environment in {prepareEnvironmentStopwatch.ElapsedMilliseconds} ms");
+        Logger.Trace($"Prepared environment in {prepareEnvironmentStopwatch.FormattedElapsed()}");
 
         Stopwatch runtimeStopwatch = new();
         runtimeStopwatch.Start();
-        this.assemblyCache = new AssemblyCache(this.environment);
         runtimeStopwatch.Stop();
-        Logger.Trace($"Installed runtimes searched in {runtimeStopwatch.ElapsedMilliseconds} ms");
-
-        NugetPackageDependencyLoader.Activate(this.assemblyCache);
-        NugetPackageDependencyLoader.ResolveDependencies(this.GetType().Assembly);
+        Logger.Trace($"Installed runtimes searched in {runtimeStopwatch.FormattedElapsed()}");
 
         this.resolver = new DependencyResolver();
-        this.resolver.Bind<AssemblyCache>().To(this.assemblyCache);
         this.resolver.Bind<ITypeMapping>().ToSingleton<TypeMapping>();
         this.resolver.Bind<GeneratorCommandFactory>().ToSingleton();
         this.resolver.Bind<GeneratorCommandRunner>().ToSelf();
@@ -78,6 +71,8 @@ public class Generator : IGeneratorRunSyntax
         this.resolver.Bind<GlobalSettingsService>().ToSingleton();
         this.resolver.Bind<GlobalLicenseService>().ToSingleton();
         this.resolver.Bind<ILicenseService>().ToSingleton<LicenseService>();
+        this.resolver.Bind<AssemblyLoader>().ToSingleton();
+        this.resolver.Get<AssemblyLoader>().Activate();
         this.resolver.Bind<GeneratorModuleLoader>().ToSingleton();
         this.moduleLoader = this.resolver.Get<GeneratorModuleLoader>();
 
@@ -122,7 +117,6 @@ public class Generator : IGeneratorRunSyntax
         for (int index = 0; index < paths.Count; index++)
         {
             string sharedPath = paths[index];
-            NugetPackageDependencyLoader.Locations.Insert(index, new SearchLocation(sharedPath) /*.Local()*/.SearchOnlyLocal());
         }
         this.sharedPaths = paths;
         return this;
@@ -277,7 +271,6 @@ public class Generator : IGeneratorRunSyntax
                 this.output.Execute();
                 this.commands.ForEach(command => command.FollowUp());
             }
-            this.assemblyCache.Save();
             if (switchAsync)
             {
                 return this.SwitchToAsync(asyncCommands);
