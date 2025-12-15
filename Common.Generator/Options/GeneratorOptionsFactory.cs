@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using KY.Generator.Documentation;
 using KY.Generator.Models;
 using KY.Generator.Transfer;
 
@@ -20,13 +21,34 @@ public class GeneratorOptionsFactory : IOptionsFactory
     {
         return key switch
         {
-            Assembly assembly => this.CreateFromCustomAttributes(assembly.GetCustomAttributes(), key, parent as GeneratorOptions),
-            MemberInfo member => this.CreateFromCustomAttributes(member.GetCustomAttributes(), key, parent as GeneratorOptions),
-            ParameterInfo parameter => this.CreateFromCustomAttributes(parameter.GetCustomAttributes(), key, parent as GeneratorOptions),
+            Assembly assembly => this.CreateFromCustomAttributes(assembly.GetCustomAttributes(), assembly, parent as GeneratorOptions),
+            MemberInfo member => this.CreateFromCustomAttributes(member.GetCustomAttributes(), member, parent as GeneratorOptions),
+            ParameterInfo parameter => this.CreateFromCustomAttributes(parameter.GetCustomAttributes(), parameter, parent as GeneratorOptions),
             Options.RootKey => new GeneratorOptions(parent as GeneratorOptions, null, "global"),
             _ => new GeneratorOptions(parent as GeneratorOptions, null, key)
             // _ => throw new InvalidOperationException($"Could not create {nameof(GeneratorOptions)} {key.GetType()}")
         };
+    }
+
+    private GeneratorOptions CreateFromCustomAttributes(IEnumerable<Attribute> customAttributes, Assembly assembly, GeneratorOptions? parent)
+    {
+        GeneratorOptions options = this.CreateFromCustomAttributes(customAttributes, (object)assembly, parent);
+        this.UpdateFromDocumentation(options, DocumentationReader.Get(assembly));
+        return options;
+    }
+
+    private GeneratorOptions CreateFromCustomAttributes(IEnumerable<Attribute> customAttributes, MemberInfo member, GeneratorOptions? parent)
+    {
+        GeneratorOptions options = this.CreateFromCustomAttributes(customAttributes, (object)member, parent);
+        this.UpdateFromDocumentation(options, DocumentationReader.Get(member));
+        return options;
+    }
+
+    private GeneratorOptions CreateFromCustomAttributes(IEnumerable<Attribute> customAttributes, ParameterInfo parameter, GeneratorOptions? parent)
+    {
+        GeneratorOptions options = this.CreateFromCustomAttributes(customAttributes, (object)parameter, parent);
+        this.UpdateFromDocumentation(options, DocumentationReader.Get(parameter));
+        return options;
     }
 
     private GeneratorOptions CreateFromCustomAttributes(IEnumerable<Attribute> customAttributes, object key, GeneratorOptions? parent)
@@ -94,5 +116,13 @@ public class GeneratorOptionsFactory : IOptionsFactory
             }
         }
         return options;
+    }
+
+    private void UpdateFromDocumentation(GeneratorOptions options, string documentation)
+    {
+        if (documentation.Contains("GenerateIgnore") || documentation.Contains("Generator ignore"))
+        {
+            options.Ignore = true;
+        }
     }
 }

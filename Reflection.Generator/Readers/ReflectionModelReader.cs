@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Reflection;
 using KY.Core;
+using KY.Generator.Documentation;
 using KY.Generator.Extensions;
 using KY.Generator.Models;
 using KY.Generator.Reflection.Extensions;
@@ -21,7 +22,7 @@ public class ReflectionModelReader
         this.transferObjects = transferObjects;
     }
 
-    public ModelTransferObject Read(TypeTransferObject type, GeneratorOptions? caller = null)
+    public ModelTransferObject? Read(TypeTransferObject type, GeneratorOptions? caller = null)
     {
         if (type == null)
         {
@@ -34,7 +35,7 @@ public class ReflectionModelReader
         return new ModelTransferObject(type);
     }
 
-    public ModelTransferObject Read(Type type, GeneratorOptions? caller = null)
+    public ModelTransferObject? Read(Type type, GeneratorOptions? caller = null)
     {
         if (type == null)
         {
@@ -48,6 +49,7 @@ public class ReflectionModelReader
         model.IsGeneric = type.IsGenericType;
         model.IsGenericParameter = type.IsGenericParameter;
         model.FromSystem = type.Namespace != null && type.Namespace.StartsWith("System");
+        model.Comment = DocumentationReader.Get(type);
         if (model.IsGeneric)
         {
             model.Name = model.OriginalName = type.Name.Split('`').First();
@@ -331,7 +333,8 @@ public class ReflectionModelReader
                 IsRequired = isRequired,
                 IsNullable = isNullable,
                 IsOptional = /*propertyOptions.NoOptional*/ !isRequired && isNullable,
-                Default = this.ReadDefaultValue(property, propertyOptions)
+                Default = this.ReadDefaultValue(property, propertyOptions),
+                Comment = DocumentationReader.Get(property)
             };
             this.options.Map(propertyTransferObject, () => this.options.Get<GeneratorOptions>(property, null));
             propertyTransferObject.Type = this.Read(property.PropertyType.IgnoreGeneric(typeof(Nullable<>)), propertyOptions);
@@ -361,7 +364,8 @@ public class ReflectionModelReader
                 DeclaringType = model,
                 Attributes = field.GetCustomAttributes().ToTransferObjects().ToList(),
                 IsOptional = !fieldOptions.NoOptional && !field.IsRequired(),
-                Default = this.ReadDefaultValue(field, fieldOptions)
+                Default = this.ReadDefaultValue(field, fieldOptions),
+                Comment = DocumentationReader.Get(field)
             };
             this.options.Map(fieldTransferObject, () => this.options.Get<GeneratorOptions>(field, null));
             model.Fields.Add(fieldTransferObject);
@@ -399,7 +403,8 @@ public class ReflectionModelReader
                 Type = this.Read(field.FieldType, fieldOptions),
                 DeclaringType = model,
                 Default = defaultValue,
-                IsOptional = defaultValue == null
+                IsOptional = defaultValue == null,
+                Comment = DocumentationReader.Get(field)
             };
             this.options.Map(fieldTransferObject, () => this.options.Get<GeneratorOptions>(field, null));
             model.Constants.Add(fieldTransferObject);
