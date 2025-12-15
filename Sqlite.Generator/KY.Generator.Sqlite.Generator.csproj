@@ -4,7 +4,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <Company>KY-Programming</Company>
-        <Version>10.0.0-preview.35</Version>
+        <Version>10.0.0-preview.36</Version>
         <LangVersion>latest</LangVersion>
         <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
         <RootNamespace>KY.Generator.Sqlite</RootNamespace>
