@@ -28,7 +28,7 @@ internal class AngularModelCommand(IDependencyResolver resolver) : GeneratorComm
     {
         // TODO: Fix path is null
         resolver.Get<IOutput>().DeleteAllRelatedFiles(this.Parameters.RelativePath);
-        resolver.Create<AngularModelWriter>().FormatNames().Write();
+        resolver.Create<AngularModelWriter>().FormatNames().Write(this.Parameters.RelativePath);
         resolver.Create<TypeScriptIndexHelper>().Execute(this.Parameters.RelativePath);
         return this.SuccessAsync();
     }

@@ -94,15 +94,6 @@ public class GeneratorOptionsFactory : IOptionsFactory
                             Type = returnTypeAttribute.Type
                         };
                     }
-                    else
-                    {
-                        options.ReturnType = new TypeTransferObject
-                        {
-                            Name = returnTypeAttribute.TypeName,
-                            FileName = returnTypeAttribute.FileName,
-                            OverrideType = returnTypeAttribute.OverrideName
-                        };
-                    }
                     break;
                 case GenerateImportAttribute importAttribute:
                     options.AddToImports(new Import(importAttribute.Type, importAttribute.FileName, importAttribute.TypeName));

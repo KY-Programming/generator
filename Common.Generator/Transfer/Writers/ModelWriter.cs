@@ -53,10 +53,12 @@ public class ModelWriter : TransferWriter, ITransferWriter
         return this;
     }
 
-    public virtual void Write()
+    public virtual void Write(string? relativePath = null)
     {
         foreach (ModelTransferObject model in this.transferObjects.OfType<ModelTransferObject>())
         {
+            GeneratorOptions modelOptions = this.Options.Get<GeneratorOptions>(model);
+            modelOptions.ModelOutput = relativePath ?? modelOptions.ModelOutput;
             this.WriteModel(model);
         }
     }

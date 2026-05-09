@@ -22,7 +22,7 @@ public class FileTemplate : ICodeFragment
     public List<UsingTemplate> Usings { get; } = [];
     public bool WriteOutputId { get; set; } = true;
     public bool ForceOverwrite { get; set; }
-    public Dictionary<string, bool> Linters { get; set; }
+    public Dictionary<string, bool>? Linters { get; set; }
 
     public FileTemplate(string? relativePath, GeneratorOptions options)
     {

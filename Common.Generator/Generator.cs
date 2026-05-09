@@ -360,11 +360,11 @@ public class Generator : IGeneratorRunSyntax
             string arguments = string.Empty;
             if (result.SwitchToArchitecture != null)
             {
-                arguments += $" --switchedFromArchitecture=\"{result.SwitchToArchitecture}\"";
+                // arguments += $" --switchedFromArchitecture=\"{result.SwitchToArchitecture}\"";
             }
             if (result.SwitchToFramework != SwitchableFramework.None)
             {
-                arguments += $" --switchedFromFramework=\"{result.SwitchToFramework}\"";
+                // arguments += $" --switchedFromFramework=\"{result.SwitchToFramework}\"";
             }
             Logger.Trace("===============================");
             Process process = GeneratorProcess.Start(location, commandsToRun, arguments);
