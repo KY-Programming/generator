@@ -97,6 +97,8 @@ public class AngularServiceWriter : TransferWriter
             foreach (HttpServiceActionTransferObject action in controller.Actions)
             {
                 string subjectName = action.Parameters.Any(x => x.Name == "subject") ? "rxjsSubject" : "subject";
+                string urlName = action.Parameters.Any(x => x.Name == "url") ? "requestUrl" : "url";
+                string httpOptionsName = action.Parameters.Any(x => x.Name == "httpOptions") ? "requestOptions" : "httpOptions";
                 bool isEnumerable = action.ReturnType.IsEnumerable();
                 bool isGuidReturnType = action.ReturnType.Name.Equals(nameof(Guid), StringComparison.CurrentCultureIgnoreCase);
                 bool isDateReturnType = action.ReturnType.Name.Equals(nameof(DateTime), StringComparison.CurrentCultureIgnoreCase);
@@ -142,14 +144,14 @@ public class AngularServiceWriter : TransferWriter
                 }
                 if (actionTypeOptions[action.Type]?.HasHttpOptions ?? true)
                 {
-                    methodTemplate.AddParameter(Code.Type("{}"), "httpOptions").Optional();
+                    methodTemplate.AddParameter(Code.Type("{}"), httpOptionsName).Optional();
                     if (isStringReturnType)
                     {
-                        methodTemplate.WithCode(Code.TypeScript("httpOptions = { responseType: 'text', ...this.httpOptions, ...httpOptions}").Close());
+                        methodTemplate.WithCode(Code.TypeScript($"{httpOptionsName} = {{ responseType: 'text', ...this.httpOptions, ...{httpOptionsName}}}").Close());
                     }
                     else
                     {
-                        methodTemplate.WithCode(Code.TypeScript("httpOptions = { ...this.httpOptions, ...httpOptions}").Close());
+                        methodTemplate.WithCode(Code.TypeScript($"{httpOptionsName} = {{ ...this.httpOptions, ...{httpOptionsName}}}").Close());
                     }
                 }
                 if (isDateReturnType && isDateArrayReturnType)
@@ -239,7 +241,7 @@ public class AngularServiceWriter : TransferWriter
                 code.AddLine(nextMethod.Close())
                     .AddLine(Code.Local(subjectName).Method("complete").Close());
                 ExecutePropertyTemplate propertyTemplate = Code.This().Property(serviceUrlProperty);
-                DeclareTemplate urlTemplate = Code.Declare(Code.Type("string"), "url", propertyTemplate);
+                DeclareTemplate urlTemplate = Code.Declare(Code.Type("string"), urlName, propertyTemplate);
                 methodTemplate.WithCode(urlTemplate);
                 string actionVersion = action.Version ?? controller.Version;
                 bool isUrlApiVersion = false;
@@ -333,7 +335,7 @@ public class AngularServiceWriter : TransferWriter
                 }
                 if (actionTypeOptions[action.Type]?.HasHttpOptions ?? false)
                 {
-                    parameters.Add(Code.Local("httpOptions"));
+                    parameters.Add(Code.Local(httpOptionsName));
                 }
                 if (actionTypeOptions[action.Type]?.NotGeneric ?? false)
                 {
