@@ -2,7 +2,5 @@
 {
     public interface IJsonWriteModelSyntax
     {
-        IJsonWriteModelOrReaderSyntax FieldsToProperties();
-        IJsonWriteModelOrReaderSyntax PropertiesToFields();
     }
 }

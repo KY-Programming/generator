@@ -32,7 +32,6 @@ internal class ReflectionCommand : GeneratorCommand<ReflectionCommandParameters>
         if (generatorOptions.Language.IsTypeScript())
         {
             generatorOptions.SkipNamespace = true;
-            generatorOptions.PropertiesToFields = true;
         }
         generatorOptions.SetFromParameter(this.Parameters);
 

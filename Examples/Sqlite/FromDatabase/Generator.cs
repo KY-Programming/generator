@@ -11,8 +11,7 @@ namespace FromDatabase
                                                   .UseAll()))
                 .Write(write => write
                            .Reflection(reflection => reflection
-                                                     .Models("Output")
-                                                     .FieldsToProperties())
+                                                     .Models("Output"))
                 );
         }
     }

@@ -9,8 +9,6 @@ namespace KY.Generator;
 public class GeneratorOptions(GeneratorOptions? parent, GeneratorOptions? global, object? target = null)
     : OptionsBase<GeneratorOptions>(parent, global, target)
 {
-    private bool? propertiesToFields;
-    private bool? fieldsToProperties;
     private bool? preferInterfaces;
     private bool? optionalFields;
     private bool? optionalProperties;
@@ -31,18 +29,6 @@ public class GeneratorOptions(GeneratorOptions? parent, GeneratorOptions? global
     private bool? noOptional;
     private bool? nullable;
     private string? modelOutput;
-
-    public bool PropertiesToFields
-    {
-        get => this.GetValue(x => x.propertiesToFields);
-        set => this.propertiesToFields = value;
-    }
-
-    public bool FieldsToProperties
-    {
-        get => this.GetValue(x => x.fieldsToProperties);
-        set => this.fieldsToProperties = value;
-    }
 
     public bool PreferInterfaces
     {

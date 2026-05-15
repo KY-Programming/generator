@@ -17,18 +17,6 @@ public class JsonWriteSyntax : IExecutableSyntax, IJsonWriteSyntax, IJsonWriteMo
         return this;
     }
 
-    public IJsonWriteModelOrReaderSyntax FieldsToProperties()
-    {
-        this.command.FieldsToProperties = true;
-        return this;
-    }
-
-    public IJsonWriteModelOrReaderSyntax PropertiesToFields()
-    {
-        this.command.PropertiesToFields = true;
-        return this;
-    }
-
     public IJsonWriteModelSyntax WithoutReader()
     {
         this.command.WithReader = false;

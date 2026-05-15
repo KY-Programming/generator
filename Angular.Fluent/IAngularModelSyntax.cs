@@ -19,18 +19,6 @@ public interface IAngularModelSyntax
     IAngularModelSyntax SkipNamespace(bool value = true);
 
     /// <summary>
-    /// Converts all properties of this type to fields. Like from C# property <code>string MyValue {get;set;}</code> to Typescript field <code>myValue: string;</code>
-    /// </summary>
-    IAngularModelSyntax PropertiesToFields(bool value = true);
-
-    /// <summary>
-    /// Converts all fields of this type to properties. Like from C# field <code>string myValue;</code> to TypeScript property <code>myValue {get;set;}</code>
-    /// </summary>
-    /// <param name="value"></param>
-    /// <returns></returns>
-    IAngularModelSyntax FieldsToProperties(bool value = true);
-
-    /// <summary>
     /// Tries to generate all models as interfaces
     /// </summary>
     /// <returns></returns>

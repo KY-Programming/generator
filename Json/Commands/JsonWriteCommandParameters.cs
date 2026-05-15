@@ -13,8 +13,6 @@ public class JsonWriteCommandParameters : GeneratorCommandParameters
     public JsonWriteCommandParameters()
         : base(Names.First())
     {
-        this.FieldsToProperties = true;
-        this.PropertiesToFields = false;
         this.WithReader = true;
     }
 }

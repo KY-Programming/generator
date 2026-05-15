@@ -16,16 +16,4 @@ internal class ReflectionWriteSyntax : IExecutableSyntax, IReflectionWriteSyntax
         this.Commands.Add(this.command);
         return this;
     }
-
-    public IReflectionWriteSyntax PropertiesToFields()
-    {
-        this.command.PropertiesToFields = true;
-        return this;
-    }
-
-    public IReflectionWriteSyntax FieldsToProperties()
-    {
-        this.command.FieldsToProperties = true;
-        return this;
-    }
 }

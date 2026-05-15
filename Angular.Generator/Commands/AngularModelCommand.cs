@@ -18,7 +18,6 @@ internal class AngularModelCommand(IDependencyResolver resolver) : GeneratorComm
         generatorOptions.SetFromParameter(this.Parameters);
         generatorOptions.Language = resolver.Get<AngularTypeScriptLanguage>();
         generatorOptions.SkipNamespace = true;
-        generatorOptions.PropertiesToFields = true;
         TypeScriptOptions typeScriptOptions = options.Get<TypeScriptOptions>();
         // TODO: Fix path is null
         typeScriptOptions.SetStrict(this.Parameters.RelativePath, resolver);

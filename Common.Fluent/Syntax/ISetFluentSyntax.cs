@@ -6,8 +6,6 @@ public interface ISetFluentSyntax : ISetFluentSyntax<ISetFluentSyntax>
 public interface ISetFluentSyntax<out T>
 {
     // TODO: Document
-    T PropertiesToFields();
-    T FieldsToProperties();
     T PreferInterfaces();
     T OptionalFields();
     T OptionalProperties();

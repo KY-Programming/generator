@@ -32,18 +32,6 @@ internal class AngularModelSyntax : IAngularModelSyntax
         return this;
     }
 
-    public IAngularModelSyntax PropertiesToFields(bool value = true)
-    {
-        this.command.PropertiesToFields = value;
-        return this;
-    }
-
-    public IAngularModelSyntax FieldsToProperties(bool value = true)
-    {
-        this.command.FieldsToProperties = value;
-        return this;
-    }
-
     public IAngularModelSyntax PreferInterfaces()
     {
         this.command.PreferInterfaces = true;

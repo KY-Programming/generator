@@ -16,7 +16,6 @@ internal class TypeScriptModelCommand(IDependencyResolver resolver) : GeneratorC
         generatorOptions.SetFromParameter(this.Parameters);
         generatorOptions.Language = resolver.Get<TypeScriptLanguage>();
         generatorOptions.SkipNamespace = true;
-        generatorOptions.PropertiesToFields = true;
     }
 
     public override Task<IGeneratorCommandResult> Run()

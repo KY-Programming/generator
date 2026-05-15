@@ -8,14 +8,6 @@ public static class OptionsExtension
         {
             options.FormatNames = parameters.FormatNames.Value;
         }
-        if (parameters.FieldsToProperties != null)
-        {
-            options.FieldsToProperties = parameters.FieldsToProperties.Value;
-        }
-        if (parameters.PropertiesToFields != null)
-        {
-            options.PropertiesToFields = parameters.PropertiesToFields.Value;
-        }
         if (parameters.SkipNamespace != null)
         {
             options.SkipNamespace = parameters.SkipNamespace.Value;

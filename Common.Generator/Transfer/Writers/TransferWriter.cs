@@ -34,7 +34,7 @@ public abstract class TransferWriter : Codeable
         foreach (FieldTransferObject field in model.Fields)
         {
             GeneratorOptions fieldOptions = this.Options.Get<GeneratorOptions>(field);
-            if (fieldOptions.FieldsToProperties)
+            if (fieldOptions.Language?.PrefersProperties == true)
             {
                 this.AddProperty(model, field, classTemplate);
             }
@@ -50,13 +50,13 @@ public abstract class TransferWriter : Codeable
         foreach (PropertyTransferObject property in model.Properties)
         {
             GeneratorOptions propertyOptions = this.Options.Get<GeneratorOptions>(property);
-            if (propertyOptions.PropertiesToFields)
+            if (propertyOptions.Language?.PrefersProperties == true)
             {
-                this.AddField(model, property, classTemplate);
+                this.AddProperty(model, property, classTemplate);
             }
             else
             {
-                this.AddProperty(model, property, classTemplate);
+                this.AddField(model, property, classTemplate);
             }
         }
     }

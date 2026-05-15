@@ -64,14 +64,6 @@ public class GeneratorOptionsFactory : IOptionsFactory
                 case GeneratePreferInterfacesAttribute:
                     options.PreferInterfaces = true;
                     break;
-                case GeneratePropertiesAsFieldsAttribute:
-                    options.FieldsToProperties = false;
-                    options.PropertiesToFields = true;
-                    break;
-                case GenerateFieldsAsPropertiesAttribute:
-                    options.FieldsToProperties = true;
-                    options.PropertiesToFields = false;
-                    break;
                 case GenerateFormatNamesAttribute formatNamesAttribute:
                     options.FormatNames = formatNamesAttribute.FormatNames;
                     break;

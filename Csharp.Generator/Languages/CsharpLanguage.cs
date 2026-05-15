@@ -11,6 +11,7 @@ public class CsharpLanguage : BaseLanguage
     public override string Name => "Csharp";
     public override bool ImportFromSystem => true;
     public override bool IsGenericTypeWithSameNameAllowed => true;
+    public override bool PrefersProperties => true;
 
     public CsharpLanguage(IDependencyResolver resolver)
         : base(resolver)

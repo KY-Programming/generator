@@ -53,18 +53,6 @@ public abstract class SetFluentSyntax<T> : ISetFluentSyntax<T>
 
     protected abstract T GetReturn();
 
-    public T PropertiesToFields()
-    {
-        this.GeneratorOptions.PropertiesToFields = true;
-        return this.GetReturn();
-    }
-
-    public T FieldsToProperties()
-    {
-        this.GeneratorOptions.FieldsToProperties = true;
-        return this.GetReturn();
-    }
-
     public T PreferInterfaces()
     {
         this.GeneratorOptions.PreferInterfaces = true;

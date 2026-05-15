@@ -40,7 +40,6 @@ internal class AngularPackageCommand : GeneratorCommand<AngularPackageCommandPar
         generatorOptions.SetFromParameter(this.Parameters);
         generatorOptions.Language = this.resolver.Get<AngularTypeScriptLanguage>();
         generatorOptions.SkipNamespace = true;
-        generatorOptions.PropertiesToFields = true;
         TypeScriptOptions typeScriptOptions = options.Get<TypeScriptOptions>();
         typeScriptOptions.SetStrict(this.Parameters.RelativePath, this.resolver);
         typeScriptOptions.ForceIndex = true;

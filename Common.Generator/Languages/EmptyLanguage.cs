@@ -12,6 +12,7 @@ public class EmptyLanguage : ILanguage
     public bool ImportFromSystem => true;
     public Dictionary<string, string> ReservedKeywords { get; } = new();
     public bool IsGenericTypeWithSameNameAllowed => true;
+    public virtual bool PrefersProperties => false;
     public FormattingOptions Formatting { get; } = new();
 
     public virtual void Write(ICodeFragment code, IOutputCache output)

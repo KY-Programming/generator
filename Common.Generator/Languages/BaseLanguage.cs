@@ -21,6 +21,7 @@ public abstract class BaseLanguage : Codeable, ILanguage, ITemplateWriter
     public abstract bool ImportFromSystem { get; }
     public Dictionary<string, string> ReservedKeywords { get; } = new();
     public abstract bool IsGenericTypeWithSameNameAllowed { get; }
+    public virtual bool PrefersProperties => false;
     public virtual string ClassScope => "public";
     public virtual string PartialKeyword => "partial";
     public bool HasAbstractClasses { get; set; } = true;
