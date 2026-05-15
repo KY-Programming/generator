@@ -5,7 +5,7 @@ namespace KY.Generator;
 /// overrides its generated type (<see cref="GenerateMemberAttribute.Type"/>), or applies a substring
 /// replacement on its name (<see cref="GenerateMemberAttribute.Replace"/> / <see cref="GenerateMemberAttribute.With"/>).
 /// </summary>
-[AttributeUsage(AttributeTargets.Field, Inherited = false, AllowMultiple = true)]
+[AttributeUsage(AttributeTargets.Field, Inherited = false, AllowMultiple = false)]
 public class GenerateFieldAttribute : GenerateMemberAttribute
 {
 }
