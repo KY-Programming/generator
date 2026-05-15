@@ -7,6 +7,6 @@ public class Types
 {
     public SubType DefaultSubTypeProperty { get; set; }
     
-    [GenerateReturnType(typeof(OtherSubType))]
-    public SubType ChangedSubTypeProperty { get; set; } 
+    [GenerateProperty(Type = typeof(OtherSubType))]
+    public SubType ChangedSubTypeProperty { get; set; }
 }
