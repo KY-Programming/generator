@@ -64,9 +64,6 @@ public class GeneratorOptionsFactory : IOptionsFactory
                 case GeneratePreferInterfacesAttribute:
                     options.PreferInterfaces = true;
                     break;
-                case GenerateRenameAttribute renameAttribute:
-                    options.AddToReplaceName(renameAttribute.Replace, renameAttribute.With);
-                    break;
                 case GeneratePropertiesAsFieldsAttribute:
                     options.FieldsToProperties = false;
                     options.PropertiesToFields = true;
@@ -84,15 +81,30 @@ public class GeneratorOptionsFactory : IOptionsFactory
                 case GenerateOnlySubTypesAttribute:
                     options.OnlySubTypes = true;
                     break;
-                case GenerateReturnTypeAttribute returnTypeAttribute:
-                    if (returnTypeAttribute.Type != null)
+                case GenerateMemberAttribute memberAttribute:
+                    if (!string.IsNullOrEmpty(memberAttribute.Name))
+                    {
+                        options.Rename = memberAttribute.Name;
+                    }
+                    if (memberAttribute.Type != null)
                     {
                         options.ReturnType = new TypeTransferObject
                         {
-                            Name = returnTypeAttribute.Type.Name,
-                            Namespace = returnTypeAttribute.Type.Namespace,
-                            Type = returnTypeAttribute.Type
+                            Name = memberAttribute.Type.Name,
+                            Namespace = memberAttribute.Type.Namespace,
+                            Type = memberAttribute.Type
                         };
+                    }
+                    else if (!string.IsNullOrEmpty(memberAttribute.TypeName))
+                    {
+                        options.ReturnType = new TypeTransferObject
+                        {
+                            Name = memberAttribute.TypeName
+                        };
+                    }
+                    if (!string.IsNullOrEmpty(memberAttribute.Replace))
+                    {
+                        options.AddToReplaceName(memberAttribute.Replace!, memberAttribute.With ?? string.Empty);
                     }
                     break;
                 case GenerateImportAttribute importAttribute:
