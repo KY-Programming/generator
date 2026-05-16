@@ -11,14 +11,17 @@
     <Target Name="KYGeneratorWindowsBeforeTarget"
             BeforeTargets="BeforeBuild"
             Condition="$(GeneratorPlatform) == 'windows'">
+        <Error Text=".NET 5 is no longer supported by KY.Generator. .NET 5 reached end-of-life on 2022-05-10. Use KY.Generator v9 or below for .NET 5 projects, or upgrade the project to .NET 6 or newer."
+               Condition="$(TargetFramework) == 'net5.0'" />
         <Exec Command="dotnet --version" ConsoleToMSBuild="true">
             <Output TaskParameter="ConsoleOutput" PropertyName="FrameworkRaw" />
         </Exec>
+        <Error Text=".NET 5 SDK is no longer supported by KY.Generator. .NET 5 reached end-of-life on 2022-05-10. Use KY.Generator v9 or below if you need to run on the .NET 5 SDK, or upgrade your SDK to .NET 6 or newer."
+               Condition="$(FrameworkRaw.StartsWith('5.'))" />
         <PropertyGroup>
             <Framework>net462</Framework>
             <Framework Condition="$(FrameworkRaw.StartsWith('2.'))">netcoreapp2.0</Framework>
             <Framework Condition="$(FrameworkRaw.StartsWith('3.'))">netcoreapp3.0</Framework>
-            <Framework Condition="$(FrameworkRaw.StartsWith('5.'))">net5.0</Framework>
             <Framework Condition="$(FrameworkRaw.StartsWith('6.'))">net6.0</Framework>
             <Framework Condition="$(FrameworkRaw.StartsWith('7.'))">net7.0</Framework>
             <Framework Condition="$(FrameworkRaw.StartsWith('8.'))">net8.0</Framework>
@@ -55,14 +58,17 @@
     <Target Name="KYGeneratorLinuxBeforeTarget"
             BeforeTargets="BeforeBuild"
             Condition="$(GeneratorPlatform) == 'linux'">
+        <Error Text=".NET 5 is no longer supported by KY.Generator. .NET 5 reached end-of-life on 2022-05-10. Use KY.Generator v9 or below for .NET 5 projects, or upgrade the project to .NET 6 or newer."
+               Condition="$(TargetFramework) == 'net5.0'" />
         <Exec Command="dotnet --version" ConsoleToMSBuild="true">
             <Output TaskParameter="ConsoleOutput" PropertyName="FrameworkRaw" />
         </Exec>
+        <Error Text=".NET 5 SDK is no longer supported by KY.Generator. .NET 5 reached end-of-life on 2022-05-10. Use KY.Generator v9 or below if you need to run on the .NET 5 SDK, or upgrade your SDK to .NET 6 or newer."
+               Condition="$(FrameworkRaw.StartsWith('5.'))" />
         <PropertyGroup>
             <Framework>none</Framework>
             <Framework Condition="$(FrameworkRaw.StartsWith('2.'))">netcoreapp2.0</Framework>
             <Framework Condition="$(FrameworkRaw.StartsWith('3.'))">netcoreapp3.0</Framework>
-            <Framework Condition="$(FrameworkRaw.StartsWith('5.'))">net5.0</Framework>
             <Framework Condition="$(FrameworkRaw.StartsWith('6.'))">net6.0</Framework>
             <Framework Condition="$(FrameworkRaw.StartsWith('7.'))">net7.0</Framework>
             <Framework Condition="$(FrameworkRaw.StartsWith('8.'))">net8.0</Framework>
@@ -95,14 +101,17 @@
     <Target Name="KYGeneratorOsxBeforeTarget"
             BeforeTargets="BeforeBuild"
             Condition="$(GeneratorPlatform) == 'osx'">
+        <Error Text=".NET 5 is no longer supported by KY.Generator. .NET 5 reached end-of-life on 2022-05-10. Use KY.Generator v9 or below for .NET 5 projects, or upgrade the project to .NET 6 or newer."
+               Condition="$(TargetFramework) == 'net5.0'" />
         <Exec Command="dotnet --version" ConsoleToMSBuild="true">
             <Output TaskParameter="ConsoleOutput" PropertyName="FrameworkRaw" />
         </Exec>
+        <Error Text=".NET 5 SDK is no longer supported by KY.Generator. .NET 5 reached end-of-life on 2022-05-10. Use KY.Generator v9 or below if you need to run on the .NET 5 SDK, or upgrade your SDK to .NET 6 or newer."
+               Condition="$(FrameworkRaw.StartsWith('5.'))" />
         <PropertyGroup>
             <Framework>none</Framework>
             <Framework Condition="$(FrameworkRaw.StartsWith('2.'))">netcoreapp2.0</Framework>
             <Framework Condition="$(FrameworkRaw.StartsWith('3.'))">netcoreapp3.0</Framework>
-            <Framework Condition="$(FrameworkRaw.StartsWith('5.'))">net5.0</Framework>
             <Framework Condition="$(FrameworkRaw.StartsWith('6.'))">net6.0</Framework>
             <Framework Condition="$(FrameworkRaw.StartsWith('7.'))">net7.0</Framework>
             <Framework Condition="$(FrameworkRaw.StartsWith('8.'))">net8.0</Framework>

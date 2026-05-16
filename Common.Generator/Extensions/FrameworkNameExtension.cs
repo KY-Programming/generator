@@ -2,49 +2,48 @@
 using KY.Core.Extension;
 using KY.Generator.Models;
 
-namespace KY.Generator.Extensions
+namespace KY.Generator.Extensions;
+
+public static class FrameworkNameExtension
 {
-    public static class FrameworkNameExtension
+    public static SwitchableFramework GetSwitchableFramework(this FrameworkName targetFramework)
     {
-        public static SwitchableFramework GetSwitchableFramework(this FrameworkName targetFramework)
+        if (targetFramework.IsFramework() && targetFramework.Version.Major <= 4)
         {
-            if (targetFramework.IsFramework() && targetFramework.Version.Major <= 4)
-            {
-                return SwitchableFramework.Net4;
-            }
-            if (targetFramework.IsCore() && targetFramework.Version.Major <= 2)
-            {
-                return SwitchableFramework.NetCore2;
-            }
-            if (targetFramework.IsCore() && targetFramework.Version.Major == 3)
-            {
-                return SwitchableFramework.NetCore3;
-            }
-            if (targetFramework.IsCore() && targetFramework.Version.Major == 5)
-            {
-                return SwitchableFramework.Net5;
-            }
-            if (targetFramework.IsCore() && targetFramework.Version.Major == 6)
-            {
-                return SwitchableFramework.Net6;
-            }
-            if (targetFramework.IsCore() && targetFramework.Version.Major == 7)
-            {
-                return SwitchableFramework.Net7;
-            }
-            if (targetFramework.IsCore() && targetFramework.Version.Major == 8)
-            {
-                return SwitchableFramework.Net8;
-            }
-            if (targetFramework.IsCore() && targetFramework.Version.Major == 9)
-            {
-                return SwitchableFramework.Net9;
-            }
-            if (targetFramework.IsCore() && targetFramework.Version.Major == 10)
-            {
-                return SwitchableFramework.Net10;
-            }
-            return SwitchableFramework.None;
+            return SwitchableFramework.Net4;
         }
+        if (targetFramework.IsCore() && targetFramework.Version.Major <= 2)
+        {
+            return SwitchableFramework.NetCore2;
+        }
+        if (targetFramework.IsCore() && targetFramework.Version.Major == 3)
+        {
+            return SwitchableFramework.NetCore3;
+        }
+        if (targetFramework.IsCore() && targetFramework.Version.Major == 5)
+        {
+            throw new NotSupportedException($"Target framework {targetFramework} is not supported. Use .NET 6 or higher or downgrade to KY.Generator v9 or lower.");
+        }
+        if (targetFramework.IsCore() && targetFramework.Version.Major == 6)
+        {
+            return SwitchableFramework.Net6;
+        }
+        if (targetFramework.IsCore() && targetFramework.Version.Major == 7)
+        {
+            return SwitchableFramework.Net7;
+        }
+        if (targetFramework.IsCore() && targetFramework.Version.Major == 8)
+        {
+            return SwitchableFramework.Net8;
+        }
+        if (targetFramework.IsCore() && targetFramework.Version.Major == 9)
+        {
+            return SwitchableFramework.Net9;
+        }
+        if (targetFramework.IsCore() && targetFramework.Version.Major == 10)
+        {
+            return SwitchableFramework.Net10;
+        }
+        return SwitchableFramework.None;
     }
 }

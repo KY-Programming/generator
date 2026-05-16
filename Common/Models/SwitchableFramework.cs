@@ -13,9 +13,6 @@
         [FrameworkName("netcoreapp3.0")]
         NetCore3,
 
-        [FrameworkName("net5.0")]
-        Net5,
-
         [FrameworkName("net6.0")]
         Net6,
 
