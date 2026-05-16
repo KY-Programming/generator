@@ -128,6 +128,28 @@ public class Options
         return this.GetOrCreate(RootKey, null, GetGlobal<T>());
     }
 
+    public T Get<T>(OptionsBase options) where T : OptionsBase<T>
+    {
+        options.AssertIsNotNull(nameof(options));
+        object? key = options.Key;
+        if (key == null)
+        {
+            return this.Get<T>();
+        }
+        return key switch
+        {
+            Type type => this.Get<T>(type),
+            MemberInfo member => this.Get<T>(member),
+            ParameterInfo parameter => this.Get<T>(parameter),
+            Assembly assembly => this.Get<T>(assembly),
+            TypeTransferObject typeTransfer => this.Get<T>(typeTransfer),
+            MemberTransferObject memberTransfer => this.Get<T>(memberTransfer),
+            ITransferObject transferObject => this.Get<T>(transferObject),
+            string => this.Get<T>(),
+            _ => throw new InvalidOperationException($"Key of type {key.GetType()} is not supported.")
+        };
+    }
+
     private static T GetOrCreateGlobal<T>(object key, T? parent) where T : OptionsBase<T>
     {
         key.AssertIsNotNull(nameof(key));
@@ -207,7 +229,7 @@ public class Options
                 {
                     continue;
                 }
-                object? argumentKey = this.ReverseSearch(options);
+                object? argumentKey = options.Key;
                 if (argumentKey != null /*&& mappings.Values.Any(x => x.Arguments.Contains(argumentKey))*/)
                 {
                     arguments.Replace(argument, argumentKey);
@@ -221,17 +243,5 @@ public class Options
         {
             throw new InvalidOperationException("The provided expression does not contain a method call.");
         }
-    }
-
-    private object? ReverseSearch<T>(OptionsBase<T> options) where T : OptionsBase<T>
-    {
-        foreach ((object? key, Dictionary<Type, object>? cacheValue) in this.cache.Select(x => (x.Key, x.Value)))
-        {
-            if (cacheValue.ContainsValue(options))
-            {
-                return key;
-            }
-        }
-        return null;
     }
 }

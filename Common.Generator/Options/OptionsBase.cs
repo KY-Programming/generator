@@ -3,8 +3,18 @@ using KY.Core;
 
 namespace KY.Generator;
 
+public abstract class OptionsBase
+{
+    public object? Key { get; }
+
+    private protected OptionsBase(object? key)
+    {
+        this.Key = key;
+    }
+}
+
 [DebuggerDisplay("{Target}")]
-public abstract class OptionsBase<TSelf>
+public abstract class OptionsBase<TSelf> : OptionsBase
     where TSelf : OptionsBase<TSelf>
 {
     // ReSharper disable once StaticMemberInGenericType
@@ -14,6 +24,7 @@ public abstract class OptionsBase<TSelf>
     protected string Target { get; }
 
     protected OptionsBase(TSelf? parent, TSelf? global, object? target = null)
+        : base(target)
     {
         this.Global = global;
         if (parent != null)
