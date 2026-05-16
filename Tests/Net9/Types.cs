@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using KY.Generator;
 
-namespace Net7
+namespace Net9
 {
-    [Generate(OutputLanguage.TypeScript, "Output")]
+    [GenerateTypeScriptModel("Output")]
     public class Types
     {
         // Fields

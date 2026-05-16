@@ -4,7 +4,7 @@ using KY.Generator;
 
 namespace Net7
 {
-    [Generate(OutputLanguage.TypeScript, "Output")]
+    [GenerateTypeScriptModel("Output")]
     public class Types
     {
         // Fields

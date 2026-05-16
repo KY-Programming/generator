@@ -2,7 +2,7 @@
 
 namespace Net6;
 
-[Generate(OutputLanguage.TypeScript, "Output")]
+[GenerateTypeScriptModel("Output")]
 public class Types
 {
     // Fields

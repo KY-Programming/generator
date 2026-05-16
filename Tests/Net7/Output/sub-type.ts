@@ -2,7 +2,11 @@
 // tslint:disable
 
 export class SubType {
-    public property?: string;
+    public property: string;
+
+    public constructor(init?: Partial<SubType>) {
+        Object.assign(this, init);
+    }
 }
 
 // outputid:6efc183e-a677-4cf2-bd36-b22c0bb466ce
