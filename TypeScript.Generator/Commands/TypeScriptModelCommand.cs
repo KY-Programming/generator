@@ -22,7 +22,7 @@ internal class TypeScriptModelCommand(IDependencyResolver resolver) : GeneratorC
     {
         // TODO: Fix path is null
         resolver.Get<IOutput>().DeleteAllRelatedFiles(this.Parameters.RelativePath);
-        resolver.Create<TypeScriptModelWriter>().FormatNames().Write();
+        resolver.Create<TypeScriptModelWriter>().FormatNames().Write(this.Parameters.RelativePath);
         resolver.Create<TypeScriptIndexHelper>().Execute(this.Parameters.RelativePath);
         return this.SuccessAsync();
     }
