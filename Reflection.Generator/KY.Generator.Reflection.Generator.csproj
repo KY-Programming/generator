@@ -1,11 +1,11 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFrameworks>netstandard2.0;net8.0</TargetFrameworks>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <Company>KY-Programming</Company>
-        <Version>10.0.0-preview.36</Version>
+        <Version>10.0.0-preview.45</Version>
         <LangVersion>latest</LangVersion>
         <RootNamespace>KY.Generator.Reflection</RootNamespace>
     </PropertyGroup>

@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
@@ -6,12 +6,12 @@
         <Nullable>enable</Nullable>
         <Company>KY-Programming</Company>
         <Authors>KY-Programming</Authors>
-        <Version>10.0.0-preview.36</Version>
+        <Version>10.0.0-preview.45</Version>
         <Product>KY.Generator</Product>
         <Description>ASP.net Module for KY-Generator
             Download KY.Generator to use this module
         </Description>
-        <Copyright>2025 - KY-Programming</Copyright>
+        <Copyright>2026 - KY-Programming</Copyright>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageProjectUrl>https://generator.ky-programming.de</PackageProjectUrl>
@@ -20,6 +20,7 @@
         <PackageTags>KY-Generator KY.Generator ASP.net</PackageTags>
         <LangVersion>latest</LangVersion>
         <RootNamespace>KY.Generator</RootNamespace>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -28,7 +29,6 @@
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
         <OutputPath>..\bin\Release</OutputPath>
-        <DocumentationFile>..\bin\Release\KY.Generator.AspDotNet.xml</DocumentationFile>
         <NoWarn>1701;1702;1591</NoWarn>
     </PropertyGroup>
 
@@ -44,6 +44,7 @@
         <None Include="..\icon.png" Pack="true" PackagePath="assets" Visible="false" />
         <None Include="..\Common\README.md" Pack="true" PackagePath="" Visible="false" />
         <None Include="$(OutputPath)\publish\KY.Generator.AspDotNet.Fluent.dll" Pack="true" PackagePath="lib\netstandard2.0\" Visible="false" />
+        <None Include="$(OutputPath)\publish\KY.Generator.AspDotNet.Fluent.xml" Pack="true" PackagePath="lib\netstandard2.0\" Visible="false" />
         <None Include="$(OutputPath)\publish\KY.Generator.AspDotNet.Generator.dll" Pack="true" PackagePath="generators\netstandard2.0\" Visible="false" />
         <None Remove="KY.Generator.AspDotNet.csproj.DotSettings" />
     </ItemGroup>

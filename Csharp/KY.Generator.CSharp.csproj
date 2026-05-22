@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
@@ -7,11 +7,11 @@
         <Authors>KY-Programming</Authors>
         <Company>KY-Programming</Company>
         <Product>KY.Generator</Product>
-        <Version>10.0.0-preview.36</Version>
+        <Version>10.0.0-preview.45</Version>
         <Description>C# Module for KY-Generator
             Download KY.Generator to use this module
         </Description>
-        <Copyright>2025 - KY-Programming</Copyright>
+        <Copyright>2026 - KY-Programming</Copyright>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageProjectUrl>https://generator.ky-programming.de</PackageProjectUrl>
@@ -21,6 +21,7 @@
         <PackageTags>KY-Generator KY.Generator</PackageTags>
         <LangVersion>latest</LangVersion>
         <RootNamespace>KY.Generator</RootNamespace>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -29,6 +30,7 @@
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
         <OutputPath>..\bin\Release</OutputPath>
+        <NoWarn>$(NoWarn);1591</NoWarn>
     </PropertyGroup>
 
     <ItemGroup>
