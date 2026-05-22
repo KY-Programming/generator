@@ -448,15 +448,11 @@ public class AngularServiceWriter : TransferWriter
                 errorCode.AddLine(Code.If(Code.This().Field(isClosedField)).WithCode(Code.Return()))
                          .AddLine(Code.This().Field(connectErrorSubjectField).Method("next", Code.Local("error")).Close())
                          .AddLine(Code.This().Field(statusSubjectField).Method("next", Code.Local(connectionStatusEnum.Name).Field("sleeping")).Close())
-                         .AddLine(Code.Declare(Code.Type("number"), "timeout", Code.This().Field(timeoutsField).Index(Code.Local("trial"))))
+                         .AddLine(Code.Declare(Code.Type("number"), "timeout", Code.This().Field(timeoutsField).Index(Code.Local("trial")).NullCoalescing().This().Field(timeoutsField).Index(Code.This().Field(timeoutsField).Field("length").Subtract().Number(1)).NullCoalescing().Number(5000)).Constant())
                          .AddLine(Code.Local("trial++").Close());
-                if (configuration.Service.EndlessTries)
+                if (!configuration.Service.EndlessTries)
                 {
-                    errorCode.AddLine(Code.Local("timeout").Assign(Code.Local("timeout").Or().This().Field(timeoutsField).Index(Code.This().Field(timeoutsField).Field("length").Subtract().Number(1)).Or().Number(0)).Close());
-                }
-                else
-                {
-                    errorCode.AddLine(Code.If(Code.Local("timeout").Equals().Undefined())
+                    errorCode.AddLine(Code.If(Code.Local("trial").Greater().This().Field(timeoutsField).Field("length"))
                                           .WithCode(Code.This().Method("disconnect").Close())
                                           .WithCode(Code.Local("subject").Method("error", Code.Local("error")).Close()).WithCode(Code.Return()));
                 }
