@@ -75,7 +75,7 @@
             <Framework Condition="$(FrameworkRaw.StartsWith('9.'))">net9.0</Framework>
             <Framework Condition="$(FrameworkRaw.StartsWith('10.'))">net10.0</Framework>
         </PropertyGroup>
-        <Exec Command="dotnet %22$(MSBuildThisFileDirectory)../tools/$(Framework)/KY.Generator.dll%22 readid -solution=%22$(SolutionPath)%22 -project=%22$(ProjectPath)%22 msbuild beforeBuild set -output=%22$(ProjectDir)\%22 load -assembly=%22$(TargetPath)%22 fluent"
+        <Exec Command="dotnet %22$(MSBuildThisFileDirectory)../tools/$(Framework)/KY.Generator.dll%22 readid -solution=%22$(SolutionPath)%22 -project=%22$(ProjectPath)%22 msbuild beforeBuild set -output=%22$(ProjectDir)%22 load -assembly=%22$(TargetPath)%22 fluent"
               Condition="$(Framework) != 'none'"
               CustomErrorRegularExpression="^Error:"
               CustomWarningRegularExpression="^Warning:">
@@ -87,7 +87,7 @@
     <Target Name="KYGeneratorLinuxAfterTarget"
             AfterTargets="AfterBuild"
             Condition="$(GeneratorPlatform) == 'linux'">
-        <Exec Command="dotnet %22$(MSBuildThisFileDirectory)../tools/$(Framework)/KY.Generator.dll%22 readid -solution=%22$(SolutionPath)%22 -project=%22$(ProjectPath)%22 msbuild set -output=%22$(ProjectDir)\%22 load -assembly=%22$(TargetPath)%22 fluent annotation"
+        <Exec Command="dotnet %22$(MSBuildThisFileDirectory)../tools/$(Framework)/KY.Generator.dll%22 readid -solution=%22$(SolutionPath)%22 -project=%22$(ProjectPath)%22 msbuild set -output=%22$(ProjectDir)%22 load -assembly=%22$(TargetPath)%22 fluent annotation"
               Condition="$(Framework) != 'none'"
               CustomErrorRegularExpression="^Error:"
               CustomWarningRegularExpression="^Warning:">
@@ -118,7 +118,7 @@
             <Framework Condition="$(FrameworkRaw.StartsWith('9.'))">net9.0</Framework>
             <Framework Condition="$(FrameworkRaw.StartsWith('10.'))">net10.0</Framework>
         </PropertyGroup>
-        <Exec Command="dotnet %22$(MSBuildThisFileDirectory)../tools/$(Framework)/KY.Generator.dll%22 readid -solution=%22$(SolutionPath)%22 -project=%22$(ProjectPath)%22 msbuild beforeBuild set -output=%22$(ProjectDir)\%22 load -assembly=%22$(TargetPath)%22 fluent"
+        <Exec Command="dotnet %22$(MSBuildThisFileDirectory)../tools/$(Framework)/KY.Generator.dll%22 readid -solution=%22$(SolutionPath)%22 -project=%22$(ProjectPath)%22 msbuild beforeBuild set -output=%22$(ProjectDir)%22 load -assembly=%22$(TargetPath)%22 fluent"
               Condition="$(Framework) != 'none'"
               CustomErrorRegularExpression="^Error:"
               CustomWarningRegularExpression="^Warning:">
@@ -130,7 +130,7 @@
     <Target Name="KYGeneratorOsxAfterTarget"
             AfterTargets="AfterBuild"
             Condition="$(GeneratorPlatform) == 'osx'">
-        <Exec Command="dotnet %22$(MSBuildThisFileDirectory)../tools/$(Framework)/KY.Generator.dll%22 readid -solution=%22$(SolutionPath)%22 -project=%22$(ProjectPath)%22 msbuild set -output=%22$(ProjectDir)\%22 load -assembly=%22$(TargetPath)%22 fluent annotation"
+        <Exec Command="dotnet %22$(MSBuildThisFileDirectory)../tools/$(Framework)/KY.Generator.dll%22 readid -solution=%22$(SolutionPath)%22 -project=%22$(ProjectPath)%22 msbuild set -output=%22$(ProjectDir)%22 load -assembly=%22$(TargetPath)%22 fluent annotation"
               Condition="$(Framework) != 'none'"
               CustomErrorRegularExpression="^Error:"
               CustomWarningRegularExpression="^Warning:">
