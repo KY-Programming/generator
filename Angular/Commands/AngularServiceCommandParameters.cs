@@ -5,7 +5,15 @@ namespace KY.Generator;
 public class AngularServiceCommandParameters : GeneratorCommandParameters
 {
     public string? Name { get; set; }
-    public string? RelativeModelPath { get; set; }
+
+    private string? relativeModelPath;
+
+    public string? RelativeModelPath
+    {
+        get => this.relativeModelPath;
+        set => this.relativeModelPath = GeneratorCommandParameters.NormalizeRelativePath(value);
+    }
+
     public bool? WithSignals { get; set; }
     public bool EndlessTries { get; set; }
     public List<int>? Timeouts { get; set; }

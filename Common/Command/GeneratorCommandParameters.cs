@@ -18,7 +18,21 @@ public class GeneratorCommandParameters
     [GeneratorGlobalParameter]
     public bool SkipAsyncCheck { get; set; }
 
-    public string? RelativePath { get; set; }
+    // RelativePath is always relative to the project/output root by KY.Generator convention (attributes
+    // like GenerateAngularModel("/ClientApp/...") use a leading slash purely as a readability convention),
+    // never an OS-absolute path. Stripping a leading separator here keeps that convention consistent
+    // across platforms, since a bare "/" is absolute on Linux/macOS but not on Windows.
+    public string? RelativePath
+    {
+        get;
+        set => field = NormalizeRelativePath(value);
+    }
+
+    public static string? NormalizeRelativePath(string? path)
+    {
+        return path?.TrimStart('/', '\\');
+    }
+
     public bool? SkipNamespace { get; set; }
     public bool? PreferInterfaces { get; set; }
     public bool? WithOptionalProperties { get; set; }
