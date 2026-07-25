@@ -6,14 +6,14 @@ import { SubModel } from "./sub-model";
 import { WritableSignal } from "@angular/core";
 
 export interface SignalModel {
-    text: WritableSignal<string | undefined>;
+    text: WritableSignal<string>;
     number: WritableSignal<number>;
     switch: WritableSignal<boolean>;
     timestamp: WritableSignal<Date>;
     optionalText: WritableSignal<string | undefined>;
-    texts: WritableSignal<string[] | undefined>;
+    texts: WritableSignal<string[]>;
     sub: WritableSignal<SubModel | undefined>;
-    subs: WritableSignal<SubModel[] | undefined>;
+    subs: WritableSignal<SubModel[]>;
     plain: WritableSignal<PlainModel | undefined>;
 }
 

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net9.0</TargetFramework>
+        <TargetFramework>net10.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <RootNamespace>SignalsService</RootNamespace>
@@ -12,24 +12,10 @@
         <FrameworkReference Include="Microsoft.AspNetCore.App" />
     </ItemGroup>
 
-    <!--
-        TEMPORARY: project references instead of the KY.Generator package references below, see project.md
-
-        <PackageReference Include="KY.Generator" Version="10.0.0-preview.47" />
-        <PackageReference Include="KY.Generator.Reflection" Version="10.0.0-preview.47" />
-        <PackageReference Include="KY.Generator.AspDotNet" Version="10.0.0-preview.47" />
-    -->
     <ItemGroup>
-        <ProjectReference Include="..\..\..\Angular\KY.Generator.Angular.csproj" />
-        <ProjectReference Include="..\..\..\Angular.Generator\KY.Generator.Angular.Generator.csproj" />
-        <ProjectReference Include="..\..\..\AspDotNet\KY.Generator.AspDotNet.csproj" />
-        <ProjectReference Include="..\..\..\AspDotNet.Generator\KY.Generator.AspDotNet.Generator.csproj" />
-        <ProjectReference Include="..\..\..\Reflection\KY.Generator.Reflection.csproj" />
-        <ProjectReference Include="..\..\..\Reflection.Generator\KY.Generator.Reflection.Generator.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <Folder Include="Output\" />
+      <PackageReference Include="KY.Generator" Version="10.0.0-preview.47" />
+      <PackageReference Include="KY.Generator.Angular" Version="10.0.0-preview.47" />
+      <PackageReference Include="KY.Generator.AspDotNet" Version="10.0.0-preview.47" />
     </ItemGroup>
 
 </Project>

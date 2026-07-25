@@ -4,7 +4,7 @@
 import { WritableSignal } from "@angular/core";
 
 export interface SubModel {
-    name: WritableSignal<string | undefined>;
+    name: WritableSignal<string>;
     changed: WritableSignal<Date>;
 }
 

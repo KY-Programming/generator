@@ -2,7 +2,7 @@
 // tslint:disable
 
 export interface WithoutSignalsModel {
-    name?: string;
+    name: string;
     optionalName?: string;
 }
 
