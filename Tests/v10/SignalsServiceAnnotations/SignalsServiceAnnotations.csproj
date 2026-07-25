@@ -13,9 +13,9 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="KY.Generator" Version="10.0.0-preview.47" />
-      <PackageReference Include="KY.Generator.Angular" Version="10.0.0-preview.47" />
-      <PackageReference Include="KY.Generator.AspDotNet" Version="10.0.0-preview.47" />
+      <PackageReference Include="KY.Generator" Version="10.0.0-preview.48" />
+      <PackageReference Include="KY.Generator.Angular" Version="10.0.0-preview.48" />
+      <PackageReference Include="KY.Generator.AspDotNet" Version="10.0.0-preview.48" />
     </ItemGroup>
 
 </Project>

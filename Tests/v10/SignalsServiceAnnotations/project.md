@@ -22,8 +22,9 @@ readid -solution=*Undefined* -project=C:\Projekte\C#\Generator\Tests\v10\Signals
 
 ## Status
 
-Last Build: 2026-07-25 12:24:11
-Status: Warning
-Info: 1 changed
-Last Success: 2026-07-25 12:24:11
-Generator: 10.0.0-preview.47
+Last Build: 2026-07-25 13:22:44
+Duration: 6,1s
+Status: Success
+Info: All outputs match
+Last Success: 2026-07-25 13:22:44
+Generator: 10.0.0-preview.48
