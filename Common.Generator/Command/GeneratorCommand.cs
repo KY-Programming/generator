@@ -73,7 +73,15 @@ public abstract class GeneratorCommand<T> : IGeneratorCommand
                 }
                 catch (Exception exception)
                 {
-                    Logger.Error($"Can not set parameter '{this.GetType().Name}.{parameter.Name}'. {exception.Message}");
+                    // The setter is called via reflection, so the real reason is wrapped in a TargetInvocationException
+                    // whose own message ("Exception has been thrown by the target of an invocation.") says nothing
+                    Exception reason = exception;
+                    while (reason is TargetInvocationException { InnerException: not null } invocationException)
+                    {
+                        reason = invocationException.InnerException;
+                    }
+                    Logger.Error($"Can not set parameter '{this.GetType().Name}.{parameter.Name}'. {reason.GetType().Name}: {reason.Message}");
+                    Logger.Trace(reason.ToString());
                     return false;
                 }
             }

@@ -860,7 +860,9 @@ public class AngularServiceWriter : TransferWriter
         }
         this.AddUsing(model!, classTemplate, controllerOptions, relativeModelPath);
         classTemplate.WithUsing("signal", "@angular/core");
-        classTemplate.WithUsing(unwrappedTypeName, $"{relativeModelPath}/{unwrappedFileName}");
+        // The relative model path is a file system path, the import needs a slash separated path
+        string unwrappedImportPath = relativeModelPath.Replace("\\", "/").TrimEnd('/');
+        classTemplate.WithUsing(unwrappedTypeName, $"{unwrappedImportPath}/{unwrappedFileName}");
 
         TypeTemplate modelType = model!.ToTemplate();
         TypeTemplate unwrappedType = Code.Type($"{unwrappedTypeName}<{model.Name}>");
