@@ -9,7 +9,7 @@ written next to the models.
 
 ## Parameters
 
-readid -solution=*Undefined* -project=C:\Projekte\C#\Generator\Tests\v10\SignalsServiceAnnotations\SignalsServiceAnnotations.csproj msbuild set -output=C:\Projekte\C#\Generator\Tests\v10\SignalsServiceAnnotations\ load -assembly=C:\Projekte\C#\Generator\Tests\v10\SignalsServiceAnnotations\bin\Debug\net10.0\SignalsServiceAnnotations.dll fluent annotation
+readid -solution=*Undefined* -project=$\Tests\v10\SignalsServiceAnnotations\SignalsServiceAnnotations.csproj msbuild set -output=$\Tests\v10\SignalsServiceAnnotations\ load -assembly=$\Tests\v10\SignalsServiceAnnotations\bin\Debug\net10.0\SignalsServiceAnnotations.dll fluent annotation
 
 ## Output
 
@@ -22,9 +22,9 @@ readid -solution=*Undefined* -project=C:\Projekte\C#\Generator\Tests\v10\Signals
 
 ## Status
 
-Last Build: 2026-07-25 13:22:44
-Duration: 6,1s
+Last Build: 2026-07-25 16:44:39
+Duration: 6,0s
 Status: Success
 Info: All outputs match
-Last Success: 2026-07-25 13:22:44
+Last Success: 2026-07-25 16:44:39
 Generator: 10.0.0-preview.48

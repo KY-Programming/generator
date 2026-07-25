@@ -7,13 +7,4 @@
         <RootNamespace>Types</RootNamespace>
     </PropertyGroup>
 
-    <ItemGroup>
-      <PackageReference Include="KY.Generator" Version="10.0.0-preview.48" />
-      <PackageReference Include="KY.Generator.Reflection" Version="10.0.0-preview.48" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Output\" />
-    </ItemGroup>
-
 </Project>

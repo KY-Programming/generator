@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "outDir": "Output",
+    "noEmit": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noImplicitOverride": true,

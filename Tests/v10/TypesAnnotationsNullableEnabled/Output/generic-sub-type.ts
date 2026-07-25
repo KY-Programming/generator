@@ -2,7 +2,7 @@
 // tslint:disable
 
 export interface GenericSubType<TOne, TTwo> {
-    single: TOne;
+    single?: TOne;
     single2: string;
     enumerable: TOne[];
     list: TTwo[];

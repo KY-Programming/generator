@@ -7,7 +7,8 @@ Tests handling of undecorated classes (without [Generate] attributes) with nulla
 
 ## Status
 
-Last Build: 2026-05-16 00:43:45
+Last Build: 2026-07-25 16:44:32
+Duration: 1,0s
 Status: Success
 Info: All outputs match
-Last Success: 2026-05-16 00:43:45
+Last Success: 2026-07-25 16:44:32

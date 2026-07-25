@@ -6,7 +6,7 @@ the member itself is always present. Models without the annotation stay untouche
 
 ## Parameters
 
-readid -solution=*Undefined* -project=C:\Projekte\C#\Generator\Tests\v10\SignalsAnnotations\SignalsAnnotations.csproj msbuild set -output=C:\Projekte\C#\Generator\Tests\v10\SignalsAnnotations\ load -assembly=C:\Projekte\C#\Generator\Tests\v10\SignalsAnnotations\bin\Debug\net10.0\SignalsAnnotations.dll fluent annotation
+readid -solution=*Undefined* -project=$\Tests\v10\SignalsAnnotations\SignalsAnnotations.csproj msbuild set -output=$\Tests\v10\SignalsAnnotations\ load -assembly=$\Tests\v10\SignalsAnnotations\bin\Debug\net10.0\SignalsAnnotations.dll fluent annotation
 
 ## Output
 
@@ -18,9 +18,9 @@ readid -solution=*Undefined* -project=C:\Projekte\C#\Generator\Tests\v10\Signals
 
 ## Status
 
-Last Build: 2026-07-25 13:22:33
-Duration: 7,2s
+Last Build: 2026-07-25 16:44:24
+Duration: 6,0s
 Status: Success
 Info: All outputs match
-Last Success: 2026-07-25 13:22:33
+Last Success: 2026-07-25 16:44:24
 Generator: 10.0.0-preview.48

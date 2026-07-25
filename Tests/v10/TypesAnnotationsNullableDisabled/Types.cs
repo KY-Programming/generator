@@ -266,5 +266,6 @@ public class GenericSubType<TOne, TTwo>
     public string Single2 { get; }
     public IEnumerable<TOne> Enumerable { get; set; }
     public List<TTwo> List { get; set; }
+    public List<GenericSubType<TOne, TTwo>> GenericList { get; set; }
     public List<string> StringList { get; set; }
 }
