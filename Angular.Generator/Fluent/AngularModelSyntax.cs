@@ -37,4 +37,11 @@ internal class AngularModelSyntax : IAngularModelSyntax
         this.command.PreferInterfaces = true;
         return this;
     }
+
+    public IAngularModelSyntax WithSignals(bool value = true)
+    {
+        this.command.WithSignals = value;
+        this.syntax.Commands.OfType<AngularServiceCommandParameters>().ForEach(x => x.WithSignals = value);
+        return this;
+    }
 }

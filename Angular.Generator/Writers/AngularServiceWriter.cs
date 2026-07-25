@@ -21,6 +21,8 @@ namespace KY.Generator.Angular.Writers;
 public class AngularServiceWriter : TransferWriter
 {
     private const string apiVersionKey = "{version:apiVersion}";
+    private const string unwrappedTypeName = "Unwrapped";
+    private const string unwrappedFileName = "unwrapped";
     private readonly List<ITransferObject> transferObjects;
     private readonly List<FileTemplate> files;
 
@@ -89,6 +91,7 @@ public class AngularServiceWriter : TransferWriter
                          .WithCode(Code.This().Property(serviceUrlProperty).Assign(Code.Local("document").Property("baseURI").NullCoalescing(Code.String(string.Empty).Close())));
 
             List<MethodTemplate> convertDateMethods = new();
+            List<MethodTemplate> signalMethods = new();
             string relativeModelPath = FileSystem.RelativeTo(configuration.Model?.RelativePath ?? ".", configuration.Service.RelativePath);
             relativeModelPath = string.IsNullOrEmpty(relativeModelPath) ? "." : relativeModelPath;
             bool addAppendMethod = false;
@@ -119,6 +122,9 @@ public class AngularServiceWriter : TransferWriter
                     aliasType = Code.Type("TDefault");
                     returnType = aliasType;
                 }
+                // The type the http client returns. Differs from the return type as soon as the model is generated with
+                // signals, because the backend sends and receives the plain values
+                TypeTemplate httpReturnType = returnType;
                 MethodTemplate methodTemplate = classTemplate.AddMethod(action.Name, Code.Generic("Observable", returnType))
                                                              .FormatName(controllerOptions);
                 if (aliasType != null)
@@ -191,7 +197,23 @@ public class AngularServiceWriter : TransferWriter
                     {
                         nextCode = localCode.Method("map", Code.Lambda("entry", Code.This().Method("convertDate", Code.Local("entry"))));
                     }
-                    nextMethod.WithParameter(Code.This().Method("fixUndefined", nextCode));
+                    ExecuteMethodTemplate fixUndefinedCode = Code.This().Method("fixUndefined", nextCode);
+                    if (this.WriteSignalMethods(classTemplate, signalMethods, returnModel, controllerOptions, relativeModelPath))
+                    {
+                        // The signals are created last, the date fixes and fixUndefined still work on the plain values
+                        string wrapName = WrapMethodName(returnModel!);
+                        TypeTemplate unwrappedReturnType = Code.Type($"{unwrappedTypeName}<{returnModel!.Name}>");
+                        httpReturnType = Code.Type($"{unwrappedTypeName}<{returnModel.Name}>{(isEnumerable ? "[]" : string.Empty)}");
+                        // fixUndefined returns any, so the entry of the map has to be typed explicitly
+                        List<ParameterTemplate> entryParameters = [new ParameterTemplate(unwrappedReturnType, "entry")];
+                        nextMethod.WithParameter(isEnumerable
+                                                     ? fixUndefinedCode.Method("map", Code.Lambda(entryParameters, Code.This().Method(wrapName, Code.Local("entry"))))
+                                                     : Code.This().Method(wrapName, fixUndefinedCode));
+                    }
+                    else
+                    {
+                        nextMethod.WithParameter(fixUndefinedCode);
+                    }
                     if (this.WriteDateFixes(classTemplate, convertDateMethods, returnModel, controllerOptions, relativeModelPath))
                     {
                         appendConvertDateMethod = true;
@@ -331,7 +353,30 @@ public class AngularServiceWriter : TransferWriter
                 if (action.CanHaveBodyParameter)
                 {
                     HttpServiceActionParameterTransferObject bodyParameter = action.Parameters.SingleOrDefault(x => x.FromBody);
-                    parameters.Add(bodyParameter == null ? Code.Undefined() : Code.Local(mapping[bodyParameter]));
+                    if (bodyParameter == null)
+                    {
+                        parameters.Add(Code.Undefined());
+                    }
+                    else
+                    {
+                        LocalVariableTemplate bodyCode = Code.Local(mapping[bodyParameter]);
+                        ModelTransferObject bodyModel = this.ResolveModel(bodyParameter.Type);
+                        ModelTransferObject bodyEntryModel = bodyModel != null && bodyModel.IsEnumerable()
+                                                                 ? this.ResolveModel(bodyModel.Generics.FirstOrDefault()?.Type)
+                                                                 : null;
+                        if (this.WriteSignalMethods(classTemplate, signalMethods, bodyEntryModel, controllerOptions, relativeModelPath))
+                        {
+                            parameters.Add(bodyCode.Method("map", Code.Lambda("entry", Code.This().Method(UnwrapMethodName(bodyEntryModel), Code.Local("entry")))));
+                        }
+                        else if (this.WriteSignalMethods(classTemplate, signalMethods, bodyModel, controllerOptions, relativeModelPath))
+                        {
+                            parameters.Add(Code.This().Method(UnwrapMethodName(bodyModel), bodyCode));
+                        }
+                        else
+                        {
+                            parameters.Add(bodyCode);
+                        }
+                    }
                 }
                 if (actionTypeOptions[action.Type]?.HasHttpOptions ?? false)
                 {
@@ -347,7 +392,7 @@ public class AngularServiceWriter : TransferWriter
                 }
                 else
                 {
-                    executeAction = executeAction.GenericMethod(actionTypeMapping[action.Type], returnType, parameters.ToArray());
+                    executeAction = executeAction.GenericMethod(actionTypeMapping[action.Type], httpReturnType, parameters.ToArray());
                 }
                 LambdaTemplate lambda;
                 if (actionTypeOptions[action.Type]?.ReturnsAny ?? false)
@@ -374,6 +419,12 @@ public class AngularServiceWriter : TransferWriter
             {
                 this.AppendConvertDateMethod(classTemplate);
             }
+            if (signalMethods.Count > 0)
+            {
+                this.WriteUnwrappedType(configuration, controllerOptions);
+            }
+            classTemplate.Methods.RemoveRange(signalMethods);
+            classTemplate.Methods.AddRange(signalMethods);
             classTemplate.Methods.RemoveRange(convertDateMethods);
             classTemplate.Methods.AddRange(convertDateMethods);
             this.AppendFixUndefined(classTemplate);
@@ -617,8 +668,10 @@ public class AngularServiceWriter : TransferWriter
         }
         this.AddUsing(model, classTemplate, controllerOptions, relativeModelPath);
         bool hasLocalDateProperty = false;
+        // The dates are converted on the plain values of the backend, before they are wrapped into signals
+        TypeTemplate modelType = this.WithSignals(model) ? Code.Type($"{unwrappedTypeName}<{model.Name}>") : model.ToTemplate();
         MethodTemplate convertDateMethodTemplate = classTemplate.AddMethod(methodName, Code.Void())
-                                                                .WithParameter(model.ToTemplate(), "model?")
+                                                                .WithParameter(modelType, "model?")
                                                                 .WithCode(Code.If(Code.Local("!model")).WithCode(Code.Return()));
         convertDateMethods.Add(convertDateMethodTemplate);
         foreach (PropertyTransferObject property in model.Properties)
@@ -761,5 +814,126 @@ public class AngularServiceWriter : TransferWriter
     private string GetAllowedName(ILanguage language, string name)
     {
         return language.ReservedKeywords.ContainsKey(name) ? language.ReservedKeywords[name] : name;
+    }
+
+    private bool WithSignals(ModelTransferObject? model)
+    {
+        // System types (string, number, Date, ...) and enums have no members to wrap, but they inherit the option from
+        // the model that uses them
+        return model is { FromSystem: false, IsEnum: false } && model.Properties.Count > 0 && this.Options.Get<AngularOptions>(model).WithSignals;
+    }
+
+    private ModelTransferObject? ResolveModel(TypeTransferObject? type)
+    {
+        if (type == null)
+        {
+            return null;
+        }
+        return type as ModelTransferObject ?? this.transferObjects.OfType<ModelTransferObject>().FirstOrDefault(x => x.Equals(type));
+    }
+
+    private static string WrapMethodName(ModelTransferObject model)
+    {
+        return $"wrap{model.Name.ToPascalCase()}";
+    }
+
+    private static string UnwrapMethodName(ModelTransferObject model)
+    {
+        return $"unwrap{model.Name.ToPascalCase()}";
+    }
+
+    /// <summary>
+    /// Writes a public <c>wrapMyModel</c> / <c>unwrapMyModel</c> pair for every model that is generated with signals.
+    /// <c>wrap</c> turns the plain values of the backend into signals, <c>unwrap</c> reads the signals back into plain
+    /// values before they are sent to the backend. Nested models with signals are wrapped by their own methods
+    /// </summary>
+    private bool WriteSignalMethods(ClassTemplate classTemplate, List<MethodTemplate> signalMethods, ModelTransferObject? model, GeneratorOptions controllerOptions, string relativeModelPath)
+    {
+        if (!this.WithSignals(model))
+        {
+            return false;
+        }
+        string wrapName = WrapMethodName(model!);
+        if (signalMethods.Any(x => x.Name.Equals(wrapName, StringComparison.InvariantCultureIgnoreCase)))
+        {
+            return true;
+        }
+        this.AddUsing(model!, classTemplate, controllerOptions, relativeModelPath);
+        classTemplate.WithUsing("signal", "@angular/core");
+        classTemplate.WithUsing(unwrappedTypeName, $"{relativeModelPath}/{unwrappedFileName}");
+
+        TypeTemplate modelType = model!.ToTemplate();
+        TypeTemplate unwrappedType = Code.Type($"{unwrappedTypeName}<{model.Name}>");
+        // Both methods take and return undefined, so optional members can be passed through without a check. The overload
+        // keeps the precise type for all callers that pass a value
+        MethodTemplate wrapMethod = classTemplate.AddMethod(wrapName, Code.UnionType(modelType, Code.Undefined()))
+                                                 .WithParameter(Code.UnionType(unwrappedType, Code.Undefined()), "model")
+                                                 .AddOverload(overload => overload.WithParameter(unwrappedType, "model").WithReturnType(modelType))
+                                                 .WithCode(Code.If(Code.Not().Local("model")).WithCode(Code.Return(Code.Undefined())));
+        MethodTemplate unwrapMethod = classTemplate.AddMethod(UnwrapMethodName(model), Code.UnionType(unwrappedType, Code.Undefined()))
+                                                   .WithParameter(Code.UnionType(modelType, Code.Undefined()), "model")
+                                                   .AddOverload(overload => overload.WithParameter(modelType, "model").WithReturnType(unwrappedType))
+                                                   .WithCode(Code.If(Code.Not().Local("model")).WithCode(Code.Return(Code.Undefined())));
+        // Both methods are registered before the members are written, otherwise a self referencing model ends in an endless loop
+        signalMethods.Add(wrapMethod);
+        signalMethods.Add(unwrapMethod);
+
+        AnonymousObjectTemplate wrapObject = Code.AnonymousObject();
+        AnonymousObjectTemplate unwrapObject = Code.AnonymousObject();
+        foreach (PropertyTransferObject property in model.Properties)
+        {
+            GeneratorOptions propertyOptions = this.Options.Get<GeneratorOptions>(property);
+            string propertyName = Formatter.FormatProperty(property.Name, propertyOptions);
+            TypeTransferObject type = model.Generics.FirstOrDefault(generic => generic.Alias?.Name == property.Name)?.Type ?? property.Type;
+            bool isOptional = property.IsOptional || type.IsNullable;
+            ModelTransferObject? propertyModel = this.ResolveModel(type);
+            ModelTransferObject? entryModel = propertyModel != null && propertyModel.IsEnumerable()
+                                                  ? this.ResolveModel(propertyModel.Generics.FirstOrDefault()?.Type)
+                                                  : null;
+            if (this.WriteSignalMethods(classTemplate, signalMethods, entryModel, controllerOptions, relativeModelPath))
+            {
+                string nullConditional = isOptional ? "?" : string.Empty;
+                wrapObject.WithProperty(propertyName, Code.TypeScript($"signal(model.{propertyName}{nullConditional}.map(entry => this.{WrapMethodName(entryModel!)}(entry)))"));
+                unwrapObject.WithProperty(propertyName, Code.TypeScript($"model.{propertyName}(){nullConditional}.map(entry => this.{UnwrapMethodName(entryModel!)}(entry))"));
+            }
+            else if (this.WriteSignalMethods(classTemplate, signalMethods, propertyModel, controllerOptions, relativeModelPath))
+            {
+                wrapObject.WithProperty(propertyName, Code.TypeScript($"signal(this.{WrapMethodName(propertyModel!)}(model.{propertyName}))"));
+                unwrapObject.WithProperty(propertyName, Code.TypeScript($"this.{UnwrapMethodName(propertyModel!)}(model.{propertyName}())"));
+            }
+            else
+            {
+                wrapObject.WithProperty(propertyName, Code.TypeScript($"signal(model.{propertyName})"));
+                unwrapObject.WithProperty(propertyName, Code.TypeScript($"model.{propertyName}()"));
+            }
+        }
+        wrapMethod.WithCode(Code.Return(wrapObject));
+        unwrapMethod.WithCode(Code.Return(unwrapObject));
+        return true;
+    }
+
+    /// <summary>
+    /// Writes the <c>Unwrapped&lt;T&gt;</c> helper type next to the models. It resolves a model with signals back to the
+    /// plain shape that is sent by and to the backend
+    /// </summary>
+    private void WriteUnwrappedType(AngularWriteConfiguration configuration, GeneratorOptions options)
+    {
+        string relativePath = configuration.Model?.RelativePath ?? configuration.Service.RelativePath;
+        string fileName = Formatter.FormatFile(unwrappedFileName, options);
+        if (this.files.Any(file => file.Name == fileName && file.RelativePath == relativePath))
+        {
+            return;
+        }
+        DeclareTypeTemplate declareType = this.files.AddFile(relativePath, options)
+                                              .WithName(fileName)
+                                              .AddNamespace(string.Empty)
+                                              .AddDeclareType($"{unwrappedTypeName}<TValue>", Code.TypeScript(
+                                                  "TValue extends Signal<infer TSignalValue> ? Unwrapped<TSignalValue>"
+                                                  + " : TValue extends Date ? TValue"
+                                                  + " : TValue extends (infer TEntry)[] ? Unwrapped<TEntry>[]"
+                                                  + " : TValue extends object ? { [TKey in keyof TValue]: Unwrapped<TValue[TKey]> }"
+                                                  + " : TValue"))
+                                              .Public();
+        declareType.Usings.Add(new UsingTemplate(null, "Signal", "@angular/core"));
     }
 }

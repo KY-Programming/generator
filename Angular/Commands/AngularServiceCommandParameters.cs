@@ -6,6 +6,7 @@ public class AngularServiceCommandParameters : GeneratorCommandParameters
 {
     public string? Name { get; set; }
     public string? RelativeModelPath { get; set; }
+    public bool? WithSignals { get; set; }
     public bool EndlessTries { get; set; }
     public List<int>? Timeouts { get; set; }
     public string? HttpClient { get; set; }

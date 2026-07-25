@@ -28,6 +28,10 @@ internal class AngularServiceCommand : GeneratorCommand<AngularServiceCommandPar
         generatorOptions.SkipNamespace = true;
         TypeScriptOptions typeScriptOptions = options.Get<TypeScriptOptions>();
         typeScriptOptions.SetStrict(this.Parameters.RelativePath, this.resolver);
+        if (this.Parameters.WithSignals != null)
+        {
+            options.Get<AngularOptions>().WithSignals = this.Parameters.WithSignals.Value;
+        }
 
         AngularWriteConfiguration writeConfiguration = new();
         writeConfiguration.Service = new AngularWriteServiceConfiguration();

@@ -37,6 +37,9 @@ public class AngularOptionsFactory : IOptionsFactory
                 case GenerateServiceOutputAttribute serviceOutputAttribute:
                     options.ServiceOutput = serviceOutputAttribute.RelativePath;
                     break;
+                case GenerateWithSignalsAttribute:
+                    options.WithSignals = true;
+                    break;
             }
         }
         return options;

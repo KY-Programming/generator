@@ -21,6 +21,10 @@ internal class AngularModelCommand(IDependencyResolver resolver) : GeneratorComm
         TypeScriptOptions typeScriptOptions = options.Get<TypeScriptOptions>();
         // TODO: Fix path is null
         typeScriptOptions.SetStrict(this.Parameters.RelativePath, resolver);
+        if (this.Parameters.WithSignals != null)
+        {
+            options.Get<AngularOptions>().WithSignals = this.Parameters.WithSignals.Value;
+        }
     }
 
     public override Task<IGeneratorCommandResult> Run()

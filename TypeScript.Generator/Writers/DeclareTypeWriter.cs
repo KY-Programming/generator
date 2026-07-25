@@ -10,7 +10,7 @@ namespace KY.Generator.TypeScript.Writers
         public void Write(ICodeFragment fragment, IOutputCache output)
         {
             DeclareTypeTemplate template = (DeclareTypeTemplate)fragment;
-            output.Add("declare type ")
+            output.Add(template.IsPublic ? "export type " : "declare type ")
                   .Add(template.Name)
                   .Add(" = ")
                   .Add(template.Type)

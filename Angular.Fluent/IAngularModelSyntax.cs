@@ -23,4 +23,10 @@ public interface IAngularModelSyntax
     /// </summary>
     /// <returns></returns>
     IAngularModelSyntax PreferInterfaces();
+
+    /// <summary>
+    /// Generates all members of all models as Angular signals. The generated Angular service wraps the values on read
+    /// and unwraps them on write. Can be set per type or per assembly with the <see cref="GenerateWithSignalsAttribute"/>
+    /// </summary>
+    IAngularModelSyntax WithSignals(bool value = true);
 }
