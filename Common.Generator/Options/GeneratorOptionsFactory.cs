@@ -73,11 +73,11 @@ public class GeneratorOptionsFactory : IOptionsFactory
                 case GenerateOnlySubTypesAttribute:
                     options.OnlySubTypes = true;
                     break;
+                case GenerateClassAttribute classAttribute:
+                    this.UpdateFromNaming(options, classAttribute);
+                    break;
                 case GenerateMemberAttribute memberAttribute:
-                    if (!string.IsNullOrEmpty(memberAttribute.Name))
-                    {
-                        options.Rename = memberAttribute.Name;
-                    }
+                    this.UpdateFromNaming(options, memberAttribute);
                     if (memberAttribute.Type != null)
                     {
                         options.ReturnType = new TypeTransferObject
@@ -94,10 +94,6 @@ public class GeneratorOptionsFactory : IOptionsFactory
                             Name = memberAttribute.TypeName
                         };
                     }
-                    if (!string.IsNullOrEmpty(memberAttribute.Replace))
-                    {
-                        options.AddToReplaceName(memberAttribute.Replace!, memberAttribute.With ?? string.Empty);
-                    }
                     break;
                 case GenerateImportAttribute importAttribute:
                     options.AddToImports(new Import(importAttribute.Type, importAttribute.FileName, importAttribute.TypeName));
@@ -111,6 +107,18 @@ public class GeneratorOptionsFactory : IOptionsFactory
             }
         }
         return options;
+    }
+
+    private void UpdateFromNaming(GeneratorOptions options, GenerateNamedAttribute attribute)
+    {
+        if (!string.IsNullOrEmpty(attribute.Name))
+        {
+            options.Rename = attribute.Name;
+        }
+        if (!string.IsNullOrEmpty(attribute.Replace))
+        {
+            options.AddToReplaceName(attribute.Replace!, attribute.With ?? string.Empty);
+        }
     }
 
     private void UpdateFromDocumentation(GeneratorOptions options, string documentation)

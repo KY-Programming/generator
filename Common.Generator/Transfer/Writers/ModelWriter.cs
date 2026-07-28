@@ -25,9 +25,9 @@ public class ModelWriter : TransferWriter, ITransferWriter
         foreach (ModelTransferObject model in models)
         {
             GeneratorOptions modelOptions = this.Options.Get<GeneratorOptions>(model);
-            model.Name = Formatter.FormatClass(model.OriginalName, modelOptions)
-                                  .Replace(modelOptions.ReplaceName)
-                                  .Prefix(model.IsInterface || modelOptions.PreferInterfaces ? modelOptions.Formatting.InterfacePrefix : modelOptions.Formatting.ClassPrefix);
+            model.Name = (modelOptions.Rename ?? Formatter.FormatClass(model.OriginalName, modelOptions)
+                                                         .Replace(modelOptions.ReplaceName))
+                         .Prefix(model.IsInterface || modelOptions.PreferInterfaces ? modelOptions.Formatting.InterfacePrefix : modelOptions.Formatting.ClassPrefix);
             if (!modelOptions.Language.IsGenericTypeWithSameNameAllowed)
             {
                 ModelTransferObject otherModel = models.FirstOrDefault(m => m != model
