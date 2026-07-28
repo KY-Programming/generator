@@ -15,10 +15,12 @@ internal class ReadProjectCommand(IDependencyResolver resolver) : GeneratorComma
         string projectFileName = FileSystem.GetFileName(this.Parameters.Project);
         VisualStudioParser parser = new();
         VisualStudioSolutionProject? project = parser.ParseProject(this.Parameters.Project);
+        bool solutionFound = false;
         if (project == null || project.Id == Guid.Empty)
         {
             VisualStudioSolution? solution = parser.ParseSolution(this.Parameters.Solution) ?? this.FindSolution(parser);
             VisualStudioSolutionProject? solutionProject = solution?.Projects.FirstOrDefault(x => x.Path.EndsWith(projectFileName));
+            solutionFound = solutionProject != null;
             if (project == null)
             {
                 project = solutionProject;
@@ -31,7 +33,9 @@ internal class ReadProjectCommand(IDependencyResolver resolver) : GeneratorComma
         if (project != null && project.Id == Guid.Empty)
         {
             project.Id = Guid.NewGuid();
-            Logger.Warning("Project has no id and solution could not be found. A new id was generated and set to project.");
+            Logger.Warning(solutionFound
+                               ? "Project has no id and the solution does not provide one. A new id was generated and set to project."
+                               : "Project has no id and solution could not be found. A new id was generated and set to project.");
             parser.SetProjectGuid(this.Parameters.Project, project.Id);
         }
         if (project != null && project.Name == null)
@@ -61,7 +65,10 @@ internal class ReadProjectCommand(IDependencyResolver resolver) : GeneratorComma
             while (levelToGoUp > 0)
             {
                 solutionDirectory = FileSystem.Parent(solutionDirectory);
-                string[] solutionFiles = FileSystem.GetFiles(solutionDirectory, "*.sln");
+                string[] solutionFiles = FileSystem.GetFiles(solutionDirectory)
+                                                   .Where(VisualStudioParser.IsSolution)
+                                                   .OrderBy(x => VisualStudioParser.IsXmlSolution(x) ? 1 : 0)
+                                                   .ToArray();
                 foreach (string solutionFile in solutionFiles)
                 {
                     VisualStudioSolution solution = parser.ParseSolution(solutionFile);

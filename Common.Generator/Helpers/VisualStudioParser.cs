@@ -8,6 +8,9 @@ namespace KY.Generator;
 
 public class VisualStudioParser
 {
+    public const string SolutionExtension = ".sln";
+    public const string SolutionXmlExtension = ".slnx";
+
     private static readonly Regex projectRegex = new(@"^Project\(""(?<typeId>{[a-fA-F0-9-]+})""\)\s*=\s*""(?<name>[^""]+)""\s*,\s*""(?<path>[^""]*)""\s*,\s*""(?<id>{[a-fA-F0-9-]+})""\s*$");
 
     public VisualStudioSolution? ParseSolution(string path)
@@ -16,6 +19,21 @@ public class VisualStudioParser
         {
             return null;
         }
+        return IsXmlSolution(path) ? ParseXmlSolution(path) : ParseTextSolution(path);
+    }
+
+    public static bool IsXmlSolution(string path)
+    {
+        return path.EndsWith(SolutionXmlExtension, StringComparison.OrdinalIgnoreCase);
+    }
+
+    public static bool IsSolution(string path)
+    {
+        return path.EndsWith(SolutionExtension, StringComparison.OrdinalIgnoreCase) || IsXmlSolution(path);
+    }
+
+    private VisualStudioSolution ParseTextSolution(string path)
+    {
         VisualStudioSolution solution = new();
         string[] lines = FileSystem.ReadAllLines(path);
         foreach (string line in lines)
@@ -35,6 +53,34 @@ public class VisualStudioParser
             );
         }
         return solution;
+    }
+
+    private VisualStudioSolution ParseXmlSolution(string path)
+    {
+        VisualStudioSolution solution = new();
+        XElement element = FileSystem.ReadXml(path);
+        foreach (XElement project in element.Descendants().Where(x => x.Name.LocalName == "Project"))
+        {
+            string? projectPath = project.Attribute("Path")?.Value;
+            if (string.IsNullOrWhiteSpace(projectPath))
+            {
+                continue;
+            }
+            string fileName = FileSystem.GetFileName(projectPath);
+            solution.Projects.Add(new VisualStudioSolutionProject
+                {
+                    Id = ParseGuid(project.Attribute("Id")?.Value),
+                    Name = fileName.Replace(Path.GetExtension(fileName), string.Empty),
+                    Path = projectPath
+                }
+            );
+        }
+        return solution;
+    }
+
+    private static Guid ParseGuid(string? value)
+    {
+        return Guid.TryParse(value, out Guid id) ? id : Guid.Empty;
     }
 
     public VisualStudioSolutionProject? ParseProject(string path)
