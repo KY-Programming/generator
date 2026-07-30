@@ -14,7 +14,12 @@ namespace KY.Generator.TypeScript.Writers
 
         public void Write(GenericTypeTemplate template, IOutputCache output)
         {
-            output.Add(template.Types.Single())
+            TypeTemplate elementType = template.Types.Single();
+            // a union as element type has to be parenthesized: (string | undefined)[]
+            bool isUnion = elementType is NullableTypeTemplate { Strict: true };
+            output.If(isUnion).Add("(").EndIf()
+                  .Add(elementType)
+                  .If(isUnion).Add(")").EndIf()
                   .Add("[]");
         }
     }

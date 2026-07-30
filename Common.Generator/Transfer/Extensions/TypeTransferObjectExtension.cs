@@ -17,8 +17,14 @@ namespace KY.Generator.Transfer.Extensions
                 return new LinkedTypeTemplate(type);
             }
             LinkedGenericTypeTemplate genericTypeTemplate = new(type);
-            type.Generics.ForEach(g => genericTypeTemplate.Types.Add((g.Type ?? g.Alias).ToTemplate()));
+            type.Generics.ForEach(g => genericTypeTemplate.Types.Add(g.ToTemplate()));
             return genericTypeTemplate;
+        }
+
+        private static TypeTemplate ToTemplate(this GenericAliasTransferObject generic)
+        {
+            TypeTemplate template = (generic.Type ?? generic.Alias).ToTemplate();
+            return generic.IsNullable ? new NullableTypeTemplate(template) : template;
         }
     }
 }

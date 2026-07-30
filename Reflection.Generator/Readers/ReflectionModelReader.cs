@@ -6,6 +6,7 @@ using KY.Generator.Extensions;
 using KY.Generator.Models;
 using KY.Generator.Reflection.Extensions;
 using KY.Generator.Reflection.Language;
+using KY.Generator.Reflection.Models;
 using KY.Generator.Templates.Extensions;
 using KY.Generator.Transfer;
 
@@ -35,7 +36,7 @@ public class ReflectionModelReader
         return new ModelTransferObject(type);
     }
 
-    public ModelTransferObject? Read(Type type, GeneratorOptions? caller = null)
+    public ModelTransferObject? Read(Type type, GeneratorOptions? caller = null, NullabilityNode? nullability = null)
     {
         if (type == null)
         {
@@ -65,7 +66,7 @@ public class ReflectionModelReader
                 ModelTransferObject modelToMap = existingModel;
                 this.options.Map(genericModel, () => this.options.Get<GeneratorOptions>(modelToMap, null));
                 existingModel = genericModel;
-                this.ApplyGenericTemplate(type, genericModel);
+                this.ApplyGenericTemplate(type, genericModel, nullability);
                 this.transferObjects.Add(existingModel);
             }
             return existingModel;
@@ -95,11 +96,11 @@ public class ReflectionModelReader
         }
         if (type.IsArray)
         {
-            this.ReadArray(type, model);
+            this.ReadArray(type, model, nullability);
         }
         else if (model.IsGeneric && model.FromSystem)
         {
-            this.ReadGenericFromSystem(type, model);
+            this.ReadGenericFromSystem(type, model, nullability);
         }
         else if (type.IsEnum)
         {
@@ -109,7 +110,7 @@ public class ReflectionModelReader
         else if (!model.FromSystem)
         {
             this.transferObjects.Add(model);
-            this.ReadClass(type, model);
+            this.ReadClass(type, model, nullability);
         }
         if (model.Name == nameof(Nullable))
         {
@@ -150,24 +151,27 @@ public class ReflectionModelReader
              .OfType<ModelTransferObject>().ForEach(x => this.ReadExisting(x, caller));
     }
 
-    private void ReadArray(Type type, ModelTransferObject model)
+    private void ReadArray(Type type, ModelTransferObject model, NullabilityNode? nullability)
     {
         // Logger.Trace($"Reflection read array {type.Name} ({type.Namespace})");
         GeneratorOptions modelOptions = this.options.Get<GeneratorOptions>(model);
+        Type elementType = type.GetElementType();
+        NullabilityNode? elementNullability = nullability?.ElementType;
         model.Name = "Array";
         model.IsGeneric = true;
         model.FromSystem = true;
         model.Generics.Add(new GenericAliasTransferObject
         {
-            Type = this.Read(type.GetElementType(), modelOptions)
+            Type = this.Read(elementType, modelOptions, elementNullability),
+            IsNullable = IsNullable(elementType, elementNullability)
         });
     }
 
-    private void ReadGenericFromSystem(Type type, ModelTransferObject model)
+    private void ReadGenericFromSystem(Type type, ModelTransferObject model, NullabilityNode? nullability)
     {
         // Logger.Trace($"Reflection read generic system type {type.Name}<{string.Join(",", type.GetGenericArguments().Select(x => x.Name))}> ({type.Namespace})");
         this.ReadGenericArguments(type, model);
-        this.ApplyGenericTemplate(type, (GenericModelTransferObject)model);
+        this.ApplyGenericTemplate(type, (GenericModelTransferObject)model, nullability);
     }
 
     private void ReadEnum(Type type, ModelTransferObject model)
@@ -197,7 +201,7 @@ public class ReflectionModelReader
         }
     }
 
-    private void ReadClass(Type type, ModelTransferObject model)
+    private void ReadClass(Type type, ModelTransferObject model, NullabilityNode? nullability)
     {
         // Logger.Trace($"Reflection read type {type.Name} ({type.Namespace})");
         GeneratorOptions modelOptions = this.options.Get<GeneratorOptions>(model);
@@ -235,7 +239,7 @@ public class ReflectionModelReader
             this.ReadConstants(genericType, genericModel.Template);
             this.ReadFields(genericType, genericModel.Template);
             this.ReadProperties(genericType, genericModel.Template);
-            this.ApplyGenericTemplate(type, genericModel);
+            this.ApplyGenericTemplate(type, genericModel, nullability);
         }
         else
         {
@@ -245,7 +249,7 @@ public class ReflectionModelReader
         }
     }
 
-    private void ApplyGenericTemplate(Type type, GenericModelTransferObject model)
+    private void ApplyGenericTemplate(Type type, GenericModelTransferObject model, NullabilityNode? nullability)
     {
         GeneratorOptions modelOptions = this.options.Get<GeneratorOptions>(model);
         Type[] arguments = type.GenericTypeArguments.Length > 0 ? type.GenericTypeArguments : type.GetGenericArguments();
@@ -256,12 +260,23 @@ public class ReflectionModelReader
                 break;
             }
             string alias = model.Template.Generics[index].Alias.Name;
-            ModelTransferObject argument = this.Read(arguments[index], modelOptions);
-            this.ApplyGenericTemplate(model, alias, argument);
+            NullabilityNode? argumentNullability = nullability?.GetGenericTypeArgument(index);
+            ModelTransferObject argument = this.Read(arguments[index], modelOptions, argumentNullability);
+            this.ApplyGenericTemplate(model, alias, argument, IsNullable(arguments[index], argumentNullability));
         }
     }
 
-    private void ApplyGenericTemplate(TypeTransferObject target, string alias, TypeTransferObject type)
+    /// <summary>
+    /// True if the type is used in an annotated nullable position. An open generic parameter is never nullable
+    /// here. It is reported as nullable, because it can be substituted with a nullable type, but the nullability
+    /// of the substitute is read on the closed type
+    /// </summary>
+    private static bool IsNullable(Type type, NullabilityNode? nullability)
+    {
+        return !type.IsGenericParameter && (nullability?.IsNullable ?? false);
+    }
+
+    private void ApplyGenericTemplate(TypeTransferObject target, string alias, TypeTransferObject type, bool isNullable)
     {
         if (target is not GenericModelTransferObject)
         {
@@ -282,24 +297,27 @@ public class ReflectionModelReader
         if (aliasedGeneric != null)
         {
             aliasedGeneric.Type = type;
+            aliasedGeneric.IsNullable = isNullable;
         }
         if (target is ModelTransferObject model)
         {
-            model.Constants.ForEach(x => this.ApplyGenericTemplate(x, alias, type));
-            model.Fields.ForEach(x => this.ApplyGenericTemplate(x, alias, type));
-            model.Properties.ForEach(x => this.ApplyGenericTemplate(x, alias, type));
+            model.Constants.ForEach(x => this.ApplyGenericTemplate(x, alias, type, isNullable));
+            model.Fields.ForEach(x => this.ApplyGenericTemplate(x, alias, type, isNullable));
+            model.Properties.ForEach(x => this.ApplyGenericTemplate(x, alias, type, isNullable));
         }
     }
 
-    private void ApplyGenericTemplate(MemberTransferObject field, string alias, TypeTransferObject type)
+    private void ApplyGenericTemplate(MemberTransferObject field, string alias, TypeTransferObject type, bool isNullable)
     {
         if (field.Type.Name == alias)
         {
+            // the member is the generic argument itself. Its nullability is a member nullability and is not
+            // handled here, only nested generic arguments are
             field.Type = type;
         }
         else
         {
-            this.ApplyGenericTemplate(field.Type, alias, type);
+            this.ApplyGenericTemplate(field.Type, alias, type, isNullable);
         }
     }
 
@@ -319,13 +337,16 @@ public class ReflectionModelReader
                 continue;
             }
             bool isRequired = property.IsRequired();
-            bool isNullable = !property.PropertyType.IsValueType && (!propertyOptions.Nullable || property.IsNullable())
+            // without an enabled nullable context the annotations are not reliable and are ignored, same as for
+            // the member itself, which is treated as nullable in that case
+            NullabilityNode? nullability = propertyOptions.Nullable ? property.GetNullability() : null;
+            bool isNullable = !property.PropertyType.IsValueType && (!propertyOptions.Nullable || (nullability?.IsNullable ?? true))
                               || !property.PropertyType.IsValueType && !propertyOptions.Nullable
                               || property.PropertyType.IsGenericType && property.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>);
             PropertyTransferObject propertyTransferObject = new()
             {
                 Name = property.Name,
-                Type = this.Read(propertyOptions.ReturnType, propertyOptions) ?? this.Read(property.PropertyType, propertyOptions),
+                Type = this.Read(propertyOptions.ReturnType, propertyOptions) ?? this.Read(property.PropertyType, propertyOptions, nullability),
                 DeclaringType = model,
                 Attributes = property.GetCustomAttributes().ToTransferObjects().ToList(),
                 IsAbstract = property.GetMethod?.IsAbstract ?? property.SetMethod?.IsAbstract ?? false,
@@ -338,7 +359,7 @@ public class ReflectionModelReader
                 Comment = DocumentationReader.Get(property)
             };
             this.options.Map(propertyTransferObject, () => this.options.Get<GeneratorOptions>(property, null));
-            propertyTransferObject.Type = this.Read(propertyOptions.ReturnType, propertyOptions) ?? this.Read(property.PropertyType.IgnoreGeneric(typeof(Nullable<>)), propertyOptions);
+            propertyTransferObject.Type = this.Read(propertyOptions.ReturnType, propertyOptions) ?? this.Read(property.PropertyType.IgnoreGeneric(typeof(Nullable<>)), propertyOptions, nullability);
             model.Properties.Add(propertyTransferObject);
         }
     }
@@ -361,7 +382,7 @@ public class ReflectionModelReader
             FieldTransferObject fieldTransferObject = new()
             {
                 Name = field.Name,
-                Type = this.Read(fieldOptions.ReturnType, fieldOptions) ?? this.Read(field.FieldType, fieldOptions),
+                Type = this.Read(fieldOptions.ReturnType, fieldOptions) ?? this.Read(field.FieldType, fieldOptions, fieldOptions.Nullable ? field.GetNullability() : null),
                 DeclaringType = model,
                 Attributes = field.GetCustomAttributes().ToTransferObjects().ToList(),
                 IsOptional = !fieldOptions.NoOptional && !field.IsRequired(),

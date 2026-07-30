@@ -84,6 +84,7 @@ public class TypeScriptLanguage : BaseLanguage
         this.AddWriter<AttributeTemplate, AttributeWriter>();
         this.AddWriter<AnonymousObjectTemplate, AnonymousObjectWriter>();
         this.AddWriter<TypeTemplate, TypeScriptTypeWriter>();
+        this.AddWriter<NullableTypeTemplate, TypeScriptNullableTypeWriter>();
         this.AddWriter<DateTimeTemplate, TypeScriptDateTimeWriter>();
         this.AddWriter<NumberTemplate, TypeScriptNumberWriter>();
         this.AddWriter<DeclareTypeTemplate, DeclareTypeWriter>();

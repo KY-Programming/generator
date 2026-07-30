@@ -124,7 +124,8 @@ public class GenericModelTransferObject : ModelTransferObject, ICloneable
         this.Generics.Select(x => new GenericAliasTransferObject
         {
             Alias = x.Alias.Clone(),
-            Type = x.Type
+            Type = x.Type,
+            IsNullable = x.IsNullable
         }).ForEach(clone.Generics.Add);
         return clone;
     }

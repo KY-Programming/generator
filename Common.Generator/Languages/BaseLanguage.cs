@@ -111,6 +111,7 @@ public abstract class BaseLanguage : Codeable, ILanguage, ITemplateWriter
         this.AddWriter<ThisTemplate, ThisWriter>();
         this.AddWriter<TypeOfTemplate, TypeOfWriter>();
         this.AddWriter<TypeTemplate, TypeWriter>();
+        this.AddWriter<NullableTypeTemplate, NullableTypeWriter>();
         this.AddWriter<VoidTemplate, VoidWriter>();
         this.AddWriter<AppendStringTemplate, AppendStringWriter>();
         this.AddWriter<AppendAssignStringTemplate, AppendAssignStringWriter>();

@@ -44,6 +44,7 @@ public class TypeScriptModelWriter : ModelWriter
         TypeScriptOptions fieldTypeScriptOptions = this.Options.Get<TypeScriptOptions>(member);
         FieldTemplate fieldTemplate = base.AddField(model, member, classTemplate);
         fieldTemplate.Strict = fieldTypeScriptOptions.Strict;
+        fieldTemplate.Type.SetStrict(fieldTypeScriptOptions.Strict);
         if (fieldTemplate.DefaultValue == null && fieldTypeScriptOptions.Strict && !fieldTemplate.IsNullable && !fieldTemplate.IsOptional)
         {
             fieldTemplate.DefaultValue = member.Type?.Default?.Clone();
@@ -64,6 +65,7 @@ public class TypeScriptModelWriter : ModelWriter
         TypeScriptOptions propertyOptions = this.Options.Get<TypeScriptOptions>(member);
         PropertyTemplate propertyTemplate = base.AddProperty(model, member, classTemplate);
         propertyTemplate.Strict = propertyOptions.Strict;
+        propertyTemplate.Type.SetStrict(propertyOptions.Strict);
         if (propertyTemplate.DefaultValue == null && propertyOptions.Strict && !propertyTemplate.IsNullable)
         {
             propertyTemplate.DefaultValue = member.Type?.Default?.Clone();
