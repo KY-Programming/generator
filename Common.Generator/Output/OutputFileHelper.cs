@@ -57,6 +57,15 @@ public static class OutputFileHelper
         return builder.ToString();
     }
 
+    public static string RemoveOutputIds(string content)
+    {
+        return string.Join(Environment.NewLine,
+                           content.Replace("\r", string.Empty)
+                                  .Split(new[] { "\n" }, StringSplitOptions.None)
+                                  .Where(line => !outputIdRegex.IsMatch(line))
+        );
+    }
+
     public static string RemoveOutputId(string content, Guid id)
     {
         return content.Replace($"// outputid:{id}", string.Empty);

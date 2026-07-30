@@ -40,11 +40,13 @@ public class TypeScriptIndexWriter : TransferWriter
             return;
         }
         GeneratorOptions generatorOptions = this.Options.Get<GeneratorOptions>();
-        FileTemplate fileTemplate = this.files.AddFile(relativePath, generatorOptions)
-                                        .WithName(Formatter.FormatFile("index", generatorOptions))
-                                        .IgnoreOutputId()
-                                        .ForceOverwrite()
-                                        .NoHeader();
+        string fileName = Formatter.FormatFile("index", generatorOptions);
+        FileTemplate fileTemplate = this.files.FirstOrDefault(file => file.Name == fileName && Compare(file.RelativePath, relativePath))
+                                    ?? this.files.AddFile(relativePath, generatorOptions);
+        fileTemplate.WithName(fileName)
+                    .ForceOverwrite()
+                    .NoHeader();
+        fileTemplate.Usings.Clear();
         fileTemplate.Linters = new Dictionary<string, bool>();
         foreach (IIndexLine line in file.Lines)
         {
@@ -67,5 +69,15 @@ public class TypeScriptIndexWriter : TransferWriter
                 fileTemplate.Usings.Remove(exportTemplate);
             }
         }
+    }
+
+    private static bool Compare(string relativePath, string otherRelativePath)
+    {
+        return Normalize(relativePath) == Normalize(otherRelativePath);
+    }
+
+    private static string Normalize(string relativePath)
+    {
+        return (relativePath ?? string.Empty).Replace("\\", "/").TrimEnd('/');
     }
 }

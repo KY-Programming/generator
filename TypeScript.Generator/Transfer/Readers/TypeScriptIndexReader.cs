@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 using KY.Core;
 using KY.Core.DataAccess;
 using KY.Generator.Models;
+using KY.Generator.Output;
 
 namespace KY.Generator.TypeScript.Transfer.Readers
 {
@@ -27,8 +28,9 @@ namespace KY.Generator.TypeScript.Transfer.Readers
             {
                 return null;
             }
-            string fileContent = FileSystem.ReadAllText(fullPath);
-            return this.Parse(fileContent);
+            // The byte order mark has to be removed, otherwise it is parsed as an unknown line and written back as an empty line
+            string fileContent = FileSystem.ReadAllText(fullPath).TrimStart('\uFEFF');
+            return this.Parse(OutputFileHelper.RemoveOutputIds(fileContent));
         }
 
         public TypeScriptIndexFile? Parse(string value)

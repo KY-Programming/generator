@@ -90,7 +90,7 @@ public class FileOutput : IOutput
             {
                 currentActions = this.actions.ToList();
             }
-            IEnumerable<string> filesToCheck = FileSystem.GetFiles(path, null, SearchOption.AllDirectories)
+            IEnumerable<string> filesToCheck = FileSystem.GetFiles(path, "*", SearchOption.AllDirectories)
                                                          .Where(file => currentActions.All(action => !action.FilePath.Equals(file, StringComparison.CurrentCultureIgnoreCase)));
             foreach (string file in filesToCheck)
             {
