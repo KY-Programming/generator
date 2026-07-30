@@ -379,13 +379,20 @@ public class ReflectionModelReader
             {
                 continue;
             }
+            bool isRequired = field.IsRequired();
+            NullabilityNode? nullability = fieldOptions.Nullable ? field.GetNullability() : null;
+            bool isNullable = !field.FieldType.IsValueType && (!fieldOptions.Nullable || (nullability?.IsNullable ?? true))
+                              || !field.FieldType.IsValueType && !fieldOptions.Nullable
+                              || field.FieldType.IsGenericType && field.FieldType.GetGenericTypeDefinition() == typeof(Nullable<>);
             FieldTransferObject fieldTransferObject = new()
             {
                 Name = field.Name,
-                Type = this.Read(fieldOptions.ReturnType, fieldOptions) ?? this.Read(field.FieldType, fieldOptions, fieldOptions.Nullable ? field.GetNullability() : null),
+                Type = this.Read(fieldOptions.ReturnType, fieldOptions) ?? this.Read(field.FieldType, fieldOptions, nullability),
                 DeclaringType = model,
                 Attributes = field.GetCustomAttributes().ToTransferObjects().ToList(),
-                IsOptional = !fieldOptions.NoOptional && !field.IsRequired(),
+                IsRequired = isRequired,
+                IsNullable = isNullable,
+                IsOptional = !fieldOptions.NoOptional && !isRequired && isNullable,
                 Default = this.ReadDefaultValue(field, fieldOptions),
                 Comment = DocumentationReader.Get(field)
             };
