@@ -158,6 +158,7 @@ public class ReflectionModelReader
         Type elementType = type.GetElementType();
         NullabilityNode? elementNullability = nullability?.ElementType;
         model.Name = "Array";
+        model.Namespace = "System";
         model.IsGeneric = true;
         model.FromSystem = true;
         model.Generics.Add(new GenericAliasTransferObject
