@@ -138,6 +138,17 @@ public abstract class OptionsBase<TSelf> : OptionsBase
         return result;
     }
 
+    protected IReadOnlyDictionary<TKey, TValue> GetOwnDictionary<TKey, TValue>(Func<TSelf, Dictionary<TKey, TValue>?> getter)
+    {
+        Dictionary<TKey, TValue> result = new();
+        getter((TSelf)this)?.ForEach(x => result[x.Key] = x.Value);
+        if (this.Global != null)
+        {
+            getter(this.Global)?.Where(x => !result.ContainsKey(x.Key)).ForEach(x => result.Add(x.Key, x.Value));
+        }
+        return result;
+    }
+
     protected IReadOnlyDictionary<TKey, TValue> GetDictionary<TKey, TValue>(Func<TSelf, Dictionary<TKey, TValue>?> getter)
     {
         Dictionary<TKey, TValue> result = new();

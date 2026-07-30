@@ -7,9 +7,9 @@ namespace KY.Generator;
 public abstract class GenerateNamedAttribute : Attribute
 {
     /// <summary>
-    /// Renames the element to this exact name in the generated output. The name is used as given
-    /// and bypasses the language name formatting and <see cref="Replace"/>, but a configured
-    /// class or interface prefix is still applied.
+    /// Renames the element in the generated output. The name replaces the original name and therefore
+    /// bypasses <see cref="Replace"/>, but it is still processed by the configured name formatting
+    /// (casing) and by a configured class or interface prefix.
     /// </summary>
     public string? Name { get; set; }
 

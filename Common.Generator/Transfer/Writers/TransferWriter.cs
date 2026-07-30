@@ -1,4 +1,5 @@
 ﻿using KY.Core;
+using KY.Generator.Extensions;
 using KY.Generator.Languages;
 using KY.Generator.Mappings;
 using KY.Generator.Models;
@@ -84,7 +85,7 @@ public abstract class TransferWriter : Codeable
             this.MapType(model.Language, fieldOptions.Language, member.Type);
         }
         this.AddUsing(member.Type, classTemplate, fieldOptions);
-        FieldTemplate fieldTemplate = classTemplate.AddField(member.Name, member.Type.ToTemplate()).Public().FormatName(fieldOptions)
+        FieldTemplate fieldTemplate = classTemplate.AddField(this.FormatFieldName(member, fieldOptions), member.Type.ToTemplate()).Public()
                                                    .WithComment(member.Comment);
         fieldTemplate.IsOptional = member.IsOptional;
         fieldTemplate.IsNullable = member.IsNullable;
@@ -110,7 +111,7 @@ public abstract class TransferWriter : Codeable
         {
             this.MapType(model.Language, propertyOptions.Language, member.Type);
         }
-        PropertyTemplate propertyTemplate = classTemplate.AddProperty(member.Name, member.Type.ToTemplate()).FormatName(propertyOptions);
+        PropertyTemplate propertyTemplate = classTemplate.AddProperty(this.FormatPropertyName(member, propertyOptions), member.Type.ToTemplate());
         propertyTemplate.HasGetter = canRead;
         propertyTemplate.HasSetter = canWrite;
         propertyTemplate.IsOptional = member.IsOptional;
@@ -125,6 +126,25 @@ public abstract class TransferWriter : Codeable
             this.AddUsing(member.Type, classTemplate, propertyOptions);
         }
         return propertyTemplate;
+    }
+
+    protected virtual string FormatFieldName(MemberTransferObject member, GeneratorOptions options)
+    {
+        return Formatter.FormatField(this.RenameMember(member, options), options);
+    }
+
+    protected virtual string FormatPropertyName(MemberTransferObject member, GeneratorOptions options)
+    {
+        return Formatter.FormatProperty(this.RenameMember(member, options), options);
+    }
+
+    /// <summary>
+    /// Applies <see cref="GeneratorOptions.Rename"/> and <see cref="GeneratorOptions.ReplaceName"/> to the member
+    /// name. The result is formatted by the caller, the casing is not part of the renaming
+    /// </summary>
+    private string RenameMember(MemberTransferObject member, GeneratorOptions options)
+    {
+        return options.Rename ?? member.Name.Replace(options.ReplaceName);
     }
 
     protected virtual void AddUsing(TypeTransferObject type, ClassTemplate classTemplate, GeneratorOptions options, string relativeModelPath = "./")

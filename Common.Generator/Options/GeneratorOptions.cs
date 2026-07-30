@@ -67,7 +67,11 @@ public class GeneratorOptions(GeneratorOptions? parent, GeneratorOptions? global
         set => this.withOptionalProperties = value;
     }
 
-    public IReadOnlyDictionary<string, string> ReplaceName => this.GetDictionary(x => x.replaceName);
+    /// <summary>
+    /// The replacements configured on this element itself. The replacements of the surrounding scopes are not
+    /// inherited, e.g. a replacement configured on a class does not rename the members of that class
+    /// </summary>
+    public IReadOnlyDictionary<string, string> ReplaceName => this.GetOwnDictionary(x => x.replaceName);
 
     public FormattingOptions? Formatting
     {
