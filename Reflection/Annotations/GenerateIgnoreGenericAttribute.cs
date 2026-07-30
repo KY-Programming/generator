@@ -1,15 +1,12 @@
-﻿using System;
+﻿namespace KY.Generator;
 
-namespace KY.Generator
+[AttributeUsage(AttributeTargets.Method | AttributeTargets.Class | AttributeTargets.Interface, Inherited = false, AllowMultiple = true)]
+public class GenerateIgnoreGenericAttribute : Attribute
 {
-    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class, Inherited = false, AllowMultiple = true)]
-    public class GenerateIgnoreGenericAttribute : Attribute
-    {
-        public Type Type { get; }
+    public Type Type { get; }
 
-        public GenerateIgnoreGenericAttribute(Type type)
-        {
-            this.Type = type;
-        }
+    public GenerateIgnoreGenericAttribute(Type type)
+    {
+        this.Type = type;
     }
 }

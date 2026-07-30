@@ -1,20 +1,16 @@
-using System;
-using System.Collections.Generic;
+namespace KY.Generator;
 
-namespace KY.Generator
+[AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, Inherited = false)]
+public class GenerateWithOptionalPropertiesAttribute : Attribute, IGeneratorCommandAdditionalParameterAttribute
 {
-    [AttributeUsage(AttributeTargets.Class, Inherited = false)]
-    public class GenerateWithOptionalPropertiesAttribute : Attribute, IGeneratorCommandAdditionalParameterAttribute
+    public IEnumerable<AttributeCommandConfiguration> Commands
     {
-        public IEnumerable<AttributeCommandConfiguration> Commands
+        get
         {
-            get
+            return new[]
             {
-                return new[]
-                       {
-                           new AttributeCommandConfiguration("angular-model", "-with-optional-properties")
-                       };
-            }
+                new AttributeCommandConfiguration("angular-model", "-with-optional-properties")
+            };
         }
     }
 }

@@ -1,8 +1,5 @@
-using System;
+namespace KY.Generator;
 
-namespace KY.Generator
-{
-    [AttributeUsage(AttributeTargets.Class, Inherited = false)]
-    public class GenerateOnlySubTypesAttribute : Attribute
-    { }
-}
+[AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, Inherited = false)]
+public class GenerateOnlySubTypesAttribute : Attribute
+{ }

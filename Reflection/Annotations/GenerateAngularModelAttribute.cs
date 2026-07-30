@@ -1,6 +1,6 @@
 ﻿namespace KY.Generator;
 
-[AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = true)]
+[AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, Inherited = false, AllowMultiple = true)]
 public class GenerateAngularModelAttribute(string relativePath = "")
     : Attribute, IGeneratorCommandAttribute
 {

@@ -3,7 +3,7 @@ namespace KY.Generator;
 /// <summary>
 /// Adds a custom import/using for the given type.
 /// </summary>
-[AttributeUsage(AttributeTargets.Class | AttributeTargets.Assembly, Inherited = false, AllowMultiple = true)]
+[AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface | AttributeTargets.Assembly, Inherited = false, AllowMultiple = true)]
 public class GenerateImportAttribute : Attribute
 {
     /// <summary>
