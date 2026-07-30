@@ -69,7 +69,11 @@ public class ModelWriter : TransferWriter, ITransferWriter
         if (modelOptions.Never)
         {
             string path = FileSystem.Combine(modelOptions.ModelOutput ?? string.Empty, model.FileName ?? model.Name);
-            throw new InvalidOperationException($"{model.Name} ({model.Namespace}) is decorated with {nameof(GenerateNeverAttribute)} and must never be generated, but it would be written to {path}. Remove the reference to {model.Name} or decorate it with {nameof(GenerateIgnoreAttribute)}");
+            List<string> referencingModels = this.FindReferencingModelNames(model).ToList();
+            string referencedBy = referencingModels.Count > 0
+                ? $" It is referenced by {string.Join(", ", referencingModels)}."
+                : "";
+            throw new InvalidOperationException($"{model.Name} ({model.Namespace}) is decorated with {nameof(GenerateNeverAttribute)} and must never be generated, but it would be written to {path}.{referencedBy} Remove the reference to {model.Name} or decorate it with {nameof(GenerateIgnoreAttribute)}");
         }
         if (this.files.Any(file => file.Name == model.FileName && file.RelativePath == modelOptions.ModelOutput))
         {
@@ -100,6 +104,29 @@ public class ModelWriter : TransferWriter, ITransferWriter
         {
             this.WriteClass(model);
         }
+    }
+
+    protected virtual IEnumerable<string> FindReferencingModelNames(ModelTransferObject target)
+    {
+        bool ReferencesTarget(TypeTransferObject? type, HashSet<TypeTransferObject> visited)
+        {
+            if (type == null || !visited.Add(type))
+            {
+                return false;
+            }
+            if (type.Type != null && type.Type == target.Type || type.Equals(target))
+            {
+                return true;
+            }
+            return type.Generics.Any(generic => ReferencesTarget(generic.Type, visited));
+        }
+
+        return this.transferObjects.OfType<ModelTransferObject>()
+                   .Where(model => model != target)
+                   .Where(model => model.Properties.Any(property => ReferencesTarget(property.Type, []))
+                                   || model.Fields.Any(field => ReferencesTarget(field.Type, [])))
+                   .Select(model => model.Name)
+                   .Distinct();
     }
 
     protected virtual EnumTemplate WriteEnum(ModelTransferObject model)
