@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <ProjectGuid>{3ABD506B-C448-4711-85A9-E6AC03F4D1CA}</ProjectGuid>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>InterfaceSource</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="KY.Generator" Version="10.0.0-preview.50" />
+        <PackageReference Include="KY.Generator.Reflection" Version="10.0.0-preview.50" />
+    </ItemGroup>
+
+</Project>
