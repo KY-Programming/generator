@@ -21,6 +21,7 @@ public class GeneratorOptions(GeneratorOptions? parent, GeneratorOptions? global
     private bool? addHeader;
     private bool? skipNamespace;
     private bool? onlySubTypes;
+    private bool? never;
     private string? rename;
     private TypeTransferObject? returnType;
     private string? formatter;
@@ -97,6 +98,15 @@ public class GeneratorOptions(GeneratorOptions? parent, GeneratorOptions? global
     {
         get => this.GetOwnValue(x => x.onlySubTypes);
         set => this.onlySubTypes = value;
+    }
+
+    /// <summary>
+    /// The type must never be generated. Writing it aborts the generation with an error
+    /// </summary>
+    public bool Never
+    {
+        get => this.GetOwnValue(x => x.never);
+        set => this.never = value;
     }
 
     public string? Rename

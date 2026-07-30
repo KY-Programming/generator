@@ -1,4 +1,5 @@
 ﻿using KY.Core;
+using KY.Core.DataAccess;
 using KY.Generator.Extensions;
 using KY.Generator.Mappings;
 using KY.Generator.Templates;
@@ -66,6 +67,11 @@ public class ModelWriter : TransferWriter, ITransferWriter
     protected virtual void WriteModel(ModelTransferObject model)
     {
         GeneratorOptions modelOptions = this.Options.Get<GeneratorOptions>(model);
+        if (modelOptions.Never)
+        {
+            string path = FileSystem.Combine(modelOptions.ModelOutput ?? string.Empty, model.FileName ?? model.Name);
+            throw new InvalidOperationException($"{model.Name} ({model.Namespace}) is decorated with {nameof(GenerateNeverAttribute)} and must never be generated, but it would be written to {path}. Remove the reference to {model.Name} or decorate it with {nameof(GenerateIgnoreAttribute)}");
+        }
         if (this.files.Any(file => file.Name == model.FileName && file.RelativePath == modelOptions.ModelOutput))
         {
             return;

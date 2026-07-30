@@ -73,6 +73,9 @@ public class GeneratorOptionsFactory : IOptionsFactory
                 case GenerateOnlySubTypesAttribute:
                     options.OnlySubTypes = true;
                     break;
+                case GenerateNeverAttribute:
+                    options.Never = true;
+                    break;
                 case GenerateClassAttribute classAttribute:
                     this.UpdateFromNaming(options, classAttribute);
                     break;
