@@ -4,6 +4,7 @@
 import { SubModel } from "./sub-model";
 import { WritableSignal } from "@angular/core";
 
+// Model with signals. The generated service has to wrap it after every read and unwrap it before every write
 export interface SignalModel {
     text: WritableSignal<string>;
     number: WritableSignal<number>;
@@ -14,4 +15,4 @@ export interface SignalModel {
     subs: WritableSignal<SubModel[]>;
 }
 
-// outputid:b574b782-3e0e-4f8c-8378-106e837ed00d
+// outputid:0f0bd27f-b1e8-4ba0-bb6e-c0f7dfef979b

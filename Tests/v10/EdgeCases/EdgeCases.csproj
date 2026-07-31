@@ -2,6 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>net10.0</TargetFramework>
+        <ProjectGuid>{0F0BD27F-B1E8-4BA0-BB6E-C0F7DFEF979B}</ProjectGuid>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
     </PropertyGroup>
@@ -15,10 +16,14 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="KY.Generator" Version="10.0.0-preview.40" />
-        <PackageReference Include="KY.Generator.Angular" Version="10.0.0-preview.40" />
-        <PackageReference Include="KY.Generator.AspDotNet" Version="10.0.0-preview.40" />
-        <PackageReference Include="KY.Generator.Reflection" Version="10.0.0-preview.40" />
+        <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="KY.Generator" Version="10.0.0-preview.53" />
+        <PackageReference Include="KY.Generator.Angular" Version="10.0.0-preview.53" />
+        <PackageReference Include="KY.Generator.AspDotNet" Version="10.0.0-preview.53" />
+        <PackageReference Include="KY.Generator.Reflection" Version="10.0.0-preview.53" />
     </ItemGroup>
 
 </Project>
