@@ -9,8 +9,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="KY.Generator" Version="10.0.0-preview.50" />
-        <PackageReference Include="KY.Generator.Reflection" Version="10.0.0-preview.50" />
+        <PackageReference Include="KY.Generator" Version="10.0.0-preview.53" />
+        <PackageReference Include="KY.Generator.Reflection" Version="10.0.0-preview.53" />
     </ItemGroup>
 
 </Project>
