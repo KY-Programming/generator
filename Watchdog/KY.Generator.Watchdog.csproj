@@ -4,7 +4,7 @@
         <TargetFramework>netstandard2.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <Version>10.0.0-preview.50</Version>
+        <Version>10.0.0</Version>
         <Authors>KY-Programming</Authors>
         <Company>KY-Programming</Company>
         <Product>KY.Generator</Product>
@@ -30,7 +30,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Common.Generator\KY.Generator.Common.Generator.csproj" />
+        <ProjectReference Include="..\Common.Generator\KY.Generator.Common.Generator.csproj" PrivateAssets="all" />
     </ItemGroup>
 
     <ItemGroup>
