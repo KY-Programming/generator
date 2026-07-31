@@ -1,16 +1,21 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net9.0</TargetFramework>
+        <TargetFramework>net10.0</TargetFramework>
+        <ProjectGuid>{34250918-9BE9-4645-BAAB-94EFF779A14C}</ProjectGuid>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>disable</Nullable>
         <RootNamespace>Types</RootNamespace>
-      <ProjectGuid>{34250918-9be9-4645-baab-94eff779a14c}</ProjectGuid>
-  </PropertyGroup>
+        <NoWarn>$(NoWarn);CS8632</NoWarn>
+    </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="KY.Generator" Version="10.0.0-preview.48" />
-        <PackageReference Include="KY.Generator.Reflection" Version="10.0.0-preview.48" />
+        <PackageReference Include="KY.Generator" Version="10.0.0-preview.53" />
+        <PackageReference Include="KY.Generator.Reflection" Version="10.0.0-preview.53" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Compile Include="..\Shared\Types.cs" Link="Types.cs" />
     </ItemGroup>
 
 </Project>
