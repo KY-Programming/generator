@@ -4,6 +4,7 @@ using KY.Generator.Models;
 using KY.Generator.Reflection;
 using KY.Generator.Sqlite.Commands;
 using KY.Generator.Sqlite.Extensions;
+using KY.Generator.Sqlite.Fluent;
 using KY.Generator.Sqlite.Transfer.Readers;
 
 namespace KY.Generator.Sqlite;
@@ -16,6 +17,7 @@ public class SqliteModule : GeneratorModule
         this.DependsOn<ReflectionModule>();
         this.Register<SqliteReadDatabaseCommand>(SqliteReadDatabaseCommandParameters.Names);
         this.Register<SqliteWriteRepositoryCommand>(SqliteWriteRepositoryCommandParameters.Names);
+        this.Register<ISqliteReadSyntax, SqliteReadSyntax>();
         this.DependencyResolver.Bind<SqliteModelReader>().ToSelf();
     }
 
