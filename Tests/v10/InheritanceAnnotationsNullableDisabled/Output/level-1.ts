@@ -1,11 +1,10 @@
 ﻿/* eslint-disable */
 // tslint:disable
 
-import { Base } from "./base";
+export class Level1 {
+    public level1Property?: string;
 
-export class Derived extends Base {
-    public constructor(init?: Partial<Derived>) {
-        super();
+    public constructor(init?: Partial<Level1>) {
         Object.assign(this, init);
     }
 }

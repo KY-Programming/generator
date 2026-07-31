@@ -2,12 +2,12 @@
 // tslint:disable
 
 export class Base {
-    public stringField?: string;
-    public stringProperty?: string;
+    public stringField: string = "";
+    public stringProperty: string = "";
 
     public constructor(init?: Partial<Base>) {
         Object.assign(this, init);
     }
 }
 
-// outputid:5d394855-3af8-4bb7-be77-6fe980365c9a
+// outputid:a1e4c7d2-3b5f-4e88-9c10-5d2f7a6b4e31

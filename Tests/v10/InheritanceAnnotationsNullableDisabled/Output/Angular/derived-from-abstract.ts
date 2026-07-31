@@ -12,4 +12,4 @@ export class DerivedFromAbstract extends Abstract {
     }
 }
 
-// outputid:605e91d7-ee13-4f1d-9b92-845bb3ace852
+// outputid:5d394855-3af8-4bb7-be77-6fe980365c9a

@@ -1,12 +1,12 @@
 ﻿/* eslint-disable */
 // tslint:disable
 
-import { Abstract } from "./abstract";
+import { GenericBase } from "./generic-base";
 
-export class DerivedFromAbstract extends Abstract {
+export class DerivedFromGeneric extends GenericBase<string> {
     public intProperty: number = 0;
 
-    public constructor(init?: Partial<DerivedFromAbstract>) {
+    public constructor(init?: Partial<DerivedFromGeneric>) {
         super();
         Object.assign(this, init);
     }

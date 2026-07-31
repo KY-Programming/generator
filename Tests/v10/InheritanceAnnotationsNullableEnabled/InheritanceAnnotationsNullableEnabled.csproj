@@ -2,15 +2,15 @@
 
     <PropertyGroup>
         <TargetFramework>net10.0</TargetFramework>
-        <ProjectGuid>{5D394855-3AF8-4BB7-BE77-6FE980365C9A}</ProjectGuid>
+        <ProjectGuid>{A1E4C7D2-3B5F-4E88-9C10-5D2F7A6B4E31}</ProjectGuid>
         <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>disable</Nullable>
+        <Nullable>enable</Nullable>
         <RootNamespace>Inheritance</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="KY.Generator" Version="10.0.0-preview.53" />
-      <PackageReference Include="KY.Generator.Reflection" Version="10.0.0-preview.53" />
+        <PackageReference Include="KY.Generator" Version="10.0.0-preview.53" />
+        <PackageReference Include="KY.Generator.Reflection" Version="10.0.0-preview.53" />
     </ItemGroup>
 
     <ItemGroup>
