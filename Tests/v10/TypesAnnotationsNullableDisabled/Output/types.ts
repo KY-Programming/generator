@@ -1,7 +1,15 @@
 ﻿/* eslint-disable */
 // tslint:disable
 
+import { DerivedRecord } from "./derived-record";
 import { GenericSubType } from "./generic-sub-type";
+import { InitOnlyType } from "./init-only-type";
+import { NumericEnum } from "./numeric-enum";
+import { PlainStruct } from "./plain-struct";
+import { PositionalRecord } from "./positional-record";
+import { PropertyRecord } from "./property-record";
+import { ReadOnlyStruct } from "./read-only-struct";
+import { RecordStruct } from "./record-struct";
 import { SubType } from "./sub-type";
 
 export class Types {
@@ -17,9 +25,10 @@ export class Types {
     public static readonly constBool: boolean = true;
     public static readonly constByte: number = 9;
     public static readonly constSByte: number = 10;
+    public static readonly constNumericEnum: NumericEnum = NumericEnum.one;
     public stringField?: string;
-    public intField?: number;
-    public dateTimeField?: Date;
+    public intField: number = 0;
+    public dateTimeField: Date = new Date(0);
     public defaultString?: string = "Default";
     public defaultShort: number = 1;
     public defaultUShort: number = 2;
@@ -40,6 +49,7 @@ export class Types {
     public defaultNullableFloat?: number = 7.1;
     public defaultNullableDouble?: number = 8.2;
     public defaultNullableBool?: boolean = true;
+    public defaultNullableNumericEnum: NumericEnum = NumericEnum.one;
     public requiredStringProperty: string | undefined;
     public requiredShortProperty: number = 0;
     public requiredUShortProperty: number = 0;
@@ -53,6 +63,7 @@ export class Types {
     public requiredObjectProperty: unknown | undefined;
     public requiredByteProperty: number = 0;
     public requiredSByteProperty: number = 0;
+    public requiredNumericEnumProperty: NumericEnum = NumericEnum.zero;
     public requiredAttributeStringProperty: string | undefined;
     public requiredAttributeShortProperty: number = 0;
     public requiredAttributeUShortProperty: number = 0;
@@ -66,6 +77,7 @@ export class Types {
     public requiredAttributeObjectProperty: unknown | undefined;
     public requiredAttributeByteProperty: number = 0;
     public requiredAttributeSByteProperty: number = 0;
+    public requiredAttributeNumericEnumProperty: NumericEnum = NumericEnum.zero;
     public stringProperty?: string;
     public shortProperty: number = 0;
     public uShortProperty: number = 0;
@@ -79,6 +91,7 @@ export class Types {
     public objectProperty?: unknown;
     public byteProperty: number = 0;
     public sByteProperty: number = 0;
+    public numericEnumProperty: NumericEnum = NumericEnum.zero;
     public nullableStringProperty?: string;
     public nullableBoolProperty?: boolean;
     public nullableShortProperty?: number;
@@ -89,6 +102,7 @@ export class Types {
     public nullableULongProperty?: number;
     public nullableFloatProperty?: number;
     public nullableDoubleProperty?: number;
+    public nullableNumericEnumProperty?: NumericEnum;
     public nullable2BoolProperty?: boolean;
     public nullable2ShortProperty?: number;
     public nullable2UShortProperty?: number;
@@ -98,6 +112,7 @@ export class Types {
     public nullable2ULongProperty?: number;
     public nullable2FloatProperty?: number;
     public nullable2DoubleProperty?: number;
+    public nullable2NumericEnumProperty?: NumericEnum;
     public systemStringProperty?: string;
     public systemInt16Property: number = 0;
     public systemInt32Property: number = 0;
@@ -112,16 +127,51 @@ export class Types {
     public systemDecimalProperty: number = 0;
     public systemGuidProperty: string = "00000000-0000-0000-0000-000000000000";
     public systemObjectProperty?: unknown;
-    public systemTimeSpanProperty: string | undefined;
+    public systemTimeSpanProperty: string = "00:00:00";
     public systemUInt16Property: number = 0;
     public systemUInt32Property: number = 0;
     public systemUInt64Property: number = 0;
+    public systemDateOnlyProperty: string = "0001-01-01";
+    public systemTimeOnlyProperty: string = "00:00:00";
+    public systemDateTimeOffsetProperty: string = "0001-01-01T00:00:00+00:00";
+    public systemUriProperty?: string;
+    public systemVersionProperty?: string;
+    public nullableSystemDateOnlyProperty?: string;
+    public nullableSystemTimeOnlyProperty?: string;
+    public nullableSystemDateTimeOffsetProperty?: string;
+    public nullableSystemUriProperty?: string;
+    public systemDateOnlyList?: string[];
+    public systemDateTimeOffsetDictionary?: Record<string, string>;
     public subTypeProperty?: SubType;
+    public positionalRecord?: PositionalRecord;
+    public propertyRecord?: PropertyRecord;
+    public derivedRecord?: DerivedRecord;
+    public recordStruct: RecordStruct | undefined;
+    public plainStruct: PlainStruct | undefined;
+    public nullableStruct?: PlainStruct;
+    public readOnlyStruct: ReadOnlyStruct | undefined;
+    public initOnlyType?: InitOnlyType;
     public stringArrayProperty?: string[];
     public intArrayProperty?: number[];
     public byteArrayProperty?: number[];
     public systemDateTimeArrayProperty?: Date[];
     public subTypeArrayProperty?: SubType[];
+    public nullableList?: string[];
+    public nullableArray?: string[];
+    public nullableEnumerable?: string[];
+    public nullableDictionary?: Record<string, string>;
+    public listOfNullable?: string[];
+    public arrayOfNullable?: string[];
+    public enumerableOfNullable?: string[];
+    public dictionaryOfNullableValue?: Record<string, string>;
+    public nullableListOfNullable?: string[];
+    public listOfNullableInt?: number[];
+    public nullableListOfInt?: number[];
+    public listOfNullableSubType?: SubType[];
+    public nullableListOfSubType?: SubType[];
+    public dictionaryOfNullableSubType?: Record<string, SubType>;
+    public nullableNestedList?: string[][];
+    public nestedNullableList?: string[][];
     public stringList?: string[];
     public subTypeList?: SubType[];
     public stringIList?: string[];

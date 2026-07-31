@@ -6,7 +6,7 @@ export interface GenericSubType<TOne, TTwo> {
     single2?: string;
     enumerable?: TOne[];
     list?: TTwo[];
-    genericList?: GenericSubType[];
+    genericList?: GenericSubType<TOne, TTwo>[];
     stringList?: string[];
 }
 
