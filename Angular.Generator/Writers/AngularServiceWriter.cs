@@ -164,7 +164,7 @@ public class AngularServiceWriter : TransferWriter
                 {
                     appendConvertDateMethod = true;
                 }
-                string controllerRoute = controller.Route?.Trim('/').Replace("[controller]", controllerName.ToLower()) ?? controllerName.ToLower();
+                string controllerRoute = controller.Route?.Trim('/').Replace("[action]", action.Name.ToLower()).Replace("[controller]", controllerName.ToLower()) ?? controllerName.ToLower();
                 string actionRoute = action.Route?.TrimEnd('/').Replace("[action]", action.Name.ToLower()).Replace("[controller]", controllerName.ToLower());
                 string uri = actionRoute == null ? $"/{controllerRoute}" : actionRoute.StartsWith("/") ? actionRoute : $"/{controllerRoute}/{actionRoute}";
 
