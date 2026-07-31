@@ -3,6 +3,8 @@
 
 import { ISubInterface } from "./sub-interface.interface";
 
+// An interface as the generation source. Everywhere else in v10 interfaces are only an output style
+// (GeneratePreferInterfaces); here the annotated C# type itself is an interface.
 export interface IGeneratedInterface {
     name: string;
     value: number;
@@ -11,4 +13,4 @@ export interface IGeneratedInterface {
     sub: ISubInterface | undefined;
 }
 
-// outputid:3abd506b-c448-4711-85a9-e6ac03f4d1ca
+// outputid:0f0bd27f-b1e8-4ba0-bb6e-c0f7dfef979b

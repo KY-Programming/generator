@@ -1,12 +1,12 @@
 using KY.Generator;
 
-namespace InterfaceSource;
+namespace EdgeCases;
 
 /// <summary>
 /// An interface as the generation source. Everywhere else in v10 interfaces are only an output style
 /// (GeneratePreferInterfaces); here the annotated C# type itself is an interface.
 /// </summary>
-[GenerateTypeScriptModel]
+[GenerateTypeScriptModel("Output/InterfaceSource")]
 public interface IGeneratedInterface
 {
     string Name { get; set; }
@@ -27,7 +27,7 @@ public interface ISubInterface
 /// <summary>
 /// Interface inheritance - the derived interface has to carry or extend the base members.
 /// </summary>
-[GenerateTypeScriptModel]
+[GenerateTypeScriptModel("Output/InterfaceSource")]
 public interface IDerivedInterface : IGeneratedInterface
 {
     bool Extra { get; set; }
@@ -37,7 +37,7 @@ public interface IDerivedInterface : IGeneratedInterface
 /// A class implementing the annotated interface. It is generated independently and must not collide
 /// with the interface file.
 /// </summary>
-[GenerateTypeScriptModel]
+[GenerateTypeScriptModel("Output/InterfaceSource"), GeneratePreferInterfaces]
 public class ImplementingClass : IGeneratedInterface
 {
     public string Name { get; set; } = "";

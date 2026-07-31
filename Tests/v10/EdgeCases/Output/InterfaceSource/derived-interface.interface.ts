@@ -3,8 +3,9 @@
 
 import { IGeneratedInterface } from "./generated-interface.interface";
 
+// Interface inheritance - the derived interface has to carry or extend the base members.
 export interface IDerivedInterface extends IGeneratedInterface {
     extra: boolean;
 }
 
-// outputid:3abd506b-c448-4711-85a9-e6ac03f4d1ca
+// outputid:0f0bd27f-b1e8-4ba0-bb6e-c0f7dfef979b

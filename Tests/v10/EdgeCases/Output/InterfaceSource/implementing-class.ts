@@ -4,6 +4,8 @@
 import { IGeneratedInterface } from "./generated-interface.interface";
 import { ISubInterface } from "./sub-interface.interface";
 
+// A class implementing the annotated interface. It is generated independently and must not collide
+// with the interface file.
 export interface ImplementingClass extends IGeneratedInterface {
     name: string;
     value: number;
@@ -12,4 +14,4 @@ export interface ImplementingClass extends IGeneratedInterface {
     sub: ISubInterface | undefined;
 }
 
-// outputid:3abd506b-c448-4711-85a9-e6ac03f4d1ca
+// outputid:0f0bd27f-b1e8-4ba0-bb6e-c0f7dfef979b
