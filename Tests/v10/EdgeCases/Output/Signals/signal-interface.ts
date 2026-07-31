@@ -1,20 +1,17 @@
 ﻿/* eslint-disable */
 // tslint:disable
 
-import { PlainModel } from "./plain-model";
-import { SubModel } from "./sub-model";
 import { WritableSignal } from "@angular/core";
 
-export interface SignalModel {
+// Every member has to be generated as signal. Optional members stay optional in the value type, but the member itself
+// is always present e.g. optionalString: WritableSignal<string | undefined>
+export interface SignalInterface {
     text: WritableSignal<string>;
     number: WritableSignal<number>;
     switch: WritableSignal<boolean>;
     timestamp: WritableSignal<Date>;
     optionalText: WritableSignal<string | undefined>;
     texts: WritableSignal<string[]>;
-    sub: WritableSignal<SubModel | undefined>;
-    subs: WritableSignal<SubModel[]>;
-    plain: WritableSignal<PlainModel | undefined>;
 }
 
-// outputid:d5d865ec-d536-4507-ba20-bc9f405af26e
+// outputid:0f0bd27f-b1e8-4ba0-bb6e-c0f7dfef979b

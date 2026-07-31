@@ -1,16 +1,33 @@
 ﻿using KY.Generator;
+
 // ReSharper disable UnusedMember.Global
 // ReSharper disable UnusedType.Global
 
-namespace Signals;
+namespace EdgeCases.Signals;
 
 /// <summary>
 /// Every member has to be generated as signal. Optional members stay optional in the value type, but the member itself
 /// is always present e.g. <code>optionalString: WritableSignal&lt;string | undefined&gt;</code>
 /// </summary>
-[GenerateAngularModel]
+[GenerateAngularModel("Output/Signals")]
+[GenerateWithSignals, GeneratePreferInterfaces]
+public class SignalInterface
+{
+    public string Text { get; set; } = string.Empty;
+    public int Number { get; set; }
+    public bool Switch { get; set; }
+    public DateTime Timestamp { get; set; }
+    public string? OptionalText { get; set; }
+    public List<string> Texts { get; set; } = [];
+}
+
+/// <summary>
+/// Every member has to be generated as signal. Optional members stay optional in the value type, but the member itself
+/// is always present e.g. <code>optionalString: WritableSignal&lt;string | undefined&gt;</code>
+/// </summary>
+[GenerateAngularModel("Output/Signals")]
 [GenerateWithSignals]
-public class SignalModel
+public class SignalClass
 {
     public string Text { get; set; } = string.Empty;
     public int Number { get; set; }
@@ -33,19 +50,9 @@ public class SubModel
 }
 
 /// <summary>
-/// Model without the annotation. Has to stay untouched even if it is used by a model with signals
+/// Model without the annotation. Inherits the signals from the model that uses it (<see cref="EdgeCases.SignalModel"/>)
 /// </summary>
 public class PlainModel
 {
     public string Name { get; set; } = string.Empty;
-}
-
-/// <summary>
-/// Model without the annotation, generated in the same run. Has to stay untouched
-/// </summary>
-[GenerateAngularModel]
-public class WithoutSignalsModel
-{
-    public string Name { get; set; } = string.Empty;
-    public string? OptionalName { get; set; }
 }

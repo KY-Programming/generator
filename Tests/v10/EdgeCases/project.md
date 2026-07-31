@@ -36,6 +36,11 @@ readid -solution=*Undefined* -project=$\Tests\v10\EdgeCases\EdgeCases.csproj msb
     - generated-interface.interface.ts `#94161293`
     - implementing-class.ts `#d5a2a55f`
     - sub-interface.interface.ts `#d83276ab`
+- Output/Signals/
+    - plain-model.ts `#cc2124a6`
+    - signal-class.ts `#8030305d`
+    - signal-interface.ts `#523d8c46`
+    - sub-model.ts `#55b4cc8b`
 - Output/SignalsService/
     - plain-model.ts `#b8fd8d5f`
     - signal-model.ts `#4a2ad4c9`
@@ -45,9 +50,9 @@ readid -solution=*Undefined* -project=$\Tests\v10\EdgeCases\EdgeCases.csproj msb
 
 ## Status
 
-- **Last Build:** 2026-07-31 15:08:40
-- **Duration:** 7.4s
+- **Last Build:** 2026-07-31 15:20:28
+- **Duration:** 7.7s
 - **Status:** Warning
-- **Info:** 4 changed
-- **Last Success:** 2026-07-31 15:08:40
+- **Info:** 4 new
+- **Last Success:** 2026-07-31 15:20:28
 - **Generator:** 10.0.0-preview.53
