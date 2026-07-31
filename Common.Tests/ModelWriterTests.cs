@@ -1,7 +1,10 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using KY.Core.Dependency;
 using KY.Generator.Common.Tests.Models;
 using KY.Generator.Mappings;
+using KY.Generator.Templates;
 using KY.Generator.Transfer;
 using KY.Generator.Transfer.Writers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -20,10 +23,81 @@ public class ModelWriterTests
     {
         this.transferObjects = new List<ITransferObject>();
         this.resolver = new DependencyResolver();
+        this.resolver.Bind<Options>().ToSingleton();
         this.resolver.Bind<ITypeMapping>().ToSingleton<TypeMapping>();
         this.resolver.Bind<List<ITransferObject>>().To(this.transferObjects);
+        this.resolver.Bind<IList<FileTemplate>>().To(new List<FileTemplate>());
+        Options.Register(() => new List<IOptionsFactory> { new GeneratorOptionsFactory() });
         this.writer = this.resolver.Create<ModelWriter>();
     }
+
+    [TestMethod]
+    public void NeverModelReferencedOnlyByServiceActionParameterIsReportedInErrorMessage()
+    {
+        ModelTransferObject neverModel = new()
+        {
+            Name = "NeverModel",
+            Namespace = "KY.Test",
+            Language = new TestLanguage(this.resolver)
+        };
+        this.resolver.Get<Options>().Get<GeneratorOptions>(neverModel).Never = true;
+        this.transferObjects.Add(neverModel);
+
+        HttpServiceTransferObject service = new() { Name = "SomeController" };
+        HttpServiceActionTransferObject action = new()
+        {
+            Name = "Create",
+            ReturnType = new TypeTransferObject { Name = "void", Namespace = "KY.Test" }
+        };
+        action.Parameters.Add(new HttpServiceActionParameterTransferObject { Name = "model", Type = neverModel });
+        service.Actions.Add(action);
+        this.transferObjects.Add(service);
+
+        InvalidOperationException exception = Assert.ThrowsException<InvalidOperationException>(() => this.writer.Write());
+        StringAssert.Contains(exception.Message, "SomeController.Create", "The error should name the service action that references the forbidden model");
+    }
+
+    [TestMethod]
+    public void NeverModelIsNotFalselyAttributedToAnUnrelatedModelSharingItsGeneratedName()
+    {
+        ModelTransferObject neverModel = new()
+        {
+            Name = "Account",
+            Namespace = "KY.Test",
+            Type = typeof(FirstDummyType),
+            Language = new TestLanguage(this.resolver)
+        };
+        this.resolver.Get<Options>().Get<GeneratorOptions>(neverModel).Never = true;
+        this.transferObjects.Add(neverModel);
+
+        // Distinct source type that merely happens to render under the same generated name/namespace as neverModel.
+        ModelTransferObject renamedModel = new()
+        {
+            Name = "Account",
+            Namespace = "KY.Test",
+            Type = typeof(SecondDummyType),
+            Language = new TestLanguage(this.resolver)
+        };
+        this.transferObjects.Add(renamedModel);
+
+        ModelTransferObject referencer = new()
+        {
+            Name = "Referencer",
+            Namespace = "KY.Test",
+            Language = new TestLanguage(this.resolver)
+        };
+        referencer.Properties.Add(new PropertyTransferObject { Name = "Prop", Type = renamedModel });
+        this.transferObjects.Add(referencer);
+
+        InvalidOperationException exception = Assert.ThrowsException<InvalidOperationException>(() => this.writer.Write());
+        Assert.IsFalse(exception.Message.Contains("Referencer"), "Referencer only reaches a same-named but distinct type and must not be blamed");
+    }
+
+    private class FirstDummyType
+    { }
+
+    private class SecondDummyType
+    { }
 
     [TestMethod]
     public void File()

@@ -24,7 +24,7 @@ public class ModelTransferObject : TypeTransferObject
     public virtual string? Comment { get; set; }
 
     [NotCloneable]
-    public virtual Type Type { get; set; }
+    public override Type Type { get; set; }
 
     public ModelTransferObject()
     { }

@@ -114,19 +114,33 @@ public class ModelWriter : TransferWriter, ITransferWriter
             {
                 return false;
             }
-            if (type.Type != null && type.Type == target.Type || type.Equals(target))
+            bool isMatch = type.Type != null && target.Type != null
+                ? type.Type == target.Type
+                : type.Equals(target);
+            if (isMatch)
             {
                 return true;
             }
             return type.Generics.Any(generic => ReferencesTarget(generic.Type, visited));
         }
 
-        return this.transferObjects.OfType<ModelTransferObject>()
-                   .Where(model => model != target)
-                   .Where(model => model.Properties.Any(property => ReferencesTarget(property.Type, []))
-                                   || model.Fields.Any(field => ReferencesTarget(field.Type, [])))
-                   .Select(model => model.Name)
-                   .Distinct();
+        IEnumerable<string> modelNames = this.transferObjects.OfType<ModelTransferObject>()
+                                              .Where(model => model != target)
+                                              .Where(model => model.Properties.Any(property => ReferencesTarget(property.Type, []))
+                                                              || model.Fields.Any(field => ReferencesTarget(field.Type, [])))
+                                              .Select(model => model.Name);
+
+        IEnumerable<string> actionNames = this.transferObjects.SelectMany(transferObject => transferObject switch
+                                                     {
+                                                         HttpServiceTransferObject service => service.Actions.Select(action => (Owner: service.Name, Action: action)),
+                                                         SignalRHubTransferObject hub => hub.Actions.Concat(hub.Events).Select(action => (Owner: hub.Name, Action: action)),
+                                                         _ => []
+                                                     })
+                                                     .Where(entry => ReferencesTarget(entry.Action.ReturnType, [])
+                                                                     || entry.Action.Parameters.Any(parameter => ReferencesTarget(parameter.Type, [])))
+                                                     .Select(entry => $"{entry.Owner}.{entry.Action.Name}");
+
+        return modelNames.Concat(actionNames).Distinct();
     }
 
     protected virtual EnumTemplate WriteEnum(ModelTransferObject model)
