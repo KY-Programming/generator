@@ -13,12 +13,36 @@
         <LangVersion>latest</LangVersion>
     </PropertyGroup>
 
+    <PropertyGroup>
+        <PackageId>KY.Generator.CLI</PackageId>
+        <Version>10.0.0-preview.45</Version>
+        <Title>KY.Generator.CLI</Title>
+        <Authors>KY-Programming</Authors>
+        <Company>KY-Programming</Company>
+        <Copyright>2026 - KY-Programming</Copyright>
+        <Description>Command Line Interface for KY-Generator.
+            Generate C# or TypeScript classes from .NET assemblies, JSON, TSQL or oData.
+            Support for Angular, ASP.NET, ASP.NET Core, C# POCOs, TypeScript POCOs, Entity Framework and more.
+        </Description>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageProjectUrl>https://github.com/KY-Programming/generator</PackageProjectUrl>
+        <PackageIcon>assets\icon.png</PackageIcon>
+        <PackageReadmeFile>docs\README.md</PackageReadmeFile>
+        <PackageTags>KY-Generator KY.Generator CLI</PackageTags>
+        <IncludeBuildOutput>false</IncludeBuildOutput>
+        <!-- Costura merges every dependency into the exe, so the package must not force consumers
+             to restore them again -->
+        <SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>
+    </PropertyGroup>
+
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
         <OutputPath>bin\Debug\</OutputPath>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
         <OutputPath>bin\Release\</OutputPath>
+        <!-- The package ships its payload in tools\, so it intentionally has no lib\ assemblies -->
+        <NoWarn>$(NoWarn);NU5128</NoWarn>
     </PropertyGroup>
 
     <ItemGroup>
@@ -50,7 +74,19 @@
 
     <ItemGroup>
         <None Include="App.config" />
-        <None Include="nuget.nuspec" />
+        <None Include="..\icon.png" Pack="true" PackagePath="assets" Visible="false" />
+        <None Include="..\README.md" Pack="true" PackagePath="docs" Visible="false" />
     </ItemGroup>
+
+    <!-- Costura merges the dependencies into the exe, so the package ships the build output as a
+         tool rather than as lib\ assemblies. Collected in a target instead of a plain item so the
+         globs are evaluated after Build has produced the files, not at project evaluation time. -->
+    <Target Name="AddBuildOutputToPackage" BeforeTargets="_GetPackageFiles">
+        <ItemGroup>
+            <None Include="$(OutputPath)*.exe" Pack="true" PackagePath="tools" Visible="false" />
+            <None Include="$(OutputPath)*.dll" Pack="true" PackagePath="tools" Visible="false" />
+            <None Include="$(OutputPath)*.config" Pack="true" PackagePath="tools" Visible="false" />
+        </ItemGroup>
+    </Target>
 
 </Project>
