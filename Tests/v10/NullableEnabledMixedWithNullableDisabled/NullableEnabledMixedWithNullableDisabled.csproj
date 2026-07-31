@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <ProjectGuid>{C5722132-AB5A-4D1F-8673-2B3AFB959BAF}</ProjectGuid>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>Types</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="KY.Generator" Version="10.0.0-preview.53" />
+      <PackageReference Include="KY.Generator.Reflection" Version="10.0.0-preview.53" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\UndecoratedNullableDisabled\UndecoratedNullableDisabled.csproj" />
+    </ItemGroup>
+
+
+</Project>
