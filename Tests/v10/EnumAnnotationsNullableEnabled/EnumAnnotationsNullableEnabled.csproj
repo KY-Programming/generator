@@ -2,9 +2,9 @@
 
     <PropertyGroup>
         <TargetFramework>net10.0</TargetFramework>
-        <ProjectGuid>{605E91D7-EE13-4F1D-9B92-845BB3ACE852}</ProjectGuid>
+        <ProjectGuid>{9CAD0FA0-8D9B-46F5-BC6E-AB4244261BCC}</ProjectGuid>
         <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>disable</Nullable>
+        <Nullable>enable</Nullable>
         <RootNamespace>Enum</RootNamespace>
     </PropertyGroup>
 
@@ -12,6 +12,7 @@
         <PackageReference Include="KY.Generator" Version="10.0.0-preview.53" />
         <PackageReference Include="KY.Generator.Reflection" Version="10.0.0-preview.53" />
     </ItemGroup>
+
 
     <ItemGroup>
         <Compile Include="..\Shared\Enums.cs" Link="Enums.cs" />
