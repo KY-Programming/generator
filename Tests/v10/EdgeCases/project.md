@@ -44,6 +44,8 @@ readid -solution=*Undefined* -project=$\Tests\v10\EdgeCases\EdgeCases.csproj msb
     - hardcoded-action-routes.service.ts `#b1899023`
     - hardcoded-class-route.service.ts `#6a17e1df`
     - mixed-routes.service.ts `#ece2a831`
+    - parameter-before-token.service.ts `#c5b47a56`
+    - parameter-positions.service.ts `#f24d16ca`
     - reversed-tokens.service.ts `#63b5c205`
     - separate-route-attribute.service.ts `#f724e015`
     - token-in-the-middle.service.ts `#f8ddc501`
