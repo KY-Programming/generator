@@ -36,6 +36,17 @@ readid -solution=*Undefined* -project=$\Tests\v10\EdgeCases\EdgeCases.csproj msb
     - generated-interface.interface.ts `#94161293`
     - implementing-class.ts `#d5a2a55f`
     - sub-interface.interface.ts `#d83276ab`
+- Output/RouteTemplates/
+    - action-route-tokens.service.ts `#ca5fa9a0`
+    - class-and-action-route.service.ts `#282f500c`
+    - class-route-parameter.service.ts `#c81b0d87`
+    - class-route-tokens.service.ts `#adfa0fb8`
+    - hardcoded-action-routes.service.ts `#b1899023`
+    - hardcoded-class-route.service.ts `#6a17e1df`
+    - mixed-routes.service.ts `#ece2a831`
+    - reversed-tokens.service.ts `#63b5c205`
+    - separate-route-attribute.service.ts `#f724e015`
+    - token-in-the-middle.service.ts `#f8ddc501`
 - Output/Signals/
     - plain-model.ts `#cc2124a6`
     - signal-class.ts `#8030305d`
@@ -50,9 +61,9 @@ readid -solution=*Undefined* -project=$\Tests\v10\EdgeCases\EdgeCases.csproj msb
 
 ## Status
 
-- **Last Build:** 2026-07-31 15:20:28
-- **Duration:** 7.7s
+- **Last Build:** 2026-07-31 16:20:56
+- **Duration:** 10.2s
 - **Status:** Warning
-- **Info:** 4 new
-- **Last Success:** 2026-07-31 15:20:28
+- **Info:** 10 new
+- **Last Success:** 2026-07-31 16:20:56
 - **Generator:** 10.0.0-preview.53

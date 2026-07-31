@@ -13,78 +13,78 @@ namespace EdgeCases;
 /// and wrap/unwrap the signals
 /// </summary>
 [ApiController]
-[Route("api/v1/[controller]/[action]")]
+[Route("api/v1/[controller]")]
 [GenerateAngularService("Output/AsyncService", "Output/AsyncService")]
 public class AsyncController : ControllerBase
 {
-    [HttpGet]
+    [HttpGet("[action]")]
     public async Task<AsyncModel> GetAsync()
     {
         await Task.CompletedTask;
         return new AsyncModel();
     }
 
-    [HttpGet]
+    [HttpGet("[action]")]
     public async Task<List<AsyncModel>> GetListAsync()
     {
         await Task.CompletedTask;
         return [];
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("[action]/{id}")]
     public async Task<AsyncModel> GetByIdAsync(int id)
     {
         await Task.CompletedTask;
         return new AsyncModel();
     }
 
-    [HttpGet]
+    [HttpGet("[action]")]
     public async Task<ActionResult<AsyncModel>> GetActionResultAsync()
     {
         await Task.CompletedTask;
         return this.Ok(new AsyncModel());
     }
 
-    [HttpGet]
+    [HttpGet("[action]")]
     public Task<string> GetWithoutAsyncKeyword()
     {
         return Task.FromResult(string.Empty);
     }
 
-    [HttpPost]
+    [HttpPost("[action]")]
     public async Task PostAsync(AsyncModel model)
     {
         await Task.CompletedTask;
     }
 
-    [HttpPost]
+    [HttpPost("[action]")]
     public async Task<string> PostWithQueryAsync([FromQuery] string filter, AsyncModel model)
     {
         await Task.CompletedTask;
         return filter;
     }
 
-    [HttpGet]
+    [HttpGet("[action]")]
     public AsyncModel GetSynchronous()
     {
         return new AsyncModel();
     }
 
-    [HttpGet]
+    [HttpGet("[action]")]
     public async Task<SignalModel> GetSignalAsync()
     {
         await Task.CompletedTask;
         return new SignalModel();
     }
 
-    [HttpGet]
+    [HttpGet("[action]")]
     public async Task<List<SignalModel>> GetSignalListAsync()
     {
         await Task.CompletedTask;
         return [];
     }
 
-    [HttpPost]
+    [HttpPost("[action]")]
     public async Task UpdateSignalAsync(SignalModel model)
     {
         await Task.CompletedTask;
