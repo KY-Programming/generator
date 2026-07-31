@@ -10,4 +10,4 @@ export interface StrictInterface {
     requiredNullableIntProperty: number | undefined;
 }
 
-// outputid:88210355-ddb5-4bf6-a426-81493e839d4e
+// outputid:5bfb8c6c-eb36-4be2-ab49-5a01780aa03e
