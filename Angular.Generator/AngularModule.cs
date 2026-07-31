@@ -1,5 +1,6 @@
 ﻿using KY.Core.Dependency;
 using KY.Generator.Angular.Commands;
+using KY.Generator.Angular.Fluent;
 using KY.Generator.Angular.Languages;
 using KY.Generator.Models;
 using KY.Generator.TypeScript;
@@ -15,6 +16,7 @@ public class AngularModule : GeneratorModule
         this.Register<AngularServiceCommand>(AngularServiceCommandParameters.Names);
         this.Register<AngularModelCommand>(AngularModelCommandParameters.Names);
         this.Register<AngularPackageCommand>(AngularPackageCommandParameters.Names);
+        this.Register<IAngularWriteSyntax, AngularWriteSyntax>();
         this.RegisterLanguage<AngularTypeScriptLanguage>();
         this.RegisterOptions<AngularOptionsFactory>();
     }
