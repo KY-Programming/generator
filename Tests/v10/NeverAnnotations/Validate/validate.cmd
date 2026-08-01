@@ -2,7 +2,10 @@
 rem Validates GenerateNever. Unlike every other v10 project this one must NOT build:
 rem the generator has to abort with an error that names the file the forbidden type
 rem would have been written to.
-rem Exit code 200 = validation passed, anything else = validation failed.
+rem
+rem Reports the result as JSON on the last line of stdout - the Builder reads that, not the exit code:
+rem   {"state":"passed","errors":0,"validated":1}
+rem "validated" is the one output file this project guards - never-generated-model.ts.
 
 setlocal
 set "PROJECT=%~dp0.."
@@ -16,25 +19,30 @@ type "%LOG%"
 
 if "%BUILD%"=="0" (
     echo VALIDATION FAILED: the build succeeded, but GenerateNever should have aborted it.
+    echo {"state":"failed","errors":1,"validated":0}
     exit /b 1
 )
 
 findstr /C:"is decorated with GenerateNeverAttribute and must never be generated" "%LOG%" > nul
 if errorlevel 1 (
     echo VALIDATION FAILED: the build failed, but not with the GenerateNever error.
-    exit /b 2
+    echo {"state":"failed","errors":1,"validated":0}
+    exit /b 1
 )
 
 findstr /C:"Output\never-generated-model.ts" "%LOG%" > nul
 if errorlevel 1 (
     echo VALIDATION FAILED: the GenerateNever error does not name the generated file.
-    exit /b 3
+    echo {"state":"failed","errors":1,"validated":0}
+    exit /b 1
 )
 
 if exist "%PROJECT%\Output\never-generated-model.ts" (
     echo VALIDATION FAILED: the forbidden file was written anyway.
-    exit /b 4
+    echo {"state":"failed","errors":1,"validated":0}
+    exit /b 1
 )
 
 echo VALIDATION PASSED
-exit /b 200
+echo {"state":"passed","errors":0,"validated":1}
+exit /b 0

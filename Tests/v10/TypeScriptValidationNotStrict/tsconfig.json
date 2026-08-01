@@ -2,11 +2,7 @@
   "compilerOptions": {
     "noEmit": true,
     "forceConsistentCasingInFileNames": true,
-    "strict": true,
-    "noImplicitOverride": true,
-    "noPropertyAccessFromIndexSignature": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
+    "strict": false,
     "skipLibCheck": true,
     "esModuleInterop": true,
     "declaration": false,
