@@ -52,9 +52,11 @@ public class AngularModelWriter : TypeScriptModelWriter
                                         IsReadonly = fieldTemplate.IsReadonly
                                     };
         classTemplate.WithUsing("WritableSignal", "@angular/core");
-        if (fieldTemplate.DefaultValue != null && !classTemplate.IsInterface)
+        if (!classTemplate.IsInterface)
         {
-            signalField.DefaultValue = Code.Method("signal", fieldTemplate.DefaultValue);
+            // The signal member is always present, so it has to be initialized (strictPropertyInitialization).
+            // Members without a default value fall back to signal(undefined), the value type contains the undefined
+            signalField.DefaultValue = Code.Method("signal", fieldTemplate.DefaultValue ?? Code.Null());
             classTemplate.WithUsing("signal", "@angular/core");
         }
         classTemplate.Fields[classTemplate.Fields.IndexOf(fieldTemplate)] = signalField;
