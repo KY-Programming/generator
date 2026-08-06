@@ -11,17 +11,22 @@
 
 Demonstrates using [GenerateImport] and [GenerateMethod] attributes to override method return types and wire custom external types into generated Angular services, showing how to map C# types to custom TypeScript models.
 
+## Parameters
+
+```
+readid -solution=$\Examples\Angular\Annotation\ChangeReturnType.sln -project=$\Examples\Angular\Annotation\ChangeReturnType\ChangeReturnType.csproj msbuild set -output=$\Examples\Angular\Annotation\ChangeReturnType\ load -assembly=$\Examples\Angular\Annotation\ChangeReturnType\bin\Debug\net10.0\ChangeReturnType.dll fluent annotation
+```
+
 ## Output
 
-- ClientApp/src/app/models/
-    - custom-weather-forecast.ts `#e68f7945`
-    - weather-forecast.ts `#fb3f1dfc`
 - ClientApp/src/app/services/
-    - weather-forecast-api.service.ts `#17b60831`
+    - weather-forecast-api.service.ts `#f1e91ed6`
 
 ## Status
 
-- **Last Build:** 2026-05-09 06:11:48
-- **Status:** Failure
-- **Info:** Build failed
-- **Generator:** 10.0.0-preview.39
+- **Last Build:** 2026-08-06 17:04:06
+- **Duration:** 6.6s
+- **Status:** Success
+- **Info:** All outputs match
+- **Last Success:** 2026-08-07 08:51:46
+- **Generator:** 10.0.1-preview.1

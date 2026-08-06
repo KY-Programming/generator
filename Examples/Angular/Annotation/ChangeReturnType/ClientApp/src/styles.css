@@ -1,16 +1,16 @@
-/* You can add global styles to this file, and also import other style files */
-
-/* Provide sufficient contrast against white background */
-a {
-  color: #0366d6;
+body {
+  margin: 0;
+  padding: 2rem;
+  font-family: system-ui, sans-serif;
 }
 
-code {
-  color: #e01a76;
+table {
+  border-collapse: collapse;
 }
 
-.btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+th,
+td {
+  border: 1px solid #ccc;
+  padding: 0.25rem 0.75rem;
+  text-align: left;
 }

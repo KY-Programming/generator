@@ -1,12 +1,9 @@
-var builder = WebApplication.CreateBuilder(args);
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.Services.AddControllers();
 
-builder.Services.AddControllersWithViews();
+WebApplication app = builder.Build();
 
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
@@ -15,13 +12,12 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-app.UseRouting();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller}/{action=Index}/{id?}");
+app.MapControllers();
 
+// In development the Angular CLI serves the SPA and Microsoft.AspNetCore.SpaProxy forwards
+// to it (see SpaProxyServerUrl in the csproj). In production the published ClientApp output
+// is served from wwwroot.
 app.MapFallbackToFile("index.html");
-;
 
 app.Run();
