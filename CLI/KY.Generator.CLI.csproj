@@ -15,7 +15,7 @@
 
     <PropertyGroup>
         <PackageId>KY.Generator.CLI</PackageId>
-        <Version>10.0.0</Version>
+        <Version>10.0.1-preview.1</Version>
         <Title>KY.Generator.CLI</Title>
         <Authors>KY-Programming</Authors>
         <Company>KY-Programming</Company>
@@ -46,8 +46,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="KY.Core.Common" Version="4.37.0" />
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+        <PackageReference Include="KY.Core.Common" Version="10.1.0" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
         <PackageReference Include="Costura.Fody" Version="5.7.0" PrivateAssets="all" />
     </ItemGroup>
 
