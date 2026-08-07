@@ -17,16 +17,18 @@ public class ModelWriterTests
     private IDependencyResolver resolver;
     private ModelWriter writer;
     private List<ITransferObject> transferObjects;
+    private List<FileTemplate> files;
 
     [TestInitialize]
     public void Initialize()
     {
         this.transferObjects = new List<ITransferObject>();
+        this.files = new List<FileTemplate>();
         this.resolver = new DependencyResolver();
         this.resolver.Bind<Options>().ToSingleton();
         this.resolver.Bind<ITypeMapping>().ToSingleton<TypeMapping>();
         this.resolver.Bind<List<ITransferObject>>().To(this.transferObjects);
-        this.resolver.Bind<IList<FileTemplate>>().To(new List<FileTemplate>());
+        this.resolver.Bind<IList<FileTemplate>>().To(this.files);
         Options.Register(() => new List<IOptionsFactory> { new GeneratorOptionsFactory() });
         this.writer = this.resolver.Create<ModelWriter>();
     }
@@ -102,16 +104,16 @@ public class ModelWriterTests
     [TestMethod]
     public void File()
     {
-        TestOutput output = new();
         ModelTransferObject model = new()
         {
             Name = "Test1",
             Language = new TestLanguage(this.resolver)
         };
+        this.resolver.Get<Options>().Get<GeneratorOptions>(model).Language = new TestLanguage(this.resolver);
         this.transferObjects.Add(model);
         this.writer.Write();
-        Assert.AreEqual(1, output.Files.Count, "Unexpected number of files");
-        Assert.AreEqual("Test1", output.Files[0].Name, "Unexpected file name");
+        Assert.AreEqual(1, this.files.Count, "Unexpected number of files");
+        Assert.AreEqual("Test1", this.files[0].Name, "Unexpected file name");
     }
 
     // [TestMethod]

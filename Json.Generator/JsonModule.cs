@@ -1,5 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using KY.Core.Dependency;
+﻿using KY.Core.Dependency;
 using KY.Generator.Commands;
 using KY.Generator.Csharp;
 using KY.Generator.Json.Commands;
@@ -7,8 +6,6 @@ using KY.Generator.Json.Extensions;
 using KY.Generator.Mappings;
 using KY.Generator.Models;
 using KY.Generator.TypeScript;
-
-[assembly: InternalsVisibleTo("KY.Generator.Json.Tests")]
 
 namespace KY.Generator.Json;
 

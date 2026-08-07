@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using KY.Core.Dependency;
 using KY.Generator.Output;
 using KY.Generator.Templates;
@@ -20,8 +21,10 @@ public class TemplateWriterTests : Codeable
     [TestInitialize]
     public void Initialize()
     {
+        Options.Register(() => new List<IOptionsFactory> { new GeneratorOptionsFactory(), new TypeScriptOptionsFactory() });
         this.resolver = new DependencyResolver();
         this.options = new Options();
+        this.resolver.Bind<Options>().To(this.options);
         GeneratorOptions generatorOptions = this.options.Get<GeneratorOptions>();
         generatorOptions.Language = new TypeScriptLanguage(this.resolver);
         this.output = new FileWriter(generatorOptions);

@@ -8,12 +8,7 @@ using KY.Generator.Models;
 [assembly: InternalsVisibleTo("KY.Generator.Common.Tests")]
 [assembly: InternalsVisibleTo("KY.Generator.Reflection.Tests")]
 [assembly: InternalsVisibleTo("KY.Generator.Csharp.Tests")]
-[assembly: InternalsVisibleTo("KY.Generator.Json.Tests")]
 [assembly: InternalsVisibleTo("KY.Generator.TypeScript.Tests")]
-[assembly: InternalsVisibleTo("KY.Generator.AspDotNet.Tests")]
-[assembly: InternalsVisibleTo("KY.Generator.OData.Tests")]
-[assembly: InternalsVisibleTo("KY.Generator.Tsql.Tests")]
-[assembly: InternalsVisibleTo("KY.Generator.Angular.Tests")]
 [assembly: InternalsVisibleTo("KY.Generator.Sqlite.Tests")]
 
 namespace KY.Generator;

@@ -1,9 +1,0 @@
-﻿// ReSharper disable All
-
-namespace KY.Generator.Examples.Json
-{
-    public partial class ObjectArrayProperty
-    {
-        public string Text { get; set; }
-    }
-}

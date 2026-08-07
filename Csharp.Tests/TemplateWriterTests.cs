@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using KY.Core.Dependency;
 using KY.Generator.Csharp.Extensions;
 using KY.Generator.Csharp.Languages;
@@ -24,8 +25,10 @@ public class TemplateWriterTests : Codeable
     [TestInitialize]
     public void Initialize()
     {
+        Options.Register(() => new List<IOptionsFactory> { new GeneratorOptionsFactory() });
         this.resolver = new DependencyResolver();
         this.options = new Options();
+        this.resolver.Bind<Options>().To(this.options);
         GeneratorOptions generatorOptions = this.options.Get<GeneratorOptions>();
         generatorOptions.Language = new CsharpLanguage(this.resolver);
         this.output = new FileWriter(generatorOptions);
@@ -75,7 +78,8 @@ public class TemplateWriterTests : Codeable
         template.AddProperty("Property2", Code.Type("string"))
                 .WithAttribute("Attribute", Code.String("value"));
         this.output.Add(template);
-        Assert.AreEqual("public partial class MyClass\r\n{\r\n    [Attribute(\"value\")]\r\n    public string Property1 { get; set; }\r\n\r\n    [Attribute(\"value\")]\r\n    public string Property2 { get; set; }\r\n}", this.output.ToString());
+        string result = Regex.Replace(this.output.ToString(), @"^\[GeneratedCode\([^\)]*\)\]\r?\n", string.Empty);
+        Assert.AreEqual("public partial class MyClass\r\n{\r\n    [Attribute(\"value\")]\r\n    public string Property1 { get; set; }\r\n\r\n    [Attribute(\"value\")]\r\n    public string Property2 { get; set; }\r\n}", result);
     }
 
     [TestMethod]
@@ -89,8 +93,9 @@ public class TemplateWriterTests : Codeable
     [TestMethod]
     public void CastWriter()
     {
-        CastWriter writer = new();
-        writer.Write(new CastTemplate(Code.Type("type")).Local("variable"), this.output);
+        CastTemplate template = new(Code.Type("type"));
+        template.Local("variable");
+        this.output.Add(template);
         Assert.AreEqual("(type)variable", this.output.ToString());
     }
 

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using KY.Core;
 using KY.Core.Dependency;
 using KY.Generator.Common.Tests.Models;
@@ -20,8 +21,10 @@ public class TemplateWriterTests : Codeable
     [TestInitialize]
     public void Initialize()
     {
+        Options.Register(() => new List<IOptionsFactory> { new GeneratorOptionsFactory() });
         this.resolver = new DependencyResolver();
         this.options = new Options();
+        this.resolver.Bind<Options>().To(this.options);
         GeneratorOptions generatorOptions = this.options.Get<GeneratorOptions>();
         generatorOptions.Language = new TestLanguage(this.resolver);
         this.output = new FileWriter(generatorOptions);
@@ -214,7 +217,7 @@ public class TemplateWriterTests : Codeable
     [TestMethod]
     public void FieldDefaultValue()
     {
-        FieldTemplate template = new(null, "test", Code.Type("type"));
+        FieldTemplate template = new(new ClassTemplate((NamespaceTemplate)null, "test"), "test", Code.Type("type"));
         template.DefaultValue = Code.String("default");
         FieldWriter writer = new();
         writer.Write(template, this.output);
@@ -395,7 +398,7 @@ public class TemplateWriterTests : Codeable
     [TestMethod]
     public void PropertyDefaultValue()
     {
-        PropertyTemplate template = new(null, "test", Code.Type("type"));
+        PropertyTemplate template = new(new ClassTemplate((NamespaceTemplate)null, "test"), "test", Code.Type("type"));
         template.DefaultValue = Code.String("value");
         PropertyWriter writer = new();
         writer.Write(template, this.output);
