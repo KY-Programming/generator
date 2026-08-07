@@ -51,3 +51,29 @@
     }
   </tbody>
 </table>
+
+<h2>producesGet() &rarr; WeatherForecast[]</h2>
+<p>
+  The action returns <code>IActionResult</code>; ASP.NET's <code>[Produces]</code> is what types
+  this method.
+</p>
+<table>
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Temp. (C)</th>
+      <th>Summary</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (forecast of produces(); track $index) {
+      <tr>
+        <td>{{ forecast.date | date }}</td>
+        <td>{{ forecast.temperatureC }}</td>
+        <td>{{ forecast.summary }}</td>
+      </tr>
+    } @empty {
+      <tr><td colspan="3">Nothing loaded.</td></tr>
+    }
+  </tbody>
+</table>

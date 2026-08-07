@@ -1,0 +1,11 @@
+{
+  "/weatherforecast": {
+    "target": "https://localhost:5007",
+    "secure": false
+  },
+  "/hub": {
+    "target": "https://localhost:5007",
+    "secure": false,
+    "ws": true
+  }
+}

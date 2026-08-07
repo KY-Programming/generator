@@ -1,13 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <ProjectGuid>{f473e1d8-04b6-4dbc-92ff-db4d63bfe67d}</ProjectGuid>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="KY.Generator" Version="9.0.0-preview.13" />
-    <PackageReference Include="KY.Generator.Annotations" Version="9.0.0-preview.13" />
+    <PackageReference Include="KY.Generator" Version="10.0.1-preview.2" />
+    <PackageReference Include="KY.Generator.Reflection" Version="10.0.1-preview.2" />
   </ItemGroup>
 
 </Project>

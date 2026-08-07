@@ -47,6 +47,17 @@ export class WeatherForecastApiService {
         return subject;
     }
 
+    public producesGet(httpOptions?: {}): Observable<WeatherForecast[]> {
+        let subject = new Subject<WeatherForecast[]>();
+        httpOptions = { ...this.httpOptions, ...httpOptions};
+        let url: string = this.serviceUrl + "/weatherforecast/produces";
+        this.http.get<WeatherForecast[]>(url, httpOptions).subscribe((result) => {
+            subject.next(this.fixUndefined(result));
+            subject.complete();
+        }, (error) => subject.error(error));
+        return subject;
+    }
+
     public specialGet(httpOptions?: {}): Observable<SpecialWeatherForecast[]> {
         let subject = new Subject<SpecialWeatherForecast[]>();
         httpOptions = { ...this.httpOptions, ...httpOptions};

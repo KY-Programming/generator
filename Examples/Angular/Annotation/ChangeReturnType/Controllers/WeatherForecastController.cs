@@ -12,10 +12,13 @@ namespace ChangeReturnType.Controllers;
 /// it. Two flavours are demonstrated:
 ///   - CustomWeatherForecast is a hand written file inside the app (ClientApp/src/app/models).
 ///   - SpecialWeatherForecast comes from a shared library imported as "@my-lib/models".
+///
+/// ASP.NET's own [Produces] is honoured too, so an action typed as IActionResult still gets a
+/// properly typed Angular method - see <see cref="ProducesGet" />.
 /// </summary>
 [ApiController]
 [Route("[controller]")]
-[GenerateAngularService("/ClientApp/src/app/services", "/ClientApp/src/app/models", "{0}ApiService")]
+[GenerateAngularService(name: "{0}ApiService")]
 [GenerateImport(typeof(SpecialWeatherForecast), "@my-lib/models", "SpecialWeatherForecast")]
 [GenerateImport(typeof(WeatherForecast), "../models", "CustomWeatherForecast as WeatherForecast")]
 public class WeatherForecastController : ControllerBase
@@ -40,6 +43,22 @@ public class WeatherForecastController : ControllerBase
                                               Summary = Summaries[Random.Shared.Next(Summaries.Length)]
                                           })
                          .ToArray();
+    }
+
+    /// <summary>
+    /// IActionResult carries no type information, so on its own the generated method would return
+    /// nothing useful. ASP.NET's [Produces(typeof(...))] declares the real response type and the
+    /// generator reads it, so the Angular method still returns WeatherForecast[].
+    ///
+    /// This needs no KY.Generator attribute at all - the annotation you already write for
+    /// Swagger/OpenAPI is enough. [ProducesResponseType] works the same way; both are only read
+    /// for status code 200.
+    /// </summary>
+    [HttpGet("produces")]
+    [Produces(typeof(WeatherForecast[]))]
+    public IActionResult ProducesGet()
+    {
+        return this.Ok(this.Get());
     }
 
     /// <summary>

@@ -1,12 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net5.0</TargetFramework>
+        <TargetFramework>net10.0</TargetFramework>
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="KY.Generator" Version="8.0.0-preview.0" />
-      <PackageReference Include="KY.Generator.Annotations" Version="8.0.0-preview.0" />
+      <PackageReference Include="KY.Generator" Version="10.0.1-preview.2" />
+      <PackageReference Include="KY.Generator.Reflection" Version="10.0.1-preview.2" />
     </ItemGroup>
 
 </Project>
