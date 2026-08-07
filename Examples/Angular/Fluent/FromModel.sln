@@ -1,8 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Generator", "FromModel\Generator\Generator.csproj", "{E4FE5F61-B1CB-43D7-B336-071BE6EBF065}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FromModel.Generator", "FromModel.Generator\FromModel.Generator.csproj", "{E4FE5F61-B1CB-43D7-B336-071BE6EBF065}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FromModel", "FromModel\Assembly\FromModel.csproj", "{092DF40C-B956-4683-9D41-C0A947CBED88}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FromModel", "FromModel\FromModel.csproj", "{092DF40C-B956-4683-9D41-C0A947CBED88}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

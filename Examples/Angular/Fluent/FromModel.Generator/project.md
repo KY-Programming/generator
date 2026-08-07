@@ -11,14 +11,22 @@
 
 Demonstrates generating TypeScript models from C# classes using fluent API syntax instead of annotations.
 
+## Parameters
+
+```
+readid -solution=$\Examples\Angular\Fluent\FromModel.sln -project=$\Examples\Angular\Fluent\FromModel.Generator\FromModel.Generator.csproj msbuild set -output=$\Examples\Angular\Fluent\FromModel.Generator\ load -assembly=$\Examples\Angular\Fluent\FromModel.Generator\bin\Debug\net10.0\FromModel.Generator.dll fluent annotation
+```
+
 ## Output
 
 - Output/Models/
-    - type-to-read.ts `#4311aecd`
+    - type-to-read.ts `#a91fb0c2`
 
 ## Status
 
-- **Last Build:** 2026-05-09 06:11:58
-- **Status:** Failure
-- **Info:** Build failed
-- **Generator:** 10.0.0-preview.39
+- **Last Build:** 2026-08-07 15:48:52
+- **Duration:** 9.3s
+- **Status:** Success
+- **Info:** All outputs match
+- **Last Success:** 2026-08-07 15:48:52
+- **Generator:** 10.0.1-preview.3
