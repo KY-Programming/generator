@@ -45,7 +45,7 @@ public class GenerateAngularServiceAttribute : Attribute, IGeneratorCommandAttri
         get
         {
             List<string> parameter = [];
-            if (this.RelativePath != null)
+            if (this.RelativeModelPath != null)
             {
                 parameter.Add($"-relativePath={this.RelativeModelPath}");
             }

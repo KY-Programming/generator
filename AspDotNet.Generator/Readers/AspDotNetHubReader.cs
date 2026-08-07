@@ -41,6 +41,9 @@ public class AspDotNetHubReader
         SignalRHubTransferObject hub = new();
         hub.Name = type.Name;
         hub.Language = ReflectionLanguage.Instance;
+        // Without the mapping the options of the hub would not know its type and therefore neither the attributes of
+        // the type nor the ones of its assembly (e.g. [assembly: GenerateServiceOutput])
+        this.options.Map(hub, () => this.options.Get<GeneratorOptions>(type, null));
 
         MethodInfo[] methods = type.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
         foreach (MethodInfo method in methods)

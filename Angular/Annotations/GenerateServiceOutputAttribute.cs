@@ -10,7 +10,6 @@ public class GenerateServiceOutputAttribute(string relativePath) : Attribute, IG
 
     public IEnumerable<AttributeCommandConfiguration> Commands =>
     [
-        new AttributeCommandConfiguration("angular-model", this.Parameters),
         new AttributeCommandConfiguration("angular-service", this.Parameters)
     ];
 

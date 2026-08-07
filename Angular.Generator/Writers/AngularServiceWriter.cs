@@ -41,10 +41,6 @@ public class AngularServiceWriter : TransferWriter
         {
             throw new InvalidOperationException($"Can not generate service for ASP.NET controller for language {generatorOptions.Language?.Name ?? "Empty"}");
         }
-        if (configuration.Model?.RelativePath == null && configuration.Service.RelativePath?.Count(x => x == '/' || x == '\\') > 1)
-        {
-            Logger.Warning("No model path found for Angular Service command. This may lead to wrong model imports!");
-        }
         string httpClient = configuration.Service.HttpClient?.Name ?? "HttpClient";
         string httpClientImport = configuration.Service.HttpClient?.Import ?? "@angular/common/http";
         Dictionary<HttpServiceActionTypeTransferObject, string> actionTypeMapping = new()
@@ -66,10 +62,12 @@ public class AngularServiceWriter : TransferWriter
         foreach (HttpServiceTransferObject controller in this.transferObjects.OfType<HttpServiceTransferObject>())
         {
             GeneratorOptions controllerOptions = this.Options.Get<GeneratorOptions>(controller);
+            string serviceOutput = this.ResolveServiceOutput(configuration, controller);
+            string modelOutput = this.ResolveModelOutput(configuration, controller);
             Dictionary<HttpServiceActionParameterTransferObject, ParameterTemplate> mapping = new();
             string controllerName = controller.Name.TrimEnd("Controller");
             string className = configuration.Service.Name?.Replace("{0}", controllerName) ?? controllerName + "Service";
-            FileTemplate file = this.files.AddFile(configuration.Service.RelativePath, controllerOptions)
+            FileTemplate file = this.files.AddFile(serviceOutput, controllerOptions)
                                     .WithName(Formatter.FormatFile(className, controllerOptions, "service"));
             ClassTemplate classTemplate = file.AddNamespace(string.Empty)
                                               .AddClass(className)
@@ -92,7 +90,7 @@ public class AngularServiceWriter : TransferWriter
 
             List<MethodTemplate> convertDateMethods = new();
             List<MethodTemplate> signalMethods = new();
-            string relativeModelPath = FileSystem.RelativeTo(configuration.Model?.RelativePath ?? ".", configuration.Service.RelativePath);
+            string relativeModelPath = FileSystem.RelativeTo(modelOutput, serviceOutput);
             relativeModelPath = string.IsNullOrEmpty(relativeModelPath) ? "." : relativeModelPath;
             bool addAppendMethod = false;
             bool addAppendDateMethod = false;
@@ -421,7 +419,7 @@ public class AngularServiceWriter : TransferWriter
             }
             if (signalMethods.Count > 0)
             {
-                this.WriteUnwrappedType(configuration, controllerOptions);
+                this.WriteUnwrappedType(modelOutput, controllerOptions);
             }
             classTemplate.Methods.RemoveRange(signalMethods);
             classTemplate.Methods.AddRange(signalMethods);
@@ -436,7 +434,7 @@ public class AngularServiceWriter : TransferWriter
         {
             string className = "ConnectionStatus";
             GeneratorOptions anyOptions = this.Options.Get<GeneratorOptions>(hubs.First());
-            connectionStatusFileTemplate = this.files.AddFile(configuration.Model.RelativePath, anyOptions)
+            connectionStatusFileTemplate = this.files.AddFile(this.ResolveModelOutput(configuration, hubs.First()), anyOptions)
                                                .WithName(Formatter.FormatFile(className, anyOptions));
             connectionStatusEnum = connectionStatusFileTemplate
                                    .AddNamespace(string.Empty)
@@ -450,9 +448,11 @@ public class AngularServiceWriter : TransferWriter
         foreach (SignalRHubTransferObject hub in hubs)
         {
             GeneratorOptions hubOptions = this.Options.Get<GeneratorOptions>(hub);
-            string relativeModelPath = FileSystem.RelativeTo(configuration.Model?.RelativePath ?? ".", configuration.Service.RelativePath);
+            string serviceOutput = this.ResolveServiceOutput(configuration, hub);
+            string relativeModelPath = FileSystem.RelativeTo(this.ResolveModelOutput(configuration, hub), serviceOutput);
+            relativeModelPath = string.IsNullOrEmpty(relativeModelPath) ? "." : relativeModelPath;
             string className = configuration.Service.Name?.Replace("{0}", hub.Name) ?? hub.Name + "Service";
-            FileTemplate file = this.files.AddFile(configuration.Service.RelativePath, hubOptions)
+            FileTemplate file = this.files.AddFile(serviceOutput, hubOptions)
                                     .WithName(Formatter.FormatFile(className, hubOptions, "service"));
             NamespaceTemplate namespaceTemplate = file.AddNamespace(string.Empty);
             ClassTemplate classTemplate = namespaceTemplate
@@ -653,6 +653,32 @@ public class AngularServiceWriter : TransferWriter
                 createConnectionCode.AddLine(Code.Local("hubConnection").Method("on", parameters).Close());
             }
         }
+    }
+
+    /// <summary>
+    /// Resolves the folder the service of the given controller/hub is written to. An explicit path of the command
+    /// (e.g. <c>[GenerateAngularService("...")]</c>) wins over <see cref="GenerateServiceOutputAttribute" />, which
+    /// wins over the built-in default. The options are resolved for the controller/hub itself, only they carry the
+    /// assembly wide attributes
+    /// </summary>
+    private string ResolveServiceOutput(AngularWriteConfiguration configuration, TypeTransferObject target)
+    {
+        return FirstNotEmpty(configuration.Service.RelativePath, this.Options.Get<AngularOptions>(target).ServiceOutput, AngularOptions.DefaultServiceOutput);
+    }
+
+    /// <summary>
+    /// Resolves the folder the models are written to, to be able to import them from the service. Mirrors the
+    /// resolution of <see cref="AngularModelWriter" />: an explicit path of the command wins over
+    /// <see cref="GenerateModelOutputAttribute" />, which wins over the built-in default
+    /// </summary>
+    private string ResolveModelOutput(AngularWriteConfiguration configuration, TypeTransferObject target)
+    {
+        return FirstNotEmpty(configuration.Model?.RelativePath, this.Options.Get<GeneratorOptions>(target).ModelOutput, AngularOptions.DefaultModelOutput);
+    }
+
+    private static string FirstNotEmpty(string? first, string? second, string fallback)
+    {
+        return string.IsNullOrEmpty(first) ? string.IsNullOrEmpty(second) ? fallback : second! : first!;
     }
 
     private bool WriteDateFixes(ClassTemplate classTemplate, List<MethodTemplate> convertDateMethods, ModelTransferObject model, GeneratorOptions controllerOptions, string relativeModelPath)
@@ -918,9 +944,8 @@ public class AngularServiceWriter : TransferWriter
     /// Writes the <c>Unwrapped&lt;T&gt;</c> helper type next to the models. It resolves a model with signals back to the
     /// plain shape that is sent by and to the backend
     /// </summary>
-    private void WriteUnwrappedType(AngularWriteConfiguration configuration, GeneratorOptions options)
+    private void WriteUnwrappedType(string relativePath, GeneratorOptions options)
     {
-        string relativePath = configuration.Model?.RelativePath ?? configuration.Service.RelativePath;
         string fileName = Formatter.FormatFile(unwrappedFileName, options);
         if (this.files.Any(file => file.Name == fileName && file.RelativePath == relativePath))
         {

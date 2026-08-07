@@ -45,7 +45,7 @@ namespace KY.Generator
             get
             {
                 List<string> parameter = new List<string>();
-                if (this.RelativePath != null)
+                if (this.RelativeModelPath != null)
                 {
                     parameter.Add($"-relativePath={this.RelativeModelPath}");
                 }
