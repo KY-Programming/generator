@@ -11,14 +11,22 @@
 
 Demonstrates generating TypeScript models from C# classes using [GenerateAngularModel] annotation via annotations-based generation.
 
+## Parameters
+
+```
+readid -solution=$\Examples\Angular\Annotation\FromModel.sln -project=$\Examples\Angular\Annotation\FromModel\FromModel.csproj msbuild set -output=$\Examples\Angular\Annotation\FromModel\ load -assembly=$\Examples\Angular\Annotation\FromModel\bin\Debug\net10.0\FromModel.dll fluent annotation
+```
+
 ## Output
 
 - Output/Models/
-    - type-to-read.ts `#fe0a42e2`
+    - type-to-read.ts `#67d29b58`
 
 ## Status
 
-- **Last Build:** 2026-05-09 06:11:48
-- **Status:** Failure
-- **Info:** Build failed
-- **Generator:** 10.0.0-preview.39
+- **Last Build:** 2026-08-07 15:52:08
+- **Duration:** 5.4s
+- **Status:** Success
+- **Info:** All outputs match
+- **Last Success:** 2026-08-07 15:52:08
+- **Generator:** 10.0.1-preview.3

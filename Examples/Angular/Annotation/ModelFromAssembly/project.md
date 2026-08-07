@@ -11,16 +11,24 @@
 
 Demonstrates generating TypeScript models from C# types loaded via reflection module, showing how to discover and generate models from an assembly without decorating classes with annotations.
 
+## Parameters
+
+```
+readid -solution=$\Examples\Angular\Annotation\ModelFromAssembly.sln -project=$\Examples\Angular\Annotation\ModelFromAssembly\ModelFromAssembly.csproj msbuild set -output=$\Examples\Angular\Annotation\ModelFromAssembly\ load -assembly=$\Examples\Angular\Annotation\ModelFromAssembly\bin\Debug\net10.0\ModelFromAssembly.dll fluent annotation
+```
+
 ## Output
 
 - Output/
-    - another-type.ts `#20a267a5`
-    - index.ts `#ee122716`
-    - type-to-read.ts `#8b686e13`
+    - another-type.ts `#4a40298c`
+    - index.ts `#90842ca7`
+    - type-to-read.ts `#6b1187a6`
 
 ## Status
 
-- **Last Build:** 2026-05-09 06:11:48
-- **Status:** Verify Missing
-- **Info:** 3 missing
-- **Generator:** 10.0.0-preview.39
+- **Last Build:** 2026-08-07 15:52:08
+- **Duration:** 5.5s
+- **Status:** Success
+- **Info:** All outputs match
+- **Last Success:** 2026-08-07 15:52:08
+- **Generator:** 10.0.1-preview.3

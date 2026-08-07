@@ -11,17 +11,26 @@
 
 Demonstrates generating Angular services from ASP.NET Core SignalR hubs using [GenerateAngularHub] annotation, including hub interface generation and model classes.
 
+## Parameters
+
+```
+readid -solution=$\Examples\Angular\Annotation\ServiceFromAspNetCoreSignalRHub.sln -project=$\Examples\Angular\Annotation\ServiceFromAspNetCoreSignalRHub\ServiceFromAspNetCoreSignalRHub.csproj msbuild set -output=$\Examples\Angular\Annotation\ServiceFromAspNetCoreSignalRHub\ load -assembly=$\Examples\Angular\Annotation\ServiceFromAspNetCoreSignalRHub\bin\Debug\net10.0\ServiceFromAspNetCoreSignalRHub.dll fluent annotation
+```
+
 ## Output
 
 - ClientApp/src/app/models/
-    - connection-status.ts `#23fc4d58`
-    - weather-forecast.ts `#3debd00f`
+    - connection-status.ts `#dd81e6bc`
+    - index.ts `#a030e6bb`
+    - weather-forecast.ts `#37484ec8`
 - ClientApp/src/app/services/
-    - weather-hub.service.ts `#64513c99`
+    - weather-hub.service.ts `#fc583c6c`
 
 ## Status
 
-- **Last Build:** 2026-05-09 06:11:48
-- **Status:** Failure
-- **Info:** Build failed
-- **Generator:** 10.0.0-preview.39
+- **Last Build:** 2026-08-07 15:52:19
+- **Duration:** 10.8s
+- **Status:** Success
+- **Info:** All outputs match
+- **Last Success:** 2026-08-07 15:52:19
+- **Generator:** 10.0.1-preview.3

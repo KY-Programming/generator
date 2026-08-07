@@ -11,16 +11,24 @@
 
 Demonstrates generating Angular services and models from ASP.NET Core WebAPI controllers using [GenerateAngularService] annotation.
 
+## Parameters
+
+```
+readid -solution=$\Examples\Angular\Annotation\ServiceFromAspNetCore.sln -project=$\Examples\Angular\Annotation\ServiceFromAspNetCore\ServiceFromAspNetCore.csproj msbuild set -output=$\Examples\Angular\Annotation\ServiceFromAspNetCore\ load -assembly=$\Examples\Angular\Annotation\ServiceFromAspNetCore\bin\Debug\net10.0\ServiceFromAspNetCore.dll fluent annotation
+```
+
 ## Output
 
 - ClientApp/src/app/models/
-    - weather-forecast.ts `#aaded2ea`
+    - weather-forecast.ts `#be3b17ec`
 - ClientApp/src/app/services/
-    - weather-forecast.service.ts `#41e35dce`
+    - weather-forecast.service.ts `#f816927d`
 
 ## Status
 
-- **Last Build:** 2026-05-09 06:11:53
-- **Status:** Failure
-- **Info:** Build failed
-- **Generator:** 10.0.0-preview.39
+- **Last Build:** 2026-08-07 15:52:19
+- **Duration:** 10.7s
+- **Status:** Success
+- **Info:** All outputs match
+- **Last Success:** 2026-08-07 15:52:19
+- **Generator:** 10.0.1-preview.3

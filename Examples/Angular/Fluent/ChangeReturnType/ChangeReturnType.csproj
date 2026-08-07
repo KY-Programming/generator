@@ -5,8 +5,8 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <IsPackable>false</IsPackable>
-        <RootNamespace>ServiceFromAspNetCoreAnnotation</RootNamespace>
-        <ProjectGuid>{c2cd74cf-53e6-4c11-86de-4f23690f7cf8}</ProjectGuid>
+        <RootNamespace>ChangeReturnType</RootNamespace>
+        
         <SpaRoot>ClientApp\</SpaRoot>
         <SpaProxyServerUrl>https://localhost:4200</SpaProxyServerUrl>
         <SpaProxyLaunchCommand>npm start</SpaProxyLaunchCommand>
@@ -14,8 +14,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="KY.Generator" Version="10.0.1-preview.3" />
-        <PackageReference Include="KY.Generator.AspDotNet" Version="10.0.1-preview.3" />
         <PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="10.0.10" />
     </ItemGroup>
 
@@ -32,7 +30,8 @@
         <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build" />
 
         <ItemGroup>
-            <DistFiles Include="$(SpaRoot)dist\service-from-asp-net-core\browser\**" />
+            <!-- The application builder writes to dist/&lt;project&gt;/browser -->
+            <DistFiles Include="$(SpaRoot)dist\change-return-type-fluent\browser\**" />
             <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
                 <RelativePath>wwwroot\%(RecursiveDir)%(Filename)%(Extension)</RelativePath>
                 <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>

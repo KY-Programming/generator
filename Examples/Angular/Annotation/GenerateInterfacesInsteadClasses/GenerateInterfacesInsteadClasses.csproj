@@ -1,8 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFramework>net10.0</TargetFramework>
-    </PropertyGroup>
+      <ProjectGuid>{9f467c28-0164-494c-976c-6c7d360a372d}</ProjectGuid>
+  </PropertyGroup>
 
     <ItemGroup>
       <PackageReference Include="KY.Generator" Version="10.0.1-preview.3" />

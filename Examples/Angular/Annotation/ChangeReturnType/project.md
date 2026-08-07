@@ -20,13 +20,13 @@ readid -solution=$\Examples\Angular\Annotation\ChangeReturnType.sln -project=$\E
 ## Output
 
 - ClientApp/src/app/services/
-    - weather-forecast-api.service.ts `#f1e91ed6`
+    - weather-forecast-api.service.ts `#e2929e99`
 
 ## Status
 
-- **Last Build:** 2026-08-06 17:04:06
-- **Duration:** 6.6s
+- **Last Build:** 2026-08-07 15:52:13
+- **Duration:** 10.9s
 - **Status:** Success
 - **Info:** All outputs match
-- **Last Success:** 2026-08-07 08:51:46
-- **Generator:** 10.0.1-preview.1
+- **Last Success:** 2026-08-07 15:52:13
+- **Generator:** 10.0.1-preview.3
