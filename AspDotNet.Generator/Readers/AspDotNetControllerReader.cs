@@ -30,11 +30,7 @@ public class AspDotNetControllerReader
         configuration.Controller.Name.AssertIsNotNull($"ASP: {nameof(configuration.Controller)}.{nameof(configuration.Controller.Name)}");
         configuration.Controller.Namespace.AssertIsNotNull($"ASP: {nameof(configuration.Controller)}.{nameof(configuration.Controller.Namespace)}");
         Logger.Trace($"Read ASP.NET controller {configuration.Controller.Namespace}.{configuration.Controller.Name}...");
-        Type? type = this.typeLoader.Get(configuration.Controller.Namespace, configuration.Controller.Name);
-        if (type == null)
-        {
-            return;
-        }
+        Type type = this.typeLoader.Get(configuration.Controller.Namespace, configuration.Controller.Name);
 
         HttpServiceTransferObject controller = new();
         controller.Name = type.Name;

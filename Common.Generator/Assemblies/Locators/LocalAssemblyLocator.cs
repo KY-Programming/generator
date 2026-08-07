@@ -32,7 +32,7 @@ public class LocalAssemblyLocator : IAssemblyLocator
         }
         foreach (Assembly assembly in this.environment.LoadedAssemblies)
         {
-            paths.Add(assembly.Location);
+            paths.Add(FileSystem.GetDirectoryName(assembly.Location));
         }
         IEnumerable<string> uniquePaths = paths.OfType<string>().Select(FileSystem.FormatPath).Unique();
         foreach (string path in uniquePaths)

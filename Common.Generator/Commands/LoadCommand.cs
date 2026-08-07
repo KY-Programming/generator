@@ -25,7 +25,7 @@ internal class LoadCommand : GeneratorCommand<LoadCommandParameters>, IPrepareCo
 
     public override Task<IGeneratorCommandResult> Run()
     {
-        if (this.environment.LoadedAssemblies.Any(x => x.GetName().Name == this.Parameters.Assembly))
+        if (this.environment.LoadedAssemblies.Any(this.Matches))
         {
             return this.SuccessAsync();
         }
@@ -42,16 +42,35 @@ internal class LoadCommand : GeneratorCommand<LoadCommandParameters>, IPrepareCo
         return this.Load();
     }
 
+    /// <summary>
+    /// The assembly can already be part of the app domain, e.g. if a fluent generator assembly references the assembly
+    /// it reads from. It still has to be registered, otherwise no type of it can be found later.
+    /// </summary>
     private IGeneratorCommandResult? CheckAlreadyLoadedAssemblies()
     {
         foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies().Where(x => !x.IsDynamic))
         {
-            if (assembly.Location.Equals(this.Parameters.Assembly, StringComparison.CurrentCultureIgnoreCase) || assembly.GetName().Name.Equals(this.Parameters.Assembly, StringComparison.CurrentCultureIgnoreCase))
+            if (this.Matches(assembly))
             {
+                this.Register(assembly);
                 return this.Success();
             }
         }
         return null;
+    }
+
+    private bool Matches(Assembly assembly)
+    {
+        return assembly.Location.Equals(this.Parameters.Assembly, StringComparison.CurrentCultureIgnoreCase)
+               || assembly.GetName().Name.Equals(this.Parameters.Assembly, StringComparison.CurrentCultureIgnoreCase);
+    }
+
+    private void Register(Assembly assembly)
+    {
+        this.environment.LoadedAssemblies.Add(assembly);
+        this.ProcessFrom(assembly);
+        this.ProcessLicense(assembly);
+        this.moduleLoader.LoadFromAttributesAndDirectReferences(assembly);
     }
 
     private IGeneratorCommandResult? CheckAssemblyCompatibility()
@@ -128,10 +147,7 @@ internal class LoadCommand : GeneratorCommand<LoadCommandParameters>, IPrepareCo
                 return this.ResultAsync(this.SwitchContext(assemblyFramework.Value));
             }
             Assembly assembly = Assembly.LoadFrom(this.Parameters.Assembly!);
-            this.environment.LoadedAssemblies.Add(assembly);
-            this.ProcessFrom(assembly);
-            this.ProcessLicense(assembly);
-            this.moduleLoader.LoadFromAttributesAndDirectReferences(assembly);
+            this.Register(assembly);
         }
         catch (TypeLoadException exception)
         {

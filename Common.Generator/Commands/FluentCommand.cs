@@ -30,7 +30,7 @@ internal class FluentCommand : GeneratorCommand<FluentCommandParameters>
             }
             return this.Success();
         }
-        foreach (Assembly assembly in environment.LoadedAssemblies)
+        foreach (Assembly assembly in environment.LoadedAssemblies.ToList())
         {
             if (!this.Parameters.IsOnlyAsync && assembly.IsAsync())
             {

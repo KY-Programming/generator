@@ -1,4 +1,5 @@
-﻿using KY.Generator.Statistics;
+﻿using KY.Core.Dependency;
+using KY.Generator.Statistics;
 
 namespace KY.Generator.Command;
 
@@ -29,9 +30,9 @@ public class GeneratorCommandRunner
         return result ?? new SuccessResult();
     }
 
-    public async Task<IGeneratorCommandResult> Run(IEnumerable<GeneratorCommandParameters> parameters)
+    public async Task<IGeneratorCommandResult> Run(IEnumerable<GeneratorCommandParameters> parameters, IDependencyResolver? resolver = null)
     {
-        List<IGeneratorCommand> commands = this.commandFactory.Create(parameters);
+        List<IGeneratorCommand> commands = this.commandFactory.Create(parameters, resolver);
         IGeneratorCommandResult? result = null;
         commands.ForEach(command => command.Prepare());
         foreach (IGeneratorCommand command in commands)

@@ -13,7 +13,12 @@ public class GeneratorTypeLoader
         this.environment = environment;
     }
 
-    public Type? Get(string nameSpace, string typeName)
+    /// <summary>
+    /// Returns the type or throws, if it can not be found. A missing type can not be generated, so the generation has
+    /// to fail. Otherwise nothing would be written and the run would still be reported as successful.
+    /// </summary>
+    /// <exception cref="InvalidOperationException">The type is not part of any loaded assembly</exception>
+    public Type Get(string nameSpace, string typeName)
     {
         foreach (Assembly assembly in this.environment.LoadedAssemblies)
         {
@@ -23,7 +28,6 @@ public class GeneratorTypeLoader
                 return type;
             }
         }
-        Logger.Error($"Can not find type '{nameSpace}.{typeName}'. Ensure the assembly is loaded via 'load -assembly=<assembly-path>' command before.");
-        return null;
+        throw new InvalidOperationException($"Can not find type '{nameSpace}.{typeName}'. Ensure the assembly is loaded via 'load -assembly=<assembly-path>' command before. Loaded assemblies: {string.Join(", ", this.environment.LoadedAssemblies.Select(x => x.GetName().Name))}");
     }
 }

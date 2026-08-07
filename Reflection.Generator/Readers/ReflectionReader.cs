@@ -20,11 +20,7 @@ internal class ReflectionReader : ITransferReader
 
     public void Read(ReflectionReadConfiguration configuration, GeneratorOptions? caller = null)
     {
-        Type? type = this.typeLoader.Get(configuration.Namespace, configuration.Name);
-        if (type == null)
-        {
-            return;
-        }
+        Type type = this.typeLoader.Get(configuration.Namespace, configuration.Name);
         try
         {
             ModelTransferObject selfModel = this.modelReader.Read(type, caller);

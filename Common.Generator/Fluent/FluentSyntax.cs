@@ -35,7 +35,7 @@ public class FluentSyntax : IReadFluentSyntaxInternal, IWriteFluentSyntaxInterna
         GeneratorCommandRunner runner = this.Resolver.Create<GeneratorCommandRunner>();
         foreach (IExecutableSyntax syntax in this.Syntaxes)
         {
-            IGeneratorCommandResult commandResult = await runner.Run(syntax.Commands);
+            IGeneratorCommandResult commandResult = await runner.Run(syntax.Commands, this.Resolver);
             if (!commandResult.Success)
             {
                 return commandResult;
