@@ -10,6 +10,7 @@
 /.angular
 /coverage
 npm-debug.log
+package-lock.json
 
 # System Files
 .DS_Store

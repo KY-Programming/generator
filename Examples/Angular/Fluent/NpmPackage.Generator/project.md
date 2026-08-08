@@ -20,7 +20,8 @@ Demonstrates packaging generated Angular services and models for distribution vi
 
 ## Status
 
-- **Last Build:** 2026-05-09 06:12:01
+- **Last Build:** 2026-08-07 15:48:51
+- **Duration:** 15.7s
 - **Status:** Failure
 - **Info:** Build failed
-- **Generator:** 10.0.0-preview.39
+- **Generator:** 10.0.1-preview.3

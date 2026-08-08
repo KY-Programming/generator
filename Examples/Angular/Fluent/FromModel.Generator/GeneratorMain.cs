@@ -11,7 +11,7 @@ namespace Generator
                 .Reflection(reflection => reflection.FromType<TypeToRead>())
             )
             .Write(write => write
-                .Angular(angular => angular.Models(config => config.OutputPath("Output/Models")))
+                .Angular(angular => angular.Models(config => config.OutputPath("../FromModel/Output/Models")))
             );
         }
     }
