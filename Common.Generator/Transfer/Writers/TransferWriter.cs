@@ -84,6 +84,7 @@ public abstract class TransferWriter : Codeable
         {
             this.MapType(model.Language, fieldOptions.Language, member.Type);
         }
+        this.CheckReferencedType(model, member, member.Type, fieldOptions);
         this.AddUsing(member.Type, classTemplate, fieldOptions);
         FieldTemplate fieldTemplate = classTemplate.AddField(this.FormatFieldName(member, fieldOptions), member.Type.ToTemplate()).Public()
                                                    .WithComment(member.Comment);
@@ -123,6 +124,7 @@ public abstract class TransferWriter : Codeable
         }
         if (member.Type != model)
         {
+            this.CheckReferencedType(model, member, member.Type, propertyOptions);
             this.AddUsing(member.Type, classTemplate, propertyOptions);
         }
         return propertyTemplate;
@@ -145,6 +147,35 @@ public abstract class TransferWriter : Codeable
     private string RenameMember(MemberTransferObject member, GeneratorOptions options)
     {
         return options.Rename ?? member.Name.Replace(options.ReplaceName);
+    }
+
+    /// <summary>
+    /// A member is generated with an import of its type, so the type has to end up somewhere. A type that is
+    /// excluded with <see cref="GenerateIgnoreAttribute"/>, or written only through its sub types with
+    /// <see cref="GenerateOnlySubTypesAttribute"/>, never gets a file, and the import would point at nothing.
+    /// The generation is aborted with the two ways out: drop the member as well, or bind the type to a hand
+    /// written file with <see cref="GenerateImportAttribute"/> - the import then points there and the member
+    /// keeps working.
+    /// </summary>
+    protected virtual void CheckReferencedType(ModelTransferObject model, MemberTransferObject member, TypeTransferObject type, GeneratorOptions memberOptions)
+    {
+        if (type == null || memberOptions.Imports.Any(import => import.Type.Namespace == type.Namespace && import.Type.Name == type.Name))
+        {
+            return;
+        }
+        if (type is ModelTransferObject referenced && !referenced.FromSystem && !referenced.IsGenericParameter)
+        {
+            GeneratorOptions typeOptions = this.Options.Get<GeneratorOptions>(referenced);
+            string? attribute = typeOptions.Ignore ? nameof(GenerateIgnoreAttribute)
+                                    : typeOptions.OnlySubTypes ? nameof(GenerateOnlySubTypesAttribute)
+                                        : null;
+            if (attribute != null)
+            {
+                throw new InvalidOperationException($"{model.Name}.{member.Name} uses {referenced.Name} ({referenced.Namespace}), which is decorated with {attribute} and is therefore not generated. Decorate {model.Name}.{member.Name} with {nameof(GenerateIgnoreAttribute)} to leave the member out, or decorate {model.Name} with {nameof(GenerateImportAttribute)} to import {referenced.Name} from a hand written file");
+            }
+        }
+        type.Generics.Where(x => x.Type != null && x.Alias == null)
+            .ForEach(generic => this.CheckReferencedType(model, member, generic.Type, memberOptions));
     }
 
     protected virtual void AddUsing(TypeTransferObject type, ClassTemplate classTemplate, GeneratorOptions options, string relativeModelPath = "./")
