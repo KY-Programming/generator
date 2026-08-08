@@ -9,7 +9,7 @@
 
 # StrictAnnotationsNullableEnabled
 
-Tests the GenerateStrict annotation with nullable reference types enabled, as a matrix of class and interface, each with and without GenerateStrict, to control how required and optional members are emitted. Member visibility filtering is covered by the Types projects.
+Tests the strict mode with nullable reference types enabled, as a matrix of class and interface, each with and without the GenerateNonStrict annotation that opts out of the strict-by-default output, to control how required and optional members are emitted. Member visibility filtering is covered by the Types projects.
 
 ## Parameters
 
@@ -25,11 +25,15 @@ readid -solution=*Undefined* -project=$\Tests\v10\StrictAnnotationsNullableEnabl
     - strict-class.ts `#e3356532`
     - strict-interface.ts `#4eac6616`
 
+## Validation
+
+- validate.js `passed, 4 files validated`
+
 ## Status
 
-- **Last Build:** 2026-07-31 11:32:10
-- **Duration:** 9.2s
+- **Last Build:** 2026-08-08 11:20:16
+- **Duration:** 5.5s
 - **Status:** Success
-- **Info:** All outputs match
-- **Last Success:** 2026-07-31 11:32:10
-- **Generator:** 10.0.0-preview.53
+- **Info:** 0 errors, 4 files validated
+- **Last Success:** 2026-08-08 11:20:16
+- **Generator:** 10.0.1-preview.6

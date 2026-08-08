@@ -24,11 +24,15 @@ readid -solution=*Undefined* -project=$\Tests\v10\SelfReferencingAnnotationsNull
     - cycle-b.ts `#1b01f13c`
     - self-referencing-type.ts `#013d634c`
 
+## Validation
+
+- validate.js `passed, 3 files validated`
+
 ## Status
 
-- **Last Build:** 2026-07-31 11:32:02
-- **Duration:** 9.3s
+- **Last Build:** 2026-08-08 11:20:16
+- **Duration:** 5.3s
 - **Status:** Success
-- **Info:** All outputs match
-- **Last Success:** 2026-07-31 11:32:02
-- **Generator:** 10.0.0-preview.53
+- **Info:** 0 errors, 3 files validated
+- **Last Success:** 2026-08-08 11:20:16
+- **Generator:** 10.0.1-preview.6

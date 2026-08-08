@@ -52,11 +52,15 @@ readid -solution=*Undefined* -project=$\Tests\v10\InheritanceAnnotationsNullable
     - sealed-derived.ts `#ecea0427`
     - virtual.ts `#e9375695`
 
+## Validation
+
+- validate.js `passed, 30 files validated`
+
 ## Status
 
-- **Last Build:** 2026-07-31 11:32:01
-- **Duration:** 8.9s
+- **Last Build:** 2026-08-08 11:20:10
+- **Duration:** 5.5s
 - **Status:** Success
-- **Info:** All outputs match
-- **Last Success:** 2026-07-31 11:32:01
-- **Generator:** 10.0.0-preview.53
+- **Info:** 0 errors, 30 files validated
+- **Last Success:** 2026-08-08 11:20:10
+- **Generator:** 10.0.1-preview.6

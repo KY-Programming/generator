@@ -37,11 +37,15 @@ readid -solution=*Undefined* -project=$\Tests\v10\EnumAnnotationsNullableDisable
     - u-long-enum.ts `#49827945`
     - u-short-enum.ts `#70962afb`
 
+## Validation
+
+- validate.js `passed, 16 files validated`
+
 ## Status
 
-- **Last Build:** 2026-07-31 11:31:53
-- **Duration:** 8.2s
+- **Last Build:** 2026-08-08 11:20:11
+- **Duration:** 5.6s
 - **Status:** Success
-- **Info:** All outputs match
-- **Last Success:** 2026-07-31 11:31:53
-- **Generator:** 10.0.0-preview.53
+- **Info:** 0 errors, 16 files validated
+- **Last Success:** 2026-08-08 11:20:11
+- **Generator:** 10.0.1-preview.6

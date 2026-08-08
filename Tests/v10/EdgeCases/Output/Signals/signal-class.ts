@@ -13,11 +13,11 @@ export class SignalClass {
     public number: WritableSignal<number> = signal(0);
     public switch: WritableSignal<boolean> = signal(false);
     public timestamp: WritableSignal<Date> = signal(new Date(0));
-    public optionalText: WritableSignal<string | undefined>;
+    public optionalText: WritableSignal<string | undefined> = signal(undefined);
     public texts: WritableSignal<string[]> = signal([]);
-    public sub: WritableSignal<SubModel | undefined>;
+    public sub: WritableSignal<SubModel | undefined> = signal(undefined);
     public subs: WritableSignal<SubModel[]> = signal([]);
-    public plain: WritableSignal<PlainModel | undefined>;
+    public plain: WritableSignal<PlainModel | undefined> = signal(undefined);
 
     public constructor(init?: Partial<SignalClass>) {
         Object.assign(this, init);

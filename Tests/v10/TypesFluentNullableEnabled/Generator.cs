@@ -1,4 +1,4 @@
-﻿using KY.Generator;
+using KY.Generator;
 
 namespace Types;
 
@@ -6,11 +6,12 @@ public class Generator : GeneratorFluentMain
 {
     public override void Execute()
     {
-        // this.Read(read => read.Reflection(reflection => reflection.FromType<Types>()))
-        //     .Write(write => write.NoHeader()
-        //                          .Strict()
-        //                          .PreferInterfaces()
-        //                          .Output("Output")
-        //                          .TypeScriptModel());
+        // The fluent counterpart of TypesAnnotationsNullableEnabled - same types, same output, configured
+        // here instead of with annotations. Strict mode is not configured, so the default applies.
+        this.Read(read => read.Reflection(reflection => reflection.FromType<Types>()))
+            .Write(write => write.NoHeader()
+                                 .NoIndex()
+                                 .TypeScriptModel(model => model.PreferInterfaces()
+                                                                .OutputPath("Output")));
     }
 }

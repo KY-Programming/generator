@@ -4,5 +4,4 @@
 // other project switches off. GenerateForceIndex additionally requests it explicitly.
 [assembly:GenerateNoHeader]
 [assembly:GenerateModelOutput("Output")]
-[assembly:GenerateStrict]
 [assembly:GenerateForceIndex]

@@ -32,11 +32,15 @@ readid -solution=*Undefined* -project=$\Tests\v10\TypesAnnotationsNullableEnable
     - sub-type.ts `#6283eb57`
     - types.ts `#82f1ea94`
 
+## Validation
+
+- validate.js `passed, 11 files validated`
+
 ## Status
 
-- **Last Build:** 2026-07-31 11:32:12
-- **Duration:** 9.6s
+- **Last Build:** 2026-08-08 11:20:16
+- **Duration:** 5.6s
 - **Status:** Success
-- **Info:** All outputs match
-- **Last Success:** 2026-07-31 11:32:12
-- **Generator:** 10.0.0-preview.53
+- **Info:** 0 errors, 11 files validated
+- **Last Success:** 2026-08-08 11:20:16
+- **Generator:** 10.0.1-preview.6

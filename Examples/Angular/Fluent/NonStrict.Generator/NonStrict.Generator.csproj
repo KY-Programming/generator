@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <ProjectGuid>{B3E17D45-6C28-4A0F-93D1-7E5A2B8C04F6}</ProjectGuid>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="KY.Generator" Version="10.0.1-preview.6" />
+      <PackageReference Include="KY.Generator.Angular" Version="10.0.1-preview.6" />
+      <PackageReference Include="KY.Generator.Reflection" Version="10.0.1-preview.6" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\NonStrict\NonStrict.csproj" />
+    </ItemGroup>
+
+</Project>

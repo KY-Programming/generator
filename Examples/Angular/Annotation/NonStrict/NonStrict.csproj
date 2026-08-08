@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ProjectGuid>{4C1F0E2A-9B4D-4E7A-8C31-6F2D5B0A7E14}</ProjectGuid>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="KY.Generator" Version="10.0.1-preview.6" />
+      <PackageReference Include="KY.Generator.Reflection" Version="10.0.1-preview.6" />
+    </ItemGroup>
+
+</Project>

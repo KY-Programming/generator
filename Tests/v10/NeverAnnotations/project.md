@@ -14,19 +14,23 @@ should be generated, but it exposes NeverGeneratedModel, so the generator would 
 the generation is aborted with an error that contains the path of the file the forbidden type would have been
 written to (Output/never-generated-model.ts), so the class that drags it into the output is easy to find.
 
-This project is verified by a script instead of by output hashes - it must NOT build. Validate/validate.cmd
-returns 200 when the build failed for exactly that reason, and produced no output file.
+This project has no "## Output" section and is verified by the script in its "## Validation" section instead -
+it must NOT build, so the Builder must not be the one building it. validate.js reports its result as JSON on
+the last line of its output; it passes when the build failed for exactly that reason and produced no output
+file. The one file it guards is what the validated count refers to.
 
 ## Output
 
-- Validate/
-    - validate.cmd `#200`
+
+## Validation
+
+- validate.js `passed, 1 file validated`
 
 ## Status
 
-- **Last Build:** 2026-07-31 11:32:14
-- **Duration:** 8.1s
+- **Last Build:** 2026-08-08 11:20:15
+- **Duration:** 4.9s
 - **Status:** Success
-- **Info:** Validation passed
-- **Last Success:** 2026-07-31 11:32:14
-- **Generator:** 10.0.0-preview.53
+- **Info:** 0 errors, 1 file validated
+- **Last Success:** 2026-08-08 11:20:15
+- **Generator:** 10.0.1-preview.6

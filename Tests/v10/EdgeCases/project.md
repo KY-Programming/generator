@@ -51,7 +51,7 @@ readid -solution=*Undefined* -project=$\Tests\v10\EdgeCases\EdgeCases.csproj msb
     - token-in-the-middle.service.ts `#f8ddc501`
 - Output/Signals/
     - plain-model.ts `#cc2124a6`
-    - signal-class.ts `#8030305d`
+    - signal-class.ts `#9b7012f3`
     - signal-interface.ts `#523d8c46`
     - sub-model.ts `#55b4cc8b`
 - Output/SignalsService/
@@ -61,11 +61,15 @@ readid -solution=*Undefined* -project=$\Tests\v10\EdgeCases\EdgeCases.csproj msb
     - sub-model.ts `#4fe615c4`
     - unwrapped.ts `#8deef4d3`
 
+## Validation
+
+- validate.js `passed, 35 files validated`
+
 ## Status
 
-- **Last Build:** 2026-07-31 16:20:56
-- **Duration:** 10.2s
-- **Status:** Warning
-- **Info:** 10 new
-- **Last Success:** 2026-07-31 16:20:56
-- **Generator:** 10.0.0-preview.53
+- **Last Build:** 2026-08-08 11:20:14
+- **Duration:** 8.7s
+- **Status:** Success
+- **Info:** 0 errors, 35 files validated
+- **Last Success:** 2026-08-08 11:20:14
+- **Generator:** 10.0.1-preview.6

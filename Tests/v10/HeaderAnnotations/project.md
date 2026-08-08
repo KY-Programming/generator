@@ -20,13 +20,17 @@ readid -solution=*Undefined* -project=$\Tests\v10\HeaderAnnotations\HeaderAnnota
 ## Output
 
 - Output/
-    - header-types.ts `#2abd7ce8`
+    - header-types.ts `#e6fd0cbb`
+
+## Validation
+
+- validate.js `passed, 1 file validated`
 
 ## Status
 
-- **Last Build:** 2026-07-31 11:31:53
-- **Duration:** 8.5s
+- **Last Build:** 2026-08-08 11:20:10
+- **Duration:** 5.5s
 - **Status:** Success
-- **Info:** All outputs match
-- **Last Success:** 2026-07-31 11:31:53
-- **Generator:** 10.0.0-preview.53
+- **Info:** 0 errors, 1 file validated
+- **Last Success:** 2026-08-08 11:20:10
+- **Generator:** 10.0.1-preview.6

@@ -9,7 +9,7 @@
 
 # TypesFluentNullableEnabled
 
-Tests fluent API-based TypeScript generation with nullable reference types enabled, demonstrating fluent syntax for comprehensive type generation scenarios.
+The fluent counterpart of TypesAnnotationsNullableEnabled: the same Shared/Types.cs is read with the fluent API instead of annotations, and write.TypeScriptModel(...) writes it as plain TypeScript. Apart from the outputid the generated files are identical to the annotation variant, which is what makes the two comparable.
 
 ## Parameters
 
@@ -19,11 +19,28 @@ readid -solution=*Undefined* -project=$\Tests\v10\TypesFluentNullableEnabled\Typ
 
 ## Output
 
+- Output/
+    - derived-record.ts `#9f9d018e`
+    - generic-sub-type.ts `#bfff06a7`
+    - init-only-type.ts `#8c57358f`
+    - numeric-enum.ts `#2463f2f2`
+    - plain-struct.ts `#dd0c9f8d`
+    - positional-record.ts `#05aebbbd`
+    - property-record.ts `#df8199ec`
+    - read-only-struct.ts `#7231fff7`
+    - record-struct.ts `#76a65c75`
+    - sub-type.ts `#187b3034`
+    - types.ts `#df9dc65d`
+
+## Validation
+
+- validate.js `passed, 11 files validated`
 
 ## Status
 
-- **Last Build:** 2026-07-31 11:32:13
-- **Duration:** 8.3s
-- **Status:** Empty
-- **Info:** No output files
-- **Generator:** 10.0.0-preview.53
+- **Last Build:** 2026-08-08 11:20:18
+- **Duration:** 2.8s
+- **Status:** Success
+- **Info:** 0 errors, 11 files validated
+- **Last Success:** 2026-08-08 11:20:18
+- **Generator:** 10.0.1-preview.6

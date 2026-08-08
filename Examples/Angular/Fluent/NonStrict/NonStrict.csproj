@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ProjectGuid>{8A6D3C11-52F4-4B90-9E7C-1D8B4A0C6F23}</ProjectGuid>
+    </PropertyGroup>
+
+</Project>

@@ -1,0 +1,22 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NonStrict.Generator", "NonStrict.Generator\NonStrict.Generator.csproj", "{B3E17D45-6C28-4A0F-93D1-7E5A2B8C04F6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NonStrict", "NonStrict\NonStrict.csproj", "{8A6D3C11-52F4-4B90-9E7C-1D8B4A0C6F23}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B3E17D45-6C28-4A0F-93D1-7E5A2B8C04F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3E17D45-6C28-4A0F-93D1-7E5A2B8C04F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3E17D45-6C28-4A0F-93D1-7E5A2B8C04F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3E17D45-6C28-4A0F-93D1-7E5A2B8C04F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A6D3C11-52F4-4B90-9E7C-1D8B4A0C6F23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A6D3C11-52F4-4B90-9E7C-1D8B4A0C6F23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A6D3C11-52F4-4B90-9E7C-1D8B4A0C6F23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A6D3C11-52F4-4B90-9E7C-1D8B4A0C6F23}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

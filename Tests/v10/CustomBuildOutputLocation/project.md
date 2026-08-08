@@ -27,11 +27,15 @@ readid -solution=*Undefined* -project=$\Tests\v10\CustomBuildOutputLocation\Cust
 - Output/One/
     - generate-to-output-one.ts `#206b64fe`
 
+## Validation
+
+- validate.js `passed, 4 files validated`
+
 ## Status
 
-- **Last Build:** 2026-07-31 11:31:53
-- **Duration:** 8.0s
+- **Last Build:** 2026-08-08 11:20:10
+- **Duration:** 5.2s
 - **Status:** Success
-- **Info:** All outputs match
-- **Last Success:** 2026-07-31 11:31:53
-- **Generator:** 10.0.0-preview.53
+- **Info:** 0 errors, 4 files validated
+- **Last Success:** 2026-08-08 11:20:10
+- **Generator:** 10.0.1-preview.6

@@ -4,7 +4,6 @@ using KY.Generator;
 namespace Strict;
 
 [GenerateTypeScriptModel]
-[GenerateStrict]
 [GeneratePreferInterfaces]
 public class StrictInterface
 {
@@ -22,6 +21,7 @@ public class StrictInterface
 }
 
 [GenerateTypeScriptModel]
+[GenerateNonStrict]
 [GeneratePreferInterfaces]
 public class NotStrictInterface
 {
@@ -39,7 +39,6 @@ public class NotStrictInterface
 }
 
 [GenerateTypeScriptModel]
-[GenerateStrict]
 public class StrictClass
 {
     public string StringProperty { get; set; } = string.Empty;
@@ -56,6 +55,7 @@ public class StrictClass
 }
 
 [GenerateTypeScriptModel]
+[GenerateNonStrict]
 public class NotStrictClass
 {
     public string StringProperty { get; set; } = string.Empty;

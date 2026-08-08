@@ -20,10 +20,10 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="KY.Generator" Version="10.0.0-preview.53" />
-        <PackageReference Include="KY.Generator.Angular" Version="10.0.0-preview.53" />
-        <PackageReference Include="KY.Generator.AspDotNet" Version="10.0.0-preview.53" />
-        <PackageReference Include="KY.Generator.Reflection" Version="10.0.0-preview.53" />
+        <PackageReference Include="KY.Generator" Version="10.0.1-preview.6" />
+        <PackageReference Include="KY.Generator.Angular" Version="10.0.1-preview.6" />
+        <PackageReference Include="KY.Generator.AspDotNet" Version="10.0.1-preview.6" />
+        <PackageReference Include="KY.Generator.Reflection" Version="10.0.1-preview.6" />
     </ItemGroup>
 
 </Project>
