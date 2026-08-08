@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="KY.Generator" Version="10.0.1-preview.3" />
+      <PackageReference Include="KY.Generator.Angular" Version="10.0.1-preview.3" />
+      <PackageReference Include="KY.Generator.Reflection" Version="10.0.1-preview.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\GenerateInterfacesInsteadClasses\GenerateInterfacesInsteadClasses.csproj" />
+    </ItemGroup>
+
+</Project>
