@@ -22,11 +22,15 @@ readid -solution=$\Examples\Angular\Annotation\ChangeReturnType.sln -project=$\E
 - ClientApp/src/app/services/
     - weather-forecast-api.service.ts `#e2929e99`
 
+## Validation
+
+- validate.js `passed, 8 files validated`
+
 ## Status
 
-- **Last Build:** 2026-08-07 15:52:13
-- **Duration:** 10.9s
+- **Last Build:** 2026-08-08 11:18:50
+- **Duration:** 10.3s
 - **Status:** Success
-- **Info:** All outputs match
-- **Last Success:** 2026-08-07 15:52:13
-- **Generator:** 10.0.1-preview.3
+- **Info:** 0 errors, 8 files validated
+- **Last Success:** 2026-08-08 11:18:50
+- **Generator:** 10.0.1-preview.6

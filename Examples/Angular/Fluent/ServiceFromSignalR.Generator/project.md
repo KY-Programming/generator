@@ -22,14 +22,19 @@ readid -solution=$\Examples\Angular\Fluent\ServiceFromSignalR.sln -project=$\Exa
 - ../ServiceFromSignalR/ClientApp/src/app/models/
     - connection-status.ts `#374344a8`
     - index.ts `#cc039838`
-    - weather-forecast.ts `#bd97cb12`
+    - weather-forecast.ts `#a946f05f`
 - ../ServiceFromSignalR/ClientApp/src/app/services/
     - weather-forecast-hub.service.ts `#00b73f41`
 
+## Validation
+
+- validate.js `passed, 7 files validated`
+
 ## Status
 
-- **Last Build:** 2026-08-07 15:48:55
-- **Duration:** 10.2s
-- **Status:** Verify Missing
-- **Info:** 4 missing, 4 new
-- **Generator:** 10.0.1-preview.3
+- **Last Build:** 2026-08-08 11:18:56
+- **Duration:** 7.4s
+- **Status:** Warning
+- **Info:** 1 changed
+- **Last Success:** 2026-08-08 11:18:56
+- **Generator:** 10.0.1-preview.6

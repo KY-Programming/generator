@@ -19,14 +19,18 @@ readid -solution=$\Examples\Angular\Fluent\FromModel.sln -project=$\Examples\Ang
 
 ## Output
 
-- Output/Models/
-    - type-to-read.ts `#a91fb0c2`
+- ../FromModel/Output/Models/
+    - type-to-read.ts `#35c25ca9`
+
+## Validation
+
+- validate.js `passed, 1 file validated`
 
 ## Status
 
-- **Last Build:** 2026-08-07 15:48:52
-- **Duration:** 9.3s
-- **Status:** Success
-- **Info:** All outputs match
-- **Last Success:** 2026-08-07 15:48:52
-- **Generator:** 10.0.1-preview.3
+- **Last Build:** 2026-08-08 11:18:50
+- **Duration:** 6.8s
+- **Status:** Warning
+- **Info:** 1 changed
+- **Last Success:** 2026-08-08 11:18:50
+- **Generator:** 10.0.1-preview.6

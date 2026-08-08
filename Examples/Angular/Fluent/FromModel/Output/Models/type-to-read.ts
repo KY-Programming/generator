@@ -11,7 +11,7 @@
 
 export class TypeToRead {
     public stringProperty?: string;
-    public numberProperty: number;
+    public numberProperty: number = 0;
 
     public constructor(init?: Partial<TypeToRead>) {
         Object.assign(this, init);

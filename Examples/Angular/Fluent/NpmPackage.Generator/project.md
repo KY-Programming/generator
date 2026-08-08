@@ -11,17 +11,30 @@
 
 Demonstrates packaging generated Angular services and models for distribution via npm, generating to Angular library monorepo structure.
 
+## Parameters
+
+```
+readid -solution=$\Examples\Angular\Fluent\NpmPackage.sln -project=$\Examples\Angular\Fluent\NpmPackage.Generator\NpmPackage.Generator.csproj msbuild set -output=$\Examples\Angular\Fluent\NpmPackage.Generator\ load -assembly=$\Examples\Angular\Fluent\NpmPackage.Generator\bin\Debug\net10.0\NpmPackage.Generator.dll fluent annotation
+```
+
 ## Output
 
 - ../NpmPackage/package/projects/test/src/lib/models/
-    - weather-forecast.ts `#7a61b6bc`
+    - index.ts `#bbf2ba38`
+    - weather-forecast.ts `#51249627`
 - ../NpmPackage/package/projects/test/src/lib/services/
-    - weather-forecast.service.ts `#bf6c0888`
+    - index.ts `#a729d164`
+    - weather-forecast.service.ts `#905cdb23`
+
+## Validation
+
+- validate.js `passed, 5 files validated`
 
 ## Status
 
-- **Last Build:** 2026-08-07 15:48:51
-- **Duration:** 15.7s
-- **Status:** Failure
-- **Info:** Build failed
-- **Generator:** 10.0.1-preview.3
+- **Last Build:** 2026-08-08 11:18:56
+- **Duration:** 10.9s
+- **Status:** Warning
+- **Info:** 2 changed, 2 new
+- **Last Success:** 2026-08-08 11:18:56
+- **Generator:** 10.0.1-preview.6

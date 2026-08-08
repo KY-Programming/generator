@@ -26,11 +26,15 @@ readid -solution=$\Examples\Angular\Annotation\ServiceFromAspNetCoreSignalRHub.s
 - ClientApp/src/app/services/
     - weather-hub.service.ts `#fc583c6c`
 
+## Validation
+
+- validate.js `passed, 7 files validated`
+
 ## Status
 
-- **Last Build:** 2026-08-07 15:52:19
-- **Duration:** 10.8s
+- **Last Build:** 2026-08-08 11:18:51
+- **Duration:** 10.6s
 - **Status:** Success
-- **Info:** All outputs match
-- **Last Success:** 2026-08-07 15:52:19
-- **Generator:** 10.0.1-preview.3
+- **Info:** 0 errors, 7 files validated
+- **Last Success:** 2026-08-08 11:18:51
+- **Generator:** 10.0.1-preview.6

@@ -24,11 +24,15 @@ readid -solution=$\Examples\Angular\Annotation\ServiceFromAspNetCore.sln -projec
 - ClientApp/src/app/services/
     - weather-forecast.service.ts `#f816927d`
 
+## Validation
+
+- validate.js `passed, 5 files validated`
+
 ## Status
 
-- **Last Build:** 2026-08-07 15:52:19
-- **Duration:** 10.7s
+- **Last Build:** 2026-08-08 11:18:50
+- **Duration:** 10.4s
 - **Status:** Success
-- **Info:** All outputs match
-- **Last Success:** 2026-08-07 15:52:19
-- **Generator:** 10.0.1-preview.3
+- **Info:** 0 errors, 5 files validated
+- **Last Success:** 2026-08-08 11:18:50
+- **Generator:** 10.0.1-preview.6

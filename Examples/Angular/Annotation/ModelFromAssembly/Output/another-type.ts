@@ -11,7 +11,7 @@
 
 export class AnotherType {
     public stringField?: string;
-    public numberField: number;
+    public numberField: number = 0;
 
     public constructor(init?: Partial<AnotherType>) {
         Object.assign(this, init);

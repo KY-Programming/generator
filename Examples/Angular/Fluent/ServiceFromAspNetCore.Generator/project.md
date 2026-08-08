@@ -20,14 +20,19 @@ readid -solution=$\Examples\Angular\Fluent\ServiceFromAspNetCore.sln -project=$\
 ## Output
 
 - ../ServiceFromAspNetCore/ClientApp/src/app/models/
-    - weather-forecast.ts `#35ed942d`
+    - weather-forecast.ts `#cbc9b806`
 - ../ServiceFromAspNetCore/ClientApp/src/app/services/
     - weather-forecast.service.ts `#ea0f5378`
 
+## Validation
+
+- validate.js `passed, 5 files validated`
+
 ## Status
 
-- **Last Build:** 2026-08-07 15:48:45
-- **Duration:** 10.1s
-- **Status:** Verify Missing
-- **Info:** 2 missing, 2 new
-- **Generator:** 10.0.1-preview.3
+- **Last Build:** 2026-08-08 11:18:53
+- **Duration:** 7.6s
+- **Status:** Warning
+- **Info:** 1 changed
+- **Last Success:** 2026-08-08 11:18:53
+- **Generator:** 10.0.1-preview.6

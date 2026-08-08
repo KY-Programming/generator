@@ -10,7 +10,6 @@ namespace Generator
             this.Read(read => read
                     .AspDotNet(asp => asp.FromController<WeatherForecastController>()))
                 .Write(write => write
-                    .Strict()
                     .Angular(angular => angular.Services(config => config.OutputPath("../WithCustomHttpClient/ClientApp/src/app/services")
                                                                          .HttpClient("CustomHttpClient", "../base/custom-http-client")
                                                                          .GetMethod("MyGet", options => options.NoHttpOptions())

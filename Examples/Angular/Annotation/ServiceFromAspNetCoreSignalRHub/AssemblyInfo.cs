@@ -5,7 +5,3 @@ using KY.Generator;
 // somewhere else - one place, for the whole project.
 // [assembly: GenerateModelOutput("ClientApp/src/app/models")]
 // [assembly: GenerateServiceOutput("ClientApp/src/app/services")]
-
-// Angular's TypeScript configuration is strict, so generate strict-safe models:
-// properties carry initializers instead of being left definitely-unassigned.
-[assembly: GenerateStrict]

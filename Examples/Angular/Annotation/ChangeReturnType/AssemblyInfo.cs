@@ -6,6 +6,3 @@ using KY.Generator;
 // [assembly: GenerateModelOutput("ClientApp/src/app/api-models")]
 // [assembly: GenerateServiceOutput("ClientApp/src/app/api-services")]
 
-// Angular's TypeScript configuration is strict, so generate strict-safe models:
-// properties carry initializers instead of being left definitely-unassigned.
-[assembly: GenerateStrict]
