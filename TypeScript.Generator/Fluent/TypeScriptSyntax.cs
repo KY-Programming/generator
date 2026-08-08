@@ -9,10 +9,10 @@ public class TypeScriptSyntax : ITypeScriptSyntax
         this.options = options;
     }
 
-    public void Strict(bool value = true)
+    public void NonStrict(bool value = true)
     {
         TypeScriptOptions typeScriptOptions = this.options.Get<TypeScriptOptions>();
-        typeScriptOptions.Strict = value;
+        typeScriptOptions.Strict = !value;
     }
 
     public void NoIndex()

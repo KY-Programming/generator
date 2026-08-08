@@ -20,7 +20,7 @@ internal class AngularModelCommand(IDependencyResolver resolver) : GeneratorComm
         generatorOptions.SkipNamespace = true;
         TypeScriptOptions typeScriptOptions = options.Get<TypeScriptOptions>();
         // TODO: Fix path is null
-        typeScriptOptions.SetStrict(this.Parameters.RelativePath, resolver);
+        typeScriptOptions.SetStrictFromConfig(this.Parameters.RelativePath, resolver);
         if (this.Parameters.WithSignals != null)
         {
             options.Get<AngularOptions>().WithSignals = this.Parameters.WithSignals.Value;

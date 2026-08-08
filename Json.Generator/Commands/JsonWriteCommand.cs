@@ -17,7 +17,7 @@ public class JsonWriteCommand(IDependencyResolver resolver) : GeneratorCommand<J
         generatorOptions.SetFromParameter(this.Parameters);
         generatorOptions.Language = resolver.Get<CsharpLanguage>();
         TypeScriptOptions typeScriptOptions = options.Get<TypeScriptOptions>();
-        typeScriptOptions.SetStrict(this.Parameters.RelativePath, resolver);
+        typeScriptOptions.SetStrictFromConfig(this.Parameters.RelativePath, resolver);
     }
 
     public override Task<IGeneratorCommandResult> Run()

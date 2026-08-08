@@ -27,7 +27,7 @@ internal class AngularServiceCommand : GeneratorCommand<AngularServiceCommandPar
         generatorOptions.Language = this.resolver.Get<AngularTypeScriptLanguage>();
         generatorOptions.SkipNamespace = true;
         TypeScriptOptions typeScriptOptions = options.Get<TypeScriptOptions>();
-        typeScriptOptions.SetStrict(this.Parameters.RelativePath, this.resolver);
+        typeScriptOptions.SetStrictFromConfig(this.Parameters.RelativePath, this.resolver);
         if (this.Parameters.WithSignals != null)
         {
             options.Get<AngularOptions>().WithSignals = this.Parameters.WithSignals.Value;

@@ -14,12 +14,16 @@ public class SyntaxResolver : ISyntaxResolver
 
     public T Create<T>()
     {
+        return this.Create<T>(this.resolver.CloneForCommand());
+    }
+
+    public T Create<T>(IDependencyResolver resolver)
+    {
         if (!this.register.TryGetValue(typeof(T), out Func<IDependencyResolver, object>? factory))
         {
             throw new InvalidOperationException($"Syntax for {typeof(T)} is not registered.");
         }
-        IDependencyResolver commandResolver = this.resolver.CloneForCommand();
-        return (T)factory(commandResolver);
+        return (T)factory(resolver);
     }
 
     public void Register<TInterface, TSyntax>() where TInterface : IFluentSyntax where TSyntax : TInterface

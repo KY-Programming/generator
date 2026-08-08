@@ -12,6 +12,13 @@ namespace KY.Generator.TypeScript.Transfer.Readers
     {
         private readonly List<ITransferObject> transferObjects;
         private static readonly Dictionary<string, TsConfig> cache = new();
+
+        /// <summary>
+        /// Every tsconfig.json path that was probed once, with the config that was found there or null if there
+        /// was none. Different output folders share their candidates - e.g. the models and the services folder of
+        /// the same ClientApp - so a path that does not exist must not be probed again for the next folder.
+        /// </summary>
+        private static readonly Dictionary<string, TsConfig> probed = new();
         private static readonly Regex pathRegex = new(@"(?<path>.*ClientApp[^\\\/]*)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         public TsConfigReader(List<ITransferObject> transferObjects)
@@ -31,36 +38,57 @@ namespace KY.Generator.TypeScript.Transfer.Readers
                 this.LogInfo(read);
                 return read;
             }
-            string path = FileSystem.Combine(fullPath, "tsconfig.json");
-            Logger.Trace($"Try to read strict mode from {path}");
-            if (!FileSystem.FileExists(path))
-            {
-                Match match = pathRegex.Match(path);
-                if (match.Success)
-                {
-                    string basePath = match.Groups["path"].Value;
-                    path = FileSystem.Combine(basePath, "tsconfig.json");
-                    Logger.Trace($"Try to read strict mode from {path}");
-                }
-            }
-            if (!FileSystem.FileExists(path) && fullPath.Contains("src"))
-            {
-                path = FileSystem.Combine(fullPath.Substring(0, fullPath.IndexOf("src")), "tsconfig.json");
-                Logger.Trace($"Try to read strict mode from {path}");
-            }
-            TsConfig config;
-            if (FileSystem.FileExists(path))
-            {
-                config = this.Parse(path);
-                this.LogInfo(config);
-            }
-            else
-            {
-                Logger.Trace("Could not find tsconfig.json");
-                config = null;
-            }
+            TsConfig config = this.Find(fullPath);
             cache[fullPath] = config;
             return config;
+        }
+
+        private TsConfig Find(string fullPath)
+        {
+            foreach (string path in CandidatePaths(fullPath))
+            {
+                if (probed.TryGetValue(path, out TsConfig known))
+                {
+                    if (known == null)
+                    {
+                        continue;
+                    }
+                    this.LogInfo(known);
+                    return known;
+                }
+                Logger.Trace($"Try to read strict mode from {path}");
+                if (!FileSystem.FileExists(path))
+                {
+                    probed[path] = null;
+                    continue;
+                }
+                TsConfig config = this.Parse(path);
+                probed[path] = config;
+                this.LogInfo(config);
+                return config;
+            }
+            Logger.Trace("Could not find tsconfig.json");
+            return null;
+        }
+
+        /// <summary>
+        /// The tsconfig.json locations that belong to an output folder, in the order they are tried: next to the
+        /// output itself, next to the ClientApp it lives in and next to its src folder.
+        /// </summary>
+        private static IEnumerable<string> CandidatePaths(string fullPath)
+        {
+            yield return FileSystem.Combine(fullPath, "tsconfig.json");
+
+            Match match = pathRegex.Match(fullPath);
+            if (match.Success)
+            {
+                yield return FileSystem.Combine(match.Groups["path"].Value, "tsconfig.json");
+            }
+            int index = fullPath.IndexOf("src");
+            if (index >= 0)
+            {
+                yield return FileSystem.Combine(fullPath.Substring(0, index), "tsconfig.json");
+            }
         }
 
         private TsConfig Parse(string path)

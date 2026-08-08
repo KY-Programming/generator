@@ -34,8 +34,8 @@ public class TypeScriptOptionsFactory : IOptionsFactory
         {
             switch (attribute)
             {
-                case GenerateStrictAttribute strictAttribute:
-                    options.Strict = strictAttribute.Strict;
+                case GenerateNonStrictAttribute nonStrictAttribute:
+                    options.Strict = !nonStrictAttribute.NonStrict;
                     break;
                 case GenerateNoIndexAttribute:
                     options.NoIndex = true;

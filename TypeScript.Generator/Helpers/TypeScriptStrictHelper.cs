@@ -12,22 +12,26 @@ public static class TypeScriptStrictHelper
 {
     private static readonly Dictionary<string, TsConfig> cache = new();
 
-    public static void SetStrict(this TypeScriptOptions options, string? relativePath, IDependencyResolver resolver)
+    /// <summary>
+    /// Reads the strict mode from the tsconfig.json of the output folder into
+    /// <see cref="TypeScriptOptions.StrictFromConfig"/>. It is only a fallback for the strict-by-default behaviour
+    /// and never overrules an explicitly set strict mode, so it can always be read.
+    /// </summary>
+    public static void SetStrictFromConfig(this TypeScriptOptions options, string? relativePath, IDependencyResolver resolver)
     {
-        if (options.IsStrictSet || relativePath == null)
+        if (relativePath == null)
         {
             return;
         }
-        options.Strict = Read(relativePath, resolver);
+        options.StrictFromConfig = Read(relativePath, resolver);
     }
 
-    public static bool Read(string relativePath, IDependencyResolver resolver)
+    /// <summary>
+    /// Returns the strict mode configured in the tsconfig.json of the given output folder, or <c>null</c> if no
+    /// tsconfig.json could be found.
+    /// </summary>
+    public static bool? Read(string relativePath, IDependencyResolver resolver)
     {
-        Options options = resolver.Get<Options>();
-        if (options.Get<TypeScriptOptions>().IsStrictSet)
-        {
-            return true;
-        }
         if (resolver.Get<IOutput>() is FileOutput fileOutput)
         {
             string fullPath = FileSystem.Combine(fileOutput.BasePath, relativePath);
@@ -41,8 +45,8 @@ public static class TypeScriptStrictHelper
                     cache[basePath] = tsConfig;
                 }
             }
-            return tsConfig?.CompilerOptions?.Strict ?? false;
+            return tsConfig?.CompilerOptions?.Strict;
         }
-        return false;
+        return null;
     }
 }

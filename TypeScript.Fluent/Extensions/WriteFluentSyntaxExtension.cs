@@ -3,13 +3,16 @@
 public static class WriteFluentSyntaxExtension
 {
     /// <summary>
-    /// Generates code, valid for TypeScripts strict mode
+    /// Generates code that is not restricted by TypeScripts strict mode. By default the generated code is strict.
     /// </summary>
-    public static IWriteFluentSyntax Strict(this IWriteFluentSyntax syntax, bool value = true)
+    /// <param name="value">Set to false to switch back to strict</param>
+    public static IWriteFluentSyntax NonStrict(this IWriteFluentSyntax syntax, bool value = true)
     {
         IReadFluentSyntaxInternal internalSyntax = (IReadFluentSyntaxInternal)syntax;
-        ITypeScriptSyntax typeScriptSyntax = internalSyntax.Resolver.Get<ISyntaxResolver>().Create<ITypeScriptSyntax>();
-        typeScriptSyntax.Strict(value);
+        // The syntax has to run on the resolver of the fluent chain - a new command scope would come with its own
+        // Options and the option set here would never reach the commands.
+        ITypeScriptSyntax typeScriptSyntax = internalSyntax.Resolver.Get<ISyntaxResolver>().Create<ITypeScriptSyntax>(internalSyntax.Resolver);
+        typeScriptSyntax.NonStrict(value);
         return syntax;
     }
 
@@ -19,7 +22,9 @@ public static class WriteFluentSyntaxExtension
     public static IWriteFluentSyntax NoIndex(this IWriteFluentSyntax syntax)
     {
         IReadFluentSyntaxInternal internalSyntax = (IReadFluentSyntaxInternal)syntax;
-        ITypeScriptSyntax typeScriptSyntax = internalSyntax.Resolver.Get<ISyntaxResolver>().Create<ITypeScriptSyntax>();
+        // The syntax has to run on the resolver of the fluent chain - a new command scope would come with its own
+        // Options and the option set here would never reach the commands.
+        ITypeScriptSyntax typeScriptSyntax = internalSyntax.Resolver.Get<ISyntaxResolver>().Create<ITypeScriptSyntax>(internalSyntax.Resolver);
         typeScriptSyntax.NoIndex();
         return syntax;
     }

@@ -52,6 +52,16 @@ public abstract class OptionsBase<TSelf> : OptionsBase
 
     protected T GetValue<T>(Func<TSelf, T?> getter, T defaultValue = default) where T : struct
     {
+        return this.GetValueOrNull(getter) ?? defaultValue;
+    }
+
+    /// <summary>
+    /// Searches the option tree like <see cref="GetValue{T}(Func{TSelf,T?},T)"/>, but reports a value that was set
+    /// nowhere as <c>null</c> instead of falling back to a default. Use it to combine multiple sources of the same
+    /// option, e.g. an explicitly set value that has to win over one read from a configuration file.
+    /// </summary>
+    protected T? GetValueOrNull<T>(Func<TSelf, T?> getter) where T : struct
+    {
         Queue<TSelf> searchTargets = new();
         List<TSelf> searchedTargets = [];
         searchTargets.Enqueue((TSelf)this);
@@ -77,7 +87,7 @@ public abstract class OptionsBase<TSelf> : OptionsBase
                 searchTargets.Enqueue(current.Global);
             }
         }
-        return defaultValue;
+        return null;
     }
 
     protected T? GetValue<T>(Func<TSelf, T?> getter, T? defaultValue = null) where T : class
