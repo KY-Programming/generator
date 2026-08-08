@@ -30,13 +30,14 @@ public static class WriteFluentSyntaxExtension
     }
 
     /// <summary>
-    /// Executes the TypeScript model  write commands
+    /// Writes all models (POCOs) from all previous read actions as plain TypeScript to the output
     /// </summary>
-    // TODO: Implement TypeScriptModel syntax
-    // public static IWriteFluentSyntax TypeScriptModel(this IWriteFluentSyntax syntax)
-    // {
-    //     IFluentInternalSyntax internalSyntax = syntax.CastTo<IFluentInternalSyntax>();
-    //     syntax.co
-    //     return syntax;
-    // }
+    public static IWriteFluentSyntax TypeScriptModel(this IWriteFluentSyntax syntax, Action<ITypeScriptModelSyntax>? action = null)
+    {
+        IFluentInternalSyntax internalSyntax = (IFluentInternalSyntax)syntax;
+        ITypeScriptModelSyntax modelSyntax = internalSyntax.Resolver.Get<ISyntaxResolver>().Create<ITypeScriptModelSyntax>();
+        internalSyntax.Syntaxes.Add((IExecutableSyntax)modelSyntax);
+        action?.Invoke(modelSyntax);
+        return syntax;
+    }
 }

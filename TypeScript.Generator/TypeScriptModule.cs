@@ -23,5 +23,6 @@ public class TypeScriptModule : GeneratorModule
         this.DependencyResolver.Bind<IOptionsFactory>().ToSingleton<TypeScriptOptionsFactory>();
         this.Register<TypeScriptModelCommand>(TypeScriptModelCommandParameters.Names);
         this.Register<ITypeScriptSyntax, TypeScriptSyntax>();
+        this.Register<ITypeScriptModelSyntax, TypeScriptModelSyntax>();
     }
 }

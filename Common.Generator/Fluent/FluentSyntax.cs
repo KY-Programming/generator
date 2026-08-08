@@ -34,17 +34,12 @@ public class FluentSyntax : IReadFluentSyntaxInternal, IWriteFluentSyntaxInterna
     public async Task<IGeneratorCommandResult> Run()
     {
         GeneratorCommandRunner runner = this.Resolver.Create<GeneratorCommandRunner>();
-        foreach (IExecutableSyntax syntax in this.Syntaxes)
-        {
-            List<IGeneratorCommand> syntaxCommands = runner.Create(syntax.Commands, this.Resolver);
-            this.commands.AddRange(syntaxCommands);
-            IGeneratorCommandResult commandResult = await runner.Run(syntaxCommands);
-            if (!commandResult.Success)
-            {
-                return commandResult;
-            }
-        }
-        return new SuccessResult();
+        // Every command of the chain is created and prepared before the first one runs, like in the annotation
+        // and the CLI pipeline. Running one syntax at a time would run the read commands before the write
+        // commands are prepared, and a reader needs what they set up - e.g. the target language, without which
+        // the default member of an enum can not be named.
+        this.commands.AddRange(this.Syntaxes.SelectMany(syntax => runner.Create(syntax.Commands, this.Resolver)));
+        return await runner.Run(this.commands);
     }
 
     public void FollowUp()
