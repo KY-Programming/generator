@@ -37,15 +37,6 @@ configuration — that `GeneratorMain.cs` is the interesting file.
 | [WithCustomHttpClient](Angular/Fluent/WithCustomHttpClient) | Making the generated services use your own HTTP client instead of Angular's `HttpClient` — [GeneratorMain.cs](Angular/Fluent/WithCustomHttpClient.Generator/GeneratorMain.cs). |
 | [NpmPackage](Angular/Fluent/NpmPackage) | Generating into an Angular library structure so the result can be published as an npm package — [GeneratorMain.cs](Angular/Fluent/NpmPackage.Generator/GeneratorMain.cs). |
 
-## AspDotNet
-
-| Example | What it shows |
-|---|---|
-| [WebApi.Core](AspDotNet/WebApi.Core) | Reading an ASP.NET Core WebAPI controller and writing an Angular service, configured in a [generator.json](AspDotNet/WebApi.Core/generator.json). |
-| [WebApi.Attributes.Core](AspDotNet/WebApi.Attributes.Core) | The same for ASP.NET Core, but configured with attributes on the controller — [ValuesController.cs](AspDotNet/WebApi.Attributes.Core/Controllers/ValuesController.cs). |
-| [WebApi](AspDotNet/WebApi) | The classic ASP.NET Web API (.NET Framework) variant — [generator.json](AspDotNet/WebApi/generator.json). |
-| [WebApi.Attributes](AspDotNet/WebApi.Attributes) | The classic ASP.NET Web API variant, configured with attributes — [ValuesController.cs](AspDotNet/WebApi.Attributes/Controllers/ValuesController.cs). |
-
 ## Reflection
 
 Reading types from compiled assemblies instead of source code.
@@ -53,7 +44,7 @@ Reading types from compiled assemblies instead of source code.
 | Example | What it shows |
 |---|---|
 | [ReflectionFromAttributes](Reflection/ReflectionFromAttributes) | Discovering the types to generate through `[GenerateTypeScriptModel]` in the loaded assembly — [TypeToRead.cs](Reflection/ReflectionFromAttributes/TypeToRead.cs). |
-| [ReflectionFromConstant](Reflection/ReflectionFromConstant) | How constants and static fields are carried over into the generated model — [Class1.cs](Reflection/ReflectionFromConstant/Class1.cs). |
+| [ReflectionFromConstant](Reflection/ReflectionFromConstant) | How constants and static fields are carried over into the generated model as `static readonly` members — [Constants.cs](Reflection/ReflectionFromConstant/Constants.cs). |
 | [ReflectionFromIndex](Reflection/ReflectionFromIndex) | Forcing an index file for the generated types with `[assembly: GenerateForceIndex]` — [AssemblyInfo.cs](Reflection/ReflectionFromIndex/AssemblyInfo.cs). |
 | [ReflectionFromExecutable](Reflection/ReflectionFromExecutable) | Loading the types from a compiled executable instead of a library — [TypeToRead.cs](Reflection/ReflectionFromExecutable/TypeToRead.cs). |
 | [ReflectionFromMultipleAssemblies](Reflection/ReflectionFromMultipleAssemblies) | A type referencing a type from another assembly, which is resolved and generated as well — [TypeToRead.cs](Reflection/ReflectionFromMultipleAssemblies/MainAssembly/TypeToRead.cs). |
