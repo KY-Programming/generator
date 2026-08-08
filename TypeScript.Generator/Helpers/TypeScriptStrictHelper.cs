@@ -28,7 +28,8 @@ public static class TypeScriptStrictHelper
 
     /// <summary>
     /// Returns the strict mode configured in the tsconfig.json of the given output folder, or <c>null</c> if no
-    /// tsconfig.json could be found.
+    /// tsconfig.json could be found or it does not configure a strict mode. An absent entry is deliberately not
+    /// read as false: since TypeScript 6 the compiler defaults it to true.
     /// </summary>
     public static bool? Read(string relativePath, IDependencyResolver resolver)
     {

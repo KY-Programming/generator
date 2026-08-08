@@ -10,6 +10,10 @@ namespace KY.Generator.TypeScript.Transfer
 
     public class CompilerOptions
     {
-        public bool Strict { get; set; }
+        /// <summary>
+        /// Null when the tsconfig.json does not mention "strict" at all. That is not the same as false: since
+        /// TypeScript 6 the compiler defaults it to true, so an absent entry must not switch the strict mode off.
+        /// </summary>
+        public bool? Strict { get; set; }
     }
 }

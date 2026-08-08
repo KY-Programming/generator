@@ -10,7 +10,7 @@ public static class ReadFluentSyntaxExtension
     public static IReadFluentSyntax Sqlite(this IReadFluentSyntax syntax, Action<ISqliteReadSyntax> action)
     {
         IReadFluentSyntaxInternal internalSyntax = (IReadFluentSyntaxInternal)syntax;
-        ISqliteReadSyntax readSyntax = internalSyntax.Resolver.Create<ISqliteReadSyntax>();
+        ISqliteReadSyntax readSyntax = internalSyntax.Resolver.Get<ISyntaxResolver>().Create<ISqliteReadSyntax>();
         IExecutableSyntax executableSyntax = readSyntax.CastTo<IExecutableSyntax>();
         internalSyntax.Syntaxes.Add(executableSyntax);
         action(readSyntax);

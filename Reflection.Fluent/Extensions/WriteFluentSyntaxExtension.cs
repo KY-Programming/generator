@@ -10,7 +10,7 @@ public static class WriteFluentSyntaxExtension
     public static IWriteFluentSyntax Reflection(this IWriteFluentSyntax syntax, Action<IReflectionWriteSyntax> action)
     {
         IWriteFluentSyntaxInternal internalSyntax = (IWriteFluentSyntaxInternal)syntax;
-        IReflectionWriteSyntax writeSyntax = internalSyntax.Resolver.Create<IReflectionWriteSyntax>();
+        IReflectionWriteSyntax writeSyntax = internalSyntax.Resolver.Get<ISyntaxResolver>().Create<IReflectionWriteSyntax>();
         IExecutableSyntax executableSyntax = writeSyntax.CastTo<IExecutableSyntax>();
         internalSyntax.Syntaxes.Add(executableSyntax);
         action(writeSyntax);

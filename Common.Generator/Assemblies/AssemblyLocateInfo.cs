@@ -31,7 +31,8 @@ public class AssemblyLocateInfo
         Match match = regex.Match(args.Name);
         if (match.Success)
         {
-            return new AssemblyLocateInfo(match.Groups["name"].Value, new Version(match.Groups["version"].Value), dotNetVersion);
+            Group versionGroup = match.Groups["version"];
+            return new AssemblyLocateInfo(match.Groups["name"].Value, versionGroup.Success ? new Version(versionGroup.Value) : null, dotNetVersion);
         }
         return new AssemblyLocateInfo(args.Name, null, dotNetVersion);
     }

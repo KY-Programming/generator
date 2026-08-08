@@ -102,7 +102,18 @@ namespace KY.Generator.TypeScript.Transfer.Readers
 
         private void LogInfo(TsConfig config)
         {
-            Logger.Trace($"Activate TypeScript {(config?.CompilerOptions?.Strict == true ? "strict" : "regular")} mode");
+            switch (config?.CompilerOptions?.Strict)
+            {
+                case true:
+                    Logger.Trace("Activate TypeScript strict mode");
+                    break;
+                case false:
+                    Logger.Trace("Activate TypeScript regular mode");
+                    break;
+                default:
+                    Logger.Trace("No strict mode configured, keep the default");
+                    break;
+            }
         }
     }
 }
