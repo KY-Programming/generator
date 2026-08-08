@@ -1,8 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WithCustomHttpClient", "WithCustomHttpClient\Service\WithCustomHttpClient.csproj", "{6F5B680A-6083-41CB-87F6-99DCA32FE569}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WithCustomHttpClient", "WithCustomHttpClient\WithCustomHttpClient.csproj", "{6F5B680A-6083-41CB-87F6-99DCA32FE569}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Generator", "WithCustomHttpClient\Generator\Generator.csproj", "{01AB73C6-34DD-450E-B170-78CFD1E01DFD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WithCustomHttpClient.Generator", "WithCustomHttpClient.Generator\WithCustomHttpClient.Generator.csproj", "{01AB73C6-34DD-450E-B170-78CFD1E01DFD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

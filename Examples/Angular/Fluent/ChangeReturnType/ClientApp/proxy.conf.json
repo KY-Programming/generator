@@ -1,0 +1,6 @@
+{
+  "/weatherforecast": {
+    "target": "https://localhost:5017",
+    "secure": false
+  }
+}
