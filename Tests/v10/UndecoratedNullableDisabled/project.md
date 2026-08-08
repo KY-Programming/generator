@@ -22,8 +22,8 @@ Nothing being generated is the result this test checks, so it is asserted rather
 
 ## Status
 
-- **Last Build:** 2026-08-08 11:20:16
-- **Duration:** 57ms
-- **Status:** Success
-- **Info:** 0 errors, 1 file validated
+- **Last Build:** 2026-08-08 11:37:27
+- **Duration:** 1.1s
+- **Status:** Empty
+- **Info:** No output files
 - **Last Success:** 2026-08-08 11:20:16

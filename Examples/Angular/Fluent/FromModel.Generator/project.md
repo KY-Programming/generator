@@ -28,9 +28,9 @@ readid -solution=$\Examples\Angular\Fluent\FromModel.sln -project=$\Examples\Ang
 
 ## Status
 
-- **Last Build:** 2026-08-08 11:18:50
-- **Duration:** 6.8s
-- **Status:** Warning
-- **Info:** 1 changed
-- **Last Success:** 2026-08-08 11:18:50
+- **Last Build:** 2026-08-08 11:37:12
+- **Duration:** 7.0s
+- **Status:** Success
+- **Info:** 0 errors, 1 file validated
+- **Last Success:** 2026-08-08 11:37:12
 - **Generator:** 10.0.1-preview.6

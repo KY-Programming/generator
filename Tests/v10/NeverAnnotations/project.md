@@ -28,9 +28,9 @@ file. The one file it guards is what the validated count refers to.
 
 ## Status
 
-- **Last Build:** 2026-08-08 11:20:15
-- **Duration:** 4.9s
-- **Status:** Success
-- **Info:** 0 errors, 1 file validated
+- **Last Build:** 2026-08-08 11:37:24
+- **Duration:** 5.0s
+- **Status:** Failure
+- **Info:** Build failed
 - **Last Success:** 2026-08-08 11:20:15
 - **Generator:** 10.0.1-preview.6

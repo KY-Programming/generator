@@ -30,9 +30,9 @@ readid -solution=*Undefined* -project=$\Tests\v10\SelfReferencingAnnotationsNull
 
 ## Status
 
-- **Last Build:** 2026-08-08 11:20:16
-- **Duration:** 5.3s
+- **Last Build:** 2026-08-08 11:37:25
+- **Duration:** 5.5s
 - **Status:** Success
 - **Info:** 0 errors, 3 files validated
-- **Last Success:** 2026-08-08 11:20:16
+- **Last Success:** 2026-08-08 11:37:25
 - **Generator:** 10.0.1-preview.6

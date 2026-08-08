@@ -38,9 +38,9 @@ readid -solution=*Undefined* -project=$\Tests\v10\TypesFluentNullableEnabled\Typ
 
 ## Status
 
-- **Last Build:** 2026-08-08 11:20:18
-- **Duration:** 2.8s
+- **Last Build:** 2026-08-08 11:37:30
+- **Duration:** 5.1s
 - **Status:** Success
 - **Info:** 0 errors, 11 files validated
-- **Last Success:** 2026-08-08 11:20:18
+- **Last Success:** 2026-08-08 11:37:30
 - **Generator:** 10.0.1-preview.6

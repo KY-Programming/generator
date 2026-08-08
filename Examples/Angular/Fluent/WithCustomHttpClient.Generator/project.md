@@ -30,9 +30,9 @@ readid -solution=$\Examples\Angular\Fluent\WithCustomHttpClient.sln -project=$\E
 
 ## Status
 
-- **Last Build:** 2026-08-08 11:18:57
-- **Duration:** 7.2s
-- **Status:** Warning
-- **Info:** 1 changed
-- **Last Success:** 2026-08-08 11:18:57
+- **Last Build:** 2026-08-08 11:37:20
+- **Duration:** 8.2s
+- **Status:** Success
+- **Info:** 0 errors, 6 files validated
+- **Last Success:** 2026-08-08 11:37:20
 - **Generator:** 10.0.1-preview.6

@@ -30,9 +30,9 @@ readid -solution=$\Examples\Angular\Annotation\ModelFromAssembly.sln -project=$\
 
 ## Status
 
-- **Last Build:** 2026-08-08 11:18:46
-- **Duration:** 5.5s
+- **Last Build:** 2026-08-08 11:37:05
+- **Duration:** 5.4s
 - **Status:** Success
 - **Info:** 0 errors, 3 files validated
-- **Last Success:** 2026-08-08 11:18:46
+- **Last Success:** 2026-08-08 11:37:05
 - **Generator:** 10.0.1-preview.6

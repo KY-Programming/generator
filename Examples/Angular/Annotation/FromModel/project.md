@@ -28,9 +28,9 @@ readid -solution=$\Examples\Angular\Annotation\FromModel.sln -project=$\Examples
 
 ## Status
 
-- **Last Build:** 2026-08-08 11:18:45
-- **Duration:** 5.3s
+- **Last Build:** 2026-08-08 11:37:06
+- **Duration:** 5.6s
 - **Status:** Success
 - **Info:** 0 errors, 1 file validated
-- **Last Success:** 2026-08-08 11:18:45
+- **Last Success:** 2026-08-08 11:37:06
 - **Generator:** 10.0.1-preview.6

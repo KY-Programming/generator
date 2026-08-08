@@ -16,8 +16,18 @@ whole write chain, so per type control needs the [GenerateNonStrict] annotation 
 
 Matching output hashes only prove that nothing changed - not that the generated TypeScript compiles. validate.js type-checks the generated models against the shared tsconfig in Tests/Shared as the last build step and reports its result as JSON on the last line of its output.
 
+## Parameters
+
+```
+readid -solution=$\Examples\Angular\Fluent\NonStrict.sln -project=$\Examples\Angular\Fluent\NonStrict.Generator\NonStrict.Generator.csproj msbuild set -output=$\Examples\Angular\Fluent\NonStrict.Generator\ load -assembly=$\Examples\Angular\Fluent\NonStrict.Generator\bin\Debug\net10.0\NonStrict.Generator.dll fluent annotation
+```
+
 ## Output
 
+- ../NonStrict/Output/NonStrict/
+    - weather-forecast.ts `#d06d734f`
+- ../NonStrict/Output/Strict/
+    - weather-forecast.ts `#c5f2c3b8`
 
 ## Validation
 
@@ -25,9 +35,9 @@ Matching output hashes only prove that nothing changed - not that the generated 
 
 ## Status
 
-- **Last Build:** 2026-08-08 11:18:50
-- **Duration:** 4.3s
-- **Status:** Success
-- **Info:** 0 errors, 2 files validated
-- **Last Success:** 2026-08-08 11:18:50
+- **Last Build:** 2026-08-08 11:37:13
+- **Duration:** 7.6s
+- **Status:** Warning
+- **Info:** 2 new
+- **Last Success:** 2026-08-08 11:37:13
 - **Generator:** 10.0.1-preview.6

@@ -32,9 +32,9 @@ readid -solution=$\Examples\Angular\Annotation\ServiceFromAspNetCoreSignalRHub.s
 
 ## Status
 
-- **Last Build:** 2026-08-08 11:18:51
-- **Duration:** 10.6s
+- **Last Build:** 2026-08-08 11:37:11
+- **Duration:** 11.2s
 - **Status:** Success
 - **Info:** 0 errors, 7 files validated
-- **Last Success:** 2026-08-08 11:18:51
+- **Last Success:** 2026-08-08 11:37:11
 - **Generator:** 10.0.1-preview.6

@@ -32,9 +32,9 @@ readid -solution=$\Examples\Angular\Fluent\NpmPackage.sln -project=$\Examples\An
 
 ## Status
 
-- **Last Build:** 2026-08-08 11:18:56
-- **Duration:** 10.9s
-- **Status:** Warning
-- **Info:** 2 changed, 2 new
-- **Last Success:** 2026-08-08 11:18:56
+- **Last Build:** 2026-08-08 11:37:19
+- **Duration:** 12.9s
+- **Status:** Success
+- **Info:** 0 errors, 5 files validated
+- **Last Success:** 2026-08-08 11:37:19
 - **Generator:** 10.0.1-preview.6
