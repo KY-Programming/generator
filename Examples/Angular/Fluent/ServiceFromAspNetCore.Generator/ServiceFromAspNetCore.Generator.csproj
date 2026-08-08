@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ServiceFromAspNetCore\ServiceFromAspNetCore.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="KY.Generator" Version="10.0.1-preview.3" />
+    <PackageReference Include="KY.Generator.Angular" Version="10.0.1-preview.3" />
+    <PackageReference Include="KY.Generator.AspDotNet" Version="10.0.1-preview.3" />
+  </ItemGroup>
+
+</Project>
