@@ -5,7 +5,8 @@ namespace KY.Generator.Angular.Fluent;
 internal class AngularPackageSyntax : IExecutableSyntax, IAngularPackageSyntax
 {
     private readonly AngularPackageCommandParameters command;
-    public List<GeneratorCommandParameters> Commands { get; } = [];
+
+    public List<GeneratorCommandParameters> Commands => this.command.SubCommands;
 
     public AngularPackageSyntax(AngularPackageCommandParameters command)
     {
@@ -87,7 +88,7 @@ internal class AngularPackageSyntax : IExecutableSyntax, IAngularPackageSyntax
     public IAngularPackageSyntax Models(Action<IAngularModelSyntax>? action = null)
     {
         AngularModelCommandParameters modelCommand = new();
-        this.Commands.Add(modelCommand);
+        this.command.SubCommands.Add(modelCommand);
         action?.Invoke(new AngularModelSyntax(this, modelCommand));
         return this;
     }
@@ -95,7 +96,7 @@ internal class AngularPackageSyntax : IExecutableSyntax, IAngularPackageSyntax
     public IAngularPackageSyntax Services(Action<IAngularServiceSyntax>? action = null)
     {
         AngularServiceCommandParameters serviceCommand = new();
-        this.Commands.Add(serviceCommand);
+        this.command.SubCommands.Add(serviceCommand);
         action?.Invoke(new AngularServiceSyntax(this, serviceCommand));
         return this;
     }

@@ -30,24 +30,9 @@ public class GeneratorCommandRunner
         return result ?? new SuccessResult();
     }
 
-    public async Task<IGeneratorCommandResult> Run(IEnumerable<GeneratorCommandParameters> parameters, IDependencyResolver? resolver = null)
+    public List<IGeneratorCommand> Create(IEnumerable<GeneratorCommandParameters> parameters, IDependencyResolver? resolver = null)
     {
-        List<IGeneratorCommand> commands = this.commandFactory.Create(parameters, resolver);
-        IGeneratorCommandResult? result = null;
-        commands.ForEach(command => command.Prepare());
-        foreach (IGeneratorCommand command in commands)
-        {
-            result = await this.Run(command);
-            if (!result.Success)
-            {
-                return result;
-            }
-        }
-        foreach (IGeneratorCommand command in commands)
-        {
-            command.FollowUp();
-        }
-        return result ?? new SuccessResult();
+        return this.commandFactory.Create(parameters, resolver);
     }
 
     public async Task<IGeneratorCommandResult> Run(IGeneratorCommand command)

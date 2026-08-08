@@ -10,7 +10,7 @@ public class AngularPackageWriter
 {
     public const string BasePackageName = "package";
 
-    public void Write(string name, string fullName, string version, string packagePath, List<AngularPackageDependsOnParameter> dependsOn, string cliVersion, string servicePath, string modelPath, IncrementVersion incrementVersion, bool versionFromNpm)
+    public void Write(string name, string fullName, string version, string packagePath, List<AngularPackageDependsOnParameter> dependsOn, string cliVersion, string? servicePath, string? modelPath, IncrementVersion incrementVersion, bool versionFromNpm)
     {
         if (!InitializeProject(dependsOn, packagePath, name, cliVersion, servicePath, modelPath))
         {
@@ -26,7 +26,7 @@ public class AngularPackageWriter
         }
     }
 
-    private static bool InitializeProject(List<AngularPackageDependsOnParameter> dependsOn, string packagePath, string name, string cliVersion, string servicePath, string modelPath)
+    private static bool InitializeProject(List<AngularPackageDependsOnParameter> dependsOn, string packagePath, string name, string cliVersion, string? servicePath, string? modelPath)
     {
         if (FileSystem.FileExists(packagePath, "../../angular.json"))
         {
@@ -52,10 +52,14 @@ public class AngularPackageWriter
         }
         string sourcePath = FileSystem.Combine(packagePath, "src");
         FileSystem.DeleteDirectory(sourcePath, "lib");
-        modelPath = FileSystem.Combine("./lib", modelPath).Replace(FileSystem.DirectorySeparator(), "/");
-        servicePath = FileSystem.Combine("./lib", servicePath).Replace(FileSystem.DirectorySeparator(), "/");
-        FileSystem.WriteAllText(FileSystem.Combine(sourcePath, "public-api.ts"), $"export * from '{modelPath}';" + Environment.NewLine + $"export * from '{servicePath}';" + Environment.NewLine);
+        IEnumerable<string> exports = new[] { modelPath, servicePath }.Select(ToLibraryPath).Distinct().Select(path => $"export * from '{path}';" + Environment.NewLine);
+        FileSystem.WriteAllText(FileSystem.Combine(sourcePath, "public-api.ts"), string.Concat(exports));
         return true;
+    }
+
+    private static string ToLibraryPath(string? relativePath)
+    {
+        return string.IsNullOrEmpty(relativePath) ? "./lib" : FileSystem.Combine("./lib", relativePath).Replace(FileSystem.DirectorySeparator(), "/");
     }
 
     private static bool UpdateProjectPackageJson(string name, string fullName, string version, List<AngularPackageDependsOnParameter> dependsOn, string packagePath, IncrementVersion incrementVersion, bool versionFromNpm)

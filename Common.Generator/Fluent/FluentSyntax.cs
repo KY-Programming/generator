@@ -9,6 +9,7 @@ namespace KY.Generator;
 public class FluentSyntax : IReadFluentSyntaxInternal, IWriteFluentSyntaxInternal, ISwitchToReadFluentSyntax
 {
     private readonly Options options;
+    private readonly List<IGeneratorCommand> commands = [];
     public IDependencyResolver Resolver { get; }
 
     public List<IExecutableSyntax> Syntaxes { get; } = [];
@@ -35,7 +36,9 @@ public class FluentSyntax : IReadFluentSyntaxInternal, IWriteFluentSyntaxInterna
         GeneratorCommandRunner runner = this.Resolver.Create<GeneratorCommandRunner>();
         foreach (IExecutableSyntax syntax in this.Syntaxes)
         {
-            IGeneratorCommandResult commandResult = await runner.Run(syntax.Commands, this.Resolver);
+            List<IGeneratorCommand> syntaxCommands = runner.Create(syntax.Commands, this.Resolver);
+            this.commands.AddRange(syntaxCommands);
+            IGeneratorCommandResult commandResult = await runner.Run(syntaxCommands);
             if (!commandResult.Success)
             {
                 return commandResult;
@@ -46,7 +49,7 @@ public class FluentSyntax : IReadFluentSyntaxInternal, IWriteFluentSyntaxInterna
 
     public void FollowUp()
     {
-        // this.Syntaxes.ForEach(syntax => syntax.Commands.ForEach(command => command.FollowUp()));
+        this.commands.ForEach(command => command.FollowUp());
     }
 
     ISwitchToReadFluentSyntax IFluentSyntax<ISwitchToReadFluentSyntax>.SetGlobal(Assembly assembly, Action<ISetFluentSyntax> action)

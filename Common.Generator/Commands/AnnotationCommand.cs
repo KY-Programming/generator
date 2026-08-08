@@ -15,6 +15,7 @@ internal class AnnotationCommand : GeneratorCommand<AnnotationCommandParameters>
     private static readonly List<Assembly> processedAssemblies = [];
     private readonly IDependencyResolver resolver;
     private readonly IEnvironment environment;
+    private readonly List<IGeneratorCommand> executedCommands = [];
 
     public AnnotationCommand(IDependencyResolver resolver, IEnvironment environment)
     {
@@ -84,6 +85,12 @@ internal class AnnotationCommand : GeneratorCommand<AnnotationCommandParameters>
         return this.Success();
     }
 
+    public override void FollowUp()
+    {
+        base.FollowUp();
+        this.executedCommands.ForEach(command => command.FollowUp());
+    }
+
     private IEnumerable<CliCommand> CreateCommands(IGeneratorCommandAttribute attribute, List<CliCommandParameter> globalParameters, string? typeName = null, string? nameSpace = null, string? assembly = null, string? assemblyLocation = null)
     {
         return attribute.Commands.Select(x =>
@@ -127,6 +134,7 @@ internal class AnnotationCommand : GeneratorCommand<AnnotationCommandParameters>
         GeneratorCommandRunner generatorCommandRunner = commandResolver.Get<GeneratorCommandRunner>();
         List<IGeneratorCommand> commands = commandResolver.Get<GeneratorCommandFactory>().Create(rawCommands, commandResolver);
         commands.ForEach(x => x.Parse());
+        this.executedCommands.AddRange(commands);
         IGeneratorCommandResult commandResult = await generatorCommandRunner.Run(commands);
         if (!commandResult.Success)
         {
