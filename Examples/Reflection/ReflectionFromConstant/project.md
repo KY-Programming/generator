@@ -9,16 +9,28 @@
 
 # ReflectionFromConstant
 
-Demonstrates using reflection module with type references stored in constants to dynamically load and generate TypeScript code.
+Demonstrates how C# constants and static fields are read with their values and written as `static readonly` members of the generated TypeScript model.
+
+## Parameters
+
+```
+readid -solution=$\Examples\Reflection\ReflectionFromConstant.sln -project=$\Examples\Reflection\ReflectionFromConstant\ReflectionFromConstant.csproj msbuild set -output=$\Examples\Reflection\ReflectionFromConstant\ load -assembly=$\Examples\Reflection\ReflectionFromConstant\bin\Debug\net10.0\ReflectionFromConstant.dll fluent annotation
+```
 
 ## Output
 
 - Output/
-    - class-1.ts `#9f1a5519`
+    - constants.ts `#8cb93de2`
+
+## Validation
+
+- validate.js `passed, 1 file validated`
 
 ## Status
 
-- **Last Build:** 2026-05-09 06:12:12
-- **Status:** Failure
-- **Info:** Build failed
-- **Generator:** 10.0.0-preview.39
+- **Last Build:** 2026-08-08 13:54:16
+- **Duration:** 5.0s
+- **Status:** Success
+- **Info:** 0 errors, 1 file validated
+- **Last Success:** 2026-08-08 13:54:16
+- **Generator:** 10.0.1-preview.7

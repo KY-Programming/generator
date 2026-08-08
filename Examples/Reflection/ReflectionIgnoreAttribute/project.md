@@ -9,17 +9,37 @@
 
 # ReflectionIgnoreAttribute
 
-Demonstrates using [GenerateIgnore] attribute with reflection module to exclude specific types or members from TypeScript generation.
+Demonstrates excluding types, enums, fields and properties from the generation with [GenerateIgnore].
+
+A member may not simply use a type that is not written: it would be generated with an import of a file that never appears, so the generation is aborted with an error. Both ways out are shown here - EnumToIgnoreProperty is left out with [GenerateIgnore], while TypeToIgnore is bound to the hand written Output/type-to-ignore.ts with [GenerateImport] on TypeToRead. That file carries no output id, so the generator neither overwrites nor deletes it - and it is listed under "## Ignore" instead of "## Output", otherwise the Builder would delete it before every build.
+
+## Parameters
+
+```
+readid -solution=$\Examples\Reflection\ReflectionIgnoreAttribute.sln -project=$\Examples\Reflection\ReflectionIgnoreAttribute\ReflectionIgnoreAttribute.csproj msbuild set -output=$\Examples\Reflection\ReflectionIgnoreAttribute\ load -assembly=$\Examples\Reflection\ReflectionIgnoreAttribute\bin\Debug\net10.0\ReflectionIgnoreAttribute.dll fluent annotation
+```
 
 ## Output
 
 - Output/
-    - generate-only-sub-types-sub-type.ts `#07791ff0`
-    - type-to-read.ts `#58b795f7`
+    - type-to-read.ts `#97322305`
+
+## Validation
+
+- validate.js `passed, 2 files validated`
+
+## Ignore
+
+- Output
+- Output
+- Output/
+    - type-to-ignore.ts
 
 ## Status
 
-- **Last Build:** 2026-05-09 06:12:20
-- **Status:** Failure
-- **Info:** Build failed
-- **Generator:** 10.0.0-preview.39
+- **Last Build:** 2026-08-08 13:54:16
+- **Duration:** 5.3s
+- **Status:** Success
+- **Info:** 0 errors, 2 files validated
+- **Last Success:** 2026-08-08 13:54:16
+- **Generator:** 10.0.1-preview.7

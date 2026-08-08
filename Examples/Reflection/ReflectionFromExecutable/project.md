@@ -9,16 +9,28 @@
 
 # ReflectionFromExecutable
 
-Demonstrates using reflection module to load types from compiled executables and generate TypeScript code from discovered types.
+Demonstrates reading the types to generate from a compiled executable (OutputType Exe) instead of from a library assembly.
+
+## Parameters
+
+```
+readid -solution=$\Examples\Reflection\ReflectionFromExecutable.sln -project=$\Examples\Reflection\ReflectionFromExecutable\ReflectionFromExecutable.csproj msbuild set -output=$\Examples\Reflection\ReflectionFromExecutable\ load -assembly=$\Examples\Reflection\ReflectionFromExecutable\bin\Debug\net10.0\ReflectionFromExecutable.dll fluent annotation
+```
 
 ## Output
 
 - Output/
-    - type-to-read.ts `#20dcada0`
+    - type-to-read.ts `#3fe54a82`
+
+## Validation
+
+- validate.js `passed, 1 file validated`
 
 ## Status
 
-- **Last Build:** 2026-05-09 06:12:16
-- **Status:** Verify Missing
-- **Info:** 1 missing
-- **Generator:** 10.0.0-preview.39
+- **Last Build:** 2026-08-08 13:54:16
+- **Duration:** 5.3s
+- **Status:** Success
+- **Info:** 0 errors, 1 file validated
+- **Last Success:** 2026-08-08 13:54:16
+- **Generator:** 10.0.1-preview.7

@@ -7,22 +7,22 @@
  </auto-generated>
 -------------------------------------------------------------------------->
 
-# ReflectionFromIndex
+# MainAssembly
 
-Demonstrates the generated index.ts barrel file, requested explicitly with [assembly: GenerateForceIndex], which re-exports every model written into the output folder.
+Demonstrates that a type from a referenced assembly is generated too, without an annotation of its own, because a generated type uses it.
 
 ## Parameters
 
 ```
-readid -solution=$\Examples\Reflection\ReflectionFromIndex.sln -project=$\Examples\Reflection\ReflectionFromIndex\ReflectionFromIndex.csproj msbuild set -output=$\Examples\Reflection\ReflectionFromIndex\ load -assembly=$\Examples\Reflection\ReflectionFromIndex\bin\Debug\net10.0\ReflectionFromIndex.dll fluent annotation
+readid -solution=$\Examples\Reflection\ReflectionFromMultipleAssemblies.sln -project=$\Examples\Reflection\ReflectionFromMultipleAssemblies\MainAssembly\MainAssembly.csproj msbuild set -output=$\Examples\Reflection\ReflectionFromMultipleAssemblies\MainAssembly\ load -assembly=$\Examples\Reflection\ReflectionFromMultipleAssemblies\MainAssembly\bin\Debug\net10.0\MainAssembly.dll fluent annotation
 ```
 
 ## Output
 
 - Output/
-    - another-type.ts `#ba949dcb`
-    - index.ts `#259513df`
-    - type-to-read.ts `#a300e05f`
+    - index.ts `#638cdc7b`
+    - second-type.ts `#c44e05a2`
+    - type-to-read.ts `#781fc942`
 
 ## Validation
 

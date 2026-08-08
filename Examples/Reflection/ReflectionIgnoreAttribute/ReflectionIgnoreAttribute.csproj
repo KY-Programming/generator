@@ -1,13 +1,15 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <ProjectGuid>{0069e9c6-1a9c-4b27-ac11-56d1413e4d18}</ProjectGuid>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <ProjectGuid>{0069e9c6-1a9c-4b27-ac11-56d1413e4d18}</ProjectGuid>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="KY.Generator" Version="9.0.0-preview.20" />
-    <PackageReference Include="KY.Generator.Annotations" Version="9.0.0-preview.20" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="KY.Generator" Version="10.0.1-preview.7" />
+        <PackageReference Include="KY.Generator.Reflection" Version="10.0.1-preview.7" />
+    </ItemGroup>
 
 </Project>

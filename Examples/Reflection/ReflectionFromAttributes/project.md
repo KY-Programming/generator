@@ -9,16 +9,28 @@
 
 # ReflectionFromAttributes
 
-Demonstrates using reflection module to load and generate TypeScript code from types discovered via custom attributes in loaded assemblies.
+Demonstrates the reflection reader: the generator loads the compiled assembly after the build and generates every type marked with [GenerateTypeScriptModel].
+
+## Parameters
+
+```
+readid -solution=$\Examples\Reflection\ReflectionFromAttributes.sln -project=$\Examples\Reflection\ReflectionFromAttributes\ReflectionFromAttributes.csproj msbuild set -output=$\Examples\Reflection\ReflectionFromAttributes\ load -assembly=$\Examples\Reflection\ReflectionFromAttributes\bin\Debug\net10.0\ReflectionFromAttributes.dll fluent annotation
+```
 
 ## Output
 
 - Output/
-    - type-to-read.ts `#e2215d4e`
+    - type-to-read.ts `#0908e9b7`
+
+## Validation
+
+- validate.js `passed, 1 file validated`
 
 ## Status
 
-- **Last Build:** 2026-05-09 06:12:10
-- **Status:** Failure
-- **Info:** Build failed
-- **Generator:** 10.0.0-preview.39
+- **Last Build:** 2026-08-08 13:54:16
+- **Duration:** 5.2s
+- **Status:** Success
+- **Info:** 0 errors, 1 file validated
+- **Last Success:** 2026-08-08 13:54:16
+- **Generator:** 10.0.1-preview.7

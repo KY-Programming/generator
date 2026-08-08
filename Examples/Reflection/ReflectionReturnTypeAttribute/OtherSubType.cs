@@ -2,5 +2,5 @@ namespace ReflectionReturnTypeAttribute;
 
 public class OtherSubType
 {
-    public string OtherStringProperty { get; set; }
+    public string OtherStringProperty { get; set; } = "";
 }

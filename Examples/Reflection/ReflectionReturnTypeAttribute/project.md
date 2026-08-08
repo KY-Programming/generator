@@ -9,18 +9,31 @@
 
 # ReflectionReturnTypeAttribute
 
-Demonstrates using [GenerateReturnType] attribute with reflection module to override or customize return types in generated TypeScript code.
+Demonstrates replacing the type a property is generated with via [GenerateProperty(Type = ...)], while the C# side keeps its original type.
+
+## Parameters
+
+```
+readid -solution=$\Examples\Reflection\ReflectionReturnTypeAttribute.sln -project=$\Examples\Reflection\ReflectionReturnTypeAttribute\ReflectionReturnTypeAttribute.csproj msbuild set -output=$\Examples\Reflection\ReflectionReturnTypeAttribute\ load -assembly=$\Examples\Reflection\ReflectionReturnTypeAttribute\bin\Debug\net10.0\ReflectionReturnTypeAttribute.dll fluent annotation
+```
 
 ## Output
 
 - Output/
-    - other-sub-type.ts `#19ec342d`
-    - sub-type.ts `#da8eca21`
-    - types.ts `#4d9fc968`
+    - index.ts `#feacd43c`
+    - other-sub-type.ts `#d7319978`
+    - sub-type.ts `#6d35e6e6`
+    - types.ts `#5d672e9a`
+
+## Validation
+
+- validate.js `passed, 4 files validated`
 
 ## Status
 
-- **Last Build:** 2026-05-09 06:12:19
-- **Status:** Failure
-- **Info:** Build failed
-- **Generator:** 10.0.0-preview.39
+- **Last Build:** 2026-08-08 13:54:16
+- **Duration:** 5.0s
+- **Status:** Success
+- **Info:** 0 errors, 4 files validated
+- **Last Success:** 2026-08-08 13:54:16
+- **Generator:** 10.0.1-preview.7
