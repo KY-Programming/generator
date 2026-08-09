@@ -1,0 +1,53 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <!-- netstandard2.0 so the module can be loaded by every generator tool, from .NET Framework
+             4.6.2 up to the current .NET. -->
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <LangVersion>latest</LangVersion>
+        <RootNamespace>MyModule</RootNamespace>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+
+        <PackageId>MyModule</PackageId>
+        <Version>1.0.0</Version>
+        <Description>A KY.Generator module.</Description>
+
+        <!-- NU5100: warns that the assembly under "generators" is not in "lib" and will not be referenced.
+             That is exactly the intent - the generator half is loaded by the tool, not referenced by the
+             compiler. -->
+        <NoWarn>$(NoWarn);NU5100</NoWarn>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <!-- Only the base package. This half holds annotations, command parameters and the fluent API -
+             everything a user of this module references. The generation itself lives in the other half. -->
+        <PackageReference Include="KY.Generator.Common" Version="KY_GENERATOR_VERSION" />
+        <!-- Logger, the Assert helpers and the dependency resolver. KY.Generator.Common does not declare
+             it as a dependency, so it has to be referenced explicitly here. -->
+        <PackageReference Include="KY.Core.Common" Version="10.1.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="..\README.md" Pack="true" PackagePath="" Visible="false" />
+        <!-- The generator half is shipped in "generators", not in "lib": it is never referenced at
+             compile time, the generator tool loads it at run time. AssemblyInfo.cs is what points the
+             tool at it. -->
+        <None Include="..\MyModule.Generator\bin\$(Configuration)\netstandard2.0\publish\MyModule.Generator.dll"
+              Pack="true" PackagePath="generators\netstandard2.0\" Visible="false" />
+    </ItemGroup>
+
+    <!-- "dotnet pack" on this project produces a complete module package on its own: the generator half
+         is published first, so the file listed above exists. Without this you would have to remember to
+         publish the other project by hand before every pack. -->
+    <Target Name="PublishGeneratorHalf" BeforeTargets="GenerateNuspec">
+        <Exec Command="dotnet publish &quot;$(MSBuildThisFileDirectory)..\MyModule.Generator\MyModule.Generator.csproj&quot; -c $(Configuration) --nologo" />
+    </Target>
+
+    <Target Name="VerifyGeneratorHalfWasPublished" BeforeTargets="GenerateNuspec" DependsOnTargets="PublishGeneratorHalf">
+        <Error Condition="!Exists('$(MSBuildThisFileDirectory)..\MyModule.Generator\bin\$(Configuration)\netstandard2.0\publish\MyModule.Generator.dll')"
+               Text="MyModule.Generator.dll was not published. Without it the package contains no generator and the module does nothing." />
+    </Target>
+
+</Project>

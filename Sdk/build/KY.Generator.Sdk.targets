@@ -1,0 +1,19 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+    <!--
+        The SDK is a compile time only package: it ships reference assemblies under ref/, so nothing of it
+        reaches the output folder of the project that references it. The check below catches the one wiring
+        mistake that reintroduces exactly the problem ref/ avoids.
+
+        A module's ".Generator" project must not reference the KY.Generator tool package. That package
+        brings the MSBuild targets that *run* generation, so the module would try to generate from itself
+        during its own build, and its output folder would fill with copies of the engine assemblies that
+        the generator's assembly locator then prefers over the ones the running tool already loaded.
+    -->
+    <Target Name="KY-Generator-Sdk_WarnOnToolReference" BeforeTargets="Build">
+        <Warning Condition="'@(PackageReference->AnyHaveMetadataValue('Identity', 'KY.Generator'))'=='true'"
+                 Code="KYG1001"
+                 Text="$(MSBuildProjectName) references both KY.Generator.Sdk and the KY.Generator tool package. A module's generator half only needs the SDK - the tool package belongs in the project that consumes your module, not in the module itself." />
+    </Target>
+
+</Project>

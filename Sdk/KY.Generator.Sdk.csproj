@@ -1,0 +1,128 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <Authors>KY-Programming</Authors>
+        <Company>KY-Programming</Company>
+        <Product>KY.Generator</Product>
+        <Version>10.0.1-preview.11</Version>
+        <Description>Build your own KY.Generator module.
+            Reference this package from the ".Generator" half of a custom module to get the module,
+            command, writer and template API. Development time only - nothing of it is shipped with
+            your module or copied to your output.
+        </Description>
+        <Copyright>2026 - KY-Programming</Copyright>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageProjectUrl>https://generator.ky-programming.de</PackageProjectUrl>
+        <PackageIcon>assets\icon.png</PackageIcon>
+        <RepositoryUrl>https://github.com/KY-Programming/generator</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageTags>KY-Generator KY.Generator SDK Plugin Module</PackageTags>
+        <LangVersion>latest</LangVersion>
+        <RootNamespace>KY.Generator.Sdk</RootNamespace>
+
+        <!-- The package carries nothing but reference assemblies, so the (empty) build output of this
+             project itself is not packed. -->
+        <IncludeBuildOutput>false</IncludeBuildOutput>
+        <!-- Every assembly a module author compiles against is shipped inside this package, so the
+             package declares no dependencies of its own. Without this the transitive graph would pull
+             KY.Generator.Common and friends into the module's output folder, where the generator's
+             assembly locator would find them and load them instead of the versions the running tool
+             already has - the mismatch that produces "Could not load type ..." at generation time. -->
+        <SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>
+        <!-- The package is both a template pack (dotnet new install) and a normal reference package
+             (PackageReference). Listing both types is what allows the two: with "Template" alone NuGet
+             refuses to let a project reference it.
+             Shipping the template here rather than in a separate *.Templates package keeps the scaffolded
+             project and the API it compiles against on one version by construction. -->
+        <PackageType>Template;Dependency</PackageType>
+        <!-- Without this the .template.config folder is dropped from the package as a dot-directory. -->
+        <NoDefaultExcludes>true</NoDefaultExcludes>
+        <!-- The template sources are content, not source of this project. This project has no code of its
+             own, so switching the default globs off costs nothing and stops the compiler from trying to
+             build the template's C# files. -->
+        <EnableDefaultItems>false</EnableDefaultItems>
+
+        <!-- NU5128: a package with ref/ but no lib/ is exactly what a reference-only package is.
+             NU5131: asks for a <references> group in the nuspec listing every ref/ assembly. That element
+             is a legacy nuspec filter which "dotnet pack" cannot emit, and without it NuGet references
+             all of ref/ - which is what this package wants. -->
+        <NoWarn>$(NoWarn);NU5128;NU5131</NoWarn>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+        <OutputPath>..\bin\Debug</OutputPath>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+        <OutputPath>..\bin\Release</OutputPath>
+    </PropertyGroup>
+
+    <ItemGroup Label="Template pack">
+        <None Include="templates\**\*" Pack="true" PackagePath="templates"
+              Exclude="templates\**\bin\**;templates\**\obj\**;templates\**\.vs\**;templates\**\*.user" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="README.md" Pack="true" PackagePath="" />
+        <None Include="..\icon.png" Pack="true" PackagePath="assets" Visible="false" />
+        <None Include="build\KY.Generator.Sdk.targets" Pack="true" PackagePath="build\KY.Generator.Sdk.targets" />
+    </ItemGroup>
+
+    <!-- ref/ instead of lib/ is the whole point: NuGet uses these for compilation and never copies them
+         to the output folder. A module author cannot accidentally ship or shadow the engine, and no
+         PrivateAssets/ExcludeAssets discipline is required on their side.
+         The paths are the publish output of the generator halves - run Nuget\pack.cmd, which publishes
+         them before packing. -->
+    <ItemGroup Label="Reference assemblies">
+        <KyGeneratorRef Include="$(OutputPath)\publish\KY.Core.Common.dll" />
+
+        <KyGeneratorRef Include="$(OutputPath)\publish\KY.Generator.Common.dll" />
+        <KyGeneratorRef Include="$(OutputPath)\publish\KY.Generator.Common.Fluent.dll" />
+        <KyGeneratorRef Include="$(OutputPath)\publish\KY.Generator.Common.Generator.dll" />
+
+        <KyGeneratorRef Include="$(OutputPath)\publish\KY.Generator.Csharp.dll" />
+        <KyGeneratorRef Include="$(OutputPath)\publish\KY.Generator.Csharp.Generator.dll" />
+
+        <KyGeneratorRef Include="$(OutputPath)\publish\KY.Generator.TypeScript.dll" />
+        <KyGeneratorRef Include="$(OutputPath)\publish\KY.Generator.TypeScript.Fluent.dll" />
+        <KyGeneratorRef Include="$(OutputPath)\publish\KY.Generator.TypeScript.Generator.dll" />
+
+        <KyGeneratorRef Include="$(OutputPath)\publish\KY.Generator.Angular.dll" />
+        <KyGeneratorRef Include="$(OutputPath)\publish\KY.Generator.Angular.Fluent.dll" />
+        <KyGeneratorRef Include="$(OutputPath)\publish\KY.Generator.Angular.Generator.dll" />
+
+        <KyGeneratorRef Include="$(OutputPath)\publish\KY.Generator.Reflection.dll" />
+        <KyGeneratorRef Include="$(OutputPath)\publish\KY.Generator.Reflection.Fluent.dll" />
+        <KyGeneratorRef Include="$(OutputPath)\publish\KY.Generator.Reflection.Generator.dll" />
+    </ItemGroup>
+
+    <ItemGroup Label="Documentation">
+        <!-- Only the base assemblies are built with GenerateDocumentationFile, so the XML files are
+             listed separately instead of derived from the assemblies above. -->
+        <KyGeneratorDoc Include="$(OutputPath)\publish\KY.Generator.Common.xml" />
+        <KyGeneratorDoc Include="$(OutputPath)\publish\KY.Generator.Common.Fluent.xml" />
+        <KyGeneratorDoc Include="$(OutputPath)\publish\KY.Generator.Csharp.xml" />
+        <KyGeneratorDoc Include="$(OutputPath)\publish\KY.Generator.TypeScript.xml" />
+        <KyGeneratorDoc Include="$(OutputPath)\publish\KY.Generator.TypeScript.Fluent.xml" />
+        <KyGeneratorDoc Include="$(OutputPath)\publish\KY.Generator.Angular.xml" />
+        <KyGeneratorDoc Include="$(OutputPath)\publish\KY.Generator.Angular.Fluent.xml" />
+        <KyGeneratorDoc Include="$(OutputPath)\publish\KY.Generator.Reflection.xml" />
+        <KyGeneratorDoc Include="$(OutputPath)\publish\KY.Generator.Reflection.Fluent.xml" />
+    </ItemGroup>
+
+    <!-- Declared at evaluation time, not inside a target: pack collects its files before GenerateNuspec
+         runs, so items added by a target that early would silently not be packed. -->
+    <ItemGroup>
+        <None Include="@(KyGeneratorRef);@(KyGeneratorDoc)" Pack="true" PackagePath="ref\netstandard2.0\" Visible="false" />
+    </ItemGroup>
+
+    <Target Name="VerifyKyGeneratorRefsExist" BeforeTargets="GenerateNuspec">
+        <Error Condition="!Exists('%(KyGeneratorRef.Identity)')"
+               Text="%(KyGeneratorRef.Identity) not found. Run Nuget\pack.cmd, which publishes the generator halves before packing." />
+    </Target>
+
+</Project>

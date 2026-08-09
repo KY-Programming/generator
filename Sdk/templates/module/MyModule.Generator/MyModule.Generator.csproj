@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <LangVersion>latest</LangVersion>
+        <RootNamespace>MyModule.Generator</RootNamespace>
+        <!-- This half is never published as a package of its own - MyModule.csproj packs the assembly
+             into its "generators" folder. -->
+        <IsPackable>false</IsPackable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <!-- The SDK is a compile time only package: it ships its assemblies under ref/, so none of them
+             land in bin and none of them are shipped with your module. The generator tool already has
+             them. Do not add the KY.Generator tool package here - it belongs in the projects that
+             consume your module. -->
+        <PackageReference Include="KY.Generator.Sdk" Version="KY_GENERATOR_VERSION" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <!-- The command parameters are defined in the base half and used by both halves. -->
+        <ProjectReference Include="..\MyModule\MyModule.csproj" />
+    </ItemGroup>
+
+</Project>

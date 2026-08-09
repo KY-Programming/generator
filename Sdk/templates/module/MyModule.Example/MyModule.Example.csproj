@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>EXAMPLE_FRAMEWORK</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <IsPackable>false</IsPackable>
+        <!-- The generator stamps this id into every file it writes and uses it to recognise its own
+             output again, so it can clean up files that are no longer generated. It normally reads the id
+             from the solution, which MSBuild does not always pass down - without the id here every build
+             warns "Can not read project id ... Automatic file cleanup deactivated". Same value as the
+             project entry in the .sln. -->
+        <ProjectGuid>{0938BD94-5A18-41CE-ADA6-B55A71F91C44}</ProjectGuid>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <!-- The tool. Its MSBuild targets run the generation after this project is compiled. -->
+        <PackageReference Include="KY.Generator" Version="KY_GENERATOR_VERSION" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <!-- A user of the published module would reference the MyModule package instead, and get both
+             halves from it. Here the two projects are referenced directly so the module can be developed
+             and tried out without packing it first. -->
+        <ProjectReference Include="..\MyModule\MyModule.csproj" />
+        <!-- The generator half is not compiled against - it only has to sit next to the assembly at run
+             time, where the generator looks for what [assembly: GenerateWith] names. -->
+        <ProjectReference Include="..\MyModule.Generator\MyModule.Generator.csproj"
+                          ReferenceOutputAssembly="false"
+                          OutputItemType="Content"
+                          CopyToOutputDirectory="PreserveNewest" />
+    </ItemGroup>
+
+</Project>
