@@ -1,16 +1,18 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>net5.0</TargetFramework>
-    <ProjectGuid>{b7fab864-b0a6-4be6-bc07-794f04ca61cd}</ProjectGuid>
-  </PropertyGroup>
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net10.0</TargetFramework>
+        <ProjectGuid>{b7fab864-b0a6-4be6-bc07-794f04ca61cd}</ProjectGuid>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="KY.Generator.Angular" Version="9.0.0-preview.20" />
-    <PackageReference Include="KY.Generator.Fluent" Version="9.0.0-preview.20" />
-    <PackageReference Include="KY.Generator.Json" Version="9.0.0-preview.20" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="KY.Generator" Version="10.0.1-preview.8" />
+        <PackageReference Include="KY.Generator.Angular" Version="10.0.1-preview.8" />
+        <PackageReference Include="KY.Generator.Json" Version="10.0.1-preview.8" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+    </ItemGroup>
 
 </Project>
