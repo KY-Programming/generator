@@ -381,6 +381,14 @@ public class Generator : IGeneratorRunSyntax
 
     public static void InitializeLogger(string[] parameters)
     {
+        // Move the log files from the entry assembly directory (KY.Core default) to the local application data
+        // directory. The entry assembly directory is not writable in all scenarios, e.g. if the generator is installed
+        // as a dotnet tool the directory is owned (and deleted on update) by the dotnet SDK. Has to happen before the
+        // first log entry is written.
+        if (FileSystem.IsAbsolute(GeneratorEnvironment.LocalApplicationDataPath))
+        {
+            Logger.File.Path = FileSystem.Combine(GeneratorEnvironment.LocalApplicationDataPath, "Logs");
+        }
         Logger.CatchAll();
         Logger.Console.ShortenEntries = false;
         Logger.AllTargets.Add(Logger.VisualStudioOutput);
