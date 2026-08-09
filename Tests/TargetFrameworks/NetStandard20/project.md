@@ -9,34 +9,17 @@
 
 # NetStandard20
 
-Generation from a netstandard2.0 assembly. One of the four projects of the target framework matrix - all of them read the same TargetFrameworks/Shared/Types.cs and differ only in their TargetFramework, so their output has to be identical apart from the outputid.
+Generation from a netstandard2.0 assembly - the oldest target the generator claims to be able to read, and the member that covers the framework half of the switch in LoadCommand, which picks the tools/ build to run from the target framework of the assembly it is asked to load. Reads the shared model of the target framework matrix in this folder.
 
-This is the oldest target the generator claims to be able to read, and the one entry of the matrix that can send the tool through the framework switch in LoadCommand, which picks the tools/ build to run from the target framework of the assembly it is asked to load.
-
-Formerly the standalone ReflectionFromStandard project, which was misfiled next to the loader tests and only asserted that a single two property type came out at all. Reading it as part of the matrix holds it to the same output as every other framework.
-
-## Parameters
-
-```
-readid -solution=*Undefined* -project=$\Tests\TargetFrameworks\NetStandard20\NetStandard20.csproj msbuild set -output=$\Tests\TargetFrameworks\NetStandard20\ load -assembly=$\Tests\TargetFrameworks\NetStandard20\bin\Debug\netstandard2.0\NetStandard20.dll fluent annotation
-```
+Formerly the standalone ReflectionFromStandard project, which was misfiled next to the loader tests and only asserted that a single two property type came out at all.
 
 ## Output
 
 - Output/
-    - generic-sub-type.ts `#d927d8aa`
-    - sub-type.ts `#40e2993e`
-    - types.ts `#2383f152`
+    - generic-sub-type.ts
+    - sub-type.ts
+    - types.ts
 
 ## Validation
 
-- validate.js `passed, 3 files validated`
-
-## Status
-
-- **Last Build:** 2026-08-09 15:18:41
-- **Duration:** 4.8s
-- **Status:** Success
-- **Info:** All outputs match
-- **Last Success:** 2026-08-13 07:29:28
-- **Generator:** 10.0.1-preview.13
+- validate.js `not run`

@@ -9,30 +9,15 @@
 
 # Net10
 
-Generation on net10.0. One of the four projects of the target framework matrix - all of them read the same TargetFrameworks/Shared/Types.cs and differ only in their TargetFramework, so their output has to be identical apart from the outputid. Covered are the target frameworks the generator has to be able to read: the .NET versions still in support plus netstandard2.0 as the oldest one it claims to support. net5.0, net6.0 and net7.0 were dropped with this matrix.
-
-## Parameters
-
-```
-readid -solution=*Undefined* -project=$\Tests\TargetFrameworks\Net10\Net10.csproj msbuild set -output=$\Tests\TargetFrameworks\Net10\ load -assembly=$\Tests\TargetFrameworks\Net10\bin\Debug\net10.0\Net10.dll fluent annotation
-```
+Generation from a net10.0 assembly. Reads the shared model of the target framework matrix in this folder - see TargetFrameworks/Shared/Types.cs for what the matrix asserts.
 
 ## Output
 
 - Output/
-    - generic-sub-type.ts `#d616a7b3`
-    - sub-type.ts `#68d3d851`
-    - types.ts `#f3add8f5`
+    - generic-sub-type.ts
+    - sub-type.ts
+    - types.ts
 
 ## Validation
 
-- validate.js `passed, 3 files validated`
-
-## Status
-
-- **Last Build:** 2026-08-09 15:07:52
-- **Duration:** 6.2s
-- **Status:** Success
-- **Info:** All outputs match
-- **Last Success:** 2026-08-13 06:45:24
-- **Generator:** 10.0.1-preview.13
+- validate.js `not run`

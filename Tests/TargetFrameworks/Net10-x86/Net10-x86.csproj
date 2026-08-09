@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <ProjectGuid>{8c8a1d3a-034b-4633-bf8c-aa6ac39af861}</ProjectGuid>
+        <!-- The point of this project: a real x86 assembly. PlatformTarget is what makes it one -
+             Platforms alone still produces AnyCPU, which is how this test passed for years without
+             ever reaching the architecture switch. -->
+        <Platforms>AnyCPU;x86</Platforms>
+        <PlatformTarget>x86</PlatformTarget>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>TargetFrameworks</RootNamespace>
+        <AssemblyName>Net10x86</AssemblyName>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="KY.Generator" Version="10.0.1-preview.13" />
+        <PackageReference Include="KY.Generator.Reflection" Version="10.0.1-preview.13" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Compile Include="..\Shared\Types.cs" Link="Types.cs" />
+    </ItemGroup>
+
+</Project>
