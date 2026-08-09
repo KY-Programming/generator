@@ -2,7 +2,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using KY.Core;
 
-namespace KY.Generator.Sqlite.Loaders;
+namespace KY.Generator;
 
 /// <summary>
 /// Loads a native library that belongs to the users project instead of the generator itself. Has to be called before
@@ -76,12 +76,24 @@ public class NativeLibraryLoader
         {
             // Loading the library alone is enough on most platforms, the resolver makes it deterministic
             Assembly assembly = Assembly.Load(new AssemblyName(pinvokeAssemblyName));
-            NativeLibrary.SetDllImportResolver(assembly, (name, _, _) => name == libraryName ? handle : IntPtr.Zero);
+            // Some providers spell the extension out in their DllImport (e.g. "Microsoft.Data.SqlClient.SNI.dll"),
+            // others do not (e.g. "e_sqlite3") - both have to match the name the library was located under.
+            NativeLibrary.SetDllImportResolver(assembly, (name, _, _) => IsSameLibrary(name, libraryName) ? handle : IntPtr.Zero);
         }
         catch (Exception exception)
         {
             Logger.Trace($"Could not register a resolver for {libraryName} on {pinvokeAssemblyName}: {exception.Message}. The already loaded library is used instead.");
         }
+    }
+
+    private static bool IsSameLibrary(string requested, string libraryName)
+    {
+        return TrimExtension(requested).Equals(TrimExtension(libraryName), StringComparison.OrdinalIgnoreCase);
+    }
+
+    private static string TrimExtension(string name)
+    {
+        return name.EndsWith(".dll", StringComparison.OrdinalIgnoreCase) ? name.Substring(0, name.Length - 4) : name;
     }
 #endif
 }

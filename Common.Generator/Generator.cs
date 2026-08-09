@@ -73,6 +73,8 @@ public class Generator : IGeneratorRunSyntax
         this.resolver.Bind<ILicenseService>().ToSingleton<LicenseService>();
         this.resolver.Bind<AssemblyLoader>().ToSingleton();
         this.resolver.Get<AssemblyLoader>().Activate();
+        this.resolver.Bind<NativeAssetLocator>().ToSelf();
+        this.resolver.Bind<NativeLibraryLoader>().ToSelf();
         this.resolver.Bind<GeneratorModuleLoader>().ToSingleton();
         this.moduleLoader = this.resolver.Get<GeneratorModuleLoader>();
 

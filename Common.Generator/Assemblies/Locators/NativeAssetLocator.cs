@@ -6,17 +6,21 @@ using Newtonsoft.Json;
 namespace KY.Generator;
 
 /// <summary>
-/// Locates the native binary (e.g. e_sqlite3) a managed assembly of the users project has to P/Invoke into.
+/// Locates the runtime specific assets of the users project: the native binary (e.g. e_sqlite3) a managed assembly
+/// has to P/Invoke into, and the runtime specific build of a managed assembly itself (e.g. Microsoft.Data.SqlClient,
+/// whose assembly next to the deps.json is a facade that throws on every platform).
 /// </summary>
 /// <remarks>
-/// Native assets are resolved by the .NET host from the deps.json of the <b>running application</b>. The generator
-/// loads assemblies of the users project into its own process, so its host never learns about their native assets
-/// and every P/Invoke ends in a DllNotFoundException. This locator reads the deps.json of the users project instead
-/// and returns the path the host would have chosen.
+/// Runtime specific assets are resolved by the .NET host from the deps.json of the <b>running application</b>. The
+/// generator loads assemblies of the users project into its own process, so its host never learns about their assets
+/// and every P/Invoke ends in a DllNotFoundException - or, for a managed asset, the platform neutral facade is loaded
+/// and throws a PlatformNotSupportedException. This locator reads the deps.json of the users project instead and
+/// returns the path the host would have chosen.
 /// </remarks>
 public class NativeAssetLocator
 {
     private const string NativeAssetType = "native";
+    private const string RuntimeAssetType = "runtime";
 
     /// <summary>
     /// Runtime identifiers to search for, most specific first (e.g. win-x64, win).
@@ -31,10 +35,23 @@ public class NativeAssetLocator
     public string? Locate(string applicationDirectory, string libraryName)
     {
         List<string> fileNames = BuildFileNames(libraryName);
-        return LocateByDepsFile(applicationDirectory, fileNames) ?? LocateByConvention(applicationDirectory, fileNames);
+        return LocateByDepsFile(applicationDirectory, fileNames, NativeAssetType) ?? LocateByConvention(applicationDirectory, fileNames);
     }
 
-    private static string? LocateByDepsFile(string applicationDirectory, List<string> fileNames)
+    /// <summary>
+    /// Returns the absolute path of the runtime specific build of a managed assembly, or null when the package has
+    /// none - then the assembly next to the deps.json is the real one and nothing has to be redirected.
+    /// </summary>
+    /// <param name="applicationDirectory">Output directory of the users project - the one containing its deps.json.</param>
+    /// <param name="assemblyName">Assembly name without extension (e.g. Microsoft.Data.SqlClient).</param>
+    public string? LocateRuntimeAssembly(string applicationDirectory, string assemblyName)
+    {
+        // Only the deps.json can tell a runtime specific build apart from the facade of the same name - a file
+        // search would find whichever comes first, which is what has to be avoided here.
+        return LocateByDepsFile(applicationDirectory, [$"{assemblyName}.dll"], RuntimeAssetType);
+    }
+
+    private static string? LocateByDepsFile(string applicationDirectory, List<string> fileNames, string assetType)
     {
         foreach (string depsFile in FileSystem.GetFiles(applicationDirectory, "*.deps.json"))
         {
@@ -54,7 +71,7 @@ public class NativeAssetLocator
                     }
                     foreach (KeyValuePair<string, DependencyRuntimeTarget> asset in package.Value.RuntimeTargets)
                     {
-                        if (!NativeAssetType.Equals(asset.Value.AssetType, StringComparison.OrdinalIgnoreCase)
+                        if (!assetType.Equals(asset.Value.AssetType, StringComparison.OrdinalIgnoreCase)
                             || !runtimeIdentifier.Equals(asset.Value.RuntimeIdentifier, StringComparison.OrdinalIgnoreCase)
                             || !fileNames.Contains(FileSystem.GetFileName(asset.Key)))
                         {
@@ -177,7 +194,14 @@ public class NativeAssetLocator
             Architecture.Arm64 => "arm64",
             _ => RuntimeInformation.ProcessArchitecture.ToString().ToLowerInvariant()
         };
-        return [$"{operatingSystem}-{architecture}", operatingSystem];
+        List<string> identifiers = [$"{operatingSystem}-{architecture}", operatingSystem];
+        if (operatingSystem != "win")
+        {
+            // Some packages group everything non Windows under "unix" instead of naming the platform - most
+            // specific still wins, so this only applies when nothing above matched.
+            identifiers.Add("unix");
+        }
+        return identifiers;
     }
 }
 

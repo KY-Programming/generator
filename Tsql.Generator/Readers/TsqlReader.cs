@@ -21,12 +21,32 @@ public class TsqlReader : ITransferReader
     {
         this.Validate(configuration);
         TsqlTypeReader typeReader = new(configuration.Connection);
+        if (configuration.ReadAll)
+        {
+            // Discovered tables are appended, so an explicitly listed one is not read twice
+            List<TsqlTable> tables = typeReader.GetTables(configuration.Schema);
+            Logger.Trace($"Found {tables.Count} table(s) to read");
+            foreach (TsqlTable table in tables)
+            {
+                if (configuration.Entities.Any(x => IsSame(x, table, configuration)))
+                {
+                    continue;
+                }
+                configuration.Entities.Add(new TsqlReadEntity
+                                           {
+                                               Schema = table.Schema,
+                                               Table = table.Name,
+                                               Namespace = configuration.Namespace
+                                           });
+            }
+        }
         foreach (TsqlReadEntity readEntity in configuration.Entities)
         {
+            string schema = ResolveSchema(readEntity.Schema, configuration);
             ModelTransferObject model;
             if (!string.IsNullOrEmpty(readEntity.Table))
             {
-                List<TsqlColumn> columns = typeReader.GetColumns(readEntity.Schema ?? configuration.Schema, readEntity.Table);
+                List<TsqlColumn> columns = typeReader.GetColumns(schema, readEntity.Table);
                 model = new ModelTransferObject
                         {
                             Name = readEntity.Name ?? readEntity.Table,
@@ -59,14 +79,13 @@ public class TsqlReader : ITransferReader
                                               Name = model.Name,
                                               Model = model,
                                               Table = readEntity.Table,
-                                              Schema = readEntity.Schema ?? configuration.Schema
+                                              Schema = schema
                                           };
             if (!string.IsNullOrEmpty(readEntity.Table))
             {
-                typeReader.GetPrimaryKeys(readEntity.Schema ?? configuration.Schema, readEntity.Table)
+                typeReader.GetPrimaryKeys(schema, readEntity.Table)
                           .Select(x => new EntityKeyTransferObject { Name = x.Name })
                           .ForEach(entity.Keys.Add);
-                List<TsqlNavigationProperty> navigationProperties = typeReader.GetNavigationProperties(readEntity.Schema ?? configuration.Schema, readEntity.Table);
             }
             foreach (TsqlReadEntityKeyAction action in readEntity.KeyActions)
             {
@@ -100,7 +119,7 @@ public class TsqlReader : ITransferReader
         }
         foreach (TsqlReadStoredProcedure readStoredProcedure in configuration.StoredProcedures)
         {
-            string schema = readStoredProcedure.Schema ?? configuration.Schema;
+            string schema = ResolveSchema(readStoredProcedure.Schema, configuration);
             //List<TsqlColumn> columns = typeReader.GetColumnsFromStoredProcedure(schema, readStoredProcedure.Name);
             StoredProcedureTransferObject storedProcedure = new() { Schema = schema, Name = readStoredProcedure.Name };
             storedProcedure.ReturnType = new TypeTransferObject { Name = "void", FromSystem = true };
@@ -108,22 +127,39 @@ public class TsqlReader : ITransferReader
         }
     }
 
+    /// <summary>
+    /// The schema a single entity is read from: its own, the one of the whole read, or T-SQL's default. Only a
+    /// discovery read (UseAll) works without one - a named table has to be looked up somewhere.
+    /// </summary>
+    private const string DefaultSchema = "dbo";
+
+    private static string ResolveSchema(string? entitySchema, TsqlReadConfiguration configuration)
+    {
+        return entitySchema ?? configuration.Schema ?? DefaultSchema;
+    }
+
+    private static bool IsSame(TsqlReadEntity entity, TsqlTable table, TsqlReadConfiguration configuration)
+    {
+        return string.Equals(entity.Table, table.Name, StringComparison.InvariantCultureIgnoreCase)
+               && string.Equals(ResolveSchema(entity.Schema, configuration), table.Schema, StringComparison.InvariantCultureIgnoreCase);
+    }
+
     private void Validate(TsqlReadConfiguration configuration)
     {
-        //if (string.IsNullOrEmpty(configuration.Connection))
-        //{
-        //    throw new InvalidConfigurationException("Tsql setting without connection found. Connection can not be null or empty");
-        //}
-        //foreach (TsqlReadEntity entity in configuration.Entities)
-        //{
-        //    if (string.IsNullOrEmpty(entity.Schema ?? configuration.Schema))
-        //    {
-        //        throw new InvalidConfigurationException($"Tsql entity '{entity.Name ?? "without name"}' {nameof(entity.Schema)} can not be null or empty");
-        //    }
-        //    if (string.IsNullOrEmpty(entity.Table) && string.IsNullOrEmpty(entity.StoredProcedure))
-        //    {
-        //        throw new InvalidConfigurationException($"Tsql entity '{entity.Name ?? "without name"}' have to has at leas a {nameof(entity.Table)} or {nameof(entity.StoredProcedure)} filled");
-        //    }
-        //}
+        if (string.IsNullOrEmpty(configuration.Connection))
+        {
+            throw new InvalidOperationException("Tsql setting without connection found. Connection can not be null or empty");
+        }
+        if (!configuration.ReadAll && configuration.Entities.Count == 0 && configuration.StoredProcedures.Count == 0)
+        {
+            throw new InvalidOperationException($"Tsql setting without anything to read found. Set at least one table or use {nameof(ITsqlFromDatabaseOrReadSyntax.UseAll)}()");
+        }
+        foreach (TsqlReadEntity entity in configuration.Entities)
+        {
+            if (string.IsNullOrEmpty(entity.Table) && string.IsNullOrEmpty(entity.StoredProcedure))
+            {
+                throw new InvalidOperationException($"Tsql entity '{entity.Name ?? "without name"}' have to has at least a {nameof(entity.Table)} or {nameof(entity.StoredProcedure)} filled");
+            }
+        }
     }
 }

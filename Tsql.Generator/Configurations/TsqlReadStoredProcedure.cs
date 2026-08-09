@@ -1,8 +1,7 @@
-﻿namespace KY.Generator.Tsql.Configurations
+﻿namespace KY.Generator.Tsql.Configurations;
+
+public class TsqlReadStoredProcedure
 {
-    public class TsqlReadStoredProcedure
-    {
-        public string Schema { get; set; }
-        public string Name { get; set; }
-    }
+    public string? Schema { get; set; }
+    public string Name { get; set; } = string.Empty;
 }

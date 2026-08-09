@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using KY.Core;
+using KY.Core.DataAccess;
 using KY.Generator.Tsql.Properties;
 using Microsoft.Data.SqlClient;
 
@@ -87,6 +88,43 @@ namespace KY.Generator.Tsql.Type
             //column.Scale = reader.GetInt32(reader.GetOrdinal("NUMERIC_SCALE"), 0);
             //column.DefaultValue = reader.GetString(reader.GetOrdinal("COLUMN_DEFAULT"), null)?.Trim('(', ')', '\'');
             return column;
+        }
+
+        /// <summary>
+        /// Every base table of the database, or of <paramref name="schema"/> alone if one is given. Views and
+        /// system tables are left out - only what can be mapped to a model is returned.
+        /// </summary>
+        public List<TsqlTable> GetTables(string schema)
+        {
+            this.LastError = null;
+            List<TsqlTable> tables = new List<TsqlTable>();
+            try
+            {
+                this.OpenConnection();
+                using (SqlCommand command = this.connection.CreateCommand())
+                {
+                    command.CommandText = Resources.ReadTablesCommand;
+                    command.Parameters.AddWithValue("schema", string.IsNullOrEmpty(schema) ? (object)DBNull.Value : schema);
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            tables.Add(new TsqlTable(reader.GetString(reader.GetOrdinal("TABLE_SCHEMA")), reader.GetString(reader.GetOrdinal("TABLE_NAME"))));
+                        }
+                    }
+                }
+            }
+            catch (SqlException exception)
+            {
+                Logger.Error(string.IsNullOrEmpty(schema) ? "Can not read the tables of the database" : $"Can not read the tables of schema {schema}", nameof(this.GetTables), nameof(TsqlTypeReader));
+                Logger.Error(exception);
+                this.LastError = exception;
+                if (this.throwErrorOnEntityGeneration)
+                {
+                    throw;
+                }
+            }
+            return tables;
         }
 
         public List<TsqlColumn> GetPrimaryKeys(string schema, string table)

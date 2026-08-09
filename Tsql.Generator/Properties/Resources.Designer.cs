@@ -130,5 +130,20 @@ namespace KY.Generator.Tsql.Properties {
                 return ResourceManager.GetString("ReadValuesCommand", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to SELECT
+        ///	TABLE_SCHEMA,
+        ///	TABLE_NAME
+        ///FROM INFORMATION_SCHEMA.TABLES
+        ///WHERE TABLE_TYPE = &apos;BASE TABLE&apos;
+        ///	AND (@schema IS NULL OR TABLE_SCHEMA = @schema)
+        ///ORDER BY TABLE_SCHEMA, TABLE_NAME;.
+        /// </summary>
+        internal static string ReadTablesCommand {
+            get {
+                return ResourceManager.GetString("ReadTablesCommand", resourceCulture);
+            }
+        }
     }
 }

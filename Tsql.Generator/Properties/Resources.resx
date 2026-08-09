@@ -188,4 +188,13 @@ from sys.dm_exec_describe_first_result_set('exec {0}',NULL,1) as s
     <value>SELECT {0}
 FROM {1}.{2}</value>
   </data>
+  <data name="ReadTablesCommand" xml:space="preserve">
+    <value>SELECT
+	TABLE_SCHEMA,
+	TABLE_NAME
+FROM INFORMATION_SCHEMA.TABLES
+WHERE TABLE_TYPE = 'BASE TABLE'
+	AND (@schema IS NULL OR TABLE_SCHEMA = @schema)
+ORDER BY TABLE_SCHEMA, TABLE_NAME;</value>
+  </data>
 </root>

@@ -3,7 +3,6 @@ using KY.Core;
 using KY.Core.DataAccess;
 using KY.Generator.Sqlite.Commands;
 using KY.Generator.Sqlite.Language;
-using KY.Generator.Sqlite.Loaders;
 using KY.Generator.Sqlite.Parsers;
 using KY.Generator.Transfer;
 using Microsoft.Data.Sqlite;
