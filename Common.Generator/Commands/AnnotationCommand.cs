@@ -72,7 +72,7 @@ internal class AnnotationCommand : GeneratorCommand<AnnotationCommandParameters>
                 List<CliCommand> rawCommands = [];
                 foreach (IGeneratorCommandAttribute attribute in attributes.OfType<IGeneratorCommandAttribute>())
                 {
-                    rawCommands.AddRange(this.CreateCommands(attribute, globalParameters, objectType.Name, objectType.Namespace, assembly.GetName().Name, assembly.Location));
+                    rawCommands.AddRange(this.CreateCommands(attribute, globalParameters, TypeHelper.GetSourceName(objectType), objectType.Namespace, assembly.GetName().Name, assembly.Location));
                 }
                 this.ApplyAdditionalCommandParameters(rawCommands, attributes.OfType<IGeneratorCommandAdditionalParameterAttribute>());
                 IGeneratorCommandResult result = await this.ExecuteCommands(rawCommands);
