@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <LangVersion>latest</LangVersion>
+        <IsPackable>false</IsPackable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <!-- The whole point of this example: KY.Generator.Sdk is what makes the module, command, writer
+             and template API available. It is a compile time only package - its assemblies ship under
+             ref/, so nothing of the engine is copied into this project's output or into a package built
+             from it. The generator tool already carries them.
+             Do not add the KY.Generator tool package here; it belongs in the project that consumes the
+             module - see CustomModule.Console. -->
+        <PackageReference Include="KY.Generator.Sdk" Version="10.0.1-preview.11" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <!-- The command parameters are defined in the base half and used by both. -->
+        <ProjectReference Include="..\CustomModule\CustomModule.csproj" />
+    </ItemGroup>
+
+</Project>

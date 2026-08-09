@@ -9,16 +9,23 @@
 
 # CustomModule.Console
 
-Demonstrates using a custom generator module via CLI to generate C# code from custom domain logic, showing CLI integration with custom modules.
+Demonstrates using a custom module: the fluent `.HelloWorld(...)` action comes from CustomModule, not from KY.Generator, and generates a C# class into this project.
+
+`validate.js` compiles what the custom module wrote - nothing else would notice if the example's own writer emitted C# that does not parse.
 
 ## Output
 
 - Output/
-    - Program.cs `#d1562f8a`
+    - Greeter.cs `#00000000`
+
+## Validation
+
+- validate.js
 
 ## Status
 
-- **Last Build:** 2026-05-09 06:12:10
+- **Last Build:** 2026-08-08 10:25:02
+- **Duration:** 3.0s
 - **Status:** Failure
 - **Info:** Build failed
-- **Generator:** 10.0.0-preview.39
+- **Generator:** 10.0.1-preview.4

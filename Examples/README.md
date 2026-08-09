@@ -71,7 +71,12 @@ So every build starts from an empty server and none of them leaves anything behi
 
 ## Customization
 
+A module is two assemblies. The base half is what its users reference; the generator half is loaded by
+the generator at run time and is never referenced, so it is the only project that needs the
+`KY.Generator.Sdk` package. `dotnet new ky-generator -n MyModule` scaffolds this same structure.
+
 | Example | What it shows |
 |---|---|
-| [CustomModule](Customization/CustomModule) | Building your own generator module — the module registers the command and the fluent syntax extension — [Module.cs](Customization/CustomModule/Module.cs). |
-| [CustomModule.Console](Customization/CustomModule.Console) | Using that custom module from a fluent generator project — [Generator.cs](Customization/CustomModule.Console/Generator.cs). |
+| [CustomModule](Customization/CustomModule) | The referenced half: command parameters, the fluent `.HelloWorld(...)` action, and the `[assembly: GenerateWith]` marker that names the other half — [AssemblyInfo.cs](Customization/CustomModule/AssemblyInfo.cs). |
+| [CustomModule.Generator](Customization/CustomModule.Generator) | The half that does the work: the module registers the command, the command sets the language, the writer builds the output as templates — [CustomModuleModule.cs](Customization/CustomModule.Generator/CustomModuleModule.cs). |
+| [CustomModule.Console](Customization/CustomModule.Console) | Using the custom module from a fluent generator project — [Generator.cs](Customization/CustomModule.Console/Generator.cs). |

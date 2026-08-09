@@ -7,16 +7,13 @@
  </auto-generated>
 -------------------------------------------------------------------------->
 
-# CustomModule
+# CustomModule.Generator
 
-Demonstrates the half of a custom module that its users reference: the command parameters, the fluent action and the [assembly: GenerateWith] marker that points the generator at the other half.
+Demonstrates the half of a custom module that does the work - module, command and writer - built against the KY.Generator.Sdk package and loaded by the generator at run time instead of being referenced.
 
 ## Output
 
 ## Status
 
-- **Last Build:** 2026-08-08 10:25:03
-- **Duration:** 3.1s
-- **Status:** Failure
-- **Info:** Build failed
-- **Generator:** 10.0.1-preview.4
+- **Last Build:** never
+- **Status:** Pending

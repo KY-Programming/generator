@@ -1,13 +1,21 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-  </PropertyGroup>
+    <PropertyGroup>
+        <!-- netstandard2.0 so the module can be loaded by every generator build, from .NET Framework
+             4.6.2 up to the current .NET. -->
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <LangVersion>latest</LangVersion>
+        <IsPackable>false</IsPackable>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="KY.Generator.Core" Version="7.0.0-preview.0" />
-    <PackageReference Include="KY.Generator.CSharp" Version="7.0.0-preview.0" />
-    <PackageReference Include="KY.Generator.Fluent" Version="7.0.0-preview.0" />
-  </ItemGroup>
+    <ItemGroup>
+        <!-- Only the base package. This half holds the command parameters and the fluent API - everything
+             a user of the module references. Nothing that generates lives here. -->
+        <PackageReference Include="KY.Generator.Common" Version="10.0.1-preview.11" />
+        <!-- Logger and the Assert helpers. KY.Generator.Common does not declare it as a dependency. -->
+        <PackageReference Include="KY.Core.Common" Version="10.1.0" />
+    </ItemGroup>
 
 </Project>
