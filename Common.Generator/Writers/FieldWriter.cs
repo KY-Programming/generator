@@ -8,6 +8,10 @@ namespace KY.Generator.Writers
 {
     public class FieldWriter : ITemplateWriter
     {
+        /// <summary>See <see cref="PropertyWriter.WriteNullableMarker"/> - the same for fields.</summary>
+        protected virtual void WriteNullableMarker(TypeTemplate type, IOutputCache output)
+        { }
+
         public virtual void Write(ICodeFragment fragment, IOutputCache output)
         {
             FieldTemplate template = (FieldTemplate)fragment;
@@ -21,7 +25,9 @@ namespace KY.Generator.Writers
                   .If(template.IsStatic).Add("static ").EndIf()
                   .If(template.IsConstant).Add("const ").EndIf()
                   .If(template.IsReadonly).Add("readonly ").EndIf()
-                  .Add(template.Type).Add(" ")
+                  .Add(template.Type);
+            this.WriteNullableMarker(template.Type, output);
+            output.Add(" ")
                   .Add(template.Name)
                   .If(template.DefaultValue != null && !template.Class.IsInterface).Add(" = ").Add(template.DefaultValue).EndIf()
                   .CloseLine();

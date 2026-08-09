@@ -7,6 +7,19 @@ namespace KY.Generator.Writers
 {
     public class PropertyWriter : ITemplateWriter
     {
+        /// <summary>
+        /// Written directly behind the type of a nullable member. Languages that express nullability at the place
+        /// the type is used override this - C# writes its "?" here. Nothing by default, so a language that does not
+        /// know the concept is unaffected.
+        /// <para>
+        /// The type is asked, not the member: the type mapping already decided whether the target type can carry a
+        /// null annotation at all (its "Nullable()" flag), so a target that can not - a C# reference type outside a
+        /// nullable context - never reaches this.
+        /// </para>
+        /// </summary>
+        protected virtual void WriteNullableMarker(TypeTemplate type, IOutputCache output)
+        { }
+
         public virtual void Write(ICodeFragment fragment, IOutputCache output)
         {
             PropertyTemplate template = (PropertyTemplate)fragment;
@@ -27,8 +40,9 @@ namespace KY.Generator.Writers
                   .Add(" ")
                   .Add(template.IsVirtual ? "virtual " : string.Empty)
                   .Add(template.IsStatic ? "static " : string.Empty)
-                  .Add(template.Type)
-                  .Add(" ")
+                  .Add(template.Type);
+            this.WriteNullableMarker(template.Type, output);
+            output.Add(" ")
                   .Add(template.Name);
             if (template.HasGetter || template.HasSetter)
             {

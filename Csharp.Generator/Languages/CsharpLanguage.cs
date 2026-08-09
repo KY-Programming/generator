@@ -74,6 +74,8 @@ public class CsharpLanguage : BaseLanguage
         this.AddWriter<DeclareTemplate, DeclareWriter>();
         this.AddWriter<GenericTypeTemplate, CsharpGenericTypeWriter>();
         this.AddWriter<ParameterTemplate, ParameterWriter>();
+        this.AddWriter<PropertyTemplate, CsharpPropertyWriter>();
+        this.AddWriter<FieldTemplate, CsharpFieldWriter>();
         this.AddWriter<ThrowTemplate, ThrowWriter>();
         this.AddWriter<UsingTemplate, UsingWriter>();
         this.AddWriter<UsingDeclarationTemplate, UsingDeclarationWriter>();

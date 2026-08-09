@@ -59,6 +59,8 @@ public class TsqlReader : ITransferReader
                                          {
                                              Name = column.Name,
                                              Type = new TypeTransferObject { Name = column.Type, IsNullable = column.IsNullable },
+                                             IsNullable = column.IsNullable,
+                                             IsOptional = column.IsNullable,
                                              DeclaringType = model
                                          });
                 }
