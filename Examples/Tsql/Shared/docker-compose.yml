@@ -1,0 +1,17 @@
+# The T-SQL server the examples in this folder generate from. Created by their prepare.js before the
+# build and removed by their cleanup.js afterwards, so it lives exactly as long as one run - see
+# Tests/Shared/Scripts/mssql-container.js.
+#
+# Nothing here is meant for anything but the examples: the password is checked in on purpose and the
+# server is reachable on localhost only.
+services:
+    mssql:
+        image: mcr.microsoft.com/mssql/server:2022-latest
+        container_name: ky-generator-tsql-example
+        environment:
+            ACCEPT_EULA: "Y"
+            MSSQL_SA_PASSWORD: "KyGenerator!2026"
+            MSSQL_PID: "Developer"
+        ports:
+            # Not 1433, so a SQL Server installed on the host keeps its port
+            - "14330:1433"
