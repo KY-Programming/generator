@@ -17,8 +17,8 @@ internal class ReflectionWriter : ITransferWriter
         return this;
     }
 
-    public void Write()
+    public void Write(string? relativePath = null)
     {
-        this.modelWriter.Write();
+        this.modelWriter.Write(relativePath);
     }
 }

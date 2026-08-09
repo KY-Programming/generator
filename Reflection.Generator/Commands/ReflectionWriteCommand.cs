@@ -23,7 +23,7 @@ internal class ReflectionWriteCommand : GeneratorCommand<ReflectionWriteCommandP
         generatorOptions.SetFromParameter(this.Parameters);
         generatorOptions.Language = this.resolver.Get<CsharpLanguage>();
         this.resolver.Get<IOutput>().DeleteAllRelatedFiles(this.Parameters.RelativePath);
-        this.resolver.Create<ReflectionWriter>().FormatNames().Write();
+        this.resolver.Create<ReflectionWriter>().FormatNames().Write(this.Parameters.RelativePath);
 
         return this.SuccessAsync();
     }
