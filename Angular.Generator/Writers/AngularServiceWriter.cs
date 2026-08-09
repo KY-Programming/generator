@@ -100,6 +100,7 @@ public class AngularServiceWriter : TransferWriter
                 string subjectName = action.Parameters.Any(x => x.Name == "subject") ? "rxjsSubject" : "subject";
                 string urlName = action.Parameters.Any(x => x.Name == "url") ? "requestUrl" : "url";
                 string httpOptionsName = action.Parameters.Any(x => x.Name == "httpOptions") ? "requestOptions" : "httpOptions";
+                string mappedName = action.Parameters.Any(x => x.Name == "mapped") ? "mappedResult" : "mapped";
                 bool isEnumerable = action.ReturnType.IsEnumerable();
                 bool isGuidReturnType = action.ReturnType.Name.Equals(nameof(Guid), StringComparison.CurrentCultureIgnoreCase);
                 bool isDateReturnType = action.ReturnType.Name.Equals(nameof(DateTime), StringComparison.CurrentCultureIgnoreCase);
@@ -231,30 +232,45 @@ public class AngularServiceWriter : TransferWriter
                 if (action.FixCasingWithMapping)
                 {
                     IEnumerable<MemberTransferObject> members = (returnModel?.Fields ?? new List<FieldTransferObject>()).Concat<MemberTransferObject>(returnModel?.Properties ?? new List<PropertyTransferObject>());
+                    // The wire names are not declared on the generated model, and deleting a required property is not
+                    // allowed, so the remapping is done on an untyped view of the response
+                    TypeTemplate mappedType = Code.Type("Record<string, any>");
                     if (isEnumerable)
                     {
                         MultilineCodeFragment innerCode = new();
+                        DeclareTemplate mappedTemplate = Code.Declare(mappedType, mappedName, Code.Local("entry"));
                         foreach (MemberTransferObject member in members)
                         {
                             string formattedName = member is PropertyTransferObject ? Formatter.FormatProperty(member.Name, controllerOptions) : Formatter.FormatField(member.Name, controllerOptions);
                             if (formattedName != member.Name)
                             {
-                                innerCode.AddLine(Code.Local("entry").Field(formattedName).Assign(Code.Local("entry").Field(formattedName).Or().Local("entry").Index(Code.String(member.Name))).Close())
-                                         .AddLine(Code.TypeScript($"delete entry['{member.Name}']").Close());
+                                innerCode.AddLine(Code.Local(mappedTemplate).Index(Code.String(formattedName)).Assign(Code.Local(mappedTemplate).Index(Code.String(formattedName)).Or().Local(mappedTemplate).Index(Code.String(member.Name))).Close())
+                                         .AddLine(Code.TypeScript($"delete {mappedName}['{member.Name}']").Close());
                             }
                         }
-                        code.AddLine(Code.If(Code.Local("result")).WithCode(Code.Local("result").Method("forEach", Code.Lambda("entry", innerCode))));
+                        if (innerCode.Fragments.Count > 0)
+                        {
+                            innerCode.Fragments.Insert(0, mappedTemplate);
+                            code.AddLine(Code.If(Code.Local("result")).WithCode(Code.Local("result").Method("forEach", Code.Lambda("entry", innerCode))));
+                        }
                     }
                     else
                     {
+                        List<ICodeFragment> mappingLines = new();
+                        DeclareTemplate mappedTemplate = Code.Declare(mappedType, mappedName, Code.Local("result"));
                         foreach (MemberTransferObject member in members)
                         {
                             string formattedName = member is PropertyTransferObject ? Formatter.FormatProperty(member.Name, controllerOptions) : Formatter.FormatField(member.Name, controllerOptions);
                             if (formattedName != member.Name)
                             {
-                                code.AddLine(Code.Local("result").Field(formattedName).Assign(Code.Local("result").Field(formattedName).Or().Local("result").Index(Code.String(member.Name))).Close())
-                                    .AddLine(Code.TypeScript($"delete result['{member.Name}']").Close());
+                                mappingLines.Add(Code.Local(mappedTemplate).Index(Code.String(formattedName)).Assign(Code.Local(mappedTemplate).Index(Code.String(formattedName)).Or().Local(mappedTemplate).Index(Code.String(member.Name))).Close());
+                                mappingLines.Add(Code.TypeScript($"delete {mappedName}['{member.Name}']").Close());
                             }
+                        }
+                        if (mappingLines.Count > 0)
+                        {
+                            code.AddLine(mappedTemplate);
+                            mappingLines.ForEach(line => code.AddLine(line));
                         }
                     }
                 }
