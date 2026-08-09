@@ -60,13 +60,21 @@ See [documentation](https://generator.ky-programming.de/start/fluent/overview) f
 
 ## Setup for Console/PowerShell
 
-Download KY.Generator.exe&nbsp;![](https://img.shields.io/nuget/v/KY.Generator.CLI.svg?style=flat) from [Releases](https://github.com/KY-Programming/generator/releases)
+Install the .NET global tool&nbsp;![](https://img.shields.io/nuget/v/KY.Generator.CLI.svg?style=flat)
+
+```
+dotnet tool install -g KY.Generator.CLI
+```
 
 Run a command
 
 ```
-KY.Generator.exe reflection -assembly=KY.Generator.Examples.Reflection.dll -name=ExampleType -namespace=KY.Generator.Examples.Reflection -relativePath=Output -language=TypeScript
+ky-generator reflection -assembly=KY.Generator.Examples.Reflection.dll -name=ExampleType -namespace=KY.Generator.Examples.Reflection -relativePath=Output -language=TypeScript
 ```
+
+The tool ships every built-in module, so nothing has to be installed next to it. It requires the .NET 8, 9 or
+10 runtime; an assembly built for one of those is read by a matching process, whichever of them the tool itself
+was started on.
 
 See [documentation](https://generator.ky-programming.de/start/commands/overview) for more details
 

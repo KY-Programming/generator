@@ -1,15 +1,6 @@
-﻿using System;
-using System.Threading.Tasks;
 using KY.Core;
-using KY.Generator.Angular;
-using KY.Generator.AspDotNet;
-using KY.Generator.Csharp;
-using KY.Generator.Json;
-using KY.Generator.Reflection;
-using KY.Generator.Sqlite;
-using KY.Generator.Tsql;
-using KY.Generator.TypeScript;
-using KY.Generator.Watchdog;
+using KY.Core.DataAccess;
+using System.Reflection;
 
 namespace KY.Generator;
 
@@ -19,19 +10,9 @@ internal class Program
     {
         Generator.InitializeLogger(args);
 
+        string toolDirectory = FileSystem.Parent(Assembly.GetEntryAssembly()!.Location);
         bool success = await Generator.Create()
-                                      .PreloadModule<AngularModule>()
-                                      .PreloadModule<AspDotNetModule>()
-                                      .PreloadModule<CsharpModule>()
-                                      // .PreloadModule<EntityFrameworkModule>()
-                                      .PreloadModule<JsonModule>()
-                                      // .PreloadModule<ODataModule>()
-                                      // .PreloadModule<OpenApiModule>()
-                                      .PreloadModule<ReflectionModule>()
-                                      .PreloadModule<SqliteModule>()
-                                      .PreloadModule<TsqlModule>()
-                                      .PreloadModule<TypeScriptModule>()
-                                      .PreloadModule<WatchdogModule>()
+                                      .PreloadModules(toolDirectory, "KY.Generator.*.dll")
                                       .SetParameters(args)
                                       .Run();
         if (!success)
