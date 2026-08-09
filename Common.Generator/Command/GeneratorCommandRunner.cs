@@ -37,22 +37,22 @@ public class GeneratorCommandRunner
 
     public async Task<IGeneratorCommandResult> Run(IGeneratorCommand command)
     {
-        if (!command.Parameters.SkipAsyncCheck)
+        if (!command.Parameters.SkipBackgroundCheck)
         {
-            if (!command.Parameters.IsOnlyAsync && command.Parameters.IsAsync)
+            if (!command.Parameters.IsBackgroundRun && command.Parameters.IsInBackground)
             {
-                return new SwitchAsyncResult();
+                return new SwitchToBackgroundResult();
             }
-            bool? isAssemblyAsync = command.Parameters.IsAsyncAssembly;
-            if (isAssemblyAsync != null)
+            bool? isAssemblyInBackground = command.Parameters.IsBackgroundAssembly;
+            if (isAssemblyInBackground != null)
             {
-                if (!command.Parameters.IsOnlyAsync && isAssemblyAsync.Value)
+                if (!command.Parameters.IsBackgroundRun && isAssemblyInBackground.Value)
                 {
-                    return new SwitchAsyncResult();
+                    return new SwitchToBackgroundResult();
                 }
-                if (command.Parameters.IsOnlyAsync && !command.Parameters.IsAsync && !isAssemblyAsync.Value)
+                if (command.Parameters.IsBackgroundRun && !command.Parameters.IsInBackground && !isAssemblyInBackground.Value)
                 {
-                    return new SwitchAsyncResult();
+                    return new SwitchToBackgroundResult();
                 }
             }
         }

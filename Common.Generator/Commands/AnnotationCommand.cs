@@ -40,9 +40,9 @@ internal class AnnotationCommand : GeneratorCommand<AnnotationCommandParameters>
                 continue;
             }
             processedAssemblies.Add(assembly);
-            if (!this.Parameters.IsOnlyAsync && assembly.IsAsync())
+            if (!this.Parameters.IsBackgroundRun && assembly.IsInBackground())
             {
-                return this.SwitchAsync();
+                return this.SwitchToBackground();
             }
             List<CliCommandParameter> globalParameters = this.Parameters.GetType().GetProperties()
                                                              .Where(x => x.GetCustomAttribute<GeneratorGlobalParameterAttribute>() != null)

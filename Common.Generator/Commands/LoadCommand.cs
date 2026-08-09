@@ -71,6 +71,7 @@ internal class LoadCommand : GeneratorCommand<LoadCommandParameters>, IPrepareCo
         this.environment.LoadedAssemblies.Add(assembly);
         this.ProcessFrom(assembly);
         this.ProcessLicense(assembly);
+        this.ProcessRunAtSuccess(assembly);
         this.moduleLoader.LoadFromAttributesAndDirectReferences(assembly);
     }
 
@@ -173,6 +174,21 @@ internal class LoadCommand : GeneratorCommand<LoadCommandParameters>, IPrepareCo
             {
                 GeneratorOptions fromOptions = this.options.Get<GeneratorOptions>(fromAssembly);
                 this.options.Get(assembly, fromOptions);
+            }
+        }
+    }
+
+    /// <summary>
+    /// The attribute is read here and not by the annotation command, so it also reaches a run that generates
+    /// nothing from annotations - a fluent one, or the background run of a project whose types are all handled.
+    /// </summary>
+    private void ProcessRunAtSuccess(Assembly assembly)
+    {
+        foreach (RunAtSuccessAttribute attribute in assembly.GetCustomAttributes<RunAtSuccessAttribute>())
+        {
+            if (!string.IsNullOrEmpty(attribute.Command) && !this.environment.RunAtSuccess.Contains(attribute.Command))
+            {
+                this.environment.RunAtSuccess.Add(attribute.Command);
             }
         }
     }

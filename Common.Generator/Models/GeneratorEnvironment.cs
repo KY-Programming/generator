@@ -20,4 +20,5 @@ public class GeneratorEnvironment : IEnvironment
     public bool IsMsBuild { get; set; }
     public bool Force { get; set; }
     public List<Assembly> LoadedAssemblies { get; } = [];
+    public List<string> RunAtSuccess { get; } = [];
 }

@@ -51,7 +51,7 @@ internal class ReadProjectCommand(IDependencyResolver resolver) : GeneratorComma
         environment.OutputId = project.Id;
         environment.Name = project.Name;
         Options.GetGlobal<GeneratorOptions>().Nullable = project.Nullable ?? false;
-        return this.ResultAsync(this.Success().ForceRerunOnAsync());
+        return this.SuccessAsync();
     }
 
     private VisualStudioSolution FindSolution(VisualStudioParser parser, int levelToGoUp = 3)

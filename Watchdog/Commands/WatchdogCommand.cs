@@ -22,7 +22,7 @@ internal class WatchdogCommand : GeneratorCommand<WatchdogCommandParameters>
     public override Task<IGeneratorCommandResult> Run()
     {
         Logger.Trace("Execute watchdog command...");
-        if (this.Parameters.IsAsync)
+        if (this.Parameters.IsInBackground)
         {
             Logger.Trace("Start generation in separate process...");
             if (InstanceHelper.IsRunning())

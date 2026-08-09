@@ -132,14 +132,14 @@ public abstract class GeneratorCommand<T> : IGeneratorCommand
         return new SwitchContextResult(switchToArchitecture, switchToFramework);
     }
 
-    protected SwitchAsyncResult SwitchAsync()
+    protected SwitchToBackgroundResult SwitchToBackground()
     {
-        return new SwitchAsyncResult();
+        return new SwitchToBackgroundResult();
     }
 
-    protected Task<IGeneratorCommandResult> SwitchAsyncAsync()
+    protected Task<IGeneratorCommandResult> SwitchToBackgroundAsync()
     {
-        return this.ResultAsync(this.SwitchAsync());
+        return this.ResultAsync(this.SwitchToBackground());
     }
 
     public override string ToString()

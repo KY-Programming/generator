@@ -1,10 +1,10 @@
 ﻿/* eslint-disable */
 // tslint:disable
 
-export class AngularAsync {
-    public property: string;
+export class SubType {
+    public property: string = "";
 
-    public constructor(init?: Partial<AngularAsync>) {
+    public constructor(init?: Partial<SubType>) {
         Object.assign(this, init);
     }
 }

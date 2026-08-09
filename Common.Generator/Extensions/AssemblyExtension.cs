@@ -12,13 +12,13 @@ namespace KY.Generator.Extensions
             return assembly.GetTargetFramework().GetSwitchableFramework();
         }
 
-        public static bool IsAsync(this Assembly assembly)
+        public static bool IsInBackground(this Assembly assembly)
         {
             return assembly.GetCustomAttributesData().Any(attribute =>
             {
                 try
                 {
-                    return attribute?.AttributeType.Name == "GenerateAsyncAttribute";
+                    return attribute?.AttributeType.Name == "GenerateInBackgroundAttribute";
                 }
                 catch
                 {

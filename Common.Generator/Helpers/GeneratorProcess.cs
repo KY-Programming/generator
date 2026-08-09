@@ -56,7 +56,7 @@ namespace KY.Generator
         {
             location ??= Assembly.GetEntryAssembly()?.Location ?? throw new InvalidOperationException("No location found");
             string locationExe = location.Replace(".dll", ".exe");
-            ProcessStartInfo startInfo = new();
+            ProcessStartInfo startInfo = new() { WorkingDirectory = Environment.CurrentDirectory };
             if (hidden)
             {
                 startInfo.UseShellExecute = true;

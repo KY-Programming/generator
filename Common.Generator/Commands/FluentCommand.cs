@@ -32,9 +32,9 @@ internal class FluentCommand : GeneratorCommand<FluentCommandParameters>
         }
         foreach (Assembly assembly in environment.LoadedAssemblies.ToList())
         {
-            if (!this.Parameters.IsOnlyAsync && assembly.IsAsync())
+            if (!this.Parameters.IsBackgroundRun && assembly.IsInBackground())
             {
-                return this.SwitchAsync();
+                return this.SwitchToBackground();
             }
             IEnumerable<Type> types = TypeHelper.GetTypes(assembly).Where(type => typeof(GeneratorFluentMain).IsAssignableFrom(type));
             foreach (Type objectType in types)
