@@ -33,7 +33,6 @@ public class Generator : IGeneratorRunSyntax
     private readonly GeneratorModuleLoader moduleLoader;
     private bool initializationFailed;
     private readonly List<string> initializationErrors = [];
-    private List<string> sharedPaths = [];
 
     public Generator()
     {
@@ -113,25 +112,9 @@ public class Generator : IGeneratorRunSyntax
         return new Generator();
     }
 
-    public Generator SharedAssemblies(IEnumerable<string> sharedPaths)
-    {
-        List<string> paths = sharedPaths.ToList();
-        for (int index = 0; index < paths.Count; index++)
-        {
-            string sharedPath = paths[index];
-        }
-        this.sharedPaths = paths;
-        return this;
-    }
-
     public Generator PreloadModules(string path, string moduleFileNameSearchPattern)
     {
         this.moduleLoader.Load(path, moduleFileNameSearchPattern);
-        return this;
-    }
-
-    public Generator PreloadModule<T>() where T : ModuleBase
-    {
         return this;
     }
 

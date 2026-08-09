@@ -1,8 +1,8 @@
+using System.Reflection;
 using System.Threading.Tasks;
-using KY.Generator.Csharp;
+using KY.Core.DataAccess;
 using KY.Generator.Output;
 using KY.Generator.Reflection.Tests.Properties;
-using KY.Generator.TypeScript;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace KY.Generator.Reflection.Tests;
@@ -17,10 +17,11 @@ public class InterfaceTest
     public void Initialize()
     {
         this.output = new MemoryOutput();
+        // The modules have to be named by file, not by type. A type reference here would make the JIT load the
+        // module assemblies before Generator.Create() runs, which initializes every module twice.
+        string moduleDirectory = FileSystem.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         this.generator = Generator.Create()
-                                  .PreloadModule<CsharpModule>()
-                                  .PreloadModule<TypeScriptModule>()
-                                  .PreloadModule<ReflectionModule>()
+                                  .PreloadModules(moduleDirectory, "KY.Generator.*.dll")
             // .SetOutput(this.output)
             ;
     }

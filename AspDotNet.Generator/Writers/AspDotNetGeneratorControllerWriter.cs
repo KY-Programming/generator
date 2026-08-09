@@ -78,11 +78,6 @@ public class AspDotNetGeneratorControllerWriter : Codeable
         {
             classTemplate.AddUsing(ns);
         }
-        foreach (string moduleType in configuration.GeneratorController.PreloadModules)
-        {
-            createCode.AddLine(Code.Local("generator").GenericMethod("PreloadModule", Code.Type(moduleType)).Close());
-            commandCode.AddLine(Code.Local("generator").GenericMethod("PreloadModule", Code.Type(moduleType)).Close());
-        }
         foreach (AspDotNetControllerConfigureModule configure in configuration.GeneratorController.Configures)
         {
             createCode.AddLine(Code.Local("generator").Method(configure.Module, Code.Lambda("x", Code.Csharp("x." + configure.Action))));
