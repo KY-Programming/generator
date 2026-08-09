@@ -182,7 +182,10 @@ public class StatisticsService
         request.GetResponse();
     }
 
-    public void Cleanup()
+    /// <summary>
+    /// Deletes all local statistic files and returns the number of deleted files
+    /// </summary>
+    public int Cleanup()
     {
         string[] files = FileSystem.GetFiles(this.environment.LocalApplicationData, "*.statistics.json")
                                    .Concat(FileSystem.GetFiles(this.environment.ApplicationData, "*.statistics.json"))
@@ -191,5 +194,6 @@ public class StatisticsService
         {
             FileSystem.DeleteFile(file);
         }
+        return files.Length;
     }
 }
