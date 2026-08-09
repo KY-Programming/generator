@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <ProjectGuid>{4a02ee87-ce35-4761-a2fe-498c859c7974}</ProjectGuid>
+        <!-- The shared model uses current C#; netstandard2.0 needs to be told that explicitly. -->
+        <LangVersion>latest</LangVersion>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>TargetFrameworks</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="KY.Generator" Version="10.0.1-preview.13" />
+        <PackageReference Include="KY.Generator.Reflection" Version="10.0.1-preview.13" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Compile Include="..\Shared\Types.cs" Link="Types.cs" />
+    </ItemGroup>
+
+</Project>
