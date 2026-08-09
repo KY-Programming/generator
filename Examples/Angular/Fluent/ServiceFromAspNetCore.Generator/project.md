@@ -30,9 +30,9 @@ readid -solution=$\Examples\Angular\Fluent\ServiceFromAspNetCore.sln -project=$\
 
 ## Status
 
-- **Last Build:** 2026-08-08 11:37:15
-- **Duration:** 8.1s
+- **Last Build:** 2026-08-09 11:47:05
+- **Duration:** 9.3s
 - **Status:** Success
 - **Info:** 0 errors, 5 files validated
-- **Last Success:** 2026-08-08 11:37:15
-- **Generator:** 10.0.1-preview.6
+- **Last Success:** 2026-08-09 11:47:05
+- **Generator:** 10.0.1-preview.11

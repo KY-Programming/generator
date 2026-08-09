@@ -30,9 +30,9 @@ readid -solution=$\Examples\Angular\Annotation\ServiceFromAspNetCore.sln -projec
 
 ## Status
 
-- **Last Build:** 2026-08-08 11:37:11
-- **Duration:** 11.2s
+- **Last Build:** 2026-08-09 11:47:35
+- **Duration:** 45.1s
 - **Status:** Success
 - **Info:** 0 errors, 5 files validated
-- **Last Success:** 2026-08-08 11:37:11
-- **Generator:** 10.0.1-preview.6
+- **Last Success:** 2026-08-09 11:47:35
+- **Generator:** 10.0.1-preview.11

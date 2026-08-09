@@ -30,9 +30,9 @@ readid -solution=$\Examples\Angular\Fluent\ChangeReturnType.sln -project=$\Examp
 
 ## Status
 
-- **Last Build:** 2026-08-08 11:37:14
-- **Duration:** 8.8s
+- **Last Build:** 2026-08-09 11:46:59
+- **Duration:** 9.0s
 - **Status:** Success
 - **Info:** 0 errors, 6 files validated
-- **Last Success:** 2026-08-08 11:37:14
-- **Generator:** 10.0.1-preview.6
+- **Last Success:** 2026-08-09 11:46:59
+- **Generator:** 10.0.1-preview.11
