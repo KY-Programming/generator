@@ -3,6 +3,7 @@ using KY.Core;
 using KY.Core.DataAccess;
 using KY.Generator.Sqlite.Commands;
 using KY.Generator.Sqlite.Language;
+using KY.Generator.Sqlite.Loaders;
 using KY.Generator.Sqlite.Parsers;
 using KY.Generator.Transfer;
 using Microsoft.Data.Sqlite;
@@ -12,11 +13,13 @@ namespace KY.Generator.Sqlite.Readers;
 public class SqliteTableReader
 {
     private readonly List<ITransferObject> transferObjects;
+    private readonly NativeLibraryLoader nativeLibraryLoader;
     private static readonly Regex connectionStringRegex = new(@".*Data\sSource=(?<file>[^;]*).*");
 
-    public SqliteTableReader(List<ITransferObject> transferObjects)
+    public SqliteTableReader(List<ITransferObject> transferObjects, NativeLibraryLoader nativeLibraryLoader)
     {
         this.transferObjects = transferObjects;
+        this.nativeLibraryLoader = nativeLibraryLoader;
     }
 
     public void Read(SqliteReadDatabaseCommandParameters parameters, string outputPath)
@@ -47,6 +50,7 @@ public class SqliteTableReader
             throw new FileNotFoundException("File not found. File has to be in source or output directory", originalFile);
         }
         string connectionString = parameters.ConnectionString.Replace(originalFile, file);
+        this.LoadNativeSqlite();
         using SqliteConnection connection = new(connectionString);
         connection.Open();
         List<string> tableNames = parameters.ReadAll ? this.ReadTables(connection).ToList() : parameters.Tables;
@@ -79,6 +83,21 @@ public class SqliteTableReader
             }
             this.transferObjects.Add(model);
         }
+    }
+
+    /// <summary>
+    /// Microsoft.Data.Sqlite is loaded from the output of the users project, so its native e_sqlite3 binary is not
+    /// covered by the deps.json of the generator and has to be loaded manually before the first connection is created.
+    /// </summary>
+    private void LoadNativeSqlite()
+    {
+        string location = typeof(SqliteConnection).Assembly.Location;
+        if (string.IsNullOrEmpty(location))
+        {
+            Logger.Warning("Location of Microsoft.Data.Sqlite is unknown. The native sqlite library can not be loaded manually.");
+            return;
+        }
+        this.nativeLibraryLoader.Load(FileSystem.Parent(location), "e_sqlite3", "SQLitePCLRaw.provider.e_sqlite3");
     }
 
     private IEnumerable<string> ReadTables(SqliteConnection connection)
