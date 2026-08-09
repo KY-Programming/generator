@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <ProjectGuid>{F6D9AC27-8B04-43DD-A165-A26CDF091E86}</ProjectGuid>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>JsonModelPathAndNamespace</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="KY.Generator" Version="10.0.1-preview.8" />
+        <PackageReference Include="KY.Generator.Json" Version="10.0.1-preview.8" />
+    </ItemGroup>
+
+</Project>

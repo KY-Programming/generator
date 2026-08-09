@@ -1,0 +1,9 @@
+{
+  "name": "Test",
+  "retryCount": 3,
+  "enabled": true,
+  "endpoint": {
+    "url": "https://example.com",
+    "timeout": 30
+  }
+}
