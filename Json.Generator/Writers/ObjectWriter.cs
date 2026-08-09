@@ -16,10 +16,31 @@ internal class ObjectWriter : ModelWriter
         : base(options, typeMapping, transferObjects, files)
     { }
 
-    public void Write(bool withReader)
+    /// <summary>
+    /// Applies the name and the namespace from the write command to the models read from the JSON
+    /// document. The namespace applies to every model, the name only to the root model - the nested
+    /// models are named after the property they came from.
+    /// </summary>
+    public ObjectWriter SetModelInfo(string? name, string? nameSpace)
+    {
+        foreach (JsonModelTransferObject model in this.TransferObjects.OfType<JsonModelTransferObject>())
+        {
+            if (nameSpace != null)
+            {
+                model.Namespace = nameSpace;
+            }
+            if (name != null && model.IsRoot)
+            {
+                model.Name = name;
+            }
+        }
+        return this;
+    }
+
+    public void Write(bool withReader, string? relativePath)
     {
         this.WithReader = withReader;
-        base.Write();
+        base.Write(relativePath);
     }
 
     private void WriteReader(ClassTemplate classTemplate, ModelTransferObject model)

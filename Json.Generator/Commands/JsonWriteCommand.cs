@@ -22,7 +22,10 @@ public class JsonWriteCommand(IDependencyResolver resolver) : GeneratorCommand<J
 
     public override Task<IGeneratorCommandResult> Run()
     {
-        resolver.Create<JsonWriter>().FormatNames().Write(this.Parameters.WithReader);
+        resolver.Create<JsonWriter>()
+                .SetModelInfo(this.Parameters.ModelName, this.Parameters.ModelNamespace)
+                .FormatNames()
+                .Write(this.Parameters.WithReader, this.Parameters.RelativePath);
 
         return this.SuccessAsync();
     }

@@ -10,19 +10,20 @@ namespace KY.Generator.Transfer.Writers;
 
 public class ModelWriter : TransferWriter, ITransferWriter
 {
-    private readonly IEnumerable<ITransferObject> transferObjects;
     private readonly IList<FileTemplate> files;
+
+    protected IEnumerable<ITransferObject> TransferObjects { get; }
 
     public ModelWriter(Options options, ITypeMapping typeMapping, IEnumerable<ITransferObject> transferObjects, IList<FileTemplate> files)
         : base(options, typeMapping)
     {
-        this.transferObjects = transferObjects;
+        this.TransferObjects = transferObjects;
         this.files = files;
     }
 
     public ModelWriter FormatNames()
     {
-        List<ModelTransferObject> models = this.transferObjects.OfType<ModelTransferObject>().ToList();
+        List<ModelTransferObject> models = this.TransferObjects.OfType<ModelTransferObject>().ToList();
         foreach (ModelTransferObject model in models)
         {
             GeneratorOptions modelOptions = this.Options.Get<GeneratorOptions>(model);
@@ -55,7 +56,7 @@ public class ModelWriter : TransferWriter, ITransferWriter
 
     public virtual void Write(string? relativePath = null)
     {
-        foreach (ModelTransferObject model in this.transferObjects.OfType<ModelTransferObject>())
+        foreach (ModelTransferObject model in this.TransferObjects.OfType<ModelTransferObject>())
         {
             GeneratorOptions modelOptions = this.Options.Get<GeneratorOptions>(model);
             modelOptions.ModelOutput = relativePath ?? modelOptions.ModelOutput;
@@ -124,13 +125,13 @@ public class ModelWriter : TransferWriter, ITransferWriter
             return type.Generics.Any(generic => ReferencesTarget(generic.Type, visited));
         }
 
-        IEnumerable<string> modelNames = this.transferObjects.OfType<ModelTransferObject>()
+        IEnumerable<string> modelNames = this.TransferObjects.OfType<ModelTransferObject>()
                                               .Where(model => model != target)
                                               .Where(model => model.Properties.Any(property => ReferencesTarget(property.Type, []))
                                                               || model.Fields.Any(field => ReferencesTarget(field.Type, [])))
                                               .Select(model => model.Name);
 
-        IEnumerable<string> actionNames = this.transferObjects.SelectMany(transferObject => transferObject switch
+        IEnumerable<string> actionNames = this.TransferObjects.SelectMany(transferObject => transferObject switch
                                                      {
                                                          HttpServiceTransferObject service => service.Actions.Select(action => (Owner: service.Name, Action: action)),
                                                          SignalRHubTransferObject hub => hub.Actions.Concat(hub.Events).Select(action => (Owner: hub.Name, Action: action)),
