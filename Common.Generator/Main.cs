@@ -24,7 +24,18 @@ public static class Main
         }
 #endif
         Generator.InitializeLogger(args);
-        Generator generator = Generator.Create();
+        try
+        {
+            return await Run(args, Generator.Create());
+        }
+        catch (EngineVersionMismatchException)
+        {
+            return false;
+        }
+    }
+
+    private static async Task<bool> Run(string[] args, Generator generator)
+    {
         bool isX86 = CurrentPath.EndsWith("x86");
         List<string> sharedDirectories = FileSystem.GetDirectories(BasePath)
                                                    .Where(x => !IgnoreList.Contains(x) && x != SharedPath)

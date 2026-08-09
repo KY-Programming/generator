@@ -26,12 +26,6 @@ dotnet build
 `MyModule.Example/Output/GreeterGreeter.cs` appears, generated from the `[GenerateHello]` attribute in
 `Greeter.cs`, and is compiled into the example project.
 
-If the example targets an older framework than your .NET SDK, the build prints two warnings - "Can not
-run 'fluent' / 'annotation' command without loaded assemblies". The generator picks its own build from
-your SDK version, and its first pass then reads the example assembly with the wrong framework before
-retrying correctly. The output is generated either way. Scaffolding with
-`--exampleFramework` set to the framework matching your SDK avoids them.
-
 ## Publish it
 
 ```bash

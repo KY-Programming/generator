@@ -149,6 +149,10 @@ internal class LoadCommand : GeneratorCommand<LoadCommandParameters>, IPrepareCo
             Assembly assembly = Assembly.LoadFrom(this.Parameters.Assembly!);
             this.Register(assembly);
         }
+        catch (EngineVersionMismatchException)
+        {
+            throw;
+        }
         catch (TypeLoadException exception)
         {
             Logger.Warning($"Could not check framework compatibility, because {exception.TypeName} could not be loaded\n{exception.Message}");

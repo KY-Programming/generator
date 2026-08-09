@@ -12,6 +12,8 @@ public class AssemblyLoader
 
     public List<IAssemblyLoader> Loaders { get; } = [];
 
+    public EngineVersionGuard EngineVersionGuard { get; set; } = new();
+
     public List<string> IgnoredAssemblies { get; } =
     [
         "mscorlib",
@@ -91,6 +93,7 @@ public class AssemblyLoader
 
     private Assembly Load(AssemblyLocation assemblyLocation, AssemblyLocateInfo info)
     {
+        this.CheckEngineVersion(assemblyLocation, info);
         Stopwatch loadStopwatch = new();
         loadStopwatch.Start();
         try
@@ -110,6 +113,30 @@ public class AssemblyLoader
             loadStopwatch.Stop();
             Logger.Trace($"Assembly {info.Name} loaded in {loadStopwatch.FormattedElapsed()}");
         }
+    }
+
+    /// <summary>
+    /// The locators fall back to the newest version they can find, so an engine assembly can silently resolve to a
+    /// version that does not match the running engine. Reading the name off the file keeps the check in front of the
+    /// load - once the assembly is in the process, the mismatch only shows up as an unrelated type load error.
+    /// </summary>
+    private void CheckEngineVersion(AssemblyLocation assemblyLocation, AssemblyLocateInfo info)
+    {
+        if (!EngineVersionGuard.IsEngineAssembly(info.Name))
+        {
+            return;
+        }
+        Version? foundVersion;
+        try
+        {
+            foundVersion = AssemblyName.GetAssemblyName(assemblyLocation.Path).Version;
+        }
+        catch (Exception exception)
+        {
+            Logger.Trace($"Could not read the version of {assemblyLocation.Path} to compare it with the running engine. {exception.Message}");
+            return;
+        }
+        this.EngineVersionGuard.Check(info.Name, info.Version, foundVersion, assemblyLocation.Path);
     }
 
     private static Assembly? GetLoadedAssembly(AssemblyLocateInfo info)

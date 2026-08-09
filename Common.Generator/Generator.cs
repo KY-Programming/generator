@@ -241,9 +241,16 @@ public class Generator : IGeneratorRunSyntax
                     {
                         asyncCommands.Add(command);
                     }
+                    if (switchContext != null)
+                    {
+                        // The whole chain is executed again in the switched process. Running the rest of it here
+                        // only duplicates the work and warns about the assemblies that the current context - the
+                        // very reason for the switch - could not load.
+                        break;
+                    }
                 }
                 this.statisticsService.RunEnd(this.environment.OutputId, this.environment.Name);
-                files = this.resolver.Get<List<FileTemplate>>();
+                files = switchContext == null ? this.resolver.Get<List<FileTemplate>>() : [];
                 if (files.Count > 0)
                 {
                     licenseService.WaitOrKill();
@@ -268,7 +275,7 @@ public class Generator : IGeneratorRunSyntax
                     }
                 }
             }
-            if (success)
+            if (success && switchContext == null)
             {
                 this.output.Execute();
                 this.commands.ForEach(command => command.FollowUp());
@@ -282,6 +289,10 @@ public class Generator : IGeneratorRunSyntax
                 return this.SwitchContext(switchContext, this.commands);
             }
             licenseService.ShowMessages();
+        }
+        catch (EngineVersionMismatchException)
+        {
+            success = false;
         }
         catch (Exception exception)
         {
