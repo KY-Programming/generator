@@ -53,6 +53,12 @@
         <NoWarn>$(NoWarn);NU5128;NU5131</NoWarn>
     </PropertyGroup>
 
+    <PropertyGroup Label="Template version stamping">
+        <TemplateManifestSource>$(MSBuildThisFileDirectory)templates\module\.template.config\template.json</TemplateManifestSource>
+        <TemplateManifestStamped>$(IntermediateOutputPath)template.json</TemplateManifestStamped>
+        <TemplateVersionPlaceholder>$KY_GENERATOR_SDK_VERSION$</TemplateVersionPlaceholder>
+    </PropertyGroup>
+
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
         <OutputPath>..\bin\Debug</OutputPath>
     </PropertyGroup>
@@ -62,9 +68,31 @@
     </PropertyGroup>
 
     <ItemGroup Label="Template pack">
+        <!-- template.json is packed from the stamped copy below, not from the source. -->
         <None Include="templates\**\*" Pack="true" PackagePath="templates"
-              Exclude="templates\**\bin\**;templates\**\obj\**;templates\**\.vs\**;templates\**\*.user" />
+              Exclude="templates\**\bin\**;templates\**\obj\**;templates\**\.vs\**;templates\**\*.user;$(TemplateManifestSource)" />
+        <None Include="$(TemplateManifestStamped)" Pack="true"
+              PackagePath="templates\module\.template.config\template.json" Visible="false" />
     </ItemGroup>
+
+    <!--
+        The scaffolded projects reference KY.Generator packages by version, which the template supplies as
+        the default of its sdkVersion parameter. That default has to be the version of this package, or a
+        freshly scaffolded module compiles against a different engine than the tool that loads it - the
+        mismatch this package exists to avoid.
+        So the source keeps a placeholder and pack writes $(Version) into it. Nothing to remember on a
+        release.
+    -->
+    <Target Name="StampTemplateVersion" BeforeTargets="_GetPackageFiles;GenerateNuspec">
+        <PropertyGroup>
+            <_TemplateManifest>$([System.IO.File]::ReadAllText('$(TemplateManifestSource)'))</_TemplateManifest>
+            <_TemplateManifest>$(_TemplateManifest.Replace('$(TemplateVersionPlaceholder)', '$(Version)'))</_TemplateManifest>
+        </PropertyGroup>
+        <Error Condition="!$([System.IO.File]::ReadAllText('$(TemplateManifestSource)').Contains('$(TemplateVersionPlaceholder)'))"
+               Text="$(TemplateManifestSource) no longer contains the placeholder $(TemplateVersionPlaceholder). The scaffolded projects would reference a hard coded KY.Generator version instead of $(Version)." />
+        <WriteLinesToFile File="$(TemplateManifestStamped)" Lines="$([MSBuild]::Escape($(_TemplateManifest)))"
+                          Overwrite="true" WriteOnlyWhenDifferent="true" />
+    </Target>
 
     <ItemGroup>
         <None Include="README.md" Pack="true" PackagePath="" />

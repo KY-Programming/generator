@@ -8,7 +8,8 @@ namespace MyModule.Example;
 ///
 /// The fluent alternative to this attribute is a class deriving from GeneratorFluentMain:
 ///
-///     this.Write(write => write.SampleModule(my => my.Hello("Hello from MyModule", "Greeter", "MyModule.Example", "Output")));
+///     this.Read(read => { })
+///         .Write(write => write.SampleModule(my => my.Hello("Hello from MyModule", "Greeter", "MyModule.Example", "Output")));
 /// </summary>
 [GenerateHello("Hello from MyModule", RelativePath = "Output")]
 public class Greeter

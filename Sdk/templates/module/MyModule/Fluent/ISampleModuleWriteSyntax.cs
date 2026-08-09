@@ -6,8 +6,11 @@ namespace KY.Generator;
 /// <summary>
 /// The fluent entry point, the alternative to the [GenerateHello] annotation:
 /// <code>
-/// this.Write(write => write.SampleModule(my => my.Hello("Hello world", "Greeter")));
+/// this.Read(read => { })
+///     .Write(write => write.SampleModule(my => my.Hello("Hello world", "Greeter")));
 /// </code>
+/// The fluent pipeline is always read then write. This module generates from its parameters alone, so
+/// the read step stays empty - give it a read action of its own once it reads something.
 /// </summary>
 public interface ISampleModuleWriteSyntax
 {
