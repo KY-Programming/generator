@@ -180,11 +180,27 @@ namespace KY.Generator
         protected List<T> GetMerged<T>(Func<FormattingOptions, List<T>> getAction)
         {
             List<T> merged = new();
-            foreach (List<T> list in this.Yield().Concat(this.others.Select(x => x())).Select(getAction).Where(x => x != null))
-            {
-                list.Where(item => !merged.Contains(item)).ForEach(item => merged.Add(item));
-            }
+            this.Merge(getAction, merged, new List<FormattingOptions>());
             return merged;
+        }
+
+        /// <summary>
+        /// Collects the list of this instance and of every instance it inherits from. The others are followed
+        /// recursively, like <see cref="Get{T}(System.Func{FormattingOptions,T})"/> does - a list of a scope more than
+        /// one level up, e.g. the one the fluent syntax writes to, would be lost otherwise
+        /// </summary>
+        private void Merge<T>(Func<FormattingOptions, List<T>> getAction, List<T> merged, List<FormattingOptions> visited)
+        {
+            if (visited.Contains(this))
+            {
+                return;
+            }
+            visited.Add(this);
+            getAction(this)?.Where(item => !merged.Contains(item)).ForEach(item => merged.Add(item));
+            foreach (FormattingOptions other in this.others.Select(x => x()).Where(x => x != null))
+            {
+                other.Merge(getAction, merged, visited);
+            }
         }
 
         public void AddFileNameReplace(FileNameReplacer newFileNameReplacer)

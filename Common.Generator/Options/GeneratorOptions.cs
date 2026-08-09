@@ -73,10 +73,10 @@ public class GeneratorOptions(GeneratorOptions? parent, GeneratorOptions? global
     /// </summary>
     public IReadOnlyDictionary<string, string> ReplaceName => this.GetOwnDictionary(x => x.replaceName);
 
-    public FormattingOptions? Formatting
+    public FormattingOptions Formatting
     {
         // TODO: Include all parents formatting options
-        get => new(() => this.Language?.Formatting, () => this.formatting, () => this.Global?.formatting, () => this.Parents.FirstOrDefault()?.Formatting);
+        get => this.formatting ??= new(() => this.Language?.Formatting, () => this.Global?.Formatting, () => this.Parents.FirstOrDefault()?.Formatting);
         set => this.formatting = value;
     }
 

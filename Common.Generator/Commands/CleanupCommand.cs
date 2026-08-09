@@ -52,6 +52,6 @@ internal class CleanupCommand : GeneratorCommand<CleanupCommandParameters>
             }
         }
         string skippedInfo = skipped > 0 ? $" ({skipped} files skipped)" : string.Empty;
-        Logger.Trace($"{deleted} log files deleted from \"{path}\"{skippedInfo}");
+        Logger.Trace($"{deleted} log files deleted {skippedInfo}.");
     }
 }
