@@ -6,7 +6,7 @@
         <Nullable>enable</Nullable>
         <Company>KY-Programming</Company>
         <Authors>KY-Programming</Authors>
-        <Version>10.0.1-preview.1</Version>
+        <Version>10.0.1-preview.12</Version>
         <Product>KY.Generator</Product>
         <Description>ASP.net Module for KY-Generator
             Download KY.Generator to use this module
@@ -43,9 +43,9 @@
         <None Include="build.targets" Pack="true" PackagePath="buildTransitive/KY.Generator.AspDotNet.targets" />
         <None Include="..\icon.png" Pack="true" PackagePath="assets" Visible="false" />
         <None Include="..\Common\README.md" Pack="true" PackagePath="" Visible="false" />
-        <None Include="$(OutputPath)\publish\KY.Generator.AspDotNet.Fluent.dll" Pack="true" PackagePath="lib\netstandard2.0\" Visible="false" />
-        <None Include="$(OutputPath)\publish\KY.Generator.AspDotNet.Fluent.xml" Pack="true" PackagePath="lib\netstandard2.0\" Visible="false" />
-        <None Include="$(OutputPath)\publish\KY.Generator.AspDotNet.Generator.dll" Pack="true" PackagePath="generators\netstandard2.0\" Visible="false" />
+        <None Include="$(OutputPath)\KY.Generator.AspDotNet.Fluent.dll" Pack="true" PackagePath="lib\netstandard2.0\" Visible="false" />
+        <None Include="$(OutputPath)\KY.Generator.AspDotNet.Fluent.xml" Pack="true" PackagePath="lib\netstandard2.0\" Visible="false" />
+        <None Include="$(OutputPath)\KY.Generator.AspDotNet.Generator.dll" Pack="true" PackagePath="generators\netstandard2.0\" Visible="false" />
         <None Remove="KY.Generator.AspDotNet.csproj.DotSettings" />
     </ItemGroup>
 

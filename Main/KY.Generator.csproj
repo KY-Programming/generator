@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <Version>10.0.1-preview.1</Version>
+        <Version>10.0.1-preview.12</Version>
         <TargetFramework>net10.0</TargetFramework>
         <TargetFrameworks>netcoreapp2.0;netcoreapp3.0;net6.0;net7.0;net8.0;net9.0;net10.0</TargetFrameworks>
         <OutputType>Exe</OutputType>
@@ -44,10 +44,10 @@
         <None Include="build.targets" Pack="true" PackagePath="build\KY.Generator.targets" />
         <None Include="..\icon.png" Pack="true" PackagePath="assets" Visible="false" />
         <None Include="..\README.md" Pack="true" PackagePath="" />
-        <None Include="..\bin\Release\netstandard2.0\publish\Newtonsoft.Json.dll" Pack="true" PackagePath="tools\netstandard2.0\" Visible="false" />
-        <None Include="..\bin\Release\netstandard2.0\publish\KY.Core.Common.dll" Pack="true" PackagePath="tools\netstandard2.0\" Visible="false" />
-        <None Include="..\bin\Release\netstandard2.0\publish\KY.Generator.Common.dll" Pack="true" PackagePath="tools\netstandard2.0\" Visible="false" />
-        <None Include="..\bin\Release\netstandard2.0\publish\KY.Generator.Common.Generator.dll" Pack="true" PackagePath="tools\netstandard2.0\" Visible="false" />
+        <None Include="..\bin\Release\netstandard2.0\Newtonsoft.Json.dll" Pack="true" PackagePath="tools\netstandard2.0\" Visible="false" />
+        <None Include="..\bin\Release\netstandard2.0\KY.Core.Common.dll" Pack="true" PackagePath="tools\netstandard2.0\" Visible="false" />
+        <None Include="..\bin\Release\netstandard2.0\KY.Generator.Common.dll" Pack="true" PackagePath="tools\netstandard2.0\" Visible="false" />
+        <None Include="..\bin\Release\netstandard2.0\KY.Generator.Common.Generator.dll" Pack="true" PackagePath="tools\netstandard2.0\" Visible="false" />
         <None Include="..\bin\Release\net462\win-x64\publish\**\*.exe" Pack="true" PackagePath="tools\net462" Visible="false" />
         <None Include="..\bin\Release\net462\win-x64\publish\**\*.dll" Pack="true" PackagePath="tools\net462" Visible="false" />
         <None Include="..\bin\Release\net462\win-x64\publish\**\*.config" Pack="true" PackagePath="tools\net462" Visible="false" />

@@ -2,12 +2,10 @@
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFramework>net462</TargetFramework>
+        <TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
+        <RollForward>Major</RollForward>
         <RootNamespace>KY.Generator</RootNamespace>
         <AssemblyName>KY.Generator</AssemblyName>
-        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-        <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <LangVersion>latest</LangVersion>
@@ -15,12 +13,13 @@
 
     <PropertyGroup>
         <PackageId>KY.Generator.CLI</PackageId>
-        <Version>10.0.1-preview.1</Version>
+        <Version>10.0.1-preview.12</Version>
         <Title>KY.Generator.CLI</Title>
         <Authors>KY-Programming</Authors>
         <Company>KY-Programming</Company>
         <Copyright>2026 - KY-Programming</Copyright>
-        <Description>Command Line Interface for KY-Generator.
+        <Description>Command line interface for KY.Generator, installable as a .NET global tool:
+            dotnet tool install -g KY.Generator.CLI
             Generate C# or TypeScript classes from .NET assemblies, JSON, TSQL or oData.
             Support for Angular, ASP.NET, ASP.NET Core, C# POCOs, TypeScript POCOs, Entity Framework and more.
         </Description>
@@ -28,11 +27,9 @@
         <PackageProjectUrl>https://github.com/KY-Programming/generator</PackageProjectUrl>
         <PackageIcon>assets\icon.png</PackageIcon>
         <PackageReadmeFile>docs\README.md</PackageReadmeFile>
-        <PackageTags>KY-Generator KY.Generator CLI</PackageTags>
-        <IncludeBuildOutput>false</IncludeBuildOutput>
-        <!-- Costura merges every dependency into the exe, so the package must not force consumers
-             to restore them again -->
-        <SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>
+        <PackageTags>KY-Generator KY.Generator CLI dotnet-tool</PackageTags>
+        <PackAsTool>true</PackAsTool>
+        <ToolCommandName>ky-generator</ToolCommandName>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -41,14 +38,11 @@
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
         <OutputPath>bin\Release\</OutputPath>
-        <!-- The package ships its payload in tools\, so it intentionally has no lib\ assemblies -->
-        <NoWarn>$(NoWarn);NU5128</NoWarn>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="KY.Core.Common" Version="10.1.0" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
-        <PackageReference Include="Costura.Fody" Version="5.7.0" PrivateAssets="all" />
     </ItemGroup>
 
     <ItemGroup>
@@ -73,20 +67,8 @@
     </ItemGroup>
 
     <ItemGroup>
-        <None Include="App.config" />
         <None Include="..\icon.png" Pack="true" PackagePath="assets" Visible="false" />
         <None Include="..\README.md" Pack="true" PackagePath="docs" Visible="false" />
     </ItemGroup>
-
-    <!-- Costura merges the dependencies into the exe, so the package ships the build output as a
-         tool rather than as lib\ assemblies. Collected in a target instead of a plain item so the
-         globs are evaluated after Build has produced the files, not at project evaluation time. -->
-    <Target Name="AddBuildOutputToPackage" BeforeTargets="_GetPackageFiles">
-        <ItemGroup>
-            <None Include="$(OutputPath)*.exe" Pack="true" PackagePath="tools" Visible="false" />
-            <None Include="$(OutputPath)*.dll" Pack="true" PackagePath="tools" Visible="false" />
-            <None Include="$(OutputPath)*.config" Pack="true" PackagePath="tools" Visible="false" />
-        </ItemGroup>
-    </Target>
 
 </Project>

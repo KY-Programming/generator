@@ -7,7 +7,7 @@
         <Authors>KY-Programming</Authors>
         <Company>KY-Programming</Company>
         <Product>KY.Generator</Product>
-        <Version>10.0.1-preview.11</Version>
+        <Version>10.0.1-preview.12</Version>
         <Description>Build your own KY.Generator module.
             Reference this package from the ".Generator" half of a custom module to get the module,
             command, writer and template API. Development time only - nothing of it is shipped with
@@ -103,43 +103,43 @@
     <!-- ref/ instead of lib/ is the whole point: NuGet uses these for compilation and never copies them
          to the output folder. A module author cannot accidentally ship or shadow the engine, and no
          PrivateAssets/ExcludeAssets discipline is required on their side.
-         The paths are the publish output of the generator halves - run Nuget\pack.cmd, which publishes
-         them before packing. -->
+         Every project of the solution shares $(OutputPath), so a plain solution build puts all of these
+         side by side - no publish step and no ProjectReference to the halves required. -->
     <ItemGroup Label="Reference assemblies">
-        <KyGeneratorRef Include="$(OutputPath)\publish\KY.Core.Common.dll" />
+        <KyGeneratorRef Include="$(OutputPath)\KY.Core.Common.dll" />
 
-        <KyGeneratorRef Include="$(OutputPath)\publish\KY.Generator.Common.dll" />
-        <KyGeneratorRef Include="$(OutputPath)\publish\KY.Generator.Common.Fluent.dll" />
-        <KyGeneratorRef Include="$(OutputPath)\publish\KY.Generator.Common.Generator.dll" />
+        <KyGeneratorRef Include="$(OutputPath)\KY.Generator.Common.dll" />
+        <KyGeneratorRef Include="$(OutputPath)\KY.Generator.Common.Fluent.dll" />
+        <KyGeneratorRef Include="$(OutputPath)\KY.Generator.Common.Generator.dll" />
 
-        <KyGeneratorRef Include="$(OutputPath)\publish\KY.Generator.Csharp.dll" />
-        <KyGeneratorRef Include="$(OutputPath)\publish\KY.Generator.Csharp.Generator.dll" />
+        <KyGeneratorRef Include="$(OutputPath)\KY.Generator.Csharp.dll" />
+        <KyGeneratorRef Include="$(OutputPath)\KY.Generator.Csharp.Generator.dll" />
 
-        <KyGeneratorRef Include="$(OutputPath)\publish\KY.Generator.TypeScript.dll" />
-        <KyGeneratorRef Include="$(OutputPath)\publish\KY.Generator.TypeScript.Fluent.dll" />
-        <KyGeneratorRef Include="$(OutputPath)\publish\KY.Generator.TypeScript.Generator.dll" />
+        <KyGeneratorRef Include="$(OutputPath)\KY.Generator.TypeScript.dll" />
+        <KyGeneratorRef Include="$(OutputPath)\KY.Generator.TypeScript.Fluent.dll" />
+        <KyGeneratorRef Include="$(OutputPath)\KY.Generator.TypeScript.Generator.dll" />
 
-        <KyGeneratorRef Include="$(OutputPath)\publish\KY.Generator.Angular.dll" />
-        <KyGeneratorRef Include="$(OutputPath)\publish\KY.Generator.Angular.Fluent.dll" />
-        <KyGeneratorRef Include="$(OutputPath)\publish\KY.Generator.Angular.Generator.dll" />
+        <KyGeneratorRef Include="$(OutputPath)\KY.Generator.Angular.dll" />
+        <KyGeneratorRef Include="$(OutputPath)\KY.Generator.Angular.Fluent.dll" />
+        <KyGeneratorRef Include="$(OutputPath)\KY.Generator.Angular.Generator.dll" />
 
-        <KyGeneratorRef Include="$(OutputPath)\publish\KY.Generator.Reflection.dll" />
-        <KyGeneratorRef Include="$(OutputPath)\publish\KY.Generator.Reflection.Fluent.dll" />
-        <KyGeneratorRef Include="$(OutputPath)\publish\KY.Generator.Reflection.Generator.dll" />
+        <KyGeneratorRef Include="$(OutputPath)\KY.Generator.Reflection.dll" />
+        <KyGeneratorRef Include="$(OutputPath)\KY.Generator.Reflection.Fluent.dll" />
+        <KyGeneratorRef Include="$(OutputPath)\KY.Generator.Reflection.Generator.dll" />
     </ItemGroup>
 
     <ItemGroup Label="Documentation">
         <!-- Only the base assemblies are built with GenerateDocumentationFile, so the XML files are
              listed separately instead of derived from the assemblies above. -->
-        <KyGeneratorDoc Include="$(OutputPath)\publish\KY.Generator.Common.xml" />
-        <KyGeneratorDoc Include="$(OutputPath)\publish\KY.Generator.Common.Fluent.xml" />
-        <KyGeneratorDoc Include="$(OutputPath)\publish\KY.Generator.Csharp.xml" />
-        <KyGeneratorDoc Include="$(OutputPath)\publish\KY.Generator.TypeScript.xml" />
-        <KyGeneratorDoc Include="$(OutputPath)\publish\KY.Generator.TypeScript.Fluent.xml" />
-        <KyGeneratorDoc Include="$(OutputPath)\publish\KY.Generator.Angular.xml" />
-        <KyGeneratorDoc Include="$(OutputPath)\publish\KY.Generator.Angular.Fluent.xml" />
-        <KyGeneratorDoc Include="$(OutputPath)\publish\KY.Generator.Reflection.xml" />
-        <KyGeneratorDoc Include="$(OutputPath)\publish\KY.Generator.Reflection.Fluent.xml" />
+        <KyGeneratorDoc Include="$(OutputPath)\KY.Generator.Common.xml" />
+        <KyGeneratorDoc Include="$(OutputPath)\KY.Generator.Common.Fluent.xml" />
+        <KyGeneratorDoc Include="$(OutputPath)\KY.Generator.Csharp.xml" />
+        <KyGeneratorDoc Include="$(OutputPath)\KY.Generator.TypeScript.xml" />
+        <KyGeneratorDoc Include="$(OutputPath)\KY.Generator.TypeScript.Fluent.xml" />
+        <KyGeneratorDoc Include="$(OutputPath)\KY.Generator.Angular.xml" />
+        <KyGeneratorDoc Include="$(OutputPath)\KY.Generator.Angular.Fluent.xml" />
+        <KyGeneratorDoc Include="$(OutputPath)\KY.Generator.Reflection.xml" />
+        <KyGeneratorDoc Include="$(OutputPath)\KY.Generator.Reflection.Fluent.xml" />
     </ItemGroup>
 
     <!-- Declared at evaluation time, not inside a target: pack collects its files before GenerateNuspec
@@ -150,7 +150,7 @@
 
     <Target Name="VerifyKyGeneratorRefsExist" BeforeTargets="GenerateNuspec">
         <Error Condition="!Exists('%(KyGeneratorRef.Identity)')"
-               Text="%(KyGeneratorRef.Identity) not found. Run Nuget\pack.cmd, which publishes the generator halves before packing." />
+               Text="%(KyGeneratorRef.Identity) not found. Build the whole solution (dotnet build KY.Generator.sln -c Release) before packing this project." />
     </Target>
 
 </Project>

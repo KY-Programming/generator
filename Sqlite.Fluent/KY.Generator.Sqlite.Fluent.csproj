@@ -4,10 +4,11 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <Company>KY-Programming</Company>
-        <Version>10.0.1-preview.1</Version>
+        <Version>10.0.1-preview.12</Version>
         <LangVersion>latest</LangVersion>
         <RootNamespace>KY.Generator</RootNamespace>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <IsPackable>false</IsPackable>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -21,10 +22,6 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Common.Fluent\KY.Generator.Common.Fluent.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <None Remove="KY.Generator.Sqlite.Fluent.csproj.DotSettings" />
     </ItemGroup>
 
 </Project>

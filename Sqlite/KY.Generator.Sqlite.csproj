@@ -5,7 +5,7 @@
         <Nullable>enable</Nullable>
         <Company>KY-Programming</Company>
         <Authors>KY-Programming</Authors>
-        <Version>10.0.1-preview.1</Version>
+        <Version>10.0.1-preview.12</Version>
         <Product>KY.Generator</Product>
         <Description>Sqlite Module for KY-Generator
             Download KY.Generator to use this module
@@ -21,6 +21,8 @@
         <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
         <RootNamespace>KY.Generator</RootNamespace>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <!-- OutputPath of this project already contains its own target framework, the packed projects are picked per framework -->
+        <SharedOutputPath>..\bin\$(Configuration)\</SharedOutputPath>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -42,9 +44,10 @@
         <None Include="build.targets" Pack="true" PackagePath="buildTransitive/KY.Generator.Sqlite.targets" />
         <None Include="..\icon.png" Pack="true" PackagePath="assets" Visible="false" />
         <None Include="..\Common\README.md" Pack="true" PackagePath="" Visible="false" />
-        <None Include="$(OutputPath)\publish\KY.Generator.Sqlite.Fluent.dll" Pack="true" PackagePath="lib\netstandard2.0\" Visible="false" />
-        <None Include="$(OutputPath)\publish\KY.Generator.Sqlite.Fluent.xml" Pack="true" PackagePath="lib\netstandard2.0\" Visible="false" />
-        <None Include="$(OutputPath)\publish\KY.Generator.Sqlite.Generator.dll" Pack="true" PackagePath="generators\netstandard2.0\" Visible="false" />
+        <None Include="$(SharedOutputPath)netstandard2.0\KY.Generator.Sqlite.Fluent.dll" Pack="true" PackagePath="lib\netstandard2.0\" Visible="false" />
+        <None Include="$(SharedOutputPath)netstandard2.0\KY.Generator.Sqlite.Fluent.xml" Pack="true" PackagePath="lib\netstandard2.0\" Visible="false" />
+        <None Include="$(SharedOutputPath)netstandard2.0\KY.Generator.Sqlite.Generator.dll" Pack="true" PackagePath="generators\netstandard2.0\" Visible="false" />
+        <None Include="$(SharedOutputPath)net8.0\KY.Generator.Sqlite.Generator.dll" Pack="true" PackagePath="generators\net8.0\" Visible="false" />
         <None Remove="KY.Generator.Sqlite.csproj.DotSettings" />
     </ItemGroup>
 

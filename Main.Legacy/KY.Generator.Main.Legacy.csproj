@@ -14,6 +14,7 @@
         <Deterministic>true</Deterministic>
         <LangVersion>Default</LangVersion>
         <Nullable>enable</Nullable>
+        <Prefer32Bit>false</Prefer32Bit>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
         <PlatformTarget>AnyCPU</PlatformTarget>
@@ -46,4 +47,8 @@
         <None Include="App.config" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+    <!-- The legacy (non SDK) project format brings no Pack target, which lets "dotnet pack" on the
+         solution fail with MSB4057. This project is never a package of its own - its build output is
+         picked up into tools\net462 of the KY.Generator package - so a no-op is the correct Pack. -->
+    <Target Name="Pack" />
 </Project>

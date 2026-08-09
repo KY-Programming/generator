@@ -21,6 +21,7 @@
         <LangVersion>latest</LangVersion>
         <RootNamespace>KY.Generator</RootNamespace>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <IsPackable>false</IsPackable>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -42,7 +43,7 @@
         <None Include="build.targets" Pack="true" PackagePath="buildTransitive/KY.Generator.EntityFramework.targets" />
         <None Include="..\icon.png" Pack="true" PackagePath="assets" Visible="false" />
         <None Include="..\Common\README.md" Pack="true" PackagePath="" Visible="false" />
-        <None Include="$(OutputPath)\publish\KY.Generator.EntityFramework.Generator.dll" Pack="true" PackagePath="generators\netstandard2.0\" Visible="false" />
+        <None Include="$(OutputPath)\KY.Generator.EntityFramework.Generator.dll" Pack="true" PackagePath="generators\netstandard2.0\" Visible="false" />
     </ItemGroup>
 
 </Project>

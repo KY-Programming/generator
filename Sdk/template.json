@@ -37,7 +37,7 @@
         "sdkVersion": {
             "type": "parameter",
             "datatype": "string",
-            "defaultValue": "10.0.1-preview.11",
+            "defaultValue": "10.0.1-preview.12",
             "replaces": "KY_GENERATOR_VERSION",
             "description": "Version of the KY.Generator packages to build against. Defaults to the version of the SDK this template came from - both halves of a module and the tool that loads them have to match. The default is written in by 'dotnet pack'; installing this template from the source folder instead of from the package leaves the placeholder, so pass the version explicitly then."
         },

@@ -8,6 +8,7 @@
         <Version>7.6.0</Version>
         <LangVersion>latest</LangVersion>
         <RootNamespace>KY.Generator.OData</RootNamespace>
+        <IsPackable>false</IsPackable>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

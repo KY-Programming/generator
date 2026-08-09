@@ -7,7 +7,7 @@
         <Company>KY-Programming</Company>
         <Authors>KY-Programming</Authors>
         <Product>KY.Generator</Product>
-        <Version>10.0.1-preview.1</Version>
+        <Version>10.0.1-preview.12</Version>
         <Description>TSQL Module for KY-Generator
             Download KY.Generator to use this module
         </Description>
@@ -20,16 +20,18 @@
         <RepositoryType>git</RepositoryType>
         <PackageTags>KY-Generator KY.Generator TSQL</PackageTags>
         <LangVersion>latest</LangVersion>
+        <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
         <RootNamespace>KY.Generator</RootNamespace>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <SharedOutputPath>..\bin\$(Configuration)\</SharedOutputPath>
     </PropertyGroup>
 
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-        <OutputPath>..\bin\Debug</OutputPath>
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+        <OutputPath>..\bin\Debug\</OutputPath>
     </PropertyGroup>
 
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-        <OutputPath>..\bin\Release</OutputPath>
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+        <OutputPath>..\bin\Release\</OutputPath>
         <NoWarn>$(NoWarn);1591</NoWarn>
     </PropertyGroup>
 
@@ -43,9 +45,10 @@
         <None Include="build.targets" Pack="true" PackagePath="buildTransitive/KY.Generator.Tsql.targets" />
         <None Include="..\icon.png" Pack="true" PackagePath="assets" Visible="false" />
         <None Include="..\Common\README.md" Pack="true" PackagePath="" Visible="false" />
-        <None Include="$(OutputPath)\publish\KY.Generator.Tsql.Fluent.dll" Pack="true" PackagePath="lib\netstandard2.0\" Visible="false" />
-        <None Include="$(OutputPath)\publish\KY.Generator.Tsql.Fluent.xml" Pack="true" PackagePath="lib\netstandard2.0\" Visible="false" />
-        <None Include="$(OutputPath)\publish\KY.Generator.Tsql.Generator.dll" Pack="true" PackagePath="generators\netstandard2.0\" Visible="false" />
+        <None Include="$(SharedOutputPath)netstandard2.0\KY.Generator.Tsql.Fluent.dll" Pack="true" PackagePath="lib\netstandard2.0\" Visible="false" />
+        <None Include="$(SharedOutputPath)netstandard2.0\KY.Generator.Tsql.Fluent.xml" Pack="true" PackagePath="lib\netstandard2.0\" Visible="false" />
+        <None Include="$(SharedOutputPath)netstandard2.0\KY.Generator.Tsql.Generator.dll" Pack="true" PackagePath="generators\netstandard2.0\" Visible="false" />
+        <None Include="$(SharedOutputPath)net8.0\KY.Generator.Tsql.Generator.dll" Pack="true" PackagePath="generators\net8.0\" Visible="false" />
         <None Remove="KY.Generator.Tsql.csproj.DotSettings" />
     </ItemGroup>
 
