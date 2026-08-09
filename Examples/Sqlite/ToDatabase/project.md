@@ -11,13 +11,21 @@
 
 Demonstrates generating SQLite database schema and repository code from C# entity models.
 
+## Parameters
+
+```
+readid -solution=$\Examples\Sqlite\ToDatabase.sln -project=$\Examples\Sqlite\ToDatabase\ToDatabase.csproj msbuild set -output=$\Examples\Sqlite\ToDatabase\ load -assembly=$\Examples\Sqlite\ToDatabase\bin\Debug\net10.0\ToDatabase.dll fluent annotation
+```
+
 ## Output
 
-- PersonRepository.cs `#e3d5ce63`
+- PersonRepository.cs `#901979bc` `keep`
 
 ## Status
 
-- **Last Build:** 2026-05-09 06:12:23
-- **Status:** Failure
-- **Info:** Build failed
-- **Generator:** 10.0.0-preview.39
+- **Last Build:** 2026-08-09 08:27:49
+- **Duration:** 5.0s
+- **Status:** Warning
+- **Info:** 1 changed
+- **Last Success:** 2026-08-09 08:27:49
+- **Generator:** 10.0.1-preview.9

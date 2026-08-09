@@ -11,14 +11,21 @@
 
 Demonstrates generating C# entity models from an existing SQLite database schema.
 
+## Parameters
+
+```
+readid -solution=$\Examples\Sqlite\FromDatabase.sln -project=$\Examples\Sqlite\FromDatabase\FromDatabase.csproj msbuild set -output=$\Examples\Sqlite\FromDatabase\ load -assembly=$\Examples\Sqlite\FromDatabase\bin\Debug\net10.0\FromDatabase.dll fluent annotation
+```
+
 ## Output
 
 - Output/
-    - Person.cs `#f12900f5`
+    - Person.cs `#91e1a3d9`
 
 ## Status
 
-- **Last Build:** 2026-05-09 06:12:22
-- **Status:** Failure
-- **Info:** Build failed
-- **Generator:** 10.0.0-preview.18
+- **Last Build:** 2026-08-09 07:45:13
+- **Duration:** 4.6s
+- **Status:** Verify Missing
+- **Info:** 1 missing, 1 new
+- **Generator:** 10.0.1-preview.9
