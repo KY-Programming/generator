@@ -1,6 +1,7 @@
 using System.Reflection;
 using System.Runtime.Versioning;
 using KY.Core;
+using KY.Core.DataAccess;
 using KY.Generator.Command;
 using KY.Generator.Extensions;
 using KY.Generator.Licensing;
@@ -81,20 +82,14 @@ internal class LoadCommand : GeneratorCommand<LoadCommandParameters>, IPrepareCo
             return this.Error();
         }
 
-        Assembly? entryAssembly = Assembly.GetEntryAssembly();
-        ProcessorArchitecture? entryArchitecture = entryAssembly?.GetName().ProcessorArchitecture;
+        ProcessorArchitecture processArchitecture = AssemblyArchitectureReader.Current();
         try
         {
-            ProcessorArchitecture assemblyArchitecture = AssemblyName.GetAssemblyName(this.Parameters.Assembly).ProcessorArchitecture;
-            if (assemblyArchitecture != ProcessorArchitecture.None)
+            ProcessorArchitecture assemblyArchitecture = AssemblyArchitectureReader.Read(this.Parameters.Assembly);
+            if (!AssemblyArchitectureReader.IsCompatible(assemblyArchitecture, processArchitecture))
             {
-                bool isCompatible64 = (entryArchitecture == ProcessorArchitecture.Amd64 || entryArchitecture == ProcessorArchitecture.MSIL)
-                                      && (assemblyArchitecture == ProcessorArchitecture.Amd64 || assemblyArchitecture == ProcessorArchitecture.MSIL);
-                bool isCompatible86 = entryArchitecture == ProcessorArchitecture.X86 && assemblyArchitecture == ProcessorArchitecture.X86;
-                if (!isCompatible64 && !isCompatible86)
-                {
-                    return this.SwitchContext(assemblyArchitecture);
-                }
+                Logger.Trace($"Assembly {FileSystem.GetFileName(this.Parameters.Assembly)} is compiled for {assemblyArchitecture}, but the current process runs as {processArchitecture}");
+                return this.SwitchContext(assemblyArchitecture);
             }
         }
         catch (FileNotFoundException)
@@ -163,7 +158,8 @@ internal class LoadCommand : GeneratorCommand<LoadCommandParameters>, IPrepareCo
         }
         catch (Exception exception)
         {
-            Logger.Warning($"Could not check framework compatibility, because an error occurred\n{exception.Message}");
+            Logger.Error($"Could not load assembly {this.Parameters.Assembly}\n{exception.Message}");
+            return this.ErrorAsync();
         }
         return this.SuccessAsync();
     }
