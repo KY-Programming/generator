@@ -20,12 +20,17 @@ readid -solution=$\Examples\Sqlite\FromDatabase.sln -project=$\Examples\Sqlite\F
 ## Output
 
 - Output/
-    - Person.cs `#91e1a3d9`
+    - Person.cs `#ec277dc6`
+
+## Validation
+
+- validate.js `passed, 1 file validated`
 
 ## Status
 
-- **Last Build:** 2026-08-09 07:45:13
-- **Duration:** 4.6s
-- **Status:** Verify Missing
-- **Info:** 1 missing, 1 new
-- **Generator:** 10.0.1-preview.9
+- **Last Build:** 2026-08-09 11:55:13
+- **Duration:** 6.3s
+- **Status:** Success
+- **Info:** 0 errors, 1 file validated
+- **Last Success:** 2026-08-09 11:55:13
+- **Generator:** 10.0.1-preview.11

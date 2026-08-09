@@ -11,15 +11,6 @@
 
 Demonstrates generating C# models from the schema of a T-SQL database, read live during the build.
 
-The server is not part of the repository: `prepare.js` creates it from `../Shared/docker-compose.yml` and
-applies `../Shared/schema.sql` before anything is built, and `cleanup.js` removes it again afterwards. The
-container belongs to the run, so every build starts from an empty server and nothing is left on the
-machine. Both files are shared with `FromDatabaseToTypeScript` and are listed as solution items, so they
-show up in either solution.
-
-The generated models are compiled by this project, so a build that succeeds also proves the generated C#
-is valid - which is why they are marked `keep` and survive the clean step.
-
 ## Order
 
 100
@@ -40,15 +31,19 @@ readid -solution=$\Examples\Tsql\FromDatabaseToCsharp.sln -project=$\Examples\Ts
     - Address.cs `#2d3ab3da` `keep`
     - Person.cs `#d885d458` `keep`
 
+## Validation
+
+- validate.js `passed, 2 files validated`
+
 ## Cleanup
 
 - cleanup.js `passed, 0 files validated`
 
 ## Status
 
-- **Last Build:** 2026-08-09 11:32:17
-- **Duration:** 15.9s
-- **Status:** Warning
-- **Info:** 2 changed
-- **Last Success:** 2026-08-09 11:32:17
+- **Last Build:** 2026-08-09 11:55:34
+- **Duration:** 17.3s
+- **Status:** Success
+- **Info:** 0 errors, 2 files validated
+- **Last Success:** 2026-08-09 11:55:34
 - **Generator:** 10.0.1-preview.11

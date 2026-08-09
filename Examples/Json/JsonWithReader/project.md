@@ -28,13 +28,13 @@ readid -solution=$\Examples\Json\JsonWithReader.sln -project=$\Examples\Json\Jso
 
 ## Validation
 
-- validate.js `passed, 1 file validated`
+- validate.js `passed, 5 files validated`
 
 ## Status
 
-- **Last Build:** 2026-08-09 06:38:31
-- **Duration:** 7.0s
-- **Status:** Warning
-- **Info:** 5 changed
-- **Last Success:** 2026-08-09 06:38:31
-- **Generator:** 10.0.1-preview.8
+- **Last Build:** 2026-08-09 11:55:15
+- **Duration:** 7.8s
+- **Status:** Success
+- **Info:** 0 errors, 5 files validated
+- **Last Success:** 2026-08-09 11:55:15
+- **Generator:** 10.0.1-preview.11

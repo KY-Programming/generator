@@ -1,14 +1,15 @@
 'use strict';
 
-// Asserts what the JSON Model("Output", "Configuration", "KY.Generator.Tests.Json") syntax promises.
-// The generated C# is compiled by the build itself, so a file that does not parse fails before this
-// script runs - what it cannot tell us is *where* the files were written and *which* namespace and
-// class names they carry, and those are exactly the three arguments of Model(...).
+// Asserts what the JSON Model("Output", "Configuration", "KY.Generator.Tests.Json") syntax promises,
+// and compiles the result. The build does not compile it: the Builder deletes the generated files before
+// it and the annotation pass writes them after the compiler ran - see
+// Tests/Shared/Scripts/validate-csharp.js.
 //
 // Checked here:
 //   - both models are written to Output/, not to the project root (the relative path is applied)
 //   - both declare the namespace that was passed in (the namespace is applied)
 //   - the root model is named after the argument, not after document.json (the name is applied)
+//   - both compile, in the project they were generated for
 //
 // The last line of stdout is the machine readable result - the Builder reads that, not the exit code:
 //
@@ -72,8 +73,9 @@ function main() {
     }
 
     console.log(`${EXPECTED.length} generated file(s) in Output/, all in namespace ${NAMESPACE}.`);
-    console.log('VALIDATION PASSED');
-    console.log(JSON.stringify({ state: 'passed', errors: 0, validated: EXPECTED.length }));
+
+    // The assertions above only read the files - this one proves they are valid C#.
+    require('../../Shared/Scripts/validate-csharp').run(OUTPUT);
 }
 
 main();

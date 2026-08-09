@@ -4,7 +4,7 @@
 //
 // Two roots use this:
 //
-//   Tests            the packages the generated output imports, shared by the v10 tests and by the
+//   Tests            the packages the generated output imports, shared by the tests and by the
 //                    examples that write loose models
 //   <example>/ClientApp   an example that ships a client app of its own is checked against that app's
 //                    packages instead, so it compiles against the toolchain it actually uses

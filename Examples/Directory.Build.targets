@@ -1,0 +1,16 @@
+<Project>
+
+    <!-- Infrastructure of the Builder, not content of an example - it finds the scripts on disk (see
+         Tests\Builder\Services\ValidationScriptScanner.cs), so taking them out of the project only keeps
+         them out of the solution tree. See project.md.
+
+         This has to be a Directory.Build.targets: Directory.Build.props is imported before the SDK adds
+         its default item globs, so a Remove there would have nothing to remove yet. Only the scripts in
+         a project directory itself belong to the Builder - one further down is part of the example. -->
+    <ItemGroup>
+        <None Remove="prepare.js" />
+        <None Remove="validate.js" />
+        <None Remove="cleanup.js" />
+    </ItemGroup>
+
+</Project>

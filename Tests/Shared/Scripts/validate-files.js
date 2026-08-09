@@ -15,12 +15,19 @@
 //
 //     require('../../../../Tests/Shared/Scripts/validate-files').run(path.join(__dirname, 'Output'));
 //     require('../../../../Tests/Shared/Scripts/validate-files').run(dir, { strict: false });
+//
+// Use check() instead of run() to combine it with another validation in the same script - it returns
+// { errors, validated } and leaves the reporting to the caller. The C# counterpart is validate-csharp.js.
 
 const fs = require('fs');
 const path = require('path');
 const shared = require('./type-check');
 
-function run(target, { strict = true } = {}) {
+/**
+ * Type-checks the folder and returns { errors, validated } instead of reporting - for a script that
+ * combines this with another validation, e.g. an example that writes TypeScript and C# side by side.
+ */
+function check(target, { strict = true } = {}) {
     if (!target) {
         shared.fail('no directory passed.', 2);
     }
@@ -38,10 +45,15 @@ function run(target, { strict = true } = {}) {
     }
 
     console.log(`${path.basename(directory)}: ${files.length} generated file(s)`);
-    shared.report(shared.typeCheck(files, strict, directory) || 0, files.length);
+    return { errors: shared.typeCheck(files, strict, directory) || 0, validated: files.length };
 }
 
-module.exports = { run };
+function run(target, options) {
+    const result = check(target, options);
+    shared.report(result.errors, result.validated);
+}
+
+module.exports = { check, run };
 
 // Also runnable directly: node validate-files.js <directory> [--non-strict]
 if (require.main === module) {

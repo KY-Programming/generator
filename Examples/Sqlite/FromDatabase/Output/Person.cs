@@ -8,6 +8,9 @@
 // ------------------------------------------------------------------------------
 // ReSharper disable All
 
+#nullable enable
+#pragma warning disable CS8618
+
 using System.CodeDom.Compiler;
 
 [GeneratedCode("KY.Generator", "10.0.1.0")]
@@ -16,9 +19,9 @@ public partial class Person
     public int Id { get; set; }
     public string FirstName { get; set; }
     public string LastName { get; set; }
-    public string Birthday { get; set; }
+    public string? Birthday { get; set; }
     public int Age { get; set; }
-    public string Address { get; set; }
+    public string? Address { get; set; }
 }
 
 // outputid:24a70ace-e281-41c6-8732-ac157e92e94a

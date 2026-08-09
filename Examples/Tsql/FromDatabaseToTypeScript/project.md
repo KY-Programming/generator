@@ -52,9 +52,9 @@ readid -solution=$\Examples\Tsql\FromDatabaseToTypeScript.sln -project=$\Example
 
 ## Status
 
-- **Last Build:** 2026-08-09 11:32:33
+- **Last Build:** 2026-08-09 11:55:50
 - **Duration:** 13.8s
-- **Status:** Warning
-- **Info:** 2 changed
-- **Last Success:** 2026-08-09 11:32:33
+- **Status:** Success
+- **Info:** 0 errors, 3 files validated
+- **Last Success:** 2026-08-09 11:55:50
 - **Generator:** 10.0.1-preview.11

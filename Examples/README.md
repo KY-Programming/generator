@@ -58,7 +58,16 @@ Reading types from compiled assemblies instead of source code.
 | [Json/JsonWithReader](Json/JsonWithReader) | Reading JSON files and writing C# models with and without reader, plus Angular models — [Generator.cs](Json/JsonWithReader/Generator.cs). |
 | [Sqlite/FromDatabase](Sqlite/FromDatabase) | Reading an existing SQLite database and generating C# models from its schema — [Generator.cs](Sqlite/FromDatabase/Generator.cs). |
 | [Sqlite/ToDatabase](Sqlite/ToDatabase) | Describing a table with `[GenerateSqliteRepository]` and column attributes and generating the repository — [Person.cs](Sqlite/ToDatabase/Person.cs). |
-| [Tsql/Tsql](Tsql/Tsql) | Reading a table from a T-SQL server and generating a C# model — [Generator.cs](Tsql/Tsql/Generator.cs). |
+| [Tsql/FromDatabaseToCsharp](Tsql/FromDatabaseToCsharp) | Reading a whole T-SQL schema with `UseAll()` and generating C# models from it — [Generator.cs](Tsql/FromDatabaseToCsharp/Generator.cs). |
+| [Tsql/FromDatabaseToTypeScript](Tsql/FromDatabaseToTypeScript) | The same database written as TypeScript models instead — [Generator.cs](Tsql/FromDatabaseToTypeScript/Generator.cs). |
+
+The two T-SQL examples read a live database, which the repository cannot hold. Both start one in a
+container from [Shared/docker-compose.yml](Tsql/Shared/docker-compose.yml) and apply
+[Shared/schema.sql](Tsql/Shared/schema.sql) — the two files they have in common, listed as solution items
+so they are visible in either solution — before the build, so they need a running Docker. That happens in
+their `prepare.js`, listed in the `## Preparation` section of their `project.md`. The container belongs to
+the run: `cleanup.js` removes it again in the `## Cleanup` section, which runs whatever the outcome was.
+So every build starts from an empty server and none of them leaves anything behind.
 
 ## Customization
 

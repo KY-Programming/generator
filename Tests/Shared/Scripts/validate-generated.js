@@ -1,6 +1,6 @@
 'use strict';
 
-// Type-checks the TypeScript that one v10 test project generated.
+// Type-checks the TypeScript that one test project generated.
 //
 // Which tsconfig a file is checked against is derived from the C# sources, not from a hand written list:
 //
@@ -65,7 +65,7 @@ function isTypeNonStrict(typeName, sources) {
  */
 function buildFileLists(projectDirectory) {
     const installed = shared.readInstalledPackages();
-    // The v10 projects share their test types - a model may be declared next to the project or in Shared.
+    // Projects share their test types - a model may be declared next to the project or in Shared.
     const sharedSourceDirectory = path.join(path.dirname(projectDirectory), 'Shared');
     const ownSources = shared.collectFiles(projectDirectory, '.cs').map(file => fs.readFileSync(file, 'utf8'));
     const sharedSources = shared.collectFiles(sharedSourceDirectory, '.cs').map(file => fs.readFileSync(file, 'utf8'));
