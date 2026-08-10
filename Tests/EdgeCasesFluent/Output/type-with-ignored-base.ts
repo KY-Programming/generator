@@ -1,10 +1,10 @@
 ﻿/* eslint-disable */
 // tslint:disable
 
-export class SubType {
-    public property?: string;
+export class TypeWithIgnoredBase {
+    public property: string = "";
 
-    public constructor(init?: Partial<SubType>) {
+    public constructor(init?: Partial<TypeWithIgnoredBase>) {
         Object.assign(this, init);
     }
 }

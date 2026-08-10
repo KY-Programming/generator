@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <ProjectGuid>{f32fd57a-e5ce-4ae5-97bc-bbca02f65904}</ProjectGuid>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>EdgeCasesFluent</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="KY.Generator" Version="10.0.1-preview.13" />
+        <PackageReference Include="KY.Generator.Angular" Version="10.0.1-preview.13" />
+        <PackageReference Include="KY.Generator.Reflection" Version="10.0.1-preview.13" />
+    </ItemGroup>
+
+</Project>

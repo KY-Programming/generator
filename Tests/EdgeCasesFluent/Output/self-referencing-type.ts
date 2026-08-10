@@ -2,7 +2,7 @@
 // tslint:disable
 
 export class SelfReferencingType {
-    public property?: string;
+    public property: string = "";
     public self?: SelfReferencingType;
 
     public constructor(init?: Partial<SelfReferencingType>) {
