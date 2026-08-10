@@ -9,7 +9,7 @@
 
 # AspDotNetAnnotations
 
-The broadest test of the ASP.NET Core reader. Nineteen controllers each write their Angular service and models into their own folder, covering route templates, absolute routes, parameters declared on the controller, POST bodies, Produces, derived controllers, duplicate type names, generic and self referencing results, date conversion, optional properties, http types, words that are reserved in TypeScript, renaming, casing fixed on the wire, and interfaces generated instead of classes. Two SignalR hubs cover the Angular hub generator alongside them: one with a typed client interface and a callable method that carries GenerateWithRetry, so the generated service comes with its reconnect timeouts, and one carrying the hub annotation twice, which has to be written into two service and two model folders from the same build.
+The broadest test of the ASP.NET Core reader. Twenty two controllers each write their Angular service and models into their own folder, covering route templates, absolute routes, api versions carried in the route as a {version:apiVersion} token - declared, left to the default, mapped to a single action, version neutral and written as a bare major version or with a status suffix - parameters declared on the controller, POST bodies, Produces, derived controllers, duplicate type names, generic and self referencing results, date conversion, optional properties, http types, words that are reserved in TypeScript, renaming, casing fixed on the wire, and interfaces generated instead of classes. Two SignalR hubs cover the Angular hub generator alongside them: one with a typed client interface and a callable method that carries GenerateWithRetry, so the generated service comes with its reconnect timeouts, and one carrying the hub annotation twice, which has to be written into two service and two model folders from the same build.
 
 ## Output
 
@@ -31,6 +31,10 @@ The broadest test of the ASP.NET Core reader. Nineteen controllers each write th
 - ClientApp/src/app/date/services/
     - date.service.ts
     - optional-property.service.ts
+- ClientApp/src/app/default-api-version/models/
+    - weather-forecast.ts
+- ClientApp/src/app/default-api-version/services/
+    - default-api-version.service.ts
 - ClientApp/src/app/derived/services/
     - derived.service.ts
 - ClientApp/src/app/duplicate-name/services/

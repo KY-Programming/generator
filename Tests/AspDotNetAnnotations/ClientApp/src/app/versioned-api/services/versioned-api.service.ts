@@ -30,7 +30,7 @@ export class VersionedApiService {
     public get(httpOptions?: {}): Observable<WeatherForecast[]> {
         let subject = new Subject<WeatherForecast[]>();
         httpOptions = { ...this.httpOptions, ...httpOptions};
-        let url: string = this.serviceUrl + "/versionedapi";
+        let url: string = this.serviceUrl + "/api/v1.0/versionedapi";
         this.http.get<WeatherForecast[]>(url, httpOptions).subscribe((result) => {
             result.forEach((m) => this.convertWeatherForecastDate(m));
             subject.next(this.fixUndefined(result));
@@ -42,7 +42,7 @@ export class VersionedApiService {
     public getNext(days: number, httpOptions?: {}): Observable<WeatherForecast[]> {
         let subject = new Subject<WeatherForecast[]>();
         httpOptions = { ...this.httpOptions, ...httpOptions};
-        let url: string = this.serviceUrl + "/versionedapi/next";
+        let url: string = this.serviceUrl + "/api/v1.0/versionedapi/next";
         url = this.append(url, days, undefined, "/");
         url += "/days";
         this.http.get<WeatherForecast[]>(url, httpOptions).subscribe((result) => {
@@ -56,7 +56,7 @@ export class VersionedApiService {
     public getNext2(days: number, httpOptions?: {}): Observable<WeatherForecast[]> {
         let subject = new Subject<WeatherForecast[]>();
         httpOptions = { ...this.httpOptions, ...httpOptions};
-        let url: string = this.serviceUrl + "/versionedapi/next-days";
+        let url: string = this.serviceUrl + "/api/v2.0/versionedapi/next-days";
         url = this.append(url, days, "days");
         this.http.get<WeatherForecast[]>(url, httpOptions).subscribe((result) => {
             result.forEach((m) => this.convertWeatherForecastDate(m));
@@ -69,7 +69,7 @@ export class VersionedApiService {
     public getWithAbsoluteRoute(httpOptions?: {}): Observable<string> {
         let subject = new Subject<string>();
         httpOptions = { responseType: 'text', ...this.httpOptions, ...httpOptions};
-        let url: string = this.serviceUrl + "/api/test/versionedapi/getwithabsoluteroute";
+        let url: string = this.serviceUrl + "/api/v1.0/test/versionedapi/getwithabsoluteroute";
         this.http.get<string>(url, httpOptions).subscribe((result) => {
             subject.next(this.fixUndefined(result));
             subject.complete();

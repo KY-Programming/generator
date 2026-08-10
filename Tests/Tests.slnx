@@ -9,8 +9,11 @@
     <Project Path="TargetFrameworks/Net9/Net9.csproj" />
     <Project Path="TargetFrameworks/NetStandard20/NetStandard20.csproj" />
   </Folder>
+  <Project Path="AspDotNetAnnotations/AspDotNetAnnotations.csproj" />
+  <Project Path="AspDotNetFluent/AspDotNetFluent.csproj" />
   <Project Path="CasingAnnotations/CasingAnnotations.csproj" />
   <Project Path="CasingFluent/CasingFluent.csproj" />
+  <Project Path="CsharpModelAnnotations/CsharpModelAnnotations.csproj" />
   <Project Path="CustomBuildOutputLocation/CustomBuildOutputLocation.csproj">
     <BuildType Project="Custom" />
   </Project>
@@ -29,7 +32,6 @@
   <Project Path="RunAtSuccess/RunAtSuccess.csproj" />
   <Project Path="SelfReferencingAnnotationsNullableDisabled/SelfReferencingAnnotationsNullableDisabled.csproj" />
   <Project Path="SelfReferencingAnnotationsNullableEnabled/SelfReferencingAnnotationsNullableEnabled.csproj" />
-  <Project Path="SignalR/SignalR.csproj" />
   <Project Path="Sqlite/Sqlite.csproj" />
   <Project Path="StrictAnnotationsNullableDisabled/StrictAnnotationsNullableDisabled.csproj" />
   <Project Path="StrictAnnotationsNullableEnabled/StrictAnnotationsNullableEnabled.csproj" />
@@ -38,7 +40,4 @@
   <Project Path="TypesFluentNullableDisabled/TypesFluentNullableDisabled.csproj" />
   <Project Path="TypesFluentNullableEnabled/TypesFluentNullableEnabled.csproj" />
   <Project Path="UndecoratedNullableDisabled/UndecoratedNullableDisabled.csproj" />
-  <Project Path="UrlVersionedWebApiController/UrlVersionedWebApiController.csproj" />
-  <Project Path="WebApiController/WebApiController.csproj" />
-  <Project Path="WebApiFluent/WebApiFluent.csproj" />
 </Solution>

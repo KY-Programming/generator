@@ -9,10 +9,15 @@
         <SpaRoot>ClientApp\</SpaRoot>
         <SpaProxyServerUrl>https://localhost:4200</SpaProxyServerUrl>
         <SpaProxyLaunchCommand>npm start</SpaProxyLaunchCommand>
+        <!-- AV0014 wants [ApiController] on every controller. ParameterOnController and
+             DerivableController deliberately do without it - the route parameter on the controller and
+             the derivable base are what they cover. -->
+        <NoWarn>$(NoWarn);AV0014</NoWarn>
         <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Asp.Versioning.Mvc" Version="10.2.1" />
         <PackageReference Include="KY.Core.Common" Version="10.1.0" />
         <PackageReference Include="KY.Generator" Version="10.0.1-preview.13" />
         <PackageReference Include="KY.Generator.AspDotNet" Version="10.0.1-preview.13" />
