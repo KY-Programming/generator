@@ -9,7 +9,7 @@
 
 # TypesAnnotationsNullableEnabled
 
-Tests comprehensive TypeScript type generation with nullable reference types enabled, covering primitives, nullable types, system types, collections, generics, arrays, dictionaries, required properties and complex nested types, plus records and value types and nullability on collections. The newer system types (DateOnly, TimeOnly, DateTimeOffset, Uri, Version) are part of the Types model itself. KNOWN ISSUES: those newer system types are emitted unmapped, which makes types.ts invalid TypeScript and excludes it from the TypeScript validation, and only the nullability of a collection itself reaches the output while the nullability of its element type is dropped, so List<string?> becomes string[].
+Tests comprehensive TypeScript type generation with nullable reference types enabled, covering primitives, nullable types, system types, collections, generics, arrays, dictionaries, required properties and complex nested types, plus records and value types and nullability on collections. The newer system types (DateOnly, TimeOnly, DateTimeOffset, Uri, Version) are part of the Types model itself.
 
 ## Parameters
 

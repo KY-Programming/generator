@@ -20,8 +20,8 @@ readid -solution=*Undefined* -project=$\Tests\v10\JsonModelPathAndNamespace\Json
 ## Output
 
 - Output/
-    - Configuration.cs `#21447c7d`
-    - Endpoint.cs `#d0ef1baf`
+    - Configuration.cs `#6b649c64`
+    - Endpoint.cs `#94d1aac0`
 
 ## Validation
 
@@ -32,6 +32,6 @@ readid -solution=*Undefined* -project=$\Tests\v10\JsonModelPathAndNamespace\Json
 - **Last Build:** 2026-08-09 07:09:51
 - **Duration:** 5.2s
 - **Status:** Success
-- **Info:** 0 errors, 2 files validated
+- **Info:** All outputs match
 - **Last Success:** 2026-08-09 07:09:51
 - **Generator:** 10.0.1-preview.8

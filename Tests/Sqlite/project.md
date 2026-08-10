@@ -11,6 +11,12 @@
 
 Covers the Sqlite repository generator: four models produce four repositories with their CREATE TABLE, and between them they cover a plain table, a primary key, an autoincrementing primary key, a column forced to "not null" with GenerateAsNotNull, and a model holding another model, which gets no column of its own. The output is C# rather than TypeScript.
 
+## Parameters
+
+```
+readid -solution=*Undefined* -project=$\Tests\Sqlite\Sqlite.csproj msbuild set -output=$\Tests\Sqlite\ load -assembly=$\Tests\Sqlite\bin\Debug\net10.0\Sqlite.dll fluent annotation
+```
+
 ## Output
 
 - Output/
@@ -18,3 +24,16 @@ Covers the Sqlite repository generator: four models produce four repositories wi
     - SimpleRepository.cs
     - SimpleWithAutoincrementPrimaryRepository.cs
     - SimpleWithPrimaryRepository.cs
+
+## Validation
+
+- validate.js `passed, 4 files validated`
+
+## Status
+
+- **Last Build:** 2026-08-10 16:09:52
+- **Duration:** 6.5s
+- **Status:** Warning
+- **Info:** 4 new
+- **Last Success:** 2026-08-13 12:04:41
+- **Generator:** 10.0.1-preview.13

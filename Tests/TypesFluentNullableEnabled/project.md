@@ -9,7 +9,7 @@
 
 # TypesFluentNullableEnabled
 
-The fluent counterpart of TypesAnnotationsNullableEnabled: the same Shared/Types.cs is read with the fluent API instead of annotations, and write.TypeScriptModel(...) writes it as plain TypeScript. Apart from the outputid the generated files are identical to the annotation variant, which is what makes the two comparable.
+Reads Shared/Types.cs with the fluent API and writes it as plain TypeScript through write.TypeScriptModel(...), with nullable reference types enabled. Covers primitives, nullable types, system types, collections, generics, arrays, dictionaries, required properties and complex nested types.
 
 ## Parameters
 

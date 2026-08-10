@@ -9,9 +9,7 @@
 
 # UndecoratedNullableDisabled
 
-Tests handling of undecorated classes (without [Generate] attributes) with nullable reference types disabled, ensuring they are not processed during generation.
-
-Nothing being generated is the result this test checks, so it is asserted rather than assumed: validate.js fails as soon as any TypeScript shows up, and reports how many declared types it guarded.
+Tests handling of undecorated classes (without [Generate] attributes) with nullable reference types disabled, ensuring they are not processed during generation. Nothing being generated is the result this test checks.
 
 ## Output
 
