@@ -2,7 +2,7 @@
   "name": "ky-generator-validation",
   "version": "1.0.0",
   "private": true,
-  "description": "The toolchain the validation scripts type-check generated output against - shared by the v10 tests and by the examples that write loose models. Examples with a client app of their own are checked against that app's own packages instead. Versions match the client apps, so everything is validated against the same toolchain.",
+  "description": "The toolchain the validation scripts type-check generated output against - shared by the tests and by the examples that write loose models. Examples with a client app of their own are checked against that app's own packages instead. Versions match the client apps, so everything is validated against the same toolchain.",
   "devDependencies": {
     "@angular/common": "^22.1.0",
     "@angular/core": "^22.1.0",

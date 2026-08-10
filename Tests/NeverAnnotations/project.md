@@ -9,16 +9,7 @@
 
 # NeverAnnotations
 
-Covers GenerateNever: a type marked with it must never end up in the output. ReferencingDto is the type that
-should be generated, but it exposes NeverGeneratedModel, so the generator would write that model too. Instead
-the generation is aborted with an error that contains the path of the file the forbidden type would have been
-written to (Output/never-generated-model.ts), so the class that drags it into the output is easy to find.
-
-This project must NOT build, so the Builder must not be the one building it - its "## Output" section is set to
-"none" to switch the build off, and it is verified by the script in its "## Validation" section instead.
-validate.js builds it itself and reports its result as JSON on the last line of its output; it passes when the
-build failed for exactly that reason and produced no output file. The one file it guards is what the validated
-count refers to.
+Covers GenerateNever: a type marked with it must never end up in the output. ReferencingDto is the type that should be generated, but it exposes NeverGeneratedModel, so the generator would write that model too. Instead the generation is aborted with an error naming the path the forbidden type would have been written to (Output/never-generated-model.ts), so the class that drags it into the output is easy to find. The build fails and nothing is written.
 
 ## Output
 

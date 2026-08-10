@@ -9,7 +9,7 @@
 
 # InheritanceAnnotationsNullableDisabled
 
-Tests TypeScript generation with nullable reference types disabled, covering class inheritance, abstract and virtual property overrides, member shadowing with new, a three level deep chain, a generic base class, a sealed type and an implemented interface. The same model tree is written twice, as a plain TypeScript model and as an Angular model, to cover two generators writing to two output folders. Reads the same shared source as InheritanceAnnotationsNullableEnabled.
+Tests TypeScript generation with nullable reference types disabled, covering class inheritance, abstract and virtual property overrides, member shadowing with new, a three level deep chain, a generic base class, a sealed type and an implemented interface. The same model tree is written twice, as a plain TypeScript model and as an Angular model, to cover two generators writing to two output folders. Reads Shared/Inheritance.cs.
 
 ## Parameters
 

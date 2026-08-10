@@ -9,7 +9,7 @@
 
 # InheritanceAnnotationsNullableEnabled
 
-Tests TypeScript generation with nullable reference types enabled, covering class inheritance, abstract and virtual property overrides, member shadowing with new, a three level deep chain, a generic base class, a sealed type and an implemented interface. Reads the same shared source as InheritanceAnnotationsNullableDisabled so both nullable modes can be compared.
+Tests TypeScript generation with nullable reference types enabled, covering class inheritance, abstract and virtual property overrides, member shadowing with new, a three level deep chain, a generic base class, a sealed type and an implemented interface. Reads Shared/Inheritance.cs.
 
 ## Parameters
 

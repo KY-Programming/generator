@@ -2,6 +2,6 @@
 {
     internal class Read2Configuration
     {
-        public string Property2 { get; set; }
+        public string Property2 { get; set; } = "";
     }
 }

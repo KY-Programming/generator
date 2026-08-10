@@ -27,8 +27,8 @@ EndGlobal
   <Project Path=""Beta\Beta.csproj"" Id=""{22222222-2222-2222-2222-222222222222}"" />
 </Solution>";
 
-        private VisualStudioParser parser;
-        private string directory;
+        private VisualStudioParser parser = null!;
+        private string directory = null!;
 
         [TestInitialize]
         public void Initialize()
@@ -53,7 +53,7 @@ EndGlobal
         {
             string path = this.Write("text.sln", SolutionText);
 
-            VisualStudioSolution solution = this.parser.ParseSolution(path);
+            VisualStudioSolution? solution = this.parser.ParseSolution(path);
 
             Assert.IsNotNull(solution);
             Assert.AreEqual(1, solution.Projects.Count);
@@ -66,7 +66,7 @@ EndGlobal
         {
             string path = this.Write("xml.slnx", SolutionXml);
 
-            VisualStudioSolution solution = this.parser.ParseSolution(path);
+            VisualStudioSolution? solution = this.parser.ParseSolution(path);
 
             Assert.IsNotNull(solution);
             Assert.AreEqual(2, solution.Projects.Count, "projects inside a <Folder> have to be found as well");
@@ -79,7 +79,8 @@ EndGlobal
         {
             string path = this.Write("name.slnx", SolutionXml);
 
-            VisualStudioSolution solution = this.parser.ParseSolution(path);
+            VisualStudioSolution? solution = this.parser.ParseSolution(path);
+            Assert.IsNotNull(solution);
 
             Assert.AreEqual("Alpha", solution.Projects.First(x => x.Path.EndsWith("Alpha.csproj")).Name);
             Assert.AreEqual("Beta", solution.Projects.First(x => x.Path.EndsWith("Beta.csproj")).Name);
@@ -90,7 +91,8 @@ EndGlobal
         {
             string path = this.Write("id.slnx", SolutionXml);
 
-            VisualStudioSolution solution = this.parser.ParseSolution(path);
+            VisualStudioSolution? solution = this.parser.ParseSolution(path);
+            Assert.IsNotNull(solution);
 
             Assert.AreEqual(new Guid("22222222-2222-2222-2222-222222222222"), solution.Projects.First(x => x.Path.EndsWith("Beta.csproj")).Id,
                             "the optional Id attribute has to be used if present");

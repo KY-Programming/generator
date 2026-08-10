@@ -9,7 +9,7 @@
 
 # IndexAnnotations
 
-Tests generation of the index.ts barrel file, which every other project switches off with GenerateNoIndex. Uses GenerateForceIndex at assembly level and covers a nested output folder. Both output folders get their own index.ts, the assembly level one from GenerateModelOutput and the nested one from the attribute argument.
+Tests generation of the index.ts barrel file. Uses GenerateForceIndex at assembly level and covers a nested output folder. Both output folders get their own index.ts, the assembly level one from GenerateModelOutput and the nested one from the attribute argument.
 
 ## Parameters
 

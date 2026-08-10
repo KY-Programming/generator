@@ -2,6 +2,6 @@
 {
     internal class Write1Configuration
     {
-        public string Property1 { get; set; }
+        public string Property1 { get; set; } = "";
     }
 }
