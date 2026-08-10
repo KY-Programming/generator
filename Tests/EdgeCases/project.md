@@ -9,7 +9,7 @@
 
 # EdgeCases
 
-Some special cases that may be rare - the bucket for scenarios that are one source file rather than a project of their own: an annotation on a nested type, an interface as the generation source, ignored members, return type changes, route templates, signals, async services, GeneratePreferInterfaces as a with/without pair, and three types writing into three output folders while sharing a sub type.
+A collection of small scenarios that each need no more than one source file: an annotation on a nested type, an interface as the generation source, ignored members, a changed return type, a class ignored through a comment, member types, route templates, signals on models and on a service, an async service, GeneratePreferInterfaces written once with and once without the annotation so the two spellings can be compared, and three annotated types writing into three output folders while two of them share a sub type.
 
 ## Parameters
 

@@ -1,6 +1,6 @@
 ﻿using KY.Generator;
 
-namespace AnnotationInBackgroundAssembly;
+namespace InBackgroundAnnotationsAssembly;
 
 [GenerateTypeScriptModel("Output")]
 public class Class2

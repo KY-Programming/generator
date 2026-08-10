@@ -1,6 +1,6 @@
 using KY.Generator;
 
-namespace AnnotationInBackground;
+namespace InBackgroundAnnotations;
 
 /// <summary>
 /// The counterpart without <see cref="GenerateInBackgroundAttribute"/>. One annotated type moves the whole

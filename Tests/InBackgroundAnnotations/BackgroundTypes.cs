@@ -1,6 +1,6 @@
 using KY.Generator;
 
-namespace AnnotationInBackground;
+namespace InBackgroundAnnotations;
 
 /// <summary>
 /// The workload of the background pass. The member matrix itself is covered by the Types projects -

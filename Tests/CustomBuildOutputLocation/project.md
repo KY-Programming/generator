@@ -9,7 +9,7 @@
 
 # CustomBuildOutputLocation
 
-Tests GenerateAngularModel output path control: the assembly level default, a nested relative path and a path outside the assembly level output folder. The file written outside the output folder (Other/) is tracked here as well, otherwise the main point of this test would stay unverified.
+Covers GenerateAngularModel output path control: the assembly level default, a nested relative path, and a path outside the assembly level output folder, which writes into Other/ next to it.
 
 ## Parameters
 
