@@ -19,6 +19,8 @@ public class AspDotNetOptions(AspDotNetOptions? parent, AspDotNetOptions? global
     private bool? isFromBody;
     private bool? isFromQuery;
     private List<string>? apiVersion;
+    private List<string>? mapToApiVersion;
+    private bool? isApiVersionNeutral;
     private string? route;
     private Type? produces;
     private List<Type>? ignoreGenerics;
@@ -114,7 +116,25 @@ public class AspDotNetOptions(AspDotNetOptions? parent, AspDotNetOptions? global
         set => this.isFromQuery = value;
     }
 
+    /// <summary>
+    /// All api versions the target supports, declared with one or more [ApiVersion] attributes.
+    /// </summary>
     public IReadOnlyList<string> ApiVersion => this.GetList(x => x.apiVersion);
+
+    /// <summary>
+    /// The api versions an action is pinned to with [MapToApiVersion]. Empty for an action that is served under all
+    /// versions its controller supports.
+    /// </summary>
+    public IReadOnlyList<string> MapToApiVersion => this.GetList(x => x.mapToApiVersion);
+
+    /// <summary>
+    /// True if the target is decorated with [ApiVersionNeutral] and therefore served under every requested version.
+    /// </summary>
+    public bool IsApiVersionNeutral
+    {
+        get => this.GetValue(x => x.isApiVersionNeutral);
+        set => this.isApiVersionNeutral = value;
+    }
 
     public string? Route
     {
@@ -140,6 +160,12 @@ public class AspDotNetOptions(AspDotNetOptions? parent, AspDotNetOptions? global
     {
         this.apiVersion ??= [];
         this.apiVersion.AddRange(versions);
+    }
+
+    public void AddToMapToApiVersion(params IEnumerable<string> versions)
+    {
+        this.mapToApiVersion ??= [];
+        this.mapToApiVersion.AddRange(versions);
     }
 
     public void AddToIgnoreGenerics(params IEnumerable<Type> types)

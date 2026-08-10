@@ -38,7 +38,13 @@ public class AspDotNetControllerReader
 
         AspDotNetOptions typeAspOptions = this.options.Get<AspDotNetOptions>(type);
         controller.Route = typeAspOptions.Route;
-        controller.Version = typeAspOptions.ApiVersion?.LastOrDefault();
+        // An action without [MapToApiVersion] is served under all versions of its controller, the lowest of them is
+        // used to keep the generated url independent of the order the [ApiVersion] attributes are declared in
+        controller.Version = typeAspOptions.IsApiVersionNeutral ? null : GetLowestVersion(typeAspOptions.ApiVersion);
+        if (typeAspOptions.IsApiVersionNeutral && (controller.Route?.Contains(ApiVersionConstants.RouteToken) ?? false))
+        {
+            Logger.Warning($"{type.FullName} is marked with [ApiVersionNeutral], but its route contains {ApiVersionConstants.RouteToken}. The generated service calls the version {ApiVersionConstants.Default}, which a version neutral controller answers like any other.");
+        }
         this.options.Map(controller, () => this.options.Get<GeneratorOptions>(type, null));
 
         List<MethodInfo> methods = [];
@@ -99,7 +105,9 @@ public class AspDotNetControllerReader
                     action.Route = Regex.Replace(action.Route, "({[^:]*)((:apiVersion)|:[^}?]+)(\\??})", "$1$3$4");
                 }
                 action.Type = actionType.Key;
-                action.Version = methodAspOptions.ApiVersion?.OrderByDescending(x => x).FirstOrDefault();
+                // Only [MapToApiVersion] pins an action to a single version, everything else stays on the controller
+                // version. The lowest one wins if an action is mapped to more than one version.
+                action.Version = methodAspOptions.IsApiVersionNeutral ? null : GetLowestVersion(methodAspOptions.MapToApiVersion);
                 action.FixCasingWithMapping = methodOptions.ReturnType == null && returnEntryTypeOptions.FixCasingWithMapping || methodAspOptions.FixCasingWithMapping;
                 action.RequireBodyParameter = action.Type.IsBodyParameterRequired();
                 action.CanHaveBodyParameter = action.Type.IsBodyParameterAllowed();
@@ -180,6 +188,11 @@ public class AspDotNetControllerReader
             }
         }
         this.transferObjects.Add(controller);
+    }
+
+    private static string? GetLowestVersion(IReadOnlyList<string>? versions)
+    {
+        return versions?.OrderBy(x => x, ApiVersionComparer.Instance).FirstOrDefault();
     }
 
     private Dictionary<HttpServiceActionTypeTransferObject, string> GetActionTypes(AspDotNetOptions options)

@@ -20,7 +20,7 @@ namespace KY.Generator.Angular.Writers;
 
 public class AngularServiceWriter : TransferWriter
 {
-    private const string apiVersionKey = "{version:apiVersion}";
+    private const string apiVersionKey = ApiVersionConstants.RouteToken;
     private const string unwrappedTypeName = "Unwrapped";
     private const string unwrappedFileName = "unwrapped";
     private readonly List<ITransferObject> transferObjects;
@@ -284,7 +284,9 @@ public class AngularServiceWriter : TransferWriter
                 if (uri?.Contains(apiVersionKey) ?? false)
                 {
                     isUrlApiVersion = true;
-                    uri = uri.Replace(apiVersionKey, actionVersion);
+                    // A service that declares no version is served under the default one, an empty segment would
+                    // generate an url that can not be reached
+                    uri = uri.Replace(apiVersionKey, actionVersion ?? ApiVersionConstants.Default);
                 }
                 foreach (HttpServiceActionParameterTransferObject parameter in inlineParameters)
                 {

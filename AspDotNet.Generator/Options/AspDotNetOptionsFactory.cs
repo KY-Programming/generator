@@ -72,11 +72,13 @@ public class AspDotNetOptionsFactory : IOptionsFactory
                     options.IsFromQuery = true;
                     break;
                 case "ApiVersionAttribute":
-                    options.AddToApiVersion(
-                        attribute.GetType().GetProperty("Versions")?
-                                 .GetValue(attribute)?.CastSafeTo<IEnumerable>().OfType<object>()
-                                 .Select(x => x.ToString()).OrderBy(x => x)
-                    );
+                    options.AddToApiVersion(GetVersions(attribute));
+                    break;
+                case "MapToApiVersionAttribute":
+                    options.AddToMapToApiVersion(GetVersions(attribute));
+                    break;
+                case "ApiVersionNeutralAttribute":
+                    options.IsApiVersionNeutral = true;
                     break;
                 case "RouteAttribute":
                     options.Route = GetRoute(attribute);
@@ -97,6 +99,18 @@ public class AspDotNetOptionsFactory : IOptionsFactory
             }
         }
         return options;
+    }
+
+    /// <summary>
+    /// Reads the versions of an [ApiVersion] or [MapToApiVersion] attribute. Their text is written into the route as
+    /// is, so it has to be formatted like the route constraint does it, which is what ApiVersion.ToString() delivers.
+    /// </summary>
+    private static IEnumerable<string> GetVersions(object attribute)
+    {
+        return (attribute.GetType().GetProperty("Versions")?
+                         .GetValue(attribute)?.CastSafeTo<IEnumerable>().OfType<object>()
+                         .Select(x => x.ToString()) ?? [])
+            .OrderBy(x => x, ApiVersionComparer.Instance);
     }
 
     private static string GetRoute(object attribute)
