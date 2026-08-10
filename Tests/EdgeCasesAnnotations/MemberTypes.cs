@@ -1,7 +1,7 @@
 using KY.Generator;
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
-namespace EdgeCases;
+namespace EdgeCasesAnnotations;
 
 /// <summary>
 /// Covers the member level annotations: renaming a member, renaming via replace and overriding the

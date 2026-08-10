@@ -1,7 +1,7 @@
 using KY.Generator;
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
-namespace EdgeCases;
+namespace EdgeCasesAnnotations;
 
 // GeneratePreferInterfaces as a matrix. Every base kind is generated twice, once with the default
 // (the base comes out as a class) and once with the annotation (the base comes out as an interface),

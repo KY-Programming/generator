@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 // ReSharper disable UnusedMember.Global
 
-namespace EdgeCases;
+namespace EdgeCasesAnnotations;
 
 /// <summary>
 /// Synchronous controller. Covers the wrap/unwrap of models that are generated with

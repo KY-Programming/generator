@@ -2,7 +2,7 @@ using KY.Generator;
 using Microsoft.AspNetCore.Mvc;
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
-namespace EdgeCases;
+namespace EdgeCasesAnnotations;
 
 /// <summary>
 /// Action parameters named <c>url</c> or <c>httpOptions</c> must not collide with the locally-generated

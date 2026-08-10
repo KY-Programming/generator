@@ -1,6 +1,6 @@
 using KY.Generator;
 
-namespace EdgeCases;
+namespace EdgeCasesAnnotations;
 
 /// <summary>
 /// An interface as the generation source. Everywhere else in the suite interfaces are only an output style

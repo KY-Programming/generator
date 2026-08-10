@@ -8,11 +8,11 @@
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-      <DocumentationFile>bin\Release\EdgeCases.xml</DocumentationFile>
+      <DocumentationFile>bin\Release\EdgeCasesAnnotations.xml</DocumentationFile>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-      <DocumentationFile>bin\Debug\EdgeCases.xml</DocumentationFile>
+      <DocumentationFile>bin\Debug\EdgeCasesAnnotations.xml</DocumentationFile>
     </PropertyGroup>
 
     <ItemGroup>

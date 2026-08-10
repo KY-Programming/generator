@@ -1,7 +1,7 @@
 using KY.Generator;
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
-namespace EdgeCases;
+namespace EdgeCasesAnnotations;
 
 /// <summary>
 /// Covers excluding single members and whole types from the generation.

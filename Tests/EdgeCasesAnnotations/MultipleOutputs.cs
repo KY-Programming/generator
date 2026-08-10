@@ -1,7 +1,7 @@
 using KY.Generator;
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
-namespace EdgeCases;
+namespace EdgeCasesAnnotations;
 
 // Three annotated types writing into three different output folders in one build. Two of them expose
 // the same sub type, which has to be written into both of their folders rather than shared between

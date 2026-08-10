@@ -2,7 +2,7 @@ using KY.Generator;
 using Microsoft.AspNetCore.Mvc;
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
-namespace EdgeCases;
+namespace EdgeCasesAnnotations;
 
 /// <summary>
 /// The <c>[controller]</c> and <c>[action]</c> tokens can be placed in the class level <c>[Route]</c>

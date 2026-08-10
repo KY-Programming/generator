@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 // ReSharper disable UnusedMember.Global
 
-namespace EdgeCases;
+namespace EdgeCasesAnnotations;
 
 /// <summary>
 /// Asynchronous controller. Real ASP.NET controllers are usually async, so this controller covers Task,

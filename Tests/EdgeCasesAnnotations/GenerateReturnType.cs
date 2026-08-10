@@ -1,6 +1,6 @@
 ﻿using KY.Generator;
 
-namespace EdgeCases;
+namespace EdgeCasesAnnotations;
 
 [GenerateAngularModel("Output")]
 public class GenerateReturnType

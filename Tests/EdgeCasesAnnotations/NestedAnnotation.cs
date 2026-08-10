@@ -1,7 +1,7 @@
 using KY.Generator;
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
-namespace EdgeCases;
+namespace EdgeCasesAnnotations;
 
 /// <summary>
 /// Covers an annotation on a nested type: the outer type carries none and must stay out of the

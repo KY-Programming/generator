@@ -1,6 +1,6 @@
 ﻿using KY.Generator;
 
-namespace EdgeCases;
+namespace EdgeCasesAnnotations;
 
 /// <summary>
 /// This is a normal class.

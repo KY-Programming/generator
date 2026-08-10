@@ -7,7 +7,7 @@
  </auto-generated>
 -------------------------------------------------------------------------->
 
-# EdgeCases
+# EdgeCasesAnnotations
 
 A collection of small scenarios that each need no more than one source file: an annotation on a nested type, an interface as the generation source, ignored members, a changed return type, a class ignored through a comment, member types, route templates, signals on models and on a service, an async service, GeneratePreferInterfaces written once with and once without the annotation so the two spellings can be compared, and three annotated types writing into three output folders while two of them share a sub type.
 
