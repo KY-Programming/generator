@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <ProjectGuid>{f7601c4b-055c-4bd5-a087-b514d1dde023}</ProjectGuid>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="KY.Generator" Version="10.0.1-preview.13" />
+        <PackageReference Include="KY.Generator.Angular" Version="10.0.1-preview.13" />
+        <PackageReference Include="KY.Generator.Reflection" Version="10.0.1-preview.13" />
+    </ItemGroup>
+
+</Project>

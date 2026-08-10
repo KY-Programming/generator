@@ -4,11 +4,11 @@
 import { CaseMe } from "./case-me";
 import { KeepMyCase } from "./keep-my-case";
 
-export class MixedCaseing {
-    public caseMe?: CaseMe;
-    public keepMyCase?: KeepMyCase;
+export class MixedCasing {
+    public caseMe: CaseMe | undefined;
+    public keepMyCase: KeepMyCase | undefined;
 
-    public constructor(init?: Partial<MixedCaseing>) {
+    public constructor(init?: Partial<MixedCasing>) {
         Object.assign(this, init);
     }
 }
