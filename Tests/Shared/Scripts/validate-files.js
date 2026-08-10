@@ -4,7 +4,7 @@
 // generating into a client app of their own, so there is no tsconfig to check them against.
 //
 // The files are checked against Tests/Shared/tsconfig.strict.json, or tsconfig.non-strict.json when
-// strict is false, for output that was generated with GenerateNonStrict. Unlike the v10 tests the mode
+// strict is false, for output that was generated with GenerateNonStrict. Unlike the tests the mode
 // is passed in rather than derived: an example demonstrates one setting on purpose.
 //
 // The last line of stdout is the machine readable result - everything before it is the human log:

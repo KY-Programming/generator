@@ -22,7 +22,7 @@ const SHARED_ROOT = path.resolve(__dirname, '..');
  *
  * It sits one level above Tests/Shared on purpose: TypeScript resolves a package by walking up from the
  * file that imports it, so node_modules has to be an ancestor of the checked output. From Tests/Shared
- * it would be a sibling of Tests/v10 and nothing would resolve.
+ * it would be a sibling of the test projects and nothing would resolve.
  */
 const PACKAGE_ROOT = path.resolve(SHARED_ROOT, '..');
 const TSC = path.join(PACKAGE_ROOT, 'node_modules', 'typescript', 'bin', 'tsc');
