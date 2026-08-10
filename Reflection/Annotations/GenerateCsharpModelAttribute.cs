@@ -1,4 +1,4 @@
-﻿namespace KY.Generator;
+namespace KY.Generator;
 
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, Inherited = false, AllowMultiple = true)]
 public class GenerateCsharpModelAttribute(string relativePath = "", bool onlySubTypes = false)
@@ -9,27 +9,35 @@ public class GenerateCsharpModelAttribute(string relativePath = "", bool onlySub
 
     public IEnumerable<AttributeCommandConfiguration> Commands =>
     [
-        new("reflection", this.Parameters)
+        new("reflection-read", this.ReadParameters),
+        new("reflection-write", this.WriteParameters)
     ];
 
-    private IEnumerable<string> Parameters
+    private IEnumerable<string> ReadParameters
     {
         get
         {
             List<string> parameter =
             [
                 "-namespace=$NAMESPACE$",
-                "-name=$NAME$",
-                $"-language={OutputLanguage.Csharp}"
+                "-name=$NAME$"
             ];
-
-            if (this.RelativePath != string.Empty)
-            {
-                parameter.Add($"-relativePath={this.RelativePath}");
-            }
             if (this.OnlySubTypes)
             {
                 parameter.Add("-onlySubTypes");
+            }
+            return parameter;
+        }
+    }
+
+    private IEnumerable<string> WriteParameters
+    {
+        get
+        {
+            List<string> parameter = [];
+            if (this.RelativePath != string.Empty)
+            {
+                parameter.Add($"-relativePath={this.RelativePath}");
             }
             return parameter;
         }
