@@ -1,0 +1,14 @@
+<h1>WebAPI controller</h1>
+
+<p>
+  Every folder next to this one holds the Angular service and models KY.Generator wrote for one of the
+  controllers of this project.
+</p>
+
+<ul>
+  @for (forecast of forecasts(); track $index) {
+    <li>{{ forecast.summary }}</li>
+  } @empty {
+    <li>No forecasts loaded.</li>
+  }
+</ul>
