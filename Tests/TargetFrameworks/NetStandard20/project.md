@@ -9,9 +9,7 @@
 
 # NetStandard20
 
-Generation from a netstandard2.0 assembly - the oldest target the generator claims to be able to read, and the member that covers the framework half of the switch in LoadCommand, which picks the tools/ build to run from the target framework of the assembly it is asked to load. Reads the shared model of the target framework matrix in this folder.
-
-Formerly the standalone ReflectionFromStandard project, which was misfiled next to the loader tests and only asserted that a single two property type came out at all.
+Generation from a netstandard2.0 assembly, the oldest target the generator claims to be able to read. LoadCommand picks the tools/ build to run from the target framework of the assembly it is asked to load, and this is the framework that makes it switch. Reads `TargetFrameworks/Shared/Types.cs`, which every project of the folder reads, so the same source has to come out the same way on every framework.
 
 ## Output
 

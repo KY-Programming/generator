@@ -11,9 +11,12 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <RootNamespace>TargetFrameworks</RootNamespace>
+        <!-- Hyphen only in the folder name; the assembly identity stays plain. -->
         <AssemblyName>Net10x86</AssemblyName>
     </PropertyGroup>
 
+    <!-- Needs the .NET 10 x86 runtime installed: the x86 tool is published not self contained, so
+         without it the switched process cannot start. -->
     <ItemGroup>
         <PackageReference Include="KY.Generator" Version="10.0.1-preview.13" />
         <PackageReference Include="KY.Generator.Reflection" Version="10.0.1-preview.13" />

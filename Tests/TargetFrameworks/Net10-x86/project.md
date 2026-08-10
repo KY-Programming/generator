@@ -9,11 +9,7 @@
 
 # Net10-x86
 
-Generation from an x86 assembly - the member that covers the architecture half of the switch in LoadCommand. The generator itself runs as x64, so it has to notice the architecture of the assembly, restart itself from the `tools/net10.0-x86` folder the package ships, and come back with the same output the x64 run produces. "Different assembly architecture found. Switching to X86..." in the log is the step under test. Reads the shared model of the target framework matrix in this folder.
-
-`PlatformTarget` is what makes this a real x86 assembly. As ReflectionX86 this project only set `Platforms=AnyCPU;x86`, which produces an AnyCPU assembly no matter what, so the switch was never reached and the test passed for years without testing anything.
-
-Needs the .NET 10 x86 runtime on the machine: the x86 tool is published not self contained, so without it the switched process cannot start.
+Generation from an x86 assembly on net10.0. The generator runs as x64, so it has to notice the architecture of the assembly it is asked to load, restart itself from the `tools/net10.0-x86` folder the package ships, and come back with the same output the x64 run produces - "Different assembly architecture found. Switching to X86..." in the log is the step under test. `PlatformTarget` is what makes this a real x86 assembly; `Platforms` alone still produces AnyCPU. Reads `TargetFrameworks/Shared/Types.cs`, which every project of the folder reads, so the same source has to come out the same way on every framework.
 
 ## Output
 

@@ -9,7 +9,7 @@
 
 # StrictAnnotationsNullableEnabled
 
-Tests the strict mode with nullable reference types enabled, as a matrix of class and interface, each with and without the GenerateNonStrict annotation that opts out of the strict-by-default output, to control how required and optional members are emitted. Member visibility filtering is covered by the Types projects.
+Tests the strict mode with nullable reference types enabled, as a matrix of class and interface, each with and without the GenerateNonStrict annotation that opts out of the strict-by-default output, to control how required and optional members are emitted.
 
 ## Parameters
 

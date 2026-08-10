@@ -1,14 +1,13 @@
-using KY.Generator;
+﻿using KY.Generator;
 
-namespace Sqlite.Models
+namespace Sqlite.Models;
+
+[GenerateSqliteRepository("Output")]
+public class SimpleWithAutoincrementPrimary
 {
-    [GenerateSqliteRepository("Output")]
-    public class SimpleWithAutoincrementPrimary
-    {
-        [GenerateAsPrimaryKey]
-        [GenerateAsAutoIncrement]
-        public int Id { get; set; }
+    [GenerateAsPrimaryKey]
+    [GenerateAsAutoIncrement]
+    public int Id { get; set; }
 
-        public string StringProperty { get; set; }
-    }
+    public string StringProperty { get; set; } = "";
 }

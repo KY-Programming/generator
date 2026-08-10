@@ -1,0 +1,44 @@
+<Solution>
+  <Folder Name="/Generator/">
+    <Project Path="Generator/KY.Generator.Tests.csproj" />
+  </Folder>
+  <Folder Name="/TargetFrameworks/">
+    <Project Path="TargetFrameworks/Net10-x86/Net10-x86.csproj" />
+    <Project Path="TargetFrameworks/Net10/Net10.csproj" />
+    <Project Path="TargetFrameworks/Net8/Net8.csproj" />
+    <Project Path="TargetFrameworks/Net9/Net9.csproj" />
+    <Project Path="TargetFrameworks/NetStandard20/NetStandard20.csproj" />
+  </Folder>
+  <Project Path="CasingAnnotations/CasingAnnotations.csproj" />
+  <Project Path="CasingFluent/CasingFluent.csproj" />
+  <Project Path="CustomBuildOutputLocation/CustomBuildOutputLocation.csproj">
+    <BuildType Project="Custom" />
+  </Project>
+  <Project Path="EdgeCasesAnnotations/EdgeCasesAnnotations.csproj" />
+  <Project Path="EdgeCasesFluent/EdgeCasesFluent.csproj" />
+  <Project Path="EnumAnnotationsNullableDisabled/EnumAnnotationsNullableDisabled.csproj" />
+  <Project Path="EnumAnnotationsNullableEnabled/EnumAnnotationsNullableEnabled.csproj" />
+  <Project Path="FormattingFluent/FormattingFluent.csproj" />
+  <Project Path="InBackgroundAnnotations/InBackgroundAnnotations.csproj" />
+  <Project Path="InBackgroundAnnotationsAssembly/InBackgroundAnnotationsAssembly.csproj" />
+  <Project Path="IndexAnnotations/IndexAnnotations.csproj" />
+  <Project Path="InheritanceAnnotationsNullableDisabled/InheritanceAnnotationsNullableDisabled.csproj" />
+  <Project Path="InheritanceAnnotationsNullableEnabled/InheritanceAnnotationsNullableEnabled.csproj" />
+  <Project Path="JsonModelPathAndNamespace/JsonModelPathAndNamespace.csproj" />
+  <Project Path="NullableEnabledMixedWithNullableDisabled/NullableEnabledMixedWithNullableDisabled.csproj" />
+  <Project Path="RunAtSuccess/RunAtSuccess.csproj" />
+  <Project Path="SelfReferencingAnnotationsNullableDisabled/SelfReferencingAnnotationsNullableDisabled.csproj" />
+  <Project Path="SelfReferencingAnnotationsNullableEnabled/SelfReferencingAnnotationsNullableEnabled.csproj" />
+  <Project Path="SignalR/SignalR.csproj" />
+  <Project Path="Sqlite/Sqlite.csproj" />
+  <Project Path="StrictAnnotationsNullableDisabled/StrictAnnotationsNullableDisabled.csproj" />
+  <Project Path="StrictAnnotationsNullableEnabled/StrictAnnotationsNullableEnabled.csproj" />
+  <Project Path="TypesAnnotationsNullableDisabled/TypesAnnotationsNullableDisabled.csproj" />
+  <Project Path="TypesAnnotationsNullableEnabled/TypesAnnotationsNullableEnabled.csproj" />
+  <Project Path="TypesFluentNullableDisabled/TypesFluentNullableDisabled.csproj" />
+  <Project Path="TypesFluentNullableEnabled/TypesFluentNullableEnabled.csproj" />
+  <Project Path="UndecoratedNullableDisabled/UndecoratedNullableDisabled.csproj" />
+  <Project Path="UrlVersionedWebApiController/UrlVersionedWebApiController.csproj" />
+  <Project Path="WebApiController/WebApiController.csproj" />
+  <Project Path="WebApiFluent/WebApiFluent.csproj" />
+</Solution>

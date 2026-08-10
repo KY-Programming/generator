@@ -9,7 +9,7 @@
 
 # Net10
 
-Generation from a net10.0 assembly. Reads the shared model of the target framework matrix in this folder - see TargetFrameworks/Shared/Types.cs for what the matrix asserts.
+Generation from a net10.0 assembly. Reads `TargetFrameworks/Shared/Types.cs`, which every project of the folder reads, so the same source has to come out the same way on every framework.
 
 ## Output
 

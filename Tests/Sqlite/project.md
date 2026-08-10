@@ -9,19 +9,12 @@
 
 # Sqlite
 
-Tests C# repository code generation from SQLite database schemas, demonstrating database-to-code generation for simple and complex table structures with primary keys and auto-increment columns.
+Covers the Sqlite repository generator: four models produce four repositories with their CREATE TABLE, and between them they cover a plain table, a primary key, an autoincrementing primary key, a column forced to "not null" with GenerateAsNotNull, and a model holding another model, which gets no column of its own. The output is C# rather than TypeScript.
 
 ## Output
 
 - Output/
-    - ComplexRepository.cs `#55b49d7a`
-    - SimpleRepository.cs `#00b5784d`
-    - SimpleWithAutoincrementPrimaryRepository.cs `#481ea2c0`
-    - SimpleWithPrimaryRepository.cs `#e44ac35a`
-
-## Status
-
-- **Last Build:** 2026-05-09 06:12:37
-- **Status:** Failure
-- **Info:** Build failed
-- **Generator:** 10.0.0-preview.39
+    - ComplexRepository.cs
+    - SimpleRepository.cs
+    - SimpleWithAutoincrementPrimaryRepository.cs
+    - SimpleWithPrimaryRepository.cs
