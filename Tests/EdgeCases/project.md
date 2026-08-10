@@ -11,8 +11,6 @@
 
 Some special cases that may be rare - the bucket for scenarios that are one source file rather than a project of their own: an annotation on a nested type, an interface as the generation source, ignored members, return type changes, route templates, signals, async services, GeneratePreferInterfaces as a with/without pair, and three types writing into three output folders while sharing a sub type.
 
-PreferInterfaces and MultipleOutputs were folded in here from the standalone Derive and AnnotationsWithMultipleOutputs projects.
-
 ## Parameters
 
 ```

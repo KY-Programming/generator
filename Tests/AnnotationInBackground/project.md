@@ -9,7 +9,7 @@
 
 # AnnotationInBackground
 
-Covers GenerateInBackground on a type: the generation is handed off to a process that outlives the build and has to produce exactly the output a foreground run produces. An Angular model and a TypeScript model carry the annotation, a third type does not - one annotated type is enough to move the whole project to the background run, so the unannotated one has to come out of it too. The build is over before the background process writes anything, so the validation cannot run after it: the project carries `[assembly: RunAtSuccess]`, and the generator runs `validate.js` itself once every file is written.
+Covers GenerateInBackground on a type: the generation is handed off to a process that outlives the build and has to produce exactly the output a foreground run produces. An Angular model and a TypeScript model carry the annotation, a third type does not - one annotated type is enough to move the whole project to the background run, so the unannotated one has to come out of it too. The build is over before the background process writes anything, so the validation cannot run after it: the project carries `[assembly: RunAtSuccess]` and has the generator run it once every file is written.
 
 ## Parameters
 

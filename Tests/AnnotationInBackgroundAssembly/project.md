@@ -9,7 +9,7 @@
 
 # AnnotationInBackgroundAssembly
 
-The assembly level counterpart of AnnotationInBackground: `[assembly: GenerateInBackground]` switches every command of the project to the background run, so no type carries the annotation itself. Two plain models are enough - what is under test is the handover, not the types. Like AnnotationInBackground the project runs its own validation through `[assembly: RunAtSuccess]`, because the build does not wait for the background process.
+Covers GenerateInBackground on assembly level: `[assembly: GenerateInBackground]` switches every command of the project to the background run, so no type carries the annotation itself. Two plain models are enough - what is under test is the handover, not the types. The build does not wait for the background process, so the project runs its own validation through `[assembly: RunAtSuccess]`.
 
 ## Parameters
 

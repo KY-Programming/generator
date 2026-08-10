@@ -9,7 +9,7 @@
 
 # EnumAnnotationsNullableDisabled
 
-Tests TypeScript enum generation with nullable reference types disabled, covering all eight underlying types, different indexing and value patterns, a combinable [Flags] enum and a single member enum. Reads the same shared source as EnumAnnotationsNullableEnabled.
+Tests TypeScript enum generation with nullable reference types disabled, covering all eight underlying types, different indexing and value patterns, a combinable [Flags] enum and a single member enum. Reads Shared/Enums.cs.
 
 ## Parameters
 
