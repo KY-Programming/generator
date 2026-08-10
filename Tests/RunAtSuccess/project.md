@@ -9,7 +9,7 @@
 
 # RunAtSuccess
 
-Covers `[assembly: RunAtSuccess("...")]`: a command line that is run once the generation succeeded and every file is written. AnnotationInBackground and AnnotationInBackgroundAssembly depend on it - a background run outlives the build, so it is the only way anything can react to its result - but they cannot guard it, because there the hook is what runs their validation. Here the generation is a plain foreground one and the hook writes a marker that `validate.js` checks against the timestamps of the generated files, so both "it ran" and "it ran last" are asserted.
+Covers `[assembly: RunAtSuccess("...")]`: a command line the generator runs once the generation succeeded and every file is written. The command leaves a marker behind, so that it ran at all and that it ran after the last generated file are both observable.
 
 ## Output
 

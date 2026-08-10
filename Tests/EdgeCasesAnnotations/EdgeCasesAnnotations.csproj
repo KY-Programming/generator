@@ -24,6 +24,8 @@
         <PackageReference Include="KY.Generator.Angular" Version="10.0.1-preview.13" />
         <PackageReference Include="KY.Generator.AspDotNet" Version="10.0.1-preview.13" />
         <PackageReference Include="KY.Generator.Reflection" Version="10.0.1-preview.13" />
+        <!-- Only for the NugetPackageDependency scenario: the loader has to resolve it to read the type. -->
+        <PackageReference Include="System.Reactive" Version="6.0.1" />
     </ItemGroup>
 
 </Project>

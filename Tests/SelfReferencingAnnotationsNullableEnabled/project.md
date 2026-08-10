@@ -9,7 +9,7 @@
 
 # SelfReferencingAnnotationsNullableEnabled
 
-Tests TypeScript generation of self-referencing types (direct, through a list and through a dictionary) with nullable reference types enabled, plus a mutual A -> B -> A reference that must not produce an unresolvable import loop. Reads the same shared source as SelfReferencingAnnotationsNullableDisabled.
+Tests TypeScript generation of self-referencing types (direct, through a list and through a dictionary) with nullable reference types enabled, plus a mutual A -> B -> A reference that must not produce an unresolvable import loop. Reads Shared/SelfReferencingType.cs.
 
 ## Parameters
 
