@@ -17,4 +17,10 @@ public interface IEnvironment
     bool IsMsBuild { get; set; }
     bool Force { get; set; }
     List<Assembly> LoadedAssemblies { get; }
+
+    /// <summary>
+    /// The command lines collected from <see cref="RunAtSuccessAttribute"/>, run after the generation succeeded
+    /// and every file is written.
+    /// </summary>
+    List<string> RunAtSuccess { get; }
 }
