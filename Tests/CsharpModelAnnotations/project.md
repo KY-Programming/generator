@@ -11,6 +11,28 @@
 
 Covers `[GenerateCsharpModel]`, the annotation that writes C# models instead of TypeScript. `CustomerDto` is decorated with the relative path only, so it and the `ContactDto` it holds are both written below `Output/`; `SubTypesOnly` is decorated with `onlySubTypes`, so only the `SupplierDto` it holds is written and the decorated type itself is not. The three `Dto` sources carry `[GenerateClass(Replace = "Dto")]`, which drops the suffix in the output - the generated models live in the namespace of the types they were read from, in the same assembly, and would otherwise collide with them. The output is C# rather than TypeScript.
 
+## Parameters
+
+```
+readid -solution=*Undefined* -project=$\Tests\CsharpModelAnnotations\CsharpModelAnnotations.csproj msbuild set -output=$\Tests\CsharpModelAnnotations\ load -assembly=$\Tests\CsharpModelAnnotations\bin\Debug\net10.0\CsharpModelAnnotations.dll fluent annotation
+```
+
+## Output
+
+- Output/
+    - Contact.cs `#4ab3c344`
+    - Customer.cs `#3842abac`
+    - Supplier.cs `#ae0600a3`
+
 ## Validation
 
-- validate.js `not run`
+- validate.js `passed, 3 files validated`
+
+## Status
+
+- **Last Build:** 2026-08-13 15:06:02
+- **Duration:** 6.8s
+- **Status:** Success
+- **Info:** 0 errors, 3 files validated
+- **Last Success:** 2026-08-13 15:06:02
+- **Generator:** 10.1.0

@@ -7,7 +7,7 @@ using System.CodeDom.Compiler;
 
 namespace CsharpModelAnnotations.Source
 {
-    [GeneratedCode("KY.Generator", "10.0.1.0")]
+    [GeneratedCode("KY.Generator", "10.1.0.0")]
     public partial class Supplier
     {
         public string? Company { get; set; }

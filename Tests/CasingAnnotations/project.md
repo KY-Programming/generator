@@ -11,13 +11,28 @@
 
 Covers the name formatting. Reading one entry type pulls in two models with the same seven members: one is left on the default and has to come out cased for the target language, the other carries GenerateFormatNames(false) and has to keep the spelling it has in C#, underscores and all. The members are the spellings that behave differently - already lower, all upper, pascal, camel, snake and upper snake - plus a digit suffix, which must not be split off the letter it belongs to.
 
+## Parameters
+
+```
+readid -solution=*Undefined* -project=$\Tests\CasingAnnotations\CasingAnnotations.csproj msbuild set -output=$\Tests\CasingAnnotations\ load -assembly=$\Tests\CasingAnnotations\bin\Debug\net10.0\CasingAnnotations.dll fluent annotation
+```
+
 ## Output
 
 - Output/
-    - case-me.ts
-    - keep-my-case.ts
-    - mixed-casing.ts
+    - case-me.ts `#e5dafa37`
+    - keep-my-case.ts `#735edcfd`
+    - mixed-casing.ts `#8a26d5ed`
 
 ## Validation
 
-- validate.js `not run`
+- validate.js `passed, 3 files validated`
+
+## Status
+
+- **Last Build:** 2026-08-13 15:05:59
+- **Duration:** 6.9s
+- **Status:** Success
+- **Info:** 0 errors, 3 files validated
+- **Last Success:** 2026-08-13 15:05:59
+- **Generator:** 10.1.0

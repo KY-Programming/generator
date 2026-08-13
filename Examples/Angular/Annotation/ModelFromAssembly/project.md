@@ -20,9 +20,9 @@ readid -solution=$\Examples\Angular\Annotation\ModelFromAssembly.sln -project=$\
 ## Output
 
 - Output/
-    - another-type.ts `#74d5919e`
+    - another-type.ts `#d1bc39e0`
     - index.ts `#90842ca7`
-    - type-to-read.ts `#31bc2e0f`
+    - type-to-read.ts `#9ef6daaf`
 
 ## Validation
 
@@ -30,9 +30,9 @@ readid -solution=$\Examples\Angular\Annotation\ModelFromAssembly.sln -project=$\
 
 ## Status
 
-- **Last Build:** 2026-08-09 11:46:56
-- **Duration:** 5.7s
+- **Last Build:** 2026-08-13 15:05:39
+- **Duration:** 5.8s
 - **Status:** Success
 - **Info:** 0 errors, 3 files validated
-- **Last Success:** 2026-08-09 11:46:56
-- **Generator:** 10.0.1-preview.11
+- **Last Success:** 2026-08-13 15:05:39
+- **Generator:** 10.1.0

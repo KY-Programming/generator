@@ -11,13 +11,28 @@
 
 Reads an ASP.NET Core controller from the fluent API rather than from an annotation, and covers two writer options: every written file is piped through the prettier of the client app, and ForceOverwrite rewrites files that are already on disk and unchanged. The prettier config sets single quotes, so whether the formatter really ran is visible in the output.
 
+## Parameters
+
+```
+readid -solution=*Undefined* -project=$\Tests\AspDotNetFluent\AspDotNetFluent.csproj msbuild set -output=$\Tests\AspDotNetFluent\ load -assembly=$\Tests\AspDotNetFluent\bin\Debug\net10.0\AspDotNetFluent.dll fluent annotation
+```
+
 ## Output
 
 - ClientApp/src/app/models/
-    - weather-forecast.ts
+    - weather-forecast.ts `#ef7ffa41`
 - ClientApp/src/app/services/
-    - weather-forecast.service.ts
+    - weather-forecast.service.ts `#0727bb88`
 
 ## Validation
 
-- validate.js `not run`
+- validate.js `passed, 5 files validated`
+
+## Status
+
+- **Last Build:** 2026-08-13 15:06:01
+- **Duration:** 8.9s
+- **Status:** Success
+- **Info:** 0 errors, 5 files validated
+- **Last Success:** 2026-08-13 15:06:01
+- **Generator:** 10.1.0

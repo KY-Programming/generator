@@ -13,19 +13,26 @@ Demonstrates using a custom module: the fluent `.HelloWorld(...)` action comes f
 
 `validate.js` compiles what the custom module wrote - nothing else would notice if the example's own writer emitted C# that does not parse.
 
+## Parameters
+
+```
+readid -solution=$\Examples\Customization\CustomModule.sln -project=$\Examples\Customization\CustomModule.Console\CustomModule.Console.csproj msbuild set -output=$\Examples\Customization\CustomModule.Console\ load -assembly=$\Examples\Customization\CustomModule.Console\bin\Debug\net10.0\CustomModule.Console.dll fluent annotation
+```
+
 ## Output
 
 - Output/
-    - Greeter.cs `#00000000`
+    - Greeter.cs `#82dca4a5`
 
 ## Validation
 
-- validate.js
+- validate.js `passed, 1 file validated`
 
 ## Status
 
-- **Last Build:** 2026-08-08 10:25:02
-- **Duration:** 3.0s
-- **Status:** Failure
-- **Info:** Build failed
-- **Generator:** 10.0.1-preview.4
+- **Last Build:** 2026-08-13 15:06:37
+- **Duration:** 6.1s
+- **Status:** Success
+- **Info:** All outputs match
+- **Last Success:** 2026-08-13 15:06:37
+- **Generator:** 10.1.0

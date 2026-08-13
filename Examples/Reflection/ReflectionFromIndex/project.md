@@ -20,9 +20,9 @@ readid -solution=$\Examples\Reflection\ReflectionFromIndex.sln -project=$\Exampl
 ## Output
 
 - Output/
-    - another-type.ts `#ba949dcb`
+    - another-type.ts `#99eb185b`
     - index.ts `#259513df`
-    - type-to-read.ts `#a300e05f`
+    - type-to-read.ts `#2f332d54`
 
 ## Validation
 
@@ -30,9 +30,9 @@ readid -solution=$\Examples\Reflection\ReflectionFromIndex.sln -project=$\Exampl
 
 ## Status
 
-- **Last Build:** 2026-08-08 13:54:16
-- **Duration:** 5.4s
+- **Last Build:** 2026-08-13 15:05:52
+- **Duration:** 5.6s
 - **Status:** Success
 - **Info:** 0 errors, 3 files validated
-- **Last Success:** 2026-08-08 13:54:16
-- **Generator:** 10.0.1-preview.7
+- **Last Success:** 2026-08-13 15:05:52
+- **Generator:** 10.1.0

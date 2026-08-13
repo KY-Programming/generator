@@ -14,7 +14,7 @@ Tests TypeScript generation with mixed nullable reference type contexts, ensurin
 ## Parameters
 
 ```
-readid -solution=*Undefined* -project=$\Tests\v10\NullableEnabledMixedWithNullableDisabled\NullableEnabledMixedWithNullableDisabled.csproj msbuild set -output=$\Tests\v10\NullableEnabledMixedWithNullableDisabled\ load -assembly=$\Tests\v10\NullableEnabledMixedWithNullableDisabled\bin\Debug\net10.0\NullableEnabledMixedWithNullableDisabled.dll fluent annotation
+readid -solution=*Undefined* -project=$\Tests\NullableEnabledMixedWithNullableDisabled\NullableEnabledMixedWithNullableDisabled.csproj msbuild set -output=$\Tests\NullableEnabledMixedWithNullableDisabled\ load -assembly=$\Tests\NullableEnabledMixedWithNullableDisabled\bin\Debug\net10.0\NullableEnabledMixedWithNullableDisabled.dll fluent annotation
 ```
 
 ## Output
@@ -29,9 +29,9 @@ readid -solution=*Undefined* -project=$\Tests\v10\NullableEnabledMixedWithNullab
 
 ## Status
 
-- **Last Build:** 2026-08-08 13:22:48
-- **Duration:** 5.7s
+- **Last Build:** 2026-08-13 15:06:27
+- **Duration:** 9.9s
 - **Status:** Success
 - **Info:** 0 errors, 2 files validated
-- **Last Success:** 2026-08-08 13:22:48
-- **Generator:** 10.0.1-preview.7
+- **Last Success:** 2026-08-13 15:06:27
+- **Generator:** 10.1.0

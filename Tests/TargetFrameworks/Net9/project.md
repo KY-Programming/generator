@@ -11,13 +11,28 @@
 
 Generation from a net9.0 assembly. Reads `TargetFrameworks/Shared/Types.cs`, which every project of the folder reads, so the same source has to come out the same way on every framework.
 
+## Parameters
+
+```
+readid -solution=*Undefined* -project=$\Tests\TargetFrameworks\Net9\Net9.csproj msbuild set -output=$\Tests\TargetFrameworks\Net9\ load -assembly=$\Tests\TargetFrameworks\Net9\bin\Debug\net9.0\Net9.dll fluent annotation
+```
+
 ## Output
 
 - Output/
-    - generic-sub-type.ts
-    - sub-type.ts
-    - types.ts
+    - generic-sub-type.ts `#9701f709`
+    - sub-type.ts `#a2280c55`
+    - types.ts `#cad02887`
 
 ## Validation
 
-- validate.js `not run`
+- validate.js `passed, 3 files validated`
+
+## Status
+
+- **Last Build:** 2026-08-13 15:06:31
+- **Duration:** 9.0s
+- **Status:** Success
+- **Info:** 0 errors, 3 files validated
+- **Last Success:** 2026-08-13 15:06:31
+- **Generator:** 10.1.0

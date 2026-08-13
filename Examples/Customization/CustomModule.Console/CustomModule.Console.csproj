@@ -13,7 +13,7 @@
 
     <ItemGroup>
         <!-- The tool. Its MSBuild targets run the generation after this project is compiled. -->
-        <PackageReference Include="KY.Generator" Version="10.0.1-preview.11" />
+        <PackageReference Include="KY.Generator" Version="10.1.0" />
     </ItemGroup>
 
     <ItemGroup>
@@ -23,10 +23,7 @@
         <ProjectReference Include="..\CustomModule\CustomModule.csproj" />
         <!-- The generator half is not compiled against - it only has to sit next to the assembly at run
              time, which is where the generator looks for what [assembly: GenerateWith] names. -->
-        <ProjectReference Include="..\CustomModule.Generator\CustomModule.Generator.csproj"
-                          ReferenceOutputAssembly="false"
-                          OutputItemType="Content"
-                          CopyToOutputDirectory="PreserveNewest" />
+        <ProjectReference Include="..\CustomModule.Generator\CustomModule.Generator.csproj" ReferenceOutputAssembly="false" OutputItemType="Content" CopyToOutputDirectory="PreserveNewest" />
     </ItemGroup>
 
 </Project>

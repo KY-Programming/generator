@@ -25,9 +25,9 @@ readid -solution=$\Examples\Angular\Fluent\NonStrict.sln -project=$\Examples\Ang
 ## Output
 
 - ../NonStrict/Output/NonStrict/
-    - weather-forecast.ts `#d06d734f`
+    - weather-forecast.ts `#6f956133`
 - ../NonStrict/Output/Strict/
-    - weather-forecast.ts `#c5f2c3b8`
+    - weather-forecast.ts `#302c6910`
 
 ## Validation
 
@@ -35,9 +35,9 @@ readid -solution=$\Examples\Angular\Fluent\NonStrict.sln -project=$\Examples\Ang
 
 ## Status
 
-- **Last Build:** 2026-08-09 11:47:10
-- **Duration:** 6.9s
+- **Last Build:** 2026-08-13 15:05:46
+- **Duration:** 7.5s
 - **Status:** Success
 - **Info:** 0 errors, 2 files validated
-- **Last Success:** 2026-08-09 11:47:10
-- **Generator:** 10.0.1-preview.11
+- **Last Success:** 2026-08-13 15:05:46
+- **Generator:** 10.1.0

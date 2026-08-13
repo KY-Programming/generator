@@ -15,7 +15,7 @@
              from it. The generator tool already carries them.
              Do not add the KY.Generator tool package here; it belongs in the project that consumes the
              module - see CustomModule.Console. -->
-        <PackageReference Include="KY.Generator.Sdk" Version="10.0.1-preview.11" />
+        <PackageReference Include="KY.Generator.Sdk" Version="10.1.0" />
     </ItemGroup>
 
     <ItemGroup>

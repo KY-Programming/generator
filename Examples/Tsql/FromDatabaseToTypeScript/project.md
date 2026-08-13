@@ -38,9 +38,9 @@ readid -solution=$\Examples\Tsql\FromDatabaseToTypeScript.sln -project=$\Example
 ## Output
 
 - Output/
-    - address.ts `#a47696b7`
+    - address.ts `#e2d92c1d`
     - index.ts `#a29b03d6`
-    - person.ts `#3f43d0e0`
+    - person.ts `#6d86caad`
 
 ## Validation
 
@@ -52,9 +52,9 @@ readid -solution=$\Examples\Tsql\FromDatabaseToTypeScript.sln -project=$\Example
 
 ## Status
 
-- **Last Build:** 2026-08-09 11:55:50
-- **Duration:** 13.8s
+- **Last Build:** 2026-08-13 15:07:11
+- **Duration:** 13.7s
 - **Status:** Success
 - **Info:** 0 errors, 3 files validated
-- **Last Success:** 2026-08-09 11:55:50
-- **Generator:** 10.0.1-preview.11
+- **Last Success:** 2026-08-13 15:07:11
+- **Generator:** 10.1.0

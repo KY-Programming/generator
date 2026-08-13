@@ -14,14 +14,14 @@ Tests the change of name and namespace.
 ## Parameters
 
 ```
-readid -solution=*Undefined* -project=$\Tests\v10\JsonModelPathAndNamespace\JsonModelPathAndNamespace.csproj msbuild set -output=$\Tests\v10\JsonModelPathAndNamespace\ load -assembly=$\Tests\v10\JsonModelPathAndNamespace\bin\Debug\net10.0\JsonModelPathAndNamespace.dll fluent annotation
+readid -solution=*Undefined* -project=$\Tests\JsonModelPathAndNamespace\JsonModelPathAndNamespace.csproj msbuild set -output=$\Tests\JsonModelPathAndNamespace\ load -assembly=$\Tests\JsonModelPathAndNamespace\bin\Debug\net10.0\JsonModelPathAndNamespace.dll fluent annotation
 ```
 
 ## Output
 
 - Output/
-    - Configuration.cs `#6b649c64`
-    - Endpoint.cs `#94d1aac0`
+    - Configuration.cs `#ecd488d1`
+    - Endpoint.cs `#68e49de0`
 
 ## Validation
 
@@ -29,9 +29,9 @@ readid -solution=*Undefined* -project=$\Tests\v10\JsonModelPathAndNamespace\Json
 
 ## Status
 
-- **Last Build:** 2026-08-09 07:09:51
-- **Duration:** 5.2s
+- **Last Build:** 2026-08-13 15:06:17
+- **Duration:** 9.0s
 - **Status:** Success
-- **Info:** All outputs match
-- **Last Success:** 2026-08-09 07:09:51
-- **Generator:** 10.0.1-preview.8
+- **Info:** 0 errors, 2 files validated
+- **Last Success:** 2026-08-13 15:06:17
+- **Generator:** 10.1.0

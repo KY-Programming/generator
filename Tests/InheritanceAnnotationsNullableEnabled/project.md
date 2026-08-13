@@ -14,7 +14,7 @@ Tests TypeScript generation with nullable reference types enabled, covering clas
 ## Parameters
 
 ```
-readid -solution=*Undefined* -project=$\Tests\v10\InheritanceAnnotationsNullableEnabled\InheritanceAnnotationsNullableEnabled.csproj msbuild set -output=$\Tests\v10\InheritanceAnnotationsNullableEnabled\ load -assembly=$\Tests\v10\InheritanceAnnotationsNullableEnabled\bin\Debug\net10.0\InheritanceAnnotationsNullableEnabled.dll fluent annotation
+readid -solution=*Undefined* -project=$\Tests\InheritanceAnnotationsNullableEnabled\InheritanceAnnotationsNullableEnabled.csproj msbuild set -output=$\Tests\InheritanceAnnotationsNullableEnabled\ load -assembly=$\Tests\InheritanceAnnotationsNullableEnabled\bin\Debug\net10.0\InheritanceAnnotationsNullableEnabled.dll fluent annotation
 ```
 
 ## Output
@@ -58,9 +58,9 @@ readid -solution=*Undefined* -project=$\Tests\v10\InheritanceAnnotationsNullable
 
 ## Status
 
-- **Last Build:** 2026-08-08 13:22:47
-- **Duration:** 5.5s
+- **Last Build:** 2026-08-13 15:06:14
+- **Duration:** 7.7s
 - **Status:** Success
 - **Info:** 0 errors, 30 files validated
-- **Last Success:** 2026-08-08 13:22:47
-- **Generator:** 10.0.1-preview.7
+- **Last Success:** 2026-08-13 15:06:14
+- **Generator:** 10.1.0

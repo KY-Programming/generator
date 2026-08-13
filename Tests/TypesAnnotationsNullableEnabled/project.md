@@ -14,7 +14,7 @@ Tests comprehensive TypeScript type generation with nullable reference types ena
 ## Parameters
 
 ```
-readid -solution=*Undefined* -project=$\Tests\v10\TypesAnnotationsNullableEnabled\TypesAnnotationsNullableEnabled.csproj msbuild set -output=$\Tests\v10\TypesAnnotationsNullableEnabled\ load -assembly=$\Tests\v10\TypesAnnotationsNullableEnabled\bin\Debug\net10.0\TypesAnnotationsNullableEnabled.dll fluent annotation
+readid -solution=*Undefined* -project=$\Tests\TypesAnnotationsNullableEnabled\TypesAnnotationsNullableEnabled.csproj msbuild set -output=$\Tests\TypesAnnotationsNullableEnabled\ load -assembly=$\Tests\TypesAnnotationsNullableEnabled\bin\Debug\net10.0\TypesAnnotationsNullableEnabled.dll fluent annotation
 ```
 
 ## Output
@@ -38,9 +38,9 @@ readid -solution=*Undefined* -project=$\Tests\v10\TypesAnnotationsNullableEnable
 
 ## Status
 
-- **Last Build:** 2026-08-08 13:22:50
-- **Duration:** 5.3s
+- **Last Build:** 2026-08-13 15:06:31
+- **Duration:** 8.0s
 - **Status:** Success
 - **Info:** 0 errors, 11 files validated
-- **Last Success:** 2026-08-08 13:22:50
-- **Generator:** 10.0.1-preview.7
+- **Last Success:** 2026-08-13 15:06:31
+- **Generator:** 10.1.0

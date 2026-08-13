@@ -14,7 +14,7 @@ Tests TypeScript enum generation with nullable reference types enabled, covering
 ## Parameters
 
 ```
-readid -solution=*Undefined* -project=$\Tests\v10\EnumAnnotationsNullableEnabled\EnumAnnotationsNullableEnabled.csproj msbuild set -output=$\Tests\v10\EnumAnnotationsNullableEnabled\ load -assembly=$\Tests\v10\EnumAnnotationsNullableEnabled\bin\Debug\net10.0\EnumAnnotationsNullableEnabled.dll fluent annotation
+readid -solution=*Undefined* -project=$\Tests\EnumAnnotationsNullableEnabled\EnumAnnotationsNullableEnabled.csproj msbuild set -output=$\Tests\EnumAnnotationsNullableEnabled\ load -assembly=$\Tests\EnumAnnotationsNullableEnabled\bin\Debug\net10.0\EnumAnnotationsNullableEnabled.dll fluent annotation
 ```
 
 ## Output
@@ -43,9 +43,9 @@ readid -solution=*Undefined* -project=$\Tests\v10\EnumAnnotationsNullableEnabled
 
 ## Status
 
-- **Last Build:** 2026-08-08 13:22:42
-- **Duration:** 5.4s
+- **Last Build:** 2026-08-13 15:06:05
+- **Duration:** 6.0s
 - **Status:** Success
 - **Info:** 0 errors, 16 files validated
-- **Last Success:** 2026-08-08 13:22:42
-- **Generator:** 10.0.1-preview.7
+- **Last Success:** 2026-08-13 15:06:05
+- **Generator:** 10.1.0

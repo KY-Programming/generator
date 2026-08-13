@@ -11,13 +11,28 @@
 
 Generation from an x86 assembly on net10.0. The generator runs as x64, so it has to notice the architecture of the assembly it is asked to load, restart itself from the `tools/net10.0-x86` folder the package ships, and come back with the same output the x64 run produces - "Different assembly architecture found. Switching to X86..." in the log is the step under test. `PlatformTarget` is what makes this a real x86 assembly; `Platforms` alone still produces AnyCPU. Reads `TargetFrameworks/Shared/Types.cs`, which every project of the folder reads, so the same source has to come out the same way on every framework.
 
+## Parameters
+
+```
+read-project -solution=*Undefined* -project=$\Tests\TargetFrameworks\Net10-x86\Net10-x86.csproj ms-build options -output=$\Tests\TargetFrameworks\Net10-x86 load -assembly=$\Tests\TargetFrameworks\Net10-x86\bin\Debug\net10.0\Net10x86.dll fluent annotation
+```
+
 ## Output
 
 - Output/
-    - generic-sub-type.ts
-    - sub-type.ts
-    - types.ts
+    - generic-sub-type.ts `#e92c7dd0`
+    - sub-type.ts `#87c5a9c4`
+    - types.ts `#2c5d0626`
 
 ## Validation
 
-- validate.js `not run`
+- validate.js `passed, 3 files validated`
+
+## Status
+
+- **Last Build:** 2026-08-13 15:06:30
+- **Duration:** 10.0s
+- **Status:** Success
+- **Info:** 0 errors, 3 files validated
+- **Last Success:** 2026-08-13 15:06:30
+- **Generator:** 10.1.0

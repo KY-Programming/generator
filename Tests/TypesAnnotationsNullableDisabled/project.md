@@ -14,7 +14,7 @@ Tests comprehensive TypeScript type generation with nullable reference types dis
 ## Parameters
 
 ```
-readid -solution=*Undefined* -project=$\Tests\v10\TypesAnnotationsNullableDisabled\TypesAnnotationsNullableDisabled.csproj msbuild set -output=$\Tests\v10\TypesAnnotationsNullableDisabled\ load -assembly=$\Tests\v10\TypesAnnotationsNullableDisabled\bin\Debug\net10.0\TypesAnnotationsNullableDisabled.dll fluent annotation
+readid -solution=*Undefined* -project=$\Tests\TypesAnnotationsNullableDisabled\TypesAnnotationsNullableDisabled.csproj msbuild set -output=$\Tests\TypesAnnotationsNullableDisabled\ load -assembly=$\Tests\TypesAnnotationsNullableDisabled\bin\Debug\net10.0\TypesAnnotationsNullableDisabled.dll fluent annotation
 ```
 
 ## Output
@@ -38,9 +38,9 @@ readid -solution=*Undefined* -project=$\Tests\v10\TypesAnnotationsNullableDisabl
 
 ## Status
 
-- **Last Build:** 2026-08-08 13:22:48
-- **Duration:** 5.6s
+- **Last Build:** 2026-08-13 15:06:34
+- **Duration:** 7.3s
 - **Status:** Success
 - **Info:** 0 errors, 11 files validated
-- **Last Success:** 2026-08-08 13:22:48
-- **Generator:** 10.0.1-preview.7
+- **Last Success:** 2026-08-13 15:06:34
+- **Generator:** 10.1.0

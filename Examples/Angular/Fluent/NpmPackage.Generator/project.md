@@ -21,10 +21,10 @@ readid -solution=$\Examples\Angular\Fluent\NpmPackage.sln -project=$\Examples\An
 
 - ../NpmPackage/package/projects/test/src/lib/models/
     - index.ts `#bbf2ba38`
-    - weather-forecast.ts `#51249627`
+    - weather-forecast.ts `#d593e6d3`
 - ../NpmPackage/package/projects/test/src/lib/services/
     - index.ts `#a729d164`
-    - weather-forecast.service.ts `#905cdb23`
+    - weather-forecast.service.ts `#6ae51ad2`
 
 ## Validation
 
@@ -32,9 +32,9 @@ readid -solution=$\Examples\Angular\Fluent\NpmPackage.sln -project=$\Examples\An
 
 ## Status
 
-- **Last Build:** 2026-08-09 11:47:16
-- **Duration:** 12.1s
+- **Last Build:** 2026-08-13 15:05:52
+- **Duration:** 12.8s
 - **Status:** Success
 - **Info:** 0 errors, 5 files validated
-- **Last Success:** 2026-08-09 11:47:16
-- **Generator:** 10.0.1-preview.11
+- **Last Success:** 2026-08-13 15:05:52
+- **Generator:** 10.1.0

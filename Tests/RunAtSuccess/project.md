@@ -11,11 +11,27 @@
 
 Covers `[assembly: RunAtSuccess("...")]`: a command line the generator runs once the generation succeeded and every file is written. The command leaves a marker behind, so that it ran at all and that it ran after the last generated file are both observable.
 
+## Parameters
+
+```
+readid -solution=*Undefined* -project=$\Tests\RunAtSuccess\RunAtSuccess.csproj msbuild set -output=$\Tests\RunAtSuccess\ load -assembly=$\Tests\RunAtSuccess\bin\Debug\net10.0\RunAtSuccess.dll fluent annotation
+```
+
 ## Output
 
 - Output/
-    - model.ts
+    - model.ts `#1ebcc589`
 
 ## Validation
 
-- validate.js `not run`
+- run-at-success.js `failed`
+- validate.js `passed, 1 file validated`
+
+## Status
+
+- **Last Build:** 2026-08-13 15:06:17
+- **Duration:** 7.6s
+- **Status:** Failure
+- **Info:** All outputs match; run-at-success.js: no result (exit 0)
+- **Last Success:** 2026-08-13 14:52:33
+- **Generator:** 10.1.0

@@ -28,8 +28,8 @@ readid -solution=$\Examples\Tsql\FromDatabaseToCsharp.sln -project=$\Examples\Ts
 ## Output
 
 - Output/
-    - Address.cs `#2d3ab3da` `keep`
-    - Person.cs `#d885d458` `keep`
+    - Address.cs `#d278128d` `keep`
+    - Person.cs `#83e51fc3` `keep`
 
 ## Validation
 
@@ -41,9 +41,9 @@ readid -solution=$\Examples\Tsql\FromDatabaseToCsharp.sln -project=$\Examples\Ts
 
 ## Status
 
-- **Last Build:** 2026-08-09 11:55:34
-- **Duration:** 17.3s
+- **Last Build:** 2026-08-13 15:06:55
+- **Duration:** 16.5s
 - **Status:** Success
 - **Info:** 0 errors, 2 files validated
-- **Last Success:** 2026-08-09 11:55:34
-- **Generator:** 10.0.1-preview.11
+- **Last Success:** 2026-08-13 15:06:55
+- **Generator:** 10.1.0

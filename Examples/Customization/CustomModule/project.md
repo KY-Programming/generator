@@ -13,10 +13,13 @@ Demonstrates the half of a custom module that its users reference: the command p
 
 ## Output
 
+- none
+
 ## Status
 
-- **Last Build:** 2026-08-08 10:25:03
-- **Duration:** 3.1s
-- **Status:** Failure
-- **Info:** Build failed
-- **Generator:** 10.0.1-preview.4
+- **Last Build:** 2026-08-13 15:05:46
+- **Duration:** 1.4s
+- **Status:** Success
+- **Info:** No output - nothing to build
+- **Last Success:** 2026-08-13 15:05:46
+- **Generator:** 10.1.0

@@ -20,7 +20,7 @@ readid -solution=$\Examples\Angular\Annotation\GenerateInterfacesInsteadClasses.
 ## Output
 
 - Output/
-    - test-model.ts `#c0a08dda`
+    - test-model.ts `#e11c057d`
 
 ## Validation
 
@@ -28,9 +28,9 @@ readid -solution=$\Examples\Angular\Annotation\GenerateInterfacesInsteadClasses.
 
 ## Status
 
-- **Last Build:** 2026-08-09 11:46:56
-- **Duration:** 5.7s
+- **Last Build:** 2026-08-13 15:05:39
+- **Duration:** 5.8s
 - **Status:** Success
 - **Info:** 0 errors, 1 file validated
-- **Last Success:** 2026-08-09 11:46:56
-- **Generator:** 10.0.1-preview.11
+- **Last Success:** 2026-08-13 15:05:39
+- **Generator:** 10.1.0

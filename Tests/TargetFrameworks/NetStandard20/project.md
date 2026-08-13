@@ -11,13 +11,28 @@
 
 Generation from a netstandard2.0 assembly, the oldest target the generator claims to be able to read. LoadCommand picks the tools/ build to run from the target framework of the assembly it is asked to load, and this is the framework that makes it switch. Reads `TargetFrameworks/Shared/Types.cs`, which every project of the folder reads, so the same source has to come out the same way on every framework.
 
+## Parameters
+
+```
+readid -solution=*Undefined* -project=$\Tests\TargetFrameworks\NetStandard20\NetStandard20.csproj msbuild set -output=$\Tests\TargetFrameworks\NetStandard20\ load -assembly=$\Tests\TargetFrameworks\NetStandard20\bin\Debug\netstandard2.0\NetStandard20.dll fluent annotation
+```
+
 ## Output
 
 - Output/
-    - generic-sub-type.ts
-    - sub-type.ts
-    - types.ts
+    - generic-sub-type.ts `#d927d8aa`
+    - sub-type.ts `#40e2993e`
+    - types.ts `#2383f152`
 
 ## Validation
 
-- validate.js `not run`
+- validate.js `passed, 3 files validated`
+
+## Status
+
+- **Last Build:** 2026-08-13 15:06:32
+- **Duration:** 6.5s
+- **Status:** Success
+- **Info:** 0 errors, 3 files validated
+- **Last Success:** 2026-08-13 15:06:32
+- **Generator:** 10.1.0

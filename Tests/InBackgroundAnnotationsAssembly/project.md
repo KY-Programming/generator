@@ -14,14 +14,14 @@ Covers GenerateInBackground on assembly level: `[assembly: GenerateInBackground]
 ## Parameters
 
 ```
-readid -solution=*Undefined* -project=$\Tests\AnnotationInBackgroundAssembly\AnnotationInBackgroundAssembly.csproj msbuild set -output=$\Tests\AnnotationInBackgroundAssembly\ load -assembly=$\Tests\AnnotationInBackgroundAssembly\bin\Debug\net10.0\AnnotationInBackgroundAssembly.dll fluent annotation
+readid -solution=*Undefined* -project=$\Tests\InBackgroundAnnotationsAssembly\InBackgroundAnnotationsAssembly.csproj msbuild set -output=$\Tests\InBackgroundAnnotationsAssembly\ load -assembly=$\Tests\InBackgroundAnnotationsAssembly\bin\Debug\net10.0\InBackgroundAnnotationsAssembly.dll fluent annotation
 ```
 
 ## Output
 
 - Output/
-    - class-1.ts
-    - class-2.ts
+    - class-1.ts `#2902500c`
+    - class-2.ts `#072f9096`
 
 ## Validation
 
@@ -29,8 +29,8 @@ readid -solution=*Undefined* -project=$\Tests\AnnotationInBackgroundAssembly\Ann
 
 ## Status
 
-- **Last Build:** 2026-08-09 15:01:34
-- **Duration:** 6.9s
+- **Last Build:** 2026-08-13 15:06:08
+- **Duration:** 6.6s
 - **Status:** Failure
 - **Info:** 2 missing; 1 error, 0 files validated
-- **Generator:** 10.0.1-preview.13
+- **Generator:** 10.1.0

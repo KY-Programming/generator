@@ -14,7 +14,7 @@ Covers GenerateAngularModel output path control: the assembly level default, a n
 ## Parameters
 
 ```
-readid -solution=*Undefined* -project=$\Tests\v10\CustomBuildOutputLocation\CustomBuildOutputLocation.csproj msbuild set -output=$\Tests\v10\CustomBuildOutputLocation\ load -assembly=$\Tests\v10\CustomBuildOutputLocation\bin\Debug\net10.0\CustomBuildOutputLocation.dll fluent annotation
+readid -solution=*Undefined* -project=$\Tests\CustomBuildOutputLocation\CustomBuildOutputLocation.csproj msbuild set -output=$\Tests\CustomBuildOutputLocation\ load -assembly=$\Tests\CustomBuildOutputLocation\bin\Debug\net10.0\CustomBuildOutputLocation.dll fluent annotation
 ```
 
 ## Output
@@ -33,9 +33,9 @@ readid -solution=*Undefined* -project=$\Tests\v10\CustomBuildOutputLocation\Cust
 
 ## Status
 
-- **Last Build:** 2026-08-08 13:22:42
-- **Duration:** 5.5s
+- **Last Build:** 2026-08-13 15:06:00
+- **Duration:** 5.6s
 - **Status:** Success
 - **Info:** 0 errors, 4 files validated
-- **Last Success:** 2026-08-08 13:22:42
-- **Generator:** 10.0.1-preview.7
+- **Last Success:** 2026-08-13 15:06:00
+- **Generator:** 10.1.0

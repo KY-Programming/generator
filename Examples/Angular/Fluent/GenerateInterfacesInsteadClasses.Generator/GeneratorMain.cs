@@ -10,7 +10,6 @@ namespace Generator
             this.Read(read => read
                           .Reflection(reflection => reflection.FromType<TestModel>()))
                 .Write(write => write
-                                .NoHeader()
                                 .Angular(angular => angular.Models(config => config.OutputPath("../GenerateInterfacesInsteadClasses/Output").PreferInterfaces())));
         }
     }

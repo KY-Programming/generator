@@ -20,7 +20,7 @@ readid -solution=$\Examples\Angular\Fluent\GenerateInterfacesInsteadClasses.sln 
 ## Output
 
 - ../GenerateInterfacesInsteadClasses/Output/
-    - test-model.ts `#0b494c49`
+    - test-model.ts `#2587f654`
 
 ## Validation
 
@@ -28,9 +28,9 @@ readid -solution=$\Examples\Angular\Fluent\GenerateInterfacesInsteadClasses.sln 
 
 ## Status
 
-- **Last Build:** 2026-08-09 11:47:04
-- **Duration:** 7.9s
+- **Last Build:** 2026-08-13 15:05:46
+- **Duration:** 7.4s
 - **Status:** Success
 - **Info:** 0 errors, 1 file validated
-- **Last Success:** 2026-08-09 11:47:04
-- **Generator:** 10.0.1-preview.11
+- **Last Success:** 2026-08-13 15:05:46
+- **Generator:** 10.1.0

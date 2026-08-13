@@ -11,13 +11,28 @@
 
 Generation from a net10.0 assembly. Reads `TargetFrameworks/Shared/Types.cs`, which every project of the folder reads, so the same source has to come out the same way on every framework.
 
+## Parameters
+
+```
+readid -solution=*Undefined* -project=$\Tests\TargetFrameworks\Net10\Net10.csproj msbuild set -output=$\Tests\TargetFrameworks\Net10\ load -assembly=$\Tests\TargetFrameworks\Net10\bin\Debug\net10.0\Net10.dll fluent annotation
+```
+
 ## Output
 
 - Output/
-    - generic-sub-type.ts
-    - sub-type.ts
-    - types.ts
+    - generic-sub-type.ts `#d616a7b3`
+    - sub-type.ts `#68d3d851`
+    - types.ts `#f3add8f5`
 
 ## Validation
 
-- validate.js `not run`
+- validate.js `passed, 3 files validated`
+
+## Status
+
+- **Last Build:** 2026-08-13 15:06:26
+- **Duration:** 9.1s
+- **Status:** Success
+- **Info:** 0 errors, 3 files validated
+- **Last Success:** 2026-08-13 15:06:26
+- **Generator:** 10.1.0

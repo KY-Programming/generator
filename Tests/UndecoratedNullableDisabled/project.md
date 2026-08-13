@@ -20,8 +20,8 @@ Tests handling of undecorated classes (without [Generate] attributes) with nulla
 
 ## Status
 
-- **Last Build:** 2026-08-08 13:22:48
-- **Duration:** 1.1s
+- **Last Build:** 2026-08-13 15:06:28
+- **Duration:** 1.5s
 - **Status:** Empty
 - **Info:** No output files
 - **Last Success:** 2026-08-08 11:20:16

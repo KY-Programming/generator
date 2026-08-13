@@ -14,7 +14,7 @@ Tests the strict mode with nullable reference types disabled, as a matrix of cla
 ## Parameters
 
 ```
-readid -solution=*Undefined* -project=$\Tests\v10\StrictAnnotationsNullableDisabled\StrictAnnotationsNullableDisabled.csproj msbuild set -output=$\Tests\v10\StrictAnnotationsNullableDisabled\ load -assembly=$\Tests\v10\StrictAnnotationsNullableDisabled\bin\Debug\net10.0\StrictAnnotationsNullableDisabled.dll fluent annotation
+readid -solution=*Undefined* -project=$\Tests\StrictAnnotationsNullableDisabled\StrictAnnotationsNullableDisabled.csproj msbuild set -output=$\Tests\StrictAnnotationsNullableDisabled\ load -assembly=$\Tests\StrictAnnotationsNullableDisabled\bin\Debug\net10.0\StrictAnnotationsNullableDisabled.dll fluent annotation
 ```
 
 ## Output
@@ -31,9 +31,9 @@ readid -solution=*Undefined* -project=$\Tests\v10\StrictAnnotationsNullableDisab
 
 ## Status
 
-- **Last Build:** 2026-08-08 13:22:48
-- **Duration:** 5.5s
+- **Last Build:** 2026-08-13 15:06:22
+- **Duration:** 7.3s
 - **Status:** Success
 - **Info:** 0 errors, 4 files validated
-- **Last Success:** 2026-08-08 13:22:48
-- **Generator:** 10.0.1-preview.7
+- **Last Success:** 2026-08-13 15:06:22
+- **Generator:** 10.1.0

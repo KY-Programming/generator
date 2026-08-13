@@ -8,10 +8,10 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="KY.Generator" Version="10.0.1-preview.11" />
-        <PackageReference Include="KY.Generator.Tsql" Version="10.0.1-preview.11" />
+        <PackageReference Include="KY.Generator" Version="10.1.0" />
+        <PackageReference Include="KY.Generator.Tsql" Version="10.1.0" />
         <!-- Writes the models as C# - the Tsql module itself only reads -->
-        <PackageReference Include="KY.Generator.Reflection" Version="10.0.1-preview.11" />
+        <PackageReference Include="KY.Generator.Reflection" Version="10.1.0" />
         <!-- The generator reads the database through the ADO.NET provider of this project -->
         <PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.3" />
     </ItemGroup>

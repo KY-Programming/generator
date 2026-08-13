@@ -20,9 +20,9 @@ readid -solution=$\Examples\Angular\Fluent\ChangeReturnType.sln -project=$\Examp
 ## Output
 
 - ../ChangeReturnType/ClientApp/src/app/models/
-    - weather-forecast.ts `#b783305f`
+    - weather-forecast.ts `#9d8bffe5`
 - ../ChangeReturnType/ClientApp/src/app/services/
-    - weather-forecast.service.ts `#c4142613`
+    - weather-forecast.service.ts `#2940a958`
 
 ## Validation
 
@@ -30,9 +30,9 @@ readid -solution=$\Examples\Angular\Fluent\ChangeReturnType.sln -project=$\Examp
 
 ## Status
 
-- **Last Build:** 2026-08-09 11:46:59
-- **Duration:** 9.0s
+- **Last Build:** 2026-08-13 15:05:41
+- **Duration:** 8.6s
 - **Status:** Success
 - **Info:** 0 errors, 6 files validated
-- **Last Success:** 2026-08-09 11:46:59
-- **Generator:** 10.0.1-preview.11
+- **Last Success:** 2026-08-13 15:05:41
+- **Generator:** 10.1.0

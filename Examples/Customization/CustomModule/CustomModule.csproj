@@ -13,7 +13,7 @@
     <ItemGroup>
         <!-- Only the base package. This half holds the command parameters and the fluent API - everything
              a user of the module references. Nothing that generates lives here. -->
-        <PackageReference Include="KY.Generator.Common" Version="10.0.1-preview.11" />
+        <PackageReference Include="KY.Generator.Common" Version="10.1.0" />
         <!-- Logger and the Assert helpers. KY.Generator.Common does not declare it as a dependency. -->
         <PackageReference Include="KY.Core.Common" Version="10.1.0" />
     </ItemGroup>

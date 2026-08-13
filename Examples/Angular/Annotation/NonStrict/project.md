@@ -28,8 +28,8 @@ readid -solution=$\Examples\Angular\Annotation\NonStrict.sln -project=$\Examples
 
 - Output/
     - index.ts `#8cf1a258`
-    - legacy-weather-forecast.ts `#6132ec2e`
-    - weather-forecast.ts `#92afce12`
+    - legacy-weather-forecast.ts `#6270c45b`
+    - weather-forecast.ts `#37f883a2`
 
 ## Validation
 
@@ -37,9 +37,9 @@ readid -solution=$\Examples\Angular\Annotation\NonStrict.sln -project=$\Examples
 
 ## Status
 
-- **Last Build:** 2026-08-09 11:46:56
-- **Duration:** 5.7s
+- **Last Build:** 2026-08-13 15:05:39
+- **Duration:** 5.9s
 - **Status:** Success
 - **Info:** 0 errors, 3 files validated
-- **Last Success:** 2026-08-09 11:46:56
-- **Generator:** 10.0.1-preview.11
+- **Last Success:** 2026-08-13 15:05:39
+- **Generator:** 10.1.0

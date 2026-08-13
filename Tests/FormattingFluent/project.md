@@ -11,21 +11,36 @@
 
 Covers the formatting configuration of the fluent API in four runs of one build: an indent of two spaces, an indent of one tab, and the same four types written once with an interface and a class prefix and once without, so the two folders can be compared directly. The prefix run also strips the class prefix from the file name again, which is what keeps the type name and the file name configurable independently. Prefixing `Interface` gives `IInterface`, which the other type is already called, so those two collapse into one file.
 
+## Parameters
+
+```
+readid -solution=*Undefined* -project=$\Tests\FormattingFluent\FormattingFluent.csproj msbuild set -output=$\Tests\FormattingFluent\ load -assembly=$\Tests\FormattingFluent\bin\Debug\net10.0\FormattingFluent.dll fluent annotation
+```
+
 ## Output
 
 - Output/
-    - tab-test.ts
-    - two-whitespace-test.ts
+    - tab-test.ts `#d65b4803`
+    - two-whitespace-test.ts `#96b87624`
 - Output/WithPrefix/
-    - interface.interface.ts
-    - my-class-with-i-interface.ts
-    - my-class-with-interface.ts
+    - interface.interface.ts `#d8a20f6c`
+    - my-class-with-i-interface.ts `#945c40e9`
+    - my-class-with-interface.ts `#811c56df`
 - Output/WithoutPrefix/
-    - interface.interface.ts
-    - interface.ts
-    - my-class-with-i-interface.ts
-    - my-class-with-interface.ts
+    - interface.interface.ts `#d8a20f6c`
+    - interface.ts `#6553b5da`
+    - my-class-with-i-interface.ts `#ba6e7cfa`
+    - my-class-with-interface.ts `#66f62c76`
 
 ## Validation
 
-- validate.js `not run`
+- validate.js `passed, 9 files validated`
+
+## Status
+
+- **Last Build:** 2026-08-13 15:06:07
+- **Duration:** 8.0s
+- **Status:** Success
+- **Info:** 0 errors, 9 files validated
+- **Last Success:** 2026-08-13 15:06:07
+- **Generator:** 10.1.0

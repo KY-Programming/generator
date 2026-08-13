@@ -14,7 +14,7 @@ A collection of small scenarios that each need no more than one source file: an 
 ## Parameters
 
 ```
-readid -solution=*Undefined* -project=$\Tests\v10\EdgeCases\EdgeCases.csproj msbuild set -output=$\Tests\v10\EdgeCases\ load -assembly=$\Tests\v10\EdgeCases\bin\Debug\net10.0\EdgeCases.dll fluent annotation
+readid -solution=*Undefined* -project=$\Tests\EdgeCasesAnnotations\EdgeCasesAnnotations.csproj msbuild set -output=$\Tests\EdgeCasesAnnotations\ load -assembly=$\Tests\EdgeCasesAnnotations\bin\Debug\net10.0\EdgeCasesAnnotations.dll fluent annotation
 ```
 
 ## Output
@@ -26,6 +26,7 @@ readid -solution=*Undefined* -project=$\Tests\v10\EdgeCases\EdgeCases.csproj msb
     - ignored-members.ts `#88a9cb64`
     - member-types.ts `#b43df5d7`
     - nested-model.ts `#7a618700`
+    - type-from-nuget-package.ts `#4d85e7fb`
 - Output/AsyncService/
     - async-model.ts `#6c34cf5d`
     - async.service.ts `#1e6d2548`
@@ -34,27 +35,27 @@ readid -solution=*Undefined* -project=$\Tests\v10\EdgeCases\EdgeCases.csproj msb
     - unwrapped.ts `#8deef4d3`
 - Output/InterfaceSource/
     - derived-interface.interface.ts `#c0e0645a`
-    - generated-interface.interface.ts `#94161293`
+    - generated-interface.interface.ts `#de18cb87`
     - implementing-class.ts `#d5a2a55f`
     - sub-interface.interface.ts `#d83276ab`
 - Output/MultipleOutputs/First/
-    - first-type.ts
-    - multiple-outputs-sub-type.ts
+    - first-type.ts `#0343eebc`
+    - multiple-outputs-sub-type.ts `#887a8821`
 - Output/MultipleOutputs/Second/
-    - multiple-outputs-sub-type.ts
-    - second-type.ts
+    - multiple-outputs-sub-type.ts `#887a8821`
+    - second-type.ts `#401131b3`
 - Output/MultipleOutputs/Third/
-    - third-type.ts
+    - third-type.ts `#67526963`
 - Output/PreferInterfaces/
-    - abstract-type.ts
-    - base-class.ts
-    - base-interface.interface.ts
-    - derive-from-interface-prefer-class.ts
-    - derive-from-interface-prefer-interface.ts
-    - derived-from-abstract-class-prefer-class.ts
-    - derived-from-abstract-class-prefer-interface.ts
-    - derived-from-class-prefer-class.ts
-    - derived-from-class-prefer-interface.ts
+    - abstract-type.ts `#0057556d`
+    - base-class.ts `#abfd5367`
+    - base-interface.interface.ts `#3e773ba4`
+    - derive-from-interface-prefer-class.ts `#fdf6c83e`
+    - derive-from-interface-prefer-interface.ts `#2f063315`
+    - derived-from-abstract-class-prefer-class.ts `#9d3e701a`
+    - derived-from-abstract-class-prefer-interface.ts `#23a2194b`
+    - derived-from-class-prefer-class.ts `#52a916ce`
+    - derived-from-class-prefer-interface.ts `#db9d1d54`
 - Output/RouteTemplates/
     - action-route-tokens.service.ts `#ca5fa9a0`
     - class-and-action-route.service.ts `#282f500c`
@@ -82,13 +83,13 @@ readid -solution=*Undefined* -project=$\Tests\v10\EdgeCases\EdgeCases.csproj msb
 
 ## Validation
 
-- validate.js `passed, 35 files validated`
+- validate.js `passed, 51 files validated`
 
 ## Status
 
-- **Last Build:** 2026-08-08 13:22:45
-- **Duration:** 8.7s
+- **Last Build:** 2026-08-13 15:06:08
+- **Duration:** 11.0s
 - **Status:** Success
-- **Info:** 0 errors, 35 files validated
-- **Last Success:** 2026-08-08 13:22:45
-- **Generator:** 10.0.1-preview.7
+- **Info:** 0 errors, 51 files validated
+- **Last Success:** 2026-08-13 15:06:08
+- **Generator:** 10.1.0

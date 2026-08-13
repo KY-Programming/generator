@@ -20,9 +20,9 @@ readid -solution=$\Examples\Angular\Fluent\WithCustomHttpClient.sln -project=$\E
 ## Output
 
 - ../WithCustomHttpClient/ClientApp/src/app/models/
-    - weather-forecast.ts `#c3f0c8f4`
+    - weather-forecast.ts `#031cdfa8`
 - ../WithCustomHttpClient/ClientApp/src/app/services/
-    - weather-forecast.service.ts `#7f2ba5fb`
+    - weather-forecast.service.ts `#21e56db6`
 
 ## Validation
 
@@ -30,9 +30,9 @@ readid -solution=$\Examples\Angular\Fluent\WithCustomHttpClient.sln -project=$\E
 
 ## Status
 
-- **Last Build:** 2026-08-09 11:47:08
-- **Duration:** 8.4s
+- **Last Build:** 2026-08-13 15:05:50
+- **Duration:** 8.5s
 - **Status:** Success
 - **Info:** 0 errors, 6 files validated
-- **Last Success:** 2026-08-09 11:47:08
-- **Generator:** 10.0.1-preview.11
+- **Last Success:** 2026-08-13 15:05:50
+- **Generator:** 10.1.0

@@ -11,13 +11,28 @@
 
 Covers the name formatting of the fluent API. Reading one entry type pulls in two models with the same seven members, and SetType<KeepMyCase>(c => c.FormatNames(false)) is set on one of them only: it has to keep the spelling it has in C#, underscores and all, while the other is cased for the target language. The members are the spellings that behave differently - already lower, all upper, pascal, camel, snake and upper snake - plus a digit suffix, which must not be split off the letter it belongs to.
 
+## Parameters
+
+```
+readid -solution=*Undefined* -project=$\Tests\CasingFluent\CasingFluent.csproj msbuild set -output=$\Tests\CasingFluent\ load -assembly=$\Tests\CasingFluent\bin\Debug\net10.0\CasingFluent.dll fluent annotation
+```
+
 ## Output
 
 - Output/
-    - case-me.ts
-    - keep-my-case.ts
-    - mixed-casing.ts
+    - case-me.ts `#91d5214c`
+    - keep-my-case.ts `#a3f24fd1`
+    - mixed-casing.ts `#e8d22788`
 
 ## Validation
 
-- validate.js `not run`
+- validate.js `passed, 3 files validated`
+
+## Status
+
+- **Last Build:** 2026-08-13 15:06:26
+- **Duration:** 10.7s
+- **Status:** Success
+- **Info:** 0 errors, 3 files validated
+- **Last Success:** 2026-08-13 15:06:26
+- **Generator:** 10.1.0

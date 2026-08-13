@@ -20,11 +20,11 @@ readid -solution=$\Examples\Json\JsonWithReader.sln -project=$\Examples\Json\Jso
 ## Output
 
 - Output/
-    - Complex.cs `#d3fc2dec`
-    - ObjectArrayProperty.cs `#fd7b5eaf`
-    - ObjectProperty.cs `#9d810acf`
-    - Simple.cs `#a578e794`
-    - simple.ts `#9925efc7`
+    - Complex.cs `#a5fd0a29`
+    - ObjectArrayProperty.cs `#ad83c1f4`
+    - ObjectProperty.cs `#e99f440b`
+    - Simple.cs `#3454a524`
+    - simple.ts `#650b4676`
 
 ## Validation
 
@@ -32,9 +32,9 @@ readid -solution=$\Examples\Json\JsonWithReader.sln -project=$\Examples\Json\Jso
 
 ## Status
 
-- **Last Build:** 2026-08-09 11:55:15
-- **Duration:** 7.8s
+- **Last Build:** 2026-08-13 15:05:55
+- **Duration:** 9.0s
 - **Status:** Success
 - **Info:** 0 errors, 5 files validated
-- **Last Success:** 2026-08-09 11:55:15
-- **Generator:** 10.0.1-preview.11
+- **Last Success:** 2026-08-13 15:05:55
+- **Generator:** 10.1.0

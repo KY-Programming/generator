@@ -21,9 +21,9 @@ readid -solution=$\Examples\Reflection\ReflectionReturnTypeAttribute.sln -projec
 
 - Output/
     - index.ts `#feacd43c`
-    - other-sub-type.ts `#d7319978`
-    - sub-type.ts `#6d35e6e6`
-    - types.ts `#5d672e9a`
+    - other-sub-type.ts `#7f798a5c`
+    - sub-type.ts `#e3b7f584`
+    - types.ts `#5222b0d0`
 
 ## Validation
 
@@ -31,9 +31,9 @@ readid -solution=$\Examples\Reflection\ReflectionReturnTypeAttribute.sln -projec
 
 ## Status
 
-- **Last Build:** 2026-08-08 13:54:16
-- **Duration:** 5.0s
+- **Last Build:** 2026-08-13 15:05:56
+- **Duration:** 5.8s
 - **Status:** Success
 - **Info:** 0 errors, 4 files validated
-- **Last Success:** 2026-08-08 13:54:16
-- **Generator:** 10.0.1-preview.7
+- **Last Success:** 2026-08-13 15:05:56
+- **Generator:** 10.1.0

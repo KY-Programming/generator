@@ -20,9 +20,9 @@ readid -solution=$\Examples\Angular\Annotation\ServiceFromAspNetCore.sln -projec
 ## Output
 
 - ClientApp/src/app/models/
-    - weather-forecast.ts `#be3b17ec`
+    - weather-forecast.ts `#ad5a8070`
 - ClientApp/src/app/services/
-    - weather-forecast.service.ts `#f816927d`
+    - weather-forecast.service.ts `#843df28b`
 
 ## Validation
 
@@ -30,9 +30,9 @@ readid -solution=$\Examples\Angular\Annotation\ServiceFromAspNetCore.sln -projec
 
 ## Status
 
-- **Last Build:** 2026-08-09 11:47:35
-- **Duration:** 45.1s
+- **Last Build:** 2026-08-13 15:05:45
+- **Duration:** 12.1s
 - **Status:** Success
 - **Info:** 0 errors, 5 files validated
-- **Last Success:** 2026-08-09 11:47:35
-- **Generator:** 10.0.1-preview.11
+- **Last Success:** 2026-08-13 15:05:45
+- **Generator:** 10.1.0

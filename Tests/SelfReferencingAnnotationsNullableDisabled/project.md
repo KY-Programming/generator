@@ -14,7 +14,7 @@ Tests TypeScript generation of self-referencing types with nullable reference ty
 ## Parameters
 
 ```
-readid -solution=*Undefined* -project=$\Tests\v10\SelfReferencingAnnotationsNullableDisabled\SelfReferencingAnnotationsNullableDisabled.csproj msbuild set -output=$\Tests\v10\SelfReferencingAnnotationsNullableDisabled\ load -assembly=$\Tests\v10\SelfReferencingAnnotationsNullableDisabled\bin\Debug\net10.0\SelfReferencingAnnotationsNullableDisabled.dll fluent annotation
+readid -solution=*Undefined* -project=$\Tests\SelfReferencingAnnotationsNullableDisabled\SelfReferencingAnnotationsNullableDisabled.csproj msbuild set -output=$\Tests\SelfReferencingAnnotationsNullableDisabled\ load -assembly=$\Tests\SelfReferencingAnnotationsNullableDisabled\bin\Debug\net10.0\SelfReferencingAnnotationsNullableDisabled.dll fluent annotation
 ```
 
 ## Output
@@ -30,9 +30,9 @@ readid -solution=*Undefined* -project=$\Tests\v10\SelfReferencingAnnotationsNull
 
 ## Status
 
-- **Last Build:** 2026-08-08 13:22:47
-- **Duration:** 5.2s
+- **Last Build:** 2026-08-13 15:06:20
+- **Duration:** 7.0s
 - **Status:** Success
 - **Info:** 0 errors, 3 files validated
-- **Last Success:** 2026-08-08 13:22:47
-- **Generator:** 10.0.1-preview.7
+- **Last Success:** 2026-08-13 15:06:20
+- **Generator:** 10.1.0

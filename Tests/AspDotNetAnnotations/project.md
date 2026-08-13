@@ -11,97 +11,115 @@
 
 The broadest test of the ASP.NET Core reader. Twenty two controllers each write their Angular service and models into their own folder, covering route templates, absolute routes, api versions carried in the route as a {version:apiVersion} token - declared, left to the default, mapped to a single action, version neutral and written as a bare major version or with a status suffix - parameters declared on the controller, POST bodies, Produces, derived controllers, duplicate type names, generic and self referencing results, date conversion, optional properties, http types, words that are reserved in TypeScript, renaming, casing fixed on the wire, and interfaces generated instead of classes. Two SignalR hubs cover the Angular hub generator alongside them: one with a typed client interface and a callable method that carries GenerateWithRetry, so the generated service comes with its reconnect timeouts, and one carrying the hub annotation twice, which has to be written into two service and two model folders from the same build.
 
+## Parameters
+
+```
+readid -solution=*Undefined* -project=$\Tests\AspDotNetAnnotations\AspDotNetAnnotations.csproj msbuild set -output=$\Tests\AspDotNetAnnotations\ load -assembly=$\Tests\AspDotNetAnnotations\bin\Debug\net10.0\AspDotNetAnnotations.dll fluent annotation
+```
+
 ## Output
 
+- ClientApp/src/app/api-version-neutral/services/
+    - api-version-neutral.service.ts `#8e130784`
 - ClientApp/src/app/convert-to-interface/models/
-    - convert-me-optional.ts
-    - convert-me.ts
+    - convert-me-optional.ts `#0ed1c155`
+    - convert-me.ts `#d72447b7`
 - ClientApp/src/app/convert-to-interface/services/
-    - convert-to-interface-optional.service.ts
-    - convert-to-interface.service.ts
+    - convert-to-interface-optional.service.ts `#4c6e7c50`
+    - convert-to-interface.service.ts `#38c0ca0a`
 - ClientApp/src/app/date/models/
-    - date-array-wrapper.ts
-    - date-model-array-wrapper.ts
-    - date-model-wrapper-list-wrapper.ts
-    - date-model-wrapper-with-date.ts
-    - date-model-wrapper.ts
-    - date-model.ts
-    - generic-result.ts
-    - optional-properties-model.ts
+    - date-array-wrapper.ts `#f58ac096`
+    - date-model-array-wrapper.ts `#d4d7c15e`
+    - date-model-wrapper-list-wrapper.ts `#f6b081d5`
+    - date-model-wrapper-with-date.ts `#11a538ca`
+    - date-model-wrapper.ts `#2f705aa3`
+    - date-model.ts `#fe4d87f4`
+    - generic-result.ts `#41250bca`
+    - optional-properties-model.ts `#e3b1d36a`
 - ClientApp/src/app/date/services/
-    - date.service.ts
-    - optional-property.service.ts
+    - date.service.ts `#112b9b69`
+    - optional-property.service.ts `#5bb37698`
 - ClientApp/src/app/default-api-version/models/
-    - weather-forecast.ts
+    - weather-forecast.ts `#740d48f7`
 - ClientApp/src/app/default-api-version/services/
-    - default-api-version.service.ts
+    - default-api-version.service.ts `#fafb6e91`
 - ClientApp/src/app/derived/services/
-    - derived.service.ts
+    - derived.service.ts `#30580382`
 - ClientApp/src/app/duplicate-name/services/
-    - duplicate-name.service.ts
+    - duplicate-name.service.ts `#5c8e714a`
 - ClientApp/src/app/edge-cases/models/
-    - date-model.ts
-    - exclusive-generic-complex-result.ts
-    - generic-result.ts
-    - self-referencing-model.ts
+    - date-model.ts `#fe4d87f4`
+    - exclusive-generic-complex-result.ts `#86a6ce5a`
+    - generic-result.ts `#41250bca`
+    - self-referencing-model.ts `#ad1f99a7`
 - ClientApp/src/app/edge-cases/services/
-    - edge-cases.service.ts
+    - edge-cases.service.ts `#e6627f2a`
 - ClientApp/src/app/fix-casing/models/
-    - casing-model.ts
-    - casing-with-mapping-model.ts
+    - casing-model.ts `#5eed04f2`
+    - casing-with-mapping-model.ts `#352b8f35`
 - ClientApp/src/app/fix-casing/services/
-    - fix-casing.service.ts
+    - fix-casing.service.ts `#155346d5`
 - ClientApp/src/app/get-complex/models/
-    - get-complex-model-service.ts
-    - get-complex-model.ts
+    - get-complex-model-service.ts `#e0dfe69e`
+    - get-complex-model.ts `#ff9a7ba7`
 - ClientApp/src/app/get-complex/services/
-    - get-complex.service.ts
+    - get-complex.service.ts `#324109a6`
 - ClientApp/src/app/http-types/services/
-    - http-types.service.ts
+    - http-types.service.ts `#08808695`
 - ClientApp/src/app/invalid-words/services/
-    - invalid-words.service.ts
+    - invalid-words.service.ts `#6ce41fb6`
 - ClientApp/src/app/multiple-output-hub/models-1/
-    - connection-status.ts
+    - connection-status.ts `#c3edcabd`
 - ClientApp/src/app/multiple-output-hub/models-2/
-    - connection-status.ts
+    - connection-status.ts `#c3edcabd`
 - ClientApp/src/app/multiple-output-hub/services-1/
-    - multiple-output-hub.service.ts
+    - multiple-output-hub.service.ts `#c15f56d6`
 - ClientApp/src/app/multiple-output-hub/services-2/
-    - multiple-output-hub.service.ts
+    - multiple-output-hub.service.ts `#6a201577`
 - ClientApp/src/app/parameter-on-controller/services/
-    - parameter-on.service.ts
+    - parameter-on.service.ts `#1e2cf31a`
 - ClientApp/src/app/post/models/
-    - post-model.ts
+    - post-model.ts `#ad7f4283`
 - ClientApp/src/app/post/services/
-    - post.service.ts
+    - post.service.ts `#188386f0`
 - ClientApp/src/app/produces/models/
-    - weather-forecast.ts
+    - weather-forecast.ts `#740d48f7`
 - ClientApp/src/app/produces/services/
-    - produces.service.ts
+    - produces.service.ts `#5a5ef346`
 - ClientApp/src/app/rename/models/
-    - dummy-data.ts
-    - rename-dto.ts
+    - dummy-data.ts `#6726537e`
+    - rename-dto.ts `#394dfe3e`
 - ClientApp/src/app/rename/services/
-    - rename.service.ts
+    - rename.service.ts `#04ce7100`
 - ClientApp/src/app/routed/models/
-    - weather-forecast.ts
+    - weather-forecast.ts `#740d48f7`
 - ClientApp/src/app/routed/services/
-    - routed.service.ts
+    - routed.service.ts `#7873feaa`
+- ClientApp/src/app/status-api-version/services/
+    - status-api-version.service.ts `#d5efb66c`
 - ClientApp/src/app/versioned-api/models/
-    - weather-forecast.ts
+    - weather-forecast.ts `#740d48f7`
 - ClientApp/src/app/versioned-api/services/
-    - versioned-api.service.ts
+    - versioned-api.service.ts `#b70932ef`
 - ClientApp/src/app/warnings/models/
-    - weather-forecast.ts
+    - weather-forecast.ts `#740d48f7`
 - ClientApp/src/app/warnings/services/
-    - warning.service.ts
-
+    - warning.service.ts `#0ed14252`
 - ClientApp/src/app/weather-hub/models/
-    - connection-status.ts
-    - weather-forecast.ts
+    - connection-status.ts `#c3edcabd`
+    - weather-forecast.ts `#740d48f7`
 - ClientApp/src/app/weather-hub/services/
-    - weather-forecast-hub.service.ts
+    - weather-forecast-hub.service.ts `#29528837`
 
 ## Validation
 
-- validate.js `not run`
+- validate.js `passed, 57 files validated`
+
+## Status
+
+- **Last Build:** 2026-08-13 15:06:07
+- **Duration:** 10.7s
+- **Status:** Success
+- **Info:** 0 errors, 57 files validated
+- **Last Success:** 2026-08-13 15:06:07
+- **Generator:** 10.1.0

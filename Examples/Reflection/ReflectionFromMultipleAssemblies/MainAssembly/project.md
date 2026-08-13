@@ -21,8 +21,8 @@ readid -solution=$\Examples\Reflection\ReflectionFromMultipleAssemblies.sln -pro
 
 - Output/
     - index.ts `#638cdc7b`
-    - second-type.ts `#c44e05a2`
-    - type-to-read.ts `#781fc942`
+    - second-type.ts `#973c2387`
+    - type-to-read.ts `#095b2717`
 
 ## Validation
 
@@ -30,9 +30,9 @@ readid -solution=$\Examples\Reflection\ReflectionFromMultipleAssemblies.sln -pro
 
 ## Status
 
-- **Last Build:** 2026-08-08 13:54:16
-- **Duration:** 5.4s
+- **Last Build:** 2026-08-13 15:05:58
+- **Duration:** 5.8s
 - **Status:** Success
 - **Info:** 0 errors, 3 files validated
-- **Last Success:** 2026-08-08 13:54:16
-- **Generator:** 10.0.1-preview.7
+- **Last Success:** 2026-08-13 15:05:58
+- **Generator:** 10.1.0

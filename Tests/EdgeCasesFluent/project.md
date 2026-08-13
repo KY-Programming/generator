@@ -11,29 +11,44 @@
 
 A collection of small scenarios driven from the fluent API, each needing no more than one source file: a generic and a non generic base type of the same name in both orders, the same pair as interfaces, a type implementing the generic and the non generic interface at once, an interface deriving from a non generic one, a self referencing type, and four types whose base class or interface is ignored through SetType(...).Ignore() and must not contribute its member to the output.
 
+## Parameters
+
+```
+readid -solution=*Undefined* -project=$\Tests\EdgeCasesFluent\EdgeCasesFluent.csproj msbuild set -output=$\Tests\EdgeCasesFluent\ load -assembly=$\Tests\EdgeCasesFluent\bin\Debug\net10.0\EdgeCasesFluent.dll fluent annotation
+```
+
 ## Output
 
 - Output/
-    - edge-case-1-sub-type-generic.ts
-    - edge-case-1-sub-type.ts
-    - edge-case-1.ts
-    - edge-case-2-sub-type-generic.ts
-    - edge-case-2-sub-type.ts
-    - edge-case-2.ts
-    - generic-interface-with-non-generic-base.interface.ts
-    - generic-interface.interface.ts
-    - interface-generic.interface.ts
-    - interface.interface.ts
-    - self-referencing-type.ts
-    - type-with-generic-and-not-generic-base-interface.ts
-    - type-with-generic-and-not-generic-interface.ts
-    - type-with-generic-ignored-base.ts
-    - type-with-generic-interface.ts
-    - type-with-ignore-generic-interface.ts
-    - type-with-ignore-interface.ts
-    - type-with-ignored-base.ts
-    - type-with-interface.ts
+    - edge-case-1-sub-type-generic.ts `#91dffe6b`
+    - edge-case-1-sub-type.ts `#1cb1c697`
+    - edge-case-1.ts `#5dacf65e`
+    - edge-case-2-sub-type-generic.ts `#bc921d63`
+    - edge-case-2-sub-type.ts `#6ca83c13`
+    - edge-case-2.ts `#5b609c1d`
+    - generic-interface-with-non-generic-base.interface.ts `#8118790d`
+    - generic-interface.interface.ts `#eb56f4f2`
+    - interface-generic.interface.ts `#2e06e271`
+    - interface.interface.ts `#50382a44`
+    - self-referencing-type.ts `#2c08f6ad`
+    - type-with-generic-and-not-generic-base-interface.ts `#ca0434f7`
+    - type-with-generic-and-not-generic-interface.ts `#d4c7a03d`
+    - type-with-generic-ignored-base.ts `#6c0dd9ab`
+    - type-with-generic-interface.ts `#46630dbf`
+    - type-with-ignore-generic-interface.ts `#7ab42471`
+    - type-with-ignore-interface.ts `#a5002888`
+    - type-with-ignored-base.ts `#51dc1211`
+    - type-with-interface.ts `#37a60ff6`
 
 ## Validation
 
-- validate.js `not run`
+- validate.js `passed, 19 files validated`
+
+## Status
+
+- **Last Build:** 2026-08-13 15:06:16
+- **Duration:** 9.2s
+- **Status:** Success
+- **Info:** 0 errors, 19 files validated
+- **Last Success:** 2026-08-13 15:06:16
+- **Generator:** 10.1.0

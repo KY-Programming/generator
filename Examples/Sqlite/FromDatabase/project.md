@@ -20,7 +20,7 @@ readid -solution=$\Examples\Sqlite\FromDatabase.sln -project=$\Examples\Sqlite\F
 ## Output
 
 - Output/
-    - Person.cs `#ec277dc6`
+    - Person.cs `#bf1ed0ef`
 
 ## Validation
 
@@ -28,9 +28,9 @@ readid -solution=$\Examples\Sqlite\FromDatabase.sln -project=$\Examples\Sqlite\F
 
 ## Status
 
-- **Last Build:** 2026-08-09 11:55:13
-- **Duration:** 6.3s
+- **Last Build:** 2026-08-13 15:06:09
+- **Duration:** 9.2s
 - **Status:** Success
 - **Info:** 0 errors, 1 file validated
-- **Last Success:** 2026-08-09 11:55:13
-- **Generator:** 10.0.1-preview.11
+- **Last Success:** 2026-08-13 15:06:09
+- **Generator:** 10.1.0

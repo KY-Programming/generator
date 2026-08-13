@@ -14,7 +14,7 @@ Reads Shared/Types.cs with the fluent API and writes it as plain TypeScript thro
 ## Parameters
 
 ```
-readid -solution=*Undefined* -project=$\Tests\v10\TypesFluentNullableDisabled\TypesFluentNullableDisabled.csproj msbuild set -output=$\Tests\v10\TypesFluentNullableDisabled\ load -assembly=$\Tests\v10\TypesFluentNullableDisabled\bin\Debug\net10.0\TypesFluentNullableDisabled.dll fluent annotation
+readid -solution=*Undefined* -project=$\Tests\TypesFluentNullableDisabled\TypesFluentNullableDisabled.csproj msbuild set -output=$\Tests\TypesFluentNullableDisabled\ load -assembly=$\Tests\TypesFluentNullableDisabled\bin\Debug\net10.0\TypesFluentNullableDisabled.dll fluent annotation
 ```
 
 ## Output
@@ -38,9 +38,9 @@ readid -solution=*Undefined* -project=$\Tests\v10\TypesFluentNullableDisabled\Ty
 
 ## Status
 
-- **Last Build:** 2026-08-08 13:22:52
-- **Duration:** 5.0s
+- **Last Build:** 2026-08-13 15:06:34
+- **Duration:** 7.4s
 - **Status:** Success
 - **Info:** 0 errors, 11 files validated
-- **Last Success:** 2026-08-08 13:22:52
-- **Generator:** 10.0.1-preview.7
+- **Last Success:** 2026-08-13 15:06:34
+- **Generator:** 10.1.0

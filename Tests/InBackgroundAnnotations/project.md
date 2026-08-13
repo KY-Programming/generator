@@ -14,16 +14,16 @@ Covers GenerateInBackground on a type: the generation is handed off to a process
 ## Parameters
 
 ```
-readid -solution=*Undefined* -project=$\Tests\AnnotationInBackground\AnnotationInBackground.csproj msbuild set -output=$\Tests\AnnotationInBackground\ load -assembly=$\Tests\AnnotationInBackground\bin\Debug\net10.0\AnnotationInBackground.dll fluent annotation
+readid -solution=*Undefined* -project=$\Tests\InBackgroundAnnotations\InBackgroundAnnotations.csproj msbuild set -output=$\Tests\InBackgroundAnnotations\ load -assembly=$\Tests\InBackgroundAnnotations\bin\Debug\net10.0\InBackgroundAnnotations.dll fluent annotation
 ```
 
 ## Output
 
 - Output/
-    - angular-in-background.ts
-    - background-types.ts
-    - foreground-type.ts
-    - sub-type.ts
+    - angular-in-background.ts `#9f5d3865`
+    - background-types.ts `#349f4655`
+    - foreground-type.ts `#dfd31d96`
+    - sub-type.ts `#bdfb6e2f`
 
 ## Validation
 
@@ -31,8 +31,8 @@ readid -solution=*Undefined* -project=$\Tests\AnnotationInBackground\AnnotationI
 
 ## Status
 
-- **Last Build:** 2026-08-09 15:01:34
-- **Duration:** 6.9s
+- **Last Build:** 2026-08-13 15:06:15
+- **Duration:** 8.5s
 - **Status:** Failure
 - **Info:** 4 missing; 1 error, 0 files validated
-- **Generator:** 10.0.1-preview.13
+- **Generator:** 10.1.0

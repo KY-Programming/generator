@@ -11,13 +11,28 @@
 
 Generation from a net8.0 assembly. Reads `TargetFrameworks/Shared/Types.cs`, which every project of the folder reads, so the same source has to come out the same way on every framework.
 
+## Parameters
+
+```
+readid -solution=*Undefined* -project=$\Tests\TargetFrameworks\Net8\Net8.csproj msbuild set -output=$\Tests\TargetFrameworks\Net8\ load -assembly=$\Tests\TargetFrameworks\Net8\bin\Debug\net8.0\Net8.dll fluent annotation
+```
+
 ## Output
 
 - Output/
-    - generic-sub-type.ts
-    - sub-type.ts
-    - types.ts
+    - generic-sub-type.ts `#a986dccd`
+    - sub-type.ts `#dc2c574a`
+    - types.ts `#1d443e96`
 
 ## Validation
 
-- validate.js `not run`
+- validate.js `passed, 3 files validated`
+
+## Status
+
+- **Last Build:** 2026-08-13 15:06:26
+- **Duration:** 8.9s
+- **Status:** Success
+- **Info:** 0 errors, 3 files validated
+- **Last Success:** 2026-08-13 15:06:26
+- **Generator:** 10.1.0

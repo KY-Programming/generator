@@ -20,10 +20,10 @@ readid -solution=*Undefined* -project=$\Tests\Sqlite\Sqlite.csproj msbuild set -
 ## Output
 
 - Output/
-    - ComplexRepository.cs
-    - SimpleRepository.cs
-    - SimpleWithAutoincrementPrimaryRepository.cs
-    - SimpleWithPrimaryRepository.cs
+    - ComplexRepository.cs `#3d50a2c8`
+    - SimpleRepository.cs `#48c949cd`
+    - SimpleWithAutoincrementPrimaryRepository.cs `#e5d2f35d`
+    - SimpleWithPrimaryRepository.cs `#5f70ed9a`
 
 ## Validation
 
@@ -31,9 +31,9 @@ readid -solution=*Undefined* -project=$\Tests\Sqlite\Sqlite.csproj msbuild set -
 
 ## Status
 
-- **Last Build:** 2026-08-10 16:09:52
-- **Duration:** 6.5s
-- **Status:** Warning
-- **Info:** 4 new
-- **Last Success:** 2026-08-13 12:04:41
-- **Generator:** 10.0.1-preview.13
+- **Last Build:** 2026-08-13 15:06:26
+- **Duration:** 11.9s
+- **Status:** Success
+- **Info:** 0 errors, 4 files validated
+- **Last Success:** 2026-08-13 15:06:26
+- **Generator:** 10.1.0

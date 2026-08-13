@@ -14,7 +14,7 @@ Tests TypeScript generation of self-referencing types (direct, through a list an
 ## Parameters
 
 ```
-readid -solution=*Undefined* -project=$\Tests\v10\SelfReferencingAnnotationsNullableEnabled\SelfReferencingAnnotationsNullableEnabled.csproj msbuild set -output=$\Tests\v10\SelfReferencingAnnotationsNullableEnabled\ load -assembly=$\Tests\v10\SelfReferencingAnnotationsNullableEnabled\bin\Debug\net10.0\SelfReferencingAnnotationsNullableEnabled.dll fluent annotation
+readid -solution=*Undefined* -project=$\Tests\SelfReferencingAnnotationsNullableEnabled\SelfReferencingAnnotationsNullableEnabled.csproj msbuild set -output=$\Tests\SelfReferencingAnnotationsNullableEnabled\ load -assembly=$\Tests\SelfReferencingAnnotationsNullableEnabled\bin\Debug\net10.0\SelfReferencingAnnotationsNullableEnabled.dll fluent annotation
 ```
 
 ## Output
@@ -30,9 +30,9 @@ readid -solution=*Undefined* -project=$\Tests\v10\SelfReferencingAnnotationsNull
 
 ## Status
 
-- **Last Build:** 2026-08-08 13:22:47
-- **Duration:** 5.3s
+- **Last Build:** 2026-08-13 15:06:17
+- **Duration:** 7.4s
 - **Status:** Success
 - **Info:** 0 errors, 3 files validated
-- **Last Success:** 2026-08-08 13:22:47
-- **Generator:** 10.0.1-preview.7
+- **Last Success:** 2026-08-13 15:06:17
+- **Generator:** 10.1.0
