@@ -2,7 +2,13 @@ namespace KY.Generator.Templates;
 
 public abstract class ChainedCodeFragment : ICodeFragment, ICloneable
 {
-    public virtual string Separator => this.Previous is ThisTemplate || this.Previous is AccessIndexTemplate || this.Previous is ExecuteFieldTemplate || this.Previous is ExecuteMethodTemplate || this.Previous is ExecuteGenericMethodTemplate || this.Previous is ExecutePropertyTemplate || this.Previous is LocalVariableTemplate || this.Previous is NewTemplate || this.Previous is NullValueTemplate ? "." : " ";
+    public virtual string Separator => this.Previous switch
+                                       {
+                                           // A cast is a prefix in every supported language ("(type)value" / "<type>value") and must not be separated from its value
+                                           CastTemplate => string.Empty,
+                                           ThisTemplate or AccessIndexTemplate or ExecuteFieldTemplate or ExecuteMethodTemplate or ExecuteGenericMethodTemplate or ExecutePropertyTemplate or LocalVariableTemplate or NewTemplate or NullValueTemplate => ".",
+                                           _ => " "
+                                       };
     public ChainedCodeFragment? Next { get; set; }
     public ChainedCodeFragment? Previous { get; set; }
     public bool NewLineAfter { get; set; }

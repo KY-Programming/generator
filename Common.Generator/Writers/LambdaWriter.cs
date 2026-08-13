@@ -16,7 +16,12 @@ public class LambdaWriter : ITemplateWriter
     {
         GeneratorOptions generatorOptions = this.options.Get<GeneratorOptions>();
         LambdaTemplate template = (LambdaTemplate)fragment;
-        output.Add("(");
+        // Only a single untyped parameter may drop the parentheses, typed ones still require them in C#
+        bool singleUntypedParameter = template.Parameters == null && template.ParameterNames?.Count == 1;
+        if (!singleUntypedParameter)
+        {
+            output.Add("(");
+        }
         if (template.Parameters != null)
         {
             output.Add(template.Parameters, ", ");
@@ -29,8 +34,11 @@ public class LambdaWriter : ITemplateWriter
         {
             output.Add(string.Join(", ", template.ParameterNames));
         }
-        output.Add(")")
-              .Add(" =>");
+        if (!singleUntypedParameter)
+        {
+            output.Add(")");
+        }
+        output.Add(" =>");
         if (template.Code is MultilineCodeFragment)
         {
             output.StartBlock();
