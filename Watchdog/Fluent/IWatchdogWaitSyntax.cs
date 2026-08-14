@@ -6,6 +6,10 @@ public interface IWatchdogWaitSyntax
     IWatchdogWaitSyntax Delay(TimeSpan delay);
     IWatchdogWaitSyntax Sleep(TimeSpan sleep);
     IWatchdogWaitSyntax Tries(int tries);
-    IReadFluentSyntax Read();
-    IWriteFluentSyntax Write();
+
+    /// <inheritdoc cref="ISwitchToReadFluentSyntax.Read"/>
+    ISwitchToWriteFluentSyntax Read(Action<IReadFluentSyntax> action);
+
+    /// <inheritdoc cref="ISwitchToWriteFluentSyntax.Write"/>
+    void Write(Action<IWriteFluentSyntax> action);
 }

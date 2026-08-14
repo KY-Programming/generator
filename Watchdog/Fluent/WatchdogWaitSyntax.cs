@@ -1,4 +1,4 @@
-﻿using KY.Core.Dependency;
+using KY.Core.Dependency;
 using KY.Generator.Command;
 using KY.Generator.Watchdog.Commands;
 
@@ -7,6 +7,13 @@ namespace KY.Generator;
 public class WatchdogWaitSyntax : IExecutableSyntax, IWatchdogWaitSyntax, IFluentInternalSyntax
 {
     private readonly WatchdogCommandParameters command;
+
+    /// <summary>
+    /// Everything declared behind the wait. It holds this syntax as its first entry, so the wait is the
+    /// first command of the chain and the read and write commands run behind it.
+    /// </summary>
+    private FluentSyntax? chain;
+
     public List<GeneratorCommandParameters> Commands { get; } = [];
     public IDependencyResolver Resolver { get; }
     public List<IExecutableSyntax> Syntaxes { get; } = new();
@@ -43,25 +50,40 @@ public class WatchdogWaitSyntax : IExecutableSyntax, IWatchdogWaitSyntax, IFluen
         return this;
     }
 
-    public IReadFluentSyntax Read()
+    public ISwitchToWriteFluentSyntax Read(Action<IReadFluentSyntax> action)
     {
-        FluentSyntax syntax = this.Resolver.Create<FluentSyntax>();
-        syntax.Syntaxes.Add(this);
-        return syntax;
+        return this.Chain().Read(action);
     }
 
-    public IWriteFluentSyntax Write()
+    public void Write(Action<IWriteFluentSyntax> action)
     {
-        FluentSyntax syntax = this.Resolver.Create<FluentSyntax>();
-        syntax.Syntaxes.Add(this);
-        return syntax;
+        this.Chain().Write(action);
     }
 
-    public Task<IGeneratorCommandResult> Run()
+    public async Task<IGeneratorCommandResult> Run()
     {
-        return Task.FromResult<IGeneratorCommandResult>(new SuccessResult());
+        if (this.chain != null)
+        {
+            return await this.chain.Run();
+        }
+        // Nothing was declared behind the wait, so there is no chain to run it as part of - but the wait
+        // itself still has to happen, otherwise a bare WaitFor(...) would silently do nothing.
+        GeneratorCommandRunner runner = this.Resolver.Create<GeneratorCommandRunner>();
+        return await runner.Run(runner.Create(this.Commands, this.Resolver));
     }
 
     public void FollowUp()
-    { }
+    {
+        this.chain?.FollowUp();
+    }
+
+    private FluentSyntax Chain()
+    {
+        if (this.chain == null)
+        {
+            this.chain = this.Resolver.Create<FluentSyntax>();
+            this.chain.Syntaxes.Add(this);
+        }
+        return this.chain;
+    }
 }

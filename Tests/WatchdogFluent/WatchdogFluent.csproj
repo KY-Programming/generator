@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <ProjectGuid>{5b1f2c74-8f3a-4d16-9a71-2c58e0b4d9c1}</ProjectGuid>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="KY.Generator" Version="10.1.0" />
+        <PackageReference Include="KY.Generator.Reflection" Version="10.1.0" />
+        <PackageReference Include="KY.Generator.Watchdog" Version="10.1.0" />
+    </ItemGroup>
+
+</Project>

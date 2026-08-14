@@ -226,6 +226,10 @@ public class Generator : IGeneratorRunSyntax
                         // very reason for the switch - could not load.
                         break;
                     }
+                    if (!result.Success)
+                    {
+                        break;
+                    }
                 }
                 this.statisticsService.RunEnd(this.environment.OutputId, this.environment.Name);
                 files = switchContext == null ? this.resolver.Get<List<FileTemplate>>() : [];
