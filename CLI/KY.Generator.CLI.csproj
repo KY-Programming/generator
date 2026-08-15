@@ -13,7 +13,7 @@
 
     <PropertyGroup>
         <PackageId>KY.Generator.CLI</PackageId>
-        <Version>10.1.0</Version>
+        <Version>10.1.1</Version>
         <Title>KY.Generator.CLI</Title>
         <Authors>KY-Programming</Authors>
         <Company>KY-Programming</Company>
