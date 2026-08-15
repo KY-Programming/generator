@@ -26,7 +26,7 @@
         <PackageReference Include="KY.Generator.Common" Version="KY_GENERATOR_VERSION" />
         <!-- Logger, the Assert helpers and the dependency resolver. KY.Generator.Common does not declare
              it as a dependency, so it has to be referenced explicitly here. -->
-        <PackageReference Include="KY.Core.Common" Version="10.1.0" />
+        <PackageReference Include="KY.Core.Common" Version="10.1.1" />
     </ItemGroup>
 
     <ItemGroup>

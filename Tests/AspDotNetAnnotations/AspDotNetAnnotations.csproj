@@ -18,7 +18,7 @@
 
     <ItemGroup>
         <PackageReference Include="Asp.Versioning.Mvc" Version="10.2.1" />
-        <PackageReference Include="KY.Core.Common" Version="10.1.0" />
+        <PackageReference Include="KY.Core.Common" Version="10.1.1" />
         <PackageReference Include="KY.Generator" Version="10.1.0" />
         <PackageReference Include="KY.Generator.AspDotNet" Version="10.1.0" />
         <PackageReference Include="KY.Generator.Reflection" Version="10.1.0" />

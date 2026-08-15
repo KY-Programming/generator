@@ -15,7 +15,7 @@
              a user of the module references. Nothing that generates lives here. -->
         <PackageReference Include="KY.Generator.Common" Version="10.1.0" />
         <!-- Logger and the Assert helpers. KY.Generator.Common does not declare it as a dependency. -->
-        <PackageReference Include="KY.Core.Common" Version="10.1.0" />
+        <PackageReference Include="KY.Core.Common" Version="10.1.1" />
     </ItemGroup>
 
 </Project>

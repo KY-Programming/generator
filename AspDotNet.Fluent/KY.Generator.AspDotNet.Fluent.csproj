@@ -22,7 +22,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="KY.Core.Common" Version="10.1.0" />
+        <PackageReference Include="KY.Core.Common" Version="10.1.1" />
     </ItemGroup>
 
     <ItemGroup>
