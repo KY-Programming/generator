@@ -4,7 +4,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <Company>KY-Programming</Company>
-        <Version>10.1.1</Version>
+        <Version>10.1.2</Version>
         <RootNamespace>KY.Generator</RootNamespace>
         <LangVersion>latest</LangVersion>
         <IsPackable>false</IsPackable>
