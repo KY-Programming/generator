@@ -5,7 +5,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <Company>KY-Programming</Company>
-        <Version>10.1.2</Version>
+        <Version>10.2.0</Version>
         <LangVersion>latest</LangVersion>
         <RootNamespace>KY.Generator.TypeScript</RootNamespace>
         <IsPackable>false</IsPackable>

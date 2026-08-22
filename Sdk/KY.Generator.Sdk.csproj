@@ -7,7 +7,7 @@
         <Authors>KY-Programming</Authors>
         <Company>KY-Programming</Company>
         <Product>KY.Generator</Product>
-        <Version>10.1.2</Version>
+        <Version>10.2.0</Version>
         <Description>Build your own KY.Generator module.
             Reference this package from the ".Generator" half of a custom module to get the module,
             command, writer and template API. Development time only - nothing of it is shipped with
