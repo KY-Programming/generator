@@ -325,6 +325,7 @@ public class Generator : IGeneratorRunSyntax
             }
             Logger.Error(message);
             this.NotifyBackgroundFailure();
+            this.RunAtFailure();
         }
         try
         {
@@ -445,19 +446,34 @@ public class Generator : IGeneratorRunSyntax
     /// </summary>
     private bool RunAtSuccess()
     {
+        return this.RunHooks(this.environment.RunAtSuccess, "Run at success");
+    }
+
+    /// <summary>
+    /// The counterpart for the failed run - see <see cref="RunAtFailureAttribute"/>. Reached from the one place
+    /// every failure ends up in, so it covers a failing command as well as an exception. A success hook that
+    /// failed lands here too: it failed the run, and a run that failed is what these commands are for.
+    /// </summary>
+    private void RunAtFailure()
+    {
+        this.RunHooks(this.environment.RunAtFailure, "Run at failure");
+    }
+
+    private bool RunHooks(List<string> commands, string label)
+    {
         if (this.environment.IsBeforeBuild)
         {
             // The before build pass reads the assembly of the previous build and generates a fraction of the
             // output. Running the commands here would run them on a stale result, and a second time afterwards.
             return true;
         }
-        foreach (string command in this.environment.RunAtSuccess)
+        foreach (string command in commands)
         {
-            Logger.Trace($"Run at success: {command}");
+            Logger.Trace($"{label}: {command}");
             int exitCode = ShellProcess.Run(command, Environment.CurrentDirectory);
             if (exitCode != 0)
             {
-                Logger.Error($"Run at success command '{command}' failed with exit code {exitCode}");
+                Logger.Error($"{label} command '{command}' failed with exit code {exitCode}");
                 return false;
             }
         }

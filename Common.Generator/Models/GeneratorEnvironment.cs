@@ -21,4 +21,5 @@ public class GeneratorEnvironment : IEnvironment
     public bool Force { get; set; }
     public List<Assembly> LoadedAssemblies { get; } = [];
     public List<string> RunAtSuccess { get; } = [];
+    public List<string> RunAtFailure { get; } = [];
 }

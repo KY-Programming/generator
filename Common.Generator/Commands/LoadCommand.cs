@@ -71,7 +71,7 @@ internal class LoadCommand : GeneratorCommand<LoadCommandParameters>, IPrepareCo
         this.environment.LoadedAssemblies.Add(assembly);
         this.ProcessFrom(assembly);
         this.ProcessLicense(assembly);
-        this.ProcessRunAtSuccess(assembly);
+        this.ProcessRunHooks(assembly);
         this.moduleLoader.LoadFromAttributesAndDirectReferences(assembly);
     }
 
@@ -179,16 +179,22 @@ internal class LoadCommand : GeneratorCommand<LoadCommandParameters>, IPrepareCo
     }
 
     /// <summary>
-    /// The attribute is read here and not by the annotation command, so it also reaches a run that generates
+    /// The attributes are read here and not by the annotation command, so they also reach a run that generates
     /// nothing from annotations - a fluent one, or the background run of a project whose types are all handled.
     /// </summary>
-    private void ProcessRunAtSuccess(Assembly assembly)
+    private void ProcessRunHooks(Assembly assembly)
     {
-        foreach (RunAtSuccessAttribute attribute in assembly.GetCustomAttributes<RunAtSuccessAttribute>())
+        Collect(assembly.GetCustomAttributes<RunAtSuccessAttribute>().Select(attribute => attribute.Command), this.environment.RunAtSuccess);
+        Collect(assembly.GetCustomAttributes<RunAtFailureAttribute>().Select(attribute => attribute.Command), this.environment.RunAtFailure);
+    }
+
+    private static void Collect(IEnumerable<string> commands, List<string> target)
+    {
+        foreach (string command in commands)
         {
-            if (!string.IsNullOrEmpty(attribute.Command) && !this.environment.RunAtSuccess.Contains(attribute.Command))
+            if (!string.IsNullOrEmpty(command) && !target.Contains(command))
             {
-                this.environment.RunAtSuccess.Add(attribute.Command);
+                target.Add(command);
             }
         }
     }

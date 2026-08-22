@@ -23,4 +23,9 @@ public interface IEnvironment
     /// and every file is written.
     /// </summary>
     List<string> RunAtSuccess { get; }
+
+    /// <summary>
+    /// The command lines collected from <see cref="RunAtFailureAttribute"/>, run after the generation failed.
+    /// </summary>
+    List<string> RunAtFailure { get; }
 }
