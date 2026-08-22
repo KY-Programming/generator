@@ -22,7 +22,11 @@ public class FileTemplate : ICodeFragment
     public List<UsingTemplate> Usings { get; } = [];
     public bool WriteOutputId { get; set; } = true;
     public bool ForceOverwrite { get; set; }
-    public Dictionary<string, bool>? Linters { get; set; }
+    /// <summary>
+    /// Writes the lint suppression comment of the language below the header. Switched off for files that are not
+    /// checked by a linter anyway, e.g. an index file
+    /// </summary>
+    public bool SuppressLint { get; set; } = true;
 
     public FileTemplate(string? relativePath, GeneratorOptions options)
     {

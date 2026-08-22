@@ -45,9 +45,9 @@ public class TypeScriptIndexWriter : TransferWriter
                                     ?? this.files.AddFile(relativePath, generatorOptions);
         fileTemplate.WithName(fileName)
                     .ForceOverwrite()
-                    .NoHeader();
+                    .NoHeader()
+                    .NoLint();
         fileTemplate.Usings.Clear();
-        fileTemplate.Linters = new Dictionary<string, bool>();
         foreach (IIndexLine line in file.Lines)
         {
             if (line is ExportIndexLine indexLine)

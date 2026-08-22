@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using KY.Core;
 using KY.Core.DataAccess;
 using KY.Core.Dependency;
 using KY.Generator.Output;
@@ -21,6 +22,12 @@ public static class TypeScriptStrictHelper
     {
         if (relativePath == null)
         {
+            return;
+        }
+        if (options.HasExplicitStrict)
+        {
+            // The value would be thrown away by the getter, so the tsconfig.json is not worth looking for
+            Logger.Trace("Strict mode is set explicitly, no tsconfig.json is read");
             return;
         }
         options.StrictFromConfig = Read(relativePath, resolver);

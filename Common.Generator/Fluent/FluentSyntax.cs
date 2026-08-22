@@ -140,6 +140,18 @@ public class FluentSyntax : IReadFluentSyntaxInternal, IWriteFluentSyntaxInterna
         return this;
     }
 
+    public IWriteFluentSyntax NoHeaderVersion()
+    {
+        this.options.Get<GeneratorOptions>().AddHeaderVersion = false;
+        return this;
+    }
+
+    public IWriteFluentSyntax SuppressLint(string comment, string? language = null)
+    {
+        this.options.Get<GeneratorOptions>().AddToLintSuppression(comment, language);
+        return this;
+    }
+
     public IWriteFluentSyntax ForceOverwrite()
     {
         this.options.Get<GeneratorOptions>().ForceOverwrite = true;

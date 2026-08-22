@@ -2,8 +2,20 @@
 
 namespace KY.Generator.Angular;
 
-public class AngularOptionsFactory : IOptionsFactory
+public class AngularOptionsFactory : IOptionsFactory, IConfigurableOptionsFactory
 {
+    public string SettingsSection => "angular";
+    public string SettingsSectionDescription => "Options that only apply to generated Angular code";
+    public Type OptionsType => typeof(AngularOptions);
+
+    public IReadOnlyList<SettingsOption> SettingsOptions { get; } =
+    [
+        SettingsOption.For<AngularOptions, string>("serviceOutput", AngularOptions.DefaultServiceOutput, "Relative path the generated services are written to",
+                                                 (options, value) => options.ServiceOutput = value, options => options.ServiceOutput),
+        SettingsOption.For<AngularOptions, bool>("withSignals", false, "Generate signals instead of plain properties",
+                                               (options, value) => options.WithSignals = value, options => options.WithSignals)
+    ];
+
     public bool CanCreate(Type optionsType)
     {
         return optionsType == typeof(AngularOptions);

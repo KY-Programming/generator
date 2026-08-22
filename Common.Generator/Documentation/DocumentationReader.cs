@@ -1,12 +1,15 @@
 ﻿using System.Reflection;
 using System.Xml.Linq;
+using KY.Core;
 using KY.Core.DataAccess;
+using KY.Core.Extension;
 
 namespace KY.Generator.Documentation;
 
 public static class DocumentationReader
 {
     private static readonly Dictionary<Assembly, XDocument> cache = new();
+    private static readonly NugetAssemblyLocator nugetLocator = new();
 
     public static string Get(Assembly assembly)
     {
@@ -42,17 +45,45 @@ public static class DocumentationReader
     {
         if (!cache.TryGetValue(assembly, out XDocument? documentation))
         {
-            string filePath = assembly.Location.Replace(".dll", ".xml");
-            if (FileSystem.FileExists(filePath))
-            {
-                cache[assembly] = documentation = XDocument.Load(filePath);
-            }
-            else
-            {
-                cache[assembly] = documentation = new XDocument();
-            }
+            string? filePath = LocateDocumentation(assembly);
+            cache[assembly] = documentation = filePath == null ? new XDocument() : XDocument.Load(filePath);
         }
         return documentation.Root?.Element("members")?.Elements() ?? [];
+    }
+
+    /// <summary>
+    /// The documentation file only sits next to the assembly for locally built projects. An assembly coming from a
+    /// package reference is resolved out of the build output, and the SDK does not copy the package's xml file there,
+    /// so the package cache is asked for the same assembly as a fallback. Without it every documentation based option
+    /// (e.g. "Generator ignore") would be silently dropped for all types from referenced packages.
+    /// </summary>
+    private static string? LocateDocumentation(Assembly assembly)
+    {
+        if (string.IsNullOrEmpty(assembly.Location))
+        {
+            return null;
+        }
+        string? filePath = ToDocumentationPath(assembly.Location);
+        if (filePath != null && FileSystem.FileExists(filePath))
+        {
+            return filePath;
+        }
+        AssemblyLocation? packageLocation = nugetLocator.Locate(AssemblyLocateInfo.From(assembly.GetName()));
+        filePath = packageLocation == null ? null : ToDocumentationPath(packageLocation.Path);
+        if (filePath != null && FileSystem.FileExists(filePath))
+        {
+            Logger.Trace($"Documentation of {assembly.GetName().Name} read from package cache ({filePath})");
+            return filePath;
+        }
+        return null;
+    }
+
+    private static string? ToDocumentationPath(string assemblyPath)
+    {
+        string fileName = FileSystem.GetFileName(assemblyPath);
+        return fileName.EndsWith(".dll", StringComparison.OrdinalIgnoreCase)
+                   ? FileSystem.Combine(FileSystem.Parent(assemblyPath), fileName.TrimEnd(".dll") + ".xml")
+                   : null;
     }
 
     private static XElement? GetType(Type type)

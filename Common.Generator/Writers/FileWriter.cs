@@ -21,7 +21,8 @@ namespace KY.Generator.Writers
             if (template.Header.Description != null)
             {
                 AssemblyName assemblyName = (Assembly.GetEntryAssembly() ?? Assembly.GetCallingAssembly()).GetName();
-                template.Header.Description = string.Format(template.Header.Description, $"{assemblyName.Name} {assemblyName.Version}");
+                string generatedWith = template.Options.AddHeaderVersion ? $"{assemblyName.Name} {assemblyName.Version}" : assemblyName.Name;
+                template.Header.Description = string.Format(template.Header.Description, generatedWith);
             }
             template.FullPath = FileSystem.Combine(template.RelativePath, template.Name);
             this.WriteHeader(template, output);
@@ -36,13 +37,40 @@ namespace KY.Generator.Writers
             }
         }
 
+        /// <summary>
+        /// The comment that switches the linter off for a generated file of this language. <c>null</c> for a language
+        /// no linter runs on
+        /// </summary>
+        protected virtual string? DefaultLintSuppression => null;
+
         protected virtual void WriteHeader(FileTemplate fileTemplate, IOutputCache output, bool appendBlankLine = true)
         {
+            bool written = false;
             if (fileTemplate.Header?.Description != null)
             {
-                output.Add(fileTemplate.Header)
-                      .If(appendBlankLine).BreakLine().EndIf();
+                output.Add(fileTemplate.Header);
+                written = true;
             }
+            string? lintSuppression = this.GetLintSuppression(fileTemplate);
+            if (lintSuppression != null)
+            {
+                output.Add(lintSuppression).BreakLine();
+                written = true;
+            }
+            if (written)
+            {
+                output.If(appendBlankLine).BreakLine().EndIf();
+            }
+        }
+
+        protected string? GetLintSuppression(FileTemplate fileTemplate)
+        {
+            if (!fileTemplate.SuppressLint)
+            {
+                return null;
+            }
+            string? comment = fileTemplate.Options.GetLintSuppression(fileTemplate.Options.Language?.Name) ?? this.DefaultLintSuppression;
+            return string.IsNullOrEmpty(comment) ? null : comment;
         }
 
         protected virtual void WriteUsings(FileTemplate fileTemplate, IOutputCache output)

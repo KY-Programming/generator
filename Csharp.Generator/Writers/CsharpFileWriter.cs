@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using KY.Generator.Output;
 using KY.Generator.Templates;
 using KY.Generator.Writers;
@@ -18,9 +17,10 @@ namespace KY.Generator.Csharp.Writers
             children?.Usings.Remove(usingTemplate);
         }
 
+        protected override string DefaultLintSuppression => "// ReSharper disable All";
+
         protected override void WriteHeader(FileTemplate fileTemplate, IOutputCache output, bool appendBlankLine = true)
         {
-            fileTemplate.Header.Description += Environment.NewLine + "ReSharper disable All";
             base.WriteHeader(fileTemplate, output, appendBlankLine);
             // A nullable annotation is only legal inside a nullable context, and auto-generated code does not
             // inherit the one of the project - the compiler reports CS8669 and demands an explicit directive. Only

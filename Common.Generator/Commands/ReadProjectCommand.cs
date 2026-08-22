@@ -50,7 +50,10 @@ internal class ReadProjectCommand(IDependencyResolver resolver) : GeneratorComma
         IEnvironment environment = resolver.Get<IEnvironment>();
         environment.OutputId = project.Id;
         environment.Name = project.Name;
-        Options.GetGlobal<GeneratorOptions>().Nullable = project.Nullable ?? false;
+        if (project.Nullable != null)
+        {
+            Options.GetGlobal<GeneratorOptions>().Nullable = project.Nullable.Value;
+        }
         return this.SuccessAsync();
     }
 

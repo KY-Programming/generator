@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="KY.Generator" Version="10.1.0" />
+        <!-- Reads the types of the referenced project, and writes the models as C# -->
+        <PackageReference Include="KY.Generator.Reflection" Version="10.1.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\HeaderAndLint\HeaderAndLint.csproj" />
+    </ItemGroup>
+
+</Project>

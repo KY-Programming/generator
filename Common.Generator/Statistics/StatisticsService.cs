@@ -6,7 +6,6 @@ using KY.Core.DataAccess;
 using KY.Generator.Command;
 using KY.Generator.Extensions;
 using KY.Generator.Models;
-using KY.Generator.Settings;
 using KY.Generator.Templates;
 using Newtonsoft.Json;
 
@@ -15,13 +14,13 @@ namespace KY.Generator.Statistics;
 public class StatisticsService
 {
     private readonly IEnvironment environment;
-    private readonly GlobalSettingsService globalSettingsService;
+    private readonly SettingsService settingsService;
     public Statistic Data { get; }
 
-    public StatisticsService(IEnvironment environment, GlobalSettingsService globalSettingsService)
+    public StatisticsService(IEnvironment environment, SettingsService settingsService)
     {
         this.environment = environment;
-        this.globalSettingsService = globalSettingsService;
+        this.settingsService = settingsService;
         Assembly callingAssembly = Assembly.GetEntryAssembly() ?? Assembly.GetCallingAssembly();
         this.Data = new Statistic
         {
@@ -155,24 +154,20 @@ public class StatisticsService
 
     public void Enable(List<Guid> ids)
     {
-        this.globalSettingsService.ReadAndWrite(settings => settings.StatisticsEnabled = true);
+        this.settingsService.SetGlobal("statistics", true);
         this.SendCommand("enable", ids);
     }
 
     public void Disable(List<Guid> ids)
     {
-        this.globalSettingsService.ReadAndWrite(settings => settings.StatisticsEnabled = false);
+        this.settingsService.SetGlobal("statistics", false);
         this.SendCommand("disable", ids);
     }
 
     private void SendCommand(string command, object data)
     {
         byte[] content = data == default ? Array.Empty<byte>() : Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(data));
-#if DEBUG
-        string baseUri = "http://localhost:8003/api/v1/statistics";
-#else
-            string baseUri = "https://generator.ky-programming.de/api/v1/statistics";
-#endif
+        string baseUri = $"{this.settingsService.Api}/api/v1/statistics";
         HttpWebRequest request = WebRequest.CreateHttp($"{baseUri}/{command}");
         request.Method = WebRequestMethods.Http.Post;
         request.ContentType = "application/json";

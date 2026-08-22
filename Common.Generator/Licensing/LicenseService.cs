@@ -2,7 +2,6 @@
 using System.Net;
 using KY.Core;
 using KY.Core.Extension;
-using KY.Generator.Settings;
 using KY.Generator.Statistics;
 using Newtonsoft.Json;
 
@@ -17,9 +16,9 @@ public interface ILicenseService
 
 internal class LicenseService : ILicenseService
 {
-    private readonly GlobalSettingsService globalSettingsService;
     private readonly GlobalLicenseService globalLicenseService;
     private readonly StatisticsService statisticsService;
+    private readonly SettingsService settingsService;
     private readonly ManualResetEvent waitForCheck = new(false);
     private SignedLicense? localLicense;
     private bool isChecking;
@@ -29,11 +28,28 @@ internal class LicenseService : ILicenseService
     public IReadOnlyList<string> Features { get; private set; } = [];
     public IReadOnlyList<Message> Messages { get; private set; } = [];
 
-    public LicenseService(GlobalSettingsService globalSettingsService, GlobalLicenseService globalLicenseService, StatisticsService statisticsService)
+    public LicenseService(GlobalLicenseService globalLicenseService, StatisticsService statisticsService, SettingsService settingsService)
     {
-        this.globalSettingsService = globalSettingsService;
         this.globalLicenseService = globalLicenseService;
         this.statisticsService = statisticsService;
+        this.settingsService = settingsService;
+    }
+
+    /// <summary>
+    /// The license the run works with: the one a settings file names, or the id of this installation
+    /// </summary>
+    private Guid CurrentLicenseId => this.localLicense?.License?.Id ?? this.settingsService.License;
+
+    /// <summary>
+    /// Takes over the offline certificate a settings file carries, for builds that can not reach the api
+    /// </summary>
+    public void ApplySettings()
+    {
+        string? certificate = this.settingsService.Certificate;
+        if (!string.IsNullOrWhiteSpace(certificate))
+        {
+            this.Set(certificate!);
+        }
     }
 
     public void Check()
@@ -56,8 +72,8 @@ internal class LicenseService : ILicenseService
                 }
                 else
                 {
-                    licenseId = this.globalSettingsService.Read().License;
-                    license = this.globalLicenseService.Read();
+                    licenseId = this.settingsService.License;
+                    license = this.globalLicenseService.Read(licenseId);
                 }
                 if (license.License == null || license.License.Id != licenseId || (license.License.ValidUntil.Date - DateTime.Today).TotalDays < 7 || !license.Validate())
                 {
@@ -66,14 +82,14 @@ internal class LicenseService : ILicenseService
                     {
                         return;
                     }
-                    this.globalLicenseService.Set(license);
+                    this.globalLicenseService.Set(licenseId, license);
                 }
                 this.CheckLicense(license);
             }
             catch (Exception exception)
             {
                 Logger.Warning(exception.Message + Environment.NewLine + exception.StackTrace);
-                this.CheckLicense(this.globalLicenseService.Read());
+                this.CheckLicense(this.globalLicenseService.Read(this.CurrentLicenseId));
             }
             finally
             {
@@ -89,7 +105,7 @@ internal class LicenseService : ILicenseService
         {
             return;
         }
-        this.CheckLicense(this.globalLicenseService.Read());
+        this.CheckLicense(this.globalLicenseService.Read(this.CurrentLicenseId));
         // If the cached license is valid, we can terminate faster
         if (this.IsValid)
         {
@@ -123,11 +139,7 @@ internal class LicenseService : ILicenseService
 
     private async Task<T?> SendCommand<T>(string command, string query = "")
     {
-#if DEBUG
-        string baseUri = "http://localhost:8003/api/v4/license";
-#else
-        string baseUri = "https://generator.ky-programming.de/api/v4/license";
-#endif
+        string baseUri = $"{this.settingsService.Api}/api/v4/license";
         HttpWebRequest request = WebRequest.CreateHttp($"{baseUri}/{command}?{query}");
         request.Method = WebRequestMethods.Http.Get;
         request.Timeout = (int)TimeSpan.FromSeconds(5).TotalMilliseconds;

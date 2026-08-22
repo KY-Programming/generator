@@ -74,5 +74,11 @@ namespace KY.Generator.Templates.Extensions
             fileTemplate.Header.Description = null;
             return fileTemplate;
         }
+
+        public static FileTemplate NoLint(this FileTemplate fileTemplate)
+        {
+            fileTemplate.SuppressLint = false;
+            return fileTemplate;
+        }
     }
 }

@@ -25,6 +25,11 @@ internal class CoreModule : GeneratorModule
         this.Register<StatisticsCommand>(StatisticsCommandParameters.Names);
         this.Register<OptionsCommand>(OptionsCommandParameters.Names);
         this.Register<CleanupCommand>(CleanupCommandParameters.Names);
+        this.Register<SettingsShowCommand>(SettingsShowCommandParameters.Names);
+        this.Register<SettingsSetCommand>(SettingsSetCommandParameters.Names);
+        this.Register<SettingsInitCommand>(SettingsInitCommandParameters.Names);
+        this.Register<SettingsSchemaCommand>(SettingsSchemaCommandParameters.Names);
+        this.Register<SettingsValidateCommand>(SettingsValidateCommandParameters.Names);
         this.Register<GetLicenseCommand>(GetLicenseCommandParameters.Names);
         this.Register<FluentCommand>(FluentCommandParameters.Names);
         this.Register<AnnotationCommand>(AnnotationCommandParameters.Names);

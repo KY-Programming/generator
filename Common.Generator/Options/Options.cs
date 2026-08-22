@@ -123,6 +123,17 @@ public class Options
         return GetOrCreateGlobal<T>(RootKey, null);
     }
 
+    /// <summary>
+    /// <see cref="GetGlobal{T}()"/> for a type that is only known at runtime, e.g. the one an
+    /// <see cref="IConfigurableOptionsFactory"/> writes its configuration section to
+    /// </summary>
+    public static OptionsBase GetGlobal(Type optionsType)
+    {
+        MethodInfo method = typeof(Options).GetMethods()
+                                           .First(x => x.Name == nameof(GetGlobal) && x.IsGenericMethodDefinition && x.GetParameters().Length == 0);
+        return (OptionsBase)method.MakeGenericMethod(optionsType).Invoke(null, null);
+    }
+
     public T Get<T>() where T : OptionsBase<T>
     {
         return this.GetOrCreate(RootKey, null, GetGlobal<T>());
@@ -207,6 +218,16 @@ public class Options
     public static void Register(Func<IList<IOptionsFactory>> factoryListAction)
     {
         factoriesAction = factoryListAction;
+    }
+
+    /// <summary>
+    /// Drops the global options. A run generates for one project, so nothing in the generator needs this - the tests
+    /// do, because they run more than one of them in the same process
+    /// </summary>
+    internal static void ClearGlobal()
+    {
+        globalCache.Clear();
+        mappings.Clear();
     }
 
     public void Map<T>(object key, Expression<Func<T>> action) where T : OptionsBase<T>

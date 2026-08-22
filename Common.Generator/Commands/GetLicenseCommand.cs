@@ -1,22 +1,14 @@
 using KY.Core;
 using KY.Generator.Command;
-using KY.Generator.Settings;
 
 namespace KY.Generator.Commands;
 
-internal class GetLicenseCommand : GeneratorCommand<GetLicenseCommandParameters>
+internal class GetLicenseCommand(SettingsService settingsService) : GeneratorCommand<GetLicenseCommandParameters>
 {
-    private readonly GlobalSettingsService globalSettingsService;
-
-    public GetLicenseCommand(GlobalSettingsService globalSettingsService)
-    {
-        this.globalSettingsService = globalSettingsService;
-    }
-
     public override Task<IGeneratorCommandResult> Run()
     {
         Logger.Trace("Execute license command...");
-        Logger.Trace("Current license id: " + this.globalSettingsService.Read().License);
+        Logger.Trace("Current license id: " + settingsService.License);
         return this.SuccessAsync();
     }
 }

@@ -2,8 +2,22 @@
 
 namespace KY.Generator.TypeScript;
 
-public class TypeScriptOptionsFactory : IOptionsFactory
+public class TypeScriptOptionsFactory : IOptionsFactory, IConfigurableOptionsFactory
 {
+    public string SettingsSection => "typescript";
+    public string SettingsSectionDescription => "Options that only apply to generated TypeScript";
+    public Type OptionsType => typeof(TypeScriptOptions);
+
+    public IReadOnlyList<SettingsOption> SettingsOptions { get; } =
+    [
+        SettingsOption.For<TypeScriptOptions, bool>("forceIndex", false, "Write an index.ts even for a folder that opted out of it",
+                                                  (options, value) => options.ForceIndex = value, options => options.ForceIndex),
+        SettingsOption.For<TypeScriptOptions, bool>("noIndex", false, "Do not write an index.ts next to the generated files",
+                                                  (options, value) => options.NoIndex = value, options => options.NoIndex),
+        SettingsOption.For<TypeScriptOptions, bool>("strict", true, "Generate code that is valid for the strict mode of TypeScript",
+                                                  (options, value) => options.Strict = value, options => options.Strict)
+    ];
+
     public bool CanCreate(Type optionsType)
     {
         return optionsType == typeof(TypeScriptOptions);

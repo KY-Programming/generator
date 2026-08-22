@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Reflection;
 using KY.Core;
+using KY.Core.DataAccess;
 using KY.Core.Dependency;
 using KY.Core.Extension;
 using KY.Core.Module;
@@ -32,6 +33,24 @@ public class GeneratorModuleLoader
     public void Load(Assembly assembly)
     {
         this.InitializeModules(this.moduleFinder.LoadFrom(assembly));
+    }
+
+    /// <summary>
+    /// Loads every module that ships with the tool, instead of only the ones the generated project references. Used
+    /// by the commands that describe what the generator can do - the answer must not depend on which project the
+    /// command happens to run in
+    /// </summary>
+    public void LoadShipped()
+    {
+        // The modules sit next to the executable in the packaged tool, and in the shared netstandard2.0 folder in
+        // a build of this repository
+        foreach (string path in new[] { AppContext.BaseDirectory, FileSystem.Combine(FileSystem.Parent(FileSystem.FormatPath(AppContext.BaseDirectory)), "netstandard2.0") })
+        {
+            if (FileSystem.DirectoryExists(path))
+            {
+                this.Load(path, "KY.Generator.*.dll");
+            }
+        }
     }
 
     public void LoadFromAttributesAndDirectReferences(Assembly assembly)
@@ -109,6 +128,12 @@ public class GeneratorModuleLoader
             stopwatch.Stop();
             Logger.Trace($"{module.GetType().Name.Replace("Module", "")}-{module.GetType().Assembly.GetName().Version} module loaded in {stopwatch.FormattedElapsed()}");
             this.initializedModules.Add(module);
+        }
+        if (list.Count > 0)
+        {
+            // A module brings its own section of the configuration file with it, and the modules are loaded while
+            // the commands run. Without this the section of a module would be read too late to have any effect
+            this.resolver.TryGet<SettingsService>()?.Apply();
         }
     }
 }

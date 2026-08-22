@@ -29,6 +29,13 @@ public class TypeScriptOptions(TypeScriptOptions? parent, TypeScriptOptions? glo
         set => this.strictFromConfig = value;
     }
 
+    /// <summary>
+    /// Whether a strict mode is set anywhere in this scope or above it, e.g. by the <c>typescript.strict</c> of a
+    /// ky-generator.json. If it is, <see cref="StrictFromConfig"/> can never be reached - a narrower scope only ever
+    /// sets its own strict mode, which wins as well - so the tsconfig.json does not have to be looked for at all
+    /// </summary>
+    public bool HasExplicitStrict => this.GetValueOrNull(x => x.strict) != null;
+
     public bool NoIndex
     {
         get => this.GetValue(x => x.noIndex);

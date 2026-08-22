@@ -1,0 +1,15 @@
+{
+  // Sits between the ky-generator.json of the test folder and the project below, so what this one does not set -
+  // the missing header and the missing index.ts - has to be inherited from there
+
+  "options": {
+    // The assembly attribute of the project names Output and has to win over this
+    "modelOutput": "NotThisOne",
+
+    "preferInterfaces": true,
+    "formatting": {
+      "indentCount": 2,
+      "quote": "'"
+    }
+  }
+}

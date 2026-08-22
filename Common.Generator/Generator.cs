@@ -16,7 +16,6 @@ using KY.Generator.Licensing;
 using KY.Generator.Mappings;
 using KY.Generator.Models;
 using KY.Generator.Output;
-using KY.Generator.Settings;
 using KY.Generator.Statistics;
 using KY.Generator.Templates;
 using KY.Generator.Transfer.Writers;
@@ -65,9 +64,9 @@ public class Generator : IGeneratorRunSyntax
         this.output = new FileOutput(this.resolver.Get<IEnvironment>(), Environment.CurrentDirectory);
         this.resolver.Bind<IOutput>().To(this.output);
         this.resolver.Bind<List<FileTemplate>>().To([]);
+        this.resolver.Bind<SettingsService>().ToSingleton();
         this.resolver.Bind<StatisticsService>().ToSingleton();
         this.resolver.Bind<GlobalStatisticsService>().ToSingleton();
-        this.resolver.Bind<GlobalSettingsService>().ToSingleton();
         this.resolver.Bind<GlobalLicenseService>().ToSingleton();
         this.resolver.Bind<ILicenseService>().ToSingleton<LicenseService>();
         this.resolver.Bind<AssemblyLoader>().ToSingleton();
@@ -177,8 +176,26 @@ public class Generator : IGeneratorRunSyntax
         }
 
         List<CliCommand> cliCommands = CliCommandReader.Read(commandsStringsWithParameters.ToArray());
+        this.SetSettingsStart(cliCommands);
+        this.resolver.Get<SettingsService>().Enable();
         this.commands.AddRange(this.resolver.Get<GeneratorCommandFactory>().Create(cliCommands));
         return this;
+    }
+
+    /// <summary>
+    /// The settings files are searched relative to the project that is generated, which is only known from the
+    /// parameters. It has to be set before the first command runs, because the very first thing a command does can
+    /// be to read an option
+    /// </summary>
+    private void SetSettingsStart(List<CliCommand> cliCommands)
+    {
+        string? project = cliCommands.SelectMany(command => command.Parameters)
+                                     .FirstOrDefault(parameter => parameter.Name == CliCommandParameter.FormatName(nameof(ReadProjectCommandParameters.Project)))
+                                     ?.Value;
+        if (!string.IsNullOrWhiteSpace(project))
+        {
+            this.resolver.Get<SettingsService>().SetProject(project!);
+        }
     }
 
     public async Task<bool> Run()
@@ -191,7 +208,11 @@ public class Generator : IGeneratorRunSyntax
             {
                 success = false;
             }
+            // Has to run before the first command: it writes the settings files to the global options, which
+            // are the root every other options object inherits from
+            this.resolver.Get<SettingsService>().Apply();
             LicenseService licenseService = this.resolver.Get<LicenseService>();
+            licenseService.ApplySettings();
             if (this.commands.All(x => x is not LoadCommand))
             {
                 licenseService.Check();
@@ -287,6 +308,9 @@ public class Generator : IGeneratorRunSyntax
         }
         finally
         {
+            // At the end, because a module - and with it the section of the settings file it owns - can be
+            // loaded by any command along the way
+            this.resolver.Get<SettingsService>().WarnAboutUnknownKeys();
             this.statisticsService.ProgramEnd(success);
         }
         if (!success)
@@ -304,7 +328,8 @@ public class Generator : IGeneratorRunSyntax
         }
         try
         {
-            if (this.commands.Any() && !this.commands.OfType<StatisticsCommand>().Any() && this.resolver.Get<GlobalSettingsService>().Read().StatisticsEnabled)
+            if (this.commands.Any() && !this.commands.OfType<StatisticsCommand>().Any()
+                && this.resolver.Get<SettingsService>().Statistics)
             {
                 string fileName = this.statisticsService.Write();
                 this.resolver.Get<GlobalStatisticsService>().StartCalculation(fileName);
