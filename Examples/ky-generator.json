@@ -1,0 +1,7 @@
+{
+  // The generated output of the examples is compared against recorded hashes, so it must not depend on the machine it
+  // was generated on. Nothing above this file and nothing from the settings of this machine is read.
+  "root": true,
+  "ignoreGlobalSettings": true,
+  "statistics": false,
+}

@@ -1,0 +1,16 @@
+{
+  // The generated output of the tests is compared against recorded hashes, so it must not depend on the machine it
+  // was generated on. Nothing above this file and nothing from the settings of this machine is read.
+  "root": true,
+  "ignoreGlobalSettings": true,
+  "statistics": false,
+
+  // What every test needs: the header carries the version of the generator, so updating it alone would change every
+  // recorded hash, and an index.ts is only wanted by the test that is about the index
+  "options": {
+    "addHeader": false
+  },
+  "typescript": {
+    "noIndex": true
+  }
+}
