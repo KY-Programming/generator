@@ -20,7 +20,7 @@ readid -solution=$\Examples\Reflection\ReflectionFromConstant.sln -project=$\Exa
 ## Output
 
 - Output/
-    - constants.ts `#f0ce88a9`
+    - constants.ts `#94b16d70`
 
 ## Validation
 
@@ -28,9 +28,9 @@ readid -solution=$\Examples\Reflection\ReflectionFromConstant.sln -project=$\Exa
 
 ## Status
 
-- **Last Build:** 2026-08-13 15:05:52
-- **Duration:** 5.8s
+- **Last Build:** 2026-08-22 10:37:25
+- **Duration:** 5.9s
 - **Status:** Success
 - **Info:** 0 errors, 1 file validated
-- **Last Success:** 2026-08-13 15:05:52
-- **Generator:** 10.1.0
+- **Last Success:** 2026-08-22 10:37:25
+- **Generator:** 10.2.0

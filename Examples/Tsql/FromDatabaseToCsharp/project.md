@@ -41,9 +41,9 @@ readid -solution=$\Examples\Tsql\FromDatabaseToCsharp.sln -project=$\Examples\Ts
 
 ## Status
 
-- **Last Build:** 2026-08-13 15:06:55
-- **Duration:** 16.5s
+- **Last Build:** 2026-08-22 10:38:28
+- **Duration:** 18.3s
 - **Status:** Success
 - **Info:** 0 errors, 2 files validated
-- **Last Success:** 2026-08-13 15:06:55
-- **Generator:** 10.1.0
+- **Last Success:** 2026-08-22 10:38:28
+- **Generator:** 10.2.0

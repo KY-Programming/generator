@@ -28,9 +28,9 @@ readid -solution=$\Examples\Sqlite\FromDatabase.sln -project=$\Examples\Sqlite\F
 
 ## Status
 
-- **Last Build:** 2026-08-13 15:06:09
-- **Duration:** 9.2s
+- **Last Build:** 2026-08-22 10:37:30
+- **Duration:** 7.9s
 - **Status:** Success
 - **Info:** 0 errors, 1 file validated
-- **Last Success:** 2026-08-13 15:06:09
-- **Generator:** 10.1.0
+- **Last Success:** 2026-08-22 10:37:30
+- **Generator:** 10.2.0

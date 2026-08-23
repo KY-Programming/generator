@@ -20,7 +20,7 @@ readid -solution=$\Examples\Reflection\ReflectionFromExecutable.sln -project=$\E
 ## Output
 
 - Output/
-    - type-to-read.ts `#e797899a`
+    - type-to-read.ts `#9752ce85`
 
 ## Validation
 
@@ -28,9 +28,9 @@ readid -solution=$\Examples\Reflection\ReflectionFromExecutable.sln -project=$\E
 
 ## Status
 
-- **Last Build:** 2026-08-13 15:05:59
-- **Duration:** 5.6s
+- **Last Build:** 2026-08-22 10:37:25
+- **Duration:** 6.0s
 - **Status:** Success
 - **Info:** 0 errors, 1 file validated
-- **Last Success:** 2026-08-13 15:05:59
-- **Generator:** 10.1.0
+- **Last Success:** 2026-08-22 10:37:25
+- **Generator:** 10.2.0

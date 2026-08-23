@@ -20,7 +20,7 @@ readid -solution=$\Examples\Angular\Annotation\FromModel.sln -project=$\Examples
 ## Output
 
 - Output/Models/
-    - type-to-read.ts `#eeb3f972`
+    - type-to-read.ts `#6389b046`
 
 ## Validation
 
@@ -28,9 +28,9 @@ readid -solution=$\Examples\Angular\Annotation\FromModel.sln -project=$\Examples
 
 ## Status
 
-- **Last Build:** 2026-08-13 15:05:39
+- **Last Build:** 2026-08-22 10:37:06
 - **Duration:** 5.9s
 - **Status:** Success
 - **Info:** 0 errors, 1 file validated
-- **Last Success:** 2026-08-13 15:05:39
-- **Generator:** 10.1.0
+- **Last Success:** 2026-08-22 10:37:06
+- **Generator:** 10.2.0

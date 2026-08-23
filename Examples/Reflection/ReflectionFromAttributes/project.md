@@ -20,7 +20,7 @@ readid -solution=$\Examples\Reflection\ReflectionFromAttributes.sln -project=$\E
 ## Output
 
 - Output/
-    - type-to-read.ts `#d0385b1a`
+    - type-to-read.ts `#ef6ed2d8`
 
 ## Validation
 
@@ -28,9 +28,9 @@ readid -solution=$\Examples\Reflection\ReflectionFromAttributes.sln -project=$\E
 
 ## Status
 
-- **Last Build:** 2026-08-13 15:05:52
-- **Duration:** 5.6s
+- **Last Build:** 2026-08-22 10:37:22
+- **Duration:** 6.0s
 - **Status:** Success
 - **Info:** 0 errors, 1 file validated
-- **Last Success:** 2026-08-13 15:05:52
-- **Generator:** 10.1.0
+- **Last Success:** 2026-08-22 10:37:22
+- **Generator:** 10.2.0

@@ -1,5 +1,4 @@
-﻿
-export * from "./other-sub-type";
+﻿export * from "./other-sub-type";
 export * from "./sub-type";
 export * from "./types";
 

@@ -20,11 +20,11 @@ readid -solution=$\Examples\Angular\Annotation\ServiceFromAspNetCoreSignalRHub.s
 ## Output
 
 - ClientApp/src/app/models/
-    - connection-status.ts `#cd7be08b`
-    - index.ts `#a030e6bb`
-    - weather-forecast.ts `#ed5deaa9`
+    - connection-status.ts `#4d0eeeaf`
+    - index.ts `#f6fba0d9`
+    - weather-forecast.ts `#22169848`
 - ClientApp/src/app/services/
-    - weather-hub.service.ts `#c1822acf`
+    - weather-hub.service.ts `#dd57b175`
 
 ## Validation
 
@@ -32,9 +32,9 @@ readid -solution=$\Examples\Angular\Annotation\ServiceFromAspNetCoreSignalRHub.s
 
 ## Status
 
-- **Last Build:** 2026-08-13 15:05:45
-- **Duration:** 12.1s
+- **Last Build:** 2026-08-22 10:37:13
+- **Duration:** 12.7s
 - **Status:** Success
 - **Info:** 0 errors, 7 files validated
-- **Last Success:** 2026-08-13 15:05:45
-- **Generator:** 10.1.0
+- **Last Success:** 2026-08-22 10:37:13
+- **Generator:** 10.2.0

@@ -13,7 +13,7 @@
 
     <ItemGroup>
         <!-- The tool. Its MSBuild targets run the generation after this project is compiled. -->
-        <PackageReference Include="KY.Generator" Version="10.1.0" />
+        <PackageReference Include="KY.Generator" Version="10.2.0" />
     </ItemGroup>
 
     <ItemGroup>

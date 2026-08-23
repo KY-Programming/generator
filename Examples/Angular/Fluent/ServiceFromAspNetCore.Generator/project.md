@@ -20,9 +20,9 @@ readid -solution=$\Examples\Angular\Fluent\ServiceFromAspNetCore.sln -project=$\
 ## Output
 
 - ../ServiceFromAspNetCore/ClientApp/src/app/models/
-    - weather-forecast.ts `#abb69c36`
+    - weather-forecast.ts `#023600a1`
 - ../ServiceFromAspNetCore/ClientApp/src/app/services/
-    - weather-forecast.service.ts `#10f513a6`
+    - weather-forecast.service.ts `#8151308c`
 
 ## Validation
 
@@ -30,9 +30,9 @@ readid -solution=$\Examples\Angular\Fluent\ServiceFromAspNetCore.sln -project=$\
 
 ## Status
 
-- **Last Build:** 2026-08-13 15:05:53
-- **Duration:** 8.5s
+- **Last Build:** 2026-08-22 10:38:05
+- **Duration:** 8.1s
 - **Status:** Success
 - **Info:** 0 errors, 5 files validated
-- **Last Success:** 2026-08-13 15:05:53
-- **Generator:** 10.1.0
+- **Last Success:** 2026-08-22 10:38:05
+- **Generator:** 10.2.0

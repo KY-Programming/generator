@@ -18,6 +18,12 @@ model to `Output/Legacy` in both languages and scopes the replacement to one of 
 `SuppressLint("// @ts-nocheck", nameof(OutputLanguage.TypeScript))`, so the TypeScript file carries
 `// @ts-nocheck` while the C# file of the same write keeps `// ReSharper disable All`.
 
+## Parameters
+
+```
+readid -solution=$\Examples\Common\Fluent\HeaderAndLint.sln -project=$\Examples\Common\Fluent\HeaderAndLint.Generator\HeaderAndLint.Generator.csproj msbuild set -output=$\Examples\Common\Fluent\HeaderAndLint.Generator\ load -assembly=$\Examples\Common\Fluent\HeaderAndLint.Generator\bin\Debug\net10.0\HeaderAndLint.Generator.dll fluent annotation
+```
+
 ## Output
 
 - ../HeaderAndLint/Output/Legacy/
@@ -26,3 +32,15 @@ model to `Output/Legacy` in both languages and scopes the replacement to one of 
 - ../HeaderAndLint/Output/Models/
     - Contact.cs
     - weather-forecast.ts
+
+## Validation
+
+- validate.js `failed, 0 files validated`
+
+## Status
+
+- **Last Build:** 2026-08-22 10:37:19
+- **Duration:** 6.2s
+- **Status:** Failure
+- **Info:** 1 missing, 3 new; 1 error, 0 files validated
+- **Generator:** 10.2.0

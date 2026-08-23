@@ -22,7 +22,7 @@ readid -solution=$\Examples\Reflection\ReflectionIgnoreAttribute.sln -project=$\
 ## Output
 
 - Output/
-    - type-to-read.ts `#590f42ed`
+    - type-to-read.ts `#b6b69a36`
 
 ## Validation
 
@@ -36,14 +36,18 @@ readid -solution=$\Examples\Reflection\ReflectionIgnoreAttribute.sln -project=$\
 - Output
 - Output
 - Output
+- Output
+- Output
+- Output
+- Output
 - Output/
     - type-to-ignore.ts
 
 ## Status
 
-- **Last Build:** 2026-08-13 15:05:57
-- **Duration:** 5.7s
+- **Last Build:** 2026-08-22 10:37:27
+- **Duration:** 5.9s
 - **Status:** Success
 - **Info:** 0 errors, 2 files validated
-- **Last Success:** 2026-08-13 15:05:57
-- **Generator:** 10.1.0
+- **Last Success:** 2026-08-22 10:37:27
+- **Generator:** 10.2.0

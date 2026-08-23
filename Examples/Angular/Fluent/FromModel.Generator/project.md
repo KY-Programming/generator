@@ -20,7 +20,7 @@ readid -solution=$\Examples\Angular\Fluent\FromModel.sln -project=$\Examples\Ang
 ## Output
 
 - ../FromModel/Output/Models/
-    - type-to-read.ts `#07cba488`
+    - type-to-read.ts `#8688d374`
 
 ## Validation
 
@@ -28,9 +28,9 @@ readid -solution=$\Examples\Angular\Fluent\FromModel.sln -project=$\Examples\Ang
 
 ## Status
 
-- **Last Build:** 2026-08-13 15:05:46
-- **Duration:** 7.5s
+- **Last Build:** 2026-08-22 10:37:14
+- **Duration:** 7.9s
 - **Status:** Success
 - **Info:** 0 errors, 1 file validated
-- **Last Success:** 2026-08-13 15:05:46
-- **Generator:** 10.1.0
+- **Last Success:** 2026-08-22 10:37:14
+- **Generator:** 10.2.0
