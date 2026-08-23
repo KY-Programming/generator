@@ -20,9 +20,9 @@ readid -solution=*Undefined* -project=$\Tests\SelfReferencingAnnotationsNullable
 ## Output
 
 - Output/
-    - cycle-a.ts `#c6d3c71f`
-    - cycle-b.ts `#1b01f13c`
-    - self-referencing-type.ts `#013d634c`
+    - cycle-a.ts `#27e0e1ff`
+    - cycle-b.ts `#001f6073`
+    - self-referencing-type.ts `#4cc911ef`
 
 ## Validation
 
@@ -30,9 +30,9 @@ readid -solution=*Undefined* -project=$\Tests\SelfReferencingAnnotationsNullable
 
 ## Status
 
-- **Last Build:** 2026-08-13 15:06:20
-- **Duration:** 7.0s
+- **Last Build:** 2026-08-22 10:37:49
+- **Duration:** 5.9s
 - **Status:** Success
 - **Info:** 0 errors, 3 files validated
-- **Last Success:** 2026-08-13 15:06:20
-- **Generator:** 10.1.0
+- **Last Success:** 2026-08-22 10:37:49
+- **Generator:** 10.2.0

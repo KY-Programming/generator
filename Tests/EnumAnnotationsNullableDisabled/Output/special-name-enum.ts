@@ -1,5 +1,4 @@
 ﻿/* eslint-disable */
-// tslint:disable
 
 export enum SpecialNameEnum {
     default = 0,

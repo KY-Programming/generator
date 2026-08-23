@@ -1,5 +1,4 @@
 ﻿/* eslint-disable */
-// tslint:disable
 
 import { WeatherForecast } from "../models/weather-forecast";
 import { HttpClient } from "@angular/common/http";
@@ -32,11 +31,11 @@ export class ProducesService {
         httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/produces";
         url = this.append(url, days, "days");
-        this.http.get<WeatherForecast[]>(url, httpOptions).subscribe((result) => {
-            result.forEach((m) => this.convertWeatherForecastDate(m));
+        this.http.get<WeatherForecast[]>(url, httpOptions).subscribe(result => {
+            result.forEach(m => this.convertWeatherForecastDate(m));
             subject.next(this.fixUndefined(result));
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -45,11 +44,11 @@ export class ProducesService {
         httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/produces/get2";
         url = this.append(url, days, "days");
-        this.http.get<WeatherForecast[]>(url, httpOptions).subscribe((result) => {
-            result.forEach((m) => this.convertWeatherForecastDate(m));
+        this.http.get<WeatherForecast[]>(url, httpOptions).subscribe(result => {
+            result.forEach(m => this.convertWeatherForecastDate(m));
             subject.next(this.fixUndefined(result));
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 

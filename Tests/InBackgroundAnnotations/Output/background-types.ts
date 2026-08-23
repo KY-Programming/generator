@@ -1,5 +1,4 @@
 ﻿/* eslint-disable */
-// tslint:disable
 
 import { SubType } from "./sub-type";
 

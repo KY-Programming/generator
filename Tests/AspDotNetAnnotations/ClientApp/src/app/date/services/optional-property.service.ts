@@ -1,5 +1,4 @@
 ﻿/* eslint-disable */
-// tslint:disable
 
 import { OptionalPropertiesModel } from "../models/optional-properties-model";
 import { HttpClient } from "@angular/common/http";
@@ -31,10 +30,10 @@ export class OptionalPropertyService {
         let subject = new Subject<OptionalPropertiesModel>();
         httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/api/optionalproperty/getoptionalpropertiesmodel";
-        this.http.get<OptionalPropertiesModel>(url, httpOptions).subscribe((result) => {
+        this.http.get<OptionalPropertiesModel>(url, httpOptions).subscribe(result => {
             subject.next(this.fixUndefined(result));
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 

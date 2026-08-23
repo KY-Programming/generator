@@ -1,5 +1,4 @@
 ﻿/* eslint-disable */
-// tslint:disable
 
 export class EdgeCase1SubType {
     public property: string = "";

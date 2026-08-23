@@ -20,9 +20,9 @@ read-project -solution=*Undefined* -project=$\Tests\TargetFrameworks\Net10-x86\N
 ## Output
 
 - Output/
-    - generic-sub-type.ts `#e92c7dd0`
-    - sub-type.ts `#87c5a9c4`
-    - types.ts `#2c5d0626`
+    - generic-sub-type.ts `#11d692a4`
+    - sub-type.ts `#3585adba`
+    - types.ts `#24b6be7f`
 
 ## Validation
 
@@ -30,9 +30,9 @@ read-project -solution=*Undefined* -project=$\Tests\TargetFrameworks\Net10-x86\N
 
 ## Status
 
-- **Last Build:** 2026-08-13 15:06:30
-- **Duration:** 10.0s
+- **Last Build:** 2026-08-22 10:37:54
+- **Duration:** 6.3s
 - **Status:** Success
 - **Info:** 0 errors, 3 files validated
-- **Last Success:** 2026-08-13 15:06:30
-- **Generator:** 10.1.0
+- **Last Success:** 2026-08-22 10:37:54
+- **Generator:** 10.2.0

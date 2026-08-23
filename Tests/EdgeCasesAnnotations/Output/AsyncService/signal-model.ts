@@ -1,5 +1,4 @@
 ﻿/* eslint-disable */
-// tslint:disable
 
 import { SubModel } from "./sub-model";
 import { WritableSignal } from "@angular/core";

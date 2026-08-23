@@ -1,5 +1,4 @@
 ﻿/* eslint-disable */
-// tslint:disable
 
 import { ConvertMeOptional } from "../models/convert-me-optional";
 import { HttpClient } from "@angular/common/http";
@@ -32,11 +31,11 @@ export class ConvertToInterfaceOptionalService {
         httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/converttointerfaceoptional/get";
         url = this.append(url, subject, "subject");
-        this.http.get<ConvertMeOptional>(url, httpOptions).subscribe((result) => {
+        this.http.get<ConvertMeOptional>(url, httpOptions).subscribe(result => {
             this.convertConvertMeOptionalDate(result);
             rxjsSubject.next(this.fixUndefined(result));
             rxjsSubject.complete();
-        }, (error) => rxjsSubject.error(error));
+        }, error => rxjsSubject.error(error));
         return rxjsSubject;
     }
 

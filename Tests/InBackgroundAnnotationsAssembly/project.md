@@ -20,17 +20,18 @@ readid -solution=*Undefined* -project=$\Tests\InBackgroundAnnotationsAssembly\In
 ## Output
 
 - Output/
-    - class-1.ts `#2902500c`
-    - class-2.ts `#072f9096`
+    - class-1.ts `#88bd5252`
+    - class-2.ts `#43987d2b`
 
 ## Validation
 
-- validate.js `failed, 0 files validated`
+- validate.js `passed, 2 files validated`
 
 ## Status
 
-- **Last Build:** 2026-08-13 15:06:08
-- **Duration:** 6.6s
-- **Status:** Failure
-- **Info:** 2 missing; 1 error, 0 files validated
-- **Generator:** 10.1.0
+- **Last Build:** 2026-08-22 10:37:41
+- **Duration:** 6.4s
+- **Status:** Success
+- **Info:** 0 errors, 2 files validated
+- **Last Success:** 2026-08-22 10:37:41
+- **Generator:** 10.2.0

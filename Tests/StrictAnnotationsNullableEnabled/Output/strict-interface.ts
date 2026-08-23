@@ -1,5 +1,4 @@
 ﻿/* eslint-disable */
-// tslint:disable
 
 export interface StrictInterface {
     stringProperty: string;

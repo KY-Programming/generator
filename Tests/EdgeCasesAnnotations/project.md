@@ -20,66 +20,66 @@ readid -solution=*Undefined* -project=$\Tests\EdgeCasesAnnotations\EdgeCasesAnno
 ## Output
 
 - Output/
-    - generate-return-type.ts `#22a41822`
-    - http-service-parameter-names.service.ts `#a5d39cd8`
-    - ignore-class-via-comment.ts `#ef5ee644`
-    - ignored-members.ts `#88a9cb64`
-    - member-types.ts `#b43df5d7`
-    - nested-model.ts `#7a618700`
-    - type-from-nuget-package.ts `#4d85e7fb`
+    - generate-return-type.ts `#44117914`
+    - http-service-parameter-names.service.ts `#1c4e8803`
+    - ignore-class-via-comment.ts `#76a3152a`
+    - ignored-members.ts `#288acd4d`
+    - member-types.ts `#025e03ed`
+    - nested-model.ts `#073f3bcd`
+    - type-from-nuget-package.ts `#08529ee3`
 - Output/AsyncService/
-    - async-model.ts `#6c34cf5d`
-    - async.service.ts `#1e6d2548`
-    - signal-model.ts `#4a2ad4c9`
-    - sub-model.ts `#4fe615c4`
-    - unwrapped.ts `#8deef4d3`
+    - async-model.ts `#bbd9cbaf`
+    - async.service.ts `#74622a1c`
+    - signal-model.ts `#95cd5232`
+    - sub-model.ts `#45a4c8af`
+    - unwrapped.ts `#24810f6e`
 - Output/InterfaceSource/
-    - derived-interface.interface.ts `#c0e0645a`
-    - generated-interface.interface.ts `#de18cb87`
-    - implementing-class.ts `#d5a2a55f`
-    - sub-interface.interface.ts `#d83276ab`
+    - derived-interface.interface.ts `#03f023fd`
+    - generated-interface.interface.ts `#105200da`
+    - implementing-class.ts `#bc9db4de`
+    - sub-interface.interface.ts `#9cc1b582`
 - Output/MultipleOutputs/First/
-    - first-type.ts `#0343eebc`
-    - multiple-outputs-sub-type.ts `#887a8821`
+    - first-type.ts `#a691ee2c`
+    - multiple-outputs-sub-type.ts `#af9e656c`
 - Output/MultipleOutputs/Second/
-    - multiple-outputs-sub-type.ts `#887a8821`
-    - second-type.ts `#401131b3`
+    - multiple-outputs-sub-type.ts `#af9e656c`
+    - second-type.ts `#5295258b`
 - Output/MultipleOutputs/Third/
-    - third-type.ts `#67526963`
+    - third-type.ts `#d908f236`
 - Output/PreferInterfaces/
-    - abstract-type.ts `#0057556d`
-    - base-class.ts `#abfd5367`
-    - base-interface.interface.ts `#3e773ba4`
-    - derive-from-interface-prefer-class.ts `#fdf6c83e`
-    - derive-from-interface-prefer-interface.ts `#2f063315`
-    - derived-from-abstract-class-prefer-class.ts `#9d3e701a`
-    - derived-from-abstract-class-prefer-interface.ts `#23a2194b`
-    - derived-from-class-prefer-class.ts `#52a916ce`
-    - derived-from-class-prefer-interface.ts `#db9d1d54`
+    - abstract-type.ts `#5aa7d39c`
+    - base-class.ts `#713591ac`
+    - base-interface.interface.ts `#c552b94f`
+    - derive-from-interface-prefer-class.ts `#23b04d6e`
+    - derive-from-interface-prefer-interface.ts `#17581eed`
+    - derived-from-abstract-class-prefer-class.ts `#570c280a`
+    - derived-from-abstract-class-prefer-interface.ts `#35907d0c`
+    - derived-from-class-prefer-class.ts `#d46cea5a`
+    - derived-from-class-prefer-interface.ts `#a5b01b2c`
 - Output/RouteTemplates/
-    - action-route-tokens.service.ts `#ca5fa9a0`
-    - class-and-action-route.service.ts `#282f500c`
-    - class-route-parameter.service.ts `#c81b0d87`
-    - class-route-tokens.service.ts `#adfa0fb8`
-    - hardcoded-action-routes.service.ts `#b1899023`
-    - hardcoded-class-route.service.ts `#6a17e1df`
-    - mixed-routes.service.ts `#ece2a831`
-    - parameter-before-token.service.ts `#c5b47a56`
-    - parameter-positions.service.ts `#f24d16ca`
-    - reversed-tokens.service.ts `#63b5c205`
-    - separate-route-attribute.service.ts `#f724e015`
-    - token-in-the-middle.service.ts `#f8ddc501`
+    - action-route-tokens.service.ts `#1dc4634b`
+    - class-and-action-route.service.ts `#3c25d4f7`
+    - class-route-parameter.service.ts `#260ab348`
+    - class-route-tokens.service.ts `#078a5640`
+    - hardcoded-action-routes.service.ts `#0b172039`
+    - hardcoded-class-route.service.ts `#2f1cf360`
+    - mixed-routes.service.ts `#5987b255`
+    - parameter-before-token.service.ts `#1b499334`
+    - parameter-positions.service.ts `#5f79d798`
+    - reversed-tokens.service.ts `#36d7cc10`
+    - separate-route-attribute.service.ts `#8491e826`
+    - token-in-the-middle.service.ts `#47ee6999`
 - Output/Signals/
-    - plain-model.ts `#cc2124a6`
-    - signal-class.ts `#9b7012f3`
-    - signal-interface.ts `#523d8c46`
-    - sub-model.ts `#55b4cc8b`
+    - plain-model.ts `#876ede2d`
+    - signal-class.ts `#7b2f3795`
+    - signal-interface.ts `#9e667b42`
+    - sub-model.ts `#324d20af`
 - Output/SignalsService/
-    - plain-model.ts `#b8fd8d5f`
-    - signal-model.ts `#4a2ad4c9`
-    - signals.service.ts `#16e5abd9`
-    - sub-model.ts `#4fe615c4`
-    - unwrapped.ts `#8deef4d3`
+    - plain-model.ts `#ca7621cf`
+    - signal-model.ts `#95cd5232`
+    - signals.service.ts `#4630df0d`
+    - sub-model.ts `#45a4c8af`
+    - unwrapped.ts `#24810f6e`
 
 ## Validation
 
@@ -87,9 +87,9 @@ readid -solution=*Undefined* -project=$\Tests\EdgeCasesAnnotations\EdgeCasesAnno
 
 ## Status
 
-- **Last Build:** 2026-08-13 15:06:08
-- **Duration:** 11.0s
+- **Last Build:** 2026-08-22 10:37:41
+- **Duration:** 10.0s
 - **Status:** Success
 - **Info:** 0 errors, 51 files validated
-- **Last Success:** 2026-08-13 15:06:08
-- **Generator:** 10.1.0
+- **Last Success:** 2026-08-22 10:37:41
+- **Generator:** 10.2.0

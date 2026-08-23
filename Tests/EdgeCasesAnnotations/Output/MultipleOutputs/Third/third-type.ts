@@ -1,5 +1,4 @@
 ﻿/* eslint-disable */
-// tslint:disable
 
 export class ThirdType {
     public stringProperty: string = "";

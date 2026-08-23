@@ -1,5 +1,4 @@
 ﻿/* eslint-disable */
-// tslint:disable
 
 import { IGenericInterfaceWithNonGenericBase } from "./generic-interface-with-non-generic-base.interface";
 

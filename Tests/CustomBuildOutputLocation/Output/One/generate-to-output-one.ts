@@ -1,5 +1,4 @@
 ﻿/* eslint-disable */
-// tslint:disable
 
 export class GenerateToOutputOne {
     public constructor(init?: Partial<GenerateToOutputOne>) {

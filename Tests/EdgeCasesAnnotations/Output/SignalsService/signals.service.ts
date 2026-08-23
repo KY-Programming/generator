@@ -1,5 +1,4 @@
 ﻿/* eslint-disable */
-// tslint:disable
 
 import { PlainModel } from "./plain-model";
 import { SignalModel } from "./signal-model";
@@ -35,11 +34,11 @@ export class SignalsService {
         let subject = new Subject<SignalModel>();
         httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/api/v1/signals/get";
-        this.http.get<Unwrapped<SignalModel>>(url, httpOptions).subscribe((result) => {
+        this.http.get<Unwrapped<SignalModel>>(url, httpOptions).subscribe(result => {
             this.convertSignalModelDate(result);
             subject.next(this.wrapSignalModel(this.fixUndefined(result)));
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -47,11 +46,11 @@ export class SignalsService {
         let subject = new Subject<SignalModel[]>();
         httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/api/v1/signals/getall";
-        this.http.get<Unwrapped<SignalModel>[]>(url, httpOptions).subscribe((result) => {
-            result.forEach((m) => this.convertSignalModelDate(m));
+        this.http.get<Unwrapped<SignalModel>[]>(url, httpOptions).subscribe(result => {
+            result.forEach(m => this.convertSignalModelDate(m));
             subject.next(this.fixUndefined(result).map((entry: Unwrapped<SignalModel>) => this.wrapSignalModel(entry)));
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -59,10 +58,10 @@ export class SignalsService {
         let subject = new Subject<string>();
         httpOptions = { responseType: 'text', ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/api/v1/signals/update";
-        this.http.post<string>(url, this.unwrapSignalModel(model), httpOptions).subscribe((result) => {
+        this.http.post<string>(url, this.unwrapSignalModel(model), httpOptions).subscribe(result => {
             subject.next(this.fixUndefined(result));
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -70,10 +69,10 @@ export class SignalsService {
         let subject = new Subject<void>();
         httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/api/v1/signals/updateall";
-        this.http.post<void>(url, models.map((entry) => this.unwrapSignalModel(entry)), httpOptions).subscribe(() => {
+        this.http.post<void>(url, models.map(entry => this.unwrapSignalModel(entry)), httpOptions).subscribe(() => {
             subject.next();
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -81,10 +80,10 @@ export class SignalsService {
         let subject = new Subject<PlainModel>();
         httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/api/v1/signals/getplain";
-        this.http.get<PlainModel>(url, httpOptions).subscribe((result) => {
+        this.http.get<PlainModel>(url, httpOptions).subscribe(result => {
             subject.next(this.fixUndefined(result));
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -95,7 +94,7 @@ export class SignalsService {
         this.http.post<void>(url, model, httpOptions).subscribe(() => {
             subject.next();
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -169,7 +168,7 @@ export class SignalsService {
         }
         model.timestamp = this.convertDate(model.timestamp) ?? model.timestamp;
         this.convertSubModelDate(model.sub);
-        model.subs?.forEach((m) => this.convertSubModelDate(m));
+        model.subs?.forEach(m => this.convertSubModelDate(m));
     }
 
     public convertSubModelDate(model?: Unwrapped<SubModel>): void {

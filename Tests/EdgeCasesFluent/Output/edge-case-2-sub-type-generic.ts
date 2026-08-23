@@ -1,5 +1,4 @@
 ﻿/* eslint-disable */
-// tslint:disable
 
 export class EdgeCase2SubTypeGeneric<T> {
     public genericProperty?: T;

@@ -1,5 +1,4 @@
 ﻿/* eslint-disable */
-// tslint:disable
 
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
@@ -32,10 +31,10 @@ export class ParameterBeforeTokenService {
         let url: string = this.serviceUrl + "/api/parameterbeforetoken";
         url = this.append(url, id, undefined, "/");
         url += "/get/details";
-        this.http.get<string>(url, httpOptions).subscribe((result) => {
+        this.http.get<string>(url, httpOptions).subscribe(result => {
             subject.next(this.fixUndefined(result));
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -47,10 +46,10 @@ export class ParameterBeforeTokenService {
         url += "/gettail/details";
         url = this.append(url, name, undefined, "/");
         url += "/tail";
-        this.http.get<string>(url, httpOptions).subscribe((result) => {
+        this.http.get<string>(url, httpOptions).subscribe(result => {
             subject.next(this.fixUndefined(result));
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 

@@ -1,5 +1,4 @@
 ﻿/* eslint-disable */
-// tslint:disable
 
 import { GetComplexModelService } from "../models/get-complex-model-service";
 import { GetComplexModel } from "../models/get-complex-model";
@@ -32,10 +31,10 @@ export class GetComplexService {
         let subject = new Subject<GetComplexModel>();
         httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/getcomplex/get";
-        this.http.get<GetComplexModel>(url, httpOptions).subscribe((result) => {
+        this.http.get<GetComplexModel>(url, httpOptions).subscribe(result => {
             subject.next(this.fixUndefined(result));
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 

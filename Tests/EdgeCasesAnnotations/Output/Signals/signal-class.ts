@@ -1,5 +1,4 @@
 ﻿/* eslint-disable */
-// tslint:disable
 
 import { PlainModel } from "./plain-model";
 import { SubModel } from "./sub-model";

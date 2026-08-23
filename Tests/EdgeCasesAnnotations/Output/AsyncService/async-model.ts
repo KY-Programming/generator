@@ -1,5 +1,4 @@
 ﻿/* eslint-disable */
-// tslint:disable
 
 // Model without signals that is used by the asynchronous controller
 export interface AsyncModel {

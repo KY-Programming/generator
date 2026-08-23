@@ -20,9 +20,9 @@ readid -solution=*Undefined* -project=$\Tests\CasingAnnotations\CasingAnnotation
 ## Output
 
 - Output/
-    - case-me.ts `#e5dafa37`
-    - keep-my-case.ts `#735edcfd`
-    - mixed-casing.ts `#8a26d5ed`
+    - case-me.ts `#16acd637`
+    - keep-my-case.ts `#258035b4`
+    - mixed-casing.ts `#18ad36db`
 
 ## Validation
 
@@ -30,9 +30,9 @@ readid -solution=*Undefined* -project=$\Tests\CasingAnnotations\CasingAnnotation
 
 ## Status
 
-- **Last Build:** 2026-08-13 15:05:59
-- **Duration:** 6.9s
+- **Last Build:** 2026-08-22 10:37:33
+- **Duration:** 7.5s
 - **Status:** Success
 - **Info:** 0 errors, 3 files validated
-- **Last Success:** 2026-08-13 15:05:59
-- **Generator:** 10.1.0
+- **Last Success:** 2026-08-22 10:37:33
+- **Generator:** 10.2.0

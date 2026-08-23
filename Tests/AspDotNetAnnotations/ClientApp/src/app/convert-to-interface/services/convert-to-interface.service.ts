@@ -1,5 +1,4 @@
 ﻿/* eslint-disable */
-// tslint:disable
 
 import { ConvertMe } from "../models/convert-me";
 import { HttpClient } from "@angular/common/http";
@@ -32,10 +31,10 @@ export class ConvertToInterfaceService {
         httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/converttointerface/get";
         url = this.append(url, subject, "subject");
-        this.http.get<ConvertMe>(url, httpOptions).subscribe((result) => {
+        this.http.get<ConvertMe>(url, httpOptions).subscribe(result => {
             rxjsSubject.next(this.fixUndefined(result));
             rxjsSubject.complete();
-        }, (error) => rxjsSubject.error(error));
+        }, error => rxjsSubject.error(error));
         return rxjsSubject;
     }
 

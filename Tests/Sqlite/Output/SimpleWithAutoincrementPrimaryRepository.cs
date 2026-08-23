@@ -7,7 +7,7 @@ using Microsoft.Data.Sqlite;
 
 namespace Sqlite.Models
 {
-    [GeneratedCode("KY.Generator", "10.1.0.0")]
+    [GeneratedCode("KY.Generator", "10.2.0.0")]
     public partial class SimpleWithAutoincrementPrimaryRepository
     {
         private SqliteConnection connection;
@@ -63,8 +63,8 @@ FROM SimpleWithAutoincrementPrimary";
             using SqliteCommand command = this.connection.CreateCommand();
             command.CommandText = @"INSERT INTO SimpleWithAutoincrementPrimary (StringProperty) VALUES (@stringProperty);
 SELECT last_insert_rowid();";
-            command.Parameters.Add(new SqliteParameter("@stringProperty", entry.StringProperty ?? (object) DBNull.Value));
-            return (Int32)(long) command.ExecuteScalar();
+            command.Parameters.Add(new SqliteParameter("@stringProperty", entry.StringProperty ?? (object)DBNull.Value));
+            return (Int32)(long)command.ExecuteScalar();
         }
 
         public void Update(SimpleWithAutoincrementPrimary entry)
@@ -75,7 +75,7 @@ UPDATE SimpleWithAutoincrementPrimary
 SET StringProperty = @stringProperty
 WHERE Id = @id";
             command.Parameters.Add(new SqliteParameter("@id", entry.Id));
-            command.Parameters.Add(new SqliteParameter("@stringProperty", entry.StringProperty ?? (object) DBNull.Value));
+            command.Parameters.Add(new SqliteParameter("@stringProperty", entry.StringProperty ?? (object)DBNull.Value));
             command.ExecuteNonQuery();
         }
 

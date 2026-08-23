@@ -1,5 +1,4 @@
 ﻿/* eslint-disable */
-// tslint:disable
 
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
@@ -32,10 +31,10 @@ export class ParameterPositionsService {
         let url: string = this.serviceUrl + "/api/parameterpositions";
         url = this.append(url, id, undefined, "/");
         url += "/details";
-        this.http.get<string>(url, httpOptions).subscribe((result) => {
+        this.http.get<string>(url, httpOptions).subscribe(result => {
             subject.next(this.fixUndefined(result));
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -46,10 +45,10 @@ export class ParameterPositionsService {
         url = this.append(url, id, undefined, "/");
         url += "/sub";
         url = this.append(url, name, undefined, "/");
-        this.http.get<string>(url, httpOptions).subscribe((result) => {
+        this.http.get<string>(url, httpOptions).subscribe(result => {
             subject.next(this.fixUndefined(result));
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -61,10 +60,10 @@ export class ParameterPositionsService {
         url += "/between";
         url = this.append(url, name, undefined, "/");
         url += "/end";
-        this.http.get<string>(url, httpOptions).subscribe((result) => {
+        this.http.get<string>(url, httpOptions).subscribe(result => {
             subject.next(this.fixUndefined(result));
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 

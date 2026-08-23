@@ -1,5 +1,4 @@
 ﻿/* eslint-disable */
-// tslint:disable
 
 export interface IInterfaceGeneric<T> {
     property?: T;

@@ -1,5 +1,4 @@
 ﻿/* eslint-disable */
-// tslint:disable
 
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
@@ -30,10 +29,10 @@ export class ApiVersionNeutralService {
         let subject = new Subject<string>();
         httpOptions = { responseType: 'text', ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/api/v1.0/apiversionneutral";
-        this.http.get<string>(url, httpOptions).subscribe((result) => {
+        this.http.get<string>(url, httpOptions).subscribe(result => {
             subject.next(this.fixUndefined(result));
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -41,10 +40,10 @@ export class ApiVersionNeutralService {
         let subject = new Subject<string>();
         httpOptions = { responseType: 'text', ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/api/neutral/apiversionneutral/getwithoutversion";
-        this.http.get<string>(url, httpOptions).subscribe((result) => {
+        this.http.get<string>(url, httpOptions).subscribe(result => {
             subject.next(this.fixUndefined(result));
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 

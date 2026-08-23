@@ -1,5 +1,4 @@
 ﻿/* eslint-disable */
-// tslint:disable
 
 import { IBaseInterface } from "./base-interface.interface";
 

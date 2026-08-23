@@ -1,5 +1,4 @@
 ﻿/* eslint-disable */
-// tslint:disable
 
 export class TypeWithIgnoreInterface {
     public ignoredProperty: string = "";

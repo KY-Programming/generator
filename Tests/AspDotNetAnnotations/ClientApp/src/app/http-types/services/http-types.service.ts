@@ -1,5 +1,4 @@
 ﻿/* eslint-disable */
-// tslint:disable
 
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
@@ -33,7 +32,7 @@ export class HttpTypesService {
         this.http.get<void>(url, httpOptions).subscribe(() => {
             subject.next();
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -44,7 +43,7 @@ export class HttpTypesService {
         this.http.post<void>(url, undefined, httpOptions).subscribe(() => {
             subject.next();
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -55,7 +54,7 @@ export class HttpTypesService {
         this.http.patch<void>(url, test, httpOptions).subscribe(() => {
             subject.next();
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -66,7 +65,7 @@ export class HttpTypesService {
         this.http.put<void>(url, test, httpOptions).subscribe(() => {
             subject.next();
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -77,7 +76,7 @@ export class HttpTypesService {
         this.http.delete<void>(url, httpOptions).subscribe(() => {
             subject.next();
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 

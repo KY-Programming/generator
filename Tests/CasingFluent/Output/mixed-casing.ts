@@ -1,5 +1,4 @@
 ﻿/* eslint-disable */
-// tslint:disable
 
 import { CaseMe } from "./case-me";
 import { KeepMyCase } from "./keep-my-case";

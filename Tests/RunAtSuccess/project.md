@@ -20,18 +20,17 @@ readid -solution=*Undefined* -project=$\Tests\RunAtSuccess\RunAtSuccess.csproj m
 ## Output
 
 - Output/
-    - model.ts `#1ebcc589`
+    - model.ts `#b636cef0`
 
 ## Validation
 
-- run-at-success.js `failed`
 - validate.js `passed, 1 file validated`
 
 ## Status
 
-- **Last Build:** 2026-08-13 15:06:17
-- **Duration:** 7.6s
-- **Status:** Failure
-- **Info:** All outputs match; run-at-success.js: no result (exit 0)
-- **Last Success:** 2026-08-13 14:52:33
-- **Generator:** 10.1.0
+- **Last Build:** 2026-08-22 10:37:47
+- **Duration:** 6.0s
+- **Status:** Success
+- **Info:** 0 errors, 1 file validated
+- **Last Success:** 2026-08-22 10:37:47
+- **Generator:** 10.2.0

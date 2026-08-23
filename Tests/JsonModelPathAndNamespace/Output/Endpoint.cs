@@ -4,7 +4,7 @@ using System.CodeDom.Compiler;
 
 namespace KY.Generator.Tests.Json
 {
-    [GeneratedCode("KY.Generator", "10.1.0.0")]
+    [GeneratedCode("KY.Generator", "10.2.0.0")]
     public partial class Endpoint
     {
         public string Url { get; set; }

@@ -1,5 +1,4 @@
 ﻿/* eslint-disable */
-// tslint:disable
 
 export class WeatherForecast {
   public date: Date = new Date(0);

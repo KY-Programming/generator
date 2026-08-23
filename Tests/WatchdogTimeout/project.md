@@ -17,4 +17,13 @@ Covers a wait that never succeeds: the fluent `WaitFor(...)` points at a port no
 
 ## Validation
 
-- validate.js
+- validate.js `passed, 1 file validated`
+
+## Status
+
+- **Last Build:** 2026-08-22 10:38:07
+- **Duration:** 11.7s
+- **Status:** Success
+- **Info:** 0 errors, 1 file validated
+- **Last Success:** 2026-08-22 10:38:07
+- **Generator:** 10.2.0

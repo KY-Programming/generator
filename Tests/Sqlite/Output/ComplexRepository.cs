@@ -7,7 +7,7 @@ using Microsoft.Data.Sqlite;
 
 namespace Sqlite.Models
 {
-    [GeneratedCode("KY.Generator", "10.1.0.0")]
+    [GeneratedCode("KY.Generator", "10.2.0.0")]
     public partial class ComplexRepository
     {
         private SqliteConnection connection;
@@ -60,7 +60,7 @@ FROM Complex";
         {
             using SqliteCommand command = this.connection.CreateCommand();
             command.CommandText = @"INSERT INTO Complex (StringProperty) VALUES (@stringProperty);";
-            command.Parameters.Add(new SqliteParameter("@stringProperty", entry.StringProperty ?? (object) DBNull.Value));
+            command.Parameters.Add(new SqliteParameter("@stringProperty", entry.StringProperty ?? (object)DBNull.Value));
             command.ExecuteNonQuery();
         }
 
@@ -70,7 +70,7 @@ FROM Complex";
             command.CommandText = @"
 DELETE FROM Complex
 WHERE StringProperty = @stringProperty";
-            command.Parameters.Add(new SqliteParameter("@stringProperty", entry.StringProperty ?? (object) DBNull.Value));
+            command.Parameters.Add(new SqliteParameter("@stringProperty", entry.StringProperty ?? (object)DBNull.Value));
             command.ExecuteNonQuery();
         }
     }

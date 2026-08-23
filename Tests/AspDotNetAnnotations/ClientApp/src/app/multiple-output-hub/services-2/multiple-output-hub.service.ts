@@ -1,5 +1,4 @@
 ﻿/* eslint-disable */
-// tslint:disable
 
 import { ConnectionStatus } from "../models-2/connection-status";
 import { Injectable } from "@angular/core";
@@ -41,7 +40,7 @@ export class MultipleOutputHubService {
             throw new Error("serviceUrl can not be empty. Set it via service.serviceUrl.")
         }
         if (this.connection && ! this.isClosed) {
-            return this.status$.pipe(filter((status) => status === ConnectionStatus.connected), take(1), map(() => {
+            return this.status$.pipe(filter(status => status === ConnectionStatus.connected), take(1), map(() => {
             }));
         }
         this.isClosed = false;
@@ -54,7 +53,7 @@ export class MultipleOutputHubService {
                 subject.next();
                 subject.complete();
                 this.statusSubject.next(ConnectionStatus.connected);
-            }).catch((error) => {
+            }).catch(error => {
                 if (this.isClosed) {
                     return;
                 }
@@ -69,7 +68,7 @@ export class MultipleOutputHubService {
                     startConnection().subscribe(() => {
                         subject.next();
                         subject.complete();
-                    }, (innerError) => subject.error(innerError))
+                    }, innerError => subject.error(innerError))
                 }, timeout);
             });
             return subject;
@@ -90,7 +89,7 @@ export class MultipleOutputHubService {
     // If the service is reconnecting/sleeping the connection attempt will be canceled
     public disconnect(): void {
         this.isClosed = true;
-        this.connection?.pipe(take(1)).subscribe((hubConnection) => {
+        this.connection?.pipe(take(1)).subscribe(hubConnection => {
             hubConnection.stop().then(() => {
                 this.statusSubject.next(ConnectionStatus.disconnected);
             });
@@ -100,10 +99,10 @@ export class MultipleOutputHubService {
     // Send a "Test" message to the hub with the given parameters. Automatically connects to the hub.
     public test(): Observable<void> {
         let subject = new Subject<void>();
-        this.connect().pipe(mergeMap(() => this.connection!), take(1), mergeMap((connection) => connection.send("Test"))).subscribe(() => {
+        this.connect().pipe(mergeMap(() => this.connection!), take(1), mergeMap(connection => connection.send("Test"))).subscribe(() => {
             subject.next();
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 }

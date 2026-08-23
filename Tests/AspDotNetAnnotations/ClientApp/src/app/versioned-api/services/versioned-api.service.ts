@@ -1,5 +1,4 @@
 ﻿/* eslint-disable */
-// tslint:disable
 
 import { WeatherForecast } from "../models/weather-forecast";
 import { HttpClient } from "@angular/common/http";
@@ -31,11 +30,11 @@ export class VersionedApiService {
         let subject = new Subject<WeatherForecast[]>();
         httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/api/v1.0/versionedapi";
-        this.http.get<WeatherForecast[]>(url, httpOptions).subscribe((result) => {
-            result.forEach((m) => this.convertWeatherForecastDate(m));
+        this.http.get<WeatherForecast[]>(url, httpOptions).subscribe(result => {
+            result.forEach(m => this.convertWeatherForecastDate(m));
             subject.next(this.fixUndefined(result));
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -45,11 +44,11 @@ export class VersionedApiService {
         let url: string = this.serviceUrl + "/api/v1.0/versionedapi/next";
         url = this.append(url, days, undefined, "/");
         url += "/days";
-        this.http.get<WeatherForecast[]>(url, httpOptions).subscribe((result) => {
-            result.forEach((m) => this.convertWeatherForecastDate(m));
+        this.http.get<WeatherForecast[]>(url, httpOptions).subscribe(result => {
+            result.forEach(m => this.convertWeatherForecastDate(m));
             subject.next(this.fixUndefined(result));
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -58,11 +57,11 @@ export class VersionedApiService {
         httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/api/v2.0/versionedapi/next-days";
         url = this.append(url, days, "days");
-        this.http.get<WeatherForecast[]>(url, httpOptions).subscribe((result) => {
-            result.forEach((m) => this.convertWeatherForecastDate(m));
+        this.http.get<WeatherForecast[]>(url, httpOptions).subscribe(result => {
+            result.forEach(m => this.convertWeatherForecastDate(m));
             subject.next(this.fixUndefined(result));
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -70,10 +69,10 @@ export class VersionedApiService {
         let subject = new Subject<string>();
         httpOptions = { responseType: 'text', ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/api/v1.0/test/versionedapi/getwithabsoluteroute";
-        this.http.get<string>(url, httpOptions).subscribe((result) => {
+        this.http.get<string>(url, httpOptions).subscribe(result => {
             subject.next(this.fixUndefined(result));
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 

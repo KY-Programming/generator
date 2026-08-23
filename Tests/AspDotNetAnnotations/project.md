@@ -20,96 +20,96 @@ readid -solution=*Undefined* -project=$\Tests\AspDotNetAnnotations\AspDotNetAnno
 ## Output
 
 - ClientApp/src/app/api-version-neutral/services/
-    - api-version-neutral.service.ts `#8e130784`
+    - api-version-neutral.service.ts `#c71a18df`
 - ClientApp/src/app/convert-to-interface/models/
-    - convert-me-optional.ts `#0ed1c155`
-    - convert-me.ts `#d72447b7`
+    - convert-me-optional.ts `#66ca566b`
+    - convert-me.ts `#01339fdd`
 - ClientApp/src/app/convert-to-interface/services/
-    - convert-to-interface-optional.service.ts `#4c6e7c50`
-    - convert-to-interface.service.ts `#38c0ca0a`
+    - convert-to-interface-optional.service.ts `#544b7738`
+    - convert-to-interface.service.ts `#156d2246`
 - ClientApp/src/app/date/models/
-    - date-array-wrapper.ts `#f58ac096`
-    - date-model-array-wrapper.ts `#d4d7c15e`
-    - date-model-wrapper-list-wrapper.ts `#f6b081d5`
-    - date-model-wrapper-with-date.ts `#11a538ca`
-    - date-model-wrapper.ts `#2f705aa3`
-    - date-model.ts `#fe4d87f4`
-    - generic-result.ts `#41250bca`
-    - optional-properties-model.ts `#e3b1d36a`
+    - date-array-wrapper.ts `#40ddb8a0`
+    - date-model-array-wrapper.ts `#a63bce13`
+    - date-model-wrapper-list-wrapper.ts `#c2069ffe`
+    - date-model-wrapper-with-date.ts `#8de25782`
+    - date-model-wrapper.ts `#4c8731cd`
+    - date-model.ts `#0ab66170`
+    - generic-result.ts `#f34a8b4b`
+    - optional-properties-model.ts `#e593b46f`
 - ClientApp/src/app/date/services/
-    - date.service.ts `#112b9b69`
-    - optional-property.service.ts `#5bb37698`
+    - date.service.ts `#aa1b0675`
+    - optional-property.service.ts `#5f9fc4fb`
 - ClientApp/src/app/default-api-version/models/
-    - weather-forecast.ts `#740d48f7`
+    - weather-forecast.ts `#90ae09a2`
 - ClientApp/src/app/default-api-version/services/
-    - default-api-version.service.ts `#fafb6e91`
+    - default-api-version.service.ts `#af104a92`
 - ClientApp/src/app/derived/services/
-    - derived.service.ts `#30580382`
+    - derived.service.ts `#7a5ff9aa`
 - ClientApp/src/app/duplicate-name/services/
-    - duplicate-name.service.ts `#5c8e714a`
+    - duplicate-name.service.ts `#bef45849`
 - ClientApp/src/app/edge-cases/models/
-    - date-model.ts `#fe4d87f4`
-    - exclusive-generic-complex-result.ts `#86a6ce5a`
-    - generic-result.ts `#41250bca`
-    - self-referencing-model.ts `#ad1f99a7`
+    - date-model.ts `#0ab66170`
+    - exclusive-generic-complex-result.ts `#891ca3ea`
+    - generic-result.ts `#f34a8b4b`
+    - self-referencing-model.ts `#19faf775`
 - ClientApp/src/app/edge-cases/services/
-    - edge-cases.service.ts `#e6627f2a`
+    - edge-cases.service.ts `#51483b0f`
 - ClientApp/src/app/fix-casing/models/
-    - casing-model.ts `#5eed04f2`
-    - casing-with-mapping-model.ts `#352b8f35`
+    - casing-model.ts `#617a9ce1`
+    - casing-with-mapping-model.ts `#37b93ad1`
 - ClientApp/src/app/fix-casing/services/
-    - fix-casing.service.ts `#155346d5`
+    - fix-casing.service.ts `#9b29b34f`
 - ClientApp/src/app/get-complex/models/
-    - get-complex-model-service.ts `#e0dfe69e`
-    - get-complex-model.ts `#ff9a7ba7`
+    - get-complex-model-service.ts `#f35b02dc`
+    - get-complex-model.ts `#695e2512`
 - ClientApp/src/app/get-complex/services/
-    - get-complex.service.ts `#324109a6`
+    - get-complex.service.ts `#52a564bb`
 - ClientApp/src/app/http-types/services/
-    - http-types.service.ts `#08808695`
+    - http-types.service.ts `#53f0d5fe`
 - ClientApp/src/app/invalid-words/services/
-    - invalid-words.service.ts `#6ce41fb6`
+    - invalid-words.service.ts `#6e327b35`
 - ClientApp/src/app/multiple-output-hub/models-1/
-    - connection-status.ts `#c3edcabd`
+    - connection-status.ts `#0adb15bc`
 - ClientApp/src/app/multiple-output-hub/models-2/
-    - connection-status.ts `#c3edcabd`
+    - connection-status.ts `#0adb15bc`
 - ClientApp/src/app/multiple-output-hub/services-1/
-    - multiple-output-hub.service.ts `#c15f56d6`
+    - multiple-output-hub.service.ts `#243a5a22`
 - ClientApp/src/app/multiple-output-hub/services-2/
-    - multiple-output-hub.service.ts `#6a201577`
+    - multiple-output-hub.service.ts `#27d4dcee`
 - ClientApp/src/app/parameter-on-controller/services/
-    - parameter-on.service.ts `#1e2cf31a`
+    - parameter-on.service.ts `#8109482a`
 - ClientApp/src/app/post/models/
-    - post-model.ts `#ad7f4283`
+    - post-model.ts `#de3ffd22`
 - ClientApp/src/app/post/services/
-    - post.service.ts `#188386f0`
+    - post.service.ts `#70a0b591`
 - ClientApp/src/app/produces/models/
-    - weather-forecast.ts `#740d48f7`
+    - weather-forecast.ts `#90ae09a2`
 - ClientApp/src/app/produces/services/
-    - produces.service.ts `#5a5ef346`
+    - produces.service.ts `#0662d065`
 - ClientApp/src/app/rename/models/
-    - dummy-data.ts `#6726537e`
-    - rename-dto.ts `#394dfe3e`
+    - dummy-data.ts `#676a3416`
+    - rename-dto.ts `#4f245599`
 - ClientApp/src/app/rename/services/
-    - rename.service.ts `#04ce7100`
+    - rename.service.ts `#8d52e7fb`
 - ClientApp/src/app/routed/models/
-    - weather-forecast.ts `#740d48f7`
+    - weather-forecast.ts `#90ae09a2`
 - ClientApp/src/app/routed/services/
-    - routed.service.ts `#7873feaa`
+    - routed.service.ts `#10530cdd`
 - ClientApp/src/app/status-api-version/services/
-    - status-api-version.service.ts `#d5efb66c`
+    - status-api-version.service.ts `#e4b47a63`
 - ClientApp/src/app/versioned-api/models/
-    - weather-forecast.ts `#740d48f7`
+    - weather-forecast.ts `#90ae09a2`
 - ClientApp/src/app/versioned-api/services/
-    - versioned-api.service.ts `#b70932ef`
+    - versioned-api.service.ts `#c5742bf1`
 - ClientApp/src/app/warnings/models/
-    - weather-forecast.ts `#740d48f7`
+    - weather-forecast.ts `#90ae09a2`
 - ClientApp/src/app/warnings/services/
-    - warning.service.ts `#0ed14252`
+    - warning.service.ts `#c1656fda`
 - ClientApp/src/app/weather-hub/models/
-    - connection-status.ts `#c3edcabd`
-    - weather-forecast.ts `#740d48f7`
+    - connection-status.ts `#0adb15bc`
+    - weather-forecast.ts `#90ae09a2`
 - ClientApp/src/app/weather-hub/services/
-    - weather-forecast-hub.service.ts `#29528837`
+    - weather-forecast-hub.service.ts `#44dac908`
 
 ## Validation
 
@@ -117,9 +117,9 @@ readid -solution=*Undefined* -project=$\Tests\AspDotNetAnnotations\AspDotNetAnno
 
 ## Status
 
-- **Last Build:** 2026-08-13 15:06:07
+- **Last Build:** 2026-08-22 10:37:33
 - **Duration:** 10.7s
 - **Status:** Success
-- **Info:** 0 errors, 57 files validated
-- **Last Success:** 2026-08-13 15:06:07
-- **Generator:** 10.1.0
+- **Info:** All outputs match
+- **Last Success:** 2026-08-22 10:37:33
+- **Generator:** 10.2.0

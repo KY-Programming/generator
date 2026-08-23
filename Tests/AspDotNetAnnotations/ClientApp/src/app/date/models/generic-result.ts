@@ -1,5 +1,4 @@
 ﻿/* eslint-disable */
-// tslint:disable
 
 export class GenericResult<T> {
     public rows: T[] = [];

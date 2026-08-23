@@ -1,5 +1,4 @@
 ﻿/* eslint-disable */
-// tslint:disable
 
 // Covers excluding single members and whole types from the generation.
 export class IgnoredMembers {

@@ -20,12 +20,12 @@ readid -solution=*Undefined* -project=$\Tests\CustomBuildOutputLocation\CustomBu
 ## Output
 
 - Other/
-    - generate-to-other.ts `#9c024147`
+    - generate-to-other.ts `#89d77758`
 - Output/
-    - class-1.ts `#1669c534`
-    - generate-to-output.ts `#80b07f5c`
+    - class-1.ts `#f6e3ca1d`
+    - generate-to-output.ts `#4cd28176`
 - Output/One/
-    - generate-to-output-one.ts `#206b64fe`
+    - generate-to-output-one.ts `#f651b22e`
 
 ## Validation
 
@@ -33,9 +33,9 @@ readid -solution=*Undefined* -project=$\Tests\CustomBuildOutputLocation\CustomBu
 
 ## Status
 
-- **Last Build:** 2026-08-13 15:06:00
-- **Duration:** 5.6s
+- **Last Build:** 2026-08-22 10:37:36
+- **Duration:** 6.0s
 - **Status:** Success
 - **Info:** 0 errors, 4 files validated
-- **Last Success:** 2026-08-13 15:06:00
-- **Generator:** 10.1.0
+- **Last Success:** 2026-08-22 10:37:36
+- **Generator:** 10.2.0

@@ -1,5 +1,4 @@
 ﻿/* eslint-disable */
-// tslint:disable
 
 import { NullableDisabledTypes } from "./nullable-disabled-types";
 

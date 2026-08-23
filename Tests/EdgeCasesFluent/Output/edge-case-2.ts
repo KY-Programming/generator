@@ -1,5 +1,4 @@
 ﻿/* eslint-disable */
-// tslint:disable
 
 import { EdgeCase2SubType } from "./edge-case-2-sub-type";
 

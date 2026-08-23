@@ -7,7 +7,7 @@ using Microsoft.Data.Sqlite;
 
 namespace Sqlite.Models
 {
-    [GeneratedCode("KY.Generator", "10.1.0.0")]
+    [GeneratedCode("KY.Generator", "10.2.0.0")]
     public partial class SimpleRepository
     {
         private SqliteConnection connection;
@@ -62,7 +62,7 @@ FROM Simple";
         {
             using SqliteCommand command = this.connection.CreateCommand();
             command.CommandText = @"INSERT INTO Simple (StringProperty, NullableStringProperty) VALUES (@stringProperty, @nullableStringProperty);";
-            command.Parameters.Add(new SqliteParameter("@stringProperty", entry.StringProperty ?? (object) DBNull.Value));
+            command.Parameters.Add(new SqliteParameter("@stringProperty", entry.StringProperty ?? (object)DBNull.Value));
             command.Parameters.Add(new SqliteParameter("@nullableStringProperty", entry.NullableStringProperty));
             command.ExecuteNonQuery();
         }
@@ -74,7 +74,7 @@ FROM Simple";
 DELETE FROM Simple
 WHERE StringProperty = @stringProperty AND
     NullableStringProperty = @nullableStringProperty";
-            command.Parameters.Add(new SqliteParameter("@stringProperty", entry.StringProperty ?? (object) DBNull.Value));
+            command.Parameters.Add(new SqliteParameter("@stringProperty", entry.StringProperty ?? (object)DBNull.Value));
             command.Parameters.Add(new SqliteParameter("@nullableStringProperty", entry.NullableStringProperty));
             command.ExecuteNonQuery();
         }

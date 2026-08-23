@@ -20,25 +20,25 @@ readid -solution=*Undefined* -project=$\Tests\EdgeCasesFluent\EdgeCasesFluent.cs
 ## Output
 
 - Output/
-    - edge-case-1-sub-type-generic.ts `#91dffe6b`
-    - edge-case-1-sub-type.ts `#1cb1c697`
-    - edge-case-1.ts `#5dacf65e`
-    - edge-case-2-sub-type-generic.ts `#bc921d63`
-    - edge-case-2-sub-type.ts `#6ca83c13`
-    - edge-case-2.ts `#5b609c1d`
-    - generic-interface-with-non-generic-base.interface.ts `#8118790d`
-    - generic-interface.interface.ts `#eb56f4f2`
-    - interface-generic.interface.ts `#2e06e271`
-    - interface.interface.ts `#50382a44`
-    - self-referencing-type.ts `#2c08f6ad`
-    - type-with-generic-and-not-generic-base-interface.ts `#ca0434f7`
-    - type-with-generic-and-not-generic-interface.ts `#d4c7a03d`
-    - type-with-generic-ignored-base.ts `#6c0dd9ab`
-    - type-with-generic-interface.ts `#46630dbf`
-    - type-with-ignore-generic-interface.ts `#7ab42471`
-    - type-with-ignore-interface.ts `#a5002888`
-    - type-with-ignored-base.ts `#51dc1211`
-    - type-with-interface.ts `#37a60ff6`
+    - edge-case-1-sub-type-generic.ts `#9850755a`
+    - edge-case-1-sub-type.ts `#d19260ae`
+    - edge-case-1.ts `#09813ec5`
+    - edge-case-2-sub-type-generic.ts `#dfa6b415`
+    - edge-case-2-sub-type.ts `#9b01cd49`
+    - edge-case-2.ts `#f3ca7a30`
+    - generic-interface-with-non-generic-base.interface.ts `#694540e7`
+    - generic-interface.interface.ts `#1272df18`
+    - interface-generic.interface.ts `#dbaa89e8`
+    - interface.interface.ts `#ecfca7a9`
+    - self-referencing-type.ts `#f66265ec`
+    - type-with-generic-and-not-generic-base-interface.ts `#64bc182a`
+    - type-with-generic-and-not-generic-interface.ts `#0449d485`
+    - type-with-generic-ignored-base.ts `#a86d0394`
+    - type-with-generic-interface.ts `#8d85af7e`
+    - type-with-ignore-generic-interface.ts `#0e7b3399`
+    - type-with-ignore-interface.ts `#3a737e9d`
+    - type-with-ignored-base.ts `#6851790a`
+    - type-with-interface.ts `#937ca934`
 
 ## Validation
 
@@ -46,9 +46,9 @@ readid -solution=*Undefined* -project=$\Tests\EdgeCasesFluent\EdgeCasesFluent.cs
 
 ## Status
 
-- **Last Build:** 2026-08-13 15:06:16
-- **Duration:** 9.2s
+- **Last Build:** 2026-08-22 10:37:40
+- **Duration:** 7.3s
 - **Status:** Success
 - **Info:** 0 errors, 19 files validated
-- **Last Success:** 2026-08-13 15:06:16
-- **Generator:** 10.1.0
+- **Last Success:** 2026-08-22 10:37:40
+- **Generator:** 10.2.0

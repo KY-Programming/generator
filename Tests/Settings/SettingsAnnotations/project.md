@@ -16,8 +16,27 @@ overlap, and the `GenerateModelOutput` of `AssemblyInfo.cs` has to win over the 
 an attribute sits closer to the generated type than any settings file. `ConfiguredModel` pulls in
 `ConfiguredDetail`, so the generated import shows which quote character was used.
 
+## Parameters
+
+```
+readid -solution=*Undefined* -project=$\Tests\Settings\SettingsAnnotations\SettingsAnnotations.csproj msbuild set -output=$\Tests\Settings\SettingsAnnotations\ load -assembly=$\Tests\Settings\SettingsAnnotations\bin\Debug\net10.0\SettingsAnnotations.dll fluent annotation
+```
+
 ## Output
 
 - Output/
-    - configured-detail.ts
-    - configured-model.ts
+    - configured-detail.ts `#ccd5b00c`
+    - configured-model.ts `#1d177bb3`
+
+## Validation
+
+- validate.js `passed, 2 files validated`
+
+## Status
+
+- **Last Build:** 2026-08-22 10:37:51
+- **Duration:** 5.8s
+- **Status:** Success
+- **Info:** 0 errors, 2 files validated
+- **Last Success:** 2026-08-22 10:37:51
+- **Generator:** 10.2.0

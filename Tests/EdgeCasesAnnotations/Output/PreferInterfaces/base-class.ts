@@ -1,5 +1,4 @@
 ﻿/* eslint-disable */
-// tslint:disable
 
 // Carries a shadowed and a virtual member, so member resolution along the chain is covered in both modes.
 export class BaseClass {

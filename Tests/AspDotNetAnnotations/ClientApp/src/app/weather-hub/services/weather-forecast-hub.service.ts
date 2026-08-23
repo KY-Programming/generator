@@ -1,5 +1,4 @@
 ﻿/* eslint-disable */
-// tslint:disable
 
 import { ConnectionStatus } from "../models/connection-status";
 import { WeatherForecast } from "../models/weather-forecast";
@@ -42,7 +41,7 @@ export class WeatherForecastHubService {
             throw new Error("serviceUrl can not be empty. Set it via service.serviceUrl.")
         }
         if (this.connection && ! this.isClosed) {
-            return this.status$.pipe(filter((status) => status === ConnectionStatus.connected), take(1), map(() => {
+            return this.status$.pipe(filter(status => status === ConnectionStatus.connected), take(1), map(() => {
             }));
         }
         this.isClosed = false;
@@ -55,7 +54,7 @@ export class WeatherForecastHubService {
                 subject.next();
                 subject.complete();
                 this.statusSubject.next(ConnectionStatus.connected);
-            }).catch((error) => {
+            }).catch(error => {
                 if (this.isClosed) {
                     return;
                 }
@@ -70,7 +69,7 @@ export class WeatherForecastHubService {
                     startConnection().subscribe(() => {
                         subject.next();
                         subject.complete();
-                    }, (innerError) => subject.error(innerError))
+                    }, innerError => subject.error(innerError))
                 }, timeout);
             });
             return subject;
@@ -91,7 +90,7 @@ export class WeatherForecastHubService {
     // If the service is reconnecting/sleeping the connection attempt will be canceled
     public disconnect(): void {
         this.isClosed = true;
-        this.connection?.pipe(take(1)).subscribe((hubConnection) => {
+        this.connection?.pipe(take(1)).subscribe(hubConnection => {
             hubConnection.stop().then(() => {
                 this.statusSubject.next(ConnectionStatus.disconnected);
             });
@@ -101,10 +100,10 @@ export class WeatherForecastHubService {
     // Send a "Fetch" message to the hub with the given parameters. Automatically connects to the hub.
     public fetch(): Observable<void> {
         let subject = new Subject<void>();
-        this.connect().pipe(mergeMap(() => this.connection!), take(1), mergeMap((connection) => connection.send("Fetch"))).subscribe(() => {
+        this.connect().pipe(mergeMap(() => this.connection!), take(1), mergeMap(connection => connection.send("Fetch"))).subscribe(() => {
             subject.next();
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 }

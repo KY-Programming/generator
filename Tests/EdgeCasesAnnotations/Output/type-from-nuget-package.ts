@@ -1,5 +1,4 @@
 ﻿/* eslint-disable */
-// tslint:disable
 
 // The type exposes a member whose type comes from a NuGet package rather than from the project or the
 // framework, so the assembly loader has to resolve System.Reactive out of the package folder before the

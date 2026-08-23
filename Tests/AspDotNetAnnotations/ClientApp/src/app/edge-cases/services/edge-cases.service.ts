@@ -1,5 +1,4 @@
 ﻿/* eslint-disable */
-// tslint:disable
 
 import { DateModel } from "../models/date-model";
 import { ExclusiveGenericComplexResult } from "../models/exclusive-generic-complex-result";
@@ -38,7 +37,7 @@ export class EdgeCasesService {
         this.http.get<void>(url, httpOptions).subscribe(() => {
             rxjsSubject.next();
             rxjsSubject.complete();
-        }, (error) => rxjsSubject.error(error));
+        }, error => rxjsSubject.error(error));
         return rxjsSubject;
     }
 
@@ -50,7 +49,7 @@ export class EdgeCasesService {
         this.http.post<void>(url, undefined, httpOptions).subscribe(() => {
             rxjsSubject.next();
             rxjsSubject.complete();
-        }, (error) => rxjsSubject.error(error));
+        }, error => rxjsSubject.error(error));
         return rxjsSubject;
     }
 
@@ -59,10 +58,10 @@ export class EdgeCasesService {
         httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/api/edgecases/cancelable";
         url = this.append(url, subject, "subject");
-        this.http.get<string[]>(url, httpOptions).subscribe((result) => {
+        this.http.get<string[]>(url, httpOptions).subscribe(result => {
             rxjsSubject.next(this.fixUndefined(result));
             rxjsSubject.complete();
-        }, (error) => rxjsSubject.error(error));
+        }, error => rxjsSubject.error(error));
         return rxjsSubject;
     }
 
@@ -70,10 +69,10 @@ export class EdgeCasesService {
         let subject = new Subject<string>();
         httpOptions = { responseType: 'text', ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/api/edgecases/string";
-        this.http.get<string>(url, httpOptions).subscribe((result) => {
+        this.http.get<string>(url, httpOptions).subscribe(result => {
             subject.next(this.fixUndefined(result));
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -82,10 +81,10 @@ export class EdgeCasesService {
         httpOptions = { responseType: 'text', ...this.httpOptions, ...httpOptions};
         let requestUrl: string = this.serviceUrl + "/api/edgecases/download";
         requestUrl = this.append(requestUrl, url, "url");
-        this.http.post<string>(requestUrl, undefined, httpOptions).subscribe((result) => {
+        this.http.post<string>(requestUrl, undefined, httpOptions).subscribe(result => {
             subject.next(this.fixUndefined(result));
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -94,10 +93,10 @@ export class EdgeCasesService {
         requestOptions = { responseType: 'text', ...this.httpOptions, ...requestOptions};
         let url: string = this.serviceUrl + "/api/edgecases/withhttpoptions";
         url = this.append(url, httpOptions, "httpOptions");
-        this.http.post<string>(url, undefined, requestOptions).subscribe((result) => {
+        this.http.post<string>(url, undefined, requestOptions).subscribe(result => {
             subject.next(this.fixUndefined(result));
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -105,10 +104,10 @@ export class EdgeCasesService {
         let subject = new Subject<string>();
         httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/api/edgecases/getguid";
-        this.http.get<string>(url, httpOptions).subscribe((result) => {
+        this.http.get<string>(url, httpOptions).subscribe(result => {
             subject.next(this.fixUndefined(result?.replace(/(^"|"$)/g, "")));
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -117,10 +116,10 @@ export class EdgeCasesService {
         httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/api/edgecases/withdi";
         url = this.append(url, value, "value");
-        this.http.get<boolean>(url, httpOptions).subscribe((result) => {
+        this.http.get<boolean>(url, httpOptions).subscribe(result => {
             subject.next(this.fixUndefined(result));
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -129,10 +128,10 @@ export class EdgeCasesService {
         httpOptions = { responseType: 'text', ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/api/edgecases/fromheader";
         url = this.append(url, value, "value");
-        this.http.get<string>(url, httpOptions).subscribe((result) => {
+        this.http.get<string>(url, httpOptions).subscribe(result => {
             subject.next(this.fixUndefined(result));
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -142,10 +141,10 @@ export class EdgeCasesService {
         let url: string = this.serviceUrl + "/api/edgecases/fromquery";
         url = this.append(url, queryValue, "queryValue");
         url = this.append(url, value, "value");
-        this.http.get<string>(url, httpOptions).subscribe((result) => {
+        this.http.get<string>(url, httpOptions).subscribe(result => {
             subject.next(this.fixUndefined(result));
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -153,11 +152,11 @@ export class EdgeCasesService {
         let subject = new Subject<string>();
         httpOptions = { responseType: 'text', ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/api/edgecases/fromqueryarray";
-        queryArray?.forEach((entry) => url = this.append(url, entry, "queryArray"));
-        this.http.get<string>(url, httpOptions).subscribe((result) => {
+        queryArray?.forEach(entry => url = this.append(url, entry, "queryArray"));
+        this.http.get<string>(url, httpOptions).subscribe(result => {
             subject.next(this.fixUndefined(result));
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -167,10 +166,10 @@ export class EdgeCasesService {
         let url: string = this.serviceUrl + "/api/edgecases/genericresult";
         url = this.append(url, value1, "value1");
         url = this.append(url, value2, "value2");
-        this.http.get<GenericResult<string>>(url, httpOptions).subscribe((result) => {
+        this.http.get<GenericResult<string>>(url, httpOptions).subscribe(result => {
             subject.next(this.fixUndefined(result));
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -178,10 +177,10 @@ export class EdgeCasesService {
         let subject = new Subject<GenericResult<ExclusiveGenericComplexResult>>();
         httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/api/edgecases/genericcomplexresult";
-        this.http.get<GenericResult<ExclusiveGenericComplexResult>>(url, httpOptions).subscribe((result) => {
+        this.http.get<GenericResult<ExclusiveGenericComplexResult>>(url, httpOptions).subscribe(result => {
             subject.next(this.fixUndefined(result));
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -189,11 +188,11 @@ export class EdgeCasesService {
         let subject = new Subject<GenericResult<DateModel>>();
         httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/api/edgecases/getgenericwithmodel";
-        this.http.get<GenericResult<DateModel>>(url, httpOptions).subscribe((result) => {
+        this.http.get<GenericResult<DateModel>>(url, httpOptions).subscribe(result => {
             this.convertGenericResultDate(result);
             subject.next(this.fixUndefined(result));
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -203,10 +202,10 @@ export class EdgeCasesService {
         let url: string = this.serviceUrl + "/api/edgecases/getwithoptional";
         url = this.append(url, required, "required");
         url = this.append(url, optional, "optional");
-        this.http.get<string>(url, httpOptions).subscribe((result) => {
+        this.http.get<string>(url, httpOptions).subscribe(result => {
             subject.next(this.fixUndefined(result));
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -216,10 +215,10 @@ export class EdgeCasesService {
         let url: string = this.serviceUrl + "/api/edgecases/getinlinewithoptional";
         url = this.append(url, required, undefined, "/");
         url = this.append(url, optional, undefined, "/");
-        this.http.get<string>(url, httpOptions).subscribe((result) => {
+        this.http.get<string>(url, httpOptions).subscribe(result => {
             subject.next(this.fixUndefined(result));
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -230,10 +229,10 @@ export class EdgeCasesService {
         url = this.append(url, required, undefined, "/");
         url += "/optional";
         url = this.append(url, optional, undefined, "/");
-        this.http.get<string>(url, httpOptions).subscribe((result) => {
+        this.http.get<string>(url, httpOptions).subscribe(result => {
             subject.next(this.fixUndefined(result));
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -241,10 +240,10 @@ export class EdgeCasesService {
         let subject = new Subject<string>();
         httpOptions = { responseType: 'text', ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/api/test/edgecases/getwithabsoluteroute";
-        this.http.get<string>(url, httpOptions).subscribe((result) => {
+        this.http.get<string>(url, httpOptions).subscribe(result => {
             subject.next(this.fixUndefined(result));
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -254,10 +253,10 @@ export class EdgeCasesService {
         let url: string = this.serviceUrl + "/api/test";
         url = this.append(url, id, undefined, "/");
         url += "/getwithabsoluterouteandparameter/edgecases";
-        this.http.get<string>(url, httpOptions).subscribe((result) => {
+        this.http.get<string>(url, httpOptions).subscribe(result => {
             subject.next(this.fixUndefined(result));
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -266,10 +265,10 @@ export class EdgeCasesService {
         httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/api/edgecases/unknownresult";
         url = this.append(url, value, "value");
-        this.http.get<TDefault>(url, httpOptions).subscribe((result) => {
+        this.http.get<TDefault>(url, httpOptions).subscribe(result => {
             subject.next(this.fixUndefined(result));
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -277,11 +276,11 @@ export class EdgeCasesService {
         let subject = new Subject<SelfReferencingModel>();
         httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/api/edgecases/selfreferencing";
-        this.http.get<SelfReferencingModel>(url, httpOptions).subscribe((result) => {
+        this.http.get<SelfReferencingModel>(url, httpOptions).subscribe(result => {
             this.convertSelfReferencingModelDate(result);
             subject.next(this.fixUndefined(result));
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -305,7 +304,7 @@ export class EdgeCasesService {
         if (!model) {
             return;
         }
-        model.rows?.forEach((m) => this.convertDateModelDate(m));
+        model.rows?.forEach(m => this.convertDateModelDate(m));
     }
 
     public convertDateModelDate(model?: DateModel): void {
@@ -319,7 +318,7 @@ export class EdgeCasesService {
         if (!model) {
             return;
         }
-        model.children?.forEach((m) => this.convertSelfReferencingModelDate(m));
+        model.children?.forEach(m => this.convertSelfReferencingModelDate(m));
     }
 
     private fixUndefined(value: any): any {

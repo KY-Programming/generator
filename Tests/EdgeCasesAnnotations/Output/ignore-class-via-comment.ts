@@ -1,5 +1,4 @@
 ﻿/* eslint-disable */
-// tslint:disable
 
 // This is a normal class.
 // Generator should not ignore this class

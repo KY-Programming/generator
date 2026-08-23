@@ -1,5 +1,4 @@
 ﻿/* eslint-disable */
-// tslint:disable
 
 import { IGenericInterface } from "./generic-interface.interface";
 

@@ -1,5 +1,4 @@
 ﻿/* eslint-disable */
-// tslint:disable
 
 export class OptionalPropertiesModel {
     public requiredString: string = "";

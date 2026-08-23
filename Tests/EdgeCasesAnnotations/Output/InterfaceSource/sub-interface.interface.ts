@@ -1,5 +1,4 @@
 ﻿/* eslint-disable */
-// tslint:disable
 
 // Reached only through the annotated interface, so it has to be pulled in as a dependency.
 export interface ISubInterface {

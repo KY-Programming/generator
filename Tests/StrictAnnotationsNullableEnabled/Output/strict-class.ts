@@ -1,5 +1,4 @@
 ﻿/* eslint-disable */
-// tslint:disable
 
 export class StrictClass {
     public stringProperty: string = "";

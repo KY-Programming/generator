@@ -20,9 +20,9 @@ readid -solution=*Undefined* -project=$\Tests\CasingFluent\CasingFluent.csproj m
 ## Output
 
 - Output/
-    - case-me.ts `#91d5214c`
-    - keep-my-case.ts `#a3f24fd1`
-    - mixed-casing.ts `#e8d22788`
+    - case-me.ts `#5b0dde0e`
+    - keep-my-case.ts `#f1ca347d`
+    - mixed-casing.ts `#504cf06c`
 
 ## Validation
 
@@ -30,9 +30,9 @@ readid -solution=*Undefined* -project=$\Tests\CasingFluent\CasingFluent.csproj m
 
 ## Status
 
-- **Last Build:** 2026-08-13 15:06:26
-- **Duration:** 10.7s
+- **Last Build:** 2026-08-22 10:37:34
+- **Duration:** 7.4s
 - **Status:** Success
 - **Info:** 0 errors, 3 files validated
-- **Last Success:** 2026-08-13 15:06:26
-- **Generator:** 10.1.0
+- **Last Success:** 2026-08-22 10:37:34
+- **Generator:** 10.2.0

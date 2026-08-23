@@ -1,5 +1,4 @@
 ﻿/* eslint-disable */
-// tslint:disable
 
 // Pulled into the first and the second output folder, once by each type that exposes it.
 export class MultipleOutputsSubType {

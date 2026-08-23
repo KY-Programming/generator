@@ -20,22 +20,22 @@ readid -solution=*Undefined* -project=$\Tests\EnumAnnotationsNullableDisabled\En
 ## Output
 
 - Output/
-    - byte-enum.ts `#908a3bf0`
-    - default-enum.ts `#a9862401`
-    - flags-enum.ts `#b68275de`
-    - indexed-enum.ts `#90367673`
-    - int-enum.ts `#6ec518f6`
-    - long-enum.ts `#19d11047`
-    - negative-enum.ts `#11344924`
-    - s-byte-enum.ts `#68cc893a`
-    - short-enum.ts `#b3a43ebb`
-    - single-value-enum.ts `#57b19df5`
-    - skipped-enum.ts `#95e6055d`
-    - special-name-enum.ts `#a8bec929`
-    - starting-index-enum.ts `#49c9ed60`
-    - u-int-enum.ts `#42c34386`
-    - u-long-enum.ts `#49827945`
-    - u-short-enum.ts `#70962afb`
+    - byte-enum.ts `#31551200`
+    - default-enum.ts `#2eddbe80`
+    - flags-enum.ts `#199128cd`
+    - indexed-enum.ts `#ee086a2b`
+    - int-enum.ts `#e425bb25`
+    - long-enum.ts `#090e3885`
+    - negative-enum.ts `#da8ac9a5`
+    - s-byte-enum.ts `#651357d3`
+    - short-enum.ts `#887f75f1`
+    - single-value-enum.ts `#929f22f0`
+    - skipped-enum.ts `#55460094`
+    - special-name-enum.ts `#253373da`
+    - starting-index-enum.ts `#82476c7b`
+    - u-int-enum.ts `#2758bd1f`
+    - u-long-enum.ts `#fe4db3de`
+    - u-short-enum.ts `#895e7a3c`
 
 ## Validation
 
@@ -43,9 +43,9 @@ readid -solution=*Undefined* -project=$\Tests\EnumAnnotationsNullableDisabled\En
 
 ## Status
 
-- **Last Build:** 2026-08-13 15:06:13
-- **Duration:** 7.7s
+- **Last Build:** 2026-08-22 10:37:39
+- **Duration:** 5.7s
 - **Status:** Success
 - **Info:** 0 errors, 16 files validated
-- **Last Success:** 2026-08-13 15:06:13
-- **Generator:** 10.1.0
+- **Last Success:** 2026-08-22 10:37:39
+- **Generator:** 10.2.0

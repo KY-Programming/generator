@@ -1,5 +1,4 @@
 ﻿/* eslint-disable */
-// tslint:disable
 
 export class RenameDto {
     public constructor(init?: Partial<RenameDto>) {

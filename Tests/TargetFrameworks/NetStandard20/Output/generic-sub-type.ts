@@ -1,5 +1,4 @@
 ﻿/* eslint-disable */
-// tslint:disable
 
 export class GenericSubType<TOne, TTwo> {
     public single?: TOne;

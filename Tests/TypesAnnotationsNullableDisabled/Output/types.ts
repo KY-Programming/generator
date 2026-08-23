@@ -1,5 +1,4 @@
 ﻿/* eslint-disable */
-// tslint:disable
 
 import { DerivedRecord } from "./derived-record";
 import { GenericSubType } from "./generic-sub-type";

@@ -1,5 +1,4 @@
 ﻿/* eslint-disable */
-// tslint:disable
 
 // Model without signals. Has to be read and written completely unchanged
 export interface PlainModel {

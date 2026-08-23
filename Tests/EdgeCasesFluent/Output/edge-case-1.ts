@@ -1,5 +1,4 @@
 ﻿/* eslint-disable */
-// tslint:disable
 
 import { EdgeCase1SubTypeGeneric } from "./edge-case-1-sub-type-generic";
 

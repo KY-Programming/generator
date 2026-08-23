@@ -1,5 +1,4 @@
 ﻿/* eslint-disable */
-// tslint:disable
 
 export class ExclusiveGenericComplexResult {
     public constructor(init?: Partial<ExclusiveGenericComplexResult>) {

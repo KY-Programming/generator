@@ -1,5 +1,4 @@
 ﻿/* eslint-disable */
-// tslint:disable
 
 export class SecondIndexType {
     public intProperty: number = 0;

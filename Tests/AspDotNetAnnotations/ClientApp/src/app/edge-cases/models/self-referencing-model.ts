@@ -1,5 +1,4 @@
 ﻿/* eslint-disable */
-// tslint:disable
 
 export class SelfReferencingModel {
     public name: string = "";

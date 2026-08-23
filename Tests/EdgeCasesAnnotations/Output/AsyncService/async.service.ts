@@ -1,5 +1,4 @@
 ﻿/* eslint-disable */
-// tslint:disable
 
 import { AsyncModel } from "./async-model";
 import { SignalModel } from "./signal-model";
@@ -35,10 +34,10 @@ export class AsyncService {
         let subject = new Subject<AsyncModel>();
         httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/api/v1/async/getasync";
-        this.http.get<AsyncModel>(url, httpOptions).subscribe((result) => {
+        this.http.get<AsyncModel>(url, httpOptions).subscribe(result => {
             subject.next(this.fixUndefined(result));
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -46,10 +45,10 @@ export class AsyncService {
         let subject = new Subject<AsyncModel[]>();
         httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/api/v1/async/getlistasync";
-        this.http.get<AsyncModel[]>(url, httpOptions).subscribe((result) => {
+        this.http.get<AsyncModel[]>(url, httpOptions).subscribe(result => {
             subject.next(this.fixUndefined(result));
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -58,10 +57,10 @@ export class AsyncService {
         httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/api/v1/async/getbyidasync";
         url = this.append(url, id, undefined, "/");
-        this.http.get<AsyncModel>(url, httpOptions).subscribe((result) => {
+        this.http.get<AsyncModel>(url, httpOptions).subscribe(result => {
             subject.next(this.fixUndefined(result));
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -69,10 +68,10 @@ export class AsyncService {
         let subject = new Subject<AsyncModel>();
         httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/api/v1/async/getactionresultasync";
-        this.http.get<AsyncModel>(url, httpOptions).subscribe((result) => {
+        this.http.get<AsyncModel>(url, httpOptions).subscribe(result => {
             subject.next(this.fixUndefined(result));
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -80,10 +79,10 @@ export class AsyncService {
         let subject = new Subject<string>();
         httpOptions = { responseType: 'text', ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/api/v1/async/getwithoutasynckeyword";
-        this.http.get<string>(url, httpOptions).subscribe((result) => {
+        this.http.get<string>(url, httpOptions).subscribe(result => {
             subject.next(this.fixUndefined(result));
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -94,7 +93,7 @@ export class AsyncService {
         this.http.post<void>(url, model, httpOptions).subscribe(() => {
             subject.next();
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -103,10 +102,10 @@ export class AsyncService {
         httpOptions = { responseType: 'text', ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/api/v1/async/postwithqueryasync";
         url = this.append(url, filter, "filter");
-        this.http.post<string>(url, model, httpOptions).subscribe((result) => {
+        this.http.post<string>(url, model, httpOptions).subscribe(result => {
             subject.next(this.fixUndefined(result));
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -114,10 +113,10 @@ export class AsyncService {
         let subject = new Subject<AsyncModel>();
         httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/api/v1/async/getsynchronous";
-        this.http.get<AsyncModel>(url, httpOptions).subscribe((result) => {
+        this.http.get<AsyncModel>(url, httpOptions).subscribe(result => {
             subject.next(this.fixUndefined(result));
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -125,11 +124,11 @@ export class AsyncService {
         let subject = new Subject<SignalModel>();
         httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/api/v1/async/getsignalasync";
-        this.http.get<Unwrapped<SignalModel>>(url, httpOptions).subscribe((result) => {
+        this.http.get<Unwrapped<SignalModel>>(url, httpOptions).subscribe(result => {
             this.convertSignalModelDate(result);
             subject.next(this.wrapSignalModel(this.fixUndefined(result)));
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -137,11 +136,11 @@ export class AsyncService {
         let subject = new Subject<SignalModel[]>();
         httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/api/v1/async/getsignallistasync";
-        this.http.get<Unwrapped<SignalModel>[]>(url, httpOptions).subscribe((result) => {
-            result.forEach((m) => this.convertSignalModelDate(m));
+        this.http.get<Unwrapped<SignalModel>[]>(url, httpOptions).subscribe(result => {
+            result.forEach(m => this.convertSignalModelDate(m));
             subject.next(this.fixUndefined(result).map((entry: Unwrapped<SignalModel>) => this.wrapSignalModel(entry)));
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -152,7 +151,7 @@ export class AsyncService {
         this.http.post<void>(url, this.unwrapSignalModel(model), httpOptions).subscribe(() => {
             subject.next();
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -236,7 +235,7 @@ export class AsyncService {
         }
         model.timestamp = this.convertDate(model.timestamp) ?? model.timestamp;
         this.convertSubModelDate(model.sub);
-        model.subs?.forEach((m) => this.convertSubModelDate(m));
+        model.subs?.forEach(m => this.convertSubModelDate(m));
     }
 
     public convertSubModelDate(model?: Unwrapped<SubModel>): void {

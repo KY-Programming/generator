@@ -29,9 +29,9 @@ readid -solution=*Undefined* -project=$\Tests\JsonModelPathAndNamespace\JsonMode
 
 ## Status
 
-- **Last Build:** 2026-08-13 15:06:17
-- **Duration:** 9.0s
+- **Last Build:** 2026-08-22 10:37:47
+- **Duration:** 7.2s
 - **Status:** Success
 - **Info:** 0 errors, 2 files validated
-- **Last Success:** 2026-08-13 15:06:17
-- **Generator:** 10.1.0
+- **Last Success:** 2026-08-22 10:37:47
+- **Generator:** 10.2.0

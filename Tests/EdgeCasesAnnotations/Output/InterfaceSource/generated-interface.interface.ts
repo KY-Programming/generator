@@ -1,5 +1,4 @@
 ﻿/* eslint-disable */
-// tslint:disable
 
 import { ISubInterface } from "./sub-interface.interface";
 

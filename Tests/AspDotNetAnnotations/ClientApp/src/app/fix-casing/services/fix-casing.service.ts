@@ -1,5 +1,4 @@
 ﻿/* eslint-disable */
-// tslint:disable
 
 import { CasingModel } from "../models/casing-model";
 import { CasingWithMappingModel } from "../models/casing-with-mapping-model";
@@ -32,10 +31,10 @@ export class FixCasingService {
         let subject = new Subject<CasingModel>();
         httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/fixcasing/get";
-        this.http.get<CasingModel>(url, httpOptions).subscribe((result) => {
+        this.http.get<CasingModel>(url, httpOptions).subscribe(result => {
             subject.next(this.fixUndefined(result));
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -46,7 +45,7 @@ export class FixCasingService {
         this.http.post<void>(url, model, httpOptions).subscribe(() => {
             subject.next();
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -54,7 +53,7 @@ export class FixCasingService {
         let subject = new Subject<CasingWithMappingModel>();
         httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/fixcasing/getwithmapping";
-        this.http.get<CasingWithMappingModel>(url, httpOptions).subscribe((result) => {
+        this.http.get<CasingWithMappingModel>(url, httpOptions).subscribe(result => {
             let mapped: Record<string, any> = result;
             mapped["allupper"] = mapped["allupper"] || mapped["ALLUPPER"];
             delete mapped['ALLUPPER'];
@@ -66,7 +65,7 @@ export class FixCasingService {
             delete mapped['UPPER_SNAKE_CASE'];
             subject.next(this.fixUndefined(result));
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -74,9 +73,9 @@ export class FixCasingService {
         let subject = new Subject<CasingWithMappingModel[]>();
         httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/fixcasing/getarraywithmapping";
-        this.http.get<CasingWithMappingModel[]>(url, httpOptions).subscribe((result) => {
+        this.http.get<CasingWithMappingModel[]>(url, httpOptions).subscribe(result => {
             if (result) {
-                result.forEach((entry) => {
+                result.forEach(entry => {
                     let mapped: Record<string, any> = entry;
                     mapped["allupper"] = mapped["allupper"] || mapped["ALLUPPER"];
                     delete mapped['ALLUPPER'];
@@ -90,7 +89,7 @@ export class FixCasingService {
             }
             subject.next(this.fixUndefined(result));
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -101,7 +100,7 @@ export class FixCasingService {
         this.http.post<void>(url, model, httpOptions).subscribe(() => {
             subject.next();
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 

@@ -1,5 +1,4 @@
-﻿
-export * from "./index-sub-type";
+﻿export * from "./index-sub-type";
 export * from "./index-types";
 export * from "./second-index-type";
 

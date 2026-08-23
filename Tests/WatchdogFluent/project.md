@@ -11,19 +11,34 @@
 
 Covers the fluent `WaitFor(...)` wait: the generation polls an HTTP endpoint and only generates once it answers. prepare.js starts that endpoint with Shared/Scripts/http-endpoint.js and cleanup.js ends it again; the endpoint logs every request, so the wait is observable and not only implied by the output. Model.cs is read and written as TypeScript after the wait, which is what makes the rest of the chain the part that runs behind the wait.
 
-## Output
+## Parameters
 
-- Output/
-    - model.ts
+```
+readid -solution=*Undefined* -project=$\Tests\WatchdogFluent\WatchdogFluent.csproj msbuild set -output=$\Tests\WatchdogFluent\ load -assembly=$\Tests\WatchdogFluent\bin\Debug\net10.0\WatchdogFluent.dll fluent annotation
+```
 
 ## Preparation
 
-- prepare.js
+- prepare.js `passed, 1 file validated`
+
+## Output
+
+- Output/
+    - model.ts `#7535060c`
 
 ## Validation
 
-- validate.js
+- validate.js `passed, 1 file validated`
 
 ## Cleanup
 
-- cleanup.js
+- cleanup.js `passed, 0 files validated`
+
+## Status
+
+- **Last Build:** 2026-08-22 10:38:04
+- **Duration:** 10.3s
+- **Status:** Success
+- **Info:** 0 errors, 1 file validated
+- **Last Success:** 2026-08-22 10:38:04
+- **Generator:** 10.2.0

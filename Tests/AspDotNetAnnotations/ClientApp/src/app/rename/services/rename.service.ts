@@ -1,5 +1,4 @@
 ﻿/* eslint-disable */
-// tslint:disable
 
 import { DummyData } from "../models/dummy-data";
 import { RenameDto } from "../models/rename-dto";
@@ -33,10 +32,10 @@ export class RenameService {
         httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/rename";
         url = this.append(url, id, "id");
-        this.http.get<RenameDto>(url, httpOptions).subscribe((result) => {
+        this.http.get<RenameDto>(url, httpOptions).subscribe(result => {
             subject.next(this.fixUndefined(result));
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -45,10 +44,10 @@ export class RenameService {
         httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/rename";
         url = this.append(url, id, "id");
-        this.http.get<DummyData>(url, httpOptions).subscribe((result) => {
+        this.http.get<DummyData>(url, httpOptions).subscribe(result => {
             subject.next(this.fixUndefined(result));
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 

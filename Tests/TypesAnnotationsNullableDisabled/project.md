@@ -20,17 +20,17 @@ readid -solution=*Undefined* -project=$\Tests\TypesAnnotationsNullableDisabled\T
 ## Output
 
 - Output/
-    - derived-record.ts `#3e4a8e95`
-    - generic-sub-type.ts `#525295e0`
-    - init-only-type.ts `#9030ac31`
-    - numeric-enum.ts `#fafe8c01`
-    - plain-struct.ts `#0bd11bd0`
-    - positional-record.ts `#5514584e`
-    - property-record.ts `#62cc01a7`
-    - read-only-struct.ts `#b08c8678`
-    - record-struct.ts `#91b4ba4b`
-    - sub-type.ts `#be8084b8`
-    - types.ts `#3493965e`
+    - derived-record.ts `#67973541`
+    - generic-sub-type.ts `#d1728b59`
+    - init-only-type.ts `#efcc7f46`
+    - numeric-enum.ts `#7ae1ba71`
+    - plain-struct.ts `#54a33cbf`
+    - positional-record.ts `#d8ff0b26`
+    - property-record.ts `#0697d088`
+    - read-only-struct.ts `#6827067c`
+    - record-struct.ts `#6f0e7417`
+    - sub-type.ts `#b2861f95`
+    - types.ts `#b2882d1b`
 
 ## Validation
 
@@ -38,9 +38,9 @@ readid -solution=*Undefined* -project=$\Tests\TypesAnnotationsNullableDisabled\T
 
 ## Status
 
-- **Last Build:** 2026-08-13 15:06:34
-- **Duration:** 7.3s
+- **Last Build:** 2026-08-22 10:37:59
+- **Duration:** 6.2s
 - **Status:** Success
 - **Info:** 0 errors, 11 files validated
-- **Last Success:** 2026-08-13 15:06:34
-- **Generator:** 10.1.0
+- **Last Success:** 2026-08-22 10:37:59
+- **Generator:** 10.2.0

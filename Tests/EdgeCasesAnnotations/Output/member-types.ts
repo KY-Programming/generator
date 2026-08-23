@@ -1,5 +1,4 @@
 ﻿/* eslint-disable */
-// tslint:disable
 
 // Covers the member level annotations: renaming a member, renaming via replace and overriding the
 // generated type.

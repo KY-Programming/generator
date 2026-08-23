@@ -20,19 +20,20 @@ readid -solution=*Undefined* -project=$\Tests\InBackgroundAnnotations\InBackgrou
 ## Output
 
 - Output/
-    - angular-in-background.ts `#9f5d3865`
-    - background-types.ts `#349f4655`
-    - foreground-type.ts `#dfd31d96`
-    - sub-type.ts `#bdfb6e2f`
+    - angular-in-background.ts `#38c5880f`
+    - background-types.ts `#41bfcd54`
+    - foreground-type.ts `#d838e0d1`
+    - sub-type.ts `#ce194b4e`
 
 ## Validation
 
-- validate.js `failed, 0 files validated`
+- validate.js `passed, 4 files validated`
 
 ## Status
 
-- **Last Build:** 2026-08-13 15:06:15
-- **Duration:** 8.5s
-- **Status:** Failure
-- **Info:** 4 missing; 1 error, 0 files validated
-- **Generator:** 10.1.0
+- **Last Build:** 2026-08-22 10:37:43
+- **Duration:** 8.0s
+- **Status:** Success
+- **Info:** 0 errors, 4 files validated
+- **Last Success:** 2026-08-22 10:37:43
+- **Generator:** 10.2.0

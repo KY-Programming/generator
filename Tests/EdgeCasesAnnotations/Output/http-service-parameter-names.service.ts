@@ -1,5 +1,4 @@
 ﻿/* eslint-disable */
-// tslint:disable
 
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
@@ -31,10 +30,10 @@ export class HttpServiceParameterNamesService {
         httpOptions = { responseType: 'text', ...this.httpOptions, ...httpOptions};
         let requestUrl: string = this.serviceUrl + "/api/httpserviceparameternames/download";
         requestUrl = this.append(requestUrl, url, "url");
-        this.http.post<string>(requestUrl, undefined, httpOptions).subscribe((result) => {
+        this.http.post<string>(requestUrl, undefined, httpOptions).subscribe(result => {
             subject.next(this.fixUndefined(result));
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -43,10 +42,10 @@ export class HttpServiceParameterNamesService {
         requestOptions = { responseType: 'text', ...this.httpOptions, ...requestOptions};
         let url: string = this.serviceUrl + "/api/httpserviceparameternames/with-http-options";
         url = this.append(url, httpOptions, "httpOptions");
-        this.http.post<string>(url, undefined, requestOptions).subscribe((result) => {
+        this.http.post<string>(url, undefined, requestOptions).subscribe(result => {
             subject.next(this.fixUndefined(result));
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 

@@ -1,5 +1,4 @@
 ﻿/* eslint-disable */
-// tslint:disable
 
 export class Class1 {
     public constructor(init?: Partial<Class1>) {

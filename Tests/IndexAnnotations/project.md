@@ -20,13 +20,13 @@ readid -solution=*Undefined* -project=$\Tests\IndexAnnotations\IndexAnnotations.
 ## Output
 
 - Output/
-    - index-sub-type.ts `#8b9b7679`
-    - index-types.ts `#56bdd906`
-    - index.ts `#3ed905b7`
-    - second-index-type.ts `#73995378`
+    - index-sub-type.ts `#624fef5d`
+    - index-types.ts `#653974e0`
+    - index.ts `#cd89f4b3`
+    - second-index-type.ts `#5a120403`
 - Output/Nested/
-    - index.ts `#e0772eb6`
-    - nested-index-type.ts `#c00e652a`
+    - index.ts `#ee1369d4`
+    - nested-index-type.ts `#4a1598dd`
 
 ## Validation
 
@@ -34,9 +34,9 @@ readid -solution=*Undefined* -project=$\Tests\IndexAnnotations\IndexAnnotations.
 
 ## Status
 
-- **Last Build:** 2026-08-13 15:06:09
-- **Duration:** 7.2s
+- **Last Build:** 2026-08-22 10:37:42
+- **Duration:** 6.0s
 - **Status:** Success
 - **Info:** 0 errors, 4 files validated
-- **Last Success:** 2026-08-13 15:06:09
-- **Generator:** 10.1.0
+- **Last Success:** 2026-08-22 10:37:42
+- **Generator:** 10.2.0

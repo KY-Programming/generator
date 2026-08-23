@@ -1,5 +1,4 @@
 ﻿/* eslint-disable */
-// tslint:disable
 
 import { WeatherForecast } from "../models/weather-forecast";
 import { HttpClient } from "@angular/common/http";
@@ -35,7 +34,7 @@ export class WarningService {
         this.http.get<void>(url, httpOptions).subscribe(() => {
             subject.next();
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -46,7 +45,7 @@ export class WarningService {
         this.http.post<void>(url, model, httpOptions).subscribe(() => {
             subject.next();
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -57,7 +56,7 @@ export class WarningService {
         this.http.patch<void>(url, model, httpOptions).subscribe(() => {
             subject.next();
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -68,7 +67,7 @@ export class WarningService {
         this.http.put<void>(url, model, httpOptions).subscribe(() => {
             subject.next();
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -80,7 +79,7 @@ export class WarningService {
         this.http.delete<void>(url, httpOptions).subscribe(() => {
             subject.next();
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 

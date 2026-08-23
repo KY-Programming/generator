@@ -1,5 +1,4 @@
 ﻿/* eslint-disable */
-// tslint:disable
 
 export class GenerateReturnType {
     public changeTypeToString: string = "";

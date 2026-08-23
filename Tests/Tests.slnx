@@ -1,4 +1,7 @@
 <Solution>
+  <Folder Name="/Settings/">
+    <Project Path="Settings/SettingsAnnotations/SettingsAnnotations.csproj" />
+  </Folder>
   <Folder Name="/Generator/">
     <Project Path="Generator/KY.Generator.Tests.csproj" />
   </Folder>

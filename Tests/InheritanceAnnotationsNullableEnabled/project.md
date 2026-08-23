@@ -20,37 +20,37 @@ readid -solution=*Undefined* -project=$\Tests\InheritanceAnnotationsNullableEnab
 ## Output
 
 - Output/
-    - abstract.ts `#8fa84a7c`
-    - base.ts `#4296e6e1`
-    - derive-with-new.ts `#a8ad1e10`
-    - derived-from-abstract.ts `#bafb64e9`
-    - derived-from-generic.ts `#bf8545cd`
-    - derived-from-virtual.ts `#229dd4ab`
-    - derived.ts `#504de889`
-    - generic-base.ts `#8ea54983`
-    - has-name.interface.ts `#6f2ea3d1`
-    - implements-interface.ts `#db041949`
-    - level-1.ts `#029fe41a`
-    - level-2.ts `#1ef6703e`
-    - level-3.ts `#ae0b3ee5`
-    - sealed-derived.ts `#ecea0427`
-    - virtual.ts `#e9375695`
+    - abstract.ts `#bea158d0`
+    - base.ts `#c488db1c`
+    - derive-with-new.ts `#15daa2f8`
+    - derived-from-abstract.ts `#09bc232c`
+    - derived-from-generic.ts `#e9905a44`
+    - derived-from-virtual.ts `#6ce98021`
+    - derived.ts `#c9c2bf79`
+    - generic-base.ts `#84b029a2`
+    - has-name.interface.ts `#f6d4f642`
+    - implements-interface.ts `#3f40bb4a`
+    - level-1.ts `#0e5b9d3d`
+    - level-2.ts `#d5b3941f`
+    - level-3.ts `#6eeedb46`
+    - sealed-derived.ts `#2c644ee3`
+    - virtual.ts `#6ff4cdf3`
 - Output/Angular/
-    - abstract.ts `#8fa84a7c`
-    - base.ts `#4296e6e1`
-    - derive-with-new.ts `#a8ad1e10`
-    - derived-from-abstract.ts `#bafb64e9`
-    - derived-from-generic.ts `#bf8545cd`
-    - derived-from-virtual.ts `#229dd4ab`
-    - derived.ts `#504de889`
-    - generic-base.ts `#8ea54983`
-    - has-name.interface.ts `#6f2ea3d1`
-    - implements-interface.ts `#db041949`
-    - level-1.ts `#029fe41a`
-    - level-2.ts `#1ef6703e`
-    - level-3.ts `#ae0b3ee5`
-    - sealed-derived.ts `#ecea0427`
-    - virtual.ts `#e9375695`
+    - abstract.ts `#bea158d0`
+    - base.ts `#c488db1c`
+    - derive-with-new.ts `#15daa2f8`
+    - derived-from-abstract.ts `#09bc232c`
+    - derived-from-generic.ts `#e9905a44`
+    - derived-from-virtual.ts `#6ce98021`
+    - derived.ts `#c9c2bf79`
+    - generic-base.ts `#84b029a2`
+    - has-name.interface.ts `#f6d4f642`
+    - implements-interface.ts `#3f40bb4a`
+    - level-1.ts `#0e5b9d3d`
+    - level-2.ts `#d5b3941f`
+    - level-3.ts `#6eeedb46`
+    - sealed-derived.ts `#2c644ee3`
+    - virtual.ts `#6ff4cdf3`
 
 ## Validation
 
@@ -58,9 +58,9 @@ readid -solution=*Undefined* -project=$\Tests\InheritanceAnnotationsNullableEnab
 
 ## Status
 
-- **Last Build:** 2026-08-13 15:06:14
-- **Duration:** 7.7s
+- **Last Build:** 2026-08-22 10:37:45
+- **Duration:** 6.3s
 - **Status:** Success
 - **Info:** 0 errors, 30 files validated
-- **Last Success:** 2026-08-13 15:06:14
-- **Generator:** 10.1.0
+- **Last Success:** 2026-08-22 10:37:45
+- **Generator:** 10.2.0

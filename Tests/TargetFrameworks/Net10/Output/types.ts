@@ -1,5 +1,4 @@
 ﻿/* eslint-disable */
-// tslint:disable
 
 import { GenericSubType } from "./generic-sub-type";
 import { SubType } from "./sub-type";

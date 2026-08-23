@@ -21,9 +21,9 @@ Covers GenerateNever: a type marked with it must never end up in the output. Ref
 
 ## Status
 
-- **Last Build:** 2026-08-13 15:06:14
-- **Duration:** 6.6s
+- **Last Build:** 2026-08-22 10:37:46
+- **Duration:** 5.7s
 - **Status:** Success
 - **Info:** 0 errors, 1 file validated
-- **Last Success:** 2026-08-13 15:06:14
-- **Generator:** 10.1.0
+- **Last Success:** 2026-08-22 10:37:46
+- **Generator:** 10.2.0

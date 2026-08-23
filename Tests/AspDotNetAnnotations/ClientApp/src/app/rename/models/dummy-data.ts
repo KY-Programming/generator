@@ -1,5 +1,4 @@
 ﻿/* eslint-disable */
-// tslint:disable
 
 export class DummyData {
     public constructor(init?: Partial<DummyData>) {

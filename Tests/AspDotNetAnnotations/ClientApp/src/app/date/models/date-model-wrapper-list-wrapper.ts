@@ -1,5 +1,4 @@
 ﻿/* eslint-disable */
-// tslint:disable
 
 import { DateModelWrapper } from "./date-model-wrapper";
 

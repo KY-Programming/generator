@@ -20,17 +20,17 @@ readid -solution=*Undefined* -project=$\Tests\FormattingFluent\FormattingFluent.
 ## Output
 
 - Output/
-    - tab-test.ts `#d65b4803`
-    - two-whitespace-test.ts `#96b87624`
+    - tab-test.ts `#e37efa95`
+    - two-whitespace-test.ts `#327de068`
 - Output/WithPrefix/
-    - interface.interface.ts `#d8a20f6c`
-    - my-class-with-i-interface.ts `#945c40e9`
-    - my-class-with-interface.ts `#811c56df`
+    - interface.interface.ts `#d3e9b04f`
+    - my-class-with-i-interface.ts `#6779846d`
+    - my-class-with-interface.ts `#08a5bd70`
 - Output/WithoutPrefix/
-    - interface.interface.ts `#d8a20f6c`
-    - interface.ts `#6553b5da`
-    - my-class-with-i-interface.ts `#ba6e7cfa`
-    - my-class-with-interface.ts `#66f62c76`
+    - interface.interface.ts `#d3e9b04f`
+    - interface.ts `#5d87cb3f`
+    - my-class-with-i-interface.ts `#243253ca`
+    - my-class-with-interface.ts `#2c7f2897`
 
 ## Validation
 
@@ -38,9 +38,9 @@ readid -solution=*Undefined* -project=$\Tests\FormattingFluent\FormattingFluent.
 
 ## Status
 
-- **Last Build:** 2026-08-13 15:06:07
-- **Duration:** 8.0s
+- **Last Build:** 2026-08-22 10:37:41
+- **Duration:** 7.3s
 - **Status:** Success
 - **Info:** 0 errors, 9 files validated
-- **Last Success:** 2026-08-13 15:06:07
-- **Generator:** 10.1.0
+- **Last Success:** 2026-08-22 10:37:41
+- **Generator:** 10.2.0

@@ -1,5 +1,4 @@
 ﻿/* eslint-disable */
-// tslint:disable
 
 import { MultipleOutputsSubType } from "./multiple-outputs-sub-type";
 

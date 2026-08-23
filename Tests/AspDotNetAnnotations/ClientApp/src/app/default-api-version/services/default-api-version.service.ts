@@ -1,5 +1,4 @@
 ﻿/* eslint-disable */
-// tslint:disable
 
 import { WeatherForecast } from "../models/weather-forecast";
 import { HttpClient } from "@angular/common/http";
@@ -31,11 +30,11 @@ export class DefaultApiVersionService {
         let subject = new Subject<WeatherForecast[]>();
         httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/api/v1.0/defaultapiversion";
-        this.http.get<WeatherForecast[]>(url, httpOptions).subscribe((result) => {
-            result.forEach((m) => this.convertWeatherForecastDate(m));
+        this.http.get<WeatherForecast[]>(url, httpOptions).subscribe(result => {
+            result.forEach(m => this.convertWeatherForecastDate(m));
             subject.next(this.fixUndefined(result));
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 

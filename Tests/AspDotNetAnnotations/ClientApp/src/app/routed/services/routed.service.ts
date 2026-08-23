@@ -1,5 +1,4 @@
 ﻿/* eslint-disable */
-// tslint:disable
 
 import { WeatherForecast } from "../models/weather-forecast";
 import { HttpClient } from "@angular/common/http";
@@ -31,11 +30,11 @@ export class RoutedService {
         let subject = new Subject<WeatherForecast[]>();
         httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/routed";
-        this.http.get<WeatherForecast[]>(url, httpOptions).subscribe((result) => {
-            result.forEach((m) => this.convertWeatherForecastDate(m));
+        this.http.get<WeatherForecast[]>(url, httpOptions).subscribe(result => {
+            result.forEach(m => this.convertWeatherForecastDate(m));
             subject.next(this.fixUndefined(result));
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -43,11 +42,11 @@ export class RoutedService {
         let subject = new Subject<WeatherForecast[]>();
         httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/routed/three";
-        this.http.get<WeatherForecast[]>(url, httpOptions).subscribe((result) => {
-            result.forEach((m) => this.convertWeatherForecastDate(m));
+        this.http.get<WeatherForecast[]>(url, httpOptions).subscribe(result => {
+            result.forEach(m => this.convertWeatherForecastDate(m));
             subject.next(this.fixUndefined(result));
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -55,11 +54,11 @@ export class RoutedService {
         let subject = new Subject<WeatherForecast[]>();
         httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/routed/three/days";
-        this.http.get<WeatherForecast[]>(url, httpOptions).subscribe((result) => {
-            result.forEach((m) => this.convertWeatherForecastDate(m));
+        this.http.get<WeatherForecast[]>(url, httpOptions).subscribe(result => {
+            result.forEach(m => this.convertWeatherForecastDate(m));
             subject.next(this.fixUndefined(result));
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -69,11 +68,11 @@ export class RoutedService {
         let url: string = this.serviceUrl + "/routed/next";
         url = this.append(url, days, undefined, "/");
         url += "/days";
-        this.http.get<WeatherForecast[]>(url, httpOptions).subscribe((result) => {
-            result.forEach((m) => this.convertWeatherForecastDate(m));
+        this.http.get<WeatherForecast[]>(url, httpOptions).subscribe(result => {
+            result.forEach(m => this.convertWeatherForecastDate(m));
             subject.next(this.fixUndefined(result));
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -87,7 +86,7 @@ export class RoutedService {
         this.http.get<void>(url, httpOptions).subscribe(() => {
             subject.next();
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -100,7 +99,7 @@ export class RoutedService {
         this.http.get<void>(url, httpOptions).subscribe(() => {
             subject.next();
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -113,7 +112,7 @@ export class RoutedService {
         this.http.get<void>(url, httpOptions).subscribe(() => {
             subject.next();
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -126,7 +125,7 @@ export class RoutedService {
         this.http.get<void>(url, httpOptions).subscribe(() => {
             subject.next();
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -138,7 +137,7 @@ export class RoutedService {
         this.http.get<void>(url, httpOptions).subscribe(() => {
             subject.next();
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -150,7 +149,7 @@ export class RoutedService {
         this.http.post<void>(url, undefined, httpOptions).subscribe(() => {
             subject.next();
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -159,10 +158,10 @@ export class RoutedService {
         httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/routed/test6";
         url = this.append(url, test, undefined, "/");
-        this.http.get<string[]>(url, httpOptions).subscribe((result) => {
+        this.http.get<string[]>(url, httpOptions).subscribe(result => {
             subject.next(this.fixUndefined(result));
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -171,10 +170,10 @@ export class RoutedService {
         httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/routed/test7";
         url = this.append(url, test, undefined, "/");
-        this.http.get<string[]>(url, httpOptions).subscribe((result) => {
+        this.http.get<string[]>(url, httpOptions).subscribe(result => {
             subject.next(this.fixUndefined(result));
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -182,10 +181,10 @@ export class RoutedService {
         let subject = new Subject<string[]>();
         httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/routed/test8";
-        this.http.get<string[]>(url, httpOptions).subscribe((result) => {
+        this.http.get<string[]>(url, httpOptions).subscribe(result => {
             subject.next(this.fixUndefined(result));
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -193,10 +192,10 @@ export class RoutedService {
         let subject = new Subject<string[]>();
         httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/routed/test9";
-        this.http.get<string[]>(url, httpOptions).subscribe((result) => {
+        this.http.get<string[]>(url, httpOptions).subscribe(result => {
             subject.next(this.fixUndefined(result));
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -204,10 +203,10 @@ export class RoutedService {
         let subject = new Subject<string[]>();
         httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/routed/test10";
-        this.http.get<string[]>(url, httpOptions).subscribe((result) => {
+        this.http.get<string[]>(url, httpOptions).subscribe(result => {
             subject.next(this.fixUndefined(result));
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -215,10 +214,10 @@ export class RoutedService {
         let subject = new Subject<string[]>();
         httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/routed/test11";
-        this.http.get<string[]>(url, httpOptions).subscribe((result) => {
+        this.http.get<string[]>(url, httpOptions).subscribe(result => {
             subject.next(this.fixUndefined(result));
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -226,10 +225,10 @@ export class RoutedService {
         let subject = new Subject<string[]>();
         httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/routed/test12";
-        this.http.get<string[]>(url, httpOptions).subscribe((result) => {
+        this.http.get<string[]>(url, httpOptions).subscribe(result => {
             subject.next(this.fixUndefined(result));
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 
@@ -237,10 +236,10 @@ export class RoutedService {
         let subject = new Subject<string[]>();
         httpOptions = { ...this.httpOptions, ...httpOptions};
         let url: string = this.serviceUrl + "/routed/test13";
-        this.http.get<string[]>(url, httpOptions).subscribe((result) => {
+        this.http.get<string[]>(url, httpOptions).subscribe(result => {
             subject.next(this.fixUndefined(result));
             subject.complete();
-        }, (error) => subject.error(error));
+        }, error => subject.error(error));
         return subject;
     }
 

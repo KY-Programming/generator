@@ -1,5 +1,4 @@
 ﻿/* eslint-disable */
-// tslint:disable
 
 export abstract class Abstract {
     public stringProperty: string = "";

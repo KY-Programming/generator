@@ -1,5 +1,4 @@
 ﻿/* eslint-disable */
-// tslint:disable
 
 import { signal } from "@angular/core";
 import { WritableSignal } from "@angular/core";

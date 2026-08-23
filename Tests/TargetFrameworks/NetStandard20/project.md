@@ -20,9 +20,9 @@ readid -solution=*Undefined* -project=$\Tests\TargetFrameworks\NetStandard20\Net
 ## Output
 
 - Output/
-    - generic-sub-type.ts `#d927d8aa`
-    - sub-type.ts `#40e2993e`
-    - types.ts `#2383f152`
+    - generic-sub-type.ts `#6d7d10fc`
+    - sub-type.ts `#3c64813f`
+    - types.ts `#bd9d1a55`
 
 ## Validation
 
@@ -30,9 +30,9 @@ readid -solution=*Undefined* -project=$\Tests\TargetFrameworks\NetStandard20\Net
 
 ## Status
 
-- **Last Build:** 2026-08-13 15:06:32
-- **Duration:** 6.5s
+- **Last Build:** 2026-08-22 10:37:58
+- **Duration:** 5.5s
 - **Status:** Success
 - **Info:** 0 errors, 3 files validated
-- **Last Success:** 2026-08-13 15:06:32
-- **Generator:** 10.1.0
+- **Last Success:** 2026-08-22 10:37:58
+- **Generator:** 10.2.0
