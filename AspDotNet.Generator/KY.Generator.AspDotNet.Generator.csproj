@@ -29,7 +29,7 @@
         <ProjectReference Include="..\AspDotNet.Fluent\KY.Generator.AspDotNet.Fluent.csproj" />
         <ProjectReference Include="..\AspDotNet\KY.Generator.AspDotNet.csproj" />
         <ProjectReference Include="..\Common.Generator\KY.Generator.Common.Generator.csproj" />
-        <ProjectReference Include="..\Csharp.Generator\KY.Generator.CSharp.Generator.csproj" />
+        <ProjectReference Include="..\Csharp.Generator\KY.Generator.Csharp.Generator.csproj" />
         <ProjectReference Include="..\Reflection.Generator\KY.Generator.Reflection.Generator.csproj" />
     </ItemGroup>
 

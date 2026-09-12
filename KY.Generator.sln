@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KY.Generator", "Main\KY.Gen
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KY.Generator.Main.Legacy", "Main.Legacy\KY.Generator.Main.Legacy.csproj", "{419A3F6A-A7F5-442A-A468-11E598776A49}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KY.Generator.Csharp", "CSharp\KY.Generator.Csharp.csproj", "{D23DC658-3C95-4A73-BBC7-22A94E81AEE8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KY.Generator.Csharp", "Csharp\KY.Generator.Csharp.csproj", "{D23DC658-3C95-4A73-BBC7-22A94E81AEE8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KY.Generator.TypeScript", "TypeScript\KY.Generator.TypeScript.csproj", "{51D247CC-BE96-461F-8848-F6B32461FABB}"
 EndProject
@@ -67,7 +67,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KY.Generator.AspDotNet.Gene
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KY.Generator.Angular.Generator", "Angular.Generator\KY.Generator.Angular.Generator.csproj", "{D014AA5A-715B-47FB-ACC8-645CC4FD242F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KY.Generator.CSharp.Generator", "Csharp.Generator\KY.Generator.CSharp.Generator.csproj", "{5594973B-83EE-436C-B5FC-90ED68FDF0AA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KY.Generator.Csharp.Generator", "Csharp.Generator\KY.Generator.Csharp.Generator.csproj", "{5594973B-83EE-436C-B5FC-90ED68FDF0AA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KY.Generator.Common.Generator", "Common.Generator\KY.Generator.Common.Generator.csproj", "{1C34D522-175E-4444-86BF-208BC9D0A5E5}"
 EndProject

@@ -21,7 +21,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Common.Generator\KY.Generator.Common.Generator.csproj" />
-        <ProjectReference Include="..\Csharp.Generator\KY.Generator.CSharp.Generator.csproj" />
+        <ProjectReference Include="..\Csharp.Generator\KY.Generator.Csharp.Generator.csproj" />
         <ProjectReference Include="..\Tsql.Generator\KY.Generator.Tsql.Generator.csproj" />
     </ItemGroup>
 

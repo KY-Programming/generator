@@ -40,7 +40,7 @@
     <ItemGroup>
         <ProjectReference Include="..\Common.Fluent\KY.Generator.Common.Fluent.csproj" PrivateAssets="all" />
         <ProjectReference Include="..\Common\KY.Generator.Common.csproj" />
-        <ProjectReference Include="..\CSharp\KY.Generator.Csharp.csproj" />
+        <ProjectReference Include="..\Csharp\KY.Generator.Csharp.csproj" />
         <ProjectReference Include="..\TypeScript\KY.Generator.TypeScript.csproj" />
     </ItemGroup>
 

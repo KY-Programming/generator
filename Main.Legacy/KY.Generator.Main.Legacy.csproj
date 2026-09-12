@@ -46,7 +46,7 @@
     <ItemGroup>
         <None Include="App.config" />
     </ItemGroup>
-    <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+    <Import Project="$(MSBuildToolsPath)\Microsoft.Csharp.targets" />
     <!-- The legacy (non SDK) project format brings no Pack target, which lets "dotnet pack" on the
          solution fail with MSB4057. This project is never a package of its own - its build output is
          picked up into tools\net462 of the KY.Generator package - so a no-op is the correct Pack. -->
