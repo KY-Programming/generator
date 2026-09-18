@@ -16,6 +16,12 @@ public class JsonWriteCommand(IDependencyResolver resolver) : GeneratorCommand<J
         GeneratorOptions generatorOptions = options.Get<GeneratorOptions>();
         generatorOptions.SetFromParameter(this.Parameters);
         generatorOptions.Language = resolver.Get<CsharpLanguage>();
+        if (this.Parameters.WithReader)
+        {
+            // The reader deserializes into the generated model and Newtonsoft can not create an interface, so a
+            // preferInterfaces from a settings file or the command would produce a model that fails at runtime
+            generatorOptions.PreferInterfaces = false;
+        }
         TypeScriptOptions typeScriptOptions = options.Get<TypeScriptOptions>();
         typeScriptOptions.SetStrictFromConfig(this.Parameters.RelativePath, resolver);
     }
