@@ -1,7 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-    <PropertyGroup>
+    <!-- Only detected when nothing set it yet, so an environment variable, Directory.Build.props or the project file
+         can preset it - GeneratorPlatform=none (e.g. in a Docker build image) switches all targets below off. -->
+    <PropertyGroup Condition="'$(GeneratorPlatform)' == ''">
         <GeneratorPlatform Condition="$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))">windows</GeneratorPlatform>
         <GeneratorPlatform Condition="$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))">linux</GeneratorPlatform>
         <GeneratorPlatform Condition="$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))">osx</GeneratorPlatform>
