@@ -789,7 +789,7 @@ public class AngularServiceWriter : TransferWriter
                                           .Append(Code.Local("separator"))
                                           .Append(Code.Parenthesis(Code.InlineIf(Code.Local("value").Equals().ForceNull().Or().Local("value").Equals().Undefined(),
                                               Code.String(string.Empty),
-                                              Code.Local("value").Method("toString")
+                                              Code.Method("encodeURIComponent", Code.Local("value").Method("toString"))
                                           )))
                 ))
         );
@@ -798,7 +798,7 @@ public class AngularServiceWriter : TransferWriter
                                                    .Append(Code.Parenthesis(Code.InlineIf(Code.Local("url").Method("indexOf", Code.String("?")).Equals().Number(-1), Code.String("?"), Code.String("&"))))
                                                    .Append(Code.Local("parameterName"))
                                                    .Append(Code.String("="))
-                                                   .Append(Code.Local("value").Method("toString"))
+                                                   .Append(Code.Method("encodeURIComponent", Code.Local("value").Method("toString")))
                          ))
         );
         code.AddLine(Code.Return(Code.Local("url")));
