@@ -84,7 +84,9 @@ public class AspDotNetOptionsFactory : IOptionsFactory
                     options.Route = GetRoute(attribute);
                     break;
                 case "ProducesResponseTypeAttribute":
+                case "ProducesResponseTypeAttribute`1":
                 case "ProducesAttribute":
+                case "ProducesAttribute`1":
                     options.Produces = GetProduces(attribute) ?? options.Produces;
                     break;
             }

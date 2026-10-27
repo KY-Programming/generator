@@ -78,19 +78,20 @@ public class AspDotNetControllerReader
                 Logger.Error($"{type.FullName}.{method.Name} has to be decorated with at least one of [HttpGet], [HttpPost], [HttpPut], [HttpPatch], [HttpDelete], [NonAction] or with [GenerateIgnore].");
                 continue;
             }
-            Type returnType = (methodAspOptions.Produces ?? method.ReturnType)
-                              .IgnoreGeneric("System.Threading.Tasks", "Task")
-                              .IgnoreGeneric("Microsoft.AspNetCore.Mvc", "IActionResult")
-                              .IgnoreGeneric("Microsoft.AspNetCore.Mvc", "ActionResult")
-                              .IgnoreGeneric("System.Web.Mvc", "ActionResult")
-                              .IgnoreGeneric("System.Web.Mvc", "ContentResult")
-                              .IgnoreGeneric("System.Web.Mvc", "EmptyResult")
-                              .IgnoreGeneric("System.Web.Mvc", "FileContentResult")
-                              .IgnoreGeneric("System.Web.Mvc", "FilePathResult")
-                              .IgnoreGeneric("System.Web.Mvc", "FileResult")
-                              .IgnoreGeneric("System.Web.Mvc", "FileStreamResult")
-                              .IgnoreGeneric("System.Web.Mvc", "JsonResult")
-                              .IgnoreGeneric(methodAspOptions.IgnoreGenerics);
+            Type declaredReturnType = (methodAspOptions.Produces ?? method.ReturnType).IgnoreGeneric("System.Threading.Tasks", "Task");
+            // A file is recognized by its declared result type or, for actions returning IActionResult, by a
+            // [ProducesResponseType(typeof(FileContentResult), 200)] or [Produces(typeof(FileResult))]. A return type
+            // set via [GenerateMethod(Type = ...)] wins, the action is written like any other then
+            bool returnsFile = methodOptions.ReturnType == null && IsFileResult(declaredReturnType);
+            Type returnType = returnsFile
+                                  ? typeof(void)
+                                  : declaredReturnType.IgnoreGeneric("Microsoft.AspNetCore.Mvc", "IActionResult")
+                                                      .IgnoreGeneric("Microsoft.AspNetCore.Mvc", "ActionResult")
+                                                      .IgnoreGeneric("System.Web.Mvc", "ActionResult")
+                                                      .IgnoreGeneric("System.Web.Mvc", "ContentResult")
+                                                      .IgnoreGeneric("System.Web.Mvc", "EmptyResult")
+                                                      .IgnoreGeneric("System.Web.Mvc", "JsonResult")
+                                                      .IgnoreGeneric(methodAspOptions.IgnoreGenerics);
 
             Type returnEntryType = returnType.IgnoreGeneric(typeof(IEnumerable<>)).IgnoreGeneric(typeof(List<>)).IgnoreGeneric(typeof(IList<>));
             AspDotNetOptions returnEntryTypeOptions = this.options.Get(returnEntryType, methodAspOptions);
@@ -99,6 +100,7 @@ public class AspDotNetControllerReader
                 HttpServiceActionTransferObject action = new();
                 action.Name = actionTypes.Count == 1 ? method.Name : $"{actionType.Key}{method.Name.FirstCharToUpper()}";
                 action.ReturnType = this.modelReader.Read(methodOptions.ReturnType, methodOptions) ?? this.modelReader.Read(returnType, methodOptions);
+                action.ReturnsFile = returnsFile;
                 action.Route = actionType.Value ?? methodAspOptions.Route;
                 if (action.Route?.Contains(":") ?? false)
                 {
@@ -188,6 +190,11 @@ public class AspDotNetControllerReader
             }
         }
         this.transferObjects.Add(controller);
+    }
+
+    private static bool IsFileResult(Type type)
+    {
+        return type.IsOrHasBase("Microsoft.AspNetCore.Mvc", "FileResult") || type.IsOrHasBase("System.Web.Mvc", "FileResult");
     }
 
     private static string? GetLowestVersion(IReadOnlyList<string>? versions)

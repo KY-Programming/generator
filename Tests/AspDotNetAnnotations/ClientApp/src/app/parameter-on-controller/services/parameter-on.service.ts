@@ -41,10 +41,10 @@ export class ParameterOnService {
 
     public append(url: string, value: {toString(): string} | undefined | null, parameterName: string = "", separator: string = ""): string {
         if (! parameterName) {
-            return url + separator + (value === null || value === undefined ? "" : value.toString());
+            return url + separator + (value === null || value === undefined ? "" : encodeURIComponent(value.toString()));
         }
         if (value !== null && value !== undefined) {
-            return url + (url.indexOf("?") === -1 ? "?" : "&") + parameterName + "=" + value.toString();
+            return url + (url.indexOf("?") === -1 ? "?" : "&") + parameterName + "=" + encodeURIComponent(value.toString());
         }
         return url;
     }

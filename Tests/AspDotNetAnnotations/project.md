@@ -9,7 +9,7 @@
 
 # AspDotNetAnnotations
 
-The broadest test of the ASP.NET Core reader. Twenty two controllers each write their Angular service and models into their own folder, covering route templates, absolute routes, api versions carried in the route as a {version:apiVersion} token - declared, left to the default, mapped to a single action, version neutral and written as a bare major version or with a status suffix - parameters declared on the controller, POST bodies, Produces, derived controllers, duplicate type names, generic and self referencing results, date conversion, optional properties, http types, words that are reserved in TypeScript, renaming, casing fixed on the wire, and interfaces generated instead of classes. Two SignalR hubs cover the Angular hub generator alongside them: one with a typed client interface and a callable method that carries GenerateWithRetry, so the generated service comes with its reconnect timeouts, and one carrying the hub annotation twice, which has to be written into two service and two model folders from the same build.
+The broadest test of the ASP.NET Core reader. Twenty three controllers each write their Angular service and models into their own folder, covering route templates, absolute routes, api versions carried in the route as a {version:apiVersion} token - declared, left to the default, mapped to a single action, version neutral and written as a bare major version or with a status suffix - parameters declared on the controller, POST bodies, Produces, files - returned as a FileResult or declared via ProducesResponseType - read as blob together with their file name, derived controllers, duplicate type names, generic and self referencing results, date conversion, optional properties, http types, words that are reserved in TypeScript, renaming, casing fixed on the wire, and interfaces generated instead of classes. Two SignalR hubs cover the Angular hub generator alongside them: one with a typed client interface and a callable method that carries GenerateWithRetry, so the generated service comes with its reconnect timeouts, and one carrying the hub annotation twice, which has to be written into two service and two model folders from the same build.
 
 ## Parameters
 
@@ -25,8 +25,8 @@ readid -solution=*Undefined* -project=$\Tests\AspDotNetAnnotations\AspDotNetAnno
     - convert-me-optional.ts `#66ca566b`
     - convert-me.ts `#01339fdd`
 - ClientApp/src/app/convert-to-interface/services/
-    - convert-to-interface-optional.service.ts `#544b7738`
-    - convert-to-interface.service.ts `#156d2246`
+    - convert-to-interface-optional.service.ts `#7e572bd9`
+    - convert-to-interface.service.ts `#9436776e`
 - ClientApp/src/app/date/models/
     - date-array-wrapper.ts `#40ddb8a0`
     - date-model-array-wrapper.ts `#a63bce13`
@@ -37,7 +37,7 @@ readid -solution=*Undefined* -project=$\Tests\AspDotNetAnnotations\AspDotNetAnno
     - generic-result.ts `#f34a8b4b`
     - optional-properties-model.ts `#e593b46f`
 - ClientApp/src/app/date/services/
-    - date.service.ts `#aa1b0675`
+    - date.service.ts `#205da33a`
     - optional-property.service.ts `#5f9fc4fb`
 - ClientApp/src/app/default-api-version/models/
     - weather-forecast.ts `#90ae09a2`
@@ -46,14 +46,18 @@ readid -solution=*Undefined* -project=$\Tests\AspDotNetAnnotations\AspDotNetAnno
 - ClientApp/src/app/derived/services/
     - derived.service.ts `#7a5ff9aa`
 - ClientApp/src/app/duplicate-name/services/
-    - duplicate-name.service.ts `#bef45849`
+    - duplicate-name.service.ts `#4e691e3a`
 - ClientApp/src/app/edge-cases/models/
     - date-model.ts `#0ab66170`
     - exclusive-generic-complex-result.ts `#891ca3ea`
     - generic-result.ts `#f34a8b4b`
     - self-referencing-model.ts `#19faf775`
 - ClientApp/src/app/edge-cases/services/
-    - edge-cases.service.ts `#51483b0f`
+    - edge-cases.service.ts `#cf627c68`
+- ClientApp/src/app/file/models/
+    - file-download.ts `#620b3273`
+- ClientApp/src/app/file/services/
+    - file.service.ts `#28906bae`
 - ClientApp/src/app/fix-casing/models/
     - casing-model.ts `#617a9ce1`
     - casing-with-mapping-model.ts `#37b93ad1`
@@ -67,7 +71,7 @@ readid -solution=*Undefined* -project=$\Tests\AspDotNetAnnotations\AspDotNetAnno
 - ClientApp/src/app/http-types/services/
     - http-types.service.ts `#53f0d5fe`
 - ClientApp/src/app/invalid-words/services/
-    - invalid-words.service.ts `#6e327b35`
+    - invalid-words.service.ts `#3d3e712b`
 - ClientApp/src/app/multiple-output-hub/models-1/
     - connection-status.ts `#0adb15bc`
 - ClientApp/src/app/multiple-output-hub/models-2/
@@ -77,34 +81,34 @@ readid -solution=*Undefined* -project=$\Tests\AspDotNetAnnotations\AspDotNetAnno
 - ClientApp/src/app/multiple-output-hub/services-2/
     - multiple-output-hub.service.ts `#27d4dcee`
 - ClientApp/src/app/parameter-on-controller/services/
-    - parameter-on.service.ts `#8109482a`
+    - parameter-on.service.ts `#d51b05f5`
 - ClientApp/src/app/post/models/
     - post-model.ts `#de3ffd22`
 - ClientApp/src/app/post/services/
-    - post.service.ts `#70a0b591`
+    - post.service.ts `#74bdcb27`
 - ClientApp/src/app/produces/models/
     - weather-forecast.ts `#90ae09a2`
 - ClientApp/src/app/produces/services/
-    - produces.service.ts `#0662d065`
+    - produces.service.ts `#ed31a180`
 - ClientApp/src/app/rename/models/
     - dummy-data.ts `#676a3416`
     - rename-dto.ts `#4f245599`
 - ClientApp/src/app/rename/services/
-    - rename.service.ts `#8d52e7fb`
+    - rename.service.ts `#8fde0b12`
 - ClientApp/src/app/routed/models/
     - weather-forecast.ts `#90ae09a2`
 - ClientApp/src/app/routed/services/
-    - routed.service.ts `#10530cdd`
+    - routed.service.ts `#203d1094`
 - ClientApp/src/app/status-api-version/services/
     - status-api-version.service.ts `#e4b47a63`
 - ClientApp/src/app/versioned-api/models/
     - weather-forecast.ts `#90ae09a2`
 - ClientApp/src/app/versioned-api/services/
-    - versioned-api.service.ts `#c5742bf1`
+    - versioned-api.service.ts `#c0370a88`
 - ClientApp/src/app/warnings/models/
     - weather-forecast.ts `#90ae09a2`
 - ClientApp/src/app/warnings/services/
-    - warning.service.ts `#c1656fda`
+    - warning.service.ts `#5ca9a6c2`
 - ClientApp/src/app/weather-hub/models/
     - connection-status.ts `#0adb15bc`
     - weather-forecast.ts `#90ae09a2`
@@ -113,13 +117,13 @@ readid -solution=*Undefined* -project=$\Tests\AspDotNetAnnotations\AspDotNetAnno
 
 ## Validation
 
-- validate.js `passed, 57 files validated`
+- validate.js `passed, 59 files validated`
 
 ## Status
 
-- **Last Build:** 2026-08-22 10:37:33
-- **Duration:** 10.7s
+- **Last Build:** 2026-10-27 09:02:55
+- **Duration:** 12.8s
 - **Status:** Success
 - **Info:** All outputs match
-- **Last Success:** 2026-08-22 10:37:33
-- **Generator:** 10.2.0
+- **Last Success:** 2026-10-27 09:02:55
+- **Generator:** 10.3.0-preview.1

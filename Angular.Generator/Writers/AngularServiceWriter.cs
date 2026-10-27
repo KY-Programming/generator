@@ -23,6 +23,8 @@ public class AngularServiceWriter : TransferWriter
     private const string apiVersionKey = ApiVersionConstants.RouteToken;
     private const string unwrappedTypeName = "Unwrapped";
     private const string unwrappedFileName = "unwrapped";
+    private const string fileDownloadTypeName = "FileDownload";
+    private const string fileDownloadFileName = "file-download";
     private readonly List<ITransferObject> transferObjects;
     private readonly List<FileTemplate> files;
 
@@ -95,6 +97,7 @@ public class AngularServiceWriter : TransferWriter
             bool addAppendMethod = false;
             bool addAppendDateMethod = false;
             bool appendConvertDateMethod = false;
+            bool addGetFileNameMethod = false;
             foreach (HttpServiceActionTransferObject action in controller.Actions)
             {
                 string subjectName = action.Parameters.Any(x => x.Name == "subject") ? "rxjsSubject" : "subject";
@@ -124,6 +127,16 @@ public class AngularServiceWriter : TransferWriter
                 // The type the http client returns. Differs from the return type as soon as the model is generated with
                 // signals, because the backend sends and receives the plain values
                 TypeTemplate httpReturnType = returnType;
+                if (action.ReturnsFile)
+                {
+                    // The whole response is read, the file name is only available in its Content-Disposition header
+                    returnType = Code.Type(fileDownloadTypeName);
+                    httpReturnType = Code.Type("HttpResponse<Blob>");
+                    classTemplate.WithUsing("HttpResponse", "@angular/common/http");
+                    classTemplate.WithUsing(fileDownloadTypeName, $"{relativeModelPath.Replace("\\", "/").TrimEnd('/')}/{Formatter.FormatFile(fileDownloadFileName, controllerOptions)}");
+                    this.WriteFileDownloadType(modelOutput, controllerOptions);
+                    addGetFileNameMethod = true;
+                }
                 MethodTemplate methodTemplate = classTemplate.AddMethod(action.Name, Code.Generic("Observable", returnType))
                                                              .FormatName(controllerOptions);
                 if (aliasType != null)
@@ -150,7 +163,12 @@ public class AngularServiceWriter : TransferWriter
                 if (actionTypeOptions[action.Type]?.HasHttpOptions ?? true)
                 {
                     methodTemplate.AddParameter(Code.Type("{}"), httpOptionsName).Optional();
-                    if (isStringReturnType)
+                    if (action.ReturnsFile)
+                    {
+                        // Set last, any other response or observe type would break reading the file from the response
+                        methodTemplate.WithCode(Code.TypeScript($"{httpOptionsName} = {{ ...this.httpOptions, ...{httpOptionsName}, responseType: 'blob', observe: 'response' }}").Close());
+                    }
+                    else if (isStringReturnType)
                     {
                         methodTemplate.WithCode(Code.TypeScript($"{httpOptionsName} = {{ responseType: 'text', ...this.httpOptions, ...{httpOptionsName}}}").Close());
                     }
@@ -180,7 +198,12 @@ public class AngularServiceWriter : TransferWriter
                 MultilineCodeFragment code = Code.Multiline();
                 bool hasReturnType = returnType.Name != "void" && returnType.Name != "Task";
                 ExecuteMethodTemplate nextMethod = Code.Local(subjectName).Method("next");
-                if (hasReturnType)
+                if (action.ReturnsFile)
+                {
+                    // The body is binary, there are no dates to convert and no nulls to fix
+                    nextMethod.WithParameter(Code.TypeScript("{ blob: result.body ?? new Blob(), fileName: this.getFileName(result.headers.get(\"Content-Disposition\")) }"));
+                }
+                else if (hasReturnType)
                 {
                     LocalVariableTemplate localCode = Code.Local("result");
                     ICodeFragment nextCode = localCode;
@@ -413,7 +436,7 @@ public class AngularServiceWriter : TransferWriter
                 LambdaTemplate lambda;
                 if (actionTypeOptions[action.Type]?.ReturnsAny ?? false)
                 {
-                    lambda = Code.Lambda(hasReturnType ? new ParameterTemplate(returnType, "result") : null, code);
+                    lambda = Code.Lambda(hasReturnType ? new ParameterTemplate(action.ReturnsFile ? httpReturnType : returnType, "result") : null, code);
                 }
                 else
                 {
@@ -434,6 +457,10 @@ public class AngularServiceWriter : TransferWriter
             if (appendConvertDateMethod)
             {
                 this.AppendConvertDateMethod(classTemplate);
+            }
+            if (addGetFileNameMethod)
+            {
+                this.AddGetFileNameMethod(classTemplate);
             }
             if (signalMethods.Count > 0)
             {
@@ -842,6 +869,36 @@ public class AngularServiceWriter : TransferWriter
                              Code.Local("value")
                          )
                      )));
+    }
+
+    /// <summary>
+    /// Reads the file name ASP.NET writes into the Content-Disposition header. The RFC 5987 form (filename*) carries
+    /// names with non ASCII characters and is preferred over the plain one. Cross origin the header is only readable
+    /// if the server lists it in Access-Control-Expose-Headers
+    /// </summary>
+    private void AddGetFileNameMethod(ClassTemplate classTemplate)
+    {
+        classTemplate.AddMethod("getFileName", Code.UnionType(Code.Type("string"), Code.Undefined())).Private()
+                     .WithParameter(Code.UnionType(Code.Type("string"), Code.Type("null")), "contentDisposition")
+                     .WithCode(Code.If(Code.Not().Local("contentDisposition")).WithCode(Code.Return(Code.Undefined())))
+                     // The optional index access keeps the capture typed as string | undefined, with or without noUncheckedIndexedAccess
+                     .WithCode(Code.TypeScript("let encoded = /filename\\*=UTF-8''([^;]+)/i.exec(contentDisposition)?.[1]").Close())
+                     .WithCode(Code.If(Code.Local("encoded")).WithCode(Code.Return(Code.Method("decodeURIComponent", Code.Local("encoded")))))
+                     .WithCode(Code.Return(Code.TypeScript("/filename=\"?([^\";]+)\"?/i.exec(contentDisposition)?.[1]")));
+    }
+
+    private void WriteFileDownloadType(string relativePath, GeneratorOptions options)
+    {
+        string fileName = Formatter.FormatFile(fileDownloadFileName, options);
+        if (this.files.Any(file => file.Name == fileName && file.RelativePath == relativePath))
+        {
+            return;
+        }
+        this.files.AddFile(relativePath, options)
+            .WithName(fileName)
+            .AddNamespace(string.Empty)
+            .AddDeclareType(fileDownloadTypeName, Code.TypeScript("{ blob: Blob, fileName: string | undefined }"))
+            .Public();
     }
 
     private void AppendFixUndefined(ClassTemplate classTemplate)

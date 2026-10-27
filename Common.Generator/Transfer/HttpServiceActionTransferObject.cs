@@ -14,6 +14,12 @@ namespace KY.Generator.Transfer
         public string Version { get; set; }
         public bool FixCasingWithMapping { get; set; }
 
+        /// <summary>
+        /// The action answers with the raw content of a file instead of a serialized value. The return type is void in
+        /// that case, the client has to read the body as binary and the file name from the Content-Disposition header
+        /// </summary>
+        public bool ReturnsFile { get; set; }
+
         public HttpServiceActionTransferObject()
         {
             this.Parameters = new List<HttpServiceActionParameterTransferObject>();

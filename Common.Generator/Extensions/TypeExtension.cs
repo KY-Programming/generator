@@ -34,6 +34,11 @@ public static class TypeExtension
         return type.IgnoreGeneric(typesToIgnore?.ToArray());
     }
 
+    public static bool IsOrHasBase(this Type type, string nameSpace, string typeName)
+    {
+        return type?.Namespace == nameSpace && type.Name == typeName || type.HasBase(nameSpace, typeName);
+    }
+
     public static bool HasBase(this Type type, string nameSpace, string typeName)
     {
         if ((type?.BaseType?.Namespace?.Equals(nameSpace) ?? false) && type.BaseType.Name.Equals(typeName))
