@@ -10,7 +10,7 @@ namespace KY.Generator.Statistics;
 public class GlobalStatisticsService
 {
     private readonly IDependencyResolver resolver;
-    private GlobalStatistic cache;
+    private GlobalStatistic? cache;
     private readonly string fileName;
 
     public GlobalStatisticsService(IDependencyResolver resolver, IEnvironment environment)
@@ -21,22 +21,37 @@ public class GlobalStatisticsService
 
     public GlobalStatistic Read()
     {
-        if (this.cache == null)
-        {
-            if (FileSystem.FileExists(this.fileName))
-            {
-                Logger.Trace("Read global statistics...");
-                this.cache = JsonConvert.DeserializeObject<GlobalStatistic>(FileSystem.ReadAllText(this.fileName));
-            }
-            this.cache ??= new GlobalStatistic();
-        }
-        return this.cache;
+        return this.cache ??= this.ReadFile();
     }
 
-    public void Append(Statistic statistic)
+    public void Update(Statistic statistic)
     {
-        GlobalStatistic data = this.Read();
-        data.AssertIsNotNull(null, "No data found. Use Read() method first");
+        using IDisposable fileLock = FileLock.Acquire(this.fileName);
+        GlobalStatistic data = this.cache = this.ReadFile();
+        Append(data, statistic);
+        FileSystem.WriteAllText(this.fileName, JsonConvert.SerializeObject(data));
+    }
+
+    private GlobalStatistic ReadFile()
+    {
+        if (!FileSystem.FileExists(this.fileName))
+        {
+            return new GlobalStatistic();
+        }
+        Logger.Trace("Read global statistics...");
+        try
+        {
+            return JsonConvert.DeserializeObject<GlobalStatistic>(FileSystem.ReadAllText(this.fileName)) ?? new GlobalStatistic();
+        }
+        catch (Exception exception)
+        {
+            Logger.Warning($"Could not read {this.fileName}. The global statistics start over." + Environment.NewLine + exception.Message);
+            return new GlobalStatistic();
+        }
+    }
+
+    private static void Append(GlobalStatistic data, Statistic statistic)
+    {
         if (data.Today != DateTime.Today)
         {
             data.TodayFiles = 0;
@@ -48,12 +63,6 @@ public class GlobalStatisticsService
         data.TodayFiles += statistic.GeneratedFiles;
         data.TodayLines += statistic.OutputLines;
         data.Ids.AddIfNotExists(statistic.Id);
-    }
-
-    public void Write()
-    {
-        this.cache.AssertIsNotNull(null, "No data found. Use Read() method first");
-        FileSystem.WriteAllText(this.fileName, JsonConvert.SerializeObject(this.cache));
     }
 
     public void StartCalculation(string statisticsFileName)

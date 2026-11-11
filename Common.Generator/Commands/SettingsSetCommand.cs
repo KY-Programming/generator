@@ -34,6 +34,8 @@ internal class SettingsSetCommand(SettingsService settingsService, GeneratorModu
         }
         string path = settingsService.GetWritablePath(this.Parameters.Global, this.Parameters.Path);
         this.WarnIfNextToAProject(path);
+        // A build running at the same time may write the installation id into the settings of the machine
+        using IDisposable fileLock = FileLock.Acquire(path);
         if (!SettingsWriter.TryLoad(path, out JObject content, out string? error))
         {
             Logger.Error($"{path} is not valid json, so writing it would replace everything in it with this one value. Fix it first - '{SettingsValidateCommandParameters.Names.First()}' points at the problem. {error}");

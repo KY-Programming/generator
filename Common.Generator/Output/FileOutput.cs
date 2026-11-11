@@ -55,12 +55,12 @@ public class FileOutput : IOutput
         }
     }
 
-    public void RemoveOutputId(string filePath, string fileContent = null)
+    public void RemoveOutputId(string filePath)
     {
         this.RemovePreviousActions(filePath);
         lock (this.actions)
         {
-            this.actions.Add(new OutputRemoveIdAction(filePath, this.environment.OutputId, fileContent));
+            this.actions.Add(new OutputRemoveIdAction(filePath, this.environment.OutputId));
         }
     }
 
@@ -95,18 +95,11 @@ public class FileOutput : IOutput
             foreach (string file in filesToCheck)
             {
                 string content = FileSystem.ReadAllText(file);
-                List<Guid> outputIds = OutputFileHelper.GetOutputIds(content).ToList();
-                if (!outputIds.Contains(this.environment.OutputId))
+                if (OutputFileHelper.GetOutputIds(content).Contains(this.environment.OutputId))
                 {
-                    continue;
-                }
-                if (outputIds.Count == 1)
-                {
-                    this.Delete(file);
-                }
-                else
-                {
-                    this.RemoveOutputId(file, content);
+                    // Deletes the file if this is the last id in it. Decided when the action runs, under the lock, not
+                    // on this content: another project may add itself to the file in the meantime
+                    this.RemoveOutputId(file);
                 }
             }
         }

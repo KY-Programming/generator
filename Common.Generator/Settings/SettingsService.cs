@@ -245,9 +245,12 @@ public class SettingsService
     public void SetGlobal(string key, JToken value)
     {
         string path = this.GlobalPath;
-        JObject content = SettingsWriter.Load(path);
-        SettingsWriter.Set(content, key, value);
-        SettingsWriter.Save(path, content);
+        using (FileLock.Acquire(path))
+        {
+            JObject content = SettingsWriter.Load(path);
+            SettingsWriter.Set(content, key, value);
+            SettingsWriter.Save(path, content);
+        }
         this.resolved = null;
         this.license = null;
         ClearCache();
@@ -309,12 +312,22 @@ public class SettingsService
     /// after the path of the settings file that opted out. That keeps it out of the repository - a build must never
     /// write into one - while staying stable per machine, instead of asking the api for a new id on every run
     /// </para>
+    /// <para>
+    /// On a fresh machine every project of a parallel build (<c>msbuild /m</c>) gets here at the same time, each in a
+    /// process of its own. The file is read again and written under a lock that holds across processes, so the first
+    /// one creates the id and the others find it, instead of each writing an id of its own over the one before
+    /// </para>
     /// </summary>
     private Guid GetOrCreateInstallationLicense()
     {
         SettingsFile? ignoring = this.Resolved.Files.FirstOrDefault(file => file.IgnoresGlobalSettings);
         string path = ignoring == null ? this.GlobalPath : FileSystem.Combine(this.environment.ApplicationData, ToFileName(ignoring.Path));
-        JObject content = SettingsWriter.Load(path);
+        using IDisposable fileLock = FileLock.Acquire(path);
+        if (!SettingsWriter.TryLoad(path, out JObject content, out string? error))
+        {
+            // Never written over: the settings of the machine would be replaced by nothing but the id
+            throw new InvalidOperationException($"{path} is not valid json, so the id of this installation can neither be read from it nor be written to it. Fix the file or delete it - '{Commands.SettingsValidateCommandParameters.Names.First()}' points at the problem. {error}");
+        }
         Guid? stored = GetGuid(content, nameof(GeneratorSettings.License));
         if (stored != null)
         {
@@ -507,6 +520,13 @@ public class SettingsService
         string path = FileSystem.Combine(applicationData, FileName);
         string legacyPath = FileSystem.Combine(applicationData, LegacyFileName);
         if (FileSystem.FileExists(path) || !FileSystem.FileExists(legacyPath))
+        {
+            return path;
+        }
+        // The parallel runs of a build all get here on the first run after an update. Checked again under the lock: a
+        // run that already carried the file over may have added the installation id to it since
+        using IDisposable fileLock = FileLock.Acquire(path);
+        if (FileSystem.FileExists(path))
         {
             return path;
         }

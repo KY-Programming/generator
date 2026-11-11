@@ -37,6 +37,11 @@ public class OutputWriteAction : IOutputAction
         this.executed = true;
         FileSystem.CreateDirectory(FileSystem.Parent(this.FilePath));
         string content = string.IsNullOrEmpty(this.options.Formatter) ? this.Content : this.Format(this.Content);
+        // Several projects can generate the same file, each adding its output id to it, and a parallel build
+        // (msbuild /m) runs their generators at the same time. Reading the ids, merging this one in and writing them
+        // back happens under a lock that holds across processes, otherwise the id of the one that wrote first is lost.
+        // That includes a file that does not exist yet: two runs would both create it, each with only its own id
+        using IDisposable fileLock = FileLock.Acquire(this.FilePath);
         if (!FileSystem.FileExists(this.FilePath))
         {
             Logger.Trace($"Write file {this.FilePath}");
@@ -93,29 +98,37 @@ public class OutputWriteAction : IOutputAction
     private string Format(string content)
     {
         string extension = Path.GetExtension(this.FilePath);
-        string tempFile = this.FilePath.TrimEnd(extension) + ".temp" + extension;
+        // Unique per call: two projects that generate the same file format it at the same time in a parallel build and
+        // must not write into each other's temp file. The extension stays last, so the formatter still knows the language
+        string tempFile = $"{this.FilePath.TrimEnd(extension)}.{Guid.NewGuid():N}.temp{extension}";
         FileSystem.WriteAllText(tempFile, content, Encoding.UTF8);
-        string command = this.options.Formatter.Replace("$file", tempFile)
-                             .Replace("$project", Environment.CurrentDirectory)
-                             .Replace("$output", this.environment.OutputPath);
-        Logger.Trace($"Format file {tempFile}");
-        Process cmd = new();
-        cmd.StartInfo.FileName = "cmd.exe";
-        cmd.StartInfo.RedirectStandardInput = true;
-        cmd.StartInfo.RedirectStandardOutput = true;
-        cmd.StartInfo.CreateNoWindow = true;
-        cmd.StartInfo.UseShellExecute = false;
-        cmd.Start();
-        cmd.StandardInput.WriteLine(command);
-        cmd.StandardInput.Flush();
-        cmd.StandardInput.Close();
-        cmd.WaitForExit();
-        if (cmd.ExitCode != 0)
+        try
         {
-            Logger.Error(cmd.StandardOutput.ReadToEnd());
+            string command = this.options.Formatter.Replace("$file", tempFile)
+                                 .Replace("$project", Environment.CurrentDirectory)
+                                 .Replace("$output", this.environment.OutputPath);
+            Logger.Trace($"Format file {tempFile}");
+            Process cmd = new();
+            cmd.StartInfo.FileName = "cmd.exe";
+            cmd.StartInfo.RedirectStandardInput = true;
+            cmd.StartInfo.RedirectStandardOutput = true;
+            cmd.StartInfo.CreateNoWindow = true;
+            cmd.StartInfo.UseShellExecute = false;
+            cmd.Start();
+            cmd.StandardInput.WriteLine(command);
+            cmd.StandardInput.Flush();
+            cmd.StandardInput.Close();
+            cmd.WaitForExit();
+            if (cmd.ExitCode != 0)
+            {
+                Logger.Error(cmd.StandardOutput.ReadToEnd());
+            }
+            return FileSystem.ReadAllText(tempFile);
         }
-        string formattedContent = FileSystem.ReadAllText(tempFile);
-        FileSystem.DeleteFile(tempFile);
-        return formattedContent;
+        finally
+        {
+            // With a unique name a leftover is never overwritten by the next run - it would stay in the output for good
+            FileSystem.DeleteFile(tempFile);
+        }
     }
 }

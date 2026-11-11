@@ -17,9 +17,7 @@ internal class StatisticsCommand(GlobalStatisticsService globalStatisticsService
         {
             return this.SuccessAsync();
         }
-        globalStatisticsService.Read();
-        globalStatisticsService.Append(statistic);
-        globalStatisticsService.Write();
+        globalStatisticsService.Update(statistic);
         if (settingsService.Statistics)
         {
             statisticsService.Anonymize(statistic);

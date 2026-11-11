@@ -20,6 +20,8 @@ internal class SettingsInitCommand(SettingsService settingsService, GeneratorMod
         // Without them the file would only describe the sections of the modules this run happens to have loaded
         moduleLoader.LoadShipped();
         string path = settingsService.GetWritablePath(this.Parameters.Global, this.Parameters.Path);
+        // A build running at the same time may write the installation id into the settings of the machine
+        using IDisposable fileLock = FileLock.Acquire(path);
         if (FileSystem.FileExists(path) && !this.Parameters.Force)
         {
             Logger.Error($"{path} already exists. Use -force to overwrite it");
