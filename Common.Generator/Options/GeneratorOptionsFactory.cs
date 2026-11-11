@@ -116,6 +116,9 @@ public class GeneratorOptionsFactory : IOptionsFactory, IConfigurableOptionsFact
                 case GeneratePreferInterfacesAttribute:
                     options.PreferInterfaces = true;
                     break;
+                case GeneratePreferClassesAttribute:
+                    options.PreferInterfaces = false;
+                    break;
                 case GenerateFormatNamesAttribute formatNamesAttribute:
                     options.FormatNames = formatNamesAttribute.FormatNames;
                     break;
@@ -136,6 +139,15 @@ public class GeneratorOptionsFactory : IOptionsFactory, IConfigurableOptionsFact
                     break;
                 case GenerateClassAttribute classAttribute:
                     this.UpdateFromNaming(options, classAttribute);
+                    // Only set, never reset: one GenerateClass that renames must not clear the force of another one
+                    if (classAttribute.ForceClass)
+                    {
+                        options.ForceClass = true;
+                    }
+                    if (classAttribute.ForceInterface)
+                    {
+                        options.ForceInterface = true;
+                    }
                     break;
                 case GenerateMemberAttribute memberAttribute:
                     this.UpdateFromNaming(options, memberAttribute);

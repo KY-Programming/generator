@@ -28,7 +28,7 @@ public class ModelWriter : TransferWriter, ITransferWriter
         {
             GeneratorOptions modelOptions = this.Options.Get<GeneratorOptions>(model);
             model.Name = Formatter.FormatClass(modelOptions.Rename ?? model.OriginalName.Replace(modelOptions.ReplaceName), modelOptions)
-                                  .Prefix(model.IsInterface || modelOptions.PreferInterfaces ? modelOptions.Formatting.InterfacePrefix : modelOptions.Formatting.ClassPrefix);
+                                  .Prefix(this.IsInterface(model, modelOptions) ? modelOptions.Formatting.InterfacePrefix : modelOptions.Formatting.ClassPrefix);
             if (!modelOptions.Language.IsGenericTypeWithSameNameAllowed)
             {
                 ModelTransferObject otherModel = models.FirstOrDefault(m => m != model
@@ -107,6 +107,50 @@ public class ModelWriter : TransferWriter, ITransferWriter
         }
     }
 
+    /// <summary>
+    /// Whether the model is written as interface. The one place that decides it, so the name prefix chosen in
+    /// <see cref="FormatNames"/> always matches what <see cref="WriteClass"/> writes. A model with constants stays a
+    /// class despite <see cref="GeneratorOptions.PreferInterfaces"/>, an interface can not carry their values
+    /// </summary>
+    protected virtual bool IsInterface(ModelTransferObject model, GeneratorOptions modelOptions)
+    {
+        return this.GetForcedInterface(model, modelOptions) ?? (model.IsInterface || modelOptions.PreferInterfaces && model.Constants.Count == 0);
+    }
+
+    /// <summary>
+    /// Whether <see cref="GeneratorOptions.ForceInterface"/> or <see cref="GeneratorOptions.ForceClass"/> pin the model
+    /// to an interface (<c>true</c>) or a class (<c>false</c>). <c>null</c> if neither is set and the preference decides.
+    /// A force that can not be honored aborts the generation instead of silently falling back to the preference
+    /// </summary>
+    protected virtual bool? GetForcedInterface(ModelTransferObject model, GeneratorOptions modelOptions)
+    {
+        bool forceClass = modelOptions.ForceClass;
+        bool forceInterface = modelOptions.ForceInterface;
+        if (!forceClass && !forceInterface)
+        {
+            return null;
+        }
+        string attribute = $"{nameof(GenerateClassAttribute)}({(forceClass ? nameof(GenerateClassAttribute.ForceClass) : nameof(GenerateClassAttribute.ForceInterface))} = true)";
+        string type = $"{model.OriginalName} ({model.Namespace})";
+        if (forceClass && forceInterface)
+        {
+            throw new InvalidOperationException($"{type} is forced to be generated as class and as interface at the same time. Remove one of {nameof(GenerateClassAttribute.ForceClass)} and {nameof(GenerateClassAttribute.ForceInterface)}");
+        }
+        if (model.IsEnum)
+        {
+            throw new InvalidOperationException($"{type} is an enum and can be generated neither as class nor as interface. Remove {attribute}");
+        }
+        if (forceClass && model.IsInterface)
+        {
+            throw new InvalidOperationException($"{type} is an interface and can not be generated as class. Remove {attribute}");
+        }
+        if (forceInterface && model.Constants.Count > 0)
+        {
+            throw new InvalidOperationException($"{type} has constants and can not be generated as interface, an interface can not carry their values. Remove {attribute} or the constants");
+        }
+        return forceInterface;
+    }
+
     protected virtual IEnumerable<string> FindReferencingModelNames(ModelTransferObject target)
     {
         bool ReferencesTarget(TypeTransferObject? type, HashSet<TypeTransferObject> visited)
@@ -173,7 +217,7 @@ public class ModelWriter : TransferWriter, ITransferWriter
             this.MapType(model.Language, modelOptions.Language, model.BasedOn);
         }
 
-        bool isInterface = model.IsInterface || modelOptions.PreferInterfaces && model.Constants.Count == 0;
+        bool isInterface = this.IsInterface(model, modelOptions);
         string modelNamespace = modelOptions.SkipNamespace ? string.Empty : model.Namespace;
         ClassTemplate otherClassTemplate = this.files.Where(file => file.RelativePath == modelOptions.ModelOutput
                                                                     && file.Options.Language == modelOptions.Language)

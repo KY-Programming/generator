@@ -38,6 +38,8 @@ public class GeneratorOptions(GeneratorOptions? parent, GeneratorOptions? global
     private bool? noOptional;
     private bool? nullable;
     private string? modelOutput;
+    private bool? forceClass;
+    private bool? forceInterface;
 
     public bool PreferInterfaces
     {
@@ -136,6 +138,26 @@ public class GeneratorOptions(GeneratorOptions? parent, GeneratorOptions? global
     {
         get => this.GetOwnValue(x => x.never);
         set => this.never = value;
+    }
+
+    /// <summary>
+    /// The type is generated as a class, no matter what <see cref="PreferInterfaces"/> says. Applies to the type itself
+    /// only, the types generated through it follow their own options
+    /// </summary>
+    public bool ForceClass
+    {
+        get => this.GetOwnValue(x => x.forceClass);
+        set => this.forceClass = value;
+    }
+
+    /// <summary>
+    /// The type is generated as an interface, no matter what <see cref="PreferInterfaces"/> says. Applies to the type
+    /// itself only, the types generated through it follow their own options
+    /// </summary>
+    public bool ForceInterface
+    {
+        get => this.GetOwnValue(x => x.forceInterface);
+        set => this.forceInterface = value;
     }
 
     public string? Rename
