@@ -30,19 +30,6 @@ readid -solution=$\Examples\Reflection\ReflectionIgnoreAttribute.sln -project=$\
 
 ## Ignore
 
-- Output
-- Output
-- Output
-- Output
-- Output
-- Output
-- Output
-- Output
-- Output
-- Output
-- Output
-- Output
-- Output
 - Output/
     - type-to-ignore.ts
 
