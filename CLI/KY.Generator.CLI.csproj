@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
+        <TargetFrameworks>net8.0;net9.0;net10.0;net11.0</TargetFrameworks>
         <RollForward>Major</RollForward>
         <RootNamespace>KY.Generator</RootNamespace>
         <AssemblyName>KY.Generator</AssemblyName>
@@ -13,7 +13,7 @@
 
     <PropertyGroup>
         <PackageId>KY.Generator.CLI</PackageId>
-        <Version>10.3.0</Version>
+        <Version>11.0.0</Version>
         <Title>KY.Generator.CLI</Title>
         <Authors>KY-Programming</Authors>
         <Company>KY-Programming</Company>

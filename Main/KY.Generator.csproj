@@ -1,9 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <Version>10.3.0</Version>
-        <TargetFramework>net10.0</TargetFramework>
-        <TargetFrameworks>netcoreapp2.0;netcoreapp3.0;net6.0;net7.0;net8.0;net9.0;net10.0</TargetFrameworks>
+        <Version>11.0.0</Version>
+        <TargetFrameworks>net8.0;net9.0;net10.0;net11.0</TargetFrameworks>
         <OutputType>Exe</OutputType>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
@@ -54,29 +53,6 @@
         <None Include="..\bin\Release\net462\win-x86\publish\**\*.exe" Pack="true" PackagePath="tools\net462-x86" Visible="false" />
         <None Include="..\bin\Release\net462\win-x86\publish\**\*.dll" Pack="true" PackagePath="tools\net462-x86" Visible="false" />
         <None Include="..\bin\Release\net462\win-x86\publish\**\*.config" Pack="true" PackagePath="tools\net462-x86" Visible="false" />
-        <None Include="..\bin\Release\netcoreapp2.0\win-x64\publish\**\*.dll" Pack="true" PackagePath="tools\netcoreapp2.0" Visible="false" />
-        <None Include="..\bin\Release\netcoreapp2.0\win-x64\publish\**\*.json" Pack="true" PackagePath="tools\netcoreapp2.0" Visible="false" />
-        <None Include="..\bin\Release\netcoreapp2.0\win-x64\publish\**\*.exe" Pack="true" PackagePath="tools\netcoreapp2.0" Visible="false" />
-        <!--<None Include="..\bin\Release\netcoreapp2.0\win-x86\publish\**\*.dll" Pack="true" PackagePath="tools\netcoreapp2.0-x86" Visible="false" />
-        <None Include="..\bin\Release\netcoreapp2.0\win-x86\publish\**\*.json" Pack="true" PackagePath="tools\netcoreapp2.0-x86" Visible="false" />-->
-        <None Include="..\bin\Release\netcoreapp3.0\win-x64\publish\**\*.dll" Pack="true" PackagePath="tools\netcoreapp3.0" Visible="false" />
-        <None Include="..\bin\Release\netcoreapp3.0\win-x64\publish\**\*.json" Pack="true" PackagePath="tools\netcoreapp3.0" Visible="false" />
-        <None Include="..\bin\Release\netcoreapp3.0\win-x64\publish\**\*.exe" Pack="true" PackagePath="tools\netcoreapp3.0" Visible="false" />
-        <None Include="..\bin\Release\netcoreapp3.0\win-x86\publish\**\*.dll" Pack="true" PackagePath="tools\netcoreapp3.0-x86" Visible="false" />
-        <None Include="..\bin\Release\netcoreapp3.0\win-x86\publish\**\*.exe" Pack="true" PackagePath="tools\netcoreapp3.0-x86" Visible="false" />
-        <None Include="..\bin\Release\netcoreapp3.0\win-x86\publish\**\*.json" Pack="true" PackagePath="tools\netcoreapp3.0-x86" Visible="false" />
-        <None Include="..\bin\Release\net6.0\win-x64\publish\**\*.dll" Pack="true" PackagePath="tools\net6.0" Visible="false" />
-        <None Include="..\bin\Release\net6.0\win-x64\publish\**\*.json" Pack="true" PackagePath="tools\net6.0" Visible="false" />
-        <None Include="..\bin\Release\net6.0\win-x64\publish\**\*.exe" Pack="true" PackagePath="tools\net6.0" Visible="false" />
-        <None Include="..\bin\Release\net6.0\win-x86\publish\**\*.dll" Pack="true" PackagePath="tools\net6.0-x86" Visible="false" />
-        <None Include="..\bin\Release\net6.0\win-x86\publish\**\*.exe" Pack="true" PackagePath="tools\net6.0-x86" Visible="false" />
-        <None Include="..\bin\Release\net6.0\win-x86\publish\**\*.json" Pack="true" PackagePath="tools\net6.0-x86" Visible="false" />
-        <None Include="..\bin\Release\net7.0\win-x64\publish\**\*.dll" Pack="true" PackagePath="tools\net7.0" Visible="false" />
-        <None Include="..\bin\Release\net7.0\win-x64\publish\**\*.json" Pack="true" PackagePath="tools\net7.0" Visible="false" />
-        <None Include="..\bin\Release\net7.0\win-x64\publish\**\*.exe" Pack="true" PackagePath="tools\net7.0" Visible="false" />
-        <None Include="..\bin\Release\net7.0\win-x86\publish\**\*.dll" Pack="true" PackagePath="tools\net7.0-x86" Visible="false" />
-        <None Include="..\bin\Release\net7.0\win-x86\publish\**\*.exe" Pack="true" PackagePath="tools\net7.0-x86" Visible="false" />
-        <None Include="..\bin\Release\net7.0\win-x86\publish\**\*.json" Pack="true" PackagePath="tools\net7.0-x86" Visible="false" />
         <None Include="..\bin\Release\net8.0\win-x64\publish\**\*.dll" Pack="true" PackagePath="tools\net8.0" Visible="false" />
         <None Include="..\bin\Release\net8.0\win-x64\publish\**\*.json" Pack="true" PackagePath="tools\net8.0" Visible="false" />
         <None Include="..\bin\Release\net8.0\win-x64\publish\**\*.exe" Pack="true" PackagePath="tools\net8.0" Visible="false" />
@@ -95,6 +71,12 @@
         <None Include="..\bin\Release\net10.0\win-x86\publish\**\*.dll" Pack="true" PackagePath="tools\net10.0-x86" Visible="false" />
         <None Include="..\bin\Release\net10.0\win-x86\publish\**\*.exe" Pack="true" PackagePath="tools\net10.0-x86" Visible="false" />
         <None Include="..\bin\Release\net10.0\win-x86\publish\**\*.json" Pack="true" PackagePath="tools\net10.0-x86" Visible="false" />
+        <None Include="..\bin\Release\net11.0\win-x64\publish\**\*.dll" Pack="true" PackagePath="tools\net11.0" Visible="false" />
+        <None Include="..\bin\Release\net11.0\win-x64\publish\**\*.json" Pack="true" PackagePath="tools\net11.0" Visible="false" />
+        <None Include="..\bin\Release\net11.0\win-x64\publish\**\*.exe" Pack="true" PackagePath="tools\net11.0" Visible="false" />
+        <None Include="..\bin\Release\net11.0\win-x86\publish\**\*.dll" Pack="true" PackagePath="tools\net11.0-x86" Visible="false" />
+        <None Include="..\bin\Release\net11.0\win-x86\publish\**\*.exe" Pack="true" PackagePath="tools\net11.0-x86" Visible="false" />
+        <None Include="..\bin\Release\net11.0\win-x86\publish\**\*.json" Pack="true" PackagePath="tools\net11.0-x86" Visible="false" />
     </ItemGroup>
 
 </Project>
