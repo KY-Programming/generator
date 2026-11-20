@@ -1,7 +1,0 @@
-// tslint:disable
-
-import { IFirst } from "./first.interface";
-
-export interface IInheritFirst extends IFirst {
-    firstInheritedProperty: string;
-}

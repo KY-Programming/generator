@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net10.0</TargetFramework>
+        <TargetFramework>net11.0</TargetFramework>
         <ProjectGuid>{41084dd2-495e-4078-bfc1-ca5193667c60}</ProjectGuid>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>

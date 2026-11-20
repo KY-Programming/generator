@@ -1,8 +1,0 @@
-// tslint:disable
-
-import { IInheritFirst } from "./inherit-first.interface";
-
-export class InheritInterfaceType implements IInheritFirst {
-    public firstProperty: string;
-    public firstInheritedProperty: string;
-}

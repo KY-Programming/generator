@@ -1,6 +1,0 @@
-// tslint:disable
-
-export class GenericType<T> {
-    public value1: number;
-    public genericValue: T;
-}

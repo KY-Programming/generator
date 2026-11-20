@@ -1,7 +1,0 @@
-// tslint:disable
-
-import { IFirst } from "./first.interface";
-
-export class OneInterfaceType implements IFirst {
-    public firstProperty: string;
-}
