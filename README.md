@@ -72,8 +72,8 @@ Run a command
 ky-generator reflection -assembly=KY.Generator.Examples.Reflection.dll -name=ExampleType -namespace=KY.Generator.Examples.Reflection -relativePath=Output -language=TypeScript
 ```
 
-The tool ships every built-in module, so nothing has to be installed next to it. It requires the .NET 8, 9 or
-10 runtime; an assembly built for one of those is read by a matching process, whichever of them the tool itself
+The tool ships every built-in module, so nothing has to be installed next to it. It requires the .NET 8, 9, 10
+or 11 runtime; an assembly built for one of those is read by a matching process, whichever of them the tool itself
 was started on.
 
 See [documentation](https://generator.ky-programming.de/start/commands/overview) for more details

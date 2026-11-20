@@ -12,26 +12,8 @@ public static class FrameworkNameExtension
         {
             return SwitchableFramework.Net4;
         }
-        if (targetFramework.IsCore() && targetFramework.Version.Major <= 2)
-        {
-            return SwitchableFramework.NetCore2;
-        }
-        if (targetFramework.IsCore() && targetFramework.Version.Major == 3)
-        {
-            return SwitchableFramework.NetCore3;
-        }
-        if (targetFramework.IsCore() && targetFramework.Version.Major == 5)
-        {
-            throw new NotSupportedException($"Target framework {targetFramework} is not supported. Use .NET 6 or higher or downgrade to KY.Generator v9 or lower.");
-        }
-        if (targetFramework.IsCore() && targetFramework.Version.Major == 6)
-        {
-            return SwitchableFramework.Net6;
-        }
-        if (targetFramework.IsCore() && targetFramework.Version.Major == 7)
-        {
-            return SwitchableFramework.Net7;
-        }
+        // There is no tool for anything older than .NET 8 (.NET Core 2/3, .NET 5-7) to switch to - such an assembly is
+        // read by the process that is already running, a newer .NET that can load it
         if (targetFramework.IsCore() && targetFramework.Version.Major == 8)
         {
             return SwitchableFramework.Net8;
@@ -43,6 +25,10 @@ public static class FrameworkNameExtension
         if (targetFramework.IsCore() && targetFramework.Version.Major == 10)
         {
             return SwitchableFramework.Net10;
+        }
+        if (targetFramework.IsCore() && targetFramework.Version.Major == 11)
+        {
+            return SwitchableFramework.Net11;
         }
         return SwitchableFramework.None;
     }

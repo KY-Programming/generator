@@ -7,18 +7,6 @@
         [FrameworkName("net462")]
         Net4,
 
-        [FrameworkName("netcoreapp2.0")]
-        NetCore2,
-
-        [FrameworkName("netcoreapp3.0")]
-        NetCore3,
-
-        [FrameworkName("net6.0")]
-        Net6,
-
-        [FrameworkName("net7.0")]
-        Net7,
-
         [FrameworkName("net8.0")]
         Net8,
 
@@ -26,6 +14,9 @@
         Net9,
 
         [FrameworkName("net10.0")]
-        Net10
+        Net10,
+
+        [FrameworkName("net11.0")]
+        Net11
     }
 }
