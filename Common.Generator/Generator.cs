@@ -161,21 +161,8 @@ public class Generator : IGeneratorRunSyntax
         }
         Logger.Trace("Parameters: " + string.Join(" ", parameters));
 
-        List<string> commandsStringsWithParameters = [];
-        foreach (string parameter in parameters)
-        {
-            if (parameter.StartsWith("-*"))
-            {
-                this.environment.Parameters.Add(CliCommandParameter.Parse(parameter));
-                parameter.Remove(parameter);
-            }
-            else
-            {
-                commandsStringsWithParameters.Add(parameter);
-            }
-        }
-
-        List<CliCommand> cliCommands = CliCommandReader.Read(commandsStringsWithParameters.ToArray());
+        this.environment.Parameters.AddRange(CliCommandReader.ReadGlobal(parameters));
+        List<CliCommand> cliCommands = CliCommandReader.Read(parameters);
         this.SetSettingsStart(cliCommands);
         this.resolver.Get<SettingsService>().Enable();
         this.commands.AddRange(this.resolver.Get<GeneratorCommandFactory>().Create(cliCommands));

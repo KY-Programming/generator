@@ -29,12 +29,14 @@ public class CliCommandReaderTest
     [TestMethod]
     public void TestGlobalParameterFirst()
     {
-        string[] parameters = { "--global", "command" };
+        string[] parameters = { "-*global", "command" };
         List<CliCommand> commands = CliCommandReader.Read(parameters);
         Assert.AreEqual(1, commands.Count);
         Assert.AreEqual("command", commands[0].Name);
-        Assert.AreEqual(1, commands[0].Parameters.Count);
-        Assert.AreEqual("global", commands[0].Parameters[0].Name);
+        Assert.AreEqual(0, commands[0].Parameters.Count);
+        List<CliCommandParameter> globalParameters = CliCommandReader.ReadGlobal(parameters);
+        Assert.AreEqual(1, globalParameters.Count);
+        Assert.AreEqual("global", globalParameters[0].Name);
     }
 
     [TestMethod]
@@ -185,34 +187,32 @@ public class CliCommandReaderTest
     [TestMethod]
     public void TestTwoCommandsWithOneSimpleAndOneGlobalSimpleParameter()
     {
-        string[] parameters = { "command1", "-parameter1", "command2", "-parameter2", "--global" };
+        string[] parameters = { "command1", "-parameter1", "command2", "-parameter2", "-*global" };
         List<CliCommand> commands = CliCommandReader.Read(parameters);
         Assert.AreEqual(2, commands.Count);
         Assert.AreEqual("command1", commands[0].Name);
-        Assert.AreEqual(2, commands[0].Parameters.Count);
+        Assert.AreEqual(1, commands[0].Parameters.Count);
         Assert.AreEqual("parameter1", commands[0].Parameters[0].Name);
-        Assert.AreEqual("global", commands[0].Parameters[1].Name);
         Assert.AreEqual("command2", commands[1].Name);
-        Assert.AreEqual(2, commands[1].Parameters.Count);
+        Assert.AreEqual(1, commands[1].Parameters.Count);
         Assert.AreEqual("parameter2", commands[1].Parameters[0].Name);
-        Assert.AreEqual("global", commands[1].Parameters[1].Name);
+        List<CliCommandParameter> globalParameters = CliCommandReader.ReadGlobal(parameters);
+        Assert.AreEqual(1, globalParameters.Count);
+        Assert.AreEqual("global", globalParameters[0].Name);
+        Assert.AreEqual(string.Empty, globalParameters[0].Value);
     }
 
     [TestMethod]
     public void TestTwoCommandsWithOneSimpleAndOneGlobalValueParameter()
     {
-        string[] parameters = { "command1", "-parameter1", "command2", "-parameter2", "--global=everywhere" };
+        string[] parameters = { "command1", "-parameter1", "command2", "-parameter2", "-*global=everywhere" };
         List<CliCommand> commands = CliCommandReader.Read(parameters);
         Assert.AreEqual(2, commands.Count);
-        Assert.AreEqual("command1", commands[0].Name);
-        Assert.AreEqual(2, commands[0].Parameters.Count);
-        Assert.AreEqual("parameter1", commands[0].Parameters[0].Name);
-        Assert.AreEqual("global", commands[0].Parameters[1].Name);
-        Assert.AreEqual("everywhere", commands[0].Parameters[1].Value);
-        Assert.AreEqual("command2", commands[1].Name);
-        Assert.AreEqual(2, commands[1].Parameters.Count);
-        Assert.AreEqual("parameter2", commands[1].Parameters[0].Name);
-        Assert.AreEqual("global", commands[1].Parameters[1].Name);
-        Assert.AreEqual("everywhere", commands[1].Parameters[1].Value);
+        Assert.AreEqual(1, commands[0].Parameters.Count);
+        Assert.AreEqual(1, commands[1].Parameters.Count);
+        List<CliCommandParameter> globalParameters = CliCommandReader.ReadGlobal(parameters);
+        Assert.AreEqual(1, globalParameters.Count);
+        Assert.AreEqual("global", globalParameters[0].Name);
+        Assert.AreEqual("everywhere", globalParameters[0].Value);
     }
 }

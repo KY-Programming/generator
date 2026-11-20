@@ -11,28 +11,63 @@ namespace KY.Generator;
 
 public class GeneratorModuleLoader
 {
-    private readonly ModuleFinder moduleFinder;
     private readonly StatisticsService statisticsService;
     private readonly IDependencyResolver resolver;
     private readonly AssemblyLoader assemblyLoader;
     private readonly List<ModuleBase> initializedModules = [];
+    private ModuleFinder? moduleFinder;
+    private bool isCreatingModuleFinder;
 
-    public GeneratorModuleLoader(ModuleFinder moduleFinder, StatisticsService statisticsService, IDependencyResolver resolver, AssemblyLoader assemblyLoader)
+    public GeneratorModuleLoader(StatisticsService statisticsService, IDependencyResolver resolver, AssemblyLoader assemblyLoader)
     {
-        this.moduleFinder = moduleFinder;
         this.statisticsService = statisticsService;
         this.resolver = resolver;
         this.assemblyLoader = assemblyLoader;
     }
 
+    /// <summary>
+    /// Created on first use instead of being injected. The constructor of <see cref="ModuleFinder"/> already creates
+    /// the modules of every assembly the process has loaded - none on the first generator of a process, all of them
+    /// on the next. A module asks for this loader in its constructor (<c>DependsOn</c>), so with the finder injected
+    /// the resolver would start a second finder while the first one is still being built, which creates the modules
+    /// again, which ask again... - every command registered twice and a stack overflow at the end
+    /// </summary>
+    private ModuleFinder ModuleFinder
+    {
+        get
+        {
+            if (this.moduleFinder == null)
+            {
+                this.isCreatingModuleFinder = true;
+                try
+                {
+                    this.moduleFinder = this.resolver.Get<ModuleFinder>();
+                }
+                finally
+                {
+                    this.isCreatingModuleFinder = false;
+                }
+                // Picks up what a module constructor loaded after the finder took its list of loaded assemblies
+                this.moduleFinder.LoadFromAssemblies();
+            }
+            return this.moduleFinder;
+        }
+    }
+
     public void Load(string path, string moduleFileNameSearchPattern)
     {
-        this.InitializeModules(this.moduleFinder.LoadFrom(path, moduleFileNameSearchPattern));
+        this.InitializeModules(this.ModuleFinder.LoadFrom(path, moduleFileNameSearchPattern));
     }
 
     public void Load(Assembly assembly)
     {
-        this.InitializeModules(this.moduleFinder.LoadFrom(assembly));
+        if (this.isCreatingModuleFinder)
+        {
+            // Asked for by a module the finder creates in its constructor. The finder goes through every loaded
+            // assembly, the requested one included, and the modules are initialized once it is done
+            return;
+        }
+        this.InitializeModules(this.ModuleFinder.LoadFrom(assembly));
     }
 
     /// <summary>
@@ -110,10 +145,10 @@ public class GeneratorModuleLoader
 
     public void InitializeModules(IEnumerable<ModuleBase>? modules = null)
     {
-        List<ModuleBase> list = (modules ?? this.moduleFinder.Modules).ToList();
+        List<ModuleBase> list = (modules ?? this.ModuleFinder.Modules).ToList();
         list.RemoveAll(x => this.initializedModules.Contains(x));
         Dictionary<ModuleBase, Stopwatch> stopwatches = list.ToDictionary(x => x, _ => new Stopwatch());
-        this.statisticsService.Data.InitializedModules = this.moduleFinder.Modules.Count;
+        this.statisticsService.Data.InitializedModules = this.ModuleFinder.Modules.Count;
         foreach (ModuleBase module in list)
         {
             stopwatches[module].Start();

@@ -6,7 +6,6 @@ using KY.Generator.Models;
 
 [assembly: InternalsVisibleTo("KY.Generator.Tests")]
 [assembly: InternalsVisibleTo("KY.Generator.Common.Tests")]
-[assembly: InternalsVisibleTo("KY.Generator.Reflection.Tests")]
 [assembly: InternalsVisibleTo("KY.Generator.Csharp.Tests")]
 [assembly: InternalsVisibleTo("KY.Generator.TypeScript.Tests")]
 [assembly: InternalsVisibleTo("KY.Generator.Sqlite.Tests")]
