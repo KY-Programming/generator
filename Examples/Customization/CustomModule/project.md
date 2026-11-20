@@ -17,9 +17,9 @@ Demonstrates the half of a custom module that its users reference: the command p
 
 ## Status
 
-- **Last Build:** 2026-08-22 10:37:16
-- **Duration:** 1.4s
+- **Last Build:** 2026-11-20 10:19:29
+- **Duration:** 2.0s
 - **Status:** Success
 - **Info:** No output - nothing to build
-- **Last Success:** 2026-08-22 10:37:16
-- **Generator:** 10.2.0
+- **Last Success:** 2026-11-20 10:19:29
+- **Generator:** 11.0.0

@@ -30,9 +30,9 @@ readid -solution=$\Examples\Reflection\ReflectionFromMultipleAssemblies.sln -pro
 
 ## Status
 
-- **Last Build:** 2026-08-22 10:37:27
-- **Duration:** 6.1s
+- **Last Build:** 2026-11-20 10:19:38
+- **Duration:** 7.0s
 - **Status:** Success
 - **Info:** 0 errors, 3 files validated
-- **Last Success:** 2026-08-22 10:37:27
-- **Generator:** 10.2.0
+- **Last Success:** 2026-11-20 10:19:38
+- **Generator:** 11.0.0

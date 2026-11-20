@@ -28,9 +28,9 @@ readid -solution=$\Examples\Angular\Annotation\GenerateInterfacesInsteadClasses.
 
 ## Status
 
-- **Last Build:** 2026-08-22 10:37:06
-- **Duration:** 5.8s
+- **Last Build:** 2026-11-20 10:19:18
+- **Duration:** 6.4s
 - **Status:** Success
 - **Info:** 0 errors, 1 file validated
-- **Last Success:** 2026-08-22 10:37:06
-- **Generator:** 10.2.0
+- **Last Success:** 2026-11-20 10:19:18
+- **Generator:** 11.0.0

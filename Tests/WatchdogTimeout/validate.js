@@ -18,7 +18,7 @@ const path = require('path');
 const { spawnSync } = require('child_process');
 
 const GUARDED = path.join('Output', 'model.ts');
-const URL = 'http://localhost:51988/';
+const URL = 'http://localhost:47988/';
 
 function fail(message) {
     console.log(`VALIDATION FAILED: ${message}`);

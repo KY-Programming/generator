@@ -31,9 +31,9 @@ readid -solution=*Undefined* -project=$\Tests\InBackgroundAnnotations\InBackgrou
 
 ## Status
 
-- **Last Build:** 2026-08-22 10:37:43
-- **Duration:** 8.0s
+- **Last Build:** 2026-11-20 10:20:00
+- **Duration:** 8.5s
 - **Status:** Success
 - **Info:** 0 errors, 4 files validated
-- **Last Success:** 2026-08-22 10:37:43
-- **Generator:** 10.2.0
+- **Last Success:** 2026-11-20 10:20:00
+- **Generator:** 11.0.0

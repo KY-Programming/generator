@@ -46,9 +46,9 @@ readid -solution=*Undefined* -project=$\Tests\EdgeCasesFluent\EdgeCasesFluent.cs
 
 ## Status
 
-- **Last Build:** 2026-08-22 10:37:40
-- **Duration:** 7.3s
+- **Last Build:** 2026-11-20 10:19:50
+- **Duration:** 8.0s
 - **Status:** Success
 - **Info:** 0 errors, 19 files validated
-- **Last Success:** 2026-08-22 10:37:40
-- **Generator:** 10.2.0
+- **Last Success:** 2026-11-20 10:19:50
+- **Generator:** 11.0.0

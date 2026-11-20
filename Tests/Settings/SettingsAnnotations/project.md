@@ -16,6 +16,12 @@ overlap, and the `GenerateModelOutput` of `AssemblyInfo.cs` has to win over the 
 an attribute sits closer to the generated type than any settings file. `ConfiguredModel` pulls in
 `ConfiguredDetail`, so the generated import shows which quote character was used.
 
+The annotations have to win over the interfaces the settings file asks for. `ForcedClassModel` is pinned to a class
+with `GenerateClass(ForceClass = true)`, which applies to that type only - the `ForcedClassDetail` it references stays
+an interface. `PreferClassesModel` carries `GeneratePreferClasses`, which is passed on - its `PreferClassesDetail`
+becomes a class as well, while `ForcedInterfaceDetail` pins itself to an interface with
+`GenerateClass(ForceInterface = true)`.
+
 ## Parameters
 
 ```
@@ -27,16 +33,21 @@ readid -solution=*Undefined* -project=$\Tests\Settings\SettingsAnnotations\Setti
 - Output/
     - configured-detail.ts `#ccd5b00c`
     - configured-model.ts `#1d177bb3`
+    - forced-class-detail.ts `#f1211658`
+    - forced-class-model.ts `#aecce411`
+    - forced-interface-detail.ts `#8c4493c5`
+    - prefer-classes-detail.ts `#d5ee3d81`
+    - prefer-classes-model.ts `#b805203f`
 
 ## Validation
 
-- validate.js `passed, 2 files validated`
+- validate.js `passed, 7 files validated`
 
 ## Status
 
-- **Last Build:** 2026-08-22 10:37:51
-- **Duration:** 5.8s
+- **Last Build:** 2026-11-20 10:20:10
+- **Duration:** 6.4s
 - **Status:** Success
-- **Info:** 0 errors, 2 files validated
-- **Last Success:** 2026-08-22 10:37:51
-- **Generator:** 10.2.0
+- **Info:** 0 errors, 7 files validated
+- **Last Success:** 2026-11-20 10:20:10
+- **Generator:** 11.0.0

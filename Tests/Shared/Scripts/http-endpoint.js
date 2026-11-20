@@ -24,7 +24,7 @@
 //
 // Used from a project's own prepare.js:
 //
-//     require('../Shared/Scripts/http-endpoint').run({ port: 51987, pidFile: ..., logFile: ... });
+//     require('../Shared/Scripts/http-endpoint').run({ port: 47987, pidFile: ..., logFile: ... });
 //
 // and from its cleanup.js:
 //
@@ -34,6 +34,14 @@
 // starts a fresh one detached from the script that started it - it has to outlive the preparation and
 // serve the build that follows it - and teardown() ends it again. It also ends itself after
 // LIFETIME_SECONDS, so a run that never got to its cleanup cannot leave a listener on the machine.
+//
+// The port has to lie below 49152. Above it is the dynamic range, and Windows (Hyper-V, WSL, Docker via
+// WinNAT) reserves blocks of it at every boot - a port there can be refused with EACCES on one boot and
+// work on the next. `netsh int ipv4 show excludedportrange protocol=tcp` lists what is reserved right now.
+//
+// The detached server has no console to report to, so it writes why it could not listen to the error file
+// next to the pid file and ends. run() notices the exit and fails with that message at once instead of
+// waiting READY_TIMEOUT_SECONDS for an endpoint that is never coming.
 
 const fs = require('fs');
 const http = require('http');
@@ -131,14 +139,23 @@ async function run({ port, pidFile, logFile }) {
     fs.mkdirSync(path.dirname(logFile), { recursive: true });
     // The log has to hold this run's requests only - what an earlier one asked for proves nothing here.
     fs.rmSync(logFile, { force: true });
+    const errorFile = errorFileOf(pidFile);
+    fs.rmSync(errorFile, { force: true });
 
-    const child = spawn(process.execPath, [__filename, '--serve', String(port), String(LIFETIME_SECONDS), logFile],
+    const child = spawn(process.execPath, [__filename, '--serve', String(port), String(LIFETIME_SECONDS), logFile, errorFile],
                         { detached: true, stdio: 'ignore' });
+    let exitCode = null;
+    child.on('exit', code => exitCode = code ?? -1);
     child.unref();
     fs.writeFileSync(pidFile, `${child.pid}\n`);
 
     const deadline = Date.now() + READY_TIMEOUT_SECONDS * 1000;
     while (Date.now() < deadline) {
+        if (exitCode !== null) {
+            fs.rmSync(pidFile, { force: true });
+            const reason = fs.existsSync(errorFile) ? fs.readFileSync(errorFile, 'utf8').trim() : `exit code ${exitCode}`;
+            fail(`The endpoint on port ${port} ended before it answered: ${reason}`);
+        }
         const status = await probe(port);
         if (status !== null) {
             console.log(`Endpoint http://localhost:${port}/ answered with ${status} (pid ${child.pid})`);
@@ -161,16 +178,29 @@ function teardown({ pidFile }) {
     if (!pidFile) {
         fail('teardown() needs a pidFile.', 2);
     }
+    fs.rmSync(errorFileOf(pidFile), { force: true });
     console.log(kill(pidFile) ? 'Endpoint stopped' : 'No endpoint left to stop');
     pass(0);
 }
 
+/** Where the detached server leaves the reason it could not listen. */
+function errorFileOf(pidFile) {
+    return `${pidFile}.error`;
+}
+
 /** The detached child: answers every request with 200 until it is killed or its lifetime is over. */
-function serve(port, lifetimeSeconds, logFile) {
+function serve(port, lifetimeSeconds, logFile, errorFile) {
     const server = http.createServer((request, response) => {
         fs.appendFileSync(logFile, `${new Date().toISOString()} ${request.method} ${request.url}\n`);
         response.writeHead(200, { 'Content-Type': 'text/plain' });
         response.end('ready');
+    });
+    server.on('error', error => {
+        const hint = error.code === 'EACCES'
+            ? ` - the port is probably reserved by Windows, see netsh int ipv4 show excludedportrange protocol=tcp`
+            : '';
+        fs.writeFileSync(errorFile, `${error.message}${hint}\n`);
+        process.exit(1);
     });
     server.listen(port, '127.0.0.1');
     setTimeout(() => process.exit(0), lifetimeSeconds * 1000);
@@ -180,7 +210,7 @@ module.exports = { run, teardown, readRequests, PROBE_PATH };
 
 if (require.main === module) {
     if (process.argv[2] === '--serve') {
-        serve(parseInt(process.argv[3], 10), parseInt(process.argv[4], 10), process.argv[5]);
+        serve(parseInt(process.argv[3], 10), parseInt(process.argv[4], 10), process.argv[5], process.argv[6]);
     } else {
         fail('http-endpoint.js is used from a prepare.js / cleanup.js - see the comment at the top.', 2);
     }

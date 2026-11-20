@@ -8,6 +8,7 @@
   <Folder Name="/TargetFrameworks/">
     <Project Path="TargetFrameworks/Net10-x86/Net10-x86.csproj" />
     <Project Path="TargetFrameworks/Net10/Net10.csproj" />
+    <Project Path="TargetFrameworks/Net11/Net11.csproj" />
     <Project Path="TargetFrameworks/Net8/Net8.csproj" />
     <Project Path="TargetFrameworks/Net9/Net9.csproj" />
     <Project Path="TargetFrameworks/NetStandard20/NetStandard20.csproj" />

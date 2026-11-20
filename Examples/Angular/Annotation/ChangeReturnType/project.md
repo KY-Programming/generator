@@ -28,9 +28,9 @@ readid -solution=$\Examples\Angular\Annotation\ChangeReturnType.sln -project=$\E
 
 ## Status
 
-- **Last Build:** 2026-08-22 10:37:13
-- **Duration:** 12.7s
+- **Last Build:** 2026-11-20 10:19:26
+- **Duration:** 14.2s
 - **Status:** Success
 - **Info:** 0 errors, 8 files validated
-- **Last Success:** 2026-08-22 10:37:13
-- **Generator:** 10.2.0
+- **Last Success:** 2026-11-20 10:19:26
+- **Generator:** 11.0.0

@@ -28,9 +28,9 @@ readid -solution=$\Examples\Reflection\ReflectionFromExecutable.sln -project=$\E
 
 ## Status
 
-- **Last Build:** 2026-08-22 10:37:25
-- **Duration:** 6.0s
+- **Last Build:** 2026-11-20 10:19:35
+- **Duration:** 5.7s
 - **Status:** Success
 - **Info:** 0 errors, 1 file validated
-- **Last Success:** 2026-08-22 10:37:25
-- **Generator:** 10.2.0
+- **Last Success:** 2026-11-20 10:19:35
+- **Generator:** 11.0.0

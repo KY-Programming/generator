@@ -43,9 +43,9 @@ readid -solution=*Undefined* -project=$\Tests\EnumAnnotationsNullableDisabled\En
 
 ## Status
 
-- **Last Build:** 2026-08-22 10:37:39
+- **Last Build:** 2026-11-20 10:19:51
 - **Duration:** 5.7s
 - **Status:** Success
 - **Info:** 0 errors, 16 files validated
-- **Last Success:** 2026-08-22 10:37:39
-- **Generator:** 10.2.0
+- **Last Success:** 2026-11-20 10:19:51
+- **Generator:** 11.0.0

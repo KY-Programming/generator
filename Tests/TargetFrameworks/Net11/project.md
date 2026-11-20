@@ -30,9 +30,9 @@ readid -solution=*Undefined* -project=$\Tests\TargetFrameworks\Net11\Net11.cspro
 
 ## Status
 
-- **Last Build:** 2026-11-20 10:08:56
-- **Duration:** 4.3s
+- **Last Build:** 2026-11-20 10:20:15
+- **Duration:** 6.3s
 - **Status:** Success
 - **Info:** 0 errors, 3 files validated
-- **Last Success:** 2026-11-20 10:08:56
-- **Generator:** 11.0.0-preview.0
+- **Last Success:** 2026-11-20 10:20:15
+- **Generator:** 11.0.0

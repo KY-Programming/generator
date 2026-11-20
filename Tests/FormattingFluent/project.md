@@ -38,9 +38,9 @@ readid -solution=*Undefined* -project=$\Tests\FormattingFluent\FormattingFluent.
 
 ## Status
 
-- **Last Build:** 2026-08-22 10:37:41
-- **Duration:** 7.3s
+- **Last Build:** 2026-11-20 10:19:54
+- **Duration:** 7.8s
 - **Status:** Success
 - **Info:** 0 errors, 9 files validated
-- **Last Success:** 2026-08-22 10:37:41
-- **Generator:** 10.2.0
+- **Last Success:** 2026-11-20 10:19:54
+- **Generator:** 11.0.0

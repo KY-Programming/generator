@@ -30,9 +30,9 @@ readid -solution=*Undefined* -project=$\Tests\CasingFluent\CasingFluent.csproj m
 
 ## Status
 
-- **Last Build:** 2026-08-22 10:37:34
+- **Last Build:** 2026-11-20 10:19:46
 - **Duration:** 7.4s
 - **Status:** Success
 - **Info:** 0 errors, 3 files validated
-- **Last Success:** 2026-08-22 10:37:34
-- **Generator:** 10.2.0
+- **Last Success:** 2026-11-20 10:19:46
+- **Generator:** 11.0.0

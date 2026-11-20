@@ -30,9 +30,9 @@ readid -solution=*Undefined* -project=$\Tests\CasingAnnotations\CasingAnnotation
 
 ## Status
 
-- **Last Build:** 2026-08-22 10:37:33
-- **Duration:** 7.5s
+- **Last Build:** 2026-11-20 10:19:46
+- **Duration:** 8.4s
 - **Status:** Success
 - **Info:** 0 errors, 3 files validated
-- **Last Success:** 2026-08-22 10:37:33
-- **Generator:** 10.2.0
+- **Last Success:** 2026-11-20 10:19:46
+- **Generator:** 11.0.0

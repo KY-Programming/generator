@@ -7,7 +7,7 @@ using Microsoft.Data.Sqlite;
 
 namespace Sqlite.Models
 {
-    [GeneratedCode("KY.Generator", "10.2.0.0")]
+    [GeneratedCode("KY.Generator", "11.0.0.0")]
     public partial class ComplexRepository
     {
         private SqliteConnection connection;

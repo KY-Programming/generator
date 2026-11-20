@@ -5,7 +5,7 @@ namespace WatchdogFluent;
 public class Generator : GeneratorFluentMain
 {
     /// <summary>The endpoint prepare.js starts - see Tests/Shared/Scripts/http-endpoint.js.</summary>
-    public const string Url = "http://localhost:51987/";
+    public const string Url = "http://localhost:47987/";
 
     public override void Execute()
     {

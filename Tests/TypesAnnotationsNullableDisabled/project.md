@@ -38,9 +38,9 @@ readid -solution=*Undefined* -project=$\Tests\TypesAnnotationsNullableDisabled\T
 
 ## Status
 
-- **Last Build:** 2026-08-22 10:37:59
-- **Duration:** 6.2s
+- **Last Build:** 2026-11-20 10:20:12
+- **Duration:** 6.5s
 - **Status:** Success
 - **Info:** 0 errors, 11 files validated
-- **Last Success:** 2026-08-22 10:37:59
-- **Generator:** 10.2.0
+- **Last Success:** 2026-11-20 10:20:12
+- **Generator:** 11.0.0

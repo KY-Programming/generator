@@ -35,9 +35,9 @@ readid -solution=$\Examples\Angular\Fluent\NonStrict.sln -project=$\Examples\Ang
 
 ## Status
 
-- **Last Build:** 2026-08-22 10:37:15
-- **Duration:** 8.2s
+- **Last Build:** 2026-11-20 10:19:31
+- **Duration:** 8.4s
 - **Status:** Success
 - **Info:** 0 errors, 2 files validated
-- **Last Success:** 2026-08-22 10:37:15
-- **Generator:** 10.2.0
+- **Last Success:** 2026-11-20 10:19:31
+- **Generator:** 11.0.0

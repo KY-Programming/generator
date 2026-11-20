@@ -30,9 +30,9 @@ readid -solution=$\Examples\Customization\CustomModule.sln -project=$\Examples\C
 
 ## Status
 
-- **Last Build:** 2026-08-22 10:37:21
-- **Duration:** 6.5s
+- **Last Build:** 2026-11-20 10:19:32
+- **Duration:** 7.5s
 - **Status:** Success
 - **Info:** 0 errors, 1 file validated
-- **Last Success:** 2026-08-22 10:37:21
-- **Generator:** 10.2.0
+- **Last Success:** 2026-11-20 10:19:32
+- **Generator:** 11.0.0

@@ -30,9 +30,9 @@ readid -solution=*Undefined* -project=$\Tests\TargetFrameworks\NetStandard20\Net
 
 ## Status
 
-- **Last Build:** 2026-08-22 10:37:58
-- **Duration:** 5.5s
+- **Last Build:** 2026-11-20 10:20:18
+- **Duration:** 5.6s
 - **Status:** Success
 - **Info:** 0 errors, 3 files validated
-- **Last Success:** 2026-08-22 10:37:58
-- **Generator:** 10.2.0
+- **Last Success:** 2026-11-20 10:20:18
+- **Generator:** 11.0.0

@@ -21,9 +21,9 @@ Covers a wait that never succeeds: the fluent `WaitFor(...)` points at a port no
 
 ## Status
 
-- **Last Build:** 2026-08-22 10:38:07
-- **Duration:** 11.7s
+- **Last Build:** 2026-11-20 10:20:24
+- **Duration:** 12.5s
 - **Status:** Success
 - **Info:** 0 errors, 1 file validated
-- **Last Success:** 2026-08-22 10:38:07
-- **Generator:** 10.2.0
+- **Last Success:** 2026-11-20 10:20:24
+- **Generator:** 11.0.0

@@ -32,9 +32,9 @@ readid -solution=$\Examples\Angular\Fluent\ServiceFromSignalR.sln -project=$\Exa
 
 ## Status
 
-- **Last Build:** 2026-08-22 10:37:19
-- **Duration:** 9.5s
+- **Last Build:** 2026-11-20 10:19:28
+- **Duration:** 10.9s
 - **Status:** Success
 - **Info:** 0 errors, 7 files validated
-- **Last Success:** 2026-08-22 10:37:19
-- **Generator:** 10.2.0
+- **Last Success:** 2026-11-20 10:19:28
+- **Generator:** 11.0.0

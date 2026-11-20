@@ -13,7 +13,7 @@
 
 using System.CodeDom.Compiler;
 
-[GeneratedCode("KY.Generator", "10.2.0.0")]
+[GeneratedCode("KY.Generator", "11.0.0.0")]
 public partial class LegacyForecast
 {
     public string? station = "";
@@ -24,7 +24,7 @@ public partial class LegacyForecast
         Object.assign(this, init);
     }
 }
-[GeneratedCode("KY.Generator", "10.2.0.0")]
+[GeneratedCode("KY.Generator", "11.0.0.0")]
 public partial class LegacyForecast
 {
     public string? Station { get; set; }

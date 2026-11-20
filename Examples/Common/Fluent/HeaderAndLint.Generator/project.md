@@ -39,8 +39,8 @@ readid -solution=$\Examples\Common\Fluent\HeaderAndLint.sln -project=$\Examples\
 
 ## Status
 
-- **Last Build:** 2026-08-22 10:37:19
-- **Duration:** 6.2s
+- **Last Build:** 2026-11-20 10:19:31
+- **Duration:** 5.4s
 - **Status:** Failure
 - **Info:** 1 missing, 3 new; 1 error, 0 files validated
-- **Generator:** 10.2.0
+- **Generator:** 11.0.0

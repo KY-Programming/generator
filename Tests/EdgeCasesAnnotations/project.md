@@ -21,7 +21,7 @@ readid -solution=*Undefined* -project=$\Tests\EdgeCasesAnnotations\EdgeCasesAnno
 
 - Output/
     - generate-return-type.ts `#44117914`
-    - http-service-parameter-names.service.ts `#1c4e8803`
+    - http-service-parameter-names.service.ts `#12823b6d`
     - ignore-class-via-comment.ts `#76a3152a`
     - ignored-members.ts `#288acd4d`
     - member-types.ts `#025e03ed`
@@ -29,7 +29,7 @@ readid -solution=*Undefined* -project=$\Tests\EdgeCasesAnnotations\EdgeCasesAnno
     - type-from-nuget-package.ts `#08529ee3`
 - Output/AsyncService/
     - async-model.ts `#bbd9cbaf`
-    - async.service.ts `#74622a1c`
+    - async.service.ts `#c9045c16`
     - signal-model.ts `#95cd5232`
     - sub-model.ts `#45a4c8af`
     - unwrapped.ts `#24810f6e`
@@ -57,18 +57,18 @@ readid -solution=*Undefined* -project=$\Tests\EdgeCasesAnnotations\EdgeCasesAnno
     - derived-from-class-prefer-class.ts `#d46cea5a`
     - derived-from-class-prefer-interface.ts `#a5b01b2c`
 - Output/RouteTemplates/
-    - action-route-tokens.service.ts `#1dc4634b`
-    - class-and-action-route.service.ts `#3c25d4f7`
-    - class-route-parameter.service.ts `#260ab348`
-    - class-route-tokens.service.ts `#078a5640`
-    - hardcoded-action-routes.service.ts `#0b172039`
-    - hardcoded-class-route.service.ts `#2f1cf360`
-    - mixed-routes.service.ts `#5987b255`
-    - parameter-before-token.service.ts `#1b499334`
-    - parameter-positions.service.ts `#5f79d798`
-    - reversed-tokens.service.ts `#36d7cc10`
-    - separate-route-attribute.service.ts `#8491e826`
-    - token-in-the-middle.service.ts `#47ee6999`
+    - action-route-tokens.service.ts `#cd4175cf`
+    - class-and-action-route.service.ts `#233e58bb`
+    - class-route-parameter.service.ts `#e4533e95`
+    - class-route-tokens.service.ts `#b2d40e19`
+    - hardcoded-action-routes.service.ts `#55896757`
+    - hardcoded-class-route.service.ts `#93be6141`
+    - mixed-routes.service.ts `#fdb1b85d`
+    - parameter-before-token.service.ts `#177ae684`
+    - parameter-positions.service.ts `#eb2a27d7`
+    - reversed-tokens.service.ts `#c15cb748`
+    - separate-route-attribute.service.ts `#722e3f4c`
+    - token-in-the-middle.service.ts `#44ed78c3`
 - Output/Signals/
     - plain-model.ts `#876ede2d`
     - signal-class.ts `#7b2f3795`
@@ -87,9 +87,9 @@ readid -solution=*Undefined* -project=$\Tests\EdgeCasesAnnotations\EdgeCasesAnno
 
 ## Status
 
-- **Last Build:** 2026-08-22 10:37:41
-- **Duration:** 10.0s
+- **Last Build:** 2026-11-20 10:19:51
+- **Duration:** 11.7s
 - **Status:** Success
 - **Info:** 0 errors, 51 files validated
-- **Last Success:** 2026-08-22 10:37:41
-- **Generator:** 10.2.0
+- **Last Success:** 2026-11-20 10:19:51
+- **Generator:** 11.0.0

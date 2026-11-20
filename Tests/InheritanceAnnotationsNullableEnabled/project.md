@@ -58,9 +58,9 @@ readid -solution=*Undefined* -project=$\Tests\InheritanceAnnotationsNullableEnab
 
 ## Status
 
-- **Last Build:** 2026-08-22 10:37:45
-- **Duration:** 6.3s
+- **Last Build:** 2026-11-20 10:19:57
+- **Duration:** 6.8s
 - **Status:** Success
 - **Info:** 0 errors, 30 files validated
-- **Last Success:** 2026-08-22 10:37:45
-- **Generator:** 10.2.0
+- **Last Success:** 2026-11-20 10:19:57
+- **Generator:** 11.0.0

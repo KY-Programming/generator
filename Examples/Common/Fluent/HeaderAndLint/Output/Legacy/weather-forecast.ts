@@ -13,7 +13,7 @@
 
 using System.CodeDom.Compiler;
 
-[GeneratedCode("KY.Generator", "10.2.0.0")]
+[GeneratedCode("KY.Generator", "11.0.0.0")]
 public partial class WeatherForecast
 {
     public Date date = new Date(0);
@@ -25,7 +25,7 @@ public partial class WeatherForecast
         Object.assign(this, init);
     }
 }
-[GeneratedCode("KY.Generator", "10.2.0.0")]
+[GeneratedCode("KY.Generator", "11.0.0.0")]
 public partial class WeatherForecast
 {
     public Date Date { get; set; }

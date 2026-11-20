@@ -31,9 +31,9 @@ readid -solution=*Undefined* -project=$\Tests\Sqlite\Sqlite.csproj msbuild set -
 
 ## Status
 
-- **Last Build:** 2026-08-22 10:37:54
-- **Duration:** 7.6s
+- **Last Build:** 2026-11-20 10:20:14
+- **Duration:** 15.7s
 - **Status:** Success
 - **Info:** 0 errors, 4 files validated
-- **Last Success:** 2026-08-22 10:37:54
-- **Generator:** 10.2.0
+- **Last Success:** 2026-11-20 10:20:14
+- **Generator:** 11.0.0

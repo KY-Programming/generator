@@ -30,9 +30,9 @@ readid -solution=*Undefined* -project=$\Tests\SelfReferencingAnnotationsNullable
 
 ## Status
 
-- **Last Build:** 2026-08-22 10:37:48
-- **Duration:** 5.9s
+- **Last Build:** 2026-11-20 10:20:10
+- **Duration:** 6.4s
 - **Status:** Success
 - **Info:** 0 errors, 3 files validated
-- **Last Success:** 2026-08-22 10:37:48
-- **Generator:** 10.2.0
+- **Last Success:** 2026-11-20 10:20:10
+- **Generator:** 11.0.0

@@ -38,8 +38,8 @@ readid -solution=$\Examples\Common\Annotation\HeaderAndLint.sln -project=$\Examp
 
 ## Status
 
-- **Last Build:** 2026-08-22 10:37:19
-- **Duration:** 5.9s
+- **Last Build:** 2026-11-20 10:20:18
+- **Duration:** 5.4s
 - **Status:** Failure
 - **Info:** 1 missing, 3 new; 1 error, 0 files validated
-- **Generator:** 10.2.0
+- **Generator:** 11.0.0

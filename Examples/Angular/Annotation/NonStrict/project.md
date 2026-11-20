@@ -37,9 +37,9 @@ readid -solution=$\Examples\Angular\Annotation\NonStrict.sln -project=$\Examples
 
 ## Status
 
-- **Last Build:** 2026-08-22 10:37:07
-- **Duration:** 6.0s
+- **Last Build:** 2026-11-20 10:19:16
+- **Duration:** 4.8s
 - **Status:** Success
 - **Info:** 0 errors, 3 files validated
-- **Last Success:** 2026-08-22 10:37:07
-- **Generator:** 10.2.0
+- **Last Success:** 2026-11-20 10:19:16
+- **Generator:** 11.0.0

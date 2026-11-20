@@ -5,7 +5,7 @@
 const path = require('path');
 
 require('../Shared/Scripts/http-endpoint').run({
-    port: 51987,
+    port: 47987,
     pidFile: path.join(__dirname, 'obj', 'watchdog-endpoint.pid'),
     logFile: path.join(__dirname, 'obj', 'watchdog-endpoint.log')
 });

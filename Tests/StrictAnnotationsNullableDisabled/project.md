@@ -31,9 +31,9 @@ readid -solution=*Undefined* -project=$\Tests\StrictAnnotationsNullableDisabled\
 
 ## Status
 
-- **Last Build:** 2026-08-22 10:37:53
-- **Duration:** 6.2s
+- **Last Build:** 2026-11-20 10:20:04
+- **Duration:** 6.1s
 - **Status:** Success
 - **Info:** 0 errors, 4 files validated
-- **Last Success:** 2026-08-22 10:37:53
-- **Generator:** 10.2.0
+- **Last Success:** 2026-11-20 10:20:04
+- **Generator:** 11.0.0

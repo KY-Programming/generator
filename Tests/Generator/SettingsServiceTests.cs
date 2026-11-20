@@ -237,6 +237,37 @@ public class SettingsServiceTests
         Assert.AreEqual(created, this.Create().License, "The id has to be read back, not generated again");
     }
 
+    /// <summary>
+    /// On a fresh machine every project of a parallel build asks for the id at the same time. Only one of them may
+    /// create it, the others have to find it instead of writing an id of their own over it
+    /// </summary>
+    [TestMethod]
+    public void TheInstallationIdIsCreatedOnceWhenAskedForInParallel()
+    {
+        List<SettingsService> services = Enumerable.Range(0, 8).Select(_ => this.Create()).ToList();
+
+        List<Guid> ids = services.AsParallel().WithDegreeOfParallelism(services.Count).Select(service => service.License).ToList();
+
+        Assert.AreEqual(1, ids.Distinct().Count(), "Every run has to end up with the same id");
+        SettingsService.ClearCache();
+        Assert.AreEqual(ids.First(), this.Create().License, "The id every run got is the one in the file");
+    }
+
+    /// <summary>
+    /// Writing the id into a file that does not parse would replace everything in it with the id
+    /// </summary>
+    [TestMethod]
+    public void AnUnreadableMachineSettingsFileIsNeverWrittenOverForTheInstallationId()
+    {
+        const string broken = @"{ ""options"": { ""addHeader"": false ";
+        this.WriteGlobal(broken);
+
+        InvalidOperationException exception = Assert.ThrowsException<InvalidOperationException>(() => this.Create().License);
+
+        StringAssert.Contains(exception.Message, SettingsService.FileName);
+        Assert.AreEqual(broken, FileSystem.ReadAllText(FileSystem.Combine(this.applicationData, SettingsService.FileName)));
+    }
+
     [TestMethod]
     public void ALicenseFromAFileWinsOverTheInstallationId()
     {

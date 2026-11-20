@@ -31,9 +31,9 @@ readid -solution=$\Examples\Reflection\ReflectionReturnTypeAttribute.sln -projec
 
 ## Status
 
-- **Last Build:** 2026-08-22 10:37:31
-- **Duration:** 5.8s
+- **Last Build:** 2026-11-20 10:19:39
+- **Duration:** 6.8s
 - **Status:** Success
 - **Info:** 0 errors, 4 files validated
-- **Last Success:** 2026-08-22 10:37:31
-- **Generator:** 10.2.0
+- **Last Success:** 2026-11-20 10:19:39
+- **Generator:** 11.0.0

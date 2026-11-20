@@ -15,7 +15,7 @@ using System.CodeDom.Compiler;
 
 namespace HeaderAndLint.Source
 {
-    [GeneratedCode("KY.Generator", "10.2.0.0")]
+    [GeneratedCode("KY.Generator", "11.0.0.0")]
     public partial class Contact
     {
         public string? Mail { get; set; }

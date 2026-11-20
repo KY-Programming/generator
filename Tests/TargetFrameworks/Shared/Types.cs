@@ -5,7 +5,7 @@
 // outputid - that is the assertion, and it is why the model is shared rather than copied.
 //
 // Covered is everything that makes the tool start a different build of itself: the .NET versions still in
-// support (Net8, Net9, Net10), netstandard2.0 as the oldest target it claims to be able to read, and an
+// support (Net8, Net9, Net10, Net11), netstandard2.0 as the oldest target it claims to be able to read, and an
 // x86 assembly. net5.0, net6.0 and net7.0 were dropped when the matrix was rebuilt.
 //
 // Adding a member is a new folder next to this one - nothing here and no other project.md has to change.

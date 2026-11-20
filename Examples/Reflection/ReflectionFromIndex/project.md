@@ -30,9 +30,9 @@ readid -solution=$\Examples\Reflection\ReflectionFromIndex.sln -project=$\Exampl
 
 ## Status
 
-- **Last Build:** 2026-08-22 10:37:25
-- **Duration:** 5.9s
+- **Last Build:** 2026-11-20 10:19:37
+- **Duration:** 6.6s
 - **Status:** Success
 - **Info:** 0 errors, 3 files validated
-- **Last Success:** 2026-08-22 10:37:25
-- **Generator:** 10.2.0
+- **Last Success:** 2026-11-20 10:19:37
+- **Generator:** 11.0.0

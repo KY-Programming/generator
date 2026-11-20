@@ -30,9 +30,9 @@ readid -solution=*Undefined* -project=$\Tests\TargetFrameworks\Net8\Net8.csproj 
 
 ## Status
 
-- **Last Build:** 2026-08-22 10:37:54
-- **Duration:** 5.7s
+- **Last Build:** 2026-11-20 10:20:09
+- **Duration:** 6.1s
 - **Status:** Success
 - **Info:** 0 errors, 3 files validated
-- **Last Success:** 2026-08-22 10:37:54
-- **Generator:** 10.2.0
+- **Last Success:** 2026-11-20 10:20:09
+- **Generator:** 11.0.0

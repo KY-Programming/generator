@@ -19,7 +19,7 @@ readid -solution=$\Examples\Sqlite\ToDatabase.sln -project=$\Examples\Sqlite\ToD
 
 ## Output
 
-- PersonRepository.cs `#90d643b4` `keep`
+- PersonRepository.cs `#d599f847` `keep`
 
 ## Validation
 
@@ -27,9 +27,9 @@ readid -solution=$\Examples\Sqlite\ToDatabase.sln -project=$\Examples\Sqlite\ToD
 
 ## Status
 
-- **Last Build:** 2026-08-22 10:37:33
+- **Last Build:** 2026-11-20 10:19:42
 - **Duration:** 7.9s
 - **Status:** Success
 - **Info:** 0 errors, 1 file validated
-- **Last Success:** 2026-08-22 10:37:33
-- **Generator:** 10.2.0
+- **Last Success:** 2026-11-20 10:19:42
+- **Generator:** 11.0.0

@@ -29,9 +29,9 @@ readid -solution=*Undefined* -project=$\Tests\InBackgroundAnnotationsAssembly\In
 
 ## Status
 
-- **Last Build:** 2026-08-22 10:37:41
-- **Duration:** 6.4s
+- **Last Build:** 2026-11-20 10:19:52
+- **Duration:** 6.5s
 - **Status:** Success
 - **Info:** 0 errors, 2 files validated
-- **Last Success:** 2026-08-22 10:37:41
-- **Generator:** 10.2.0
+- **Last Success:** 2026-11-20 10:19:52
+- **Generator:** 11.0.0

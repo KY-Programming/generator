@@ -121,9 +121,9 @@ readid -solution=*Undefined* -project=$\Tests\AspDotNetAnnotations\AspDotNetAnno
 
 ## Status
 
-- **Last Build:** 2026-10-27 09:02:55
-- **Duration:** 12.8s
+- **Last Build:** 2026-11-20 10:19:47
+- **Duration:** 12.4s
 - **Status:** Success
-- **Info:** All outputs match
-- **Last Success:** 2026-10-27 09:02:55
-- **Generator:** 10.3.0-preview.1
+- **Info:** 0 errors, 59 files validated
+- **Last Success:** 2026-11-20 10:19:47
+- **Generator:** 11.0.0
